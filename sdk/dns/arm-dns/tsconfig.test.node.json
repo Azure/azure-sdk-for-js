@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-dns": ["./src/index.ts"],
+      "@azure/arm-dns/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

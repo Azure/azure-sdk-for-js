@@ -4,16 +4,16 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log.js";
+import { logger } from "./logger.js";
 
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollOperationState } from "@azure/core-lro";
-import { PollerLike } from "@azure/core-lro";
-import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { PollerLike } from "@azure/core-lro";
+import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
+import { KeyVaultClient } from "./keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
-import {
+import type {
   BackupSecretOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
@@ -21,7 +21,6 @@ import {
   GetDeletedSecretOptions,
   GetSecretOptions,
   KeyVaultSecret,
-  LATEST_API_VERSION,
   ListDeletedSecretsOptions,
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
@@ -33,8 +32,11 @@ import {
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
 } from "./secretsModels.js";
-import { KnownDeletionRecoveryLevel, DeletionRecoveryLevel } from "./generated/index.js";
-import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
+import { LATEST_API_VERSION } from "./secretsModels.js";
+import type { DeletionRecoveryLevel } from "./models/models.js";
+import { KnownDeletionRecoveryLevel } from "./models/models.js";
+import type { KeyVaultSecretIdentifier } from "./identifier.js";
+import { parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
@@ -43,31 +45,31 @@ import { DeleteSecretPoller } from "./lro/delete/poller.js";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
 
 export {
-  SecretClientOptions,
-  DeletedSecret,
-  DeletionRecoveryLevel,
+  type SecretClientOptions,
+  type DeletedSecret,
+  type DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  GetSecretOptions,
-  GetDeletedSecretOptions,
-  PurgeDeletedSecretOptions,
-  BackupSecretOptions,
-  RestoreSecretBackupOptions,
-  ListPropertiesOfSecretVersionsOptions,
-  ListPropertiesOfSecretsOptions,
-  ListDeletedSecretsOptions,
-  PagedAsyncIterableIterator,
-  PageSettings,
-  KeyVaultSecretIdentifier,
+  type GetSecretOptions,
+  type GetDeletedSecretOptions,
+  type PurgeDeletedSecretOptions,
+  type BackupSecretOptions,
+  type RestoreSecretBackupOptions,
+  type ListPropertiesOfSecretVersionsOptions,
+  type ListPropertiesOfSecretsOptions,
+  type ListDeletedSecretsOptions,
+  type PagedAsyncIterableIterator,
+  type PageSettings,
+  type KeyVaultSecretIdentifier,
   parseKeyVaultSecretIdentifier,
-  PollerLike,
-  PollOperationState,
-  KeyVaultSecret,
-  SecretProperties,
-  SecretPollerOptions,
-  BeginDeleteSecretOptions,
-  BeginRecoverDeletedSecretOptions,
-  SetSecretOptions,
-  UpdateSecretPropertiesOptions,
+  type PollerLike,
+  type PollOperationState,
+  type KeyVaultSecret,
+  type SecretProperties,
+  type SecretPollerOptions,
+  type BeginDeleteSecretOptions,
+  type BeginRecoverDeletedSecretOptions,
+  type SetSecretOptions,
+  type UpdateSecretPropertiesOptions,
   logger,
 };
 

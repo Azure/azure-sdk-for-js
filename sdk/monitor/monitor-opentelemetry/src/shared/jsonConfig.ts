@@ -3,8 +3,8 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
@@ -24,6 +24,8 @@ const ENV_CONTENT = "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT";
 export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio?: number;
+  /** The maximum number of spans to sample per second. */
+  public tracesPerSecond?: number;
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /**
@@ -87,6 +89,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
       this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
+      this.tracesPerSecond = jsonConfig.tracesPerSecond;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
       this.browserSdkLoaderOptions = jsonConfig.browserSdkLoaderOptions;
       this.enableLiveMetrics = jsonConfig.enableLiveMetrics;

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.6 (Unreleased)
+## 2.5.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.5.1 (2025-09-11)
+
+### Other Changes
+
+- Upgrade `@azure/*` dependencies to latest versions.
+
+## 2.5.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 2.4.0 (2025-05-01)
+
+### Other Changes
+
+- Depend on `@typespec/ts-http-runtime`. [PR #33948](https://github.com/Azure/azure-sdk-for-js/pull/33948)
 
 ## 2.3.5 (2025-04-07)
 

@@ -6,7 +6,7 @@ import type { GetTokenOptions } from "@azure/core-auth";
 /**
  * See the official documentation for more details:
  *
- * https://learn.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
+ * https://learn.microsoft.com/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
  *
  * NOTE: This documentation is for v1 OAuth support but the same error
  * response details still apply to v2.
@@ -76,7 +76,6 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
  */
 export class CredentialUnavailableError extends Error {
   constructor(message?: string, options?: { cause?: unknown }) {
-    // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
     super(message, options);
     this.name = CredentialUnavailableErrorName;
   }
@@ -143,7 +142,6 @@ export class AuthenticationError extends Error {
 
     super(
       `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription},`,
-      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
       options,
     );
     this.statusCode = statusCode;
@@ -232,11 +230,7 @@ export class AuthenticationRequiredError extends Error {
      */
     options: AuthenticationRequiredErrorOptions,
   ) {
-    super(
-      options.message,
-      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
-      options.cause ? { cause: options.cause } : undefined,
-    );
+    super(options.message, options.cause ? { cause: options.cause } : undefined);
     this.scopes = options.scopes;
     this.getTokenOptions = options.getTokenOptions;
     this.name = "AuthenticationRequiredError";

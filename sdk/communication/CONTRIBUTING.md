@@ -8,8 +8,8 @@ Let's get started with how to set up the repo itself.
 
 ## Building
 
-Install and link all dependencies `rush update`, and to build a single project `rush build -t <packagename>`.
-You can also build with `rush rebuild` or `rush build` to build all packages.
+Install and link all dependencies `pnpm install`, and to build a single project `pnpm build --filter <packagename>...`.
+You can also build with `pnpm build` to build all packages.
 Once the package has been built, let's jump on how to run the tests to see that everything is in order.
 
 ## Testing
@@ -22,7 +22,7 @@ To test with environment variables, JS has a `sample.env` for developers to use 
 
 ### Playback mode
 
-By default tests are run in playback mode. You can also set an environment variable in your `.env` called `TEST_MODE` and set its value to `PLAYBACK`. You can then run `rushx test` command to run the tests.
+By default tests are run in playback mode. You can also set an environment variable in your `.env` called `TEST_MODE` and set its value to `PLAYBACK`. You can then run `npm run test` command to run the tests.
 
 If the tests are successful, we can proceed to run the tests in LIVE mode.
 

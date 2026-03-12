@@ -21,13 +21,15 @@ parameters:
 
 variables:
   - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
   - job: UpgradeRexTool
     timeoutInMinutes: 10
     pool:
-      vmImage: ubuntu-22.04
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -35,10 +37,17 @@ jobs:
           Paths:
             - eng/
 
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/rex-tool/.npmrc
+          registryUrl: $(PublicDevOpsRegistry)
+
       - task: Powershell@2
         inputs:
           pwsh: true
           filePath: eng/scripts/docs/Update-RexValidationTool.ps1
+        env:
+          NPM_CONFIG_USERCONFIG: $(Agent.TempDirectory)/rex-tool/.npmrc
         displayName: Update JS REX Validation Tool
 
       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
@@ -55,7 +64,9 @@ jobs:
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
-      vmImage: ubuntu-20.04
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs

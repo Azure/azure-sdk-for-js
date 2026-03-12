@@ -19,8 +19,11 @@ import {
   ServiceGetPropertiesResponse,
   ServiceGetStatisticsOptionalParams,
   ServiceGetStatisticsResponse,
+  KeyInfo,
+  ServiceGetUserDelegationKeyOptionalParams,
+  ServiceGetUserDelegationKeyResponse,
   ServiceListQueuesSegmentOptionalParams,
-  ServiceListQueuesSegmentResponse
+  ServiceListQueuesSegmentResponse,
 } from "../models/index.js";
 
 /** Class containing Service operations. */
@@ -43,11 +46,11 @@ export class ServiceImpl implements Service {
    */
   setProperties(
     properties: QueueServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { properties, options },
-      setPropertiesOperationSpec
+      setPropertiesOperationSpec,
     );
   }
 
@@ -57,11 +60,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -72,11 +75,27 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ServiceGetStatisticsOptionalParams
+    options?: ServiceGetStatisticsOptionalParams,
   ): Promise<ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getStatisticsOperationSpec
+      getStatisticsOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo Key information
+   * @param options The options parameters.
+   */
+  getUserDelegationKey(
+    keyInfo: KeyInfo,
+    options?: ServiceGetUserDelegationKeyOptionalParams,
+  ): Promise<ServiceGetUserDelegationKeyResponse> {
+    return this.client.sendOperationRequest(
+      { keyInfo, options },
+      getUserDelegationKeyOperationSpec,
     );
   }
 
@@ -85,11 +104,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   listQueuesSegment(
-    options?: ServiceListQueuesSegmentOptionalParams
+    options?: ServiceListQueuesSegmentOptionalParams,
   ): Promise<ServiceListQueuesSegmentResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listQueuesSegmentOperationSpec
+      listQueuesSegmentOperationSpec,
     );
   }
 }
@@ -101,30 +120,30 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     202: {
-      headersMapper: Mappers.ServiceSetPropertiesHeaders
+      headersMapper: Mappers.ServiceSetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -132,26 +151,26 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QueueServiceProperties,
-      headersMapper: Mappers.ServiceGetPropertiesHeaders
+      headersMapper: Mappers.ServiceGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -159,26 +178,57 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QueueServiceStatistics,
-      headersMapper: Mappers.ServiceGetStatisticsHeaders
+      headersMapper: Mappers.ServiceGetStatisticsHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetStatisticsExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetStatisticsExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.restype,
     Parameters.timeoutInSeconds,
-    Parameters.comp1
+    Parameters.comp1,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
+};
+const getUserDelegationKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UserDelegationKey,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyExceptionHeaders,
+    },
+  },
+  requestBody: Parameters.keyInfo,
+  queryParameters: [
+    Parameters.restype,
+    Parameters.timeoutInSeconds,
+    Parameters.comp2,
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.version,
+    Parameters.requestId,
+  ],
+  isXML: true,
+  contentType: "application/xml; charset=utf-8",
+  mediaType: "xml",
+  serializer: xmlSerializer,
 };
 const listQueuesSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -186,27 +236,27 @@ const listQueuesSegmentOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListQueuesSegmentResponse,
-      headersMapper: Mappers.ServiceListQueuesSegmentHeaders
+      headersMapper: Mappers.ServiceListQueuesSegmentHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceListQueuesSegmentExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceListQueuesSegmentExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp2,
+    Parameters.comp3,
     Parameters.prefix,
     Parameters.marker,
     Parameters.maxPageSize,
-    Parameters.include
+    Parameters.include,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

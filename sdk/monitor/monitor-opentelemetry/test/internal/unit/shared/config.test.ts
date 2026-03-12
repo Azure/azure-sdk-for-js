@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
@@ -32,7 +32,7 @@ const testAttributes: Record<string, string> = {
   "service.name": `unknown_service:${process.argv0}`, // Match OTel's default
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.30.1",
+  "telemetry.sdk.version": "2.0.0",
 };
 
 describe("Library/Config", () => {
@@ -53,6 +53,7 @@ describe("Library/Config", () => {
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
+      assert.deepStrictEqual(config.tracesPerSecond, 0.2, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         true,
@@ -87,6 +88,7 @@ describe("Library/Config", () => {
           disableOfflineStorage: true,
         },
         samplingRatio: 1,
+        tracesPerSecond: 2,
         instrumentationOptions: {
           http: { enabled: true },
           azureSdk: { enabled: true },
@@ -106,6 +108,7 @@ describe("Library/Config", () => {
           disableOfflineStorage: false,
         },
         samplingRatio: 0.5,
+        tracesPerSecond: 4,
         instrumentationOptions: {
           http: { enabled: false },
           azureSdk: { enabled: false },
@@ -119,6 +122,7 @@ describe("Library/Config", () => {
 
       const config = new InternalConfig(options);
       assert.strictEqual(config.samplingRatio, jsonOptions.samplingRatio);
+      assert.strictEqual(config.tracesPerSecond, jsonOptions.tracesPerSecond);
       assert.strictEqual(
         config.instrumentationOptions?.http?.enabled,
         jsonOptions.instrumentationOptions.http.enabled,
@@ -164,24 +168,21 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
+      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
-        false,
+        true,
         "Wrong azureSdk",
       );
-      assert.deepStrictEqual(
-        config.instrumentationOptions.mongoDb?.enabled,
-        false,
-        "Wrong mongoDb",
-      );
-      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(config.instrumentationOptions.mongoDb?.enabled, true, "Wrong mongoDb");
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
-        false,
+        true,
         "Wrong postgreSql",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
-      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
@@ -194,6 +195,15 @@ describe("Library/Config", () => {
       );
     });
 
+    it("microsoft.rate_limited without arg keeps default tracesPerSecond=5 in InternalConfig", () => {
+      vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
+
+      const config = new InternalConfig();
+
+      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
+      assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
+    });
+
     it("Partial configurations are supported", () => {
       const env = <{ [id: string]: string }>{};
 
@@ -203,7 +213,7 @@ describe("Library/Config", () => {
         },
         samplingRatio: 0.7,
         instrumentationOptions: {
-          redis4: { enabled: true },
+          redis4: { enabled: false },
         },
       };
       env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
@@ -231,26 +241,22 @@ describe("Library/Config", () => {
         "Wrong connectionString",
       );
       assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
-      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
 
       // Default values
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
-        false,
+        true,
         "Wrong azureSdk",
       );
-      assert.deepStrictEqual(
-        config.instrumentationOptions.mongoDb?.enabled,
-        false,
-        "Wrong mongoDb",
-      );
-      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(config.instrumentationOptions.mongoDb?.enabled, true, "Wrong mongoDb");
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
-        false,
+        true,
         "Wrong postgreSql",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
     });
   });
 
@@ -264,8 +270,8 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(typeof config.azureMonitorExporterOptions?.connectionString === "string");
-      assert.ok(typeof config.samplingRatio === "number");
+      assert.equal(typeof config.azureMonitorExporterOptions?.connectionString, "string");
+      assert.equal(typeof config.samplingRatio, "number");
     });
 
     it("should accept zero sampling ratio", () => {
@@ -313,7 +319,7 @@ describe("OpenTelemetry Resource", () => {
     customAttributes[SemanticResourceAttributes.SERVICE_NAME] = "testServiceName";
     customAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testServiceInstanceId";
     customAttributes[SemanticResourceAttributes.CONTAINER_ID] = "testContainerId";
-    const customResource = new Resource(customAttributes);
+    const customResource = resourceFromAttributes(customAttributes);
     const config = new InternalConfig();
     config.resource = customResource;
     assert.deepStrictEqual(
@@ -336,13 +342,13 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME]).startsWith(
         "unknown_service:",
       ),
       "Wrong SERVICE_NAME",
     );
-    assert.ok(
+    assert.isTrue(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
         0,
       "Wrong TELEMETRY_SDK_VERSION",
@@ -386,10 +392,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
       "test-region",
     );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
-      "test-slot",
-    );
+    assert.strictEqual(config.resource.attributes["deployment.environment.name"], "test-slot");
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
       "test-hostname",
@@ -429,29 +432,52 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 
-  it("Azure VM resource attributes", async () => {
-    vi.spyOn(azureVmDetector, "detect").mockResolvedValue(new Resource(testAttributes));
+  it("Azure AKS resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
     const config = new InternalConfig();
-    assert.ok(config);
-
-    // Wait for the async VM resource detector to finish (ensure detect is called)
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
-      const key = Object.keys(config.resource.attributes)[i];
-      assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
-    }
+    process.env = originalEnv;
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
       "azure",
     );
     assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-      "westus",
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      "azure.aks",
     );
     assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-      CloudPlatformValues.AZURE_VM,
+      config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
+      "test-cluster",
     );
+  });
+
+  it("Azure VM resource attributes", () => {
+    vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
+    const config = new InternalConfig();
+    assert.isDefined(config);
+
+    // Wait for the async VM resource detector to finish (ensure detect is called)
+    setTimeout(() => {
+      for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
+        const key = Object.keys(config.resource.attributes)[i];
+        assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
+      }
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+        "azure",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+        "westus",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+        CloudPlatformValues.AZURE_VM,
+      );
+    }, 1000);
   });
 
   it("OTEL_RESOURCE_ATTRIBUTES", () => {

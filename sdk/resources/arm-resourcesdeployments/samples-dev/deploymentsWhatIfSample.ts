@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the resource group.
+ *
+ * @summary Returns changes that will be made by the deployment if executed at the scope of the resource group.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PostDeploymentWhatIfOnResourceGroup.json
+ */
+
+import {
+  DeploymentWhatIf,
+  DeploymentsClient,
+} from "@azure/arm-resourcesdeployments";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
+async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000001";
+  const resourceGroupName =
+    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
+  const deploymentName = "my-deployment";
+  const parameters: DeploymentWhatIf = {
+    properties: {
+      mode: "Incremental",
+      parameters: {},
+      templateLink: { uri: "https://example.com/exampleTemplate.json" },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DeploymentsClient(credential, subscriptionId);
+  const result = await client.deployments.beginWhatIfAndWait(
+    resourceGroupName,
+    deploymentName,
+    parameters,
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await predictTemplateChangesAtResourceGroupScope();
+}
+
+main().catch(console.error);

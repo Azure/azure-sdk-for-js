@@ -8,10 +8,10 @@ import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src/index.js";
 import type { Expectation, Scenario } from "./types.js";
-import { SpanStatusCode } from "@opentelemetry/api";
+import { SpanStatusCode, trace } from "@opentelemetry/api";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { FlushSpanProcessor } from "./flushSpanProcessor.js";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   SemanticResourceAttributes,
   SemanticAttributes,
@@ -38,16 +38,18 @@ export class TraceBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new FlushSpanProcessor(exporter);
-    const resource = new Resource({
+    const resource = resourceFromAttributes({
       "service.name": "testServiceName",
       "k8s.cluster.name": "testClusterName",
       "k8s.node.name": "testNodeName",
       "k8s.namespace.name": "testNamespaceName",
       "k8s.pod.name": "testPodName",
     });
-    const provider = new BasicTracerProvider({ resource: resource });
-    provider.addSpanProcessor(this._processor);
-    provider.register();
+    const provider = new BasicTracerProvider({
+      spanProcessors: [this._processor],
+      resource: resource,
+    });
+    trace.setGlobalTracerProvider(provider);
   }
 
   async run(): Promise<void> {
@@ -265,17 +267,11 @@ export class MetricBasicScenario implements Scenario {
   private _provider: MeterProvider;
 
   constructor() {
-    const testResource = new Resource({
+    const testResource = resourceFromAttributes({
       [SemanticResourceAttributes.SERVICE_NAME]: "my-helloworld-service",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "my-namespace",
       [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "my-instance",
     });
-    this._provider = new MeterProvider({
-      resource: testResource,
-    });
-  }
-
-  prepare(): void {
     const exporter = new AzureMonitorMetricExporter({
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
@@ -283,9 +279,14 @@ export class MetricBasicScenario implements Scenario {
       exporter: exporter,
       exportIntervalMillis: 100,
     };
-    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+    this._provider = new MeterProvider({
+      resource: testResource,
+      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+    });
+  }
 
-    this._provider.addMetricReader(metricReader);
+  prepare(): void {
+    // NOOP
   }
 
   async run(): Promise<void> {
@@ -472,8 +473,11 @@ export class LogBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new SimpleLogRecordProcessor(exporter);
-    this._provider = new LoggerProvider();
-    this._provider.addLogRecordProcessor(this._processor);
+
+    // In OpenTelemetry SDK v0.205.0, LoggerProvider uses 'processors' parameter
+    this._provider = new LoggerProvider({
+      processors: [this._processor],
+    });
   }
 
   async run(): Promise<void> {
@@ -498,11 +502,20 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
-  cleanup(): void {
+  async cleanup(): Promise<void> {
     opentelemetry.trace.disable();
+    // Shutdown the logger provider to ensure all logs are flushed
+    if (this._provider) {
+      await this._provider.shutdown();
+    }
   }
 
-  flush(): Promise<void> {
+  async flush(): Promise<void> {
+    // First flush the provider to ensure all logs are processed
+    if (this._provider) {
+      await this._provider.forceFlush();
+    }
+    // Then flush the processor
     return this._processor.forceFlush();
   }
 

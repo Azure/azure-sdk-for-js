@@ -10,25 +10,31 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   DigitalTwinModelsImpl,
   QueryImpl,
   DigitalTwinsImpl,
-  EventRoutesImpl
+  EventRoutesImpl,
+  ImportJobsImpl,
+  DeleteJobsImpl,
 } from "./operations/index.js";
 import {
   DigitalTwinModels,
   Query,
   DigitalTwins,
-  EventRoutes
+  EventRoutes,
+  ImportJobs,
+  DeleteJobs,
 } from "./operationsInterfaces/index.js";
 import { AzureDigitalTwinsAPIOptionalParams } from "./models/index.js";
 
 export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  operationId?: string;
+  timeoutInMinutes?: number;
 
   /**
    * Initializes a new instance of the AzureDigitalTwinsAPI class.
@@ -40,7 +46,7 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: AzureDigitalTwinsAPIOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-digital-twins-core/2.0.0`;
@@ -53,20 +59,22 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://digitaltwins-hostname"
+        options.endpoint ?? options.baseUri ?? "https://digitaltwins-hostname",
     };
     super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://digitaltwins-hostname";
-    this.apiVersion = options.apiVersion || "2020-10-31";
+    this.apiVersion = options.apiVersion || "2023-10-31";
     this.digitalTwinModels = new DigitalTwinModelsImpl(this);
     this.query = new QueryImpl(this);
     this.digitalTwins = new DigitalTwinsImpl(this);
     this.eventRoutes = new EventRoutesImpl(this);
+    this.importJobs = new ImportJobsImpl(this);
+    this.deleteJobs = new DeleteJobsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -79,7 +87,7 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -93,7 +101,7 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -102,4 +110,6 @@ export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
   query: Query;
   digitalTwins: DigitalTwins;
   eventRoutes: EventRoutes;
+  importJobs: ImportJobs;
+  deleteJobs: DeleteJobs;
 }

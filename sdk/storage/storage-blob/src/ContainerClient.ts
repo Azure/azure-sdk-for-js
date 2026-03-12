@@ -7,8 +7,8 @@ import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,
@@ -43,6 +43,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
+  BlobClientOptions,
+  BlobClientConfig,
 } from "./models.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
@@ -89,7 +91,6 @@ import type {
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
 } from "./generated/src/index.js";
-import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -212,7 +213,7 @@ export interface SignedIdentifier {
     expiresOn?: Date;
     /**
      * The permissions for the acl policy
-     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * @see https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      */
     permissions?: string;
   };
@@ -366,6 +367,10 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**
@@ -503,6 +508,10 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob legal hold be returned in the response.
    */
   includeLegalHold?: boolean;
+  /** Specifies the relative path to list paths from.
+   * For non-recursive list, only one entity level is supported;
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**
@@ -598,6 +607,8 @@ export class ContainerClient extends StorageClient {
 
   private _containerName: string;
 
+  private blobClientConfig?: BlobClientConfig;
+
   /**
    * The name of the container.
    */
@@ -638,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -653,7 +664,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -664,13 +675,13 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
     options = options || {};
     if (isPipelineLike(credentialOrPipelineOrContainerName)) {
-      // (url: string, pipeline: Pipeline)
+      // (url: string, pipeline: Pipeline, options?: BlobClientConfig)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -730,12 +741,13 @@ export class ContainerClient extends StorageClient {
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
     this.containerContext = this.storageClientContext.container;
+    this.blobClientConfig = options;
   }
 
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options - Options to Container Create operation.
@@ -770,7 +782,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options -
@@ -837,7 +849,11 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -846,7 +862,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new AppendBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -877,7 +897,11 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlockBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -886,13 +910,17 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new PageBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
    * Returns all user-defined metadata and system properties for the specified
    * container. The data returned does not include the container's list of blobs.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-properties
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -926,7 +954,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion. The container and any blobs
    * contained within it are later deleted during garbage collection.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
    */
@@ -952,7 +980,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion if it exists. The container and any blobs
    * contained within it are later deleted during garbage collection.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
    */
@@ -990,7 +1018,7 @@ export class ContainerClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the container
    * metadata will be removed.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-metadata
    *
    * @param metadata - Replace existing metadata with this value.
    *                            If no value provided the existing metadata will be removed.
@@ -1034,7 +1062,7 @@ export class ContainerClient extends StorageClient {
    * WARNING: JavaScript Date will potentially lose precision when parsing startsOn and expiresOn strings.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-acl
    *
    * @param options - Options to Container Get Access Policy operation.
    */
@@ -1112,7 +1140,7 @@ export class ContainerClient extends StorageClient {
    * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
    * During this interval, a shared access signature that is associated with the stored access policy will
    * fail with status code 403 (Forbidden), until the access policy becomes active.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-acl
    *
    * @param access - The level of public access to data in the container.
    * @param containerAcl - Array of elements each having a unique Id and details of the access policy.
@@ -1215,7 +1243,7 @@ export class ContainerClient extends StorageClient {
    * during garbage collection. Note that in order to delete a blob, you must delete
    * all of its snapshots. You can delete both at the same time with the Delete
    * Blob operation.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-blob
    *
    * @param blobName -
    * @param options - Options to Blob Delete operation.
@@ -1997,7 +2025,7 @@ export class ContainerClient extends StorageClient {
    * for the specified account.
    * The Get Account Information operation is available on service versions beginning
    * with version 2018-03-28.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
    * @returns Response data for the Service Get Account Info operation.
@@ -2065,7 +2093,7 @@ export class ContainerClient extends StorageClient {
    * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2096,7 +2124,7 @@ export class ContainerClient extends StorageClient {
    * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
    * based on the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2122,7 +2150,7 @@ export class ContainerClient extends StorageClient {
    * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2150,7 +2178,7 @@ export class ContainerClient extends StorageClient {
    * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
    * based on the client properties and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2174,7 +2202,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a BlobBatchClient object to conduct batch operations.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
    *
    * @returns A new BlobBatchClient object for this container.
    */

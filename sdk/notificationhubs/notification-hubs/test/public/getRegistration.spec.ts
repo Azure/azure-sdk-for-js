@@ -17,7 +17,6 @@ describe("getRegistration", () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
     let registration = createAppleRegistrationDescription({

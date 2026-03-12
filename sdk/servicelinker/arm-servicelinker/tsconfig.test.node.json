@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-servicelinker": ["./src/index.ts"],
+      "@azure/arm-servicelinker/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

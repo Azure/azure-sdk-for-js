@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isNodeLike } from "@azure/core-util";
+import { structuredMessageDecodingStream, type NodeJSReadableStream } from "@azure/storage-common";
 import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
 
 import type {
@@ -481,6 +482,10 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     return this.originalResponse.legalHold;
   }
 
+  public get structuredBodyType(): string | undefined {
+    return this.originalResponse.structuredBodyType;
+  }
+
   /**
    * The response body as a browser Blob.
    * Always undefined in node.js.
@@ -499,7 +504,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    *
    * @readonly
    */
-  public get readableStreamBody(): NodeJS.ReadableStream | undefined {
+  public get readableStreamBody(): NodeJSReadableStream | undefined {
     return isNodeLike ? this.blobDownloadStream : undefined;
   }
 
@@ -530,8 +535,12 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     options: RetriableReadableStreamOptions = {},
   ) {
     this.originalResponse = originalResponse;
+    const streamBody =
+      this.originalResponse.structuredBodyType === undefined
+        ? this.originalResponse.readableStreamBody!
+        : structuredMessageDecodingStream(this.originalResponse.readableStreamBody!, options);
     this.blobDownloadStream = new RetriableReadableStream(
-      this.originalResponse.readableStreamBody!,
+      streamBody,
       getter,
       offset,
       count,

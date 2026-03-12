@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
@@ -44,7 +44,7 @@ describe("Utility Helpers Node.js only", () => {
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
-      assert.ok(
+      assert.isTrue(
         error.message ===
           "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
       );
@@ -429,8 +429,8 @@ describe("RetriableReadableStream", () => {
     retriable.destroy(passedInError);
     // spare time for events to fire
     await delay(delayTimeInMs);
-    assert.ok((counter as any).destroyed);
-    assert.ok(errorCaught);
+    assert.isTrue((counter as any).destroyed);
+    assert.isDefined(errorCaught);
   });
 
   it("setEncoding should work", async () => {

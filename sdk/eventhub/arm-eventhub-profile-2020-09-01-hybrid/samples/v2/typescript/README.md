@@ -92,7 +92,7 @@ node dist/clustersCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env EVENTHUB_SUBSCRIPTION_ID="<eventhub subscription id>" EVENTHUB_RESOURCE_GROUP="<eventhub resource group>" node dist/clustersCreateOrUpdateSample.js
+cross-env EVENTHUB_SUBSCRIPTION_ID="<eventhub subscription id>" EVENTHUB_RESOURCE_GROUP="<eventhub resource group>" node dist/clustersCreateOrUpdateSample.js
 ```
 
 ## Next Steps

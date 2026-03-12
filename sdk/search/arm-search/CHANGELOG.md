@@ -1,5 +1,88 @@
 # Release History
     
+## 3.3.0 (2025-07-18)
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added operation Services.beginUpgrade
+  - Added operation Services.beginUpgradeAndWait
+  - Added Interface AccessRule
+  - Added Interface AccessRuleProperties
+  - Added Interface AccessRulePropertiesSubscriptionsItem
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListResult
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityProfile
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ProxyResource
+  - Added Interface ResourceAssociation
+  - Added Interface ServicesUpgradeHeaders
+  - Added Interface ServicesUpgradeOptionalParams
+  - Added Interface SystemData
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias ActionType
+  - Added Type Alias ComputeType
+  - Added Type Alias CreatedByType
+  - Added Type Alias IssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServiceNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListByServiceResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+  - Added Type Alias Origin
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias SearchBypass
+  - Added Type Alias SearchDataExfiltrationProtection
+  - Added Type Alias ServicesUpgradeResponse
+  - Added Type Alias Severity
+  - Added Type Alias UpgradeAvailable
+  - Interface CloudError has a new optional parameter message
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Interface NetworkRuleSet has a new optional parameter bypass
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Resource has a new optional parameter systemData
+  - Interface SearchService has a new optional parameter computeType
+  - Interface SearchService has a new optional parameter dataExfiltrationProtections
+  - Interface SearchService has a new optional parameter endpoint
+  - Interface SearchService has a new optional parameter eTag
+  - Interface SearchService has a new optional parameter serviceUpgradedAt
+  - Interface SearchService has a new optional parameter upgradeAvailable
+  - Interface SearchServiceUpdate has a new optional parameter computeType
+  - Interface SearchServiceUpdate has a new optional parameter dataExfiltrationProtections
+  - Interface SearchServiceUpdate has a new optional parameter endpoint
+  - Interface SearchServiceUpdate has a new optional parameter eTag
+  - Interface SearchServiceUpdate has a new optional parameter serviceUpgradedAt
+  - Interface SearchServiceUpdate has a new optional parameter upgradeAvailable
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownActionType
+  - Added Enum KnownComputeType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownIdentityType
+  - Added Enum KnownIssueType
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownOrigin
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownSearchBypass
+  - Added Enum KnownSearchDataExfiltrationProtection
+  - Added Enum KnownSeverity
+  - Added Enum KnownSharedPrivateLinkResourceProvisioningState
+  - Added Enum KnownSharedPrivateLinkResourceStatus
+  - Added Enum KnownSkuName
+  - Added Enum KnownUpgradeAvailable
+    
+    
 ## 3.3.0-beta.2 (2025-04-07)
 Compared with version 3.2.0
     

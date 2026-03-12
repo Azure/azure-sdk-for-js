@@ -3,21 +3,21 @@
 
 import { ServiceNetworkingManagementClient } from "./serviceNetworkingManagementClient.js";
 import {
-  _trafficControllerInterfaceDeleteDeserialize,
-  _trafficControllerInterfaceCreateOrUpdateDeserialize,
-} from "./api/trafficControllerInterface/index.js";
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/trafficControllerInterface/operations.js";
 import {
-  _securityPoliciesInterfaceDeleteDeserialize,
-  _securityPoliciesInterfaceCreateOrUpdateDeserialize,
-} from "./api/securityPoliciesInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeSecurityPoliciesInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSecurityPoliciesInterface,
+} from "./api/securityPoliciesInterface/operations.js";
 import {
-  _frontendsInterfaceDeleteDeserialize,
-  _frontendsInterfaceCreateOrUpdateDeserialize,
-} from "./api/frontendsInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeFrontendsInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeFrontendsInterface,
+} from "./api/frontendsInterface/operations.js";
 import {
-  _associationsInterfaceDeleteDeserialize,
-  _associationsInterfaceCreateOrUpdateDeserialize,
-} from "./api/associationsInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeAssociationsInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAssociationsInterface,
+} from "./api/associationsInterface/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -93,42 +93,42 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}":
     {
-      deserializer: _trafficControllerInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}":
     {
-      deserializer: _trafficControllerInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}":
     {
-      deserializer: _securityPoliciesInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeSecurityPoliciesInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}":
     {
-      deserializer: _securityPoliciesInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeSecurityPoliciesInterface,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}":
     {
-      deserializer: _frontendsInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeFrontendsInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}":
     {
-      deserializer: _frontendsInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeFrontendsInterface,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}":
     {
-      deserializer: _associationsInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeAssociationsInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}":
     {
-      deserializer: _associationsInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeAssociationsInterface,
       expectedStatuses: ["200", "201"],
     },
 };

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-import { ClientCertificateCredential } from "../../../src/index.js";
-import { parseCertificate } from "../../../src/credentials/clientCertificateCredential.js";
+import { ClientCertificateCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { parseCertificate } from "$internal/credentials/clientCertificateCredential.js";
 
 const ASSET_PATH = "assets";
 
@@ -93,7 +93,7 @@ describe("ClientCertificateCredential (internal)", function () {
     } catch (e: any) {
       error = e;
     }
-    assert.ok(error);
+    assert.isDefined(error);
     assert.equal(
       (error as Error).message,
       "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
@@ -113,7 +113,7 @@ describe("ClientCertificateCredential (internal)", function () {
       error = _error;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
@@ -129,7 +129,7 @@ describe("ClientCertificateCredential (internal)", function () {
       error = _error;
     }
 
-    assert.ok(error);
+    assert.isDefined(error);
     assert.deepEqual(
       error?.message,
       `The file at the specified path does not contain a PEM-encoded certificate.`,
@@ -156,6 +156,16 @@ describe("ClientCertificateCredential (internal)", function () {
         false,
       );
       assert.isUndefined(result.x5c);
+    });
+
+    it("returns thumbprint SHA-256", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        false,
+      );
+      assert.isNotEmpty(result.thumbprintSha256);
     });
   });
 });

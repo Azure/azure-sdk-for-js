@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-recipient-verification"
 description: Allows users to verify the phone number of recipients before sending messages or making calls to the phone number.
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./swagger.json

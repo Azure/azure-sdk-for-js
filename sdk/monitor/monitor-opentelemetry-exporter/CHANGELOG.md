@@ -1,5 +1,120 @@
 # Release History
 
+## 1.0.0-beta.40 ()
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+
+## 1.0.0-beta.39 (2026-02-20)
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
+
+### Bugs Fixed
+
+- Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
+
+### 1.0.0-beta.38 (2026-01-16)
+
+### Features Added
+
+- Remove limit on custom properties field on both logs and spans.
+- Updated customer SDK Stats metric names from preview format to stable format.
+
+### 1.0.0-beta.37 (2026-01-15)
+
+### Features Added
+
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
+
+### Other Changes
+
+- Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
+
+## 1.0.0-beta.36 (2025-11-10)
+
+### Bugs Fixed
+
+- Fixed dynamic import of the exporter package.
+
+- Add support for multiuser permissions in unix.
+
+- Add support for log message serialization for complex objects.
+
+## 1.0.0-beta.35 (2025-09-16)
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+## 1.0.0-beta.34 (2025-09-05)
+
+### Features Added
+
+- Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
+
+- Added support for the `telemetry_success` field on customer SDK Stats to track if dropped request and dependency telemetry succeeded or failed.
+
+### Other Changes
+
+- Renamed Customer Statsbeat feature to customer SDK Stats.
+- Update drop.reason values for customer SDK Stats.
+- Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
+- Add further drop reason for disk persistence disablement.
+
+## 1.0.0-beta.33 (2025-08-04)
+
+### Features Added
+
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
+
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
+### Other Changes
+
+- Respect parent sampling result in ApplicationInsightsSampler.
+
+## 1.0.0-beta.32 (2025-06-09)
+
+### Features Added
+
+- Added customer-facing SDK Stats preview.
+
+### Features Added
+
+- Add RateLimitedSampler.
+
+### Other Changes
+
+- Ensure that the longIntervalStatsbeat reader is properly bound to a MetricProducer.
+- Removed error logging upon failure to initialize long interval statsbeat.
+- No longer send statsbeat counters when values are zero.
+- Fix statsbeat throttle recording logic.
+- SEMATTRS_ENDUSER_ID is properly added to tags but not to properties in telemetry envelopes.
+- Update network statsbeat to follow a singleton pattern.
+- Stop sending client OS value.
+
+## 1.0.0-beta.31 (2025-04-16)
+
+### Features Added
+
+- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+
+## Other Changes
+
+- Hide iKey in debug logs.
+- Add to statsbeat success count when a batch of envelopes is partially accepted by breeze.
+
 ## 1.0.0-beta.30 (2025-04-09)
 
 ### Features Added
@@ -24,7 +139,7 @@
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
-- Remove applying cloud.* tags to statsbeat telemetry.
+- Remove applying cloud.\* tags to statsbeat telemetry.
 - Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
@@ -145,7 +260,6 @@
 
 - Update OpenTelemetry dependencies.
 - Add instructions to export Logs in readme.
-
 
 ## 1.0.0-beta.17 (2023-10-09)
 

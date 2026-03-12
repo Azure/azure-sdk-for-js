@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/opentelemetry-instrumentation-azure-sdk": ["./src/index.ts"],
+      "@azure/opentelemetry-instrumentation-azure-sdk/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,26 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
+import { KnownVersions } from "../models/models.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
-export interface StandbyPoolContext extends Client {}
+export interface StandbyPoolManagementContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 export function createStandbyPoolManagement(
   credential: TokenCredential,
+  subscriptionId: string,
   options: StandbyPoolManagementClientOptionalParams = {},
-): StandbyPoolContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-
+): StandbyPoolManagementContext {
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-standbypool/1.0.2`;
+  const userAgentInfo = `azsdk-js-arm-standbypool/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -34,7 +42,7 @@ export function createStandbyPoolManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-03-01";
+  const apiVersion = options.apiVersion ?? "2025-03-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -50,5 +58,9 @@ export function createStandbyPoolManagement(
       return next(req);
     },
   });
-  return clientContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as StandbyPoolManagementContext;
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
-import * as process from "node:process";
+import os from "node:os";
+import process from "node:process";
 
 /**
  * @internal
@@ -24,15 +24,14 @@ export function getHeaderName(): string {
  */
 export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   if (process && process.versions) {
+    const osInfo = `${os.type()} ${os.release()}; ${os.arch()}`;
     const versions = process.versions as ExtendedPlatformVersions;
     if (versions.bun) {
-      map.set("Bun", versions.bun);
+      map.set("Bun", `${versions.bun} (${osInfo})`);
     } else if (versions.deno) {
-      map.set("Deno", versions.deno);
+      map.set("Deno", `${versions.deno} (${osInfo})`);
     } else if (versions.node) {
-      map.set("Node", versions.node);
+      map.set("Node", `${versions.node} (${osInfo})`);
     }
   }
-
-  map.set("OS", `(${os.arch()}-${os.type()}-${os.release()})`);
 }

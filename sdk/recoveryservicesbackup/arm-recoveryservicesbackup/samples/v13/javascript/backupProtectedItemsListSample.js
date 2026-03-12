@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Provides a pageable list of all items that are backed up within a vault.
  *
  * @summary Provides a pageable list of all items that are backed up within a vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectedItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupProtectedItems_List.json
  */
 async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
   const subscriptionId =
@@ -28,14 +28,18 @@ async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectedItems.list(vaultName, resourceGroupName, options)) {
+  for await (const item of client.backupProtectedItems.list(
+    vaultName,
+    resourceGroupName,
+    options,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
 main().catch(console.error);

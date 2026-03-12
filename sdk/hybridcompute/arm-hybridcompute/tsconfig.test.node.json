@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-hybridcompute": ["./src/index.ts"],
+      "@azure/arm-hybridcompute/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

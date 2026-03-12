@@ -60,7 +60,7 @@ export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
  * The maximum number of messages to delete in a single batch.  This cap is established and enforced by the service.
  * @internal
  */
-export const MaxDeleteMessageCount = 4000;
+export const MaxDeleteMessageCount = 500;
 
 /**
  * A receiver that does not handle sessions.
@@ -513,9 +513,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
     );
-    if (deletedCount === MaxDeleteMessageCount) {
-      let batchCount = MaxDeleteMessageCount;
-      while (batchCount === MaxDeleteMessageCount) {
+    if (deletedCount > 0) {
+      let batchCount = deletedCount;
+      while (batchCount > 0) {
         batchCount = await this.deleteMessages({
           maxMessageCount: MaxDeleteMessageCount,
           beforeEnqueueTime: options?.beforeEnqueueTime,

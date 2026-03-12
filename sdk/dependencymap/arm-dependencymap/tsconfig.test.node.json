@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-dependencymap": ["./src/index.ts"],
+      "@azure/arm-dependencymap/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

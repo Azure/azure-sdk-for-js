@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VectorDbClient } from "@azure/arm-pineconevectordb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-22-preview/Operations_List_MaximumSet_Gen.json
  */
+
+import { VectorDbClient } from "@azure/arm-pineconevectordb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operationsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

@@ -1,0 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.shared.config.js";
+
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      exclude: ["test/internal/{,!(unit)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
+      typecheck: {
+        enabled: false,
+      },
+    },
+  }),
+);

@@ -22,6 +22,7 @@ import { getDataLakeServiceAccountAudience } from "../../src/models.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { aclIdForTest } from "../utils/fakeTestSecrets.js";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemName: string;
@@ -97,12 +98,12 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
   it("getAccessPolicy", async () => {
     const result = await fileSystemClient.getAccessPolicy();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.clientRequestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("setAccessPolicy", async () => {
@@ -114,7 +115,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
           startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: aclIdForTest,
       },
     ];
 
@@ -124,6 +125,30 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     assert.deepEqual(result.publicAccess, access);
   });
 
+  it("setAccessPolicy with OAuth", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      createTestCredential(),
+    );
+    configureStorageClient(recorder, fileSystemClientWithOAuthToken);
+
+    const acl = [
+      {
+        accessPolicy: {
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: FileSystemSASPermissions.parse("rwd").toString(),
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
+        },
+        id: aclIdForTest,
+      },
+    ];
+
+    await fileSystemClient.setAccessPolicy(undefined, acl);
+    const result = await fileSystemClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, acl);
+    assert.deepEqual(result.publicAccess, undefined);
+  });
+
   it("setAccessPolicy should work when expiry and start undefined", async () => {
     const access: PublicAccessType = "file";
     const acl = [
@@ -131,7 +156,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
         accessPolicy: {
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: aclIdForTest,
       },
     ];
 
@@ -148,15 +173,15 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.publicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.publicAccess);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -170,15 +195,15 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.publicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.publicAccess);
   });
 
   it("can be created with a url and a TokenCredential", async () => {
@@ -201,14 +226,14 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isUndefined(result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.publicAccess);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
+    assert.isUndefined(result.publicAccess);
   });
 });

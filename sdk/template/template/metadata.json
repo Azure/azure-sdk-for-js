@@ -1,0 +1,24 @@
+{
+  "apiVersion": "2022-12-01",
+  "emitterVersion": "0.45.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "WidgetAnalytics",
+    "CrossLanguageDefinitionId": {
+      "@azure/template!WidgetSuite:interface": "WidgetAnalytics.WidgetSuite",
+      "@azure/template!FakedSharedModel:interface": "FakedSharedModel",
+      "@azure/template!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/template!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/template!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/template!ResourceOperationStatusWidgetSuiteWidgetSuiteError:interface": "Azure.Core.ResourceOperationStatus",
+      "@azure/template!OperationStatusError:interface": "Azure.Core.Foundations.OperationStatus",
+      "@azure/template!PagedWidgetSuite:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/template!KnownOperationState:enum": "Azure.Core.Foundations.OperationState",
+      "@azure/template!KnownVersions:enum": "WidgetAnalytics.Versions",
+      "@azure/template!WidgetsOperations#listWidgets:member": "WidgetAnalytics.Widgets.listWidgets",
+      "@azure/template!WidgetsOperations#deleteWidget:member": "WidgetAnalytics.Widgets.deleteWidget",
+      "@azure/template!WidgetsOperations#createOrUpdateWidget:member": "WidgetAnalytics.Widgets.createOrUpdateWidget",
+      "@azure/template!WidgetsOperations#getWidgetOperationStatus:member": "WidgetAnalytics.Widgets.getWidgetOperationStatus",
+      "@azure/template!WidgetsOperations#getWidget:member": "WidgetAnalytics.Widgets.getWidget"
+    }
+  }
+}

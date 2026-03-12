@@ -14,7 +14,7 @@ import { getUserAgentValue } from "../util/userAgent.js";
 import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";
 import { isRestError } from "../restError.js";
-import { Sanitizer } from "../util/sanitizer.js";
+import { Sanitizer } from "@typespec/ts-http-runtime/internal/util";
 
 /**
  * The programmatic identifier of the tracingPolicy.

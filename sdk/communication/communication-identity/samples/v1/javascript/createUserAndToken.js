@@ -18,13 +18,18 @@ async function main() {
   console.log("\n== Create User and Token Sample ==\n");
   const client = new CommunicationIdentityClient(connectionString);
   const scopes = ["chat"];
+  const customId = "alice@contoso.com";
 
   // Create user with default token
   console.log("Creating User and Token");
-  const communicationUserToken = await client.createUserAndToken(scopes);
+  const communicationUserToken = await client.createUserAndToken(scopes, { customId });
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
   console.log(`Issued token: ${communicationUserToken.token}`);
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
+
+  // Get user detail
+  const userResult = await client.getUserDetail(communicationUserToken.user);
+  console.log(`Got user with id: ${userResult.id} customId: ${userResult.customId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`);
 
   // Create user with token with custom expiration
   console.log("Creating User and Token with custom expiration.");

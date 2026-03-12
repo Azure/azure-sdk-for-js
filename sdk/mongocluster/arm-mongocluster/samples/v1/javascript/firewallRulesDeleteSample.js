@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a mongo cluster firewall rule.
  *
  * @summary deletes a mongo cluster firewall rule.
- * x-ms-original-file: 2024-07-01/MongoClusters_FirewallRuleDelete.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_FirewallRuleDelete.json
  */
 async function deletesAFirewallRuleOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function deletesAFirewallRuleOnAMongoClusterResource() {
 }
 
 async function main() {
-  deletesAFirewallRuleOnAMongoClusterResource();
+  await deletesAFirewallRuleOnAMongoClusterResource();
 }
 
 main().catch(console.error);

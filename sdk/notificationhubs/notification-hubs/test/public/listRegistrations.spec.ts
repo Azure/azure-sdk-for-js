@@ -17,7 +17,6 @@ describe("listRegistrations()", () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
     for (let i = 0; i < 3; i++) {

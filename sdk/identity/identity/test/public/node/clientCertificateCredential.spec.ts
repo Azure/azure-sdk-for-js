@@ -3,14 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import * as path from "node:path";
+import path from "node:path";
 
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { ClientCertificateCredential, type GetTokenOptions } from "../../../src/index.js";
+import { ClientCertificateCredential, type GetTokenOptions } from "@azure/identity";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import fs from "node:fs";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
@@ -50,8 +50,8 @@ describe("ClientCertificateCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates with a PEM certificate string directly", async function () {
@@ -66,8 +66,8 @@ describe("ClientCertificateCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("allows cancelling the authentication", async function (ctx) {
@@ -106,7 +106,7 @@ describe("ClientCertificateCredential", function () {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
-    assert.ok(error?.message.includes("endpoints_resolution_error"));
+    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
   });
 
   it("supports tracing", async function (ctx) {

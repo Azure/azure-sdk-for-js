@@ -4,11 +4,14 @@ import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
 import type { RequestOptions } from "./index.js";
+import type { ResolveServiceEndpointOptions } from "./GlobalEndpointManagerOptions.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "./utils/diagnostics.js";
+import { normalizeEndpoint } from "./utils/checkURL.js";
+import { canApplyExcludedLocations } from "./common/helper.js";
 
 /**
  * @hidden
@@ -33,8 +36,35 @@ export class GlobalEndpointManager {
   private readableLocations: Location[] = [];
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
+  private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
+  /**
+   * Flag to enable/disable the Per Partition Level Failover (PPAF). Contains the value from the Connection policy.
+   * @internal
+   */
+  private enablePartitionLevelFailover: boolean;
+  /**
+   * Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Contains the value from the Connection policy.
+   * @internal
+   */
+  private enablePartitionLevelCircuitBreaker: boolean;
+  /**
+   * Cached PPAF enablement status from the last account refresh
+   * @internal
+   */
+  public lastKnownPPAFEnabled: boolean;
+  /**
+   * Cached circuit breaker timer enablement status
+   * @internal
+   */
+  public lastKnownPPCBEnabled: boolean;
+  /**
+   * Event that is raised when circuit breaker timer should start or stop based on PPAF/PPCB status changes
+   * @internal
+   */
+  public onEnablePartitionLevelFailoverConfigChanged?: (isEnabled: boolean) => void;
+
   /**
    * @param options - The document client instance.
    * @internal
@@ -52,6 +82,11 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.enablePartitionLevelCircuitBreaker =
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPCBEnabled = options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+    this.lastKnownPPAFEnabled = false;
   }
 
   /**
@@ -74,6 +109,13 @@ export class GlobalEndpointManager {
 
   public async getWriteEndpoints(): Promise<ReadonlyArray<string>> {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
+  }
+
+  /**
+   * Gets the read locations from the endpoint cache.
+   */
+  public async getReadLocations(): Promise<ReadonlyArray<Location>> {
+    return this.readableLocations;
   }
 
   public async markCurrentLocationUnavailableForRead(
@@ -108,7 +150,8 @@ export class GlobalEndpointManager {
     resourceType?: ResourceType,
     operationType?: OperationType,
   ): boolean {
-    let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
+    let canUse =
+      this.options.connectionPolicy.useMultipleWriteLocations && this.enableMultipleWriteLocations;
 
     if (resourceType) {
       canUse =
@@ -120,12 +163,59 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
+  private getEffectiveExcludedLocations(
+    excludedLocations: string[] = [],
+    resourceType: ResourceType,
+  ): Set<string> {
+    if (!canApplyExcludedLocations(resourceType)) {
+      return new Set();
+    }
+
+    return excludedLocations.length ? new Set(excludedLocations.map(normalizeEndpoint)) : new Set();
+  }
+
+  private filterExcludedLocations(
+    preferredLocations: string[],
+    excludedLocations?: Set<string>,
+  ): string[] {
+    if (!excludedLocations || excludedLocations.size === 0) {
+      return preferredLocations;
+    }
+    const filteredLocations = preferredLocations.filter((location) => {
+      return !excludedLocations.has(normalizeEndpoint(location));
+    });
+    return filteredLocations;
+  }
+
   public async resolveServiceEndpoint(
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
     startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
   ): Promise<string> {
+    return this.resolveServiceEndpointInternal({
+      diagnosticNode: diagnosticNode,
+      resourceType: resourceType,
+      operationType: operationType,
+      startServiceEndpointIndex: startServiceEndpointIndex,
+    });
+  }
+
+  /**
+   * @internal
+   */
+  public async resolveServiceEndpointInternal(
+    resolveServiceEndpointOptions: ResolveServiceEndpointOptions,
+  ): Promise<string> {
+    // Extract all fields from ResolveServiceEndpointOptions
+    const {
+      diagnosticNode,
+      resourceType,
+      operationType,
+      startServiceEndpointIndex,
+      excludedLocations = [],
+    } = resolveServiceEndpointOptions;
+
     // If endpoint discovery is disabled, always use the user provided endpoint
 
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -140,7 +230,6 @@ export class GlobalEndpointManager {
       diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
       return this.defaultEndpoint;
     }
-
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
       const resourceResponse = await withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -154,21 +243,42 @@ export class GlobalEndpointManager {
 
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
+      this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
+      if (this.enablePartitionLevelFailover) {
+        this.refreshPPAFFeatureFlag(resourceResponse.resource);
+      }
     }
 
     const locations = isReadRequest(operationType)
       ? this.readableLocations
       : this.writeableLocations;
 
+    const effectiveExcludedLocations = this.getEffectiveExcludedLocations(
+      excludedLocations,
+      resourceType,
+    );
+    diagnosticNode.addData(
+      { excludedLocations: Array.from(effectiveExcludedLocations) },
+      "excluded_locations",
+    );
+
+    // Filter locations based on exclusions
+    const availableLocations = this.filterExcludedLocations(
+      this.preferredLocations,
+      effectiveExcludedLocations,
+    );
+
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (
-      this.preferredLocations &&
-      this.preferredLocations.length > 0 &&
-      startServiceEndpointIndex < this.preferredLocations.length
+      availableLocations &&
+      availableLocations.length > 0 &&
+      startServiceEndpointIndex < availableLocations.length
     ) {
-      for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
-        const preferredLocation = this.preferredLocations[i];
+      this.preferredLocationsCount = availableLocations.length;
+
+      for (let i = startServiceEndpointIndex; i < availableLocations.length; i++) {
+        const preferredLocation = availableLocations[i];
         location = locations.find(
           (loc) =>
             loc.unavailable !== true &&
@@ -188,7 +298,9 @@ export class GlobalEndpointManager {
         ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
-        return loc.unavailable !== true;
+        return (
+          loc.unavailable !== true && !effectiveExcludedLocations.has(normalizeEndpoint(loc.name))
+        );
       });
     }
 
@@ -208,6 +320,9 @@ export class GlobalEndpointManager {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
+        if (this.enablePartitionLevelFailover) {
+          this.refreshPPAFFeatureFlag(databaseAccount);
+        }
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
       }
@@ -216,18 +331,24 @@ export class GlobalEndpointManager {
   }
 
   private refreshEndpoints(databaseAccount: DatabaseAccount): void {
-    for (const location of databaseAccount.writableLocations) {
-      const existingLocation = this.writeableLocations.find((loc) => loc.name === location.name);
-      if (!existingLocation) {
-        this.writeableLocations.push(location);
+    const oldWritableLocations = this.writeableLocations;
+    const oldReadableLocations = this.readableLocations;
+
+    function merge(loc: Location, oldList: Location[]): Location {
+      const prev = oldList.find((o) => o.name === loc.name);
+      if (prev) {
+        loc.unavailable = prev.unavailable;
+        loc.lastUnavailabilityTimestampInMs = prev.lastUnavailabilityTimestampInMs;
       }
+      return loc;
     }
-    for (const location of databaseAccount.readableLocations) {
-      const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
-      if (!existingLocation) {
-        this.readableLocations.push(location);
-      }
-    }
+
+    this.writeableLocations = databaseAccount.writableLocations.map((loc) =>
+      merge({ ...loc }, oldWritableLocations),
+    );
+    this.readableLocations = databaseAccount.readableLocations.map((loc) =>
+      merge({ ...loc }, oldReadableLocations),
+    );
   }
 
   private refreshStaleUnavailableLocations(): void {
@@ -257,26 +378,22 @@ export class GlobalEndpointManager {
     allLocations: Location[],
   ): void {
     for (const location of unavailableLocations) {
-      const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
+      const unavailableLocation = allLocations.find((loc) => loc.name === location.name);
       if (
-        unavaialableLocation &&
-        now - unavaialableLocation.lastUnavailabilityTimestampInMs >
+        unavailableLocation &&
+        now - unavailableLocation.lastUnavailabilityTimestampInMs >
           Constants.LocationUnavailableExpirationTimeInMs
       ) {
-        unavaialableLocation.unavailable = false;
+        unavailableLocation.unavailable = false;
       }
     }
   }
 
   private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
     return unavailableLocations.filter((loc) => {
-      if (
-        loc &&
-        now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
-      ) {
-        return false;
-      }
-      return true;
+      return (
+        now - loc.lastUnavailabilityTimestampInMs < Constants.LocationUnavailableExpirationTimeInMs
+      );
     });
   }
 
@@ -358,8 +475,34 @@ export class GlobalEndpointManager {
 
     return null;
   }
-}
 
-function normalizeEndpoint(endpoint: string): string {
-  return endpoint.split(" ").join("").toLowerCase();
+  /**
+   * Checks for changes in PPAF enablement status and raises events if they have changed.
+   * It also manages circuit breaker timer state.
+   * @internal
+   */
+  private refreshPPAFFeatureFlag(databaseAccount: DatabaseAccount): void {
+    let shouldEnableCircuitBreakerTimer = false;
+    if (this.enablePartitionLevelCircuitBreaker) {
+      // If PPCB is enabled in connection policy, always run circuit breaker
+      shouldEnableCircuitBreakerTimer = true;
+    } else {
+      // If PPCB is disabled, circuit breaker timer depends on PPAF flags
+      if (!this.enablePartitionLevelFailover) {
+        // If PPAF is disabled in connection policy, don't run circuit breaker ever.
+        shouldEnableCircuitBreakerTimer = false;
+      } else {
+        shouldEnableCircuitBreakerTimer =
+          databaseAccount.enablePerPartitionFailover ?? this.lastKnownPPAFEnabled ?? false;
+      }
+    }
+
+    this.lastKnownPPAFEnabled = databaseAccount.enablePerPartitionFailover;
+
+    // Only trigger callback if the circuit breaker timer state has changed
+    if (this.lastKnownPPCBEnabled !== shouldEnableCircuitBreakerTimer) {
+      this.lastKnownPPCBEnabled = shouldEnableCircuitBreakerTimer;
+      this.onEnablePartitionLevelFailoverConfigChanged?.(shouldEnableCircuitBreakerTimer);
+    }
+  }
 }

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ConfidentialLedgerClient } = require("@azure/arm-confidentialledger");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Backs up a Managed CCF Resource.
  *
  * @summary Backs up a Managed CCF Resource.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Backup.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ManagedCCF_Backup.json
  */
 async function managedCcfBackup() {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function managedCcfBackup() {
 }
 
 async function main() {
-  managedCcfBackup();
+  await managedCcfBackup();
 }
 
 main().catch(console.error);

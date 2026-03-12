@@ -2,37 +2,32 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { RestError } from "../src/restError.js";
 
-describe("RestError", function () {
-  const request: PipelineRequest = {
-    url: "http://example.com/",
-    headers: createHttpHeaders(),
-  } as PipelineRequest;
-  const response: PipelineResponse = {
-    request,
-    status: 500,
-    headers: createHttpHeaders(),
-  };
+import { isRestError, RestError } from "../src/restError.js";
+import { RestError as TspRestError } from "@typespec/ts-http-runtime";
 
-  it("Request and response properties are accessible", function () {
-    const error = new RestError("error!", { request, response });
-    assert.strictEqual(error.request, request);
-    assert.strictEqual(error.response, response);
+describe("RestError", () => {
+  it("constructor is TypeSpec RestError", () => {
+    assert.strictEqual(RestError, TspRestError as typeof RestError);
   });
 
-  it("Request and response properties are non-enumerable", function () {
-    const error = new RestError("error!", { request, response });
-    const properties = Object.keys(error);
-    assert.notInclude(properties, "request");
-    assert.notInclude(properties, "response");
+  it("any constructed core-rest-pipeline RestError is a TypeSpec RestError", () => {
+    const error = new RestError("test error");
+    assert.instanceOf(error, TspRestError);
   });
 
-  it("Request and response properties do not appear in JSON serialization", function () {
-    const error = new RestError("error!", { request, response });
-    const json = JSON.stringify(error);
-    assert.equal(json, `{"name":"RestError"}`);
+  it("any constructed TypeSpec RestError is a core-rest-pipeline RestError", () => {
+    const tspError = new TspRestError("test error");
+    assert.instanceOf(tspError, RestError);
+  });
+
+  it("isRestError is true for core-rest-pipeline RestError", () => {
+    const error = new RestError("test error");
+    assert.isTrue(isRestError(error));
+  });
+
+  it("isRestError is true for TypeSpec RestError", () => {
+    const tspError = new TspRestError("test error");
+    assert.isTrue(isRestError(tspError));
   });
 });

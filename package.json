@@ -1,0 +1,39 @@
+{
+  "name": "@azure/monorepo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "build:test": "turbo run build:test",
+    "build:samples": "turbo run build:samples",
+    "clean": "turbo run clean",
+    "check-format": "turbo run check-format",
+    "cspell": "cspell --no-progress .",
+    "format": "turbo run format",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "preinstall": "npx only-allow pnpm",
+    "purge": "rimraf --glob \"sdk/**/node_modules/\"",
+    "test": "turbo run test",
+    "test:node": "turbo run test:node",
+    "test:browser": "turbo run test:browser",
+    "test:esm": "turbo run test:esm",
+    "test:vitest": "vitest",
+    "update-snippets": "turbo run update-snippets"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.4",
+    "cspell": "^9.6.4",
+    "prettier-plugin-packagejson": "^2.5.22",
+    "rimraf": "^6.1.3",
+    "turbo": "^2.8.9"
+  },
+  "packageManager": "pnpm@10.24.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10.24.0"
+  },
+  "pnpm": {
+    "overrides": {}
+  }
+}

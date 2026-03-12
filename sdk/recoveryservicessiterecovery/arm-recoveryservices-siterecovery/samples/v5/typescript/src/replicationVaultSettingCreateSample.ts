@@ -19,16 +19,16 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to configure vault setting.
  *
  * @summary The operation to configure vault setting.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultSetting_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationVaultSetting_Create.json
  */
 async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceName = "vault1";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
     "resourceGroupPS1";
+  const resourceName = "vault1";
   const vaultSettingName = "default";
   const input: VaultSettingCreationInput = {
     properties: {
@@ -39,8 +39,8 @@ async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIs
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationVaultSetting.beginCreateAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     vaultSettingName,
     input,
   );
@@ -48,7 +48,7 @@ async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIs
 }
 
 async function main(): Promise<void> {
-  updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault();
+  await updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault();
 }
 
 main().catch(console.error);

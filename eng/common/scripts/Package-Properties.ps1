@@ -22,6 +22,10 @@ class PackageProps {
     [HashTable]$ArtifactDetails
     [HashTable]$CIParameters
 
+    # Path from root of azure-rest-api-specs repo to spec project (read from
+    # tsp-location.yaml if it exists in the package directory)
+    [string]$SpecProjectPath
+
     PackageProps([string]$name, [string]$version, [string]$directoryPath, [string]$serviceDirectory) {
         $this.Initialize($name, $version, $directoryPath, $serviceDirectory)
     }
@@ -59,6 +63,13 @@ class PackageProps {
         }
         else {
             $this.ChangeLogPath = $null
+        }
+
+        if (Test-Path (Join-Path $directoryPath 'tsp-location.yaml')) {
+            $tspLocation = LoadFrom-Yaml (Join-Path $directoryPath 'tsp-location.yaml')
+            if ($tspLocation -and $tspLocation.directory) {
+                $this.SpecProjectPath = $tspLocation.directory
+            }
         }
 
         $this.CIParameters = @{"CIMatrixConfigs" = @()}
@@ -219,16 +230,30 @@ class PackageProps {
 # Returns important properties of the package relative to the language repo
 # Returns a PS Object with properties @ { pkgName, pkgVersion, pkgDirectoryPath, pkgReadMePath, pkgChangeLogPath }
 # Note: python is required for parsing python package properties.
+# GroupId is optional and is used to filter packages for languages that support group identifiers (e.g., Java).
+# When GroupId is provided, the function will match both the package name and the group ID.
 function Get-PkgProperties {
     Param
     (
         [Parameter(Mandatory = $true)]
         [string]$PackageName,
-        [string]$ServiceDirectory
+        [string]$ServiceDirectory,
+        [string]$GroupId
     )
 
+    Write-Host "Get-PkgProperties called with PackageName: [$PackageName], ServiceDirectory: [$ServiceDirectory], GroupId: [$GroupId]"
+
     $allPkgProps = Get-AllPkgProperties -ServiceDirectory $ServiceDirectory
-    $pkgProps = $allPkgProps.Where({ $_.Name -eq $PackageName -or $_.ArtifactName -eq $PackageName });
+    
+    if ([string]::IsNullOrEmpty($GroupId)) {
+        $pkgProps = $allPkgProps.Where({ $_.Name -eq $PackageName -or $_.ArtifactName -eq $PackageName });
+    }
+    else {
+        $pkgProps = $allPkgProps.Where({ 
+            ($_.Name -eq $PackageName -or $_.ArtifactName -eq $PackageName) -and 
+            ($_.PSObject.Properties.Name -contains "Group" -and $_.Group -eq $GroupId)
+        });
+    }
 
     if ($pkgProps.Count -ge 1) {
         if ($pkgProps.Count -gt 1) {
@@ -237,7 +262,12 @@ function Get-PkgProperties {
         return $pkgProps[0]
     }
 
-    LogError "Failed to retrieve Properties for [$PackageName]"
+    if ([string]::IsNullOrEmpty($GroupId)) {
+        LogError "Failed to retrieve Properties for [$PackageName]"
+    }
+    else {
+        LogError "Failed to retrieve Properties for [$PackageName] with GroupId [$GroupId]. Ensure the package has a Group property matching the specified GroupId."
+    }
     return $null
 }
 
@@ -288,7 +318,11 @@ function Update-TargetedFilesForTriggerPaths([string[]]$TargetedFiles, [string[]
 
         for ($i = 0; $i -lt $Triggers.Count; $i++) {
             $triggerPath = $Triggers[$i]
-            if ($triggerPath -and $file -eq "$triggerPath") {
+            # targeted files comes from the `changedPaths` property of the diff, which is
+            # a list of relative file paths from root. Not starting with a /.
+            # However, the triggerPaths are absolute paths, so we need to resolve the targeted file
+            # to the same format
+            if ($triggerPath -and "/$file" -eq "$triggerPath") {
                 $isExistingTriggerPath = $true
                 break
             }
@@ -364,9 +398,9 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
 
     # this is the primary loop that identifies the packages that have changes
     foreach ($pkg in $allPackageProperties) {
-        Write-Host "Processing changed files against $($pkg.Name). $pkgCounter of $($allPackageProperties.Count)."
-        $pkgDirectory = Resolve-Path "$($pkg.DirectoryPath)"
-        $lookupKey = ($pkg.DirectoryPath).Replace($RepoRoot, "").TrimStart('\/')
+        Write-Verbose "Processing changed files against $($pkg.Name). $pkgCounter of $($allPackageProperties.Count)."
+        $pkgDirectory = (Resolve-Path "$($pkg.DirectoryPath)").Path.Replace("`\", "/")
+        $lookupKey = $pkgDirectory.Replace($RepoRoot, "").TrimStart('\/')
         $lookup[$lookupKey] = $pkg
 
         # we only honor the individual artifact triggers
@@ -380,24 +414,26 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
         }
 
         foreach ($file in $targetedFiles) {
-            $filePath = (Join-Path $RepoRoot $file)
+            $filePath = (Join-Path $RepoRoot $file).Replace("`\", "/")
 
             # handle direct changes to packages
-            $shouldInclude = $filePath -eq $pkgDirectory -or $filePath -like (Join-Path "$pkgDirectory" "*")
+            $shouldInclude = $filePath -eq $pkgDirectory -or $filePath -like "$pkgDirectory/*"
+
+            $includeMsg = "Including '$($pkg.Name)' because of changed file '$filePath'."
 
             # we only need to do additional work for indirect packages if we haven't already decided
             # to include this package due to this file
             if (-not $shouldInclude) {
                 # handle changes to files that are RELATED to each package
                 foreach($triggerPath in $triggeringPaths) {
-                    $resolvedRelativePath = (Join-Path $RepoRoot $triggerPath)
+                    $resolvedRelativePath = (Join-Path $RepoRoot $triggerPath).Replace("`\", "/")
                     # triggerPaths can be direct files, so we need to check both startswith and direct equality
-                    $includedForValidation = ($filePath -like (Join-Path "$resolvedRelativePath" "*") -or $filePath -eq $resolvedRelativePath)
+                    $includedForValidation = ($filePath -like ("$resolvedRelativePath/*") -or $filePath -eq $resolvedRelativePath)
                     $shouldInclude = $shouldInclude -or $includedForValidation
                     if ($includedForValidation) {
-                        $pkg.IncludedForValidation = $true
+                        $includeMsg += " - (triggerPath: '$triggerPath')"
+                        break
                     }
-                    break
                 }
 
                 # handle service-level changes to the ci.yml files
@@ -406,7 +442,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
                 # there is a single ci.yml in that directory, we can assume that any file change in that directory
                 # will apply to all packages that exist in that directory.
                 $triggeringCIYmls = $triggeringPaths | Where-Object { $_ -like "*ci*.yml" }
-
                 foreach($yml in $triggeringCIYmls) {
                     # given that this path is coming from the populated triggering paths in the artifact,
                     # we can assume that the path to the ci.yml will successfully resolve.
@@ -414,12 +449,15 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
                     # ensure we terminate the service directory with a /
                     $directory = [System.IO.Path]::GetDirectoryName($ciYml).Replace("`\", "/")
 
-                    # we should only continue with this check if the file being changed is "in the service directory"
-                    # files that are directly included in triggerPaths will kept in full form, but otherwise we pre-process the targetedFiles to the
-                    # directory containing the change. Given that pre-process, we should check both direct equality (when not triggeringPath) and parent directory
-                    # for the case where the full form of the file has been left behind (because it was a triggeringPath)
-                    $serviceDirectoryChange = (Split-Path $filePath -Parent).Replace("`\", "/") -eq $directory -or $filePath.Replace("`\", "/") -eq $directory
-                    if (!$serviceDirectoryChange) {
+                    # this filepath doesn't apply to this service directory at all, so we can break out of this loop
+                    if (-not $filePath.StartsWith("$directory/")) {
+                        break
+                    }
+
+                    $relative = $filePath.SubString($directory.Length + 1)
+
+                    if ($relative.Contains("/") -or -not [IO.Path]::GetExtension($relative)){
+                        # this is a bare folder OR exists deeper than the service directory, so we can skip
                         break
                     }
 
@@ -433,22 +471,18 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
                         $directoryIndex[$directory] = $soleCIYml
                     }
 
-                    if ($soleCIYml -and $filePath.Replace("`\", "/").StartsWith($directory)) {
+                    if ($soleCIYml -and $filePath.StartsWith($directory)) {
                         if (-not $shouldInclude) {
-                            $pkg.IncludedForValidation = $true
                             $shouldInclude = $true
                         }
                         break
-                    }
-                    else {
-                        # if the ci.yml is not the only file in the directory, we cannot assume that any file changed within the directory that isn't the ci.yml
-                        # should trigger this package
-                        Write-Host "Skipping adding package for file `"$file`" because the ci yml `"$yml`" is not the only file in the service directory `"$directory`""
                     }
                 }
             }
 
             if ($shouldInclude) {
+
+                LogInfo $includeMsg
                 $packagesWithChanges += $pkg
 
                 if ($pkg.AdditionalValidationPackages) {
@@ -475,6 +509,7 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
 
             if ($pkg.Name -notin $existingPackageNames) {
                 $pkg.IncludedForValidation = $true
+                LogInfo "Including '$($pkg.Name)' for validation only because it is a dependency of another package."
                 $packagesWithChanges += $pkg
             }
         }
@@ -483,7 +518,11 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
     # now pass along the set of packages we've identified, the diff itself, and the full set of package properties
     # to locate any additional packages that should be included for validation
     if ($AdditionalValidationPackagesFromPackageSetFn -and (Test-Path "Function:$AdditionalValidationPackagesFromPackageSetFn")) {
-        $packagesWithChanges += &$AdditionalValidationPackagesFromPackageSetFn $packagesWithChanges $diff $allPackageProperties
+        $additionalPackages = &$AdditionalValidationPackagesFromPackageSetFn $packagesWithChanges $diff $allPackageProperties
+        $packagesWithChanges += $additionalPackages
+        foreach ($pkg in $additionalPackages) {
+            LogInfo "Including '$($pkg.Name)' from the additional validation package set."
+        }
     }
 
     # finally, if we have gotten all the way here and we still don't have any packages, we should include the template service
@@ -547,4 +586,26 @@ function Get-PkgPropsForEntireService ($serviceDirectoryPath) {
     }
 
     return $projectProps
+}
+
+# Get the full package name based on packageInfo properties
+# Returns Group+ArtifactName if Group exists and has a value, otherwise returns Name
+# If UseColonSeparator switch is enabled, returns Group:ArtifactName format (colon separator)
+function Get-FullPackageName {
+    param (
+        [Parameter(Mandatory=$true)]
+        [PSCustomObject]$PackageInfo,
+        [switch]$UseColonSeparator
+    )
+    
+    if ($PackageInfo.PSObject.Members.Name -contains "Group") {
+        $groupId = $PackageInfo.Group
+        if ($groupId) {
+            if ($UseColonSeparator) {
+                return "${groupId}:$($PackageInfo.Name)"
+            }
+            return "${groupId}+$($PackageInfo.Name)"
+        }
+    }
+    return $PackageInfo.Name
 }

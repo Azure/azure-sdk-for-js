@@ -12,11 +12,12 @@ import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
 import { QueryRange } from "../../routing/index.js";
 import { FeedRangeInternal } from "./FeedRange.js";
 import { hashV2PartitionKey } from "../../utils/hashing/v2.js";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import { EncryptionProcessor } from "../../encryption/index.js";
+import type { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { EncryptionProcessor } from "../../encryption/index.js";
 import { ChangeFeedMode } from "./ChangeFeedMode.js";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { FeedOptions } from "../../request/FeedOptions.js";
 
 /**
  * @hidden
@@ -110,6 +111,9 @@ export function buildInternalChangeFeedOptions(
   internalCfOptions.sessionToken = options?.sessionToken;
   internalCfOptions.continuationToken = continuationToken;
   internalCfOptions.changeFeedMode = options?.changeFeedMode;
+  internalCfOptions.excludedLocations = options?.excludedLocations;
+  internalCfOptions.priorityLevel = options?.priorityLevel;
+  internalCfOptions.throughputBucket = options?.throughputBucket;
   // Default option of changefeed is to start from now.
   if (startFromNow) {
     internalCfOptions.startFromNow = true;
@@ -188,4 +192,65 @@ export async function decryptChangeFeedResponse(
     }
   }
   diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation, count);
+}
+
+/**
+ * @hidden
+ *  Logic for building FeedOptions from change feed iterator options
+ */
+export function buildFeedOptions(
+  changeFeedOptions: InternalChangeFeedIteratorOptions,
+  continuationToken?: string,
+  startFromNow?: boolean,
+  startTime?: string,
+): FeedOptions {
+  const feedOptions: FeedOptions = {
+    initialHeaders: {},
+    useLatestVersionFeed: true,
+    useAllVersionsAndDeletesFeed: false,
+  };
+
+  if (typeof changeFeedOptions.maxItemCount === "number") {
+    feedOptions.maxItemCount = changeFeedOptions.maxItemCount;
+  }
+
+  if (changeFeedOptions.sessionToken) {
+    feedOptions.sessionToken = changeFeedOptions.sessionToken;
+  }
+
+  if (changeFeedOptions.excludedLocations) {
+    feedOptions.excludedLocations = changeFeedOptions.excludedLocations;
+  }
+
+  if (continuationToken) {
+    feedOptions.accessCondition = {
+      type: Constants.HttpHeaders.IfNoneMatch,
+      condition: continuationToken,
+    };
+  } else if (startFromNow) {
+    feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+      Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
+  }
+
+  if (startTime) {
+    feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = startTime;
+  }
+
+  if (
+    changeFeedOptions.changeFeedMode &&
+    changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
+  ) {
+    feedOptions.useAllVersionsAndDeletesFeed = true;
+    feedOptions.useLatestVersionFeed = false;
+  }
+
+  if (changeFeedOptions.throughputBucket) {
+    feedOptions.throughputBucket = changeFeedOptions.throughputBucket;
+  }
+
+  if (changeFeedOptions.priorityLevel) {
+    feedOptions.priorityLevel = changeFeedOptions.priorityLevel;
+  }
+
+  return feedOptions;
 }

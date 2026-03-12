@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/health-deidentification": ["./src/index.ts"],
+      "@azure-rest/health-deidentification/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -48,7 +48,7 @@ describe("ShareClient Node.js only", () => {
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
       fileRequestIntent: "backup",
@@ -58,7 +58,7 @@ describe("ShareClient Node.js only", () => {
     const getPermissionResp = await shareClientWithOAuthToken.getPermission(
       cResp.filePermissionKey!,
     );
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
@@ -67,7 +67,7 @@ describe("ShareClient Node.js only", () => {
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const shareClientWithOAuthToken = new ShareClient(shareClient.url, createTestCredential(), {
       audience: getFileServiceAccountAudience(getAccountName()),
@@ -78,7 +78,7 @@ describe("ShareClient Node.js only", () => {
     const getPermissionResp = await shareClientWithOAuthToken.getPermission(
       cResp.filePermissionKey!,
     );
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
@@ -87,7 +87,7 @@ describe("ShareClient Node.js only", () => {
     const directoryClient = shareClient.getDirectoryClient(directoryName);
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const token = await createTestCredential().getToken(
       "https://badaudience.file.core.windows.net/.default",
@@ -117,7 +117,7 @@ describe("ShareClient Node.js only", () => {
     const getPermissionResp = await shareClientWithOAuthToken.getPermission(
       cResp.filePermissionKey!,
     );
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
   });
 
@@ -181,11 +181,11 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -199,11 +199,11 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -214,11 +214,11 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a share name", async () => {
@@ -226,11 +226,11 @@ describe("ShareClient Node.js only", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a share name and an option bag", async () => {
@@ -242,11 +242,11 @@ describe("ShareClient Node.js only", () => {
     configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 });
 
@@ -287,21 +287,21 @@ describe("ShareClient Node.js only - OAuth", () => {
   });
 
   it("exists", async () => {
-    assert.ok(await shareClient.exists());
+    assert.isTrue(await shareClient.exists());
 
     const shareClient2 = serviceClient.getShareClient(
       recorder.variable(shareName, getUniqueName(shareName)),
     );
-    assert.ok(!(await shareClient2.exists()));
+    assert.isFalse(await shareClient2.exists());
   });
 
   it("getProperties", async () => {
     const result = await shareClient.getProperties();
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isAbove(result.etag!.length, 0);
+    assert.isDefined(result.lastModified);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("create with default parameters", () => {
@@ -313,10 +313,10 @@ describe("ShareClient Node.js only - OAuth", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const res2 = await shareClient2.createIfNotExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareAlreadyExists");
 
     await shareClient2.delete();
@@ -330,13 +330,13 @@ describe("ShareClient Node.js only - OAuth", () => {
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
-    assert.ok(res.succeeded);
+    assert.isTrue(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
       recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
     );
     const res2 = await shareClient3.deleteIfExists();
-    assert.ok(!res2.succeeded);
+    assert.isFalse(res2.succeeded);
     assert.equal(res2.errorCode, "ShareNotFound");
   });
 
@@ -375,21 +375,22 @@ describe("ShareClient Node.js only - OAuth", () => {
     const directoryClient = shareClient.getDirectoryClient("test0");
 
     const cResp = await directoryClient.create();
-    assert.ok(cResp.filePermissionKey);
+    assert.isDefined(cResp.filePermissionKey);
 
     const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
-    assert.ok(getPermissionResp.date!);
+    assert.isDefined(getPermissionResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
-    assert.ok(getPermissionResp.requestId!);
-    assert.ok(getPermissionResp.version!);
+    assert.isDefined(getPermissionResp.permission);
+    assert.notStrictEqual(getPermissionResp.permission, "");
+    assert.isDefined(getPermissionResp.requestId!);
+    assert.isDefined(getPermissionResp.version!);
 
     const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
-    assert.ok(createPermResp.filePermissionKey!);
-    assert.ok(createPermResp.date!);
+    assert.isDefined(createPermResp.filePermissionKey!);
+    assert.isDefined(createPermResp.date!);
     assert.equal(getPermissionResp.errorCode, undefined);
-    assert.ok(createPermResp.requestId!);
-    assert.ok(createPermResp.version!);
+    assert.isDefined(createPermResp.requestId!);
+    assert.isDefined(createPermResp.version!);
   });
 
   it("setProperties", async () => {
@@ -399,7 +400,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     const getRes = await shareClient.getProperties();
 
     assert.deepStrictEqual(getRes.accessTier, accessTier);
-    assert.ok(getRes.accessTierChangeTime);
+    assert.isDefined(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
   });

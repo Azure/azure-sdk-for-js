@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-desktopvirtualization": ["./src/index.ts"],
+      "@azure/arm-desktopvirtualization/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

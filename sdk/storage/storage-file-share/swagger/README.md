@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d18a495685ccec837b72891b4deea017f62e8190/specification/storage/data-plane/Microsoft.FileStorage/stable/2025-05-05/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/be46becafeb29aa993898709e35759d3643b2809/specification/storage/data-plane/Microsoft.FileStorage/stable/2026-04-06/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,8 +20,8 @@ disable-async-iterators: true
 add-credentials: false
 core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.2"
-package-version: 12.27.0
+  "@autorest/typescript": "6.0.42"
+package-version: 12.31.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -887,25 +887,47 @@ directive:
       $["x-ms-client-name"] = "snapshotUsageBytes";
 ```
 
-### Remove structured body parameters.
+### UserDelegationKey properties
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]
+    where: $.definitions.UserDelegationKey
     transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
+      $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
+      $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+      $.properties.SignedDelegatedUserTid["x-ms-client-name"] = "signedDelegatedUserTenantId";
+```
+
+### Remove EnableSmbDirectoryLease
+
+```yaml
+directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]["responses"]["200"]["headers"]
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["put"]
     transform: >
-      delete $["x-ms-structured-body"];
-      delete $["x-ms-structured-content-length"];
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
   - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["get"]["responses"]["200"]["headers"]
     transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+      delete $["x-ms-enable-smb-directory-lease"];
   - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
+    where: $["x-ms-paths"]["/{shareName}?restype=share&comp=properties"]["put"]
     transform: >
-      delete $["x-ms-structured-body"];
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/EnableSmbDirectoryLease"))});
+  - from: swagger-document
+    where: $["definitions"]["SharePropertiesInternal"]["properties"]
+    transform: >
+      delete $["EnableSmbDirectoryLease"]
+```
+
+### Set service version to "2026-04-06"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
 ```

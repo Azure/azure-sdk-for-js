@@ -1,0 +1,3 @@
+directory: specification/monitor/Monitor.Query.Metrics
+commit: 30fe05309ba0380915a94165fc7603c79620ddd5
+repo: azure/azure-rest-api-specs

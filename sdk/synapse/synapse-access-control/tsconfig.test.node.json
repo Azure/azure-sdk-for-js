@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/synapse-access-control": ["./src/index.ts"],
+      "@azure/synapse-access-control/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

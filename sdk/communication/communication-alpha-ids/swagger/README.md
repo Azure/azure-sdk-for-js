@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-alpha-ids"
 description: Alpha IDs administration client
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.3
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./alphaids.json

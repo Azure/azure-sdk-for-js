@@ -27,7 +27,10 @@ async function main(): Promise<void> {
   } as InteractiveBrowserCredentialNodeOptions);
 
   const token = await credential.getToken("https://storage.azure.com/.default");
-  console.log("InteractiveBrowserCredential: Successfully got a token with expiry time:", token.expiresOnTimestamp);
+  console.log(
+    "InteractiveBrowserCredential: Successfully got a token with expiry time:",
+    token.expiresOnTimestamp,
+  );
 }
 
 main().catch((err) => {

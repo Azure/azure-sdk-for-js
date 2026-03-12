@@ -8,11 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import type * as coreAuth from "@azure/core-auth";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  OfferingsImpl,
   AdminKeysImpl,
   QueryKeysImpl,
   ServicesImpl,
@@ -22,9 +21,8 @@ import {
   UsagesImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations/index.js";
-import type {
+import {
   Operations,
-  Offerings,
   AdminKeys,
   QueryKeys,
   Services,
@@ -36,7 +34,7 @@ import type {
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import type {
+import {
   SearchManagementClientOptionalParams,
   UsageBySubscriptionSkuOptionalParams,
   UsageBySubscriptionSkuResponse,
@@ -45,7 +43,7 @@ import type {
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the SearchManagementClient class.
@@ -58,26 +56,12 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: SearchManagementClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: SearchManagementClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: SearchManagementClientOptionalParams | string,
-    options?: SearchManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -89,7 +73,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/3.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -139,9 +123,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-02-01-preview";
+    this.apiVersion = options.apiVersion || "2025-05-01";
     this.operations = new OperationsImpl(this);
-    this.offerings = new OfferingsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
     this.services = new ServicesImpl(this);
@@ -198,7 +181,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  offerings: Offerings;
   adminKeys: AdminKeys;
   queryKeys: QueryKeys;
   services: Services;

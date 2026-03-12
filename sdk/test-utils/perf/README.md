@@ -110,7 +110,7 @@ Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/
 
 If you would like to run all the tests at once in sequence, use the following command
 
-> `rushx test:node`
+> `pnpm test:node`
 
 ## Troubleshooting
 

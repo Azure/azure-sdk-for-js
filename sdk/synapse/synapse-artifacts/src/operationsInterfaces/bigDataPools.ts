@@ -17,13 +17,13 @@ import type {
 export interface BigDataPools {
   /**
    * List Big Data Pools
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse>;
   /**
    * Get Big Data Pool
-   * @param bigDataPoolName - The Big Data Pool name
-   * @param options - The options parameters.
+   * @param bigDataPoolName The Big Data Pool name
+   * @param options The options parameters.
    */
   get(
     bigDataPoolName: string,

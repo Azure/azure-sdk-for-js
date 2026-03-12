@@ -107,13 +107,13 @@ describe("Highlevel", () => {
         blockSize: 4 * 1024 * 1024,
         concurrency: 2,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
       });
     } catch (err: any) {}
-    assert.ok(eventTriggered);
+    assert.isDefined(eventTriggered);
   });
 
   it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async (ctx) => {
@@ -129,7 +129,7 @@ describe("Highlevel", () => {
         blockSize: 4 * 1024 * 1024,
         concurrency: 2,
         onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
+          assert.isDefined(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
         },
@@ -203,7 +203,7 @@ describe("Highlevel", () => {
     const buf1 = await (await downloadResponse.blobBody!).arrayBuffer();
     const buf2 = await tempFile1.arrayBuffer();
 
-    assert.ok(arrayBufferEqual(buf1, buf2));
+    assert.isTrue(arrayBufferEqual(buf1, buf2));
   });
 
   it("set tier while upload", async (ctx) => {

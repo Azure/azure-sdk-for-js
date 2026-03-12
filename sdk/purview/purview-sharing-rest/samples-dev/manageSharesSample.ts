@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to get a sent share
+ *
+ * @summary Get a sent share
+ */
+
 import type {
   InPlaceReceivedShareOutput,
   InPlaceSentShareOutput,
@@ -18,11 +24,6 @@ import createPurviewSharingClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to get a sent share
- *
- * @summary Get a sent share
- */
 async function getSentShare(client: PurviewSharingClient, sentShareId: string): Promise<void> {
   const result = await client.path("/sentShares/{sentShareId}", sentShareId).get();
 

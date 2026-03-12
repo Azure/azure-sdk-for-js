@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
+import os from "node:os";
 
 /**
  * Returns information about the platform this function is being run on.

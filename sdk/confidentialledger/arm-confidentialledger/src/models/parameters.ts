@@ -48,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-28-preview",
+    defaultValue: "2024-09-19-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -119,7 +119,7 @@ export const ledgerName: OperationURLParameter = {
   parameterPath: "ledgerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]"),
+      Pattern: new RegExp("^[^-0-9][A-Za-z0-9-]{1,33}[A-Za-z0-9]$"),
     },
     serializedName: "ledgerName",
     required: true,

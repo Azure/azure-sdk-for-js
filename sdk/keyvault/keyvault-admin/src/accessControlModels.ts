@@ -2,15 +2,22 @@
 // Licensed under the MIT License.
 
 import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
-import {
+import type {
   DataAction as KeyVaultDataAction,
   RoleScope as KeyVaultRoleScope,
+} from "./models/models.js";
+import {
   KnownDataAction as KnownKeyVaultDataAction,
   KnownRoleScope as KnownKeyVaultRoleScope,
-} from "./generated/index.js";
+} from "./models/models.js";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
-export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
+export {
+  type KeyVaultDataAction,
+  type KeyVaultRoleScope,
+  KnownKeyVaultDataAction,
+  KnownKeyVaultRoleScope,
+};
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient

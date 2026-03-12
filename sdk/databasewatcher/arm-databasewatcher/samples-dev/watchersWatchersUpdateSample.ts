@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update a Watcher
  *
  * @summary update a Watcher
  * x-ms-original-file: 2025-01-02/Watchers_Update_MaximumSet_Gen.json
  */
+
+import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function watchersUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";

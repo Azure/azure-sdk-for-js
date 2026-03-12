@@ -2,30 +2,33 @@
 // Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-export { AnonymousCredential } from "@azure/storage-blob";
-export { Credential } from "@azure/storage-blob";
-export { SasIPRange } from "./SasIPRange.js";
+export type { SasIPRange } from "./SasIPRange.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  ServiceClientOptions,
+  type StoragePipelineOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
-export { BaseRequestPolicy } from "@azure/storage-blob";
-export { AnonymousCredentialPolicy } from "@azure/storage-blob";
-export { CredentialPolicy } from "@azure/storage-blob";
-export { StorageRetryPolicyFactory } from "@azure/storage-blob";
-export { StorageBrowserPolicyFactory } from "@azure/storage-blob";
-export { Metadata } from "./models.js";
+export {
+  AnonymousCredential,
+  BaseRequestPolicy,
+  Credential,
+  AnonymousCredentialPolicy,
+  CredentialPolicy,
+  StorageRetryPolicyFactory,
+  StorageBrowserPolicyFactory,
+  type UserDelegationKey,
+} from "@azure/storage-common";
+export type { Metadata } from "./models.js";
 export * from "./QueueClient.js";
 export * from "./QueueSASPermissions.js";
 export * from "./QueueServiceClient.js";
-export { CommonOptions } from "./StorageClient.js";
-export * from "./generatedModels.js";
-export {
+export type { CommonOptions } from "./StorageClient.js";
+export type * from "./generatedModels.js";
+export type {
   WithResponse,
   ResponseLike,
   ResponseWithBody,

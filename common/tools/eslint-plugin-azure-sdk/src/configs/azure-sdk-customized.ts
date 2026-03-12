@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
-import { fixupPluginRules } from "@eslint/compat";
+import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -11,6 +11,11 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
   "@typescript-eslint/no-require-imports": "error",
   "@typescript-eslint/consistent-type-imports": "warn",
+  "@typescript-eslint/consistent-type-exports": "off",
+  "@azure/azure-sdk/ts-consistent-type-exports": [
+    "error",
+    { fixMixedExportsWithInlineTypeSpecifier: true },
+  ],
   "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
   "@typescript-eslint/explicit-module-boundary-types": ["error"],
   "@typescript-eslint/no-redeclare": ["error", { builtinGlobals: true }],
@@ -80,6 +85,7 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-naming-options": "error",
   "@azure/azure-sdk/ts-naming-subclients": "error",
   "@azure/azure-sdk/ts-no-const-enums": "warn",
+  "@azure/azure-sdk/ts-no-invalid-test-imports": "off",
   "@azure/azure-sdk/ts-no-window": "error",
   "@azure/azure-sdk/ts-package-json-author": "error",
   "@azure/azure-sdk/ts-package-json-bugs": "error",
@@ -147,7 +153,7 @@ const noOnlyTestsCustomization = {
 const tsdocCustomization = {
   name: "tsdoc-azsdk-customized",
   plugins: {
-    tsdoc: fixupPluginRules(tsdoc),
+    tsdoc: fixupPluginRules(tsdoc as FixupPluginDefinition),
   },
   rules: {
     "tsdoc/syntax": "error",
@@ -211,6 +217,12 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     rules: {
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: ["**/src/**/*.ts"],
+    rules: {
+      "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
     },
   },
 ];

@@ -3,9 +3,12 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  ServiceConfigurationResource,
-  ServiceConfigurationResourcePatch,
-} from "../../models/models.js";
+  listByEndpointResource,
+  $delete,
+  update,
+  createOrupdate,
+  get,
+} from "../../api/serviceConfigurations/operations.js";
 import {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
@@ -14,12 +17,9 @@ import {
   ServiceConfigurationsGetOptionalParams,
 } from "../../api/serviceConfigurations/options.js";
 import {
-  listByEndpointResource,
-  $delete,
-  update,
-  createOrupdate,
-  get,
-} from "../../api/serviceConfigurations/operations.js";
+  ServiceConfigurationResource,
+  ServiceConfigurationResourcePatch,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ServiceConfigurations operations. */

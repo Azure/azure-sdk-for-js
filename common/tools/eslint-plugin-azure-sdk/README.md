@@ -20,54 +20,65 @@ To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add it to the list of
 }
 ```
 
-The ESLint plugin must be built from source as part of your package's depdendencies. The fastest way to build a single package and its dependencies is to run the command `rush build -t <package name>`. For example, to rebuild the Form Recognizer package and all of its dependencies, we run `rush build -t @azure/ai-form-recognizer`. This will rebuild `eslint-plugin-azure-sdk` if necessary and make it available for use by the package's NPM scripts.
+The ESLint plugin must be built from source as part of your package's depdendencies. The fastest way to build a single package and its dependencies is to run the command `pnpm build --filter=<package name>...`. For example, to rebuild the Form Recognizer package and all of its dependencies, we run `pnpm build --filter @azure/ai-form-recognizer...`. This will rebuild `eslint-plugin-azure-sdk` if necessary and make it available for use by the package's NPM scripts.
 
-**You must rebuild `eslint-plugin-azure-sdk` after making changes to its own source files,** either using `rush build` as described above, or by entering the `common/tools/eslint-plugin-azure-sdk` directory (this directory) and running `rushx build`. Since the plugin is linked internally as part of our monorepo, the package does not need to be installed again after it is rebuilt.
+**You must rebuild `eslint-plugin-azure-sdk` after making changes to its own source files,** either using `pnpm build` as described above, or by entering the `common/tools/eslint-plugin-azure-sdk` directory (this directory) and running `pnpm build`. Since the plugin is linked internally as part of our monorepo, the package does not need to be installed again after it is rebuilt.
 
 See [the contribution guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) for more details about contributing to the azure-sdk-for-js repository.
 
 ## Configuration
 
-ESLint will automatically use the configuration file `sdk/.eslintrc.json` as explained in the [docs](https://eslint.org/docs/user-guide/configuring#using-configuration-files-2). Optionally, you can have a custom `.eslintrc.json` file at the same location as your `package.json` file. A very simple one looks as follows: (note that the path to the base `.eslintrc.json` file may be different)
+This plugin uses ESLint's [flat config](https://eslint.org/docs/latest/use/configure/configuration-files) format. Create an `eslint.config.mjs` file at the root of your package directory.
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
-  }
-}
+### Basic Usage
+
+The simplest way to use this plugin is with the `config()` helper function:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config();
 ```
 
-If the main TypeScript entrypoint to your package is not in `src/index.ts`, set `settings.main` in your `.eslintrc` configuration file to the entrypoint as follows (for example, if the entrypoint is `index.ts`):
+### With Custom Rules
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+You can pass custom configurations to extend or override the recommended settings:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config([
+  {
+    rules: {
+      "@azure/azure-sdk/ts-config-moduleresolution": "off",
+    },
   },
-  "settings": {
-    "main": "index.ts"
-  }
-}
+]);
 ```
 
-If you need to modify or disable specific rules, you can do so in the `rules` section of your `.eslintrc` configuration file. For example, if you are not targeting Node, disable `ts-config-moduleresolution` as follows:
+### Available Configs
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+- `azsdkEslint.configs.recommended` - Recommended rules for Azure SDK packages
+- `azsdkEslint.configs.recommendedTypeChecked` - Recommended rules with type-checked linting enabled
+- `azsdkEslint.configs.internal` - Configuration for internal/utility packages
+
+### Custom Entry Point
+
+If the main TypeScript entrypoint to your package is not in `src/index.ts`, set `settings.main` in your configuration:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config([
+  {
+    settings: {
+      main: "index.ts",
+    },
   },
-  "rules": {
-    "@azure/azure-sdk/ts-config-moduleresolution": "off"
-  }
-}
+]);
 ```
 
 Some rules (see table below) are fixable using the `--fix` ESLint option (added in `1.3.0`).
@@ -118,3 +129,4 @@ Some rules (see table below) are fixable using the `--fix` ESLint option (added 
 | [**ts-use-interface-parameters**](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-use-interface-parameters.md)             | :warning:                 | :x:                | `1.1.0` |
 | [**ts-use-promises**](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-use-promises.md)                                     | :triangular_flag_on_post: | :x:                | `1.1.0` |
 | [**ts-versioning-semver**](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-versioning-semver.md)                           | :triangular_flag_on_post: | :x:                | `1.1.0` |
+| [**ts-use-cjs-polyfill**](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-use-cjs-polyfill.md)                             | :triangular_flag_on_post: | :x:                | `1.1.0` |

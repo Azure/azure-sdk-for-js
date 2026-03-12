@@ -26,7 +26,7 @@ import { fileURLToPath } from "node:url";
 
 const endpoint =
   process.env["DOCUMENT_TRANSLATION_ENDPOINT"] ||
-  "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+  "https://<translator-instance>.cognitiveservices.azure.com";
 const blobEndpoint =
   process.env["STORAGE_BLOB_ENDPOINT"] || "https://<storage-account-name>.blob.core.windows.net";
 const fileUrl =

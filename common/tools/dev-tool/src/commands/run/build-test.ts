@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import { cpSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
-import { resolveConfig } from "../../util/resolveTsConfig";
+import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig";
 import { spawnSync } from "node:child_process";
 
 const log = createPrinter("build-test");
@@ -22,11 +23,57 @@ export const commandInfo = makeCommandInfo("build-test", "build a package for te
     default: "tsconfig.browser.config.json",
     description: "path to the browser config file",
   },
+  "node-config": {
+    kind: "string",
+    default: "tsconfig.test.node.json",
+    description: "path to the node config file",
+  },
 });
+
+async function validateConfigFile(configPath: string): Promise<boolean> {
+  try {
+    const configStat = await stat(configPath);
+    if (!configStat.isFile()) {
+      log.error(`The path ${configPath} is not a file.`);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function findAndRunTypeScriptConfig(
+  config: string,
+  fallbackConfig: string,
+): Promise<boolean> {
+  const configsToTry = [config, fallbackConfig];
+
+  for (const config of configsToTry) {
+    if (await validateConfigFile(config)) {
+      if (!(await runTypeScript(config))) {
+        return false;
+      }
+      log.info(`Typechecking succeeded using ${config}`);
+      return true;
+    }
+  }
+
+  log.error(
+    `No valid TypeScript config found. Please provide a valid config file using --node-config or ensure ${config} or ${fallbackConfig} exists.`,
+  );
+  return false;
+}
 
 export default leafCommand(commandInfo, async (options) => {
   const browserTest = options["browser-test"];
   const browserConfig = options["browser-config"];
+  const nodeConfig = options["node-config"];
+  const defaultConfig = "tsconfig.test.json";
+
+  if (!browserTest && !(await findAndRunTypeScriptConfig(nodeConfig, defaultConfig))) {
+    return false;
+  }
 
   const info = await resolveProject(process.cwd());
 
@@ -73,25 +120,33 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   if (browserTest) {
-    // Test for valid file
-    if (!existsSync(browserConfig)) {
-      log.error(`The file ${browserConfig} does not exist.`);
-      return false;
-    }
-
-    const browserConfigStat = statSync(browserConfig);
-    if (!browserConfigStat.isFile()) {
-      log.error(`The file ${browserConfig} does not exist.`);
+    if (!(await validateConfigFile(browserConfig))) {
+      log.error(`The browser config file ${browserConfig} does not exist.`);
       return false;
     }
 
     log.info(`Building for browser testing...`);
-    const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
-    await compileForEnvironment("browser", browserConfig, importMap, esmMap);
+    const esmMap = overrides.get("esm")?.map ?? new Map<string, string>();
+    return compileForEnvironment("browser", browserConfig, importMap, esmMap);
   }
 
   return true;
 });
+
+async function runTypeScript(tsConfig: string): Promise<boolean> {
+  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
+    stdio: "inherit",
+    shell: true,
+    cwd: process.cwd(),
+  });
+
+  if (res.status || res.signal) {
+    log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
+    return false;
+  }
+
+  return true;
+}
 
 async function compileForEnvironment(
   type: string,
@@ -100,8 +155,8 @@ async function compileForEnvironment(
   overrideMap: Map<string, string>,
 ): Promise<boolean> {
   const tsconfigPath = path.join(process.cwd(), tsConfig);
-  const tsConfigJSON = await resolveConfig(tsconfigPath);
-  const outputPath = tsConfigJSON.compilerOptions.outDir;
+  const resolvedConfig = await resolveConfig(tsconfigPath);
+  const outputPath = resolvedConfig.config.compilerOptions.outDir;
   if (!existsSync(tsconfigPath)) {
     log.error(`TypeScript config ${tsConfig} does not exist`);
     return false;
@@ -128,23 +183,40 @@ async function compileForEnvironment(
   };
   writeFileSync(path.join(browserTestPath, "package.json"), JSON.stringify(packageJson, null, 2));
 
-  const res = spawnSync(`tsc -p ${tsConfig}`, [], {
-    stdio: "inherit",
-    shell: true,
-    cwd: process.cwd(),
-  });
-
-  if (res.status || res.signal) {
-    log.error(res);
+  if (!(await runTypeScript(tsConfig))) {
     return false;
   }
 
-  for (const [override, original] of overrideMap.entries()) {
-    log.info(`Replacing for : ${original} => ${override}`);
-    copyOverrides(type, outputPath, original);
+  // Only apply src overrides if src is included in the tsconfig
+  if (configIncludesSrc(resolvedConfig)) {
+    for (const [override, original] of overrideMap.entries()) {
+      log.info(`Replacing for : ${original} => ${override}`);
+      copyOverrides(type, outputPath, original);
+    }
+  } else {
+    log.info("Detected no src entries in tsconfig; skipping file overrides");
   }
 
   return true;
+}
+
+export function configIncludesSrc(resolvedConfig: ResolvedConfigResult): boolean {
+  const configs = [resolvedConfig.config, ...resolvedConfig.references.map((ref) => ref.config)];
+
+  for (const tsConfig of configs) {
+    const { include, files } = tsConfig;
+
+    if (include === undefined && files === undefined) {
+      return true;
+    }
+
+    const entries = [...(include ?? []), ...(files ?? [])];
+    if (entries.some((entry) => /(^|[\\/])src([\\/]|$)/.test(entry))) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function copyOverrides(type: string, rootDir: string, filePath: string): void {

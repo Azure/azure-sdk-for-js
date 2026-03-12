@@ -1,0 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  queryCarbonEmissionDataAvailableDateRange,
+  queryCarbonEmissionReports,
+} from "./operations.js";
+export {
+  type CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
+  type CarbonServiceQueryCarbonEmissionReportsOptionalParams,
+} from "./options.js";

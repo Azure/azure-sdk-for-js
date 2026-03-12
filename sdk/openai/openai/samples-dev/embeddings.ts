@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const apiVersion = "2025-03-01-preview";
+  const apiVersion = "2025-04-01-preview";
   const deployment = "text-embedding-3-large";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const embeddings = await client.embeddings.create({ input, model: "" });

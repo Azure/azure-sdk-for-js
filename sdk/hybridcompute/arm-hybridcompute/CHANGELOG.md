@@ -1,5 +1,132 @@
 # Release History
     
+## 5.0.0-beta.1 (2025-06-09)
+Compared with version 4.0.0
+    
+### Features Added
+
+  - Added operation group ExtensionMetadataV2
+  - Added operation group ExtensionPublisherOperations
+  - Added operation group ExtensionTypeOperations
+  - Added operation group Gateways
+  - Added operation group MachineRunCommands
+  - Added operation group SettingsOperations
+  - Added operation Machines.beginDelete
+  - Added operation Machines.beginDeleteAndWait
+  - Added Interface AgentVersion
+  - Added Interface AgentVersionsList
+  - Added Interface Disk
+  - Added Interface ExtensionMetadataV2GetOptionalParams
+  - Added Interface ExtensionMetadataV2ListNextOptionalParams
+  - Added Interface ExtensionMetadataV2ListOptionalParams
+  - Added Interface ExtensionPublisher
+  - Added Interface ExtensionPublisherListNextOptionalParams
+  - Added Interface ExtensionPublisherListOptionalParams
+  - Added Interface ExtensionPublisherListResult
+  - Added Interface ExtensionType
+  - Added Interface ExtensionTypeListNextOptionalParams
+  - Added Interface ExtensionTypeListOptionalParams
+  - Added Interface ExtensionTypeListResult
+  - Added Interface ExtensionValueListResultV2
+  - Added Interface ExtensionValueProperties
+  - Added Interface ExtensionValueV2
+  - Added Interface ExtensionValueV2Properties
+  - Added Interface FirmwareProfile
+  - Added Interface Gateway
+  - Added Interface GatewaysCreateOrUpdateHeaders
+  - Added Interface GatewaysCreateOrUpdateOptionalParams
+  - Added Interface GatewaysDeleteHeaders
+  - Added Interface GatewaysDeleteOptionalParams
+  - Added Interface GatewaysGetOptionalParams
+  - Added Interface GatewaysListByResourceGroupNextOptionalParams
+  - Added Interface GatewaysListByResourceGroupOptionalParams
+  - Added Interface GatewaysListBySubscriptionNextOptionalParams
+  - Added Interface GatewaysListBySubscriptionOptionalParams
+  - Added Interface GatewaysListResult
+  - Added Interface GatewaysUpdateOptionalParams
+  - Added Interface GatewayUpdate
+  - Added Interface HardwareProfile
+  - Added Interface HybridComputeManagementClientSetupExtensionsHeaders
+  - Added Interface HybridIdentityMetadata
+  - Added Interface HybridIdentityMetadataList
+  - Added Interface MachineRunCommand
+  - Added Interface MachineRunCommandInstanceView
+  - Added Interface MachineRunCommandsCreateOrUpdateHeaders
+  - Added Interface MachineRunCommandsCreateOrUpdateOptionalParams
+  - Added Interface MachineRunCommandScriptSource
+  - Added Interface MachineRunCommandsDeleteHeaders
+  - Added Interface MachineRunCommandsDeleteOptionalParams
+  - Added Interface MachineRunCommandsGetOptionalParams
+  - Added Interface MachineRunCommandsListNextOptionalParams
+  - Added Interface MachineRunCommandsListOptionalParams
+  - Added Interface MachineRunCommandsListResult
+  - Added Interface MachineRunCommandUpdate
+  - Added Interface MachinesDeleteHeaders
+  - Added Interface NetworkConfiguration
+  - Added Interface Processor
+  - Added Interface RunCommandInputParameter
+  - Added Interface RunCommandManagedIdentity
+  - Added Interface Settings
+  - Added Interface SettingsGetOptionalParams
+  - Added Interface SettingsPatchOptionalParams
+  - Added Interface SettingsUpdateOptionalParams
+  - Added Interface SetupExtensionRequest
+  - Added Interface SetupExtensionsOptionalParams
+  - Added Interface StorageProfile
+  - Added Type Alias ExecutionState
+  - Added Type Alias ExtensionMetadataV2GetResponse
+  - Added Type Alias ExtensionMetadataV2ListNextResponse
+  - Added Type Alias ExtensionMetadataV2ListResponse
+  - Added Type Alias ExtensionPublisherListNextResponse
+  - Added Type Alias ExtensionPublisherListResponse
+  - Added Type Alias ExtensionTypeListNextResponse
+  - Added Type Alias ExtensionTypeListResponse
+  - Added Type Alias GatewaysCreateOrUpdateResponse
+  - Added Type Alias GatewaysDeleteResponse
+  - Added Type Alias GatewaysGetResponse
+  - Added Type Alias GatewaysListByResourceGroupNextResponse
+  - Added Type Alias GatewaysListByResourceGroupResponse
+  - Added Type Alias GatewaysListBySubscriptionNextResponse
+  - Added Type Alias GatewaysListBySubscriptionResponse
+  - Added Type Alias GatewaysUpdateResponse
+  - Added Type Alias GatewayType
+  - Added Type Alias IdentityKeyStore
+  - Added Type Alias MachineRunCommandsCreateOrUpdateResponse
+  - Added Type Alias MachineRunCommandsDeleteResponse
+  - Added Type Alias MachineRunCommandsGetResponse
+  - Added Type Alias MachineRunCommandsListNextResponse
+  - Added Type Alias MachineRunCommandsListResponse
+  - Added Type Alias MachinesDeleteResponse
+  - Added Type Alias SettingsGetResponse
+  - Added Type Alias SettingsPatchResponse
+  - Added Type Alias SettingsUpdateResponse
+  - Added Type Alias SetupExtensionsResponse
+  - Interface Machine has a new optional parameter firmwareProfile
+  - Interface Machine has a new optional parameter hardwareProfile
+  - Interface Machine has a new optional parameter hardwareResourceId
+  - Interface Machine has a new optional parameter identityKeyStore
+  - Interface Machine has a new optional parameter storageProfile
+  - Interface Machine has a new optional parameter tpmEkCertificate
+  - Interface MachinesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface MachinesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface MachineUpdate has a new optional parameter identityKeyStore
+  - Interface MachineUpdate has a new optional parameter tpmEkCertificate
+  - Interface NetworkInterface has a new optional parameter id
+  - Interface NetworkInterface has a new optional parameter macAddress
+  - Interface NetworkInterface has a new optional parameter name
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
+  - Added Enum KnownExecutionState
+  - Added Enum KnownGatewayType
+  - Added Enum KnownIdentityKeyStore
+  - Enum KnownStatusTypes has a new value AwaitingConnection
+
+### Breaking Changes
+
+  - Removed operation Machines.delete
+  - Class HybridComputeManagementClient has a new signature
+    
+    
 ## 4.1.0-beta.1 (2024-11-12)
 Compared with version 4.0.0
     

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UserDelegationKey } from "../models.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
+import type { UserDelegationKey } from "@azure/storage-common";
 
 /**
  * Protocols for generated SAS.
@@ -60,9 +60,16 @@ export interface SASQueryParametersOptions {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
@@ -120,6 +127,14 @@ export interface SASQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  /**
+   * Keys for request headers required in generating the SAS token
+   */
+  requestHeaderKeys?: string;
+  /**
+   * Keys for query parameters required in generating the SAS token
+   */
+  requestQueryParameterKeys?: string;
 }
 
 /**
@@ -174,9 +189,16 @@ export class SASQueryParameters {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  public readonly delegatedUserObjectId?: string;
 
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
@@ -256,6 +278,12 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * The delegated user tenant id in Azure AD.
+   * Property of user delegation key.
+   */
+  private readonly signedDelegatedUserTid?: string;
+
+  /**
    * Indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
    * The depth of the directory is the number of directories beneath the root folder.
    */
@@ -288,6 +316,16 @@ export class SASQueryParameters {
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
   public readonly encryptionScope?: string;
+
+  /**
+   * Keys for request headers required in the SAS token
+   */
+  public readonly requestHeaderKeys?: string;
+
+  /**
+   * Keys for request query parameters required in the SAS token
+   */
+  public readonly requestQueryParameterKeys?: string;
 
   /**
    * Optional. IP range allowed for this SAS.
@@ -351,6 +389,9 @@ export class SASQueryParameters {
     agentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
+    delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   );
 
   /**
@@ -385,6 +426,9 @@ export class SASQueryParameters {
     agentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
+    delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   ) {
     this.version = version;
     this.signature = signature;
@@ -400,6 +444,7 @@ export class SASQueryParameters {
       this.startsOn = options.startsOn;
       this.ipRangeInner = options.ipRange;
       this.identifier = options.identifier;
+      this.delegatedUserObjectId = options.delegatedUserObjectId;
       this.resource = options.resource;
       this.cacheControl = options.cacheControl;
       this.contentDisposition = options.contentDisposition;
@@ -411,6 +456,8 @@ export class SASQueryParameters {
       this.agentObjectId = options.agentObjectId;
       this.correlationId = options.correlationId;
       this.encryptionScope = options.encryptionScope;
+      this.requestHeaderKeys = options.requestHeaderKeys;
+      this.requestQueryParameterKeys = options.requestQueryParameterKeys;
 
       if (options.userDelegationKey) {
         this.signedOid = options.userDelegationKey.signedObjectId;
@@ -419,6 +466,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
         this.signedService = options.userDelegationKey.signedService;
         this.signedVersion = options.userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid = options.userDelegationKey.signedDelegatedUserTenantId;
       }
     } else {
       this.services = services;
@@ -429,6 +477,7 @@ export class SASQueryParameters {
       this.startsOn = startsOn;
       this.ipRangeInner = ipRange;
       this.identifier = identifier;
+      this.delegatedUserObjectId = delegatedUserObjectId;
       this.resource = resource;
       this.cacheControl = cacheControl;
       this.contentDisposition = contentDisposition;
@@ -440,6 +489,8 @@ export class SASQueryParameters {
       this.agentObjectId = agentObjectId;
       this.correlationId = correlationId;
       this.encryptionScope = encryptionScope;
+      this.requestHeaderKeys = requestHeaderKeys;
+      this.requestQueryParameterKeys = requestQueryParameterKeys;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -448,6 +499,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
       }
     }
   }
@@ -475,6 +527,8 @@ export class SASQueryParameters {
       "skv", // Signed key version
       "sr",
       "sp",
+      "srh", // Request Headers
+      "srq", // Request QueryParameters
       "sig",
       "rscc",
       "rscd",
@@ -485,6 +539,8 @@ export class SASQueryParameters {
       "saoid",
       "suoid",
       "scid",
+      "sduoid", // Signed key user delegation object ID
+      "skdutid", // Signed key user delegation tenant ID
     ];
     const queries: string[] = [];
 
@@ -590,6 +646,18 @@ export class SASQueryParameters {
           break;
         case "scid":
           this.tryAppendQueryParameter(queries, param, this.correlationId);
+          break;
+        case "sduoid":
+          this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
+          break;
+        case "skdutid":
+          this.tryAppendQueryParameter(queries, param, this.signedDelegatedUserTid);
+          break;
+        case "srh": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestHeaderKeys);
+          break;
+        case "srq": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
           break;
       }
     }

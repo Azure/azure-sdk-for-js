@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions.js";
 import { FileSystemSASPermissions } from "./FileSystemSASPermissions.js";
-import type { UserDelegationKey } from "../models.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
@@ -13,6 +11,8 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
+import { UserDelegationKeyCredential, type UserDelegationKey } from "@azure/storage-common";
+import type { RequestHeaders, RequestQueryParameters } from "../models.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -107,9 +107,16 @@ export interface DataLakeSASSignatureValues {
   /**
    * Optional. The name of the access policy on the file system this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -140,6 +147,14 @@ export interface DataLakeSASSignatureValues {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+  /**
+   * Request headers used in generating a SAS token
+   */
+  requestHeaders?: RequestHeaders;
+  /**
+   * Request query parameters used in generating a SAS token
+   */
+  requestQueryParameters?: RequestQueryParameters;
 }
 
 /**
@@ -282,15 +297,28 @@ export function generateDataLakeSASQueryParametersInternal(
         sharedKeyCredential,
       );
     } else {
-      return generateBlobSASQueryParametersUDK20201206(
-        dataLakeSASSignatureValues,
-        userDelegationKeyCredential!,
-      );
+      if (version >= "2026-04-06") {
+        return generateBlobSASQueryParametersUDK20260406(
+          dataLakeSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      }
+      if (version >= "2025-07-05") {
+        return generateBlobSASQueryParametersUDK20250705(
+          dataLakeSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      } else {
+        return generateBlobSASQueryParametersUDK20201206(
+          dataLakeSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      }
     }
   }
 
   // Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields.
-  // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
+  // https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
   if (version >= "2018-11-09") {
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(
@@ -1091,6 +1119,337 @@ function generateBlobSASQueryParametersUDK20201206(
     ),
     stringToSign: stringToSign,
   };
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * IMPLEMENTATION FOR API VERSION FROM 2025-07-05.
+ *
+ * Creates an instance of SASQueryParameters.
+ *
+ * Only accepts required settings needed to create a SAS. For optional settings please
+ * set corresponding properties directly, such as permissions, startsOn.
+ *
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
+ *
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ */
+function generateBlobSASQueryParametersUDK20250705(
+  dataLakeSASSignatureValues: DataLakeSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+): { sasQueryParameter: SASQueryParameters; stringToSign: string } {
+  if (!dataLakeSASSignatureValues.permissions || !dataLakeSASSignatureValues.expiresOn) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  const version = dataLakeSASSignatureValues.version
+    ? dataLakeSASSignatureValues.version
+    : SERVICE_VERSION;
+  dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
+    dataLakeSASSignatureValues,
+    version,
+  );
+
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
+  if (dataLakeSASSignatureValues.permissions) {
+    if (dataLakeSASSignatureValues.pathName) {
+      if (dataLakeSASSignatureValues.isDirectory) {
+        verifiedPermissions = DirectorySASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString(),
+        ).toString();
+      } else {
+        verifiedPermissions = DataLakeSASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString(),
+        ).toString();
+      }
+    } else {
+      verifiedPermissions = FileSystemSASPermissions.parse(
+        dataLakeSASSignatureValues.permissions.toString(),
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    dataLakeSASSignatureValues.startsOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      : "",
+    dataLakeSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      dataLakeSASSignatureValues.fileSystemName,
+      dataLakeSASSignatureValues.pathName,
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+    dataLakeSASSignatureValues.agentObjectId,
+    dataLakeSASSignatureValues.correlationId,
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId
+    dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId
+    dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
+    dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
+    version,
+    resource,
+    dataLakeSASSignatureValues.snapshotTime,
+    dataLakeSASSignatureValues.encryptionScope,
+    dataLakeSASSignatureValues.cacheControl,
+    dataLakeSASSignatureValues.contentDisposition,
+    dataLakeSASSignatureValues.contentEncoding,
+    dataLakeSASSignatureValues.contentLanguage,
+    dataLakeSASSignatureValues.contentType,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+
+  return {
+    sasQueryParameter: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      dataLakeSASSignatureValues.protocol,
+      dataLakeSASSignatureValues.startsOn,
+      dataLakeSASSignatureValues.expiresOn,
+      dataLakeSASSignatureValues.ipRange,
+      dataLakeSASSignatureValues.identifier,
+      resource,
+      dataLakeSASSignatureValues.cacheControl,
+      dataLakeSASSignatureValues.contentDisposition,
+      dataLakeSASSignatureValues.contentEncoding,
+      dataLakeSASSignatureValues.contentLanguage,
+      dataLakeSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      dataLakeSASSignatureValues.directoryDepth,
+      dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+      dataLakeSASSignatureValues.agentObjectId,
+      dataLakeSASSignatureValues.correlationId,
+      dataLakeSASSignatureValues.encryptionScope,
+      dataLakeSASSignatureValues.delegatedUserObjectId,
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * IMPLEMENTATION FOR API VERSION FROM 2026-04-06.
+ *
+ * Creates an instance of SASQueryParameters.
+ *
+ * Only accepts required settings needed to create a SAS. For optional settings please
+ * set corresponding properties directly, such as permissions, startsOn.
+ *
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
+ *
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ */
+function generateBlobSASQueryParametersUDK20260406(
+  dataLakeSASSignatureValues: DataLakeSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+): { sasQueryParameter: SASQueryParameters; stringToSign: string } {
+  if (!dataLakeSASSignatureValues.permissions || !dataLakeSASSignatureValues.expiresOn) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  const version = dataLakeSASSignatureValues.version
+    ? dataLakeSASSignatureValues.version
+    : SERVICE_VERSION;
+  dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
+    dataLakeSASSignatureValues,
+    version,
+  );
+
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
+  if (dataLakeSASSignatureValues.permissions) {
+    if (dataLakeSASSignatureValues.pathName) {
+      if (dataLakeSASSignatureValues.isDirectory) {
+        verifiedPermissions = DirectorySASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString(),
+        ).toString();
+      } else {
+        verifiedPermissions = DataLakeSASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString(),
+        ).toString();
+      }
+    } else {
+      verifiedPermissions = FileSystemSASPermissions.parse(
+        dataLakeSASSignatureValues.permissions.toString(),
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    dataLakeSASSignatureValues.startsOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      : "",
+    dataLakeSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      dataLakeSASSignatureValues.fileSystemName,
+      dataLakeSASSignatureValues.pathName,
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+    dataLakeSASSignatureValues.agentObjectId,
+    dataLakeSASSignatureValues.correlationId,
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId, will be added in future release.
+    dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
+    dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
+    version,
+    resource,
+    dataLakeSASSignatureValues.snapshotTime,
+    dataLakeSASSignatureValues.encryptionScope,
+    formatRequestHeadersForSasSigning(dataLakeSASSignatureValues.requestHeaders),
+    formatRequestQueryParametersForSasSigning(dataLakeSASSignatureValues.requestQueryParameters),
+    dataLakeSASSignatureValues.cacheControl,
+    dataLakeSASSignatureValues.contentDisposition,
+    dataLakeSASSignatureValues.contentEncoding,
+    dataLakeSASSignatureValues.contentLanguage,
+    dataLakeSASSignatureValues.contentType,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+
+  return {
+    sasQueryParameter: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      dataLakeSASSignatureValues.protocol,
+      dataLakeSASSignatureValues.startsOn,
+      dataLakeSASSignatureValues.expiresOn,
+      dataLakeSASSignatureValues.ipRange,
+      dataLakeSASSignatureValues.identifier,
+      resource,
+      dataLakeSASSignatureValues.cacheControl,
+      dataLakeSASSignatureValues.contentDisposition,
+      dataLakeSASSignatureValues.contentEncoding,
+      dataLakeSASSignatureValues.contentLanguage,
+      dataLakeSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      dataLakeSASSignatureValues.directoryDepth,
+      dataLakeSASSignatureValues.preauthorizedAgentObjectId,
+      dataLakeSASSignatureValues.agentObjectId,
+      dataLakeSASSignatureValues.correlationId,
+      dataLakeSASSignatureValues.encryptionScope,
+      dataLakeSASSignatureValues.delegatedUserObjectId,
+      getKeysOfRequestHeaders(dataLakeSASSignatureValues.requestHeaders),
+      getKeysOfRequestHeaders(dataLakeSASSignatureValues.requestQueryParameters),
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+function formatRequestHeadersForSasSigning(
+  requestHeaders: RequestHeaders | undefined,
+): string | undefined {
+  if (requestHeaders === undefined) {
+    return undefined;
+  }
+
+  let canonicalValue = "";
+  Object.keys(requestHeaders).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    canonicalValue = canonicalValue + key + ":" + requestHeaders[key] + "\n";
+  });
+  return canonicalValue;
+}
+
+function formatRequestQueryParametersForSasSigning(
+  queryParameters: RequestQueryParameters | undefined,
+): string | undefined {
+  if (queryParameters === undefined) {
+    return undefined;
+  }
+
+  let canonicalValue = "";
+  Object.keys(queryParameters).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key];
+  });
+  return canonicalValue;
+}
+
+function getKeysOfRequestHeaders(requestHeaders: RequestHeaders | undefined): string | undefined {
+  if (requestHeaders === undefined) {
+    return undefined;
+  }
+
+  let requestKeys = "";
+  let index = 0;
+  Object.keys(requestHeaders).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    if (index !== 0) {
+      requestKeys = requestKeys + ",";
+    }
+    index++;
+    requestKeys = requestKeys + key;
+  });
+  return requestKeys;
 }
 
 function getCanonicalName(accountName: string, containerName: string, blobName?: string): string {

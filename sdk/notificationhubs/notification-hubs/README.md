@@ -736,13 +736,13 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Notification Hubs instance. To execute the tests you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/notification-hubs`
+1. `pnpm install`
+2. `pnpm build --filter @azure/notification-hubs...`
 3. Create a .env file with these contents in the `sdk\notificationhubs\notification-hubs` folder:
    `NOTIFICATIONHUBS_CONNECTION_STRING=connection string for your Notification Hubs instance`
    `NOTIFICATION_HUB_NAME=Notification Hub name`
 4. `cd sdk\notificationhubs\notification-hubs`
-5. `rushx test`.
+5. `npm run test`.
 
 View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/test)
 folder for more details.

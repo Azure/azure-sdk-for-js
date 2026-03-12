@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
-import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
-
 /**
  * @summary How to get the copyright attribution of a certain tileset.
  */
+
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
+
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
@@ -16,7 +17,7 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
@@ -42,7 +43,7 @@ async function main(): Promise<void> {
   }
 
   console.log("Copyright attribution for microsoft.base: ");
-  await baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+  baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
 
   /** Map attribution for different tileset */
   const imageryResponse = await client.path("/map/attribution").get({
@@ -59,7 +60,7 @@ async function main(): Promise<void> {
   }
 
   console.log("Copyright attribution for microsoft.imagery: ");
-  await imageryResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+  imageryResponse.body.copyrights.forEach((copyright) => console.log(copyright));
 }
 
 main().catch((err) => {

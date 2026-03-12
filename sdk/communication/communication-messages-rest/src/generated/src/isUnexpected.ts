@@ -8,12 +8,42 @@ import type {
   SendDefaultResponse,
   ListTemplates200Response,
   ListTemplatesDefaultResponse,
+  AddParticipants207Response,
+  AddParticipantsDefaultResponse,
+  RemoveParticipants207Response,
+  RemoveParticipantsDefaultResponse,
+  ListConversations200Response,
+  ListConversationsDefaultResponse,
+  CreateConversation201Response,
+  CreateConversationDefaultResponse,
+  ListMessages200Response,
+  ListMessagesDefaultResponse,
+  SendMessage200Response,
+  SendMessageDefaultResponse,
+  AnalyzeConversation200Response,
+  AnalyzeConversationDefaultResponse,
+  GetConversation200Response,
+  GetConversationDefaultResponse,
+  DeleteConversation204Response,
+  DeleteConversationDefaultResponse,
+  TerminateConversation200Response,
+  TerminateConversationDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /messages/streams/{id}": ["200"],
   "POST /messages/notifications:send": ["202"],
   "GET /messages/channels/{channelId}/templates": ["200"],
+  "POST /messages/conversations/{conversationId}/participants:add": ["207"],
+  "POST /messages/conversations/{conversationId}/participants:remove": ["207"],
+  "GET /messages/conversations": ["200"],
+  "POST /messages/conversations": ["201"],
+  "GET /messages/conversations/{conversationId}/messages": ["200"],
+  "POST /messages/conversations/{conversationId}/messages:send": ["200"],
+  "POST /messages/conversations/{conversationId}:analyze": ["200"],
+  "GET /messages/conversations/{conversationId}": ["200"],
+  "DELETE /messages/conversations/{conversationId}": ["204"],
+  "POST /messages/conversations/{conversationId}:terminate": ["200"],
 };
 
 export function isUnexpected(
@@ -26,17 +56,79 @@ export function isUnexpected(
   response: ListTemplates200Response | ListTemplatesDefaultResponse,
 ): response is ListTemplatesDefaultResponse;
 export function isUnexpected(
+  response: AddParticipants207Response | AddParticipantsDefaultResponse,
+): response is AddParticipantsDefaultResponse;
+export function isUnexpected(
+  response: RemoveParticipants207Response | RemoveParticipantsDefaultResponse,
+): response is RemoveParticipantsDefaultResponse;
+export function isUnexpected(
+  response: ListConversations200Response | ListConversationsDefaultResponse,
+): response is ListConversationsDefaultResponse;
+export function isUnexpected(
+  response: CreateConversation201Response | CreateConversationDefaultResponse,
+): response is CreateConversationDefaultResponse;
+export function isUnexpected(
+  response: ListMessages200Response | ListMessagesDefaultResponse,
+): response is ListMessagesDefaultResponse;
+export function isUnexpected(
+  response: SendMessage200Response | SendMessageDefaultResponse,
+): response is SendMessageDefaultResponse;
+export function isUnexpected(
+  response: AnalyzeConversation200Response | AnalyzeConversationDefaultResponse,
+): response is AnalyzeConversationDefaultResponse;
+export function isUnexpected(
+  response: GetConversation200Response | GetConversationDefaultResponse,
+): response is GetConversationDefaultResponse;
+export function isUnexpected(
+  response: DeleteConversation204Response | DeleteConversationDefaultResponse,
+): response is DeleteConversationDefaultResponse;
+export function isUnexpected(
+  response:
+    | TerminateConversation200Response
+    | TerminateConversationDefaultResponse,
+): response is TerminateConversationDefaultResponse;
+export function isUnexpected(
   response:
     | GetMedia200Response
     | GetMediaDefaultResponse
     | Send202Response
     | SendDefaultResponse
     | ListTemplates200Response
-    | ListTemplatesDefaultResponse,
+    | ListTemplatesDefaultResponse
+    | AddParticipants207Response
+    | AddParticipantsDefaultResponse
+    | RemoveParticipants207Response
+    | RemoveParticipantsDefaultResponse
+    | ListConversations200Response
+    | ListConversationsDefaultResponse
+    | CreateConversation201Response
+    | CreateConversationDefaultResponse
+    | ListMessages200Response
+    | ListMessagesDefaultResponse
+    | SendMessage200Response
+    | SendMessageDefaultResponse
+    | AnalyzeConversation200Response
+    | AnalyzeConversationDefaultResponse
+    | GetConversation200Response
+    | GetConversationDefaultResponse
+    | DeleteConversation204Response
+    | DeleteConversationDefaultResponse
+    | TerminateConversation200Response
+    | TerminateConversationDefaultResponse,
 ): response is
   | GetMediaDefaultResponse
   | SendDefaultResponse
-  | ListTemplatesDefaultResponse {
+  | ListTemplatesDefaultResponse
+  | AddParticipantsDefaultResponse
+  | RemoveParticipantsDefaultResponse
+  | ListConversationsDefaultResponse
+  | CreateConversationDefaultResponse
+  | ListMessagesDefaultResponse
+  | SendMessageDefaultResponse
+  | AnalyzeConversationDefaultResponse
+  | GetConversationDefaultResponse
+  | DeleteConversationDefaultResponse
+  | TerminateConversationDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

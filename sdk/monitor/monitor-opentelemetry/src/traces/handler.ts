@@ -3,8 +3,11 @@
 
 import type { RequestOptions } from "node:http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { BufferConfig } from "@opentelemetry/sdk-trace-base";
+import {
+  AzureMonitorTraceExporter,
+  RateLimitedSampler,
+} from "@azure/monitor-opentelemetry-exporter";
+import type { BufferConfig, Sampler } from "@opentelemetry/sdk-trace-base";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type {
   HttpInstrumentationConfig,
@@ -15,7 +18,6 @@ import { MongoDBInstrumentation } from "@opentelemetry/instrumentation-mongodb";
 import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
 import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
-import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
 
 import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
@@ -36,7 +38,7 @@ export class TraceHandler {
   private _config: InternalConfig;
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
-  private _aiSampler: ApplicationInsightsSampler;
+  private _sampler: Sampler;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -47,7 +49,16 @@ export class TraceHandler {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
-    this._aiSampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+    // Check sampler precedence
+    if (this._config.sampler) {
+      this._sampler = this._config.sampler;
+    } else if (this._config.tracesPerSecond && this._config.tracesPerSecond > 0) {
+      // If tracesPerSecond is set to a positive number, use RateLimitedSampler
+      this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
+    } else {
+      // Otherwise, use PercentageSampler with samplingRatio
+      this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+    }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
@@ -61,8 +72,8 @@ export class TraceHandler {
     this._initializeInstrumentations();
   }
 
-  public getSampler(): ApplicationInsightsSampler {
-    return this._aiSampler;
+  public getSampler(): Sampler {
+    return this._sampler;
   }
 
   public getBatchSpanProcessor(): BatchSpanProcessor {
@@ -80,9 +91,11 @@ export class TraceHandler {
   /**
    * Shutdown handler
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._azureFunctionsHook.shutdown();
+    await this._batchSpanProcessor.shutdown();
+    await this._azureSpanProcessor.shutdown();
+    await this._azureExporter.shutdown();
   }
 
   /**
@@ -132,14 +145,12 @@ export class TraceHandler {
         new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
       );
     }
-    if (this._config.instrumentationOptions.redis?.enabled) {
+    if (
+      this._config.instrumentationOptions.redis?.enabled ||
+      this._config.instrumentationOptions.redis4?.enabled
+    ) {
       this._instrumentations.push(
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
-      );
-    }
-    if (this._config.instrumentationOptions.redis4?.enabled) {
-      this._instrumentations.push(
-        new Redis4Instrumentation(this._config.instrumentationOptions.redis4),
       );
     }
   }

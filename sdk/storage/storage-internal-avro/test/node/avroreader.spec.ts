@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { AvroReadableFromStream, AvroReader } from "../../src/index.js";
 import { Readable } from "node:stream";
 import { arraysEqual } from "../../src/utils/utils.common.js";
@@ -26,7 +26,7 @@ describe("AvroReader", () => {
         assert.strictEqual("adsfasdf09809dsf-=adsf", o as any),
       ), // string
       new TestCase("test_null_3.avro", (o) =>
-        assert.ok(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array)),
+        assert.isTrue(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array)),
       ), // byte[]
       new TestCase("test_null_4.avro", (o) => assert.strictEqual(1234, o as any)), // int
       new TestCase("test_null_5.avro", (o) => assert.strictEqual(1234, o as any)), // long
@@ -79,6 +79,6 @@ describe("AvroReader", () => {
         AbortErrorCaught = true;
       }
     }
-    assert.ok(AbortErrorCaught);
+    assert.isDefined(AbortErrorCaught);
   });
 });

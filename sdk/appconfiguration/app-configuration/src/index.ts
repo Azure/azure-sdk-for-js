@@ -5,7 +5,7 @@ export { AppConfigurationClient } from "./appConfigurationClient.js";
 export {
   featureFlagContentType,
   featureFlagPrefix,
-  FeatureFlagValue,
+  type FeatureFlagValue,
   isFeatureFlag,
   parseFeatureFlag,
 } from "./featureFlag.js";
@@ -14,5 +14,11 @@ export {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceValue,
+  type SecretReferenceValue,
 } from "./secretReference.js";
+export {
+  isSnapshotReference,
+  parseSnapshotReference,
+  snapshotReferenceContentType,
+  type SnapshotReferenceValue,
+} from "./snapshotReference.js";

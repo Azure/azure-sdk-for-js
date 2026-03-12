@@ -223,6 +223,15 @@ describe("snippets", () => {
     const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
   });
 
+  it("CheckConfigurationSettings", async () => {
+    // The endpoint for your App Configuration resource
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new AppConfigurationClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const pageIterator = client.checkConfigurationSettings({ keyFilter: "MyKey" }).byPage();
+  });
+
   it("ListConfigurationSettingsForSnashots", async () => {
     // The endpoint for your App Configuration resource
     const endpoint = "https://example.azconfig.io";

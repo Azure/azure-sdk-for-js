@@ -7,7 +7,7 @@
  */
 
 export interface PageInfo {
-    continuationToken?: string;
+  continuationToken?: string;
 }
 
 const pageMap = new WeakMap<object, PageInfo>();
@@ -20,20 +20,20 @@ const pageMap = new WeakMap<object, PageInfo>();
  * @returns The continuation token that can be passed into byPage() during future calls.
  */
 export function getContinuationToken(page: unknown): string | undefined {
-    if (typeof page !== "object" || page === null) {
-        return undefined;
-    }
-    return pageMap.get(page)?.continuationToken;
+  if (typeof page !== "object" || page === null) {
+    return undefined;
+  }
+  return pageMap.get(page)?.continuationToken;
 }
 
 export function setContinuationToken(
-    page: unknown,
-    continuationToken: string | undefined
+  page: unknown,
+  continuationToken: string | undefined,
 ): void {
-    if (typeof page !== "object" || page === null || !continuationToken) {
-        return;
-    }
-    const pageInfo = pageMap.get(page) ?? {};
-    pageInfo.continuationToken = continuationToken;
-    pageMap.set(page, pageInfo);
+  if (typeof page !== "object" || page === null || !continuationToken) {
+    return;
+  }
+  const pageInfo = pageMap.get(page) ?? {};
+  pageInfo.continuationToken = continuationToken;
+  pageMap.set(page, pageInfo);
 }

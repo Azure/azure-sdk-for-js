@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { type TokenCredential, getBearerTokenProvider } from "../../../src/index.js";
+import { type TokenCredential, getBearerTokenProvider } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import { delay, isPlaybackMode } from "@azure-tools/test-recorder";

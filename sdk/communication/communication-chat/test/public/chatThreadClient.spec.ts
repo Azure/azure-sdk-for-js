@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ChatClient, ChatMessage, ChatThreadClient } from "../../src/index.js";
+import type {
+  ChatClient,
+  ChatMessage,
+  ChatThreadClient,
+  NoneRetentionPolicy,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";
@@ -47,8 +53,17 @@ describe("ChatThreadClient", { skip: !isNodeLike }, () => {
 
     // Create a thread
     const request = { topic: "test topic" };
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 60,
+    };
     const options = {
       participants: [{ id: testUser }, { id: testUser2 }],
+      metadata: {
+        threadType: "primary",
+        secondaryThread: "test-id",
+      },
+      retentionPolicy: retentionPolicy,
     };
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -67,6 +82,61 @@ describe("ChatThreadClient", { skip: !isNodeLike }, () => {
 
     const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
+  });
+
+  it("successfully updates the thread retention policy to none retention policy", async function () {
+    const retentionPolicy: NoneRetentionPolicy = { kind: "none" };
+
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
+  });
+
+  it("successfully updates the thread metadata", async function () {
+    const metadata = { threadType: "secondary" };
+    await chatThreadClient.updateProperties({ metadata: metadata });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(metadata.threadType, thread.metadata?.threadType);
+    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
+  });
+
+  it("successfully updates the thread retention policy", async function () {
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(retentionPolicy.kind, thread.retentionPolicy?.kind);
+    if (thread.retentionPolicy?.kind === "threadCreationDate") {
+      assert.equal(
+        retentionPolicy.deleteThreadAfterDays,
+        thread.retentionPolicy.deleteThreadAfterDays,
+      );
+    } else {
+      assert.fail("Expected a threadCreationDate retention policy");
+    }
+  });
+
+  it("successfully updates the thread retention policy to none retention plicy by setting null", async function () {
+    const request = { topic: "test topic" };
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+
+    const chatThreadResult = await chatClient.createChatThread(request, { retentionPolicy });
+    threadId = chatThreadResult.chatThread?.id as string;
+
+    assert.equal(retentionPolicy.kind, chatThreadResult.chatThread?.retentionPolicy?.kind);
+
+    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
   });
 
   it("successfully sends a message", async () => {
@@ -103,7 +173,7 @@ describe("ChatThreadClient", { skip: !isNodeLike }, () => {
     }
 
     let pagesCount = 0;
-    const maxPageSize = 3;
+    const maxPageSize = 2;
     const receivedPagedItems: ChatMessage[] = [];
     for await (const page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;

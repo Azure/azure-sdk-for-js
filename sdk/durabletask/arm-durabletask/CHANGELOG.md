@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2025-03-25)
+## 1.0.0 (2025-09-25)
 
 ### Features Added
 
-Initial release of the Azure DurableTask package
+This is the first stable version with the package of @azure/arm-durabletask

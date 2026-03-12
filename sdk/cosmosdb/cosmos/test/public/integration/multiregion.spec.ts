@@ -123,7 +123,11 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] },
+      connectionPolicy: {
+        preferredLocations: ["Australia East"],
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {
@@ -162,12 +166,29 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
+      {
+        code: 200,
+        result: {
+          PartitionKeyRanges: [
+            {
+              minInclusive: "",
+              maxExclusive: "FF",
+            },
+          ],
+        },
+        headers: {},
+        diagnostics: getEmptyCosmosDiagnostics(),
+      },
       { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
-      connectionPolicy: { preferredLocations: ["Australia East"] },
+      connectionPolicy: {
+        preferredLocations: ["Australia East"],
+        enablePartitionLevelFailover: false,
+        enablePartitionLevelCircuitBreaker: false,
+      },
     };
     const plugins: PluginConfig[] = [
       {

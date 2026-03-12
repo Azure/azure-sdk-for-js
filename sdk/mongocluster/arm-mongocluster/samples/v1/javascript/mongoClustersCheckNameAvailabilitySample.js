@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if mongo cluster name is available for use.
  *
  * @summary check if mongo cluster name is available for use.
- * x-ms-original-file: 2024-07-01/MongoClusters_NameAvailability.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_NameAvailability.json
  */
 async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse() {
  * This sample demonstrates how to check if mongo cluster name is available for use.
  *
  * @summary check if mongo cluster name is available for use.
- * x-ms-original-file: 2024-07-01/MongoClusters_NameAvailability_AlreadyExists.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_NameAvailability_AlreadyExists.json
  */
 async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
   const credential = new DefaultAzureCredential();
@@ -39,8 +39,8 @@ async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
 }
 
 async function main() {
-  checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse();
-  checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
+  await checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse();
+  await checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
 }
 
 main().catch(console.error);

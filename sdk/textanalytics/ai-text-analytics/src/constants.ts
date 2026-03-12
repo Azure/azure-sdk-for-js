@@ -4,4 +4,4 @@
 /**
  * @internal
  */
-export const SDK_VERSION: string = "5.1.1";
+export const SDK_VERSION: string = "5.1.2";

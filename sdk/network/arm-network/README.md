@@ -6,7 +6,7 @@ Network Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-network) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -35,7 +35,7 @@ npm install @azure/arm-network
 To create a client object to access the Azure NetworkManagement API, you will need the `endpoint` of your Azure NetworkManagement resource and a `credential`. The Azure NetworkManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure NetworkManagement resource in the [Azure Portal][azure_portal].
 
-You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
 To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
@@ -72,7 +72,6 @@ const client = new NetworkManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -106,6 +105,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

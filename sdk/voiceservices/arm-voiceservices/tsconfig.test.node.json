@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-voiceservices": ["./src/index.ts"],
+      "@azure/arm-voiceservices/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

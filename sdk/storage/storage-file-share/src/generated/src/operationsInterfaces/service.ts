@@ -13,7 +13,10 @@ import {
   ServiceGetPropertiesOptionalParams,
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentOptionalParams,
-  ServiceListSharesSegmentResponse
+  ServiceListSharesSegmentResponse,
+  KeyInfo,
+  ServiceGetUserDelegationKeyOptionalParams,
+  ServiceGetUserDelegationKeyResponse,
 } from "../models/index.js";
 
 /** Interface representing a Service. */
@@ -26,7 +29,7 @@ export interface Service {
    */
   setProperties(
     properties: FileServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse>;
   /**
    * Gets the properties of a storage account's File service, including properties for Storage Analytics
@@ -34,7 +37,7 @@ export interface Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse>;
   /**
    * The List Shares Segment operation returns a list of the shares and share snapshots under the
@@ -42,6 +45,16 @@ export interface Service {
    * @param options The options parameters.
    */
   listSharesSegment(
-    options?: ServiceListSharesSegmentOptionalParams
+    options?: ServiceListSharesSegmentOptionalParams,
   ): Promise<ServiceListSharesSegmentResponse>;
+  /**
+   * Retrieves a user delegation key for the File service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo Key information
+   * @param options The options parameters.
+   */
+  getUserDelegationKey(
+    keyInfo: KeyInfo,
+    options?: ServiceGetUserDelegationKeyOptionalParams,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
 }

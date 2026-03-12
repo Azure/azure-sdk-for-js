@@ -102,7 +102,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-05-05",
+    defaultValue: "2026-04-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -684,6 +684,17 @@ export const include1: OperationQueryParameter = {
   collectionFormat: "CSV",
 };
 
+export const startFrom: OperationQueryParameter = {
+  parameterPath: ["options", "startFrom"],
+  mapper: {
+    serializedName: "startFrom",
+    xmlName: "startFrom",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const delimiter: OperationQueryParameter = {
   parameterPath: "delimiter",
   mapper: {
@@ -747,6 +758,17 @@ export const rangeGetContentCRC64: OperationParameter = {
     xmlName: "x-ms-range-get-content-crc64",
     type: {
       name: "Boolean",
+    },
+  },
+};
+
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String",
     },
   },
 };
@@ -836,6 +858,28 @@ export const blobDeleteType: OperationQueryParameter = {
     xmlName: "deletetype",
     type: {
       name: "String",
+    },
+  },
+};
+
+export const accessTierIfModifiedSince: OperationParameter = {
+  parameterPath: ["options", "accessTierIfModifiedSince"],
+  mapper: {
+    serializedName: "x-ms-access-tier-if-modified-since",
+    xmlName: "x-ms-access-tier-if-modified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const accessTierIfUnmodifiedSince: OperationParameter = {
+  parameterPath: ["options", "accessTierIfUnmodifiedSince"],
+  mapper: {
+    serializedName: "x-ms-access-tier-if-unmodified-since",
+    xmlName: "x-ms-access-tier-if-unmodified-since",
+    type: {
+      name: "DateTimeRfc1123",
     },
   },
 };
@@ -1221,6 +1265,17 @@ export const copySourceTags: OperationParameter = {
   },
 };
 
+export const fileRequestIntent: OperationParameter = {
+  parameterPath: ["options", "fileRequestIntent"],
+  mapper: {
+    serializedName: "x-ms-file-request-intent",
+    xmlName: "x-ms-file-request-intent",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const comp15: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -1321,6 +1376,54 @@ export const comp18: OperationQueryParameter = {
     defaultValue: "tags",
     isConstant: true,
     serializedName: "comp",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifModifiedSince1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifModifiedSince"],
+  mapper: {
+    serializedName: "x-ms-blob-if-modified-since",
+    xmlName: "x-ms-blob-if-modified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const ifUnmodifiedSince1: OperationParameter = {
+  parameterPath: [
+    "options",
+    "blobModifiedAccessConditions",
+    "ifUnmodifiedSince",
+  ],
+  mapper: {
+    serializedName: "x-ms-blob-if-unmodified-since",
+    xmlName: "x-ms-blob-if-unmodified-since",
+    type: {
+      name: "DateTimeRfc1123",
+    },
+  },
+};
+
+export const ifMatch1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifMatch"],
+  mapper: {
+    serializedName: "x-ms-blob-if-match",
+    xmlName: "x-ms-blob-if-match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifNoneMatch1: OperationParameter = {
+  parameterPath: ["options", "blobModifiedAccessConditions", "ifNoneMatch"],
+  mapper: {
+    serializedName: "x-ms-blob-if-none-match",
+    xmlName: "x-ms-blob-if-none-match",
     type: {
       name: "String",
     },
@@ -1495,6 +1598,17 @@ export const ifSequenceNumberEqualTo: OperationParameter = {
   },
 };
 
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const pageWrite1: OperationParameter = {
   parameterPath: "pageWrite",
   mapper: {
@@ -1548,6 +1662,39 @@ export const range1: OperationParameter = {
     serializedName: "x-ms-range",
     required: true,
     xmlName: "x-ms-range",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionKey: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionKey"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-key",
+    xmlName: "x-ms-source-encryption-key",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionKeySha256: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionKeySha256"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-key-sha256",
+    xmlName: "x-ms-source-encryption-key-sha256",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sourceEncryptionAlgorithm: OperationParameter = {
+  parameterPath: ["options", "sourceCpkInfo", "sourceEncryptionAlgorithm"],
+  mapper: {
+    serializedName: "x-ms-source-encryption-algorithm",
+    xmlName: "x-ms-source-encryption-algorithm",
     type: {
       name: "String",
     },

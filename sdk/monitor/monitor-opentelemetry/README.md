@@ -39,15 +39,55 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-- Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
+- To use the **fixed percentage sampler** (instead of the default rate-limited sampler), you can either:
+  - Set the environment variable `OTEL_TRACES_SAMPLER=microsoft.fixed_percentage` with an optional `OTEL_TRACES_SAMPLER_ARG` for the sampling probability (e.g., `0.5` for 50%).
+  - Set `tracesPerSecond: 0` in the distro options, which disables rate limiting and falls back to using `samplingRatio` for fixed percentage sampling.
+
+### ESM Support
+
+> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+
+For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
+
+Use the `--import` flag to ensure the loader is registered at the very start of the Node.js process. Replace `<your-app-entry-point>` with the path to your application's main file (e.g., `./dist/index.js`, `./src/index.mjs`, `./server.js`, etc.):
+
+```bash
+node --import @azure/monitor-opentelemetry/loader <your-app-entry-point>
+```
+
+For example, in your `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "node --import @azure/monitor-opentelemetry/loader ./dist/index.js"
+  }
+}
+```
+
+Then in your application entry file, call `useAzureMonitor()` to configure the SDK:
+
+```ts snippet:ReadmeSampleESMUsage
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+
+useAzureMonitor({
+  azureMonitorExporterOptions: {
+    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+  },
+});
+```
+
+For CommonJS applications, no additional flags are needed - the loader is automatically registered when the package is imported.
 
 ## Configuration
 
 ```ts snippet:ReadmeSampleConfiguration
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
-const resource = new Resource({ testAttribute: "testValue" });
+const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     // Offline storage
@@ -81,8 +121,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
-  enableTraceBasedSamplingForLogs: false,
-  enablePerformanceCounters: true,
+  views: [],
 };
 useAzureMonitor(options);
 ```
@@ -100,8 +139,13 @@ useAzureMonitor(options);
   </tr>
   <tr>
     <td><code>samplingRatio</code></td>
-    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.</td>
+    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. Only used when <code>tracesPerSecond</code> is set to 0.</td>
     <td><code>1</code></td>
+  </tr>
+  <tr>
+    <td><code>tracesPerSecond</code></td>
+    <td>The maximum number of traces to sample per second using the rate-limited sampler. Set to 0 to disable rate limiting and use fixed percentage sampling with <code>samplingRatio</code> instead.</td>
+    <td><code>5</code></td>
   </tr>
   <tr>
     <td><code>instrumentationOptions</code></td>
@@ -110,11 +154,12 @@ useAzureMonitor(options);
       <pre><code class="language-javascript">
 {
   http: { enabled: true },
-  azureSdk: { enabled: false },
-  mongoDb: { enabled: false },
-  mySql: { enabled: false },
-  postgreSql: { enabled: false },
-  redis: { enabled: false },
+  azureSdk: { enabled: true },
+  mongoDb: { enabled: true },
+  mySql: { enabled: true },
+  postgreSql: { enabled: true },
+  redis: { enabled: true },
+  redis4: { enabled: true },
   bunyan: { enabled: false }, 
   winston: { enabled: false } 
 }
@@ -161,6 +206,11 @@ useAzureMonitor(options);
     <td></td>
   </tr>
   <tr>
+    <td><code>views</code></td>
+    <td>Array of metric views to register to the global meter provider.</td>
+    <td></td>
+  </tr>
+  <tr>
     <td><code>enableTraceBasedSamplingForLogs</code></td>
     <td>Enable log sampling based on trace.</td>
     <td><code>false</code></td>
@@ -198,16 +248,18 @@ process.env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = "path/to/customConfig.js
 
 The following OpenTelemetry Instrumentation libraries are included as part of Azure Monitor OpenTelemetry.
 
+**Note:** The Azure SDK, MongoDB, MySQL, PostgreSQL, Redis, and Redis-4 instrumentations are enabled by default for distributed tracing. The HTTP/HTTPS instrumentation is also enabled by default. All other instrumentations are disabled by default and can be enabled by setting `enabled: true` in the instrumentation options.
+
 > _Warning:_ Instrumentation libraries are based on experimental OpenTelemetry specifications. Microsoft's _preview_ support commitment is to ensure that the following libraries emit data to Azure Monitor Application Insights, but it's possible that breaking changes or experimental mapping will block some data elements.
 
 ### Distributed Tracing
 
 - [HTTP/HTTPS](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-http)
-- [MongoDB](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-mongodb)
-- [MySQL](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-mysql)
-- [Postgres](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-pg)
-- [Redis](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-redis)
-- [Redis-4](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-redis-4)
+- [MongoDB](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-mongodb)
+- [MySQL](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-mysql)
+- [Postgres](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-pg)
+- [Redis](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis)
+- [Redis-4](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis-4)
 - [Azure SDK](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/opentelemetry-instrumentation-azure-sdk)
 
 ### Metrics
@@ -216,11 +268,11 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 
 ### Logs
 
-- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan)
+- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-bunyan)
 
-- [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-winston)
+- [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-winston)
 
-Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
+Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
 ```ts snippet:ReadmeSampleCustomInstrumentation
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
@@ -253,7 +305,7 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
-import { Resource } from "@opentelemetry/resources";
+import { emptyResource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -264,7 +316,7 @@ import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monito
 // ----------------------------------------
 // Setting role name and role instance
 // ----------------------------------------
-const customResource = Resource.EMPTY;
+const customResource = emptyResource();
 customResource.attributes[ATTR_SERVICE_NAME] = "my-helloworld-service";
 customResource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "my-namespace";
 customResource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "my-instance";
@@ -334,7 +386,7 @@ Use a custom span processor and log record processor in order to attach and corr
 import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
+import { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
@@ -361,7 +413,7 @@ class LogRecordEnrichingProcessor implements LogRecordProcessor {
   async shutdown(): Promise<void> {
     // shutdown code here
   }
-  onEmit(_logRecord: LogRecord, _context: Context): void {
+  onEmit(_logRecord: SdkLogRecord, _context: Context): void {
     const parentSpan = trace.getSpan(_context);
     if (parentSpan && "name" in parentSpan) {
       // If the parent span has a name we can assume it is a ReadableSpan and cast it.
@@ -391,10 +443,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import {
-      AzureMonitorOpenTelemetryOptions,
-      useAzureMonitor,
-    } from "@azure/monitor-opentelemetry";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -427,25 +476,25 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-        import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
-        import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
-        class SpanEnrichingProcessor implements SpanProcessor {
-          async forceFlush(): Promise<void> {
-            // Force flush code here
-          }
-          onStart(_span: Span, _parentContext: Context): void {
-            // Normal code here
-          }
-          async shutdown(): Promise<void> {
-            // Shutdown code here
-          }
-          onEnd(span: ReadableSpan): void {
-            if (span.kind === SpanKind.INTERNAL) {
-              span.spanContext().traceFlags = TraceFlags.NONE;
-            }
+      class SpanEnrichingProcessor implements SpanProcessor {
+        async forceFlush(): Promise<void> {
+          // Force flush code here
+        }
+        onStart(_span: Span, _parentContext: Context): void {
+          // Normal code here
+        }
+        async shutdown(): Promise<void> {
+          // Shutdown code here
+        }
+        onEnd(span: ReadableSpan): void {
+          if (span.kind === SpanKind.INTERNAL) {
+            span.spanContext().traceFlags = TraceFlags.NONE;
           }
         }
+      }
       ```
 
 ## Custom telemetry
@@ -458,7 +507,7 @@ You may want to collect metrics beyond what is collected by [instrumentation lib
 
 The OpenTelemetry API offers six metric "instruments" to cover a variety of metric scenarios and you'll need to pick the correct "Aggregation Type" when visualizing metrics in Metrics Explorer. This requirement is true when using the OpenTelemetry Metric API to send metrics and when using an instrumentation library.
 
-The following table shows the recommended aggregation types] for each of the OpenTelemetry Metric Instruments.
+The following table shows the recommended aggregation types for each of the OpenTelemetry Metric Instruments.
 
 | OpenTelemetry Instrument                             | Azure Monitor Aggregation Type                             |
 | ---------------------------------------------------- | ---------------------------------------------------------- |

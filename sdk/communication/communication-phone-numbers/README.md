@@ -27,7 +27,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 This SDK provides functionality to easily manage `direct offer` and `direct routing` numbers.
 
-The `direct offer` numbers come in two types: Geographic and Toll-Free. Geographic phone plans are phone plans associated with a location, whose phone numbers' area codes are associated with the area code of a geographic location. Toll-Free phone plans are phone plans not associated location. For example, in the US, toll-free numbers can come with area codes such as 800 or 888.
+The `direct offer` numbers come in three types: Geographic, Toll-Free and Mobile. Geographic and Mobile phone plans are phone plans associated with a location, whose phone numbers' area codes are associated with the area code of a geographic location. Toll-Free phone plans are phone plans not associated location. For example, in the US, toll-free numbers can come with area codes such as 800 or 888.
 They are managed using the `PhoneNumbersClient`
 
 The `direct routing` feature enables connecting your existing telephony infrastructure to ACS.
@@ -37,19 +37,27 @@ The configuration is managed using the `SipRoutingClient`, which provides method
 
 #### Phone number types
 
-Phone numbers come in two types; Geographic and Toll-Free. Geographic phone numbers are phone numbers associated with a location, whose area codes are associated with the area code of a geographic location. Toll-Free phone numbers are not associated with a location. For example, in the US, toll-free numbers can come with area codes such as 800 or 888.
+Phone numbers come in three types; Geographic, Toll-Free and Mobile. Toll-Free numbers are not associated with a location. For example, in the US, toll-free numbers can come with area codes such as 800 or 888. Geographic and Mobile phone numbers are phone numbers associated with a location.
 
-All geographic phone numbers within the same country are grouped into a phone plan group with a Geographic phone number type. All Toll-Free phone numbers within the same country are grouped into a phone plan group.
+Phone number types with the same country are grouped into a phone plan group with that phone number type. For example all Toll-Free phone numbers within the same country are grouped into a phone plan group.
 
 #### Searching and acquiring numbers
 
-Phone numbers can be searched through the search creation API by providing a phone number type (geographic or toll-free), assignment type (person or application), calling and sms capabilities, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for 15 minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resource.
+Phone numbers can be searched through the search creation API by providing a phone number type (geographic, toll-free or mobile), assignment type (person or application), calling and sms capabilities, an area code and quantity of phone numbers. The provided quantity of phone numbers will be reserved for 15 minutes. This search of phone numbers can either be cancelled or purchased. If the search is cancelled, then the phone numbers will become available to others. If the search is purchased, then the phone numbers are acquired for the Azure resource.
 
 #### Configuring phone numbers
 
 Phone numbers can have a combination of capabilities. They can be configured to support inbound and/or outbound calling, or neither if you won't use the phone number for calling. The same applies to sms capabilities.
 
 It is important to consider the assignment type of your phone number. Some capabilities are restricted to a particular assignment type.
+
+#### Browsing and reserving phone numbers
+
+The Browse and Reservations APIs provide an alternate way to acquire phone numbers via a shopping-cart-like experience. This is achieved by splitting the search operation, which finds and reserves numbers using a single LRO, into two separate synchronous steps, Browse and Reservation.
+
+The browse operation retrieves a random sample of phone numbers that are available for purchase for a given country, with optional filtering criteria to narrow down results. The returned phone numbers are not reserved for any customer.
+
+Reservations represent a collection of phone numbers that are locked by a specific customer and are awaiting purchase. They have an expiration time of 15 minutes after the last modification or 2 hours from creation time. A reservation can include numbers from different countries, in contrast with the Search operation. Customers can create, retrieve, modify (by adding and removing numbers), delete, and purchase reservations. Purchasing a reservation is an LRO.
 
 ### SIP routing client
 
@@ -138,8 +146,10 @@ PhoneNumbersClient
 
 - [Search for available phone numbers](#search-for-available-phone-numbers)
 - [Purchase phone numbers from a search](#purchase-phone-numbers-from-a-search)
+- [Browse and reserve available phone numbers](#browse-and-reserve-available-phone-numbers)
 - [Release a purchased phone number](#release-a-purchased-phone-number)
 - [Update phone number capabilities](#update-phone-number-capabilities)
+- [Purchase reservation](#purchase-reservation)
 - [Get a purchased phone number](#get-a-purchased-phone-number)
 - [List purchased phone numbers](#list-purchased-phone-numbers)
 
@@ -227,6 +237,58 @@ await purchasePoller.pollUntilDone();
 console.log(`Successfully purchased ${phoneNumbers[0]}`);
 ```
 
+#### Browse and reserve available phone numbers
+
+Use the Browse and Reservations API to reserve a phone number
+
+```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
+import { DefaultAzureCredential } from "@azure/identity";
+import {
+  PhoneNumbersClient,
+  BrowseAvailableNumbersRequest,
+  AvailablePhoneNumber,
+} from "@azure/communication-phone-numbers";
+
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+
+const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+  countryCode: "US",
+  phoneNumberType: "tollFree",
+};
+
+const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+  browseAvailableNumberRequest,
+  {
+    capabilities: {
+      calling: "outbound",
+    },
+    assignmentType: "application",
+  },
+);
+const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+const reservationResponse = await client.createOrUpdateReservation(
+  {
+    reservationId: "reservationId",
+  },
+  {
+    add: phoneNumbersList,
+  },
+);
+const numbersWithError: AvailablePhoneNumber[] = [];
+for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+  if (number != null && number.status === "error") {
+    numbersWithError.push(number);
+  }
+}
+if (numbersWithError.length > 0) {
+  console.log("Errors occurred during reservation");
+} else {
+  console.log("Reservation operation completed without errors.");
+}
+```
+
 #### Release a purchased phone number
 
 Use the `beginReleasePhoneNumber` method to release a previously purchased phone number. Released phone numbers will no longer be associated with the Communication Services resource, and will not be available for use with other operations (eg. SMS) of the resource. The phone number being released is required.
@@ -301,6 +363,26 @@ const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
 console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 ```
+
+#### Purchase reservation
+
+Given an existing and active reservation, purchase the phone numbers in that reservation.
+
+```ts snippet:PhoneNumbersClientBeginReservationPurchase
+import { DefaultAzureCredential } from "@azure/identity";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+
+const reservationId = "<reservation-id>";
+
+const purchasePoller = await client.beginReservationPurchase(reservationId);
+
+// Purchase is underway.
+const purchaseResult = await purchasePoller.pollUntilDone();
+console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
+   ```
 
 #### List purchased phone numbers
 

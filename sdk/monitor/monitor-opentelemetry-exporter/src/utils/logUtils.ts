@@ -12,16 +12,24 @@ import type {
   TelemetryExceptionDetails,
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
-import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
+import {
+  createTagsFromResource,
+  hrTimeToDate,
+  isSyntheticSource,
+  serializeAttribute,
+  truncateCustomDimensions,
+} from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
   ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
+import { experimentalOpenTelemetryValues } from "../types.js";
 import type { Measurements, Properties, Tags } from "../types.js";
 import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
-import { Attributes, diag } from "@opentelemetry/api";
+import type { Attributes } from "@opentelemetry/api";
+import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
   ApplicationInsightsAvailabilityName,
@@ -35,8 +43,8 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
-import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
@@ -89,7 +97,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
-      message: String(log.body),
+      message: serializeAttribute(log.body),
       severityLevel: String(getSeverity(log.severityNumber)),
       version: 2,
     };
@@ -109,11 +117,6 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   if (baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  if (properties) {
-    for (const key of Object.keys(properties)) {
-      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-    }
-  }
   return {
     name,
     sampleRate,
@@ -125,7 +128,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       baseType,
       baseData: {
         ...baseData,
-        properties,
+        properties: truncateCustomDimensions(properties),
         measurements,
       },
     },
@@ -145,7 +148,33 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
       KnownContextTagKeys.AiOperationName
     ] as string;
   }
-  getLocationIp(tags, log.attributes as Attributes);
+  if (isSyntheticSource(log.attributes as Attributes)) {
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
+  }
+
+  // Set ai.location.ip from microsoft.client.ip if it exists
+  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
+  // Map user ID attributes
+  const attributes = log.attributes as Attributes;
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]) {
+    const endUserId = String(attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]);
+    if (endUserId && endUserId.length > 0) {
+      tags[KnownContextTagKeys.AiUserAuthUserId] = endUserId;
+    }
+  }
+  if (attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]) {
+    const endUserPseudoId = String(
+      attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID],
+    );
+    if (endUserPseudoId && endUserPseudoId.length > 0) {
+      tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
+    }
+  }
+
   return tags;
 }
 
@@ -243,7 +272,7 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
           break;
       }
       if (typeof baseData?.message === "object") {
-        baseData.message = JSON.stringify(baseData.message);
+        baseData.message = serializeAttribute(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

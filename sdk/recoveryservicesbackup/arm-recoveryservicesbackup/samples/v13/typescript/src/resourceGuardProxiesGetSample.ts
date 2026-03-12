@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the ResourceGuardProxies under vault
  *
  * @summary List the ResourceGuardProxies under vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
  */
 async function getVaultGuardProxies(): Promise<void> {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getVaultGuardProxies(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceGuardProxies.list(
+  for await (const item of client.resourceGuardProxies.list(
     vaultName,
     resourceGroupName,
   )) {
@@ -39,7 +39,7 @@ async function getVaultGuardProxies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getVaultGuardProxies();
+  await getVaultGuardProxies();
 }
 
 main().catch(console.error);

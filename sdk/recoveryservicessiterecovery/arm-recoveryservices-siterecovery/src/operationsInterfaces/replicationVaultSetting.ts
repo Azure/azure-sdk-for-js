@@ -23,42 +23,42 @@ import {
 export interface ReplicationVaultSetting {
   /**
    * Gets the list of vault setting. This includes the Migration Hub connection settings.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultSettingListOptionalParams,
   ): PagedAsyncIterableIterator<VaultSetting>;
   /**
    * Gets the vault setting. This includes the Migration Hub connection settings.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param vaultSettingName Vault setting name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     vaultSettingName: string,
     options?: ReplicationVaultSettingGetOptionalParams,
   ): Promise<ReplicationVaultSettingGetResponse>;
   /**
    * The operation to configure vault setting.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param vaultSettingName Vault setting name.
    * @param input Vault setting creation input.
    * @param options The options parameters.
    */
   beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams,
@@ -70,16 +70,16 @@ export interface ReplicationVaultSetting {
   >;
   /**
    * The operation to configure vault setting.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param vaultSettingName Vault setting name.
    * @param input Vault setting creation input.
    * @param options The options parameters.
    */
   beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
     options?: ReplicationVaultSettingCreateOptionalParams,

@@ -9,7 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import "dotenv/config";
 
 /**
  * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
@@ -20,7 +20,16 @@ require("dotenv").config();
  */
 
 export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
+  // AZURE_TOKEN_CREDENTIALS can be set to `EnvironmentCredential` in the .env file in this example.
+  // You can specify the list of required environment variables like this:
+  const credential = new DefaultAzureCredential({
+    requiredEnvVars: [
+      "AZURE_CLIENT_ID",
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TOKEN_CREDENTIALS",
+    ],
+  });
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);

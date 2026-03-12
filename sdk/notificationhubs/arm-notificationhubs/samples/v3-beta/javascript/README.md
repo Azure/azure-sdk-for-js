@@ -71,7 +71,7 @@ node namespacesCheckAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env NOTIFICATIONHUBS_SUBSCRIPTION_ID="<notificationhubs subscription id>" node namespacesCheckAvailabilitySample.js
+cross-env NOTIFICATIONHUBS_SUBSCRIPTION_ID="<notificationhubs subscription id>" node namespacesCheckAvailabilitySample.js
 ```
 
 ## Next Steps

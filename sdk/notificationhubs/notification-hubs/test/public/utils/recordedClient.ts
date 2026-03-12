@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { NotificationHubsClientContext } from "../../../src/api/index.js";
 import { createClientContext } from "../../../src/api/index.js";
-import { isBrowser } from "@azure/core-util";
+import { vi } from "vitest";
 
 const replaceableVariables: { [k: string]: string } = {
   // Used in record and playback modes
@@ -32,25 +32,52 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecordedClientContext(
   recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
-  await recorder.start(recorderOptions);
-  if (isBrowser) {
-    // there are timestamps in the body, so do not match body
-    await recorder.setMatcher("BodilessMatcher");
-    await recorder.addSanitizers(
-      {
-        // looks like the registration id is dynamic, redacting it instead
-        generalSanitizers: [
-          {
-            regex: true,
-            target: "registrations/(?<secret>.*?)?api-version=",
-            value: "registration-id-redacted",
-            groupForReplace: "secret",
-          },
-        ],
-      },
-      ["record", "playback"],
-    );
+  // The following hardcoded timestamps are used to ensure deterministic playback in tests.
+  // [0]: "2024-04-16T22:06:17.401Z" is used for API responses that include milliseconds in the timestamp.
+  // [1]: "2024-04-16T22:06:17Z" is used for API responses that omit milliseconds.
+  // These values were chosen arbitrarily and do not correspond to any specific event; they simply provide a fixed reference time for playback mode.
+  const dummyTimeForPlayback = ["2024-04-16T22:06:17.401Z", "2024-04-16T22:06:17Z"];
+  if (isPlaybackMode()) {
+    // In playback mode, we need to set the system time to a fixed value to ensure consistent results
+    // This is because the src code uses new Date().toISOString(), to set current time
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(dummyTimeForPlayback[0])); // for the first request that is made in the test
   }
+  await recorder.start(recorderOptions);
+  await recorder.addSanitizers(
+    {
+      headerSanitizers: [
+        {
+          key: "x-ms-azsdk-telemetry",
+          value: "class=REDACTED",
+        },
+      ],
+      bodySanitizers: [
+        {
+          // "Sanitizing the updated time in the response body",
+          regex: true,
+          target: "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z",
+          value: dummyTimeForPlayback[0],
+        },
+        {
+          // "Sanitizing the updated time in the response body",
+          regex: true,
+          target: "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z",
+          value: dummyTimeForPlayback[1],
+        },
+      ],
+      generalSanitizers: [
+        // looks like the registration id is dynamic, redacting it instead
+        {
+          regex: true,
+          target: "registrations/(?<secret>.*?)?api-version=",
+          value: "registration-id-redacted",
+          groupForReplace: "secret",
+        },
+      ],
+    },
+    ["record", "playback"],
+  );
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
     throw new Error(

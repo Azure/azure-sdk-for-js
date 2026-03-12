@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getSendCertificateChain } from "../../../src/credentials/environmentCredential.js";
+import { getSendCertificateChain } from "$internal/credentials/environmentCredential.js";
 import { describe, it, assert, vi, afterEach } from "vitest";
 
 describe("EnvironmentCredential (internal)", function () {

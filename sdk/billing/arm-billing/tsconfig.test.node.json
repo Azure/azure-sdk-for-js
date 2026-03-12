@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-billing": ["./src/index.ts"],
+      "@azure/arm-billing/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

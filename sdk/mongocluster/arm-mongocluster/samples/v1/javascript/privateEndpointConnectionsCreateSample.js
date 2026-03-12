@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Private endpoint connection
  *
  * @summary create a Private endpoint connection
- * x-ms-original-file: 2024-07-01/MongoClusters_PrivateEndpointConnectionPut.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_PrivateEndpointConnectionPut.json
  */
 async function approvesAPrivateEndpointConnectionOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function approvesAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  approvesAPrivateEndpointConnectionOnAMongoClusterResource();
+  await approvesAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 
 main().catch(console.error);

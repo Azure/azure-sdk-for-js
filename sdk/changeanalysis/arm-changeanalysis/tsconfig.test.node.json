@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-changeanalysis": ["./src/index.ts"],
+      "@azure/arm-changeanalysis/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

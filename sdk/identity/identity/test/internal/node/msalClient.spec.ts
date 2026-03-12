@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalClient from "../../../src/msal/nodeFlows/msalClient.js";
+import * as msalClient from "$internal/msal/nodeFlows/msalClient.js";
 
 import type { AuthenticationResult } from "@azure/msal-node";
 import {
@@ -15,12 +15,12 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
-import { AuthenticationRequiredError } from "../../../src/errors.js";
-import { DeveloperSignOnClientId } from "../../../src/constants.js";
-import { IdentityClient } from "../../../src/client/identityClient.js";
-import { credentialLogger } from "../../../src/util/logging.js";
+import { AuthenticationRequiredError } from "$internal/errors.js";
+import { DeveloperSignOnClientId } from "$internal/constants.js";
+import { IdentityClient } from "$internal/client/identityClient.js";
+import { credentialLogger } from "$internal/util/logging.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
-import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins.js";
+import { msalPlugins } from "$internal/msal/nodeFlows/msalPlugins.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MsalClient", function () {
@@ -36,11 +36,8 @@ describe("MsalClient", function () {
       ({ cleanup, recorder } = await msalNodeTestSetup(ctx));
     });
 
-    it("supports getTokenByClientSecret", async function (ctx) {
-      if (isLiveMode()) {
-        // https://github.com/Azure/azure-sdk-for-js/issues/29929
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByClientSecret", async function () {
+      // https://github.com/Azure/azure-sdk-for-js/issues/29929
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
       const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
@@ -48,7 +45,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
@@ -56,18 +53,15 @@ describe("MsalClient", function () {
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
 
-    it("supports getTokenByDeviceCode", async function (ctx) {
-      if (isLiveMode()) {
-        // Skip in CI live tests since this credential requires user interaction.
-        ctx.skip();
-      }
+    it.skipIf(isLiveMode())("supports getTokenByDeviceCode", async function () {
+      // Skip in CI live tests since this credential requires user interaction.
       const scopes = ["https://vault.azure.net/.default"];
       const clientId = DeveloperSignOnClientId;
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByDeviceCode(scopes, (info) => {
@@ -85,7 +79,7 @@ describe("MsalClient", function () {
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
-        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+        additionalPolicies: clientOptions.additionalPolicies,
       });
 
       const accessToken = await client.getTokenByUsernamePassword(scopes, username, password);

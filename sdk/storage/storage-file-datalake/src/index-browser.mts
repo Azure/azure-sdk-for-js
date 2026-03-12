@@ -9,37 +9,39 @@ export * from "./models.js";
 export * from "./utils/DataLakeAclChangeFailedError.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  HttpRequestBody,
-  IHttpClient,
+  type StoragePipelineOptions,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type WebResource,
+  type HttpOperationResponse,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type IHttpClient,
   StorageOAuthScopes,
-  ServiceClientOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
 export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
   Credential,
+  BaseRequestPolicy,
   CredentialPolicy,
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicy,
   StorageRetryPolicyType,
   StorageRetryPolicyFactory,
-  BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
+  type BlobServiceProperties as DataLakeServiceProperties,
+  type ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
-export { CommonOptions } from "./StorageClient.js";
+export { type UserDelegationKey } from "@azure/storage-common";
+export type { CommonOptions } from "./StorageClient.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";

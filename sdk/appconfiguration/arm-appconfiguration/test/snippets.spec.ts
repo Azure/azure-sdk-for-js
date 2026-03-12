@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it } from "vitest";
-import { setLogLevel } from "@azure/logger";
+import { AppConfigurationManagementClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
+import { setLogLevel } from "@azure/logger";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
@@ -16,11 +16,11 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const client = new AppConfigurationManagementClient(credential, subscriptionId);
   });
 

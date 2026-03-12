@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to list detached received shares
+ *
+ * @summary List detached received shares
+ */
+
 import type {
   ReceivedSharesCreateOrReplaceParameters,
   InPlaceReceivedShareOutput,
@@ -16,11 +22,6 @@ import createPurviewSharingClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to list detached received shares
- *
- * @summary List detached received shares
- */
 async function getAllDetachedReceivedShares(): Promise<InPlaceReceivedShareOutput[]> {
   const endpoint = process.env["ENDPOINT"] || "";
 

@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
-  _getTrafficControllerInterfaceOperations,
-  TrafficControllerInterfaceOperations,
-} from "./classic/trafficControllerInterface/index.js";
-import {
-  _getSecurityPoliciesInterfaceOperations,
-  SecurityPoliciesInterfaceOperations,
-} from "./classic/securityPoliciesInterface/index.js";
-import {
-  _getFrontendsInterfaceOperations,
-  FrontendsInterfaceOperations,
-} from "./classic/frontendsInterface/index.js";
-import {
-  _getAssociationsInterfaceOperations,
-  AssociationsInterfaceOperations,
-} from "./classic/associationsInterface/index.js";
 import {
   createServiceNetworkingManagement,
   ServiceNetworkingManagementContext,
   ServiceNetworkingManagementClientOptionalParams,
 } from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  TrafficControllerInterfaceOperations,
+  _getTrafficControllerInterfaceOperations,
+} from "./classic/trafficControllerInterface/index.js";
+import {
+  SecurityPoliciesInterfaceOperations,
+  _getSecurityPoliciesInterfaceOperations,
+} from "./classic/securityPoliciesInterface/index.js";
+import {
+  FrontendsInterfaceOperations,
+  _getFrontendsInterfaceOperations,
+} from "./classic/frontendsInterface/index.js";
+import {
+  AssociationsInterfaceOperations,
+  _getAssociationsInterfaceOperations,
+} from "./classic/associationsInterface/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
+export { type ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
 
 export class ServiceNetworkingManagementClient {
   private _client: ServiceNetworkingManagementContext;

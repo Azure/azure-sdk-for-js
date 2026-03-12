@@ -3,19 +3,19 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type * as coreClient from "@azure-rest/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/keyvault-common";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
 import type {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-} from "./generated/models/index.js";
+} from "./models/models.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.6-preview.2";
+export const LATEST_API_VERSION = "7.6";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -24,7 +24,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -522,8 +522,7 @@ export interface CertificatePollerOptions extends coreClient.OperationOptions {
  * passed to {@link beginCreateCertificate}
  */
 export interface BeginCreateCertificateOptions
-  extends CreateCertificateOptions,
-    CertificatePollerOptions {}
+  extends CreateCertificateOptions, CertificatePollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
@@ -546,8 +545,7 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
  * Options for {@link createCertificate}.
  */
 export interface CreateCertificateOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link cancelCertificateOperation}.
@@ -697,8 +695,7 @@ export type CertificateTags = { [propertyName: string]: string };
  * Options for {@link updateCertificate}.
  */
 export interface UpdateCertificatePropertiesOptions
-  extends CertificateProperties,
-    coreClient.OperationOptions {}
+  extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
  * Options for {@link updateCertificatePolicy}.

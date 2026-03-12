@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets extended information associated with the job.
  *
  * @summary Gets extended information associated with the job.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/GetJobDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/GetJobDetails.json
  */
 async function getJobDetails() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getJobDetails() {
 }
 
 async function main() {
-  getJobDetails();
+  await getJobDetails();
 }
 
 main().catch(console.error);

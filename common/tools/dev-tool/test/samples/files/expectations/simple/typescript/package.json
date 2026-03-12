@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Template client library samples for TypeScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -29,8 +29,9 @@
     "dotenv": "latest"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

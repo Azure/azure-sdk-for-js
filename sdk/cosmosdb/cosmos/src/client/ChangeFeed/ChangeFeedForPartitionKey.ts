@@ -2,17 +2,19 @@
 // Licensed under the MIT License.
 import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
-import { Container, Resource } from "../../client/index.js";
-import { ClientContext } from "../../ClientContext.js";
+import type { Container, Resource } from "../../client/index.js";
+import type { ClientContext } from "../../ClientContext.js";
 import { Constants, copyObject, ResourceType, StatusCodes } from "../../common/index.js";
-import { FeedOptions, Response, ErrorResponse } from "../../request/index.js";
+import type { FeedOptions, Response } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
-import { PartitionKey, convertToInternalPartitionKey } from "../../documents/index.js";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import type { PartitionKey } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
-import { ChangeFeedMode } from "./ChangeFeedMode.js";
-import { decryptChangeFeedResponse } from "./changeFeedUtils.js";
+import { buildFeedOptions, decryptChangeFeedResponse } from "./changeFeedUtils.js";
+import { computePartitionKeyRangeId } from "../ClientUtils.js";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -149,44 +151,24 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private async getFeedResponse(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const feedOptions: FeedOptions = {
-      initialHeaders: {},
-      useLatestVersionFeed: true,
-      useAllVersionsAndDeletesFeed: false,
-    };
-    if (typeof this.changeFeedOptions.maxItemCount === "number") {
-      feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
-    }
-
-    if (this.changeFeedOptions.sessionToken) {
-      feedOptions.sessionToken = this.changeFeedOptions.sessionToken;
-    }
-
-    const continuation = this.continuationToken.Continuation;
-    if (continuation) {
-      feedOptions.accessCondition = {
-        type: Constants.HttpHeaders.IfNoneMatch,
-        condition: continuation,
-      };
-    } else if (this.startFromNow) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
-        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
-    }
-
-    if (this.startTime) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
-    }
-    if (
-      this.changeFeedOptions.changeFeedMode &&
-      this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
-    ) {
-      feedOptions.useAllVersionsAndDeletesFeed = true;
-      feedOptions.useLatestVersionFeed = false;
-    }
+    const feedOptions: FeedOptions = buildFeedOptions(
+      this.changeFeedOptions,
+      this.continuationToken?.Continuation,
+      this.startFromNow,
+      this.startTime,
+    );
     if (this.clientContext.enableEncryption) {
       feedOptions.containerRid = this.container._rid;
     }
     try {
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        convertToInternalPartitionKey(this.partitionKey),
+        this.clientContext.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
         path: this.resourceLink,
         resourceType: ResourceType.item,
@@ -196,6 +178,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         query: undefined,
         options: feedOptions,
         partitionKey: this.partitionKey,
+        partitionKeyRangeId,
       }) as Promise<any>);
       return new ChangeFeedIteratorResponse(
         response.result,

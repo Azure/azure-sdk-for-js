@@ -92,9 +92,10 @@ export class BatchingPartitionChannel {
 
     if (!this._isRunning) {
       this._isRunning = true;
+      // Fire-and-forget background loop with error handling
       this._startPublishLoop().catch((e) => {
         logger.error(
-          `The following error occured during batch creation or sending: ${JSON.stringify(
+          `The following error occurred during batch creation or sending: ${JSON.stringify(
             e,
             undefined,
             "  ",

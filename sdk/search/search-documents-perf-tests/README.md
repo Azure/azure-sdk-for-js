@@ -4,7 +4,7 @@ These are the performance tests for Azure Search Documents.
 
 ### Guide
 
-1. Build the `@azure/search-documents` perf tests package `rush build -t @azure-tests/perf-search-documents`.
+1. Build the `@azure/search-documents` perf tests package `pnpm build --filter @azure-tests/perf-search-documents...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create an Azure Search resource and populate the `.env` file with the required information.
 4. Run the tests as follows:

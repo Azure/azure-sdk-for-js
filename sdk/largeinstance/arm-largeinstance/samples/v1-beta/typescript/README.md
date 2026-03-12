@@ -60,7 +60,7 @@ node dist/azureLargeInstanceGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LARGEINSTANCE_SUBSCRIPTION_ID="<largeinstance subscription id>" LARGEINSTANCE_RESOURCE_GROUP="<largeinstance resource group>" node dist/azureLargeInstanceGetSample.js
+cross-env LARGEINSTANCE_SUBSCRIPTION_ID="<largeinstance subscription id>" LARGEINSTANCE_RESOURCE_GROUP="<largeinstance resource group>" node dist/azureLargeInstanceGetSample.js
 ```
 
 ## Next Steps

@@ -1,17 +1,20 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/compute/ci.mgmt.yml
       - sdk/compute/arm-compute
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
+      - sdk/compute/arm-computerecommender
 pr:
   branches:
     include:
@@ -27,6 +30,7 @@ pr:
       - sdk/compute/arm-compute
       - sdk/compute/arm-compute-profile-2020-09-01-hybrid
       - sdk/compute/arm-compute-rest
+      - sdk/compute/arm-computerecommender
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,3 +42,5 @@ extends:
         safeName: azurearmcomputeprofile20200901hybrid
       - name: azure-rest-arm-compute
         safeName: azurerestarmcompute
+      - name: azure-arm-computerecommender
+        safeName: azurearmcomputerecommender

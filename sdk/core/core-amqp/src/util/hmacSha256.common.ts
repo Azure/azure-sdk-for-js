@@ -3,7 +3,7 @@
 
 export async function signString(key: string, toSign: string): Promise<string> {
   const enc = new TextEncoder();
-  const algorithm: HmacImportParams = { name: "HMAC", hash: { name: "SHA-256" } };
+  const algorithm = { name: "HMAC", hash: { name: "SHA-256" } };
 
   const extractedKey = await globalThis.crypto.subtle.importKey(
     "raw",

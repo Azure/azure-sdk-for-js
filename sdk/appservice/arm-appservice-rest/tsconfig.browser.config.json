@@ -1,16 +1,10 @@
 {
-  "extends": "./.tshy/build.json",
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./test/**/*.ts",
-    "./test/**/*.spec.ts",
-    "./test/**/*.mts"
-  ],
-  "exclude": ["./test/**/node/**/*.ts"],
+  "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
-    "outDir": "./dist-test/browser",
-    "rootDir": ".",
-    "skipLibCheck": true
+    "paths": {
+      "@azure-rest/arm-appservice": ["./dist/browser/index.d.ts"],
+      "@azure-rest/arm-appservice/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
   }
 }

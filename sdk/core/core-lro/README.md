@@ -81,7 +81,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ### Testing
 
-To run our tests, first install the dependencies (with `npm install` or `rush install`),
+To run our tests, first install the dependencies (with `pnpm install`),
 then run the unit tests with: `npm run unit-test`.
 
 ### Code of Conduct

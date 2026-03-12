@@ -4761,8 +4761,7 @@ export interface ActiveConnectivityConfigurationsListResultOutput {
 }
 
 /** Active connectivity configuration. */
-export interface ActiveConnectivityConfigurationOutput
-  extends EffectiveConnectivityConfigurationOutput {
+export interface ActiveConnectivityConfigurationOutput extends EffectiveConnectivityConfigurationOutput {
   /** Deployment time string. */
   commitTime?: string;
   /** Deployment region. */
@@ -9085,8 +9084,7 @@ export interface SwapResourceListResultOutput {
 }
 
 /** Firewall Policy NAT Rule Collection. */
-export interface FirewallPolicyNatRuleCollectionOutput
-  extends FirewallPolicyRuleCollectionOutputParent {
+export interface FirewallPolicyNatRuleCollectionOutput extends FirewallPolicyRuleCollectionOutputParent {
   /** The action type of a Nat rule collection. */
   action?: FirewallPolicyNatRuleCollectionActionOutput;
   /** List of rules included in a rule collection. */
@@ -9110,8 +9108,7 @@ export interface FirewallPolicyRuleOutputParent {
 }
 
 /** Firewall Policy Filter Rule Collection. */
-export interface FirewallPolicyFilterRuleCollectionOutput
-  extends FirewallPolicyRuleCollectionOutputParent {
+export interface FirewallPolicyFilterRuleCollectionOutput extends FirewallPolicyRuleCollectionOutputParent {
   /** The action type of a Filter rule collection. */
   action?: FirewallPolicyFilterRuleCollectionActionOutput;
   /** List of rules included in a rule collection. */
@@ -9236,8 +9233,7 @@ export interface AddressPrefixItemOutput {
 }
 
 /** Network default admin rule. */
-export interface ActiveDefaultSecurityAdminRuleOutput
-  extends ActiveBaseSecurityAdminRuleOutputParent {
+export interface ActiveDefaultSecurityAdminRuleOutput extends ActiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the default security admin rule */
   properties?: DefaultAdminPropertiesFormatOutput;
   kind: "Default";
@@ -9270,16 +9266,14 @@ export interface DefaultAdminPropertiesFormatOutput {
 }
 
 /** Network admin rule. */
-export interface EffectiveSecurityAdminRuleOutput
-  extends EffectiveBaseSecurityAdminRuleOutputParent {
+export interface EffectiveSecurityAdminRuleOutput extends EffectiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the security admin rule */
   properties?: AdminPropertiesFormatOutput;
   kind: "Custom";
 }
 
 /** Network default admin rule. */
-export interface EffectiveDefaultSecurityAdminRuleOutput
-  extends EffectiveBaseSecurityAdminRuleOutputParent {
+export interface EffectiveDefaultSecurityAdminRuleOutput extends EffectiveBaseSecurityAdminRuleOutputParent {
   /** Indicates the properties of the default security admin rule */
   properties?: DefaultAdminPropertiesFormatOutput;
   kind: "Default";

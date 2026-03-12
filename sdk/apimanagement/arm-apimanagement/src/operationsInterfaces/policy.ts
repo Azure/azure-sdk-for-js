@@ -6,88 +6,89 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    PolicyContract,
-    PolicyCreateOrUpdateOptionalParams,
-    PolicyCreateOrUpdateResponse,
-    PolicyDeleteOptionalParams,
-    PolicyGetEntityTagOptionalParams,
-    PolicyGetEntityTagResponse,
-    PolicyGetOptionalParams,
-    PolicyGetResponse,
-    PolicyIdName,
-    PolicyListByServiceOptionalParams,
-    PolicyListByServiceResponse
+  PolicyContract,
+  PolicyListByServiceOptionalParams,
+  PolicyIdName,
+  PolicyGetEntityTagOptionalParams,
+  PolicyGetEntityTagResponse,
+  PolicyGetOptionalParams,
+  PolicyGetResponse,
+  PolicyCreateOrUpdateOptionalParams,
+  PolicyCreateOrUpdateResponse,
+  PolicyDeleteOptionalParams,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policy. */
 export interface Policy {
-    /**
-     * Lists all the Global Policy definitions of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PolicyListByServiceOptionalParams
-    ): Promise<PolicyListByServiceResponse>;
-    /**
-     * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        options?: PolicyGetEntityTagOptionalParams
-    ): Promise<PolicyGetEntityTagResponse>;
-    /**
-     * Get the Global policy definition of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        options?: PolicyGetOptionalParams
-    ): Promise<PolicyGetResponse>;
-    /**
-     * Creates or updates the global policy configuration of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param parameters The policy contents to apply.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        parameters: PolicyContract,
-        options?: PolicyCreateOrUpdateOptionalParams
-    ): Promise<PolicyCreateOrUpdateResponse>;
-    /**
-     * Deletes the global policy configuration of the Api Management Service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        ifMatch: string,
-        options?: PolicyDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists all the Global Policy definitions of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract>;
+  /**
+   * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    options?: PolicyGetEntityTagOptionalParams,
+  ): Promise<PolicyGetEntityTagResponse>;
+  /**
+   * Get the Global policy definition of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    options?: PolicyGetOptionalParams,
+  ): Promise<PolicyGetResponse>;
+  /**
+   * Creates or updates the global policy configuration of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param parameters The policy contents to apply.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    parameters: PolicyContract,
+    options?: PolicyCreateOrUpdateOptionalParams,
+  ): Promise<PolicyCreateOrUpdateResponse>;
+  /**
+   * Deletes the global policy configuration of the Api Management Service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    ifMatch: string,
+    options?: PolicyDeleteOptionalParams,
+  ): Promise<void>;
 }

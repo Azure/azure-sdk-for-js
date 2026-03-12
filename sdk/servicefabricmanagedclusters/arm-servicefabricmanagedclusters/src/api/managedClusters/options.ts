@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface ManagedClustersListBySubscriptionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersListByResourceGroupOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ManagedClustersGetOptionalParams extends OperationOptions {}

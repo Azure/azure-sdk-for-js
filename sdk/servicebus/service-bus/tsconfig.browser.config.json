@@ -1,9 +1,16 @@
 {
-  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/service-bus": ["./dist/browser/index.d.ts"],
+      "@azure/service-bus/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  },
   "exclude": [
-    "${configDir}/test/**/node",
-    "${configDir}/test/stress",
-    "${configDir}/test/snippets.spec.ts",
-    "${configDir}/test/internal/connectionManagement.spec.ts"
+    "./test/**/node",
+    "./test/stress",
+    "./test/snippets.spec.ts",
+    "./test/internal/connectionManagement.spec.ts"
   ]
 }

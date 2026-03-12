@@ -177,8 +177,7 @@ export interface ChatCompletionsResponseFormatText extends ChatCompletionsRespon
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
  * via a system or user message.
  */
-export interface ChatCompletionsResponseFormatJsonObject
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatJsonObject extends ChatCompletionsResponseFormatParent {
   /** Response format type: always 'json_object' for this object. */
   type: "json_object";
 }
@@ -187,8 +186,7 @@ export interface ChatCompletionsResponseFormatJsonObject
  * A response format for Chat Completions that restricts responses to emitting valid JSON objects, with a
  * JSON schema specified by the caller.
  */
-export interface ChatCompletionsResponseFormatJsonSchema
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatJsonSchema extends ChatCompletionsResponseFormatParent {
   /** The type of response format being defined: `json_schema` */
   type: "json_schema";
   /** The definition of the required JSON schema in the response, and associated metadata. */

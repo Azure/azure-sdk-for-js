@@ -2,63 +2,119 @@
 // Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
-import { PeriodicExportingMetricReader, View } from "@opentelemetry/sdk-metrics";
+import type {
+  AggregationOption,
+  PeriodicExportingMetricReaderOptions,
+  ViewOptions,
+} from "@opentelemetry/sdk-metrics";
+import {
+  AggregationType,
+  InstrumentType,
+  PeriodicExportingMetricReader,
+} from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
-import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS, HISTOGRAM_AGGREGATION_MAP } from "./types.js";
 import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 import { PerformanceCounterMetrics } from "./performanceCounters.js";
+import { Logger } from "../shared/logging/index.js";
+
+type MetricExporterOptions = ConstructorParameters<typeof AzureMonitorMetricExporter>[0];
+
+const DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR =
+  "OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION";
+
+function resolveHistogramAggregationFromEnv(): AggregationOption | undefined {
+  const envValue = process.env[DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR];
+  if (!envValue) {
+    return undefined;
+  }
+
+  const normalized = envValue.trim().toLowerCase();
+  const aggregation = HISTOGRAM_AGGREGATION_MAP[normalized];
+  if (aggregation) {
+    return aggregation;
+  }
+
+  const validValues = Object.keys(HISTOGRAM_AGGREGATION_MAP)
+    .map((v) => `'${v}'`)
+    .join(" and ");
+  Logger.getInstance().warn(
+    `${DEFAULT_HISTOGRAM_AGGREGATION_ENV_VAR} has unsupported value '${envValue}'. Supported values are ${validValues}.`,
+  );
+  return undefined;
+}
+
+class AzureMonitorMetricExporterWithAggregation extends AzureMonitorMetricExporter {
+  private _histogramAggregation?: AggregationOption;
+
+  constructor(options: MetricExporterOptions, histogramAggregation?: AggregationOption) {
+    super(options);
+    this._histogramAggregation = histogramAggregation;
+  }
+
+  public selectAggregation(instrumentType: InstrumentType): AggregationOption {
+    if (instrumentType === InstrumentType.HISTOGRAM && this._histogramAggregation) {
+      return this._histogramAggregation;
+    }
+
+    return { type: AggregationType.DEFAULT };
+  }
+}
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
-  private _collectionInterval = 60000; // 60 seconds
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
   private _performanceCounters?: PerformanceCounterMetrics;
   private _liveMetrics?: LiveMetrics;
   private _config: InternalConfig;
-  private _views: View[];
+  private _views: ViewOptions[];
 
   /**
    * Initializes a new instance of the MetricHandler class.
    * @param config - Distro configuration.
    * @param options - Metric Handler options.
    */
-  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig) {
+    const defaultInterval = 60000;
     this._config = config;
     // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
     this._views = [];
     if (config.instrumentationOptions.azureSdk?.enabled) {
-      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-azure-sdk" }));
+      this._views.push({ meterName: "@azure/opentelemetry-instrumentation-azure-sdk" });
     }
     if (config.instrumentationOptions.http?.enabled) {
-      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-http" }));
+      this._views.push({ meterName: "@azure/opentelemetry-instrumentation-http" });
     }
     if (config.instrumentationOptions.mongoDb?.enabled) {
-      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-mongodb" }));
+      this._views.push({ meterName: "@azure/opentelemetry-instrumentation-mongodb" });
     }
     if (config.instrumentationOptions.mySql?.enabled) {
-      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-mysql" }));
+      this._views.push({ meterName: "@opentelemetry/instrumentation-mysql" });
     }
     if (config.instrumentationOptions.postgreSql?.enabled) {
-      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-pg" }));
+      this._views.push({ meterName: "@opentelemetry/instrumentation-pg" });
     }
-    if (config.instrumentationOptions.redis4?.enabled) {
-      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-redis-4" }));
+    if (
+      config.instrumentationOptions.redis?.enabled ||
+      config.instrumentationOptions.redis4?.enabled
+    ) {
+      this._views.push({ meterName: "@opentelemetry/instrumentation-redis" });
     }
-    if (config.instrumentationOptions.redis?.enabled) {
-      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
-    }
-    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
+    const histogramAggregation = resolveHistogramAggregationFromEnv();
+    this._azureExporter = new AzureMonitorMetricExporterWithAggregation(
+      this._config.azureMonitorExporterOptions,
+      histogramAggregation,
+    );
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
+      exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
@@ -80,7 +136,7 @@ export class MetricHandler {
     return this._metricReader;
   }
 
-  public getViews(): View[] {
+  public getViews(): ViewOptions[] {
     return this._views;
   }
 
@@ -94,7 +150,7 @@ export class MetricHandler {
     this._performanceCounters?.recordSpan(span);
   }
 
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
     this._liveMetrics?.recordLog(logRecord);
     this._performanceCounters?.recordLog(logRecord);

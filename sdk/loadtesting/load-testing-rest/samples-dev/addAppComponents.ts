@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function main(): Promise<void> {
   /**
    * The dataplane endpoint for the Azure Load Testing resource.
-   * Refer to https://learn.microsoft.com/rest/api/loadtesting/data-plane-uri to understand how to obtain the data-plane endpoint.
+   * Refer to https://learn.microsoft.com/rest/api/apptesting/loadtest/data-plane-uri to understand how to obtain the data-plane endpoint.
    */
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
 
@@ -23,8 +23,6 @@ async function main(): Promise<void> {
    */
   const credential = new DefaultAzureCredential();
   const testId = process.env["LOADTESTSERVICE_TESTID"] || ""; // TestId of a test already created.
-
-  const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, credential);

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-qumulo": ["./src/index.ts"],
+      "@azure/arm-qumulo/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

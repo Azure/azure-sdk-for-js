@@ -21,7 +21,7 @@ describe("snippets", () => {
     const azureSearchIndexName = "<search index>";
     // @ts-preserve-whitespace
     const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2025-03-01-preview";
+    const apiVersion = "2025-04-01-preview";
     const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
     const events = await client.chat.completions.create({
       stream: true,
@@ -68,7 +68,7 @@ describe("snippets", () => {
     const azureSearchIndexName = "<search index>";
     // @ts-preserve-whitespace
     const deployment = "gpt-4-1106-preview";
-    const apiVersion = "2025-03-01-preview";
+    const apiVersion = "2025-04-01-preview";
     const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
     const events = await client.chat.completions.create({
       messages: [

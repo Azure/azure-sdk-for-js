@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aa4b90db8da0aa8017c6b80a6a68ab79cc09266b/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/be46becafeb29aa993898709e35759d3643b2809/specification/storage/data-plane/Microsoft.QueueStorage/stable/2026-04-06/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,8 +20,8 @@ disable-async-iterators: true
 add-credentials: false
 core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.3"
-package-version: 12.26.0
+  "@autorest/typescript": "6.0.42"
+package-version: 12.30.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -225,15 +225,6 @@ directive:
     where: $.definitions..properties.Logging
     transform: >
       $["x-ms-client-name"] = "queueAnalyticsLogging"
-```
-
-### Update service version from "2018-03-28" to "2025-05-05"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-05-05" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn
@@ -558,4 +549,27 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
+```
+
+### UserDelegationKey properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.UserDelegationKey
+    transform: >
+      $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
+      $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+      $.properties.SignedDelegatedUserTid["x-ms-client-name"] = "signedDelegatedUserTenantId";
+```
+
+### Set service version to "2026-04-06"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
 ```

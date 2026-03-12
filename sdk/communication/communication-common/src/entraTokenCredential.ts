@@ -18,7 +18,7 @@ import {
 const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
 const CommunicationClientsScopePrefix = "https://communication.azure.com/clients/";
 const TeamsExtensionEndpoint = "/access/teamsExtension/:exchangeAccessToken";
-const TeamsExtensionApiVersion = "2025-03-02-preview";
+const TeamsExtensionApiVersion = "2025-06-30";
 const CommunicationClientsEndpoint = "/access/entra/:exchangeAccessToken";
 const CommunicationClientsApiVersion = "2025-03-02-preview";
 

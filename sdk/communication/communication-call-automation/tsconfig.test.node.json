@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/communication-call-automation": ["./src/index.ts"],
+      "@azure/communication-call-automation/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

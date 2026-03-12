@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the keyvault-secrets perf tests package `rush build -t perf-keyvault-secrets`.
+1. Build the keyvault-secrets perf tests package `pnpm build --filter perf-keyvault-secrets...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create an Azure KeyVault and populate the `.env` file with `KEYVAULT_URI` variable.
 4. Populate the `.env` file with your Azure Credentials.

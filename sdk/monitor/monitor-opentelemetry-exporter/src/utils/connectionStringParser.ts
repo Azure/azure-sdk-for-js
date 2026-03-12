@@ -32,9 +32,7 @@ export class ConnectionStringParser {
         return { ...fields, [key]: value };
       }
       diag.error(
-        `Connection string key-value pair is invalid: ${kv}`,
-        `Entire connection string will be discarded`,
-        connectionString,
+        "Connection string key-value pair is invalid: Entire connection string will be discarded",
       );
       isValid = false;
       return fields;
@@ -60,14 +58,11 @@ export class ConnectionStringParser {
         : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         diag.warn(
-          `Connection String contains an unsupported 'Authorization' value: ${result.authorization}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
+          `Connection String contains an unsupported 'Authorization' value. Defaulting to 'Authorization=ikey'`,
         );
       }
     } else {
-      diag.error(
-        "An invalid connection string was passed in. There may be telemetry loss",
-        connectionString,
-      );
+      diag.error("An invalid connection string was passed in. There may be telemetry loss");
     }
 
     return result;

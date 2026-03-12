@@ -140,6 +140,26 @@ const client = new DocumentAnalysisClient(
 );
 ```
 
+#### Sovereign Clouds
+
+Connect to alternative Azure cloud environments (such as Azure China or Azure Government) by specifying the `audience` option when creating your client. Use the `KnownFormRecognizerAudience` enum to select the correct value for your environment.
+
+```ts snippet:ReadmeSampleSovereignClouds
+import { DefaultAzureCredential } from "@azure/identity";
+import { DocumentAnalysisClient, KnownFormRecognizerAudience } from "@azure/ai-form-recognizer";
+
+const credential = new DefaultAzureCredential();
+const client = new DocumentAnalysisClient(
+  "https://<resource name>.cognitiveservices.azure.com", // endpoint
+  credential,
+  {
+    audience: KnownFormRecognizerAudience.AzureGovernment,
+  },
+);
+```
+
+If you do not specify the `audience` option, the default is suitable for the Azure Public Cloud (`https://cognitiveservices.azure.com`).
+
 ## Key concepts
 
 ### `DocumentAnalysisClient`

@@ -49,6 +49,20 @@ export interface RemoveFromGroupsRequest {
   filter?: string;
 }
 
+/** Represents a page of elements as a LIST REST API result. */
+export interface GroupMemberPagedValues {
+  value: WebPubSubGroupMember[];
+  /** An absolute URL that the client can GET in order to retrieve the next page of the collection. */
+  nextLink?: string;
+}
+
+export interface WebPubSubGroupMember {
+  /** A unique identifier of a connection. */
+  connectionId: string;
+  /** The user ID of the connection. A user can have multiple connections. */
+  userId?: string;
+}
+
 /** Defines headers for WebPubSub_addConnectionsToGroups operation. */
 export interface WebPubSubAddConnectionsToGroupsExceptionHeaders {
   errorCode?: string;
@@ -109,6 +123,11 @@ export interface WebPubSubSendToGroupExceptionHeaders {
   errorCode?: string;
 }
 
+/** Defines headers for WebPubSub_listConnectionsInGroup operation. */
+export interface WebPubSubListConnectionsInGroupExceptionHeaders {
+  errorCode?: string;
+}
+
 /** Defines headers for WebPubSub_removeConnectionFromGroup operation. */
 export interface WebPubSubRemoveConnectionFromGroupExceptionHeaders {
   errorCode?: string;
@@ -161,6 +180,11 @@ export interface WebPubSubRemoveUserFromGroupExceptionHeaders {
 
 /** Defines headers for WebPubSub_addUserToGroup operation. */
 export interface WebPubSubAddUserToGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_listConnectionsInGroupNext operation. */
+export interface WebPubSubListConnectionsInGroupNextExceptionHeaders {
   errorCode?: string;
 }
 
@@ -328,6 +352,20 @@ export interface WebPubSubSendToGroup$textOptionalParams
 }
 
 /** Optional parameters. */
+export interface WebPubSubListConnectionsInGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of connections to include in a single response. It should be between 1 and 200. */
+  maxPageSize?: number;
+  /** The maximum number of connections to return. If the value is not set, then all the connections in a group are returned. */
+  top?: number;
+  /** A token that allows the client to retrieve the next page of results. This parameter is provided by the service in the response of a previous request when there are additional results to be fetched. Clients should include the continuationToken in the next request to receive the subsequent page of data. If this parameter is omitted, the server will return the first page of results. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listConnectionsInGroup operation. */
+export type WebPubSubListConnectionsInGroupResponse = GroupMemberPagedValues;
+
+/** Optional parameters. */
 export interface WebPubSubRemoveConnectionFromGroupOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -398,6 +436,14 @@ export interface WebPubSubRemoveUserFromGroupOptionalParams
 /** Optional parameters. */
 export interface WebPubSubAddUserToGroupOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WebPubSubListConnectionsInGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listConnectionsInGroupNext operation. */
+export type WebPubSubListConnectionsInGroupNextResponse =
+  GroupMemberPagedValues;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

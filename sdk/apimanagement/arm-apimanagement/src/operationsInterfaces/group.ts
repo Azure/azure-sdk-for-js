@@ -8,108 +8,108 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    GroupContract,
-    GroupCreateOrUpdateOptionalParams,
-    GroupCreateOrUpdateResponse,
-    GroupCreateParameters,
-    GroupDeleteOptionalParams,
-    GroupGetEntityTagOptionalParams,
-    GroupGetEntityTagResponse,
-    GroupGetOptionalParams,
-    GroupGetResponse,
-    GroupListByServiceOptionalParams,
-    GroupUpdateOptionalParams,
-    GroupUpdateParameters,
-    GroupUpdateResponse
+  GroupContract,
+  GroupListByServiceOptionalParams,
+  GroupGetEntityTagOptionalParams,
+  GroupGetEntityTagResponse,
+  GroupGetOptionalParams,
+  GroupGetResponse,
+  GroupCreateParameters,
+  GroupCreateOrUpdateOptionalParams,
+  GroupCreateOrUpdateResponse,
+  GroupUpdateParameters,
+  GroupUpdateOptionalParams,
+  GroupUpdateResponse,
+  GroupDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Group. */
 export interface Group {
-    /**
-     * Lists a collection of groups defined within a service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: GroupListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<GroupContract>;
-    /**
-     * Gets the entity state (Etag) version of the group specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        groupId: string,
-        options?: GroupGetEntityTagOptionalParams
-    ): Promise<GroupGetEntityTagResponse>;
-    /**
-     * Gets the details of the group specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        groupId: string,
-        options?: GroupGetOptionalParams
-    ): Promise<GroupGetResponse>;
-    /**
-     * Creates or Updates a group.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        groupId: string,
-        parameters: GroupCreateParameters,
-        options?: GroupCreateOrUpdateOptionalParams
-    ): Promise<GroupCreateOrUpdateResponse>;
-    /**
-     * Updates the details of the group specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        groupId: string,
-        ifMatch: string,
-        parameters: GroupUpdateParameters,
-        options?: GroupUpdateOptionalParams
-    ): Promise<GroupUpdateResponse>;
-    /**
-     * Deletes specific group of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        groupId: string,
-        ifMatch: string,
-        options?: GroupDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists a collection of groups defined within a service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: GroupListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<GroupContract>;
+  /**
+   * Gets the entity state (Etag) version of the group specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    groupId: string,
+    options?: GroupGetEntityTagOptionalParams,
+  ): Promise<GroupGetEntityTagResponse>;
+  /**
+   * Gets the details of the group specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    groupId: string,
+    options?: GroupGetOptionalParams,
+  ): Promise<GroupGetResponse>;
+  /**
+   * Creates or Updates a group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    groupId: string,
+    parameters: GroupCreateParameters,
+    options?: GroupCreateOrUpdateOptionalParams,
+  ): Promise<GroupCreateOrUpdateResponse>;
+  /**
+   * Updates the details of the group specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    groupId: string,
+    ifMatch: string,
+    parameters: GroupUpdateParameters,
+    options?: GroupUpdateOptionalParams,
+  ): Promise<GroupUpdateResponse>;
+  /**
+   * Deletes specific group of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    groupId: string,
+    ifMatch: string,
+    options?: GroupDeleteOptionalParams,
+  ): Promise<void>;
 }

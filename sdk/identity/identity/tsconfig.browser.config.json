@@ -1,4 +1,13 @@
 {
-  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
-  "exclude": ["./test/**/node", "./test/manual*"]
+  "extends": "../../../tsconfig.browser.base.json",
+  "references": [
+    { "path": "./tsconfig.test.browser.public.json" },
+    { "path": "./tsconfig.test.browser.internal.json" }
+  ],
+  "files": [],
+  "include": [],
+  "compilerOptions": {
+    "noEmit": true,
+    "types": []
+  }
 }

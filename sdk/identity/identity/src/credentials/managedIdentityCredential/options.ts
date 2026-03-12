@@ -40,3 +40,20 @@ export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentia
    */
   objectId: string;
 }
+
+/**
+ * @internal
+ * Internal options for configuring the {@link ManagedIdentityCredential} with disable probe ability for DAC.
+ * This type ensures that we can use any of the credential options (clientId, resourceId, or objectId)
+ * along with the disableProbe flag for DefaultAzureCredential.
+ */
+export type InternalManagedIdentityCredentialOptions =
+  | (ManagedIdentityCredentialClientIdOptions & ManagedIdentityDisableProbeOptions)
+  | (ManagedIdentityCredentialResourceIdOptions & ManagedIdentityDisableProbeOptions)
+  | (ManagedIdentityCredentialObjectIdOptions & ManagedIdentityDisableProbeOptions);
+
+/**
+ * Options for configuring Managed Identity Credential with disable probe.
+ * This is only meant to use in DefaultAzureCredential when AZURE_TOKEN_CREDENTIALS is set to Managed Identity Credential.
+ */
+type ManagedIdentityDisableProbeOptions = { sendProbeRequest?: boolean };

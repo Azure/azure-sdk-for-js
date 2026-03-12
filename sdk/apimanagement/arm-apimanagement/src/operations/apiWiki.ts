@@ -6,275 +6,270 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ApiWiki } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    ApiWikiCreateOrUpdateOptionalParams,
-    ApiWikiCreateOrUpdateResponse,
-    ApiWikiDeleteOptionalParams,
-    ApiWikiGetEntityTagOptionalParams,
-    ApiWikiGetEntityTagResponse,
-    ApiWikiGetOptionalParams,
-    ApiWikiGetResponse,
-    ApiWikiUpdateOptionalParams,
-    ApiWikiUpdateResponse,
-    WikiContract,
-    WikiUpdateContract
-} from "../models/index.js";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ApiWiki } from "../operationsInterfaces/index.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  ApiWikiGetEntityTagOptionalParams,
+  ApiWikiGetEntityTagResponse,
+  ApiWikiGetOptionalParams,
+  ApiWikiGetResponse,
+  WikiContract,
+  ApiWikiCreateOrUpdateOptionalParams,
+  ApiWikiCreateOrUpdateResponse,
+  WikiUpdateContract,
+  ApiWikiUpdateOptionalParams,
+  ApiWikiUpdateResponse,
+  ApiWikiDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing ApiWiki operations. */
 export class ApiWikiImpl implements ApiWiki {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiWiki class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiWiki class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the Wiki for an API specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiWikiGetEntityTagOptionalParams
-    ): Promise<ApiWikiGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, options },
-            getEntityTagOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the Wiki for an API specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiWikiGetEntityTagOptionalParams,
+  ): Promise<ApiWikiGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * Gets the details of the Wiki for an API specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiWikiGetOptionalParams
-    ): Promise<ApiWikiGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, options },
-            getOperationSpec
-        );
-    }
+  /**
+   * Gets the details of the Wiki for an API specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiWikiGetOptionalParams,
+  ): Promise<ApiWikiGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, options },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * Creates a new Wiki for an API or updates an existing one.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        parameters: WikiContract,
-        options?: ApiWikiCreateOrUpdateOptionalParams
-    ): Promise<ApiWikiCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Creates a new Wiki for an API or updates an existing one.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    parameters: WikiContract,
+    options?: ApiWikiCreateOrUpdateOptionalParams,
+  ): Promise<ApiWikiCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
 
-    /**
-     * Updates the details of the Wiki for an API specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Wiki Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        ifMatch: string,
-        parameters: WikiUpdateContract,
-        options?: ApiWikiUpdateOptionalParams
-    ): Promise<ApiWikiUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, ifMatch, parameters, options },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Updates the details of the Wiki for an API specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Wiki Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    parameters: WikiUpdateContract,
+    options?: ApiWikiUpdateOptionalParams,
+  ): Promise<ApiWikiUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, ifMatch, parameters, options },
+      updateOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes the specified Wiki from an API.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        ifMatch: string,
-        options?: ApiWikiDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, ifMatch, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Deletes the specified Wiki from an API.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    options?: ApiWikiDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, ifMatch, options },
+      deleteOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.ApiWikiGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.ApiWikiGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.WikiContract,
-            headersMapper: Mappers.ApiWikiGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WikiContract,
+      headersMapper: Mappers.ApiWikiGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.WikiContract,
-            headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.WikiContract,
-            headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WikiContract,
+      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters16,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.WikiContract,
+      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters18,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
-    httpMethod: "PATCH",
-    responses: {
-        200: {
-            bodyMapper: Mappers.WikiContract,
-            headersMapper: Mappers.ApiWikiUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WikiContract,
+      headersMapper: Mappers.ApiWikiUpdateHeaders,
     },
-    requestBody: Parameters.parameters17,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch1
-    ],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };

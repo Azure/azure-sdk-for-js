@@ -1,0 +1,43 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/dbVersions": "./src/api/dbVersions/index.ts"
+  "./api/dbSystems": "./src/api/dbSystems/index.ts"
+  "./api/resourceAnchors": "./src/api/resourceAnchors/index.ts"
+  "./api/networkAnchors": "./src/api/networkAnchors/index.ts"
+  "./api/exascaleDbStorageVaults": "./src/api/exascaleDbStorageVaults/index.ts"
+  "./api/exascaleDbNodes": "./src/api/exascaleDbNodes/index.ts"
+  "./api/exadbVmClusters": "./src/api/exadbVmClusters/index.ts"
+  "./api/autonomousDatabaseVersions": "./src/api/autonomousDatabaseVersions/index.ts"
+  "./api/autonomousDatabaseNationalCharacterSets": "./src/api/autonomousDatabaseNationalCharacterSets/index.ts"
+  "./api/autonomousDatabaseCharacterSets": "./src/api/autonomousDatabaseCharacterSets/index.ts"
+  "./api/autonomousDatabaseBackups": "./src/api/autonomousDatabaseBackups/index.ts"
+  "./api/autonomousDatabases": "./src/api/autonomousDatabases/index.ts"
+  "./api/flexComponents": "./src/api/flexComponents/index.ts"
+  "./api/dnsPrivateZones": "./src/api/dnsPrivateZones/index.ts"
+  "./api/dnsPrivateViews": "./src/api/dnsPrivateViews/index.ts"
+  "./api/dbSystemShapes": "./src/api/dbSystemShapes/index.ts"
+  "./api/giMinorVersions": "./src/api/giMinorVersions/index.ts"
+  "./api/giVersions": "./src/api/giVersions/index.ts"
+  "./api/dbNodes": "./src/api/dbNodes/index.ts"
+  "./api/oracleSubscriptions": "./src/api/oracleSubscriptions/index.ts"
+  "./api/systemVersions": "./src/api/systemVersions/index.ts"
+  "./api/virtualNetworkAddresses": "./src/api/virtualNetworkAddresses/index.ts"
+  "./api/cloudVmClusters": "./src/api/cloudVmClusters/index.ts"
+  "./api/dbServers": "./src/api/dbServers/index.ts"
+  "./api/cloudExadataInfrastructures": "./src/api/cloudExadataInfrastructures/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

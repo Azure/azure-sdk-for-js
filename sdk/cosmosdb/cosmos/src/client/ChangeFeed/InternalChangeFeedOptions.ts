@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ChangeFeedMode } from "./ChangeFeedMode.js";
+import type { PriorityLevel } from "../../documents/PriorityLevel.js";
 
 /**
  * @hidden
@@ -19,4 +20,9 @@ export interface InternalChangeFeedIteratorOptions {
   changeFeedMode?: ChangeFeedMode;
 
   startFromNow?: boolean;
+
+  excludedLocations?: string[];
+
+  priorityLevel?: PriorityLevel;
+  throughputBucket?: number;
 }

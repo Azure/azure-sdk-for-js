@@ -8,11 +8,15 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      testTimeout: 1200000,
-      hookTimeout: 1200000,
-      include: [
-        "dist-test/browser/**/**/*.spec.js",
-      ],
+      browser: {
+        api: {
+          host: '127.0.0.1',
+          port: 54322,
+        },
+      },
+    },
+    optimizeDeps: {
+      exclude: ["@azure/core-lro"],
     },
   }),
 );

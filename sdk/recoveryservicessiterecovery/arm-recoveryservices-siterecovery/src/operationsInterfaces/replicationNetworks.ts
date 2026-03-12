@@ -20,42 +20,42 @@ import {
 export interface ReplicationNetworks {
   /**
    * Lists the networks available for a fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<Network>;
   /**
    * Lists the networks available in a vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<Network>;
   /**
    * Gets the details of a network.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Server Id.
    * @param networkName Primary network name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     networkName: string,
     options?: ReplicationNetworksGetOptionalParams,

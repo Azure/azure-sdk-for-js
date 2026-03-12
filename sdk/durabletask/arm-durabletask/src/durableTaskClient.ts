@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createDurableTask,
-  DurableTaskContext,
-  DurableTaskClientOptionalParams,
-} from "./api/index.js";
-import { TaskHubsOperations, _getTaskHubsOperations } from "./classic/taskHubs/index.js";
-import { SchedulersOperations, _getSchedulersOperations } from "./classic/schedulers/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { DurableTaskContext, DurableTaskClientOptionalParams } from "./api/index.js";
+import { createDurableTask } from "./api/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { RetentionPoliciesOperations } from "./classic/retentionPolicies/index.js";
+import { _getRetentionPoliciesOperations } from "./classic/retentionPolicies/index.js";
+import type { SchedulersOperations } from "./classic/schedulers/index.js";
+import { _getSchedulersOperations } from "./classic/schedulers/index.js";
+import type { TaskHubsOperations } from "./classic/taskHubs/index.js";
+import { _getTaskHubsOperations } from "./classic/taskHubs/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DurableTaskClientOptionalParams } from "./api/durableTaskContext.js";
+export { type DurableTaskClientOptionalParams } from "./api/durableTaskContext.js";
 
 export class DurableTaskClient {
   private _client: DurableTaskContext;
@@ -33,11 +35,14 @@ export class DurableTaskClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.retentionPolicies = _getRetentionPoliciesOperations(this._client);
     this.taskHubs = _getTaskHubsOperations(this._client);
     this.schedulers = _getSchedulersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for retentionPolicies */
+  public readonly retentionPolicies: RetentionPoliciesOperations;
   /** The operation groups for taskHubs */
   public readonly taskHubs: TaskHubsOperations;
   /** The operation groups for schedulers */

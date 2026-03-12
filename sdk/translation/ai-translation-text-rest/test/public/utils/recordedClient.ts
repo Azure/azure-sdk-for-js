@@ -10,7 +10,6 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import {
-  getCustomEndpoint,
   getEndpoint,
   getKey,
   getRegion,
@@ -27,10 +26,6 @@ const recorderEnvSetup: RecorderStartOptions = {
       {
         target: getEndpoint(),
         value: MOCKS.ENDPOINT,
-      },
-      {
-        target: getCustomEndpoint(),
-        value: MOCKS.CUSTOM_ENDPOINT,
       },
     ],
     headerSanitizers: [

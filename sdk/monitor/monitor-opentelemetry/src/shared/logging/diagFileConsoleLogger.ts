@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as os from "node:os";
-import * as path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import type { DiagLogger } from "@opentelemetry/api";
 import {
   accessAsync,
@@ -70,30 +70,60 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public error(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public warn(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public info(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public debug(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public verbose(message?: any, ...args: any[]): void {
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
+    if (this._shouldFilterAzureMonitorExporterWarning(message)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -113,6 +143,68 @@ export class DiagFileConsoleLogger implements DiagLogger {
       // eslint-disable-next-line no-console
       console.log(this._TAG, `Failed to log to file: ${err && err.message}`);
     }
+  }
+
+  /**
+   * Checks if the warning message should be filtered out to avoid showing
+   * non-actionable warnings to customers
+   */
+  private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
+    const messagesToFilter = [
+      "accessing resource attributes before async attributes settled",
+      "resource attributes being accessed before async attributes finished",
+      "async attributes settled",
+      "unsettled resource attribute",
+      "resource attributes accessed before async detection completed",
+      "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
+    ];
+
+    const stringsToInspect: string[] = [];
+    if (typeof message === "string") {
+      stringsToInspect.push(message.toLowerCase());
+    }
+    if (args && Array.isArray(args)) {
+      for (const arg of args) {
+        if (typeof arg === "string") {
+          stringsToInspect.push(arg.toLowerCase());
+        }
+      }
+    }
+
+    for (const text of stringsToInspect) {
+      if (messagesToFilter.some((filterText) => text.includes(filterText))) {
+        return true;
+      }
+    }
+
+    if (typeof message === "string") {
+      const messageParts = message.split(" ");
+      if (
+        messageParts.length >= 3 &&
+        messageParts[0].toLowerCase() === "accessing" &&
+        messageParts[1].toLowerCase() === "resource" &&
+        messageParts[2].toLowerCase() === "attributes"
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private _shouldFilterAzureMonitorExporterWarning(message?: any): boolean {
+    if (typeof message !== "string") {
+      return false;
+    }
+
+    const text = message.toLowerCase();
+    if (!text.includes("otel_metrics_exporter")) {
+      return false;
+    }
+
+    const matchesUnsupportedValue = text.includes("unsupported otel_metrics_exporter value");
+
+    return matchesUnsupportedValue && text.includes("azure_monitor");
   }
 
   private async _storeToDisk(args: any): Promise<void> {
@@ -159,8 +251,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       console.log("Failed to generate backup log file", err);
     } finally {
       // Store logs
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      writeFileAsync(this._fileFullPath, data);
+      await writeFileAsync(this._fileFullPath, data);
     }
   }
 

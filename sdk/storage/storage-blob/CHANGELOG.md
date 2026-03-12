@@ -1,6 +1,77 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
+
+## 12.32.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message.
+- Added support for Delete Blob Conditional Tier.
+- Added support for Server-side Encryption Rekeying.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
+## 12.31.0 (2026-02-10)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+### Other Changes
+
+- Updated minimum version of `@azure/storage-common` to `^12.3.0`.
+
+## 12.30.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
+## 12.30.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for the StartFrom parameter on BlobContainerClient.listBlobs() and .listBlobsByHierarchy().
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for conditional headers on BlobBaseClient.getTags(), and .getTags().
+
+### Other Changes
+
+- Refactor to import and re-export common APIs from `@azure/storage-common`
+
+## 12.29.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
+
+## 12.28.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.2.
+
+## 12.29.0-beta.1 (2025-06-16)
+
+### Features Added
+
+- Added support for service version 2025-11-05.
+- AppendBlobClient. appendBlockFromURL (), BlobClient.startCopyFromURL(), syncCopyFromURL(), BlockBlobClient.stageBlockFromURL() and PageBlobClient.uploadPagesFromURL() will now return CopySourceStatusCode, CopySourceErrorCode, and CopySourceErrorMessage as part of error responses.
+- Added more useful error message when the SDK encounters an x-ms-version mis-match issue.
+
+## 12.28.0-beta.2 (2025-05-20)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.1.
+
+## 12.28.0-beta.1 (2025-05-20)
+
+### Features Added
+
+- Added support for service version 2025-07-05.
+- Added support for the `sourceShareTokenIntent` parameter to `AppendBlobClient.appendBlockFromURL()`, `BlockBlobClient.stageBlockFromURL()`, `BlockBlobClient.syncUploadFromURL()`, `BlobClient.syncCopyFromURL()`, `PageBlobClient.uploadPagesFromURL()`.
 
 ## 12.27.0 (2025-03-18)
 

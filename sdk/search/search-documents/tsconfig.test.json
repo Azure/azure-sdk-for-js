@@ -1,9 +1,14 @@
 {
-  "extends": ["./tsconfig.src.json"],
+  "references": [
+    {
+      "path": "./tsconfig.test.node.json"
+    },
+    {
+      "path": "./tsconfig.browser.config.json"
+    }
+  ],
   "compilerOptions": {
-    "skipLibCheck": true,
-    "target": "ES2022",
-    "noEmit": true
+    "composite": true
   },
-  "include": ["./test", "./src"]
+  "files": []
 }

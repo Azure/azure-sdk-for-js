@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/purview-administration": ["./src/index.ts"],
+      "@azure-rest/purview-administration/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

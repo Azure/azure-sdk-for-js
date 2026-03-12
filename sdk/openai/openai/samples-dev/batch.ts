@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
-  const apiVersion = "2025-03-01-preview";
+  const apiVersion = "2025-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
   const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
   }
 
   // Clean up file
-  await client.files.del(file.id);
+  await client.files.delete(file.id);
 }
 
 main().catch((err) => {

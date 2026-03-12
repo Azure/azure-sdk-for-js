@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { describe, it, assert, vi, expect } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { multipartPolicy } from "../src/policies/multipartPolicy.js";
-import { describe, it, assert, expect, vi } from "vitest";
 import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "./util.js";
+import { createFile, createFileFromStream } from "../src/util/file.js";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">,
@@ -67,30 +68,6 @@ describe("multipartPolicy", function () {
     );
   });
 
-  it("throws if request.body is already present", async function () {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      headers: createHttpHeaders({
-        "Content-Type": "multipart/form-data",
-      }),
-      multipartBody: { parts: [] },
-      body: "AAAAAAAAAAAA",
-    });
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
-    };
-    const next = vi.fn<SendRequest>();
-    next.mockResolvedValue(successResponse);
-
-    const policy = multipartPolicy();
-
-    await expect(policy.sendRequest(request, next)).rejects.toThrow(
-      /multipartBody and regular body cannot be set at the same time/,
-    );
-  });
-
   describe("content-type request header and boundary", async function () {
     it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
@@ -100,7 +77,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/mixed; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
@@ -157,7 +134,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/alternative; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
@@ -265,6 +242,28 @@ describe("multipartPolicy", function () {
       );
     });
 
+    it("supports createFile body", async function () {
+      const request = await performRequest({
+        multipartBody: {
+          boundary: "blah",
+          parts: [
+            {
+              body: createFile(stringToUint8Array("part", "utf-8"), "hello.txt"),
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
+      });
+
+      const expectedBody = stringToUint8Array("--blah\r\n\r\npart\r\n--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
+      assert.equal(
+        request.headers.get("Content-Length"),
+        expectedBody.byteLength.toString(),
+        "Expected Content-Length header to equal length of body",
+      );
+    });
+
     it("Supports web ReadableStream body", async function () {
       const body = new ReadableStream({
         start(controller) {
@@ -279,6 +278,35 @@ describe("multipartPolicy", function () {
           parts: [
             {
               body,
+              headers: createHttpHeaders(),
+            },
+          ],
+        },
+      });
+
+      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+      await assertBodyMatches(request.body, expectedBody);
+      assert.isUndefined(
+        request.headers.get("Content-Length"),
+        "Content-Length value should not be inferred from a stream",
+      );
+    });
+
+    it("Supports createFileFromStream body", async function () {
+      const body = () =>
+        new ReadableStream<Uint8Array>({
+          start(controller) {
+            controller.enqueue(new TextEncoder().encode("part1"));
+            controller.close();
+          },
+        });
+
+      const request = await performRequest({
+        multipartBody: {
+          boundary: "blah",
+          parts: [
+            {
+              body: createFileFromStream(body, "hello.txt"),
               headers: createHttpHeaders(),
             },
           ],

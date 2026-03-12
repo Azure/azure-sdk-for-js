@@ -1,0 +1,30 @@
+{
+  "name": "@azure-samples/monitor-query-logs-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monitor Query Logs client library samples for JavaScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/monitor/monitor-query-logs"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query-logs",
+  "dependencies": {
+    "@azure/monitor-query-logs": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^4.6.0"
+  }
+}

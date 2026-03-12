@@ -1,59 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig } from "vitest/config";
-import { AzureSDKReporter } from "../../../vitest.shared.config.js";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.browser.base.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
-import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
-export default defineConfig({
-  define: {
-    "process.env": process.env,
-  },
-  optimizeDeps: {
-    include: ["process", "buffer"],
-  },
-  plugins: [
-    browserMap(),
-    inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
-  ],
-  test: {
-    testTimeout: 600000,
-    hookTimeout: 60000,
-    fileParallelism: false,
-    include: ["dist-test/browser/**/*.spec.js"],
-    globalSetup: ["./test/utils/setup.ts"],
-    setupFiles: ["./test/utils/logging.ts"],
-    reporters: [new AzureSDKReporter(), "junit"],
-    outputFile: {
-      junit: "test-results.browser.xml",
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config = mergeConfig(
+  viteConfig,
+  defineConfig({
+    optimizeDeps: {
+      include: ["process", "buffer"],
     },
-    browser: {
-      instances: [
-        {
-          browser: "chromium",
-        },
-      ],
-      enabled: true,
-      headless: true,
-      provider: "playwright",
+    plugins: [
+      browserMap(),
+      inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
+    ],
+    test: {
+      testTimeout: 6000000,
+      hookTimeout: 6000000,
+      fileParallelism: false,
+      globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
+      setupFiles: ["./test/utils/logging.ts"],
+      env: process.env,
     },
-    watch: false,
-    coverage: {
-      include: ["dist-test/browser/**/*.js"],
-      exclude: [
-        "dist-test/browser/**/*./*-browser.mjs",
-        "dist-test/browser/**/*./*-react-native.mjs",
-      ],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage-browser",
-    },
-    alias: {
-      "@azure/event-hubs": resolve("./dist/browser/index.js"),
-      "../../../src": resolve("./dist/browser"),
-      "../../src": resolve("./dist/browser"),
-    },
-  },
-});
+  }),
+);
+
+delete config.test.fakeTimers;
+
+const unitTests = [
+  "dist-test/browser/test/internal/impl/awaitableQueue.spec.js",
+  "dist-test/browser/test/internal/impl/partitionGate.spec.js",
+  "dist-test/browser/test/internal/amqp.spec.js",
+  "dist-test/browser/test/internal/error.spec.js",
+  "dist-test/browser/test/internal/eventdata.spec.js",
+];
+
+if (process.env.TEST_MODE !== "live") {
+  // only run a couple of unit tests for browser if it's not live mode
+  config.test.env["TestType"] = "browser";
+  config.test.include = unitTests;
+}
+
+export default config;

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-operationalinsights": ["./src/index.ts"],
+      "@azure/arm-operationalinsights/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

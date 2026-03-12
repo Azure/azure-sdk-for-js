@@ -1,0 +1,3 @@
+directory: specification/monitor/Monitor.Query.Logs
+commit: fe3a4c5e55bff5ef805503fa9260a5cd3118cbf2
+repo: azure/azure-rest-api-specs

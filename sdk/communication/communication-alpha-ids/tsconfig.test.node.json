@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-alpha-ids": ["./src/index.ts"],
+      "@azure-tools/communication-alpha-ids/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

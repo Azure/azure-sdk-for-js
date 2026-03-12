@@ -1,4 +1,130 @@
 # Release History
+
+## 2.0.0-beta.2 (2025-07-31)
+
+### Features Added
+  - Added operation group GenerateAwsTemplateOperations
+  - Added operation group InventoryOperations
+  - Added operation group PublicCloudConnectorsOperations
+  - Added operation group SolutionConfigurationsOperations
+  - Added operation group SolutionTypesOperations
+  - Class HybridConnectivityManagementAPI has a new constructor "constructor(credential: TokenCredential, subscriptionId: string, options?: HybridConnectivityManagementAPIOptionalParams);"
+  - Added Interface AADProfileProperties
+  - Added Interface AwsCloudProfile
+  - Added Interface AwsCloudProfileUpdate
+  - Added Interface ExtensionResource
+  - Added Interface GenerateAwsTemplatePostOptionalParams
+  - Added Interface GenerateAwsTemplateRequest
+  - Added Interface GenerateAwsTemplateResponse
+  - Added Interface IngressProfileProperties
+  - Added Interface InventoryGetOptionalParams
+  - Added Interface InventoryListBySolutionConfigurationOptionalParams
+  - Added Interface InventoryProperties
+  - Added Interface InventoryResource
+  - Added Interface OperationStatusResult
+  - Added Interface PageSettings
+  - Added Interface PublicCloudConnector
+  - Added Interface PublicCloudConnectorProperties
+  - Added Interface PublicCloudConnectorPropertiesUpdate
+  - Added Interface PublicCloudConnectorsCreateOrUpdateOptionalParams
+  - Added Interface PublicCloudConnectorsDeleteOptionalParams
+  - Added Interface PublicCloudConnectorsGetOptionalParams
+  - Added Interface PublicCloudConnectorsListByResourceGroupOptionalParams
+  - Added Interface PublicCloudConnectorsListBySubscriptionOptionalParams
+  - Added Interface PublicCloudConnectorsTestPermissionsOptionalParams
+  - Added Interface PublicCloudConnectorsUpdateOptionalParams
+  - Added Interface PublicCloudConnectorUpdate
+  - Added Interface RelayNamespaceAccessProperties
+  - Added Interface ServiceConfigurationProperties
+  - Added Interface ServiceConfigurationPropertiesPatch
+  - Added Interface SolutionConfiguration
+  - Added Interface SolutionConfigurationProperties
+  - Added Interface SolutionConfigurationPropertiesUpdate
+  - Added Interface SolutionConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface SolutionConfigurationsDeleteOptionalParams
+  - Added Interface SolutionConfigurationsGetOptionalParams
+  - Added Interface SolutionConfigurationsListOptionalParams
+  - Added Interface SolutionConfigurationsSyncNowOptionalParams
+  - Added Interface SolutionConfigurationsUpdateOptionalParams
+  - Added Interface SolutionConfigurationUpdate
+  - Added Interface SolutionSettings
+  - Added Interface SolutionTypeProperties
+  - Added Interface SolutionTypeResource
+  - Added Interface SolutionTypeSettings
+  - Added Interface SolutionTypeSettingsProperties
+  - Added Interface SolutionTypesGetOptionalParams
+  - Added Interface SolutionTypesListByResourceGroupOptionalParams
+  - Added Interface SolutionTypesListBySubscriptionOptionalParams
+  - Added Interface TrackedResource
+  - Added Interface TrackedResourceUpdate
+  - Interface EndpointAccessResource has a new optional parameter relay
+  - Interface HybridConnectivityManagementAPIOptionalParams has a new optional parameter cloudSetting
+  - Interface IngressGatewayResource has a new optional parameter ingress
+  - Interface IngressGatewayResource has a new optional parameter relay
+  - Interface ServiceConfigurationResource has a new optional parameter properties
+  - Interface ServiceConfigurationResourcePatch has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CloudNativeType
+  - Added Type Alias HostType
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias SolutionConfigurationStatus
+  - Added Enum AzureClouds
+  - Added Enum KnownCloudNativeType
+  - Added Enum KnownHostType
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownSolutionConfigurationStatus
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation Endpoints.listCredentials has a new signature
+  - Operation Endpoints.listIngressGatewayCredentials has a new signature
+  - Operation ServiceConfigurations.update has a new signature
+  - Class HybridConnectivityManagementAPI has a new signature
+  - Class HybridConnectivityManagementAPI no longer has parameter $host
+  - Class HybridConnectivityManagementAPI no longer has parameter apiVersion
+  - Removed Interface EndpointsList
+  - Removed Interface OperationListResult
+  - Removed Interface ServiceConfigurationList
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to any
+  - Interface EndpointAccessResource no longer has parameter accessKey
+  - Interface EndpointAccessResource no longer has parameter expiresOn
+  - Interface EndpointAccessResource no longer has parameter hybridConnectionName
+  - Interface EndpointAccessResource no longer has parameter namespaceName
+  - Interface EndpointAccessResource no longer has parameter namespaceNameSuffix
+  - Interface EndpointAccessResource no longer has parameter serviceConfigurationToken
+  - Interface HybridConnectivityManagementAPIOptionalParams no longer has parameter $host
+  - Interface HybridConnectivityManagementAPIOptionalParams no longer has parameter endpoint
+  - Interface IngressGatewayResource no longer has parameter accessKey
+  - Interface IngressGatewayResource no longer has parameter expiresOn
+  - Interface IngressGatewayResource no longer has parameter hostname
+  - Interface IngressGatewayResource no longer has parameter hybridConnectionName
+  - Interface IngressGatewayResource no longer has parameter namespaceName
+  - Interface IngressGatewayResource no longer has parameter namespaceNameSuffix
+  - Interface IngressGatewayResource no longer has parameter serverId
+  - Interface IngressGatewayResource no longer has parameter serviceConfigurationToken
+  - Interface IngressGatewayResource no longer has parameter tenantId
+  - Interface ServiceConfigurationResource no longer has parameter port
+  - Interface ServiceConfigurationResource no longer has parameter provisioningState
+  - Interface ServiceConfigurationResource no longer has parameter resourceId
+  - Interface ServiceConfigurationResource no longer has parameter serviceName
+  - Interface ServiceConfigurationResourcePatch no longer has parameter port
+  - Removed Type Alias EndpointsCreateOrUpdateResponse
+  - Removed Type Alias EndpointsGetResponse
+  - Removed Type Alias EndpointsListCredentialsResponse
+  - Removed Type Alias EndpointsListIngressGatewayCredentialsResponse
+  - Removed Type Alias EndpointsListManagedProxyDetailsResponse
+  - Removed Type Alias EndpointsListNextResponse
+  - Removed Type Alias EndpointsListResponse
+  - Removed Type Alias EndpointsUpdateResponse
+  - Removed Type Alias OperationsListNextResponse
+  - Removed Type Alias OperationsListResponse
+  - Removed Type Alias ServiceConfigurationsCreateOrupdateResponse
+  - Removed Type Alias ServiceConfigurationsGetResponse
+  - Removed Type Alias ServiceConfigurationsListByEndpointResourceNextResponse
+  - Removed Type Alias ServiceConfigurationsListByEndpointResourceResponse
+  - Removed Type Alias ServiceConfigurationsUpdateResponse
+  - Removed function getContinuationToken
+
     
 ## 2.0.0-beta.1 (2025-03-25)
     

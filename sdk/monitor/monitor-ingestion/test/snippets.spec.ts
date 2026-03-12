@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isAggregateLogsUploadError, LogsIngestionClient } from "../src/index.js";
-import { LogsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

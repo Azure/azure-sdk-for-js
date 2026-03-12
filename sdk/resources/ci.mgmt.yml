@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -11,6 +11,8 @@ trigger:
       - sdk/resources/ci.mgmt.yml
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
+      - sdk/resources/arm-resourcesdeployments
+      - sdk/resources/arm-resourcesbicep
 pr:
   branches:
     include:
@@ -25,6 +27,8 @@ pr:
       - sdk/resources/ci.mgmt.yml
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
+      - sdk/resources/arm-resourcesdeployments
+      - sdk/resources/arm-resourcesbicep
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,12 +37,16 @@ extends:
       - name: azure-arm-resources
         safeName: azurearmresources
         triggeringPaths:
-        - /sdk/identity/
-        - /.config/
-        - /.devcontainer/
-        - /.github/
-        - /.scripts/
-        - /common/
-        - /eng/
+          - /sdk/identity/
+          - /.config/
+          - /.devcontainer/
+          - /.github/
+          - /.scripts/
+          - /common/
+          - /eng/
       - name: azure-arm-resources-profile-2020-09-01-hybrid
         safeName: azurearmresourcesprofile20200901hybrid
+      - name: azure-arm-resourcesdeployments
+        safeName: azurearmresourcesdeployments
+      - name: azure-arm-resourcesbicep
+        safeName: azurearmresourcesbicep

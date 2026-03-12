@@ -11,12 +11,12 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createJWTTokenFromCertificate } from "./utils/utils.js";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "node:fs";
-import type { WorkloadIdentityCredentialOptions } from "../../../src/index.js";
+import type { WorkloadIdentityCredentialOptions } from "@azure/identity";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-} from "../../../src/index.js";
+} from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe.skip("WorkloadIdentityCredential", function () {
@@ -55,8 +55,8 @@ describe.skip("WorkloadIdentityCredential", function () {
     );
     try {
       const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     } finally {
       unlinkSync(fileDir.tempFile);
       rmdirSync(fileDir.tempDir);
@@ -68,8 +68,8 @@ describe.skip("WorkloadIdentityCredential", function () {
     const credential = new ManagedIdentityCredential(clientId, recorder.configureClientOptions({}));
     try {
       const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     } finally {
       unlinkSync(fileDir.tempFile);
       rmdirSync(fileDir.tempDir);
@@ -81,8 +81,8 @@ describe.skip("WorkloadIdentityCredential", function () {
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
     try {
       const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     } catch (e) {
       console.log(e);
     } finally {
@@ -99,8 +99,8 @@ describe.skip("WorkloadIdentityCredential", function () {
     );
     try {
       const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.isDefined(token?.token);
+      assert.isTrue(token?.expiresOnTimestamp! > Date.now());
     } catch (e) {
       console.log(e);
     } finally {

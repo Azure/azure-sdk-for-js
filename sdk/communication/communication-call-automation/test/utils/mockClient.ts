@@ -6,7 +6,6 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { baseUri, CALL_CONNECTION_ID, generateToken } from "../utils/connectionUtils.js";
 import { CallMedia } from "../../src/callMedia.js";
 import { CallRecording } from "../../src/callRecording.js";
-import { CallAutomationEventProcessor } from "../../src/eventprocessor/callAutomationEventProcessor.js";
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
@@ -27,7 +26,6 @@ export const createMediaClient = (mockHttpClient: HttpClient): CallMedia => {
     CALL_CONNECTION_ID,
     baseUri,
     { key: generateToken() },
-    new CallAutomationEventProcessor(),
     {
       httpClient: mockHttpClient,
     },

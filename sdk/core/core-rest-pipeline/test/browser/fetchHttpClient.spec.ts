@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "../../src/util/helpers.js";
+import { delay } from "@azure/core-util";
+import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -69,7 +69,7 @@ describe("FetchHttpClient", function () {
     const mockedResponse = createResponse(404);
     vi.mocked(fetch).mockResolvedValue(mockedResponse);
 
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
 
     const request = createPipelineRequest({ url: "https://localhost/404" });
     const response = await client.sendRequest(request);
@@ -94,7 +94,7 @@ describe("FetchHttpClient", function () {
     });
     const controller = new AbortController();
     const url = `http://localhost:3000/files/stream/verylarge`;
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url,
       abortSignal: controller.signal,
@@ -128,7 +128,7 @@ describe("FetchHttpClient", function () {
     });
     const controller = new AbortController();
     const url = `http://localhost:3000/files/stream/abort`;
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url,
       abortSignal: controller.signal,
@@ -162,7 +162,7 @@ describe("FetchHttpClient", function () {
     const mockedResponse = new Response(blob, { status: 200 });
     vi.mocked(fetch).mockResolvedValue(mockedResponse);
 
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const controller = new AbortController();
 
     const request = createPipelineRequest({
@@ -180,7 +180,7 @@ describe("FetchHttpClient", function () {
     const mockedResponse = new Response(blob, { status: 200 });
     vi.mocked(fetch).mockResolvedValue(mockedResponse);
 
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const controller = new AbortController();
     controller.abort();
     const request = createPipelineRequest({
@@ -197,7 +197,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should load chunk by chunk", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.useFakeTimers();
     // Mocking fetch to send the first chunk right away but delay the next
@@ -231,7 +231,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report download progress and decode chunks", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
@@ -254,7 +254,7 @@ describe("FetchHttpClient", function () {
     // Make TransformStream undefined to simulate Firefox where it is not available
     vi.stubGlobal("TransformStream", undefined);
 
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
@@ -275,7 +275,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report download progress when handling blob", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
@@ -299,7 +299,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should stream response body when status code matches", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
@@ -323,7 +323,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should not stream response body when status code doesn't match", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
@@ -345,7 +345,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report upload progress with TransformStream", async () => {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
@@ -372,7 +372,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should handle ReadableStream request body type", async () => {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
@@ -413,7 +413,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should handle () => ReadableStream request body type", async () => {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
@@ -470,7 +470,7 @@ describe("FetchHttpClient", function () {
       return mockedResponse;
     });
     const url = `http://localhost:3000/files/stream/verylarge`;
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
 
     const request = createPipelineRequest({
       url,
@@ -490,7 +490,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url: "http://example.com",
     });
@@ -506,7 +506,7 @@ describe("FetchHttpClient", function () {
     const mockedResponse = createResponse(200);
     vi.mocked(fetch).mockResolvedValue(mockedResponse);
 
-    const client = createFetchHttpClient();
+    const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       allowInsecureConnection: true,
       url: "http://example.com",

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Used to remove intent from an item
  *
  * @summary Used to remove intent from an item
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupProtectionIntent_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupProtectionIntent_Delete.json
  */
 async function deleteProtectionIntentFromItem(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function deleteProtectionIntentFromItem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteProtectionIntentFromItem();
+  await deleteProtectionIntentFromItem();
 }
 
 main().catch(console.error);

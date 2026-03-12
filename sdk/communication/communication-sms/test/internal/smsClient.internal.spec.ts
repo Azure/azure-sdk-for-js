@@ -74,6 +74,10 @@ matrix([[false, true]], async function (useAad: boolean) {
             enableDeliveryReport: true,
             tag: "SMS_LIVE_TEST",
             deliveryReportTimeoutInSeconds: 300,
+            messagingConnect: {
+              apiKey: "test_api_key",
+              partner: "test_partner",
+            },
           },
         );
 

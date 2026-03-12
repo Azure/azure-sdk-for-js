@@ -86,10 +86,10 @@ describe("QueueClient Node.js only", () => {
 
   it("getAccessPolicy", async () => {
     const result = await queueClient.getAccessPolicy();
-    assert.ok(result.requestId);
-    assert.ok(result.clientRequestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.clientRequestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("setAccessPolicy", async () => {
@@ -106,6 +106,27 @@ describe("QueueClient Node.js only", () => {
 
     await queueClient.setAccessPolicy(queueAcl);
     const result = await queueClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, queueAcl);
+  });
+
+  it("setAccessPolicy with OAuth", async () => {
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+
+    const queueAcl = [
+      {
+        accessPolicy: {
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: "raup",
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
+        },
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
+      },
+    ];
+
+    await queueClientWithOAuthToken.setAccessPolicy(queueAcl);
+    const result = await queueClientWithOAuthToken.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, queueAcl);
   });
 
@@ -140,10 +161,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -157,10 +179,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -171,10 +194,11 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.approximateMessagesCount);
+    assert.isAtLeast(result.approximateMessagesCount, 0);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a queue name", async () => {
@@ -183,9 +207,9 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
@@ -198,9 +222,9 @@ describe("QueueClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
+    assert.isDefined(result.requestId);
+    assert.isDefined(result.version);
+    assert.isDefined(result.date);
   });
 
   it("can be created with a url and a TokenCredential", async () => {

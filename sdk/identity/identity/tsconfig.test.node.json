@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.test.node.public.json" },
+    { "path": "./tsconfig.test.node.internal.json" }
+  ],
+  "compilerOptions": {
+    "composite": true
+  }
+}

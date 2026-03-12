@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
-import * as path from "node:path";
+import path from "node:path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { afterAll, afterEach, beforeEach, describe, it, vi } from "vitest";
+import { afterAll, afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 
 describe("Json Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -69,6 +68,7 @@ describe("Json Config", () => {
       assert.deepStrictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
       assert.deepStrictEqual(config.azureMonitorExporterOptions?.storageDirectory, "testPath");
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
+      assert.deepStrictEqual(config.tracesPerSecond, 0.2, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
         true,
@@ -112,6 +112,7 @@ describe("Json Config", () => {
           disableOfflineStorage: true,
         },
         samplingRatio: 1,
+        tracesPerSecond: 0.8,
         instrumentationOptions: {
           http: { enabled: true },
           azureSdk: { enabled: false },
@@ -127,6 +128,7 @@ describe("Json Config", () => {
       const config = JsonConfig.getInstance();
 
       assert.strictEqual(config.samplingRatio, 1);
+      assert.strictEqual(config.tracesPerSecond, 0.8);
       assert.strictEqual(config.instrumentationOptions?.http?.enabled, true);
       assert.strictEqual(config.instrumentationOptions?.azureSdk?.enabled, false);
       assert.strictEqual(config.instrumentationOptions?.mongoDb?.enabled, false);

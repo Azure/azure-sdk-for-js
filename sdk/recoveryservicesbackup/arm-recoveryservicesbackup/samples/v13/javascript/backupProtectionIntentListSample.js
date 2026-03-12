@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Provides a pageable list of all intents that are present within a vault.
  *
  * @summary Provides a pageable list of all intents that are present within a vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupProtectionIntent_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupProtectionIntent_List.json
  */
 async function listProtectionIntentWithBackupManagementTypeFilter() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function listProtectionIntentWithBackupManagementTypeFilter() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectionIntent.list(vaultName, resourceGroupName)) {
+  for await (const item of client.backupProtectionIntent.list(vaultName, resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listProtectionIntentWithBackupManagementTypeFilter();
+  await listProtectionIntentWithBackupManagementTypeFilter();
 }
 
 main().catch(console.error);

@@ -2,15 +2,16 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Description for Get all App Service plans in a resource group.
  *
  * @summary Description for Get all App Service plans in a resource group.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/ListAppServicePlansByResourceGroup.json
  */
+
+import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listAppServicePlansByResourceGroup() {
   const subscriptionId = process.env.SUBSCRIPTION_ID as string;
   const resourceGroupName = "testrg123";

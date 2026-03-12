@@ -10,34 +10,34 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to The operation to reprotect(reverse replicate) a recovery plan.
+ * This sample demonstrates how to The operation to reprotect(reverse replicate) a recovery plan. This api is for deprecated scenarios and no longer works.
  *
- * @summary The operation to reprotect(reverse replicate) a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_Reprotect.json
+ * @summary The operation to reprotect(reverse replicate) a recovery plan. This api is for deprecated scenarios and no longer works.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryPlans_Reprotect.json
  */
 async function executeReprotectOfTheRecoveryPlan() {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
-  const resourceName = "vault1";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
+  const resourceName = "vault1";
   const recoveryPlanName = "RPtest1";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationRecoveryPlans.beginReprotectAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     recoveryPlanName,
   );
   console.log(result);
 }
 
 async function main() {
-  executeReprotectOfTheRecoveryPlan();
+  await executeReprotectOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

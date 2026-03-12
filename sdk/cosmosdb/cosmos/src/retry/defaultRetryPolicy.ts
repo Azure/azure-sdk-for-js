@@ -111,16 +111,11 @@ const CONNECTION_ERROR_CODES = [
  * @hidden
  */
 function needsRetry(operationType: OperationType, code: number | string): boolean {
-  if (
+  return (
     (operationType === OperationType.Read || operationType === OperationType.Query) &&
-    CONNECTION_ERROR_CODES.indexOf(code) !== -1
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+    CONNECTION_ERROR_CODES.includes(code)
+  );
 }
-
 /**
  * This class implements the default connection retry policy for requests.
  * @hidden

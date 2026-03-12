@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get chat completions using audio data.
  * NOTE: Audio data completions currently work only with GPT audio models.
- * For more information, see https://learn.microsoft.com/en-us/azure/ai-foundry/model-inference/concepts/models
+ * For more information, see https://learn.microsoft.com/azure/ai-foundry/model-inference/concepts/models
  *
  * @summary Get chat completions using Audio data.
  */

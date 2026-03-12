@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/ai-language-conversations": ["./src/index.ts"],
+      "@azure/ai-language-conversations/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

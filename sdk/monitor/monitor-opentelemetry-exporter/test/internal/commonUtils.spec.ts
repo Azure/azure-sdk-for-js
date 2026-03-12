@@ -2,15 +2,21 @@
 // Licensed under the MIT License.
 
 import os from "node:os";
-import { Resource } from "@opentelemetry/resources";
+import type { Resource } from "@opentelemetry/resources";
+import { defaultResource, resourceFromAttributes } from "@opentelemetry/resources";
 import type { Tags } from "../../src/types.js";
-import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import {
+  createResourceMetricEnvelope,
+  createTagsFromResource,
+  serializeAttribute,
+} from "../../src/utils/common.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {
     it("default values", () => {
-      const resource: Resource = Resource.EMPTY;
+      const resource: Resource = resourceFromAttributes({});
       const tags: Tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "");
       assert.strictEqual(tags["ai.cloud.roleInstance"], os.hostname());
@@ -18,7 +24,7 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using custom Service attributes", () => {
-      let resource = new Resource({
+      let resource = resourceFromAttributes({
         "service.name": "testServiceName",
         "service.namespace": "testServiceNamespace",
         "service.instance.id": "testServiceInstanceId",
@@ -34,7 +40,7 @@ describe("commonUtils.ts", () => {
       assert.strictEqual(tags["ai.cloud.role"], "testServiceNamespace.testServiceName");
       assert.strictEqual(tags["ai.cloud.roleInstance"], "testK8sPod");
 
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "service.name": "testServiceName",
       });
       tags = createTagsFromResource(resource);
@@ -42,7 +48,7 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using Kubernetes attributes if available", () => {
-      let resource = new Resource({
+      let resource = resourceFromAttributes({
         "k8s.deployment.name": "testK8sDeployment",
         "k8s.replicaset.name": "testK8sReplicaset",
         "k8s.statefulset.name": "testK8sStatefulSet",
@@ -55,7 +61,7 @@ describe("commonUtils.ts", () => {
       assert.strictEqual(tags["ai.cloud.role"], "testK8sDeployment");
       assert.strictEqual(tags["ai.cloud.roleInstance"], "testK8sPod");
 
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "k8s.replicaset.name": "testK8sReplicaset",
         "k8s.statefulset.name": "testK8sStatefulSet",
         "k8s.job.name": "testK8sJob",
@@ -64,7 +70,7 @@ describe("commonUtils.ts", () => {
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sReplicaset");
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "k8s.statefulset.name": "testK8sStatefulSet",
         "k8s.job.name": "testK8sJob",
         "k8s.cronjob.name": "testK8sCronJob",
@@ -72,20 +78,20 @@ describe("commonUtils.ts", () => {
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sStatefulSet");
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "k8s.job.name": "testK8sJob",
         "k8s.cronjob.name": "testK8sCronJob",
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sJob");
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "k8s.cronjob.name": "testK8sCronJob",
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sCronJob");
-      resource = new Resource({
+      resource = resourceFromAttributes({
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
@@ -93,9 +99,10 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using default Resource", () => {
-      const resource = Resource.default();
+      const defResource = defaultResource();
+      const resource = resourceFromAttributes({ ...defResource.attributes });
       const tags: Tags = createTagsFromResource(resource);
-      assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
+      assert.isTrue(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });
 
     describe("#createProperties", () => {
@@ -109,8 +116,22 @@ describe("commonUtils.ts", () => {
         attr = serializeAttribute({ test: "value" });
         assert.strictEqual(attr, '{"test":"value"}');
         attr = serializeAttribute(new Error("testError") as any);
-        assert.ok(attr.includes('"stack":"Error: testError'));
-        assert.ok(attr.includes('"message":"testError"'));
+        assert.isTrue(attr.includes('"stack":"Error: testError'));
+        assert.isTrue(attr.includes('"message":"testError"'));
+      });
+    });
+
+    describe("#createResourceMetricEnvelope", () => {
+      it("adds applicationId from connection string when resource is missing it", () => {
+        const resource = resourceFromAttributes({ "service.name": "svc" });
+
+        const envelope = createResourceMetricEnvelope(resource, "ikey", "my-app-id");
+
+        assert.ok(envelope);
+        assert.strictEqual(
+          envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
+          "my-app-id",
+        );
       });
     });
   });

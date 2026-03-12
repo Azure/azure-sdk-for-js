@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2023"],
+    "types": ["node"],
+    "jsx": "preserve"
+  }
+}

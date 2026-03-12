@@ -38,7 +38,7 @@ npm install @azure/web-pubsub-client
 
 ### 2. Connect with your Web PubSub resource
 
-A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL genegrated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
+A client uses a Client Access URL to connect and authenticate with the service, which follows a pattern of `wss://<service_name>.webpubsub.azure.com/client/hubs/<hub_name>?access_token=<token>`. A client can have a few ways to obtain the Client Access URL. For this quick start, you can copy and paste one from Azure Portal shown below. (For production, your clients usually get the Client Access URL generated on your application server. [See details below](#use-negotiation-server-to-generate-client-access-url) )
 
 ![get_client_url](https://learn.microsoft.com/azure/azure-web-pubsub/media/howto-websocket-connect/generate-client-url.png)
 
@@ -90,6 +90,21 @@ await client.joinGroup(groupName);
 // Send a message to a joined group
 await client.sendToGroup(groupName, "hello world", "text");
 ```
+
+### 5. Invoke upstream events (preview)
+
+```ts snippet:ReadmeSampleInvokeEvent
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const result = await client.invokeEvent("processOrder", { orderId: 1 }, "json");
+console.log(`Invocation result: ${JSON.stringify(result.data)}`);
+```
+
+`invokeEvent` sends an `invoke` request to the service, awaits the correlated `invokeResponse`, and returns the payload. You can abort the invocation by passing `{ abortSignal }`.
+_Streaming and service-initiated invocations are not yet supported._
 
 ---
 

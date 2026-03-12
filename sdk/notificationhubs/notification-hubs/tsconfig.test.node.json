@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/notification-hubs": ["./src/index.ts"],
+      "@azure/notification-hubs/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -3,8 +3,8 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { prepareURL } from "../common/index.js";
-import { Constants } from "../common/constants.js";
+import { isReadRequest, prepareURL } from "../common/index.js";
+import { Constants, ResourceType } from "../common/constants.js";
 import { executePlugins, PluginOn } from "../plugins/Plugin.js";
 import * as RetryUtility from "../retry/retryUtility.js";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
@@ -18,7 +18,7 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
-import { addDignosticChild } from "../utils/diagnostics.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
@@ -47,19 +47,37 @@ async function httpRequest(
 
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
+  let userSignalListener: EventListener | undefined = undefined;
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();
     } else {
-      userSignal.addEventListener("abort", () => {
+      userSignalListener = () => {
         controller.abort();
-      });
+      };
+      userSignal.addEventListener("abort", userSignalListener);
     }
   }
 
+  let requestTimeout = requestContext.connectionPolicy.requestTimeout;
+  // If the request is a read request and partition level failover or circuit breaker is enabled,
+  // set a shorter timeout to allow for quicker failover in case of partition unavailability.
+  // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
+  if (
+    (requestContext.globalPartitionEndpointManager?.isPartitionLevelAutomaticFailoverEnabled() ||
+      requestContext.globalPartitionEndpointManager?.isPartitionLevelCircuitBreakerEnabled()) &&
+    requestContext.partitionKeyRangeId &&
+    requestContext.resourceType === ResourceType.item &&
+    isReadRequest(requestContext.operationType)
+  ) {
+    requestTimeout = Math.min(
+      requestContext.connectionPolicy.requestTimeout,
+      Constants.RequestTimeoutForReadsInMs,
+    );
+  }
   const timeout = setTimeout(() => {
     controller.abort();
-  }, requestContext.connectionPolicy.requestTimeout);
+  }, requestTimeout);
 
   let response: PipelineResponse;
 
@@ -96,18 +114,21 @@ async function httpRequest(
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
-        clearTimeout(timeout);
         throw error;
       }
-      // If the user didn't cancel, it must be an abort we called due to timeout
       throw new TimeoutError(
         `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`,
       );
     }
     throw error;
+  } finally {
+    clearTimeout(timeout);
+
+    if (userSignal && userSignalListener) {
+      userSignal.removeEventListener("abort", userSignalListener);
+    }
   }
 
-  clearTimeout(timeout);
   const result =
     response.status === 204 || response.status === 304 || response.bodyAsText === ""
       ? null
@@ -186,7 +207,7 @@ async function request<T>(
     }
   }
 
-  return addDignosticChild(
+  return addDiagnosticChild(
     async (childNode: DiagnosticNodeInternal) => {
       return RetryUtility.execute({
         diagnosticNode: childNode,

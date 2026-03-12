@@ -1,17 +1,10 @@
 {
-  "extends": "./.tshy/build.json",
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./test/**/*.spec.ts",
-    "./test/**/*.mts"
-  ],
-  "exclude": [
-    "./test/**/node/**/*.ts"
-  ],
+  "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
-    "outDir": "./dist-test/browser",
-    "rootDir": ".",
-    "skipLibCheck": true
+    "paths": {
+      "@azure/arm-changeanalysis": ["./dist/browser/index.d.ts"],
+      "@azure/arm-changeanalysis/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
   }
 }

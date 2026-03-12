@@ -28,12 +28,13 @@ import {
   PathStylePorts,
   URLConstants,
 } from "./constants.js";
-import type {
-  Tags,
-  ObjectReplicationPolicy,
-  ObjectReplicationRule,
-  ObjectReplicationStatus,
-  HttpAuthorization,
+import {
+  type Tags,
+  type ObjectReplicationPolicy,
+  type ObjectReplicationRule,
+  type ObjectReplicationStatus,
+  type HttpAuthorization,
+  StorageChecksumAlgorithm,
 } from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -44,6 +45,8 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { HttpRequestBody } from "../Pipeline.js";
+import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -92,8 +95,8 @@ import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -120,7 +123,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
@@ -1018,4 +1021,54 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+interface UploadChecksumParametersLike {
+  transactionalContentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  structuredBodyType?: string;
+  structuredContentLength?: number;
+}
+
+interface UploadCheckSumBody {
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  body: HttpRequestBody;
+  contentLength: number;
+}
+
+export async function setUploadChecksumParameters(
+  body: HttpRequestBody,
+  contentLength: number,
+  parameters: UploadChecksumParametersLike,
+  uploadOptions: UploadChecksumParametersLike,
+  configContentChecksumAlgorithm?: StorageChecksumAlgorithm,
+): Promise<UploadCheckSumBody> {
+  let contentChecksumAlgorithm =
+    uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
+  if (contentChecksumAlgorithm === undefined) {
+    contentChecksumAlgorithm = "Customized";
+  }
+
+  if (contentChecksumAlgorithm === "Auto") {
+    contentChecksumAlgorithm = "StorageCrc64";
+  }
+
+  let bodyInfo = undefined;
+  if (contentChecksumAlgorithm === "Customized") {
+    parameters.transactionalContentMD5 = uploadOptions.transactionalContentMD5;
+    parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
+  } else if (contentChecksumAlgorithm === "StorageCrc64") {
+    await StorageCRC64Calculator.init();
+    bodyInfo = await structuredMessageEncoding(body, contentLength);
+    parameters.structuredBodyType = "XSM/1.0; properties=crc64";
+    parameters.structuredContentLength = contentLength;
+  }
+
+  return {
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    contentLength:
+      contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
+    contentChecksumAlgorithm: contentChecksumAlgorithm,
+  };
 }

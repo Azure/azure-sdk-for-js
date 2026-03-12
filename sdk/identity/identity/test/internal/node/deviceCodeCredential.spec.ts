@@ -5,7 +5,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { DeviceCodeCredential } from "../../../src/index.js";
+import { DeviceCodeCredential } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
@@ -34,11 +34,8 @@ describe("DeviceCodeCredential (internal)", function () {
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Authenticates silently after the initial request", async function (ctx) {
+  it.skipIf(isLiveMode())("Authenticates silently after the initial request", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
@@ -57,11 +54,8 @@ describe("DeviceCodeCredential (internal)", function () {
     ).toHaveBeenCalledOnce();
   });
 
-  it("Authenticates with tenantId on getToken", async function (ctx) {
+  it.skipIf(isLiveMode())("Authenticates with tenantId on getToken", async function () {
     // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      ctx.skip();
-    }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,

@@ -18,7 +18,7 @@ operation. Status of the operation can be fetched using GetPolicyOperationResult
  *
  * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
 async function getAzureIaasVMEnhancedProtectionPolicyDetails(): Promise<void> {
   const subscriptionId =
@@ -44,7 +44,7 @@ operation. Status of the operation can be fetched using GetPolicyOperationResult
  *
  * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_Get.json
  */
 async function getAzureIaasVMProtectionPolicyDetails(): Promise<void> {
   const subscriptionId =
@@ -65,8 +65,8 @@ async function getAzureIaasVMProtectionPolicyDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAzureIaasVMEnhancedProtectionPolicyDetails();
-  getAzureIaasVMProtectionPolicyDetails();
+  await getAzureIaasVMEnhancedProtectionPolicyDetails();
+  await getAzureIaasVMProtectionPolicyDetails();
 }
 
 main().catch(console.error);

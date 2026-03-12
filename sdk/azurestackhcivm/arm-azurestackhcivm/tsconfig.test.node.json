@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-azurestackhcivm": ["./src/index.ts"],
+      "@azure/arm-azurestackhcivm/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

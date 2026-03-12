@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/event-hubs": ["./src/index.ts"],
+      "@azure/event-hubs/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    },
+    "noFallthroughCasesInSwitch": false
+  }
+}

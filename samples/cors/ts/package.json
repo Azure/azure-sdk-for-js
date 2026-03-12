@@ -8,7 +8,7 @@
     "start": "concurrently \"npm run start:server\" \"npm run start:client\""
   },
   "devDependencies": {
-    "concurrently": "^7.1.0",
+    "concurrently": "^9.2.1",
     "typescript": "^4.0.3"
   }
 }

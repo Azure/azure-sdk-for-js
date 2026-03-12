@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-carbonoptimization": ["./src/index.ts"],
+      "@azure/arm-carbonoptimization/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

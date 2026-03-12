@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/monitor-query-logs": ["./src/index.ts"],
+      "@azure/monitor-query-logs/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

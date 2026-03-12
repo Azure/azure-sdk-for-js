@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers.
  *
  * @summary Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Dpm/BackupEngines_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Dpm/BackupEngines_List.json
  */
 async function listDpmOrAzureBackupServerOrLajollaBackupEngines() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function listDpmOrAzureBackupServerOrLajollaBackupEngines() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupEngines.list(vaultName, resourceGroupName)) {
+  for await (const item of client.backupEngines.list(vaultName, resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listDpmOrAzureBackupServerOrLajollaBackupEngines();
+  await listDpmOrAzureBackupServerOrLajollaBackupEngines();
 }
 
 main().catch(console.error);

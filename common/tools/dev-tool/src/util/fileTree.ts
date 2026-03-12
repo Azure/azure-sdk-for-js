@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
+import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import * as git from "./git";
 
-const { debug } = createPrinter("fileTree");
+const { debug, warn } = createPrinter("fileTree");
 
 /**
  * Provides a way to instantiate a file within a base path.
@@ -34,21 +35,32 @@ function isAsyncIterable<T>(it: Iterable<T> | AsyncIterable<T>): it is AsyncIter
  *
  * @param worker - the child factory to call after ensuring the dir is safe.
  */
-export function safeClean(worker: FileTreeFactory): FileTreeFactory {
+export function safeClean(
+  worker: FileTreeFactory,
+  options?: { actionIfDirty: "warn" | "throw" },
+): FileTreeFactory {
+  const { actionIfDirty } = options ?? {};
   return async (basePath) => {
     // If the path exists, then we will check it for a git diff before deleting it.
-    if (await fs.pathExists(basePath)) {
+    if (existsSync(basePath)) {
       debug(basePath, "exists, checking it for safety.");
 
-      if (await git.hasDiff(basePath)) {
-        throw new Error(
-          `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`,
-        );
+      const hasDiff = await git.hasDiff(basePath);
+      if (hasDiff) {
+        if (actionIfDirty === "warn") {
+          warn(
+            `the directory ${basePath} exists and is dirty (according to \`git\`); It will be overwritten`,
+          );
+        } else {
+          throw new Error(
+            `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`,
+          );
+        }
       }
 
-      debug(basePath, "is clean, removing it");
+      debug(basePath, `is ${hasDiff ? "dirty" : "clean"}, removing it`);
 
-      await fs.remove(basePath);
+      await rm(basePath, { recursive: true, force: true });
     }
 
     return worker(basePath);
@@ -63,11 +75,11 @@ export function safeClean(worker: FileTreeFactory): FileTreeFactory {
  */
 export function temp(worker: FileTreeFactory): FileTreeFactory {
   return async (basePath) => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "devtool"));
+    const tmp = await mkdtemp(path.join(os.tmpdir(), "devtool"));
     await worker(tmp);
     // Now copy and remove the temp
-    await fs.copy(tmp, basePath);
-    await fs.remove(tmp);
+    await cp(tmp, basePath, { recursive: true });
+    await rm(tmp, { recursive: true, force: true });
   };
 }
 
@@ -87,7 +99,7 @@ export function dir(
   return async (basePath) => {
     // Create the directory for this model
     const selfPath = path.join(basePath, name);
-    await fs.ensureDir(selfPath);
+    await mkdir(selfPath, { recursive: true });
 
     if (typeof contents === "function") {
       await contents(selfPath);
@@ -122,7 +134,7 @@ export function lazy(thunk: (name: string) => FileTreeFactory): FileTreeFactory 
  * copy
  */
 export function copy(name: string, source: string): FileTreeFactory {
-  return (basePath) => fs.copy(source, path.join(basePath, name));
+  return (basePath) => cp(source, path.join(basePath, name), { recursive: true });
 }
 
 /**
@@ -154,7 +166,7 @@ export function file(name: string, contents: FileContents): FileTreeFactory {
 
   return async (basePath) => {
     const dirName = path.resolve(basePath, path.dirname(name));
-    await fs.ensureDir(dirName);
-    return fs.writeFile(path.join(basePath, name), await getContentsAsBuffer());
+    await mkdir(dirName, { recursive: true });
+    return writeFile(path.join(basePath, name), await getContentsAsBuffer());
   };
 }

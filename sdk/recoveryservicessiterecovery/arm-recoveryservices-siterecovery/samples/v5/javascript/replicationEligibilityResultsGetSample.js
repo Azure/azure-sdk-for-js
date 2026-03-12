@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Validates whether a given VM can be protected or not in which case returns list of errors.
  *
  * @summary Validates whether a given VM can be protected or not in which case returns list of errors.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationEligibilityResults_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationEligibilityResults_Get.json
  */
 async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection() {
 }
 
 async function main() {
-  getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection();
+  await getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection();
 }
 
 main().catch(console.error);

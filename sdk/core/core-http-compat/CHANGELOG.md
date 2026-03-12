@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.3.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.2 (2026-02-05)
+
+### Other Changes
+
+- Move runtime dependencies "@azure/core-rest-pipeline" and "@azure/core-client" to `peerDependencies` and rely on the consumers of `core-http-compat` to install them.
+
+## 2.3.1 (2025-09-11)
+
+### Other Changes
+
+- Upgrade `@azure/*` dependencies to latest versions.
+
+## 2.3.0 (2025-05-01)
+
+### Features Added
+
+- Add an optional `requestOverrides` property to `WebResourceLike` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
 
 ## 2.2.0 (2025-02-06)
 

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-nginx": ["./src/index.ts"],
+      "@azure/arm-nginx/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

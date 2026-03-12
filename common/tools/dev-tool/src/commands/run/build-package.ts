@@ -1,30 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { concurrently } from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
-import path from "node:path";
+import { build, setLogLevel } from "@microsoft/warp";
 
 const log = createPrinter("build-package");
 
-export const commandInfo = makeCommandInfo("build-package", "build a package for production");
+export const commandInfo = makeCommandInfo("build-package", "build a package for production", {
+  target: {
+    shortName: "t",
+    kind: "string",
+    allowMultiple: true,
+    description: "only build matching warp target name(s) (repeatable)",
+  },
+});
 
-const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "tshy");
+export default leafCommand(commandInfo, async (options) => {
+  const cwd = process.cwd();
+  const cliTargets = options["target"];
+  const positionalTargets = options.args;
+  const targets =
+    cliTargets && cliTargets.length > 0
+      ? cliTargets
+      : positionalTargets.length > 0
+        ? positionalTargets
+        : undefined;
 
-export default leafCommand(commandInfo, async () => {
-  log.info(`Building package with tshy from ${TSHY_BIN_PATH}`);
+  // Mirror dev-tool's log level into warp
+  if (process.env.DEBUG) {
+    setLogLevel("verbose");
+  }
 
-  await concurrently(
-    [
-      {
-        command: TSHY_BIN_PATH,
-      },
-    ],
-    { raw: true },
-  ).result;
+  try {
+    const result = await build({ cwd, target: targets });
 
-  log.info("Package built successfully.");
+    if (!result.success) {
+      log.error("warp build failed.");
+      return false;
+    }
 
-  return true;
+    log.info("Package built successfully.");
+    return true;
+  } catch (err: unknown) {
+    log.error(`warp build threw: ${err instanceof Error ? err.message : String(err)}`);
+    return false;
+  }
 });

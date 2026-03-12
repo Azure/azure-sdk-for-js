@@ -9,17 +9,17 @@
  *
  * Setup:
  *   - Authorize access to blobs and queues with Azure Active Directory from a client application.
- *     - See: https://learn.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app
+ *     - See: https://learn.microsoft.com/azure/storage/common/storage-auth-aad-app
  *
  *   - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user.
  *     - Register a new application in the Azure Active Directory (in the Azure portal).
- *       - See: https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+ *       - See: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
  *     - In the "API permissions" section, select "Add a permission" and choose "Microsoft APIs".
  *     - Pick "Azure Storage" and select the checkbox next to `user_impersonation` and then click "Add permissions".
  *       This permits the application to access Azure Storage on behalf of the signed-in user.
  *
  *   - Grant access to Azure Storage Queue data with RBAC in the Azure Portal:
- *     - See: https://learn.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal.
+ *     - See: https://learn.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
  *     - In the azure portal, go to your storage-account and assign the "**Storage Queue Data Contributor**" role to the
  *       registered AAD application from the "Access control (IAM)" tab (in the navigation menu on the left-hand side of
  *       your storage account in the Azure portal).

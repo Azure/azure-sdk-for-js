@@ -30,15 +30,21 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import type { Tags } from "../types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
-import type { Resource } from "@opentelemetry/resources";
+import { type Resource } from "@opentelemetry/resources";
+import { diag } from "@opentelemetry/api";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
-import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
+import {
+  APPLICATION_ID_RESOURCE_KEY,
+  CUSTOM_DIMENSIONS_EXEMPT_KEYS,
+  ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
+  isEnvVarTrue,
+} from "../Declarations/Constants.js";
 import {
   getHttpHost,
   getHttpMethod,
@@ -57,21 +63,18 @@ export function hrTimeToDate(hrTime: HrTime): Date {
 export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
-  if (resource && resource.attributes) {
+  const attributes = resource?.attributes;
+  if (attributes) {
     tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
     tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
-    if (resource.attributes[SEMRESATTRS_DEVICE_ID]) {
-      tags[KnownContextTagKeys.AiDeviceId] = String(resource.attributes[SEMRESATTRS_DEVICE_ID]);
+    if (attributes[SEMRESATTRS_DEVICE_ID]) {
+      tags[KnownContextTagKeys.AiDeviceId] = String(attributes[SEMRESATTRS_DEVICE_ID]);
     }
-    if (resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
-      tags[KnownContextTagKeys.AiDeviceModel] = String(
-        resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME],
-      );
+    if (attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
+      tags[KnownContextTagKeys.AiDeviceModel] = String(attributes[SEMRESATTRS_DEVICE_MODEL_NAME]);
     }
-    if (resource.attributes[SEMRESATTRS_SERVICE_VERSION]) {
-      tags[KnownContextTagKeys.AiApplicationVer] = String(
-        resource.attributes[SEMRESATTRS_SERVICE_VERSION],
-      );
+    if (attributes[SEMRESATTRS_SERVICE_VERSION]) {
+      tags[KnownContextTagKeys.AiApplicationVer] = String(attributes[SEMRESATTRS_SERVICE_VERSION]);
     }
   }
   return tags;
@@ -218,11 +221,18 @@ export function getDependencyTarget(attributes: Attributes): string {
 export function createResourceMetricEnvelope(
   resource: Resource,
   instrumentationKey: string,
+  applicationId?: string,
 ): Envelope | undefined {
-  if (resource && resource.attributes) {
+  const attributes = resource.attributes;
+  if (attributes) {
     const tags = createTagsFromResource(resource);
     const resourceAttributes: { [propertyName: string]: string } = {};
-    for (const key of Object.keys(resource.attributes)) {
+
+    if (applicationId && !attributes[APPLICATION_ID_RESOURCE_KEY]) {
+      resourceAttributes[APPLICATION_ID_RESOURCE_KEY] = applicationId;
+    }
+
+    for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (
         !(
@@ -232,7 +242,7 @@ export function createResourceMetricEnvelope(
           key === ATTR_TELEMETRY_SDK_NAME
         )
       ) {
-        resourceAttributes[key] = resource.attributes[key] as string;
+        resourceAttributes[key] = attributes[key] as string;
       }
     }
     // Only send event when resource attributes are available
@@ -240,7 +250,7 @@ export function createResourceMetricEnvelope(
       const baseData: MetricsData = {
         version: 2,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
-        properties: resourceAttributes,
+        properties: truncateCustomDimensions(resourceAttributes),
       };
       const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
@@ -285,5 +295,42 @@ export function serializeAttribute(value: AnyValue): string {
 }
 
 export function shouldCreateResourceMetric(): boolean {
-  return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
+  return !isEnvVarTrue(ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED);
+}
+
+export function isSyntheticSource(attributes: Attributes): boolean {
+  return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
+}
+
+/**
+ * Truncates each custom dimension value individually to stay within the 64KB size limit.
+ * Properties whose keys are in {@link CUSTOM_DIMENSIONS_EXEMPT_KEYS} are excluded from truncation.
+ * @internal
+ */
+export function truncateCustomDimensions(properties: Record<string, unknown>): {
+  [propertyName: string]: string;
+} {
+  const maxSize = MaxPropertyLengths.SIXTEEN_BIT;
+  const result: { [propertyName: string]: string } = {};
+  let truncated = false;
+
+  for (const key of Object.keys(properties)) {
+    let value =
+      typeof properties[key] === "string"
+        ? (properties[key] as string)
+        : serializeAttribute(properties[key] as AnyValue);
+
+    if (!CUSTOM_DIMENSIONS_EXEMPT_KEYS.has(key) && Buffer.byteLength(value, "utf-8") > maxSize) {
+      value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
+      truncated = true;
+    }
+
+    result[key] = value;
+  }
+
+  if (truncated) {
+    diag.debug("Custom dimension value exceeded 64KB limit. Property value has been truncated.");
+  }
+
+  return result;
 }

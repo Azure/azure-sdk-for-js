@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to use the TableTransaction helper
  * to build a transaction request.
@@ -31,21 +32,21 @@ async function batchOperations(): Promise<void> {
   const transaction = new TableTransaction();
 
   // Add actions to the transaction
-  await transaction.createEntity({
+  transaction.createEntity({
     partitionKey,
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
     quantity: 21,
   });
-  await transaction.createEntity({
+  transaction.createEntity({
     partitionKey,
     rowKey: "A2",
     name: "Pen Set",
     price: 2.0,
     quantity: 6,
   });
-  await transaction.createEntity({
+  transaction.createEntity({
     partitionKey,
     rowKey: "A3",
     name: "Pencil",

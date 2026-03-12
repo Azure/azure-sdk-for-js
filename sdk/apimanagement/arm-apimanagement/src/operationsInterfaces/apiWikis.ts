@@ -7,22 +7,22 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ApiWikisListOptionalParams, WikiContract } from "../models/index.js";
+import { WikiContract, ApiWikisListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiWikis. */
 export interface ApiWikis {
-    /**
-     * Gets the wikis for an API specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    list(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiWikisListOptionalParams
-    ): PagedAsyncIterableIterator<WikiContract>;
+  /**
+   * Gets the wikis for an API specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiWikisListOptionalParams,
+  ): PagedAsyncIterableIterator<WikiContract>;
 }

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the containers that can be registered to Recovery Services Vault.
  *
  * @summary Lists the containers that can be registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectableContainers_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectableContainers_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.protectableContainers.list(
+  for await (const item of client.protectableContainers.list(
     vaultName,
     resourceGroupName,
     fabricName,
@@ -41,7 +41,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(
 }
 
 async function main() {
-  listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage();
+  await listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage();
 }
 
 main().catch(console.error);

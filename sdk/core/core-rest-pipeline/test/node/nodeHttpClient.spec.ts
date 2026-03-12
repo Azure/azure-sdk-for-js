@@ -8,24 +8,28 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
-vi.mock("https", async () => {
-  const actual = await vi.importActual("https");
+vi.mock("node:https", async () => {
+  const actual = await vi.importActual("node:https");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    },
   };
 });
 
-vi.mock("http", async () => {
-  const actual = await vi.importActual("http");
+vi.mock("node:http", async () => {
+  const actual = await vi.importActual("node:http");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    },
   };
 });
 
-import * as https from "https";
-import * as http from "http";
+import https from "https";
+import http from "http";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
@@ -225,7 +229,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
-    assert.ok(response.readableStreamBody);
+    assert.isDefined(response.readableStreamBody);
   });
 
   it("should stream response body on any status code", async function () {
@@ -238,7 +242,7 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(201, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
-    assert.ok(response.readableStreamBody);
+    assert.isDefined(response.readableStreamBody);
   });
 
   it("should not stream response body on non-matching status code", async function () {

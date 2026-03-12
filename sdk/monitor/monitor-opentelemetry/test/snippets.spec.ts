@@ -1,19 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Resource } from "@opentelemetry/resources";
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "../src";
+import { resourceFromAttributes, emptyResource } from "@opentelemetry/resources";
+import type { AzureMonitorOpenTelemetryOptions } from "../src";
+import { useAzureMonitor } from "../src";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import {
-  Context,
-  Exception,
-  metrics,
-  ObservableResult,
-  Span,
-  SpanKind,
-  trace,
-  TraceFlags,
-} from "@opentelemetry/api";
+import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
+import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
 // @ts-ignore
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
 import {
@@ -22,13 +15,23 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { SdkLogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
-import { IncomingMessage, RequestOptions } from "node:http";
+import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
+import type { IncomingMessage, RequestOptions } from "node:http";
 
 describe("snippets", () => {
+  it("ReadmeSampleESMUsage", () => {
+    useAzureMonitor({
+      azureMonitorExporterOptions: {
+        connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+      },
+    });
+
+    // Your application code follows...
+  });
+
   it("ReadmeSampleUseAzureMonitor", () => {
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -40,7 +43,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleConfiguration", () => {
-    const resource = new Resource({ testAttribute: "testValue" });
+    const resource = resourceFromAttributes({ testAttribute: "testValue" });
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         // Offline storage
@@ -74,6 +77,7 @@ describe("snippets", () => {
       resource: resource,
       logRecordProcessors: [],
       spanProcessors: [],
+      views: [],
     };
 
     useAzureMonitor(options);
@@ -98,7 +102,7 @@ describe("snippets", () => {
     // ----------------------------------------
     // Setting role name and role instance
     // ----------------------------------------
-    const customResource = Resource.EMPTY;
+    const customResource = emptyResource();
     customResource.attributes[ATTR_SERVICE_NAME] = "my-helloworld-service";
     customResource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "my-namespace";
     customResource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "my-instance";
@@ -158,7 +162,7 @@ describe("snippets", () => {
       async shutdown(): Promise<void> {
         // shutdown code here
       }
-      onEmit(_logRecord: LogRecord, _context: Context): void {
+      onEmit(_logRecord: SdkLogRecord, _context: Context): void {
         const parentSpan = trace.getSpan(_context);
         if (parentSpan && "name" in parentSpan) {
           // If the parent span has a name we can assume it is a ReadableSpan and cast it.

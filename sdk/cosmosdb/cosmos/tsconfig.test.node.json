@@ -1,0 +1,21 @@
+{
+  "extends": ["./tsconfig.src.json", "../../../tsconfig.nonlib.json"],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "paths": {
+      "@azure/cosmos": ["./src/index.ts"],
+      "@azure/cosmos/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    },
+    "lib": ["ESNext"],
+    "resolveJsonModule": true
+  },
+  "include": ["./test", "./src"],
+  "exclude": [
+    "./**/*-browser.mts",
+    "./**/*-react-native.mts",
+    "./test/stress",
+    "./test/snippets.spec.ts",
+    "./test/**/browser"
+  ]
+}

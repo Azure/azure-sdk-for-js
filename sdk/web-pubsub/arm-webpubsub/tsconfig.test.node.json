@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-webpubsub": ["./src/index.ts"],
+      "@azure/arm-webpubsub/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

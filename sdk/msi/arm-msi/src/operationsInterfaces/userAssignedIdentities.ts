@@ -18,7 +18,7 @@ import {
   UserAssignedIdentitiesUpdateResponse,
   UserAssignedIdentitiesGetOptionalParams,
   UserAssignedIdentitiesGetResponse,
-  UserAssignedIdentitiesDeleteOptionalParams
+  UserAssignedIdentitiesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface UserAssignedIdentities {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams
+    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Identity>;
   /**
    * Lists all the userAssignedIdentities available under the specified ResourceGroup.
@@ -38,7 +38,7 @@ export interface UserAssignedIdentities {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams
+    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Identity>;
   /**
    * Create or update an identity in the specified subscription and resource group.
@@ -51,7 +51,7 @@ export interface UserAssignedIdentities {
     resourceGroupName: string,
     resourceName: string,
     parameters: Identity,
-    options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams
+    options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams,
   ): Promise<UserAssignedIdentitiesCreateOrUpdateResponse>;
   /**
    * Update an identity in the specified subscription and resource group.
@@ -64,7 +64,7 @@ export interface UserAssignedIdentities {
     resourceGroupName: string,
     resourceName: string,
     parameters: IdentityUpdate,
-    options?: UserAssignedIdentitiesUpdateOptionalParams
+    options?: UserAssignedIdentitiesUpdateOptionalParams,
   ): Promise<UserAssignedIdentitiesUpdateResponse>;
   /**
    * Gets the identity.
@@ -75,7 +75,7 @@ export interface UserAssignedIdentities {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: UserAssignedIdentitiesGetOptionalParams
+    options?: UserAssignedIdentitiesGetOptionalParams,
   ): Promise<UserAssignedIdentitiesGetResponse>;
   /**
    * Deletes the identity.
@@ -86,6 +86,6 @@ export interface UserAssignedIdentities {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: UserAssignedIdentitiesDeleteOptionalParams
+    options?: UserAssignedIdentitiesDeleteOptionalParams,
   ): Promise<void>;
 }

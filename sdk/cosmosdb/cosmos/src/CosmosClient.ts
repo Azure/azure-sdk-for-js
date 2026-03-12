@@ -22,6 +22,7 @@ import type { RequestOptions } from "./request/index.js";
 import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
+import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -46,6 +47,19 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.
  *   connectionPolicy: {
  *     requestTimeout: 10000,
  *   },
+ * });
+ * ```
+ * @example Instantiate a client with AAD authentication and custom scope
+ * ```ts snippet:CosmosClientWithAADScope
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const aadCredentials = new DefaultAzureCredential();
+ * const client = new CosmosClient({
+ *   endpoint,
+ *   aadCredentials,
+ *   aadScope: "https://cosmos.azure.com/.default", // Optional custom scope
  * });
  * ```
  */
@@ -80,6 +94,8 @@ export class CosmosClient {
    * @internal
    */
   private encryptionManager: EncryptionManager;
+  /** @internal */
+  private globalPartitionEndpointManager: GlobalPartitionEndpointManager;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -130,6 +146,12 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy,
     );
 
+    // If endpoint discovery is disabled, automatically disable partition level features
+    if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover = false;
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker = false;
+    }
+
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
@@ -144,7 +166,7 @@ export class CosmosClient {
         optionsOrConnectionString.throughputBucket;
     }
 
-    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    const userAgent = getUserAgent(optionsOrConnectionString);
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
@@ -154,6 +176,20 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
+    if (
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
+    ) {
+      this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+        optionsOrConnectionString,
+        globalEndpointManager,
+      );
+
+      globalEndpointManager.onEnablePartitionLevelFailoverConfigChanged = (isEnabled: boolean) => {
+        this.globalPartitionEndpointManager?.changeCircuitBreakerFailbackLoop(isEnabled);
+      };
+    }
+
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
       globalEndpointManager,
@@ -162,6 +198,7 @@ export class CosmosClient {
         optionsOrConnectionString.diagnosticLevel,
         getDiagnosticLevelFromEnvironment(),
       ),
+      this.globalPartitionEndpointManager,
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -194,6 +231,7 @@ export class CosmosClient {
       diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
       pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
       sDKVersion: Constants.SDKVersion,
+      aadScopeOverride: optionsOrConnectionString.aadScope !== undefined,
     };
   }
 
@@ -313,6 +351,9 @@ export class CosmosClient {
     if (this.clientContext.enableEncryption) {
       clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
       clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
+    }
+    if (this.globalPartitionEndpointManager) {
+      this.globalPartitionEndpointManager.dispose();
     }
   }
 

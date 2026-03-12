@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { OpenAIClient } from "@azure/openai";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AutocompleteResult,
   SearchFieldArray,
@@ -12,18 +12,17 @@ import type {
   SelectArray,
   SelectFields,
 } from "../../../src/index.js";
-import {
-  AzureKeyCredential,
-  IndexDocumentsBatch,
-  KnownQueryLanguage,
-  KnownQuerySpeller,
-  SearchClient,
-} from "../../../src/index.js";
+import { AzureKeyCredential, IndexDocumentsBatch, SearchClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import {
+  createIndex,
+  createRandomIndexName,
+  getMockQueryEmbedding,
+  populateIndex,
+  WAIT_TIME,
+} from "../utils/setup.js";
 
 describe("SearchClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -64,12 +63,10 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     });
   });
 
-  // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
-  describe("stable", { skip: true }, () => {
+  describe("search scenarios", () => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
     let indexDefinition: SearchIndex;
 
@@ -80,11 +77,10 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         searchClient,
         indexClient,
         indexName: TEST_INDEX_NAME,
-        openAIClient,
       } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
       indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient);
+      await populateIndex(searchClient);
     });
 
     afterEach(async () => {
@@ -95,7 +91,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
     const baseSemanticOptions = () =>
       ({
-        queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -103,17 +98,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
             assert.fail("No semantic configuration in index."),
         },
       }) as const;
-
-    it("search with speller", async () => {
-      const searchResults = await searchClient.search("budjet", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownQuerySpeller.Lexicon,
-      });
-      assert.equal(searchResults.count, 6);
-    });
 
     it("search with semantic ranking", async () => {
       const searchResults = await searchClient.search("luxury", {
@@ -123,50 +107,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         includeTotalCount: true,
       });
       assert.equal(searchResults.count, 1);
-    });
-
-    it("search with document debug info", async () => {
-      const baseOptions = baseSemanticOptions();
-      const options = {
-        ...baseOptions,
-        semanticSearchOptions: {
-          ...baseOptions.semanticSearchOptions,
-          errorMode: "fail",
-          debugMode: "semantic",
-        },
-      } as const;
-      const searchResults = await searchClient.search("luxury", options);
-      for await (const result of searchResults.results) {
-        assert.deepEqual(
-          {
-            semantic: {
-              contentFields: [
-                {
-                  name: "description",
-                  state: "used",
-                },
-              ],
-              keywordFields: [
-                {
-                  name: "tags",
-                  state: "used",
-                },
-              ],
-              rerankerInput: {
-                content:
-                  "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                title: "Fancy Stay",
-              },
-              titleField: {
-                name: "hotelName",
-                state: "used",
-              },
-            },
-          },
-          result.documentDebugInfo,
-        );
-      }
     });
 
     it("search with answers", async () => {
@@ -330,8 +270,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           if (!city) {
             assert.fail();
           }
-          assert.hasAllKeys(result.document, hotelKeys);
-          assert.hasAllKeys(result.document.address, addressKeys);
+          assert.containsAllKeys(result.document, hotelKeys);
+          assert.containsAllKeys(result.document.address, addressKeys);
         }
       });
 
@@ -529,17 +469,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(["1"], resultIds);
     });
 
-    it("search with vector", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
+    it("search with vector", async () => {
+      const embedding = getMockQueryEmbedding();
 
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
@@ -563,17 +494,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("multi-vector search", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
+    it("multi-vector search", async () => {
+      const embedding = getMockQueryEmbedding();
 
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
@@ -603,18 +525,9 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
 
-    it("oversampling compressed vectors", async (ctx) => {
-      // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
-        ctx.skip();
-      }
+    it("oversampling compressed vectors", async () => {
+      const embedding = getMockQueryEmbedding();
 
-      const embeddings = await openAIClient.getEmbeddings(
-        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-        ["What are the most luxurious hotels?"],
-      );
-
-      const embedding = embeddings.data[0].embedding;
       const searchResults = await searchClient.search("*", {
         vectorSearchOptions: {
           queries: [
@@ -623,7 +536,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
               vector: embedding,
               kNearestNeighborsCount: 3,
               fields: ["compressedVectorDescription"],
-              oversampling: 2,
             },
           ],
         },

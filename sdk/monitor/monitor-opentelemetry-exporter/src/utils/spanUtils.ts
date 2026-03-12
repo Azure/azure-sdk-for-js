@@ -14,7 +14,6 @@ import {
   SEMATTRS_DB_OPERATION,
   SEMATTRS_DB_STATEMENT,
   SEMATTRS_DB_SYSTEM,
-  SEMATTRS_ENDUSER_ID,
   SEMATTRS_EXCEPTION_ESCAPED,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
@@ -53,7 +52,9 @@ import {
   getUrl,
   hrTimeToDate,
   isSqlDB,
+  isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
 import {
@@ -61,11 +62,13 @@ import {
   internalMicrosoftAttributes,
   legacySemanticValues,
   MaxPropertyLengths,
+  experimentalOpenTelemetryValues,
 } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
   DependencyTypes,
+  MicrosoftClientIp,
   MS_LINKS,
 } from "./constants/applicationinsights.js";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
@@ -83,21 +86,42 @@ import { msToTimeSpan } from "./breezeUtils.js";
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-  if (span.parentSpanId) {
-    tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
+  if (span.parentSpanContext?.spanId) {
+    tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanContext.spanId;
   }
-  const endUserId = span.attributes[SEMATTRS_ENDUSER_ID];
+
+  // Map OpenTelemetry enduser attributes to Application Insights user attributes
+  const endUserId = span.attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID];
   if (endUserId) {
-    tags[KnownContextTagKeys.AiUserId] = String(endUserId);
+    tags[KnownContextTagKeys.AiUserAuthUserId] = String(endUserId);
   }
+
+  const endUserPseudoId = span.attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID];
+  if (endUserPseudoId) {
+    tags[KnownContextTagKeys.AiUserId] = String(endUserPseudoId);
+  }
+
   const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
   }
+  if (isSyntheticSource(span.attributes)) {
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
+  }
+
+  // Check for microsoft.client.ip first - this takes precedence over all other IP logic
+  const microsoftClientIp = span.attributes[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = getHttpMethod(span.attributes);
-    getLocationIp(tags, span.attributes);
+    // Only use the fallback IP logic for server spans if microsoft.client.ip is not set
+    if (!microsoftClientIp) {
+      getLocationIp(tags, span.attributes);
+    }
     if (httpMethod) {
       const httpRoute = span.attributes[ATTR_HTTP_ROUTE];
       const httpUrl = getHttpUrl(span.attributes);
@@ -184,7 +208,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   if (span.kind === SpanKind.PRODUCER) {
     remoteDependencyData.type = DependencyTypes.QueueMessage;
   }
-  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanContext) {
     remoteDependencyData.type = DependencyTypes.InProc;
   }
 
@@ -287,8 +311,9 @@ function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
     success:
-      span.status.code !== SpanStatusCode.ERROR &&
-      (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
+      span.status.code !== SpanStatusCode.UNSET
+        ? span.status.code === SpanStatusCode.OK
+        : (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
@@ -376,14 +401,6 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   if (baseData.target) {
     baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
   }
-  if (baseData.properties) {
-    for (const key of Object.keys(baseData.properties)) {
-      baseData.properties[key] = baseData.properties[key].substring(
-        0,
-        MaxPropertyLengths.THIRTEEN_BIT,
-      );
-    }
-  }
 
   return {
     name,
@@ -396,7 +413,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseType,
       baseData: {
         ...baseData,
-        properties,
+        properties: truncateCustomDimensions(properties),
         measurements,
       },
     },
@@ -419,7 +436,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      const spanId = span.spanContext()?.spanId;
+      const spanId = span.spanContext().spanId;
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
       }
@@ -456,7 +473,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = exceptionData;
       } else {
@@ -465,7 +482,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const messageData: MessageData = {
           message: event.name,
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = messageData;
       }
@@ -476,14 +493,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       // Truncate properties
       if (baseData.message) {
         baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
-      }
-      if (baseData.properties) {
-        for (const key of Object.keys(baseData.properties)) {
-          baseData.properties[key] = baseData.properties[key].substring(
-            0,
-            MaxPropertyLengths.THIRTEEN_BIT,
-          );
-        }
       }
       const env: Envelope = {
         name: name,

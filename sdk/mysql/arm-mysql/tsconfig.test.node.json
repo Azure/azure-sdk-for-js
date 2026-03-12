@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-mysql": ["./src/index.ts"],
+      "@azure/arm-mysql/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

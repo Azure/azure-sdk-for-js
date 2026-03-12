@@ -9,6 +9,8 @@ import type {
   CreateUserAndTokenOptions,
   GetTokenOptions,
   TokenScope,
+  CreateUserOptions,
+  CommunicationUserDetail,
 } from "./models.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
@@ -140,17 +142,48 @@ export class CommunicationIdentityClient {
   }
 
   /**
+   * Get an identity by its id.
+   *
+   * @param user - The user to get.
+   * @param options - Additional options for the request.
+   */
+  public getUserDetail(
+    user: CommunicationUserIdentifier,
+    options: OperationOptions = {},
+  ): Promise<CommunicationUserDetail> {
+    return tracingClient.withSpan(
+      "CommunicationIdentity-getUser",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.communicationIdentityOperations.get(
+          user.communicationUserId,
+          {
+            ...updatedOptions,
+          },
+        );
+
+        return {
+          user: { communicationUserId: result.id },
+          customId: result.customId,
+          lastTokenIssuedAt: result.lastTokenIssuedAt,
+        };
+      },
+    );
+  }
+
+  /**
    * Creates a single user.
    *
    * @param options - Additional options for the request.
    */
-  public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
+  public createUser(options: CreateUserOptions = {}): Promise<CommunicationUserIdentifier> {
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
         const result = await this.client.communicationIdentityOperations.create({
           expiresInMinutes: undefined,
+          customId: options.customId,
           ...updatedOptions,
         });
         return {
@@ -177,6 +210,7 @@ export class CommunicationIdentityClient {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
           expiresInMinutes: options.tokenExpiresInMinutes,
+          customId: options.customId,
           ...updatedOptions,
         });
         return {

@@ -3,7 +3,6 @@
 
 import { Server } from "http";
 
-// NOTE: When using this code, you must change the module below to "@azure/identity"
 import { AuthorizationCodeCredential } from "@azure/identity";
 
 // You will need to install these external dependencies with NPM:

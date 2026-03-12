@@ -5,9 +5,9 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const { ManagedIdentityCredential, WorkloadIdentityCredential } = require("@azure/identity");
 
 async function main() {
-  const storageAccount = process.env.IDENTITY_STORAGE_NAME_2;
-  if (!storageAccount) {
-    throw new Error("Missing IDENTITY_STORAGE_NAME_2 env var");
+  const storageAccountUserAssigned = process.env.IDENTITY_STORAGE_NAME_USER_ASSIGNED;
+  if (!storageAccountUserAssigned) {
+    throw new Error("Missing IDENTITY_STORAGE_NAME_USER_ASSIGNED env var");
   }
 
   const clientId = process.env.IDENTITY_USER_DEFINED_CLIENT_ID;
@@ -15,7 +15,7 @@ async function main() {
     throw new Error("Missing IDENTITY_USER_DEFINED_CLIENT_ID env var");
   }
 
-  const blobUrl = `https://${storageAccount}.blob.core.windows.net`;
+  const blobUrl = `https://${storageAccountUserAssigned}.blob.core.windows.net`;
 
   try {
     const blobServiceClient = new BlobServiceClient(

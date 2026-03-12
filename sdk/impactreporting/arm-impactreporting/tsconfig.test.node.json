@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-impactreporting": ["./src/index.ts"],
+      "@azure/arm-impactreporting/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

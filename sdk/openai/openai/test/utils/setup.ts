@@ -26,6 +26,11 @@ declare module "vitest" {
   }
 }
 
+type ResourcesInfoFile = {
+  _comment: string;
+  _date: string;
+} & ResourcesInfo;
+
 function assertEnvironmentVariable(key: string): string {
   const value = process.env[key];
   if (!value) {
@@ -76,6 +81,7 @@ async function listDeployments(
       count += deployments.length;
       resourcesInfo.push({
         endpoint,
+        nickname: accountName,
         deployments,
       });
       deployments = [];
@@ -91,14 +97,30 @@ async function getDeployments(
   cred: TokenCredential,
 ): Promise<ResourcesInfo> {
   const filePath = "./deployments.json";
+  let parsedResourceInfo: ResourcesInfoFile;
   try {
     const content = await readFile(filePath, "utf-8");
-    logger.verbose(`Reading deployments from file: ${filePath}: ${content}`);
-    return JSON.parse(content);
+    logger.info(`Reading deployments from file: ${filePath}`);
+    logger.verbose(`Deployments: ${content}`);
+    parsedResourceInfo = JSON.parse(content) as ResourcesInfoFile;
+    const writeDate = new Date(parsedResourceInfo._date);
+    // older than 1 week should refresh
+    const oneWeekInMS = 7 * 24 * 60 * 60 * 1000;
+    if (writeDate.getTime() + oneWeekInMS < Date.now()) {
+      throw new Error("File is too old");
+    }
+    return parsedResourceInfo;
   } catch {
+    logger.info(`Recreating deployments file ${filePath}`);
     const { count, resourcesInfo } = await listDeployments(subId, rgName, cred);
     logger.verbose(`Available deployments [${count}]: ${JSON.stringify(resourcesInfo, null, 2)}`);
-    await writeFile(filePath, JSON.stringify({ resourcesInfo, count }, null, 2) + "\n");
+    parsedResourceInfo = {
+      _comment: "This file is auto-generated. Do not edit it.",
+      _date: new Date().toISOString(),
+      resourcesInfo,
+      count,
+    };
+    await writeFile(filePath, JSON.stringify(parsedResourceInfo, null, 2) + "\n");
     return { resourcesInfo, count };
   }
 }
@@ -170,9 +192,17 @@ async function getAzureSearchInfo(
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
-  const cred = createLiveCredential();
+  try {
+    if (assertEnvironmentVariable(EnvironmentVariableNames.TEST_MODE) !== "live") {
+      throw new Error();
+    }
+  } catch (error) {
+    console.log("Tests are skipped. Set TEST_MODE=live to run it.");
+    process.exit(0);
+  }
   const subId = assertEnvironmentVariable(EnvironmentVariableNames.SUBSCRIPTION_ID);
   const rgName = assertEnvironmentVariable(EnvironmentVariableNames.RESOURCE_GROUP);
+  const cred = createLiveCredential();
   const deployments = await getDeployments(subId, rgName, cred);
   provide("resourcesInfo", deployments);
   const azureSearchResources = await getAzureSearchInfo(subId, rgName, cred);

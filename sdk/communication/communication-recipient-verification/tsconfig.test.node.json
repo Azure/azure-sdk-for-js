@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-recipient-verification": ["./src/index.ts"],
+      "@azure-tools/communication-recipient-verification/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

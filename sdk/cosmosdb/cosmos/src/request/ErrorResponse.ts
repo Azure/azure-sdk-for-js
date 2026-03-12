@@ -80,24 +80,51 @@ export interface HybridSearchQueryInfo {
    * Whether the query requires global statistics
    */
   requiresGlobalStatistics: boolean;
+  /**
+   * Represents the weights for each component in a hybrid search query.
+   */
+  componentWeights?: number[];
 }
 
 export type GroupByExpressions = string[];
 
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
+export type AggregateType =
+  | "Average"
+  | "Count"
+  | "Max"
+  | "Min"
+  | "Sum"
+  | "MakeSet"
+  | "MakeList"
+  | "CountIf";
 
 export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;
 }
 
+/**
+ * Represents an error response returned in operations.
+ */
 export class ErrorResponse extends Error {
+  /** status or error code returned */
   code?: number | string;
+  /** substatus code returned */
   substatus?: number;
+  /** body of the error response, typically including error details */
   body?: ErrorBody;
+  /** HTTP headers */
   headers?: CosmosHeaders;
+  /** unique identifier for the operation's activity */
   activityId?: string;
+  /** delay (in milliseconds) before retrying the operation. */
   retryAfterInMs?: number;
+  /** delay (in milliseconds) before retrying the operation. */
+  /** Note: Use retryAfterInMs instead */
   retryAfterInMilliseconds?: number;
+  /** any additional property */
   [key: string]: any;
+  /** Detailed diagnostic information associated with the error.*/
   diagnostics?: CosmosDiagnostics;
+  /** The request charge of the operation, representing the resource cost incurred.*/
+  requestCharge?: number;
 }

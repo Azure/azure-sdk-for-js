@@ -23,9 +23,9 @@ import type {
   Pipeline as CorePipeline,
   PipelinePolicy,
   HttpClient,
+  RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import {
-  RequestBodyType as HttpRequestBody,
   bearerTokenAuthenticationPolicy,
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
@@ -45,12 +45,15 @@ import {
   StorageDataLakeLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "@azure/storage-common";
-import { storageBrowserPolicy } from "@azure/storage-blob";
-import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
-import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
-import { storageRetryPolicy } from "@azure/storage-blob";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+import {
+  getCachedDefaultHttpClient,
+  storageRequestFailureDetailsParserPolicy,
+} from "@azure/storage-common";
+import { storageBrowserPolicy } from "@azure/storage-common";
+import { StorageBrowserPolicyFactory } from "@azure/storage-common";
+import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
+import { storageRetryPolicy } from "@azure/storage-common";
+import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,
@@ -63,17 +66,17 @@ import {
 // own RequestPolicy or HTTPClient
 export {
   StorageOAuthScopes,
-  IHttpClient,
-  HttpHeaders,
-  HttpRequestBody,
-  HttpOperationResponse,
-  WebResource,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  ServiceClientOptions,
-  PipelineOptions,
-  PipelineLike,
+  type IHttpClient,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type HttpOperationResponse,
+  type WebResource,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type ServiceClientOptions,
+  type PipelineOptions,
+  type PipelineLike,
   Pipeline,
   isPipelineLike,
 };
@@ -207,6 +210,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {

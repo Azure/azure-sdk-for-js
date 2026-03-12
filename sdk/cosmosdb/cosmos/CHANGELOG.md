@@ -1,6 +1,146 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
+## 4.9.1 (2026-01-29)
+
+### Bugs Fixed
+
+- [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
+- [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
+
+## 4.9.0 (2025-11-24)
+
+### Features Added
+
+- Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
+
+## 4.8.0 (2025-11-20)
+
+### Features Added
+
+- [#36701](https://github.com/Azure/azure-sdk-for-js/issues/36701) Added support for `float16` data type in vector embedding.
+- [#36700](https://github.com/Azure/azure-sdk-for-js/issues/36700) Added support for Priority level in Change feed.
+- [#36699](https://github.com/Azure/azure-sdk-for-js/issues/36699) Add support for throughput buckets in Change Feed.
+
+### Bugs Fixed
+
+- Fixed MIN/MAX aggregate queries randomly returning incorrect results in multi-partition collections. Empty partitions (count:0) were incorrectly overwriting valid aggregate values with undefined, causing MIN or MAX values to be missing from query results.
+
+### Other Changes
+
+- Added samples demonstrating Throughput bucketing feature.
+- Added samples showcasing the use of Priority-Level support.
+- Added samples for the `deleteAllItemsForPartitionKey` feature.
+
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
+
+## 4.6.0 (2025-10-08)
+
+### Features Added
+
+- Excluded Locations Support: This feature adds support for excluded locations, allowing requests to avoid specified Azure regions when performing operations. By excluding certain regions at the request level, applications can control data residency, compliance, and latency, ensuring that operations are served only from preferred regions. This enhances availability and reliability by preventing requests from being routed to undesired or unavailable regions. [docs](https://devblogs.microsoft.com/cosmosdb/new-sdk-options-for-fine-grained-request-routing-to-azure-cosmos-db/)
+
+```js
+const requestOptions = { excludedLocations: ["West US"] };
+const city = { id: "1", name: "Olympia", state: "WA" };
+
+await container.items.upsert(city, requestOptions);
+
+await container.item("1").delete(requestOptions);
+```
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
+
+### Bugs Fixed
+- [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,
+ preventing partitionKeyMismatch error when an optional partition key value is provided in the operationInput
+- [#35967](https://github.com/Azure/azure-sdk-for-js/issues/35967) Changed the default values of `enablePartitionLevelFailover` and `enablePartitionLevelCircuitBreaker` flags to `true` in the connection policy.
+
+## 4.5.1 (2025-09-01)
+
+### Bugs Fixed
+- [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue where unavailable regions were incorrectly retained in the read and write region lists, potentially causing latency and connectivity issues. The SDK now properly removes regions that are no longer available from both readable and writable locations
+- [#35822](https://github.com/Azure/azure-sdk-for-js/issues/35822) Fixed an issue where ENOTFOUND error was incorrectly retried with defaultRetryPolicy. This error is now handled as part of EndpointDiscoveryPolicy and retried 120 times.
+
+## 4.5.0 (2025-07-21)
+
+### Features Added
+
+- PPAF (Per Partition Automatic Failover) Support: This feature adds support for Per Partition Automatic Failover (PPAF) and Per Partition Circuit Breaker (PPCB) allowing failover to different regions on a per partition basis instead of account level failovers increasing the availability and reducing the operation latencies on the client side. [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-configure-per-partition-automatic-failover)
+
+The following sample shows how to enable PPAF and PPCB. If `enablePartitionLevelFailover` is set to `true`, by default `enablePartitionLevelCircuitBreaker` will also be set to `true`.
+
+```js
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: {
+    ...defaultConnectionPolicy,
+    enablePartitionLevelFailover: true,
+    enablePartitionLevelCircuitBreaker: true,
+  },
+});
+```
+
+### Bugs Fixed
+
+- [#35054](https://github.com/Azure/azure-sdk-for-js/pull/35054) Fixed an issue with COUNTIF aggregation which ensures that partial results from multiple partitions or batches are correctly summed, producing accurate results for COUNTIF queries.
+- [#35049](https://github.com/Azure/azure-sdk-for-js/pull/35049) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
+- [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
+- [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
+- [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
+- [#34933](https://github.com/Azure/azure-sdk-for-js/pull/34933) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
+
+## 4.4.1 (2025-05-15)
+
+### Bugs Fixed
+
+[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context. 
+
+## 4.4.0 (2025-05-13)
+
+### Features Added
+#### New Bulk API (Preview)
+The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
+
+Example of using `executeBulkOperations`:
+```js
+const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      partitionKey: "pkValue1",
+      resourceBody: { id: "doc1", name: "sample1", key: "key1" },
+    },
+    {
+      operationType: BulkOperationType.Create,
+      partitionKey: "pkValue2",
+      resourceBody: { id: "doc2", name: "sample2", key: "key1" },
+    },
+    // ...more operations
+  ];
+  const response = await container.items.executeBulkOperations(
+    operations,
+  );
+  // process the response
+```
+
+#### Weighted RRF
+Adds WeightedRankFusion query feature and support of component weights for weighted rank fusion in Hybrid Search.
+
+#### Optimized query plan that skips the order by rewrite
+Adds support for the optimized query plan that skips the order by rewrite. 
+This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanOptimization:true` in FeedOptions to disable this feature.
+
+### Bugs Fixed
+#### [#34088](https://github.com/Azure/azure-sdk-for-js/pull/34088) Fix documentation for default values of `useMultipleWriteLocations` and `enableBackgroundEndpointRefreshing`.
+#### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
+
+### Other Changes
+#### Migrated the codebase to ESM. This change is internal and should not affect customers.
+#### Migrated tests to vitest.
+#### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
+#### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
 
 ## 4.3.0 (2025-03-18)
 

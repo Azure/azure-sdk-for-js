@@ -15,7 +15,7 @@ import { generateAccountSasQueryParameters } from "./accountSasSignatureValues.j
  * Generates a Table Account Shared Access Signature (SAS) URI based on the client properties
  * and parameters passed in. The SAS is signed by the shared key credential of the client.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
  *
  * @param options - Optional parameters.
  * @returns An account SAS token

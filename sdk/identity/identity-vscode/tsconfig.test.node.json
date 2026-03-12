@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity-vscode": ["./src/index.ts"],
+      "@azure/identity-vscode/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

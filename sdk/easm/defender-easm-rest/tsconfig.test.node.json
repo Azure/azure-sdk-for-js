@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/defender-easm": ["./src/index.ts"],
+      "@azure-rest/defender-easm/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

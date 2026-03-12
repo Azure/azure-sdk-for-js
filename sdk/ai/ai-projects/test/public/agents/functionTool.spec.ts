@@ -2,151 +2,242 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { delay } from "@azure-tools/test-recorder";
-import type {
-  AgentsOperations,
-  AIProjectsClient,
-  FunctionToolDefinition,
-  FunctionToolDefinitionOutput,
-  MessageContentOutput,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-  SubmitToolOutputsActionOutput,
-} from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { isOutputOfType } from "../../../src/agents/utils.js";
+import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
+import type OpenAI from "openai";
 
-describe("Agents - function tool", () => {
+const agentName = "function-tool-agent";
+const agentInstructions = "You are a helpful assistant that can use function tools.";
+
+/**
+ * Define a function tool for the model to use
+ */
+const funcTool = {
+  type: "function" as const,
+  name: "get_horoscope",
+  description: "Get today's horoscope for an astrological sign.",
+  strict: true,
+  parameters: {
+    type: "object",
+    properties: {
+      sign: {
+        type: "string",
+        description: "An astrological sign like Taurus or Aquarius",
+      },
+    },
+    required: ["sign"],
+    additionalProperties: false,
+  },
+};
+
+/**
+ * Generate a horoscope for the given astrological sign.
+ */
+function getHoroscope(sign: string): string {
+  return `${sign}: Next Tuesday you will befriend a baby otter.`;
+}
+
+describe("agents - function tool - basic", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
+  let projectsClient: AIProjectClient;
   let agents: AgentsOperations;
-  let getCurrentDateTimeTool: FunctionToolDefinition;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
-    getCurrentDateTimeTool = {
-      type: "function",
-      function: {
-        name: "getCurrentDateTime",
-        description: "Get current date time",
-        parameters: {},
-      },
-    };
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  function getCurrentDateTime(): {} {
-    return { currentDateTime: "2024-10-10 12:30:19" };
-  }
-
-  it("should create agent with function tool", async function () {
-    // Create agent
-    const agent = await agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [getCurrentDateTimeTool],
+  it("should create agent with function tools", async () => {
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [funcTool],
     });
-    console.log(`Created agent, agent ID: ${agent.id}`);
+
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
-    assert.isNotEmpty(agent.tools);
-    assert.equal((agent.tools[0] as FunctionToolDefinition).function.name, "getCurrentDateTime");
+    assert.equal(agent.name, agentName);
+    console.log(`Created agent with function tools, agent ID: ${agent.id}`);
 
-    // Delete agent
-    await agents.deleteAgent(agent.id);
-    console.log(`Deleted agent, agent ID: ${agent.id}`);
+    const deleted = await agents.delete(agent.name);
+    assert.isNotNull(deleted);
+    console.log(`Deleted agent, agent name: ${agent.name}`);
+  });
+});
+
+describe("agents - function tool - execution flow", () => {
+  let recorder: Recorder;
+  let projectsClient: AIProjectClient;
+  let agents: AgentsOperations;
+  let openAIClient: OpenAI;
+
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    agents = projectsClient.agents;
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
-  it("should create agent with run function tool", async function () {
-    // Create agent
-    const agent = await agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [getCurrentDateTimeTool],
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should handle function call and return result", async function () {
+    // Create agent with function tools
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [funcTool],
     });
-    console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
-    assert.isNotEmpty(agent.tools);
-    assert.equal((agent.tools[0] as FunctionToolDefinition).function.name, "getCurrentDateTime");
+    assert.isNotNull(agent.name);
+    assert.isNotNull(agent.version);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-    // Create thread
-    const thread = await agents.createThread();
-    assert.isNotNull(thread);
-    assert.isNotNull(thread.id);
-    console.log(`Created Thread, thread ID:  ${thread.id}`);
+    // Generate initial response that should trigger function call
+    const response = await openAIClient.responses.create(
+      {
+        input: [
+          {
+            type: "message",
+            role: "user",
+            content: "What is my horoscope? I am an Aquarius.",
+          },
+        ],
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    assert.isNotNull(response);
+    console.log(`Response output: ${response.output_text}`);
 
-    // Create message
-    const message = await agents.createMessage(thread.id, {
-      role: "user",
-      content: "Hello, what's the time?",
-    });
-    assert.isNotNull(message.id);
-    console.log(`Created message, message ID ${message.id}`);
+    // Process function calls
+    const inputList: Array<{
+      type: "function_call_output";
+      call_id: string;
+      output: string;
+    }> = [];
 
-    // Create run
-    let run = await agents.createRun(thread.id, agent.id);
-    assert.isNotNull(run);
-    assert.isNotNull(run.id);
-    console.log(`Created Run, Run ID:  ${run.id}`);
-    let toolCalled = false;
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
-      run = await agents.getRun(thread.id, run.id);
-      if (run.status === "failed") {
-        console.log(`Run failed - ${run.lastError?.code} - ${run.lastError?.message}`);
-        break;
-      }
-      console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-      if (run.status === "requires_action" && run.requiredAction) {
-        console.log(`Run requires action - ${run.requiredAction}`);
-        if (
-          isOutputOfType<SubmitToolOutputsActionOutput>(run.requiredAction, "submit_tool_outputs")
-        ) {
-          const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsActionOutput;
-          const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
-          for (const toolCall of toolCalls) {
-            if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
-              const functionOutput = toolCall as FunctionToolDefinitionOutput;
-              console.log(`Function tool call - ${functionOutput.function.name}`);
-              const toolResponse = getCurrentDateTime();
-              toolCalled = true;
-              run = await agents.submitToolOutputsToRun(thread.id, run.id, [
-                { toolCallId: toolCall.id, output: JSON.stringify(toolResponse) },
-              ]);
-              console.log(`Submitted tool response - ${run.status}`);
-            }
-          }
-        }
+    for (const item of response.output) {
+      if (item.type === "function_call") {
+        assert.equal(item.name, "get_horoscope");
+        const args = JSON.parse(item.arguments);
+        const horoscope = getHoroscope(args.sign);
+        inputList.push({
+          type: "function_call_output",
+          call_id: item.call_id,
+          output: JSON.stringify({ horoscope }),
+        });
       }
     }
-    assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
-    assert.isTrue(toolCalled);
-    console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-    const messages = await agents.listMessages(thread.id);
-    messages.data.forEach((threadMessage) => {
-      console.log(
-        `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
-      );
-      threadMessage.content.forEach((content: MessageContentOutput) => {
-        if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-          const textContent = content as MessageTextContentOutput;
-          console.log(`Text Message Content - ${textContent.text.value}`);
-        } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-          const imageContent = content as MessageImageFileContentOutput;
-          console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
-        }
-      });
-    });
 
-    // Delete agent
-    await agents.deleteAgent(agent.id);
-    console.log(`Deleted agent, agent ID: ${agent.id}`);
+    assert.isNotEmpty(inputList, "Expected at least one function call");
+    console.log(`Processed ${inputList.length} function call(s)`);
+
+    // Submit function results to get final response
+    const finalResponse = await openAIClient.responses.create(
+      {
+        input: inputList,
+        previous_response_id: response.id,
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+
+    assert.isNotNull(finalResponse);
+    assert.isNotNull(finalResponse.output_text);
+    console.log(`Final output: ${finalResponse.output_text}`);
+
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
+
+  it("should handle function call in conversation context", async function () {
+    // Create agent with function tools
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [funcTool],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Create conversation with initial user message
+    const conversation = await openAIClient.conversations.create({
+      items: [{ type: "message", role: "user", content: "What is my horoscope? I am a Taurus." }],
+    });
+    assert.isNotNull(conversation);
+    assert.isNotNull(conversation.id);
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Generate response using the agent
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    assert.isNotNull(response);
+    console.log(`Response output: ${response.output_text}`);
+
+    // Process function calls
+    const inputList: Array<{
+      type: "function_call_output";
+      call_id: string;
+      output: string;
+    }> = [];
+
+    for (const item of response.output) {
+      if (item.type === "function_call") {
+        assert.equal(item.name, "get_horoscope");
+        const args = JSON.parse(item.arguments);
+        const horoscope = getHoroscope(args.sign);
+        inputList.push({
+          type: "function_call_output",
+          call_id: item.call_id,
+          output: JSON.stringify({ horoscope }),
+        });
+      }
+    }
+
+    assert.isNotEmpty(inputList, "Expected at least one function call");
+    console.log(`Processed ${inputList.length} function call(s)`);
+
+    // Submit function results if there were function calls
+    const finalResponse = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+        input: inputList,
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+
+    assert.isNotNull(finalResponse);
+    assert.isNotNull(finalResponse.output_text);
+    console.log(`Final output: ${finalResponse.output_text}`);
+
+    // Clean up
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
+
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   });
 });

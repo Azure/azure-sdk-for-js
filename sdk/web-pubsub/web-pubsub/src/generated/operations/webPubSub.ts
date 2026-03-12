@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { WebPubSub } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
@@ -13,6 +15,10 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { GeneratedClient } from "../generatedClient.js";
 import {
+  WebPubSubGroupMember,
+  WebPubSubListConnectionsInGroupNextOptionalParams,
+  WebPubSubListConnectionsInGroupOptionalParams,
+  WebPubSubListConnectionsInGroupResponse,
   AddToGroupsRequest,
   WebPubSubAddConnectionsToGroupsOptionalParams,
   WebPubSubCloseAllConnectionsOptionalParams,
@@ -45,8 +51,10 @@ import {
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
   WebPubSubRemoveUserFromGroupOptionalParams,
   WebPubSubAddUserToGroupOptionalParams,
+  WebPubSubListConnectionsInGroupNextResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing WebPubSub operations. */
 export class WebPubSubImpl implements WebPubSub {
   private readonly client: GeneratedClient;
@@ -57,6 +65,83 @@ export class WebPubSubImpl implements WebPubSub {
    */
   constructor(client: GeneratedClient) {
     this.client = client;
+  }
+
+  /**
+   * List connections in a group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, whose length should be greater than 0 and less than 1025.
+   * @param options The options parameters.
+   */
+  public listConnectionsInGroup(
+    hub: string,
+    group: string,
+    options?: WebPubSubListConnectionsInGroupOptionalParams,
+  ): PagedAsyncIterableIterator<WebPubSubGroupMember> {
+    const iter = this.listConnectionsInGroupPagingAll(hub, group, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listConnectionsInGroupPagingPage(
+          hub,
+          group,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listConnectionsInGroupPagingPage(
+    hub: string,
+    group: string,
+    options?: WebPubSubListConnectionsInGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WebPubSubGroupMember[]> {
+    let result: WebPubSubListConnectionsInGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listConnectionsInGroup(hub, group, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listConnectionsInGroupNext(
+        hub,
+        group,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listConnectionsInGroupPagingAll(
+    hub: string,
+    group: string,
+    options?: WebPubSubListConnectionsInGroupOptionalParams,
+  ): AsyncIterableIterator<WebPubSubGroupMember> {
+    for await (const page of this.listConnectionsInGroupPagingPage(
+      hub,
+      group,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -469,6 +554,24 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
+   * List connections in a group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, whose length should be greater than 0 and less than 1025.
+   * @param options The options parameters.
+   */
+  private _listConnectionsInGroup(
+    hub: string,
+    group: string,
+    options?: WebPubSubListConnectionsInGroupOptionalParams,
+  ): Promise<WebPubSubListConnectionsInGroupResponse> {
+    return this.client.sendOperationRequest(
+      { hub, group, options },
+      listConnectionsInGroupOperationSpec,
+    );
+  }
+
+  /**
    * Remove a connection from the target group.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -747,6 +850,26 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, group, userId, options },
       addUserToGroupOperationSpec,
+    );
+  }
+
+  /**
+   * ListConnectionsInGroupNext
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, whose length should be greater than 0 and less than 1025.
+   * @param nextLink The nextLink from the previous successful call to the ListConnectionsInGroup method.
+   * @param options The options parameters.
+   */
+  private _listConnectionsInGroupNext(
+    hub: string,
+    group: string,
+    nextLink: string,
+    options?: WebPubSubListConnectionsInGroupNextOptionalParams,
+  ): Promise<WebPubSubListConnectionsInGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { hub, group, nextLink, options },
+      listConnectionsInGroupNextOperationSpec,
     );
   }
 }
@@ -1031,6 +1154,28 @@ const sendToGroup$textOperationSpec: coreClient.OperationSpec = {
   mediaType: "text",
   serializer,
 };
+const listConnectionsInGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/groups/{group}/connections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GroupMemberPagedValues,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubListConnectionsInGroupExceptionHeaders,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxPageSize,
+    Parameters.top,
+    Parameters.continuationToken,
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const removeConnectionFromGroupOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/connections/{connectionId}",
   httpMethod: "DELETE",
@@ -1256,6 +1401,28 @@ const addUserToGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.hub,
     Parameters.group,
     Parameters.userId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listConnectionsInGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GroupMemberPagedValues,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper:
+        Mappers.WebPubSubListConnectionsInGroupNextExceptionHeaders,
+    },
+  },
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.hub,
+    Parameters.group,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -13,7 +13,6 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
-  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -30,6 +29,9 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -196,12 +198,26 @@ export interface MsalClient {
    * An authentication record could be loaded by calling the `getToken` method, or by providing an `authenticationRecord` when creating a credential.
    */
   getActiveAccount(): AuthenticationRecord | undefined;
+
+  /**
+   * Retrieves an access token using brokered authentication.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param useDefaultBrokerAccount - Whether to use the default broker account for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getBrokeredToken(
+    scopes: string[],
+    useDefaultBrokerAccount: boolean,
+    options?: GetTokenInteractiveOptions,
+  ): Promise<AccessToken>;
 }
 
 /**
  * Represents the options for configuring the MsalClient.
  */
-export interface MsalClientOptions {
+export interface MsalClientOptions extends CommonClientOptions {
   /**
    * Parameters that enable WAM broker authentication in the InteractiveBrowserCredential.
    */
@@ -213,19 +229,28 @@ export interface MsalClientOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 
   /**
+   * Indicates if this is being used by VSCode credential.
+   */
+  isVSCodeCredential?: boolean;
+
+  /**
    * A custom authority host.
    */
-  authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];
+  authorityHost?: string;
 
   /**
    * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
-  loggingOptions?: IdentityClient["tokenCredentialOptions"]["loggingOptions"];
-
-  /**
-   * The token credential options for the MsalClient.
-   */
-  tokenCredentialOptions?: IdentityClient["tokenCredentialOptions"];
+  loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
+    allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
+  };
 
   /**
    * Determines whether instance discovery is disabled.
@@ -262,11 +287,10 @@ export function generateMsalConfiguration(
     clientId,
   );
 
-  // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
-    ...msalClientOptions.tokenCredentialOptions,
+    ...msalClientOptions,
     authorityHost: authority,
     loggingOptions: msalClientOptions.loggingOptions,
   });
@@ -296,8 +320,6 @@ export function generateMsalConfiguration(
 /**
  * Represents the state necessary for the MSAL (Microsoft Authentication Library) client to operate.
  * This includes the MSAL configuration, cached account information, Azure region, and a flag to disable automatic authentication.
- *
- * @internal
  */
 interface MsalClientState {
   /** The configuration for the MSAL client. */
@@ -747,6 +769,118 @@ export function createMsalClient(
     }
   }
 
+  /**
+   * Creates a base interactive request configuration for MSAL interactive authentication.
+   * This is shared between interactive and brokered authentication flows.
+   */
+  function createBaseInteractiveRequest(
+    scopes: string[],
+    options: GetTokenInteractiveOptions,
+  ): msal.InteractiveRequest {
+    return {
+      openBrowser: async (url) => {
+        const open = await import("open");
+        await open.default(url, { newInstance: true });
+      },
+      scopes,
+      authority: calculateRequestAuthority(options),
+      claims: options?.claims,
+      loginHint: options?.loginHint,
+      errorTemplate: options?.browserCustomizationOptions?.errorMessage,
+      successTemplate: options?.browserCustomizationOptions?.successMessage,
+      prompt: options?.loginHint ? "login" : "select_account",
+    };
+  }
+
+  /**
+   * @internal
+   */
+  async function getBrokeredTokenInternal(
+    scopes: string[],
+    useDefaultBrokerAccount: boolean,
+    options: GetTokenInteractiveOptions = {},
+  ): Promise<msal.AuthenticationResult> {
+    msalLogger.verbose("Authentication will resume through the broker");
+
+    const app = await getPublicApp(options);
+
+    const interactiveRequest = createBaseInteractiveRequest(scopes, options);
+    if (state.pluginConfiguration.broker.parentWindowHandle) {
+      interactiveRequest.windowHandle = Buffer.from(
+        state.pluginConfiguration.broker.parentWindowHandle,
+      );
+    } else {
+      // this is a bug, as the pluginConfiguration handler should validate this case.
+      msalLogger.warning(
+        "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
+      );
+    }
+
+    if (state.pluginConfiguration.broker.enableMsaPassthrough) {
+      (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
+        "consumer_passthrough";
+    }
+    if (useDefaultBrokerAccount) {
+      interactiveRequest.prompt = "none";
+      msalLogger.verbose("Attempting broker authentication using the default broker account");
+    } else {
+      msalLogger.verbose("Attempting broker authentication without the default broker account");
+    }
+
+    if (options.proofOfPossessionOptions) {
+      interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+      interactiveRequest.authenticationScheme = "pop";
+      interactiveRequest.resourceRequestMethod =
+        options.proofOfPossessionOptions.resourceRequestMethod;
+      interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+    }
+    try {
+      return await app.acquireTokenInteractive(interactiveRequest);
+    } catch (e: any) {
+      msalLogger.verbose(`Failed to authenticate through the broker: ${e.message}`);
+      if (options.disableAutomaticAuthentication) {
+        throw new AuthenticationRequiredError({
+          scopes,
+          getTokenOptions: options,
+          message: "Cannot silently authenticate with default broker account.",
+        });
+      }
+      // If we tried to use the default broker account and failed, fall back to interactive authentication
+      if (useDefaultBrokerAccount) {
+        return getBrokeredTokenInternal(scopes, false, options);
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  /**
+   * A helper function that supports brokered authentication through the MSAL's public application.
+   *
+   * When useDefaultBrokerAccount is true, the method will attempt to authenticate using the default broker account.
+   * If the default broker account is not available, the method will fall back to interactive authentication.
+   */
+  async function getBrokeredToken(
+    scopes: string[],
+    useDefaultBrokerAccount: boolean,
+    options: GetTokenInteractiveOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(
+      `Attempting to acquire token using brokered authentication with useDefaultBrokerAccount: ${useDefaultBrokerAccount}`,
+    );
+    const response = await getBrokeredTokenInternal(scopes, useDefaultBrokerAccount, options);
+    ensureValidMsalToken(scopes, response, options);
+    state.cachedAccount = response?.account ?? null;
+
+    state.logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: response.accessToken,
+      expiresOnTimestamp: response.expiresOn.getTime(),
+      refreshAfterTimestamp: response.refreshOn?.getTime(),
+      tokenType: response.tokenType,
+    } as AccessToken;
+  }
+
   async function getTokenByInteractiveRequest(
     scopes: string[],
     options: GetTokenInteractiveOptions = {},
@@ -755,80 +889,15 @@ export function createMsalClient(
 
     const app = await getPublicApp(options);
 
-    /**
-     * A helper function that supports brokered authentication through the MSAL's public application.
-     *
-     * When options.useDefaultBrokerAccount is true, the method will attempt to authenticate using the default broker account.
-     * If the default broker account is not available, the method will fall back to interactive authentication.
-     */
-    async function getBrokeredToken(
-      useDefaultBrokerAccount: boolean,
-    ): Promise<msal.AuthenticationResult> {
-      msalLogger.verbose("Authentication will resume through the broker");
-      const interactiveRequest = createBaseInteractiveRequest();
-      if (state.pluginConfiguration.broker.parentWindowHandle) {
-        interactiveRequest.windowHandle = Buffer.from(
-          state.pluginConfiguration.broker.parentWindowHandle,
-        );
-      } else {
-        // this is a bug, as the pluginConfiguration handler should validate this case.
-        msalLogger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
-        );
-      }
-
-      if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-        (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
-          "consumer_passthrough";
-      }
-      if (useDefaultBrokerAccount) {
-        interactiveRequest.prompt = "none";
-        msalLogger.verbose("Attempting broker authentication using the default broker account");
-      } else {
-        msalLogger.verbose("Attempting broker authentication without the default broker account");
-      }
-
-      if (options.proofOfPossessionOptions) {
-        interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
-        interactiveRequest.authenticationScheme = "pop";
-        interactiveRequest.resourceRequestMethod =
-          options.proofOfPossessionOptions.resourceRequestMethod;
-        interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
-      }
-      try {
-        return await app.acquireTokenInteractive(interactiveRequest);
-      } catch (e: any) {
-        msalLogger.verbose(`Failed to authenticate through the broker: ${e.message}`);
-        // If we tried to use the default broker account and failed, fall back to interactive authentication
-        if (useDefaultBrokerAccount) {
-          return getBrokeredToken(/* useDefaultBrokerAccount: */ false);
-        } else {
-          throw e;
-        }
-      }
-    }
-
-    function createBaseInteractiveRequest(): msal.InteractiveRequest {
-      return {
-        openBrowser: async (url) => {
-          const open = await import("open");
-          await open.default(url, { wait: true, newInstance: true });
-        },
-        scopes,
-        authority: calculateRequestAuthority(options),
-        claims: options?.claims,
-        loginHint: options?.loginHint,
-        errorTemplate: options?.browserCustomizationOptions?.errorMessage,
-        successTemplate: options?.browserCustomizationOptions?.successMessage,
-        prompt: options?.loginHint ? "login" : "select_account",
-      };
-    }
-
     return withSilentAuthentication(app, scopes, options, async () => {
-      const interactiveRequest = createBaseInteractiveRequest();
+      const interactiveRequest = createBaseInteractiveRequest(scopes, options);
 
       if (state.pluginConfiguration.broker.isEnabled) {
-        return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
+        return getBrokeredTokenInternal(
+          scopes,
+          state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false,
+          options,
+        );
       }
       if (options.proofOfPossessionOptions) {
         interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
@@ -843,6 +912,7 @@ export function createMsalClient(
 
   return {
     getActiveAccount,
+    getBrokeredToken,
     getTokenByClientSecret,
     getTokenByClientAssertion,
     getTokenByClientCertificate,

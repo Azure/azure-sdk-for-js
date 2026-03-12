@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Triggers export of jobs specified by filters and returns an OperationID to track.
  *
  * @summary Triggers export of jobs specified by filters and returns an OperationID to track.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerExportJobs.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/TriggerExportJobs.json
  */
 async function exportJobs() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function exportJobs() {
 }
 
 async function main() {
-  exportJobs();
+  await exportJobs();
 }
 
 main().catch(console.error);

@@ -6,15 +6,35 @@ import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import type { StorageClient } from "../../src/StorageClient.js";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
+import type { ShareServiceClient } from "@azure/storage-file-share";
+import { isNodeLike } from "@azure/core-util";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+export function configureFileStorageClient(
+  recorder: Recorder,
+  serviceClient: ShareServiceClient,
+): void {
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
@@ -40,7 +60,7 @@ const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
-if (isBrowser()) {
+if (!isNodeLike) {
   sasParams.push("_");
 }
 export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
@@ -192,10 +212,6 @@ export class SimpleTokenCredential implements TokenCredential {
   }
 }
 
-export function isBrowser(): boolean {
-  return typeof self !== "undefined";
-}
-
 export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${padStart(
     Math.floor(Math.random() * 10000).toString(),
@@ -209,11 +225,11 @@ export function getRecorderUniqueVariable(recorder: Recorder, name: string): str
 }
 
 export function base64encode(content: string): string {
-  return isBrowser() ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 type BlobMetadata = { [propertyName: string]: string };
@@ -257,4 +273,35 @@ export async function createAndStartRecorder(testContext?: TestContext): Promise
   // SAS token may contain sensitive information
   await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
   return recorder;
+}
+
+export type CustomizeRequest = (request: PipelineRequest) => void;
+
+export const customizeRequestPolicyName = "customizeRequestPolicyame";
+
+export function customizeRequestPolicy(customizeRequest: CustomizeRequest): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      customizeRequest(request);
+      return next(request);
+    },
+  };
+}
+
+export type CustomizeResponseBody = (request: PipelineResponse) => Promise<void>;
+
+export const customizeResponseBodyPolicyName = "customizeResponseBodyPolicyame";
+
+export function customizeResponseBodyPolicy(
+  customizeResponseBody: CustomizeResponseBody,
+): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const responseLike = await next(request);
+      await customizeResponseBody(responseLike);
+      return responseLike;
+    },
+  };
 }

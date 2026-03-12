@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
-import DocumentIntelligence from "../../../src/index.js";
+import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   ASSET_PATH,
@@ -41,7 +41,9 @@ describe("DocumentIntelligenceClient", () => {
     client = DocumentIntelligence(
       getEndpoint(),
       createTestCredential(),
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({
+        credentials: { scopes: [KnownDocumentIntelligenceAudience.AzurePublicCloud] },
+      }),
     );
   });
 
@@ -69,19 +71,16 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const tables = analyzeResult?.tables;
-      assert.ok(pages && pages.length > 0, `Expected non-empty pages but got ${pages}`);
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
 
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0]);
+      assert.isDefined(table.boundingRegions?.[0]);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -104,21 +103,16 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
 
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
       const paragraphs = analyzeResult?.paragraphs;
 
-      assert.ok(
-        paragraphs && paragraphs.length > 0,
-        `Expected non-empty paragraphs but got ${paragraphs}.`,
-      );
+      assert.isNotEmpty(paragraphs);
 
-      assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
+      assert.isNotEmpty(pages);
     });
 
     it("jpeg file stream", async () => {
@@ -140,9 +134,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -150,7 +142,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -172,9 +164,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -182,7 +172,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -205,9 +195,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -215,7 +203,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -234,9 +222,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -246,7 +232,7 @@ describe("DocumentIntelligenceClient", () => {
 
       assert.isNotEmpty(tables);
       const [table] = tables as DocumentTableOutput[];
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -267,7 +253,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse);
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const pages = analyzeResult?.pages;
       assert.equal(pages?.[0].pageNumber, 1);
@@ -291,10 +277,10 @@ describe("DocumentIntelligenceClient", () => {
           throw initialResponse.body.error;
         }
 
-        await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        await getLongRunningPoller(client, initialResponse, testPollingOptions);
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
 
@@ -312,7 +298,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      await getLongRunningPoller(client, initialResponse, testPollingOptions);
     });
 
     it("invalid pages throws", async () => {
@@ -331,7 +317,7 @@ describe("DocumentIntelligenceClient", () => {
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
-        await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        await getLongRunningPoller(client, initialResponse, testPollingOptions);
         assert.fail("Expected an exception due to invalid pages.");
       } catch (ex: any) {
         // Just make sure we didn't get a bad error message
@@ -355,9 +341,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -390,9 +374,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -416,9 +398,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const pages = analyzeResult?.pages;
@@ -457,12 +437,12 @@ describe("DocumentIntelligenceClient", () => {
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
-        const response = await getLongRunningPoller(client, initialResponse);
+        const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
         if (isUnexpected(response)) {
           throw response.body.error;
         }
         _model = response.body as DocumentModelDetailsOutput;
-        assert.ok(_model.modelId);
+        assert.isDefined(_model.modelId);
       }
 
       return _model;
@@ -485,9 +465,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       if (isUnexpected(response)) {
         throw response.body.error;
       }
@@ -495,14 +473,14 @@ describe("DocumentIntelligenceClient", () => {
 
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
-      assert.ok(documents);
+      assert.isDefined(documents);
       assert.equal(documents?.[0].docType, `${modelName}:${modelName}`);
-      assert.ok(pages?.[0]);
+      assert.isDefined(pages?.[0]);
 
       /* There should be a table in the response, but it isn't recognized (maybe because it's too small or sparse)
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].boundingBox);
+      assert.isDefined(table.boundingRegions?.[0].boundingBox);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
       assert.equal(pages?.[0].pageNumber, 1);
@@ -527,9 +505,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
@@ -557,9 +533,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
@@ -585,9 +559,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
@@ -611,9 +583,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       assert.isNotEmpty(documents);
@@ -638,7 +608,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      await getLongRunningPoller(client, initialResponse, testPollingOptions);
     });
 
     it("invalid locale throws", async () => {
@@ -661,7 +631,7 @@ describe("DocumentIntelligenceClient", () => {
 
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
   });
@@ -685,9 +655,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
@@ -697,7 +665,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -717,9 +685,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
       const documents = analyzeResult?.documents;
       const pages = analyzeResult?.pages;
@@ -729,7 +695,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
       assert.isNotEmpty(tables);
       const [table] = tables!;
-      assert.ok(table.boundingRegions?.[0].polygon);
+      assert.isDefined(table.boundingRegions?.[0].polygon);
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
@@ -753,7 +719,7 @@ describe("DocumentIntelligenceClient", () => {
 
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        assert.ok((ex as Error).message.includes("Invalid argument."));
+        assert.include((ex as Error).message, "Invalid argument.");
       }
     });
   });
@@ -777,9 +743,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
@@ -806,9 +770,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
@@ -859,9 +821,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
@@ -892,9 +852,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const analyzeResult = (response.body as AnalyzeOperationOutput).analyzeResult;
 
       const documents = analyzeResult?.documents;
@@ -923,7 +881,7 @@ describe("DocumentIntelligenceClient", () => {
       }
       const batchResultId = parseResultIdFromResponse(initialResponse);
 
-      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const response = await client
         .path(
           "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
@@ -934,7 +892,7 @@ describe("DocumentIntelligenceClient", () => {
       if (isUnexpected(response)) {
         throw response.body.error;
       }
-      assert.ok(response.body);
+      assert.isDefined(response.body);
       assert.equal(response.body.resultId, batchResultId);
       assert.equal(response.body.status, "succeeded");
       assert.equal(response.body.percentCompleted, 100);
@@ -960,7 +918,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const resultId = parseResultIdFromResponse(initialResponse);
 
       await client
@@ -987,7 +945,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      await getLongRunningPoller(client, initialResponse, testPollingOptions);
 
       const resultId = parseResultIdFromResponse(initialResponse);
       const output = await client
@@ -1022,9 +980,7 @@ describe("DocumentIntelligenceClient", () => {
         throw initialResponse.body.error;
       }
 
-      const response = await getLongRunningPoller(client, initialResponse, {
-        ...testPollingOptions,
-      });
+      const response = await getLongRunningPoller(client, initialResponse, testPollingOptions);
       const result = response.body as AnalyzeOperationOutput;
       const figures = result.analyzeResult?.figures;
       assert.isArray(figures);

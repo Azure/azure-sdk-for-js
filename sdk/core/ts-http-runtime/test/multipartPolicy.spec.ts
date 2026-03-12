@@ -76,7 +76,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/mixed; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
@@ -133,7 +133,7 @@ describe("multipartPolicy", function () {
         },
       });
 
-      assert.ok(request.headers.has("content-type"), "content-type header expected");
+      assert.isTrue(request.headers.has("content-type"), "content-type header expected");
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/alternative; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
@@ -268,6 +268,26 @@ describe("multipartPolicy", function () {
         "Content-Length value should not be inferred from a stream",
       );
     });
+  });
+
+  it("Supports Blob body", async function () {
+    const blob = new Blob(["part1"]);
+
+    const request = await performRequest({
+      multipartBody: {
+        boundary: "blah",
+        parts: [
+          {
+            body: blob,
+            headers: createHttpHeaders(),
+          },
+        ],
+      },
+    });
+
+    const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+    await assertBodyMatches(request.body, expectedBody);
+    assert.equal(request.headers.get("Content-Length"), expectedBody.byteLength.toString());
   });
 
   describe("part headers", function () {

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs-extra";
-import { stat as statFile } from "fs/promises";
+import { readFileSync } from "node:fs";
+import { stat as statFile } from "node:fs/promises";
 import path from "node:path";
+import semver from "semver";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
@@ -26,6 +27,7 @@ import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
 import { Config, resolveConfig } from "../resolveTsConfig";
 import { CompilerOptions } from "typescript";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
 
 const log = createPrinter("generator");
 
@@ -78,6 +80,39 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
   return out;
 }
 
+function isValidNpmVersionSpecifier(specifier: string) {
+  return (
+    semver.valid(
+      specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
+    ) ||
+    semver.validRange(specifier) ||
+    ["latest", "dev", "next"].includes(specifier)
+  );
+}
+
+function resolveDependencyVersion(name: string, specifier: string): string {
+  if (isValidNpmVersionSpecifier(specifier)) {
+    return specifier;
+  } else if (specifier === "workspace:^") {
+    return "latest";
+  } else {
+    const resolvedVersion = resolveCatalogVersion(name, specifier);
+    // Our pnpm workspace has "linkWorkspacePackages: true" so we can't use a
+    // caret version for "@azure/identity" in the "catalog:internal" catalog;
+    // Otherwise it would introduce a circular dependency as the source version satisfies
+    // the caret version range. To avoid that we used a specific version that is
+    // different from the source version so it resolves to a npmjs version instead.
+    // However, for our samples we still want the caret version so that customers
+    // can get the latest version. Our sample usage of @azure/identity is mostly
+    // `DefaultAzureCredential` so changing to a caret version is fine.
+    if (name === "@azure/identity" && specifier === "catalog:internal") {
+      return `^${resolvedVersion}`;
+    }
+
+    return resolvedVersion;
+  }
+}
+
 /**
  * Extracts the sample generation meta-information from the sample sources and
  * configuration in package.json.
@@ -91,6 +126,8 @@ export async function makeSampleGenerationInfo(
   topLevelDirectory: string,
   onError: () => void,
 ): Promise<SampleGenerationInfo> {
+  await loadPnpmWorkspaceCatalogs();
+
   const sampleSources = await collect(
     findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
@@ -174,7 +211,7 @@ export async function makeSampleGenerationInfo(
         let contents;
 
         try {
-          contents = fs.readFileSync(path.resolve(projectInfo.path, file));
+          contents = readFileSync(path.resolve(projectInfo.path, file));
         } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
@@ -206,7 +243,8 @@ export async function makeSampleGenerationInfo(
                 );
               }
 
-              current[dependency] = dependencyVersion;
+              current[dependency] = resolveDependencyVersion(dependency, dependencyVersion);
+
               // It would be really weird to depend on `@types/*` in a source file but if we did
               // it'd be handled above.
               if (dependency.indexOf("@types/") !== 0) {
@@ -217,7 +255,10 @@ export async function makeSampleGenerationInfo(
                   packageJson.dependencies[typeDependency];
 
                 if (typeDependencyVersion) {
-                  typesDependencies[typeDependency] = typeDependencyVersion;
+                  typesDependencies[typeDependency] = resolveDependencyVersion(
+                    typeDependency,
+                    typeDependencyVersion,
+                  );
                 }
               }
             }
@@ -229,16 +270,21 @@ export async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+              // In TypeScript samples, we include TypeScript, `cross-env`, and `rimraf`, because they're used
               // in the package scripts as well as @types/node.
               devDependencies: {
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
-                typescript: devToolPackageJson.dependencies.typescript,
+                "cross-env": "latest",
                 rimraf: "latest",
+                typescript: devToolPackageJson.dependencies.typescript,
               },
             }
-          : {}),
+          : {
+              devDependencies: {
+                "cross-env": "latest",
+              },
+            }),
       };
     },
   };
@@ -310,7 +356,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
       module?: string;
     };
   };
-  const tsconfig = (await resolveConfig(tsconfigFilePath)) as SerializableConfig;
+  const { config: tsconfig } = (await resolveConfig(tsconfigFilePath)) as {
+    config: SerializableConfig;
+  };
   delete tsconfig.compilerOptions.paths;
   delete tsconfig.exclude;
   delete tsconfig.compilerOptions.composite;
@@ -339,6 +387,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
 export async function makeSamplesFactory(
   projectInfo: ProjectInfo,
   sourcePath?: string,
+  options?: {
+    force: boolean;
+  },
 ): Promise<FileTreeFactory> {
   let hadError = false;
 
@@ -390,6 +441,7 @@ export async function makeSamplesFactory(
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
+  const actionIfDestinationDirty = options?.force ? "warn" : "throw";
   return dir(
     versionFolder,
     safeClean(
@@ -407,11 +459,9 @@ export async function makeSamplesFactory(
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
+                  file(relativeSourcePath, () => postProcess(readFileSync(filePath))),
                 ),
-                ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, fs.readFileSync(absolute)),
-                ),
+                ...dtsFiles.map(([relative, absolute]) => file(relative, readFileSync(absolute))),
               ]),
             ]),
             dir("javascript", [
@@ -439,6 +489,7 @@ export async function makeSamplesFactory(
           ]),
         ),
       ),
+      { actionIfDirty: actionIfDestinationDirty },
     ),
   );
 }

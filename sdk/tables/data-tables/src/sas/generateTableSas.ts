@@ -11,7 +11,7 @@ import { tableSasPermissionsFromString } from "./tableSasPermisions.js";
  * Generates a Table Service Shared Access Signature (SAS) URI based on the client properties
  * and parameters passed in. The SAS is signed by the shared key credential of the client.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
  *
  * @param options - Optional parameters.
  * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.

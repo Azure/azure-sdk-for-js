@@ -42,7 +42,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
     });
   }
   if (envelope.length !== 1) {
-    assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
+    assert.fail(`assertTrace: could not find exported envelope: ${expectation.name}`);
   }
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
@@ -101,8 +101,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
       });
     }
     if (envelope.length !== 1) {
-      assert.ok(
-        false,
+      assert.fail(
         `assertExpectation: could not find exported envelope: ${
           (expectation.data?.baseData as MonitorDomain).name
         }`,
@@ -124,7 +123,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
           }
           break;
         default:
-          assert.ok(serializedKey, `Serialized key for ${key}`);
+          assert.isDefined(serializedKey, `Serialized key for ${key}`);
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
@@ -151,8 +150,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
       });
     }
     if (envelope.length !== 1) {
-      assert.ok(
-        false,
+      assert.fail(
         `assertExpectation: Envelope ${
           (expectation.data?.baseData as MetricsData).metrics[0].name
         } found ${envelope.length} times.`,
@@ -171,7 +169,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
           // Do not check for children
           break;
         default:
-          assert.ok(serializedKey, `Serialized key for ${key}`);
+          assert.isDefined(serializedKey, `Serialized key for ${key}`);
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
@@ -195,8 +193,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
       });
     }
     if (envelope.length !== 1) {
-      assert.ok(
-        false,
+      assert.fail(
         `assertExpectation: could not find exported envelope: ${
           (expectation.data?.baseData as any).name
         }`,
@@ -215,7 +212,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
           // Do not check for children
           break;
         default:
-          assert.ok(serializedKey, `Serialized key for ${key}`);
+          assert.isDefined(serializedKey, `Serialized key for ${key}`);
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,

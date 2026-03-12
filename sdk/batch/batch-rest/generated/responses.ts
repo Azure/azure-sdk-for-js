@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   BatchApplicationListResultOutput,
   BatchErrorOutput,
   BatchApplicationOutput,
@@ -20,7 +20,7 @@ import {
   BatchJobScheduleOutput,
   BatchJobScheduleListResultOutput,
   BatchTaskListResultOutput,
-  BatchTaskAddCollectionResultOutput,
+  BatchCreateTaskCollectionResultOutput,
   BatchTaskOutput,
   BatchTaskListSubtasksResultOutput,
   BatchNodeFileListResultOutput,
@@ -1030,7 +1030,7 @@ export interface CreateTaskCollection200Headers {
 /** The request has succeeded. */
 export interface CreateTaskCollection200Response extends HttpResponse {
   status: "200";
-  body: BatchTaskAddCollectionResultOutput;
+  body: BatchCreateTaskCollectionResultOutput;
   headers: RawHttpHeaders & CreateTaskCollection200Headers;
 }
 

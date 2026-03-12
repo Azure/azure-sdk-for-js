@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-pineconevectordb": ["./src/index.ts"],
+      "@azure/arm-pineconevectordb/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

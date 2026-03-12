@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@typespec/ts-http-runtime": ["./src/index.ts"],
+      "@typespec/ts-http-runtime/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  },
+  "exclude": [
+    "src/fetchHttpClient.ts",
+    "src/xhrHttpClient.ts",
+    "./**/*-browser.mts",
+    "./**/*-react-native.mts",
+    "./test/snippets.spec.ts",
+    "./test/**/browser"
+  ]
+}

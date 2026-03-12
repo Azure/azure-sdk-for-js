@@ -241,6 +241,7 @@ import { env } from "../src/index.js";
           },
         });
         const pathToHit = `/api/sample_request_body`;
+        const reqBody = "test=data";
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -249,8 +250,10 @@ import { env } from "../src/index.js";
               : undefined,
             path: pathToHit,
             method: "POST",
+            body: reqBody,
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: {} },
+          { bodyProvided: reqBody },
         );
       });
 

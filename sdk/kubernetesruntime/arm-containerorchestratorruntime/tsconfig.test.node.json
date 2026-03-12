@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-containerorchestratorruntime": ["./src/index.ts"],
+      "@azure/arm-containerorchestratorruntime/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -54,7 +54,7 @@ node dist/aadAuth.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env FACE_ENDPOINT="<face endpoint>" node dist/aadAuth.js
+cross-env FACE_ENDPOINT="<face endpoint>" node dist/aadAuth.js
 ```
 
 ## Next Steps

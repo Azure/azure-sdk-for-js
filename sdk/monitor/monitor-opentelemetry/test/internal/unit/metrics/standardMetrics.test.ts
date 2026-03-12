@@ -21,8 +21,8 @@ import {
   ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
-import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
-import { Resource } from "@opentelemetry/resources";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { getDependencyTarget } from "../../../../src/metrics/utils.js";
@@ -59,12 +59,12 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should use AKS attributes to populate common dimensions on standard metrics", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME] = "k8sDeploymentName";
     resource.attributes[SEMRESATTRS_K8S_POD_NAME] = "k8sPodName";
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -85,28 +85,49 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should observe instruments during collection", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const loggerProvider = new LoggerProvider({ resource: resource });
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 123,
+    const traceLog: SdkLogRecord = {
+      hrTime: [0, 123],
+      hrTimeObserved: [0, 123],
+      resource: resource,
+      instrumentationScope: { name: "test" },
+      attributes: { body: "testMessage" },
+      droppedAttributesCount: 0,
+      setAttribute: (key: string, value?: any) => {
+        traceLog.attributes[key] = value;
+        return traceLog;
       },
-    );
+      setAttributes: (attributes: any) => {
+        Object.assign(traceLog.attributes, attributes);
+        return traceLog;
+      },
+      setBody: (body: any) => {
+        traceLog.body = body;
+        return traceLog;
+      },
+      setEventName: (eventName: string) => {
+        traceLog.eventName = eventName;
+        return traceLog;
+      },
+      setSeverityNumber: (severityNumber: any) => {
+        traceLog.severityNumber = severityNumber;
+        return traceLog;
+      },
+      setSeverityText: (severityText: string) => {
+        traceLog.severityText = severityText;
+        return traceLog;
+      },
+    };
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -118,7 +139,7 @@ describe("#StandardMetricsHandler", () => {
 
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -133,9 +154,9 @@ describe("#StandardMetricsHandler", () => {
     clientSpan.status.code = SpanStatusCode.ERROR;
     serverSpan.status.code = SpanStatusCode.ERROR;
     for (let i = 0; i < 10; i++) {
-      clientSpan.duration[0] = i * 100000;
+      clientSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(clientSpan);
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -230,10 +251,10 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       status: { code: SpanStatusCode.OK },
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
@@ -244,7 +265,7 @@ describe("#StandardMetricsHandler", () => {
     autoCollect.recordSpan(serverSpan);
 
     for (let i = 0; i < 10; i++) {
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -260,10 +281,10 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("[new sem conv] should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       status: { code: SpanStatusCode.OK },
       attributes: {
         [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
@@ -274,7 +295,7 @@ describe("#StandardMetricsHandler", () => {
     autoCollect.recordSpan(serverSpan);
 
     for (let i = 0; i < 10; i++) {
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -290,29 +311,50 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should set service name based on service namespace if provided", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    const loggerProvider = new LoggerProvider({ resource: resource });
-    const logger = loggerProvider.getLogger("testLogger") as any;
-
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 123,
+    const traceLog: SdkLogRecord = {
+      hrTime: [0, 123],
+      hrTimeObserved: [0, 123],
+      resource: resource,
+      instrumentationScope: { name: "test" },
+      attributes: { body: "testMessage" },
+      droppedAttributesCount: 0,
+      setAttribute: (key: string, value?: any) => {
+        traceLog.attributes[key] = value;
+        return traceLog;
       },
-    );
+      setAttributes: (attributes: any) => {
+        Object.assign(traceLog.attributes, attributes);
+        return traceLog;
+      },
+      setBody: (body: any) => {
+        traceLog.body = body;
+        return traceLog;
+      },
+      setEventName: (eventName: string) => {
+        traceLog.eventName = eventName;
+        return traceLog;
+      },
+      setSeverityNumber: (severityNumber: any) => {
+        traceLog.severityNumber = severityNumber;
+        return traceLog;
+      },
+      setSeverityText: (severityText: string) => {
+        traceLog.severityText = severityText;
+        return traceLog;
+      },
+    };
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -333,6 +375,57 @@ describe("#StandardMetricsHandler", () => {
       metrics[2].dataPoints[0].attributes["cloudRoleName"],
       "testcloudRoleName.serviceTestName",
     );
+  });
+
+  it("should correctly record sub-second span durations", async () => {
+    const resource = resourceFromAttributes({});
+    resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
+    resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
+
+    const serverSpan: any = {
+      kind: SpanKind.SERVER,
+      duration: [0, 500000000] as [number, number],
+      attributes: {
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+      },
+      status: { code: SpanStatusCode.OK },
+      resource: resource,
+    };
+    autoCollect.recordSpan(serverSpan);
+
+    const clientSpan: any = {
+      kind: SpanKind.CLIENT,
+      duration: [0, 500000000] as [number, number],
+      attributes: {
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+      },
+      status: { code: SpanStatusCode.OK },
+      resource: resource,
+    };
+    clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
+    autoCollect.recordSpan(clientSpan);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+
+    // Requests (server span) — 500ms
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).count, 1, "request count");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).min, 500, "request min");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).max, 500, "request max");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).sum, 500, "request sum");
+
+    // Dependencies (client span) — 500ms
+    assert.strictEqual(metrics[1].descriptor.name, "dependencies/duration");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).count, 1, "dependency count");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).min, 500, "dependency min");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).max, 500, "dependency max");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).sum, 500, "dependency sum");
   });
 
   it("should set dependency targets", () => {
@@ -368,7 +461,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should retrieve meter provider", () => {
-    assert.ok(autoCollect.getMeterProvider());
+    assert.isDefined(autoCollect.getMeterProvider());
   });
 
   it("should not collect when disabled", async () => {

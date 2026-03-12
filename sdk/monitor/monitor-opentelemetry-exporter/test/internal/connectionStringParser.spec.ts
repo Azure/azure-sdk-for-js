@@ -24,6 +24,14 @@ describe("ConnectionStringParser", () => {
       assert.strictEqual(result.aadaudience, aadAudience);
     });
 
+    it("parses ApplicationId when provided", () => {
+      const result = ConnectionStringParser.parse(
+        "InstrumentationKey=00000000-0000-0000-0000-000000000000;ApplicationId=my-app-id",
+      );
+
+      assert.strictEqual(result.applicationid, "my-app-id");
+    });
+
     it("should sanitize URLs", () => {
       const instrumentationKey = "instr_key";
       const ingestionEndpoint = "http://test.com/ ";

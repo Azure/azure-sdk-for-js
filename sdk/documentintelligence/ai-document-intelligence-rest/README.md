@@ -29,7 +29,7 @@ The below table describes the relationship of each client and its supported API 
 
 | Service API version | Supported clients                                            | Package                                                |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
-| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0` |
+| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `^1.0.0` |
 | 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`           |
 | 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`           |
 
@@ -87,6 +87,30 @@ const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"
   key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"],
 });
 ```
+
+### Sovereign Clouds
+
+Connect to alternative Azure cloud environments (such as Azure China or Azure Government) by specifying the `scopes` field in the `credentials` option and use the appropriate value from `KnownDocumentIntelligenceAudience`.
+
+```ts snippet:ReadmeSampleCreateClient_SovereignClouds
+import DocumentIntelligence, {
+  KnownDocumentIntelligenceAudience,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+  {
+    credentials: {
+      // Use the correct audience for your cloud environment
+      scopes: [KnownDocumentIntelligenceAudience.AzureGovernment],
+    },
+  },
+);
+```
+
+If you do not specify `scopes`, the client will default to the Azure Public Cloud (`https://cognitiveservices.azure.com`).
 
 ## Document Models
 

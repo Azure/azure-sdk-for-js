@@ -28,10 +28,11 @@ export interface FeatureFlagValue {
    * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
    * Custom filters can also be created based on different factors, such as device used, browser types, geographic location, etc.
    *
-   * [More Info](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+   * [More Info](https://learn.microsoft.com/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
   conditions: {
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];
+    requirementType?: "All" | "Any";
   };
   /**
    * Description of the feature.
@@ -72,6 +73,7 @@ export const FeatureFlagHelper = {
       description: featureFlag.value.description,
       conditions: {
         client_filters: featureFlag.value.conditions.clientFilters,
+        requirement_type: featureFlag.value.conditions.requirementType ?? "Any",
       },
       display_name: featureFlag.value.displayName,
     };
@@ -109,14 +111,20 @@ export function parseFeatureFlag(
     ...setting,
     value: {
       id: jsonFeatureFlagValue.id,
-      enabled: jsonFeatureFlagValue.enabled,
+      enabled: jsonFeatureFlagValue.enabled ?? false,
       description: jsonFeatureFlagValue.description,
       displayName: jsonFeatureFlagValue.display_name,
-      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters },
+      conditions: jsonFeatureFlagValue.conditions
+        ? {
+            clientFilters: jsonFeatureFlagValue.conditions.client_filters,
+            requirementType: jsonFeatureFlagValue.conditions.requirement_type,
+          }
+        : { clientFilters: [] },
     },
     key,
     contentType: featureFlagContentType,
   };
+
   return featureflag;
 }
 

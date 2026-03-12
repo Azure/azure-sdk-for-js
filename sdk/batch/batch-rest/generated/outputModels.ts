@@ -22,7 +22,7 @@ export interface BatchApplicationOutput {
 /** An error response received from the Azure Batch service. */
 export interface BatchErrorOutput {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code: string;
+  code?: string;
   /** A message describing the error, intended to be suitable for display in a user interface. */
   message?: BatchErrorMessageOutput;
   /** A collection of key-value pairs containing additional details about the error. */
@@ -61,7 +61,7 @@ export interface BatchPoolUsageMetricsOutput {
   startTime: string;
   /** The end time of the aggregation interval covered by this entry. */
   endTime: string;
-  /** The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  /** The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize: string;
   /** The total core hours used in the Pool during this aggregation interval. */
   totalCoreHours: number;
@@ -73,12 +73,12 @@ export interface BatchPoolUsageMetricsOutput {
  */
 export interface VirtualMachineConfigurationOutput {
   /** A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use. */
-  imageReference: ImageReferenceOutput;
+  imageReference: BatchVmImageReferenceOutput;
   /** The SKU of the Batch Compute Node agent to be provisioned on Compute Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in the Pool, and provides the command-and-control interface between the Compute Node and the Batch service. There are different implementations of the Compute Node agent, known as SKUs, for different operating systems. You must specify a Compute Node agent SKU which matches the selected Image reference. To get the list of supported Compute Node agent SKUs along with their list of verified Image references, see the 'List supported Compute Node agent SKUs' operation. */
   nodeAgentSKUId: string;
   /** Windows operating system settings on the virtual machine. This property must not be specified if the imageReference property specifies a Linux OS Image. */
   windowsConfiguration?: WindowsConfigurationOutput;
-  /** The configuration for data disks attached to the Compute Nodes in the Pool. This property must be specified if the Compute Nodes in the Pool need to have empty data disks attached to them. This cannot be updated. Each Compute Node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the Compute Node is removed from the Pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://docs.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://docs.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine. */
+  /** The configuration for data disks attached to the Compute Nodes in the Pool. This property must be specified if the Compute Nodes in the Pool need to have empty data disks attached to them. This cannot be updated. Each Compute Node gets its own disk (the disk is not a file share). Existing disks cannot be attached, each attached disk is empty. When the Compute Node is removed from the Pool, the disk and all data associated with it is also deleted. The disk is not formatted after being attached, it must be formatted before use - for more information see https://learn.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux and https://learn.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine. */
   dataDisks?: Array<DataDiskOutput>;
   /**
    * This only applies to Images that contain the Windows operating system, and
@@ -93,7 +93,7 @@ export interface VirtualMachineConfigurationOutput {
    */
   licenseType?: string;
   /** The container configuration for the Pool. If specified, setup is performed on each Compute Node in the Pool to allow Tasks to run in containers. All regular Tasks and Job manager Tasks run on this Pool must specify the containerSettings property, and all other Tasks may specify it. */
-  containerConfiguration?: ContainerConfigurationOutput;
+  containerConfiguration?: BatchContainerConfigurationOutput;
   /** The disk encryption configuration for the pool. If specified, encryption is performed on each node in the pool during node provisioning. */
   diskEncryptionConfiguration?: DiskEncryptionConfigurationOutput;
   /** The node placement configuration for the pool. This configuration will specify rules on how nodes in the pool will be physically allocated. */
@@ -101,7 +101,7 @@ export interface VirtualMachineConfigurationOutput {
   /** The virtual machine extension for the pool. If specified, the extensions mentioned in this configuration will be installed on each node. */
   extensions?: Array<VMExtensionOutput>;
   /** Settings for the operating system disk of the Virtual Machine. */
-  osDisk?: OSDiskOutput;
+  osDisk?: BatchOsDiskOutput;
   /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
   securityProfile?: SecurityProfileOutput;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
@@ -113,7 +113,7 @@ export interface VirtualMachineConfigurationOutput {
  * To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
  * ' List Supported Images ' operation.
  */
-export interface ImageReferenceOutput {
+export interface BatchVmImageReferenceOutput {
   /** The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or MicrosoftWindowsServer. */
   publisher?: string;
   /** The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or WindowsServer. */
@@ -122,7 +122,7 @@ export interface ImageReferenceOutput {
   sku?: string;
   /** The version of the Azure Virtual Machines Marketplace Image. A value of 'latest' can be specified to select the latest version of an Image. If omitted, the default is 'latest'. */
   version?: string;
-  /** The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version. This property is mutually exclusive with other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version. This property is mutually exclusive with other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration. */
   virtualMachineImageId?: string;
   /** The specific version of the platform image or marketplace image used to create the node. This read-only field differs from 'version' only if the value specified for 'version' when the pool was created was 'latest'. */
   readonly exactVersion?: string;
@@ -154,6 +154,8 @@ export interface DataDiskOutput {
   caching?: CachingTypeOutput;
   /** The initial disk size in gigabytes. */
   diskSizeGB: number;
+  /** The managed disk parameters. */
+  managedDisk?: ManagedDiskOutput;
   /**
    * The storage Account type to be used for the data disk. If omitted, the default is "standard_lrs".
    *
@@ -162,8 +164,38 @@ export interface DataDiskOutput {
   storageAccountType?: StorageAccountTypeOutput;
 }
 
+/** The managed disk parameters. */
+export interface ManagedDiskOutput {
+  /** Specifies the customer managed disk encryption set resource id for the managed disk. It can be set only in UserSubscription mode. */
+  diskEncryptionSet?: DiskEncryptionSetParametersOutput;
+  /**
+   * The storage account type for managed disk.
+   *
+   * Possible values: "standard_lrs", "premium_lrs", "standardssd_lrs"
+   */
+  storageAccountType?: StorageAccountTypeOutput;
+  /** Specifies the security profile settings for the managed disk. */
+  securityProfile?: BatchVmDiskSecurityProfileOutput;
+}
+
+/** The ARM resource id of the disk encryption set. */
+export interface DiskEncryptionSetParametersOutput {
+  /** The ARM resource id of the disk encryption set. The resource must be in the same subscription as the Batch account. */
+  id?: string;
+}
+
+/** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and required when using Confidential VMs. */
+export interface BatchVmDiskSecurityProfileOutput {
+  /**
+   * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when using Confidential VMs.
+   *
+   * Possible values: "DiskWithVMGuestState", "NonPersistedTPM", "VMGuestStateOnly"
+   */
+  securityEncryptionType?: SecurityEncryptionTypesOutput;
+}
+
 /** The configuration for container-enabled Pools. */
-export interface ContainerConfigurationOutput {
+export interface BatchContainerConfigurationOutput {
   /**
    * The container technology to be used.
    *
@@ -203,8 +235,26 @@ export interface BatchNodeIdentityReferenceOutput {
  * Azure Compute Gallery Image.
  */
 export interface DiskEncryptionConfigurationOutput {
+  /** The Customer Managed Key reference to encrypt the OS Disk. Customer Managed Key will encrypt OS Disk by EncryptionAtRest, and by default we will encrypt the data disk as well. It can be used only when the pool is configured with an identity and OsDisk is set as one of the targets of DiskEncryption. */
+  customerManagedKey?: DiskCustomerManagedKeyOutput;
   /** The list of disk targets Batch Service will encrypt on the compute node. The list of disk targets Batch Service will encrypt on the compute node. */
   targets?: DiskEncryptionTargetOutput[];
+}
+
+/** The Customer Managed Key reference to encrypt the Disk. */
+export interface DiskCustomerManagedKeyOutput {
+  /** The reference of one of the pool identities to encrypt Disk. This identity will be used to access the KeyVault. */
+  identityReference?: BatchPoolIdentityReferenceOutput;
+  /** Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value. */
+  keyUrl?: string;
+  /** Set this flag to true to enable auto-updating of the Disk Encryption to the latest key version. Default is false. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+/** The reference of one of the pool identities to encrypt Disk. This identity will be used to access the key vault. */
+export interface BatchPoolIdentityReferenceOutput {
+  /** The ARM resource id of the user assigned identity. This reference must be included in the pool identities. */
+  resourceId?: string;
 }
 
 /**
@@ -216,7 +266,7 @@ export interface BatchNodePlacementConfigurationOutput {
   /**
    * Node placement Policy type on Batch Pools. Allocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy.
    *
-   * Possible values: "Shared", "Startup", "VfsMounts", "Task", "JobPrep", "Applications"
+   * Possible values: "regional", "zonal"
    */
   policy?: BatchNodePlacementPolicyTypeOutput;
 }
@@ -244,9 +294,9 @@ export interface VMExtensionOutput {
 }
 
 /** Settings for the operating system disk of the compute node (VM). */
-export interface OSDiskOutput {
+export interface BatchOsDiskOutput {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the compute node (VM). */
-  ephemeralOSDiskSettings?: DiffDiskSettingsOutput;
+  ephemeralOSDiskSettings?: BatchDiffDiskSettingsOutput;
   /**
    * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.
    *
@@ -265,53 +315,55 @@ export interface OSDiskOutput {
  * Specifies the ephemeral Disk Settings for the operating system disk used by the
  * compute node (VM).
  */
-export interface DiffDiskSettingsOutput {
+export interface BatchDiffDiskSettingsOutput {
   /**
-   * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+   * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
    * Possible values: "cachedisk"
    */
   placement?: DiffDiskPlacementOutput;
 }
 
-/** The managed disk parameters. */
-export interface ManagedDiskOutput {
-  /**
-   * The storage account type for managed disk.
-   *
-   * Possible values: "standard_lrs", "premium_lrs", "standardssd_lrs"
-   */
-  storageAccountType?: StorageAccountTypeOutput;
-  /** Specifies the security profile settings for the managed disk. */
-  securityProfile?: VMDiskSecurityProfileOutput;
-}
-
-/** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and required when using Confidential VMs. */
-export interface VMDiskSecurityProfileOutput {
-  /**
-   * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when using Confidential VMs.
-   *
-   * Possible values: "NonPersistedTPM", "VMGuestStateOnly"
-   */
-  securityEncryptionType?: SecurityEncryptionTypesOutput;
-}
-
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfileOutput {
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. For more information on encryption at host requirements, please refer to https://learn.microsoft.com/azure/virtual-machines/disk-encryption#supported-vm-sizes. */
-  encryptionAtHost: boolean;
+  encryptionAtHost?: boolean;
+  /** Specifies ProxyAgent settings while creating the virtual machine. */
+  proxyAgentSettings?: ProxyAgentSettingsOutput;
   /**
    * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings.
    *
    * Possible values: "trustedLaunch", "confidentialVM"
    */
-  securityType: SecurityTypesOutput;
+  securityType?: SecurityTypesOutput;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-  uefiSettings: UefiSettingsOutput;
+  uefiSettings?: BatchUefiSettingsOutput;
+}
+
+/** Specifies ProxyAgent settings while creating the virtual machine. */
+export interface ProxyAgentSettingsOutput {
+  /** Specifies whether Metadata Security Protocol feature should be enabled on the virtual machine or virtual machine scale set. Default is False. */
+  enabled?: boolean;
+  /** Settings for the IMDS endpoint. */
+  imds?: HostEndpointSettingsOutput;
+  /** Settings for the WireServer endpoint. */
+  wireServer?: HostEndpointSettingsOutput;
+}
+
+/** Specifies particular host endpoint settings. */
+export interface HostEndpointSettingsOutput {
+  /** Specifies the reference to the InVMAccessControlProfileVersion resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version}. */
+  inVMAccessControlProfileReferenceId?: string;
+  /**
+   * Specifies the access control policy execution mode.
+   *
+   * Possible values: "Audit", "Enforce"
+   */
+  mode?: HostEndpointSettingsModeTypesOutput;
 }
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-export interface UefiSettingsOutput {
+export interface BatchUefiSettingsOutput {
   /** Specifies whether secure boot should be enabled on the virtual machine. */
   secureBootEnabled?: boolean;
   /** Specifies whether vTPM should be enabled on the virtual machine. */
@@ -329,7 +381,7 @@ export interface ServiceArtifactReferenceOutput {
 
 /** The network configuration for a Pool. */
 export interface NetworkConfigurationOutput {
-  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. Only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. Only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication, including ports 29876 and 29877. Also enable outbound connections to Azure Storage on port 443. For more details see: https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /**
    * The scope of dynamic vnet assignment.
@@ -340,7 +392,7 @@ export interface NetworkConfigurationOutput {
   /** The configuration for endpoints on Compute Nodes in the Batch Pool. */
   endpointConfiguration?: BatchPoolEndpointConfigurationOutput;
   /** The Public IPAddress configuration for Compute Nodes in the Batch Pool. */
-  publicIPAddressConfiguration?: PublicIpAddressConfigurationOutput;
+  publicIPAddressConfiguration?: BatchPublicIpAddressConfigurationOutput;
   /** Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
 }
@@ -348,14 +400,14 @@ export interface NetworkConfigurationOutput {
 /** The endpoint configuration for a Pool. */
 export interface BatchPoolEndpointConfigurationOutput {
   /** A list of inbound NAT Pools that can be used to address specific ports on an individual Compute Node externally. The maximum number of inbound NAT Pools per Batch Pool is 5. If the maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses. */
-  inboundNATPools: Array<InboundNatPoolOutput>;
+  inboundNATPools: Array<BatchInboundNatPoolOutput>;
 }
 
 /**
  * A inbound NAT Pool that can be used to address specific ports on Compute Nodes
  * in a Batch Pool externally.
  */
-export interface InboundNatPoolOutput {
+export interface BatchInboundNatPoolOutput {
   /** The name of the endpoint. The name must be unique within a Batch Pool, can contain letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number, must end with a letter, number, or underscore, and cannot exceed 77 characters.  If any invalid values are provided the request fails with HTTP status code 400. */
   name: string;
   /**
@@ -364,7 +416,7 @@ export interface InboundNatPoolOutput {
    * Possible values: "tcp", "udp"
    */
   protocol: InboundEndpointProtocolOutput;
-  /** The port number on the Compute Node. This must be unique within a Batch Pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
+  /** The port number on the Compute Node. This must be unique within a Batch Pool. Acceptable values are between 1 and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
   backendPort: number;
   /** The first port number in the range of external ports that will be used to provide inbound access to the backendPort on individual Compute Nodes. Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a Pool must be distinct and cannot overlap. Each range must contain at least 40 ports. If any reserved or overlapping values are provided the request fails with HTTP status code 400. */
   frontendPortRangeStart: number;
@@ -391,15 +443,27 @@ export interface NetworkSecurityGroupRuleOutput {
 }
 
 /** The public IP Address configuration of the networking configuration of a Pool. */
-export interface PublicIpAddressConfigurationOutput {
+export interface BatchPublicIpAddressConfigurationOutput {
   /**
    * The provisioning type for Public IP Addresses for the Pool. The default value is BatchManaged.
    *
    * Possible values: "batchmanaged", "usermanaged", "nopublicipaddresses"
    */
   provision?: IpAddressProvisioningTypeOutput;
+  /** The IP families used to specify IP versions available to the pool. IP families are used to determine single-stack or dual-stack pools. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
+  ipFamilies?: IPFamilyOutput[];
   /** The list of public IPs which the Batch service will use when provisioning Compute Nodes. The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/Low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
   ipAddressIds?: string[];
+  /** A list of IP tags associated with the public IP addresses of the Pool. IP tags are used to categorize and filter public IP addresses for billing and management purposes. */
+  ipTags?: Array<IPTagOutput>;
+}
+
+/** Contains the IP tag associated with the public IP address. */
+export interface IPTagOutput {
+  /** The IP Tag type. Example: FirstPartyUsage. */
+  ipTagType?: string;
+  /** The value of the IP tag associated with the public IP. Example: SQL. */
+  tag?: string;
 }
 
 /**
@@ -418,7 +482,7 @@ export interface PublicIpAddressConfigurationOutput {
  * block Batch from being able to re-run the StartTask.
  */
 export interface BatchStartTaskOutput {
-  /** The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the StartTask runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -457,7 +521,7 @@ export interface ContainerHostBatchBindMountEntryOutput {
   /**
    * The path which be mounted to container customer can select.
    *
-   * Possible values: "regional", "zonal"
+   * Possible values: "Shared", "Startup", "VfsMounts", "Task", "JobPrep", "Applications"
    */
   source?: ContainerHostDataPathOutput;
   /** Mount this source path as read-only mode or not. Default value is false (read/write mode). For Linux, if you mount this path as a read/write mode, this does not mean that all users in container have the read/write access for the path, it depends on the access in host VM. If this path is mounted read-only, all users within the container will not be able to modify the path. */
@@ -501,7 +565,7 @@ export interface UserIdentityOutput {
 /** Specifies the options for the auto user that runs an Azure Batch Task. */
 export interface AutoUserSpecificationOutput {
   /**
-   * The scope for the auto user. The default value is pool. If the pool is running Windows, a value of Task should be specified if stricter isolation between tasks is required, such as if the task mutates the registry in a way which could impact other tasks.
+   * The scope for the auto user. The default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks.
    *
    * Possible values: "task", "pool"
    */
@@ -524,6 +588,12 @@ export interface BatchApplicationPackageReferenceOutput {
 
 /** Specifies how Tasks should be distributed across Compute Nodes. */
 export interface BatchTaskSchedulingPolicyOutput {
+  /**
+   * The order for scheduling tasks from different jobs with the same priority. If not specified, the default is none.
+   *
+   * Possible values: "none", "creationtime"
+   */
+  jobDefaultOrder?: BatchJobDefaultOrderOutput;
   /**
    * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is spread.
    *
@@ -577,7 +647,7 @@ export interface WindowsUserConfigurationOutput {
  * The Batch service does not assign any meaning to this metadata; it is solely
  * for the use of user code.
  */
-export interface MetadataItemOutput {
+export interface BatchMetadataItemOutput {
   /** The name of the metadata item. */
   name: string;
   /** The value of the metadata item. */
@@ -642,10 +712,10 @@ export interface CifsMountConfigurationOutput {
 export interface AzureFileShareConfigurationOutput {
   /** The Azure Storage account name. */
   accountName: string;
-  /** The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. */
-  azureFileUrl: string;
   /** The Azure Storage account key. */
   accountKey: string;
+  /** The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. */
+  azureFileUrl: string;
   /** The relative path on the compute node where the file system will be mounted. All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** Additional command line options to pass to the mount command. These are 'net use' options in Windows and 'mount' options in Linux. */
@@ -707,25 +777,25 @@ export interface BatchPoolListResultOutput {
 /** A Pool in the Azure Batch service. */
 export interface BatchPoolOutput {
   /** A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within an Account that differ only by case). */
-  readonly id?: string;
-  /** The display name for the Pool. The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
+  readonly id: string;
+  /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   readonly displayName?: string;
   /** The URL of the Pool. */
-  readonly url?: string;
+  readonly url: string;
   /** The ETag of the Pool. This is an opaque string. You can use it to detect whether the Pool has changed between requests. In particular, you can be pass the ETag when updating a Pool to specify that your changes should take effect only if nobody else has modified the Pool in the meantime. */
-  readonly eTag?: string;
+  readonly eTag: string;
   /** The last modified time of the Pool. This is the last time at which the Pool level data, such as the targetDedicatedNodes or enableAutoscale settings, changed. It does not factor in node-level changes such as a Compute Node changing state. */
-  readonly lastModified?: string;
+  readonly lastModified: string;
   /** The creation time of the Pool. */
-  readonly creationTime?: string;
+  readonly creationTime: string;
   /**
    * The current state of the Pool.
    *
    * Possible values: "active", "deleting"
    */
-  readonly state?: BatchPoolStateOutput;
+  readonly state: BatchPoolStateOutput;
   /** The time at which the Pool entered its current state. */
-  readonly stateTransitionTime?: string;
+  readonly stateTransitionTime: string;
   /**
    * Whether the Pool is resizing.
    *
@@ -734,20 +804,18 @@ export interface BatchPoolOutput {
   readonly allocationState?: AllocationStateOutput;
   /** The time at which the Pool entered its current allocation state. */
   readonly allocationStateTransitionTime?: string;
-  /** The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
-  readonly vmSize?: string;
+  /** The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  readonly vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   readonly virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
   /** The timeout for allocation of Compute Nodes to the Pool. This is the timeout for the most recent resize operation. (The initial sizing when the Pool is created counts as a resize.) The default value is 15 minutes. */
   readonly resizeTimeout?: string;
   /** A list of errors encountered while performing the last resize on the Pool. This property is set only if one or more errors occurred during the last Pool resize, and only when the Pool allocationState is Steady. */
   readonly resizeErrors?: Array<ResizeErrorOutput>;
-  /** The user-specified tags associated with the pool. The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. */
-  readonly resourceTags?: Record<string, string>;
   /** The number of dedicated Compute Nodes currently in the Pool. */
-  readonly currentDedicatedNodes?: number;
+  readonly currentDedicatedNodes: number;
   /** The number of Spot/Low-priority Compute Nodes currently in the Pool. Spot/Low-priority Compute Nodes which have been preempted are included in this count. */
-  readonly currentLowPriorityNodes?: number;
+  readonly currentLowPriorityNodes: number;
   /** The desired number of dedicated Compute Nodes in the Pool. */
   readonly targetDedicatedNodes?: number;
   /** The desired number of Spot/Low-priority Compute Nodes in the Pool. */
@@ -760,7 +828,7 @@ export interface BatchPoolOutput {
   readonly autoScaleEvaluationInterval?: string;
   /** The results and errors from the last execution of the autoscale formula. This property is set only if the Pool automatically scales, i.e. enableAutoScale is true. */
   readonly autoScaleRun?: AutoScaleRunOutput;
-  /** Whether the Pool permits direct communication between Compute Nodes. This imposes restrictions on which Compute Nodes can be assigned to the Pool. Specifying this value can reduce the chance of the requested number of Compute Nodes to be allocated in the Pool. */
+  /** Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node communication limits the maximum size of the Pool due to deployment restrictions on the Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The default value is false. */
   readonly enableInterNodeCommunication?: boolean;
   /** The network configuration for the Pool. */
   readonly networkConfiguration?: NetworkConfigurationOutput;
@@ -775,25 +843,13 @@ export interface BatchPoolOutput {
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   readonly userAccounts?: Array<UserAccountOutput>;
   /** A list of name-value pairs associated with the Pool as metadata. */
-  readonly metadata?: Array<MetadataItemOutput>;
+  readonly metadata?: Array<BatchMetadataItemOutput>;
   /** Utilization and resource usage statistics for the entire lifetime of the Pool. This property is populated only if the BatchPool was retrieved with an expand clause including the 'stats' attribute; otherwise it is null. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
   readonly stats?: BatchPoolStatisticsOutput;
-  /** A list of file systems to mount on each node in the pool. This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
+  /** Mount storage using specified file system for the entire lifetime of the pool. Mount the storage using Azure fileshare, NFS, CIFS or Blobfuse based file system. */
   readonly mountConfiguration?: Array<MountConfigurationOutput>;
   /** The identity of the Batch pool, if configured. The list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   readonly identity?: BatchPoolIdentityOutput;
-  /**
-   * The desired node communication mode for the pool. If omitted, the default value is Default.
-   *
-   * Possible values: "default", "classic", "simplified"
-   */
-  targetNodeCommunicationMode?: BatchNodeCommunicationModeOutput;
-  /**
-   * The current state of the pool communication mode.
-   *
-   * Possible values: "default", "classic", "simplified"
-   */
-  readonly currentNodeCommunicationMode?: BatchNodeCommunicationModeOutput;
   /** The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling. */
   upgradePolicy?: UpgradePolicyOutput;
 }
@@ -877,9 +933,9 @@ export interface BatchPoolResourceStatisticsOutput {
   /** The peak used disk space in GiB across all Compute Nodes in the Pool. */
   peakDiskGiB: number;
   /** The total number of disk read operations across all Compute Nodes in the Pool. */
-  diskReadIOps: number;
+  diskReadIOps: string;
   /** The total number of disk write operations across all Compute Nodes in the Pool. */
-  diskWriteIOps: number;
+  diskWriteIOps: string;
   /** The total amount of data in GiB of disk reads across all Compute Nodes in the Pool. */
   diskReadGiB: number;
   /** The total amount of data in GiB of disk writes across all Compute Nodes in the Pool. */
@@ -899,11 +955,11 @@ export interface BatchPoolIdentityOutput {
    */
   type: BatchPoolIdentityTypeOutput;
   /** The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Array<UserAssignedIdentityOutput>;
+  userAssignedIdentities?: Array<BatchUserAssignedIdentityOutput>;
 }
 
 /** The user assigned Identity */
-export interface UserAssignedIdentityOutput {
+export interface BatchUserAssignedIdentityOutput {
   /** The ARM resource id of the user assigned identity. */
   resourceId: string;
   /** The client id of the user assigned identity. */
@@ -928,7 +984,7 @@ export interface BatchSupportedImageOutput {
   /** The ID of the Compute Node agent SKU which the Image supports. */
   nodeAgentSKUId: string;
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference: ImageReferenceOutput;
+  imageReference: BatchVmImageReferenceOutput;
   /**
    * The type of operating system (e.g. Windows or Linux) of the Image.
    *
@@ -1006,27 +1062,27 @@ export interface BatchNodeCountsOutput {
 /** An Azure Batch Job. */
 export interface BatchJobOutput {
   /** A string that uniquely identifies the Job within the Account. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within an Account that differ only by case). */
-  readonly id?: string;
+  readonly id: string;
   /** The display name for the Job. */
   readonly displayName?: string;
   /** Whether Tasks in the Job can define dependencies on each other. The default is false. */
   readonly usesTaskDependencies?: boolean;
   /** The URL of the Job. */
-  readonly url?: string;
+  readonly url: string;
   /** The ETag of the Job. This is an opaque string. You can use it to detect whether the Job has changed between requests. In particular, you can be pass the ETag when updating a Job to specify that your changes should take effect only if nobody else has modified the Job in the meantime. */
-  readonly eTag?: string;
+  readonly eTag: string;
   /** The last modified time of the Job. This is the last time at which the Job level data, such as the Job state or priority, changed. It does not factor in task-level changes such as adding new Tasks or Tasks changing state. */
-  readonly lastModified?: string;
+  readonly lastModified: string;
   /** The creation time of the Job. */
-  readonly creationTime?: string;
+  readonly creationTime: string;
   /**
    * The current state of the Job.
    *
    * Possible values: "active", "disabling", "disabled", "enabling", "terminating", "completed", "deleting"
    */
-  readonly state?: BatchJobStateOutput;
+  readonly state: BatchJobStateOutput;
   /** The time at which the Job entered its current state. */
-  readonly stateTransitionTime?: string;
+  readonly stateTransitionTime: string;
   /**
    * The previous state of the Job. This property is not set if the Job is in its initial Active state.
    *
@@ -1037,9 +1093,9 @@ export interface BatchJobOutput {
   readonly previousStateTransitionTime?: string;
   /** The priority of the Job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0. */
   priority?: number;
-  /** Whether Tasks in this job can be preempted by other high priority jobs. If the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API. */
+  /** Whether Tasks in this job can be preempted by other high priority jobs. (This property is not available by default. Please contact support for more information) If the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API. */
   allowTaskPreemption?: boolean;
-  /** The maximum number of tasks that can be executed in parallel for the job. The value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API. */
+  /** The maximum number of tasks that can be executed in parallel for the job. (This property is not available by default. Please contact support for more information) The value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API. */
   maxParallelTasks?: number;
   /** The execution constraints for the Job. */
   constraints?: BatchJobConstraintsOutput;
@@ -1058,17 +1114,17 @@ export interface BatchJobOutput {
    *
    * Possible values: "noaction", "terminatejob"
    */
-  onAllTasksComplete?: OnAllBatchTasksCompleteOutput;
+  onAllTasksComplete?: BatchAllTasksCompleteModeOutput;
   /**
    * The action the Batch service should take when any Task in the Job fails. A Task is considered to have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
    * Possible values: "noaction", "performexitoptionsjobaction"
    */
-  readonly onTaskFailure?: OnBatchTaskFailureOutput;
-  /** The network configuration for the Job. */
+  readonly onTaskFailure?: BatchTaskFailureModeOutput;
+  /** (This property is not available by default. Please contact support for more information) The network configuration for the Job. */
   readonly networkConfiguration?: BatchJobNetworkConfigurationOutput;
   /** A list of name-value pairs associated with the Job as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** The execution information for the Job. */
   readonly executionInfo?: BatchJobExecutionInfoOutput;
   /** Resource usage statistics for the entire lifetime of the Job. This property is populated only if the BatchJob was retrieved with an expand clause including the 'stats' attribute; otherwise it is null. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
@@ -1113,7 +1169,7 @@ export interface BatchJobManagerTaskOutput {
   id: string;
   /** The display name of the Job Manager Task. It need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   displayName?: string;
-  /** The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Manager Task runs. If the Pool that will run this Task has containerConfiguration set, this must be set as well. If the Pool that will run this Task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1174,12 +1230,12 @@ export interface OutputFileBlobContainerDestinationOutput {
   containerUrl: string;
   /** The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl. The identity must have write access to the Azure Blob Storage container. */
   identityReference?: BatchNodeIdentityReferenceOutput;
-  /** A list of name-value pairs for headers to be used in uploading output files. These headers will be specified when uploading files to Azure Storage. Official document on allowed headers when uploading blobs: https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types. */
-  uploadHeaders?: Array<HttpHeaderOutput>;
+  /** A list of name-value pairs for headers to be used in uploading output files. These headers will be specified when uploading files to Azure Storage. Official document on allowed headers when uploading blobs: https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types. */
+  uploadHeaders?: Array<OutputFileUploadHeaderOutput>;
 }
 
 /** An HTTP header name-value pair */
-export interface HttpHeaderOutput {
+export interface OutputFileUploadHeaderOutput {
   /** The case-insensitive name of the header to be used while uploading output files. */
   name: string;
   /** The value of the header to be used while uploading output files. */
@@ -1215,7 +1271,7 @@ export interface BatchTaskConstraintsOutput {
  */
 export interface AuthenticationTokenSettingsOutput {
   /** The Batch resources to which the token grants access. The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the Job which contains the Task. */
-  access?: AccessScopeOutput[];
+  access?: BatchAccessScopeOutput[];
 }
 
 /**
@@ -1249,7 +1305,7 @@ export interface AuthenticationTokenSettingsOutput {
 export interface BatchJobPreparationTaskOutput {
   /** A string that uniquely identifies the Job Preparation Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobpreparation'. No other Task in the Job can have the same ID as the Job Preparation Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobPreparationTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
-  /** The command line of the Job Preparation Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Preparation Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Preparation Task runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1288,7 +1344,7 @@ export interface BatchJobPreparationTaskOutput {
 export interface BatchJobReleaseTaskOutput {
   /** A string that uniquely identifies the Job Release Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. If you do not specify this property, the Batch service assigns a default value of 'jobrelease'. No other Task in the Job can have the same ID as the Job Release Task. If you try to submit a Task with the same id, the Batch service rejects the request with error code TaskIdSameAsJobReleaseTask; if you are calling the REST API directly, the HTTP status code is 409 (Conflict). */
   id?: string;
-  /** The command line of the Job Release Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  /** The command line of the Job Release Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
   commandLine: string;
   /** The settings for the container under which the Job Release Task runs. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   containerSettings?: BatchTaskContainerSettingsOutput;
@@ -1335,7 +1391,7 @@ export interface BatchAutoPoolSpecificationOutput {
 export interface BatchPoolSpecificationOutput {
   /** The display name for the Pool. The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   displayName?: string;
-  /** The size of the virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  /** The size of the virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
@@ -1345,8 +1401,6 @@ export interface BatchPoolSpecificationOutput {
   taskSchedulingPolicy?: BatchTaskSchedulingPolicyOutput;
   /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
   resizeTimeout?: string;
-  /** The user-specified tags associated with the pool.The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. */
-  resourceTags?: string;
   /** The desired number of dedicated Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both. */
   targetDedicatedNodes?: number;
   /** The desired number of Spot/Low-priority Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both. */
@@ -1368,25 +1422,19 @@ export interface BatchPoolSpecificationOutput {
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   userAccounts?: Array<UserAccountOutput>;
   /** A list of name-value pairs associated with the Pool as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** A list of file systems to mount on each node in the pool. This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
   mountConfiguration?: Array<MountConfigurationOutput>;
-  /**
-   * The desired node communication mode for the pool. If omitted, the default value is Default.
-   *
-   * Possible values: "default", "classic", "simplified"
-   */
-  targetNodeCommunicationMode?: BatchNodeCommunicationModeOutput;
   /** The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling. */
   upgradePolicy?: UpgradePolicyOutput;
 }
 
-/** The network configuration for the Job. */
+/** (This property is not available by default. Please contact support for more information) The network configuration for the Job. */
 export interface BatchJobNetworkConfigurationOutput {
-  /** The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks from the Job will join for the duration of the Task. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks from the Job will join for the duration of the Task. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   subnetId: string;
   /** Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated or deleted.  If true, nodes will remain joined to the virtual network to DNC. If false, nodes will automatically withdraw when the job ends. Defaults to false. */
-  skipWithdrawFromVNet: boolean;
+  skipWithdrawFromVNet?: boolean;
 }
 
 /** Contains information about the execution of a Job in the Azure Batch service. */
@@ -1410,7 +1458,7 @@ export interface BatchJobSchedulingErrorOutput {
    *
    * Possible values: "usererror", "servererror"
    */
-  category: ErrorCategoryOutput;
+  category: BatchErrorSourceCategoryOutput;
   /** An identifier for the Job scheduling error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Job scheduling error, intended to be suitable for display in a user interface. */
@@ -1434,19 +1482,19 @@ export interface BatchJobStatisticsOutput {
   /** The total wall clock time of all Tasks in the Job.  The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in the Job. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by all Tasks in the Job. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total amount of data in GiB read from disk by all Tasks in the Job. */
   readIOGiB: number;
   /** The total amount of data in GiB written to disk by all Tasks in the Job. */
   writeIOGiB: number;
   /** The total number of Tasks successfully completed in the Job during the given time range. A Task completes successfully if it returns exit code 0. */
-  numSucceededTasks: number;
+  numSucceededTasks: string;
   /** The total number of Tasks in the Job that failed during the given time range. A Task fails if it exhausts its maximum retry count without returning exit code 0. */
-  numFailedTasks: number;
+  numFailedTasks: string;
   /** The total number of retries on all the Tasks in the Job during the given time range. */
-  numTaskRetries: number;
+  numTaskRetries: string;
   /** The total wait time of all Tasks in the Job. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.) This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
   waitTime: string;
 }
@@ -1538,7 +1586,7 @@ export interface BatchTaskFailureInfoOutput {
    *
    * Possible values: "usererror", "servererror"
    */
-  category: ErrorCategoryOutput;
+  category: BatchErrorSourceCategoryOutput;
   /** An identifier for the Task error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Task error, intended to be suitable for display in a user interface. */
@@ -1622,25 +1670,25 @@ export interface BatchTaskSlotCountsOutput {
  */
 export interface BatchJobScheduleOutput {
   /** A string that uniquely identifies the schedule within the Account. */
-  readonly id?: string;
+  readonly id: string;
   /** The display name for the schedule. */
   readonly displayName?: string;
   /** The URL of the Job Schedule. */
-  readonly url?: string;
+  readonly url: string;
   /** The ETag of the Job Schedule. This is an opaque string. You can use it to detect whether the Job Schedule has changed between requests. In particular, you can be pass the ETag with an Update Job Schedule request to specify that your changes should take effect only if nobody else has modified the schedule in the meantime. */
-  readonly eTag?: string;
+  readonly eTag: string;
   /** The last modified time of the Job Schedule. This is the last time at which the schedule level data, such as the Job specification or recurrence information, changed. It does not factor in job-level changes such as new Jobs being created or Jobs changing state. */
-  readonly lastModified?: string;
+  readonly lastModified: string;
   /** The creation time of the Job Schedule. */
-  readonly creationTime?: string;
+  readonly creationTime: string;
   /**
    * The current state of the Job Schedule.
    *
    * Possible values: "active", "completed", "disabled", "terminating", "deleting"
    */
-  readonly state?: BatchJobScheduleStateOutput;
+  readonly state: BatchJobScheduleStateOutput;
   /** The time at which the Job Schedule entered the current state. */
-  readonly stateTransitionTime?: string;
+  readonly stateTransitionTime: string;
   /**
    * The previous state of the Job Schedule. This property is not present if the Job Schedule is in its initial active state.
    *
@@ -1654,9 +1702,9 @@ export interface BatchJobScheduleOutput {
   /** The details of the Jobs to be created on this schedule. */
   jobSpecification: BatchJobSpecificationOutput;
   /** Information about Jobs that have been and will be run under this schedule. */
-  readonly executionInfo?: BatchJobScheduleExecutionInfoOutput;
+  readonly executionInfo: BatchJobScheduleExecutionInfoOutput;
   /** A list of name-value pairs associated with the schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** The lifetime resource usage statistics for the Job Schedule. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
   readonly stats?: BatchJobScheduleStatisticsOutput;
 }
@@ -1680,9 +1728,9 @@ export interface BatchJobScheduleConfigurationOutput {
 export interface BatchJobSpecificationOutput {
   /** The priority of Jobs created under this schedule. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0. This priority is used as the default for all Jobs under the Job Schedule. You can update a Job's priority after it has been created using by using the update Job API. */
   priority?: number;
-  /** Whether Tasks in this job can be preempted by other high priority jobs. If the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API. */
+  /** Whether Tasks in this job can be preempted by other high priority jobs. (This property is not available by default. Please contact support for more information) If the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API. */
   allowTaskPreemption?: boolean;
-  /** The maximum number of tasks that can be executed in parallel for the job. The value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API. */
+  /** The maximum number of tasks that can be executed in parallel for the job. (This property is not available by default. Please contact support for more information) The value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API. */
   maxParallelTasks?: number;
   /** The display name for Jobs created under this schedule. The name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   displayName?: string;
@@ -1693,14 +1741,14 @@ export interface BatchJobSpecificationOutput {
    *
    * Possible values: "noaction", "terminatejob"
    */
-  onAllTasksComplete?: OnAllBatchTasksCompleteOutput;
+  onAllTasksComplete?: BatchAllTasksCompleteModeOutput;
   /**
    * The action the Batch service should take when any Task fails in a Job created under this schedule. A Task is considered to have failed if it have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
    * Possible values: "noaction", "performexitoptionsjobaction"
    */
-  onTaskFailure?: OnBatchTaskFailureOutput;
-  /** The network configuration for the Job. */
+  onTaskFailure?: BatchTaskFailureModeOutput;
+  /** (This property is not available by default. Please contact support for more information) The network configuration for the Job. */
   networkConfiguration?: BatchJobNetworkConfigurationOutput;
   /** The execution constraints for Jobs created under this schedule. */
   constraints?: BatchJobConstraintsOutput;
@@ -1715,7 +1763,7 @@ export interface BatchJobSpecificationOutput {
   /** The Pool on which the Batch service runs the Tasks of Jobs created under this schedule. */
   poolInfo: BatchPoolInfoOutput;
   /** A list of name-value pairs associated with each Job created under this schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
 }
 
 /**
@@ -1754,19 +1802,19 @@ export interface BatchJobScheduleStatisticsOutput {
   /** The total wall clock time of all the Tasks in all the Jobs created under the schedule. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in all Jobs created under the schedule. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by all Tasks in all Jobs created under the schedule. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total gibibytes read from disk by all Tasks in all Jobs created under the schedule. */
   readIOGiB: number;
   /** The total gibibytes written to disk by all Tasks in all Jobs created under the schedule. */
   writeIOGiB: number;
   /** The total number of Tasks successfully completed during the given time range in Jobs created under the schedule. A Task completes successfully if it returns exit code 0. */
-  numSucceededTasks: number;
+  numSucceededTasks: string;
   /** The total number of Tasks that failed during the given time range in Jobs created under the schedule. A Task fails if it exhausts its maximum retry count without returning exit code 0. */
-  numFailedTasks: number;
+  numFailedTasks: string;
   /** The total number of retries during the given time range on all Tasks in all Jobs created under the schedule. */
-  numTaskRetries: number;
+  numTaskRetries: string;
   /** The total wait time of all Tasks in all Jobs created under the schedule. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
   waitTime: string;
 }
@@ -1811,7 +1859,7 @@ export interface ExitOptionsOutput {
    *
    * Possible values: "none", "disable", "terminate"
    */
-  jobAction?: BatchJobActionOutput;
+  jobAction?: BatchJobActionKindOutput;
   /**
    * An action that the Batch service performs on Tasks that depend on this Task. Possible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks.
    *
@@ -1837,7 +1885,7 @@ export interface ExitCodeRangeMappingOutput {
  * A locality hint that can be used by the Batch service to select a Compute Node
  * on which to start a Task.
  */
-export interface AffinityInfoOutput {
+export interface BatchAffinityInfoOutput {
   /** An opaque string representing the location of a Compute Node or a Task that has run previously. You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere. */
   affinityId: string;
 }
@@ -1901,17 +1949,17 @@ export interface BatchTaskListResultOutput {
  */
 export interface BatchTaskOutput {
   /** A string that uniquely identifies the Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. */
-  readonly id?: string;
+  readonly id: string;
   /** A display name for the Task. The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
   readonly displayName?: string;
   /** The URL of the Task. */
-  readonly url?: string;
+  readonly url: string;
   /** The ETag of the Task. This is an opaque string. You can use it to detect whether the Task has changed between requests. In particular, you can be pass the ETag when updating a Task to specify that your changes should take effect only if nobody else has modified the Task in the meantime. */
-  readonly eTag?: string;
+  readonly eTag: string;
   /** The last modified time of the Task. */
-  readonly lastModified?: string;
+  readonly lastModified: string;
   /** The creation time of the Task. */
-  readonly creationTime?: string;
+  readonly creationTime: string;
   /** How the Batch service should respond when the Task completes. */
   readonly exitConditions?: ExitConditionsOutput;
   /**
@@ -1919,9 +1967,9 @@ export interface BatchTaskOutput {
    *
    * Possible values: "active", "preparing", "running", "completed"
    */
-  readonly state?: BatchTaskStateOutput;
+  readonly state: BatchTaskStateOutput;
   /** The time at which the Task entered its current state. */
-  readonly stateTransitionTime?: string;
+  readonly stateTransitionTime: string;
   /**
    * The previous state of the Task. This property is not set if the Task is in its initial Active state.
    *
@@ -1930,8 +1978,8 @@ export interface BatchTaskOutput {
   readonly previousState?: BatchTaskStateOutput;
   /** The time at which the Task entered its previous state. This property is not set if the Task is in its initial Active state. */
   readonly previousStateTransitionTime?: string;
-  /** The command line of the Task. For multi-instance Tasks, the command line is executed as the primary Task, after the primary Task and all subtasks have finished executing the coordination command line. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
-  readonly commandLine?: string;
+  /** The command line of the Task. For multi-instance Tasks, the command line is executed as the primary Task, after the primary Task and all subtasks have finished executing the coordination command line. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables). */
+  readonly commandLine: string;
   /** The settings for the container under which the Task runs. If the Pool that will run this Task has containerConfiguration set, this must be set as well. If the Pool that will run this Task doesn't have containerConfiguration set, this must not be set. When this is specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories on the node) are mapped into the container, all Task environment variables are mapped into the container, and the Task command line is executed in the container. Files produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning that Batch file APIs will not be able to access those files. */
   readonly containerSettings?: BatchTaskContainerSettingsOutput;
   /** A list of files that the Batch service will download to the Compute Node before running the command line. For multi-instance Tasks, the resource files will only be downloaded to the Compute Node on which the primary Task is executed. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. */
@@ -1941,7 +1989,7 @@ export interface BatchTaskOutput {
   /** A list of environment variable settings for the Task. */
   readonly environmentSettings?: Array<EnvironmentSettingOutput>;
   /** A locality hint that can be used by the Batch service to select a Compute Node on which to start the new Task. */
-  readonly affinityInfo?: AffinityInfoOutput;
+  readonly affinityInfo?: BatchAffinityInfoOutput;
   /** The execution constraints that apply to this Task. */
   constraints?: BatchTaskConstraintsOutput;
   /** The number of scheduling slots that the Task requires to run. The default is 1. A Task can only be scheduled to run on a compute node if the node has enough free scheduling slots available. For multi-instance Tasks, this must be 1. */
@@ -2023,9 +2071,9 @@ export interface BatchTaskStatisticsOutput {
   /** The total wall clock time of the Task. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If the Task was retried, this includes the wall clock time of all the Task retries. */
   wallClockTime: string;
   /** The total number of disk read operations made by the Task. */
-  readIOps: number;
+  readIOps: string;
   /** The total number of disk write operations made by the Task. */
-  writeIOps: number;
+  writeIOps: string;
   /** The total gibibytes read from disk by the Task. */
   readIOGiB: number;
   /** The total gibibytes written to disk by the Task. */
@@ -2034,14 +2082,14 @@ export interface BatchTaskStatisticsOutput {
   waitTime: string;
 }
 
-/** The result of adding a collection of Tasks to a Job. */
-export interface BatchTaskAddCollectionResultOutput {
-  /** The results of the add Task collection operation. */
-  value?: Array<BatchTaskAddResultOutput>;
+/** The result of creating a collection of Tasks to a Job. */
+export interface BatchCreateTaskCollectionResultOutput {
+  /** The results of the create Task collection operation. */
+  value?: Array<BatchTaskCreateResultOutput>;
 }
 
-/** Result for a single Task added as part of an add Task collection operation. */
-export interface BatchTaskAddResultOutput {
+/** Result for a single Task created as part of an add Task collection operation. */
+export interface BatchTaskCreateResultOutput {
   /**
    * The status of the add Task request.
    *
@@ -2148,57 +2196,59 @@ export interface FilePropertiesOutput {
 /** A Compute Node in the Batch service. */
 export interface BatchNodeOutput {
   /** The ID of the Compute Node. Every Compute Node that is added to a Pool is assigned a unique ID. Whenever a Compute Node is removed from a Pool, all of its local files are deleted, and the ID is reclaimed and could be reused for new Compute Nodes. */
-  id?: string;
+  readonly id: string;
   /** The URL of the Compute Node. */
-  url?: string;
+  readonly url: string;
   /**
    * The current state of the Compute Node. The Spot/Low-priority Compute Node has been preempted. Tasks which were running on the Compute Node when it was preempted will be rescheduled when another Compute Node becomes available.
    *
    * Possible values: "idle", "rebooting", "reimaging", "running", "unusable", "creating", "starting", "waitingforstarttask", "starttaskfailed", "unknown", "leavingpool", "offline", "preempted", "upgradingos", "deallocated", "deallocating"
    */
-  state?: BatchNodeStateOutput;
+  readonly state: BatchNodeStateOutput;
   /**
    * Whether the Compute Node is available for Task scheduling.
    *
    * Possible values: "enabled", "disabled"
    */
-  schedulingState?: SchedulingStateOutput;
+  readonly schedulingState?: SchedulingStateOutput;
   /** The time at which the Compute Node entered its current state. */
-  stateTransitionTime?: string;
+  readonly stateTransitionTime: string;
   /** The last time at which the Compute Node was started. This property may not be present if the Compute Node state is unusable. */
-  lastBootTime?: string;
+  readonly lastBootTime: string;
   /** The time at which this Compute Node was allocated to the Pool. This is the time when the Compute Node was initially allocated and doesn't change once set. It is not updated when the Compute Node is service healed or preempted. */
-  allocationTime?: string;
+  readonly allocationTime: string;
   /** The IP address that other Nodes can use to communicate with this Compute Node. Every Compute Node that is added to a Pool is assigned a unique IP address. Whenever a Compute Node is removed from a Pool, all of its local files are deleted, and the IP address is reclaimed and could be reused for new Compute Nodes. */
-  ipAddress?: string;
+  readonly ipAddress: string;
+  /** The IPv6 address that other Nodes can use to communicate with this Compute Node. Every Compute Node that is added to a Pool is assigned a unique IP address. Whenever a Compute Node is removed from a Pool, all of its local files are deleted, and the IP address is reclaimed and could be reused for new Compute Nodes. This property will not be present if the Pool is not configured for IPv6. */
+  readonly ipv6Address: string;
   /** An identifier which can be passed when adding a Task to request that the Task be scheduled on this Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere. */
-  affinityId?: string;
-  /** The size of the virtual machine hosting the Compute Node. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
-  vmSize?: string;
+  readonly affinityId: string;
+  /** The size of the virtual machine hosting the Compute Node. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes). */
+  readonly vmSize: string;
   /** The total number of Job Tasks completed on the Compute Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks. */
-  totalTasksRun?: number;
+  readonly totalTasksRun: number;
   /** The total number of currently running Job Tasks on the Compute Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks. */
-  runningTasksCount?: number;
+  readonly runningTasksCount?: number;
   /** The total number of scheduling slots used by currently running Job Tasks on the Compute Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks. */
-  runningTaskSlotsCount?: number;
+  readonly runningTaskSlotsCount?: number;
   /** The total number of Job Tasks which completed successfully (with exitCode 0) on the Compute Node. This includes Job Manager Tasks and normal Tasks, but not Job Preparation, Job Release or Start Tasks. */
-  totalTasksSucceeded?: number;
+  readonly totalTasksSucceeded?: number;
   /** A list of Tasks whose state has recently changed. This property is present only if at least one Task has run on this Compute Node since it was assigned to the Pool. */
-  recentTasks?: Array<BatchTaskInfoOutput>;
+  readonly recentTasks?: Array<BatchTaskInfoOutput>;
   /** The Task specified to run on the Compute Node as it joins the Pool. */
-  startTask?: BatchStartTaskOutput;
+  readonly startTask?: BatchStartTaskOutput;
   /** Runtime information about the execution of the StartTask on the Compute Node. */
-  startTaskInfo?: BatchStartTaskInfoOutput;
+  readonly startTaskInfo?: BatchStartTaskInfoOutput;
   /** The list of errors that are currently being encountered by the Compute Node. */
-  errors?: Array<BatchNodeErrorOutput>;
+  readonly errors?: Array<BatchNodeErrorOutput>;
   /** Whether this Compute Node is a dedicated Compute Node. If false, the Compute Node is a Spot/Low-priority Compute Node. */
-  isDedicated?: boolean;
+  readonly isDedicated?: boolean;
   /** The endpoint configuration for the Compute Node. */
-  endpointConfiguration?: BatchNodeEndpointConfigurationOutput;
+  readonly endpointConfiguration?: BatchNodeEndpointConfigurationOutput;
   /** Information about the Compute Node agent version and the time the Compute Node upgraded to a new version. */
-  nodeAgentInfo?: BatchNodeAgentInfoOutput;
+  readonly nodeAgentInfo: BatchNodeAgentInfoOutput;
   /** Info about the current state of the virtual machine. */
-  virtualMachineInfo?: VirtualMachineInfoOutput;
+  readonly virtualMachineInfo: VirtualMachineInfoOutput;
 }
 
 /** Information about a Task running on a Compute Node. */
@@ -2301,13 +2351,17 @@ export interface BatchNodeAgentInfoOutput {
 /** Info about the current state of the virtual machine. */
 export interface VirtualMachineInfoOutput {
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference?: ImageReferenceOutput;
+  imageReference?: BatchVmImageReferenceOutput;
   /** The resource ID of the Compute Node's current Virtual Machine Scale Set VM. Only defined if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
   scaleSetVmResourceId?: string;
 }
 
 /** The remote login settings for a Compute Node. */
 export interface BatchNodeRemoteLoginSettingsOutput {
+  /** The IPv6 address used for remote login to the Compute Node. */
+  ipv6RemoteLoginIPAddress?: string;
+  /** The port used for remote login to the Compute Node. */
+  ipv6RemoteLoginPort?: number;
   /** The IP address used for remote login to the Compute Node. */
   remoteLoginIPAddress: string;
   /** The port used for remote login to the Compute Node. */
@@ -2380,6 +2434,8 @@ export interface BatchNodeVMExtensionListResultOutput {
 export type CachingTypeOutput = string;
 /** Alias for StorageAccountTypeOutput */
 export type StorageAccountTypeOutput = string;
+/** Alias for SecurityEncryptionTypesOutput */
+export type SecurityEncryptionTypesOutput = string;
 /** Alias for ContainerTypeOutput */
 export type ContainerTypeOutput = string;
 /** Alias for DiskEncryptionTargetOutput */
@@ -2388,8 +2444,8 @@ export type DiskEncryptionTargetOutput = string;
 export type BatchNodePlacementPolicyTypeOutput = string;
 /** Alias for DiffDiskPlacementOutput */
 export type DiffDiskPlacementOutput = string;
-/** Alias for SecurityEncryptionTypesOutput */
-export type SecurityEncryptionTypesOutput = string;
+/** Alias for HostEndpointSettingsModeTypesOutput */
+export type HostEndpointSettingsModeTypesOutput = string;
 /** Alias for SecurityTypesOutput */
 export type SecurityTypesOutput = string;
 /** Alias for DynamicVNetAssignmentScopeOutput */
@@ -2400,6 +2456,8 @@ export type InboundEndpointProtocolOutput = string;
 export type NetworkSecurityGroupRuleAccessOutput = string;
 /** Alias for IpAddressProvisioningTypeOutput */
 export type IpAddressProvisioningTypeOutput = string;
+/** Alias for IPFamilyOutput */
+export type IPFamilyOutput = string;
 /** Alias for ContainerWorkingDirectoryOutput */
 export type ContainerWorkingDirectoryOutput = string;
 /** Alias for ContainerHostDataPathOutput */
@@ -2408,12 +2466,12 @@ export type ContainerHostDataPathOutput = string;
 export type AutoUserScopeOutput = string;
 /** Alias for ElevationLevelOutput */
 export type ElevationLevelOutput = string;
+/** Alias for BatchJobDefaultOrderOutput */
+export type BatchJobDefaultOrderOutput = string;
 /** Alias for BatchNodeFillTypeOutput */
 export type BatchNodeFillTypeOutput = string;
 /** Alias for LoginModeOutput */
 export type LoginModeOutput = string;
-/** Alias for BatchNodeCommunicationModeOutput */
-export type BatchNodeCommunicationModeOutput = string;
 /** Alias for UpgradeModeOutput */
 export type UpgradeModeOutput = string;
 /** Alias for BatchPoolStateOutput */
@@ -2430,16 +2488,16 @@ export type ImageVerificationTypeOutput = string;
 export type BatchJobStateOutput = string;
 /** Alias for OutputFileUploadConditionOutput */
 export type OutputFileUploadConditionOutput = string;
-/** Alias for AccessScopeOutput */
-export type AccessScopeOutput = string;
+/** Alias for BatchAccessScopeOutput */
+export type BatchAccessScopeOutput = string;
 /** Alias for BatchPoolLifetimeOptionOutput */
 export type BatchPoolLifetimeOptionOutput = string;
-/** Alias for OnAllBatchTasksCompleteOutput */
-export type OnAllBatchTasksCompleteOutput = string;
-/** Alias for OnBatchTaskFailureOutput */
-export type OnBatchTaskFailureOutput = string;
-/** Alias for ErrorCategoryOutput */
-export type ErrorCategoryOutput = string;
+/** Alias for BatchAllTasksCompleteModeOutput */
+export type BatchAllTasksCompleteModeOutput = string;
+/** Alias for BatchTaskFailureModeOutput */
+export type BatchTaskFailureModeOutput = string;
+/** Alias for BatchErrorSourceCategoryOutput */
+export type BatchErrorSourceCategoryOutput = string;
 /** Alias for BatchJobPreparationTaskStateOutput */
 export type BatchJobPreparationTaskStateOutput = string;
 /** Alias for BatchTaskExecutionResultOutput */
@@ -2448,8 +2506,8 @@ export type BatchTaskExecutionResultOutput = string;
 export type BatchJobReleaseTaskStateOutput = string;
 /** Alias for BatchJobScheduleStateOutput */
 export type BatchJobScheduleStateOutput = string;
-/** Alias for BatchJobActionOutput */
-export type BatchJobActionOutput = string;
+/** Alias for BatchJobActionKindOutput */
+export type BatchJobActionKindOutput = string;
 /** Alias for DependencyActionOutput */
 export type DependencyActionOutput = string;
 /** Alias for BatchTaskStateOutput */

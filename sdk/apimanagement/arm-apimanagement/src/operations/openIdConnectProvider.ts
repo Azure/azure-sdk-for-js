@@ -6,495 +6,488 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    OpenidConnectProviderContract,
-    OpenIdConnectProviderCreateOrUpdateOptionalParams,
-    OpenIdConnectProviderCreateOrUpdateResponse,
-    OpenIdConnectProviderDeleteOptionalParams,
-    OpenIdConnectProviderGetEntityTagOptionalParams,
-    OpenIdConnectProviderGetEntityTagResponse,
-    OpenIdConnectProviderGetOptionalParams,
-    OpenIdConnectProviderGetResponse,
-    OpenIdConnectProviderListByServiceNextOptionalParams,
-    OpenIdConnectProviderListByServiceNextResponse,
-    OpenIdConnectProviderListByServiceOptionalParams,
-    OpenIdConnectProviderListByServiceResponse,
-    OpenIdConnectProviderListSecretsOptionalParams,
-    OpenIdConnectProviderListSecretsResponse,
-    OpenidConnectProviderUpdateContract,
-    OpenIdConnectProviderUpdateOptionalParams,
-    OpenIdConnectProviderUpdateResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { OpenIdConnectProvider } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { OpenIdConnectProvider } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  OpenidConnectProviderContract,
+  OpenIdConnectProviderListByServiceNextOptionalParams,
+  OpenIdConnectProviderListByServiceOptionalParams,
+  OpenIdConnectProviderListByServiceResponse,
+  OpenIdConnectProviderGetEntityTagOptionalParams,
+  OpenIdConnectProviderGetEntityTagResponse,
+  OpenIdConnectProviderGetOptionalParams,
+  OpenIdConnectProviderGetResponse,
+  OpenIdConnectProviderCreateOrUpdateOptionalParams,
+  OpenIdConnectProviderCreateOrUpdateResponse,
+  OpenidConnectProviderUpdateContract,
+  OpenIdConnectProviderUpdateOptionalParams,
+  OpenIdConnectProviderUpdateResponse,
+  OpenIdConnectProviderDeleteOptionalParams,
+  OpenIdConnectProviderListSecretsOptionalParams,
+  OpenIdConnectProviderListSecretsResponse,
+  OpenIdConnectProviderListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OpenIdConnectProvider operations. */
 export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class OpenIdConnectProvider class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class OpenIdConnectProvider class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists of all the OpenId Connect Providers.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    public listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OpenIdConnectProviderListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<OpenidConnectProviderContract> {
-        const iter = this.listByServicePagingAll(
-            resourceGroupName,
-            serviceName,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByServicePagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByServicePagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OpenIdConnectProviderListByServiceOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<OpenidConnectProviderContract[]> {
-        let result: OpenIdConnectProviderListByServiceResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByService(
-                resourceGroupName,
-                serviceName,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists of all the OpenId Connect Providers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OpenIdConnectProviderListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<OpenidConnectProviderContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByServiceNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByServicePagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OpenIdConnectProviderListByServiceOptionalParams
-    ): AsyncIterableIterator<OpenidConnectProviderContract> {
-        for await (const page of this.listByServicePagingPage(
-            resourceGroupName,
-            serviceName,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists of all the OpenId Connect Providers.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    private _listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OpenIdConnectProviderListByServiceOptionalParams
-    ): Promise<OpenIdConnectProviderListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listByServiceOperationSpec
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        options?: OpenIdConnectProviderGetEntityTagOptionalParams
-    ): Promise<OpenIdConnectProviderGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OpenIdConnectProviderListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<OpenidConnectProviderContract[]> {
+    let result: OpenIdConnectProviderListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Gets specific OpenID Connect Provider without secrets.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        options?: OpenIdConnectProviderGetOptionalParams
-    ): Promise<OpenIdConnectProviderGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, options },
-            getOperationSpec
-        );
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OpenIdConnectProviderListByServiceOptionalParams,
+  ): AsyncIterableIterator<OpenidConnectProviderContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Creates or updates the OpenID Connect Provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        parameters: OpenidConnectProviderContract,
-        options?: OpenIdConnectProviderCreateOrUpdateOptionalParams
-    ): Promise<OpenIdConnectProviderCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists of all the OpenId Connect Providers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OpenIdConnectProviderListByServiceOptionalParams,
+  ): Promise<OpenIdConnectProviderListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Updates the specific OpenID Connect Provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        ifMatch: string,
-        parameters: OpenidConnectProviderUpdateContract,
-        options?: OpenIdConnectProviderUpdateOptionalParams
-    ): Promise<OpenIdConnectProviderUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, ifMatch, parameters, options },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    options?: OpenIdConnectProviderGetEntityTagOptionalParams,
+  ): Promise<OpenIdConnectProviderGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes specific OpenID Connect Provider of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        ifMatch: string,
-        options?: OpenIdConnectProviderDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, ifMatch, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets specific OpenID Connect Provider without secrets.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    options?: OpenIdConnectProviderGetOptionalParams,
+  ): Promise<OpenIdConnectProviderGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, options },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * Gets the client secret details of the OpenID Connect Provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param opid Identifier of the OpenID Connect Provider.
-     * @param options The options parameters.
-     */
-    listSecrets(
-        resourceGroupName: string,
-        serviceName: string,
-        opid: string,
-        options?: OpenIdConnectProviderListSecretsOptionalParams
-    ): Promise<OpenIdConnectProviderListSecretsResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, opid, options },
-            listSecretsOperationSpec
-        );
-    }
+  /**
+   * Creates or updates the OpenID Connect Provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    parameters: OpenidConnectProviderContract,
+    options?: OpenIdConnectProviderCreateOrUpdateOptionalParams,
+  ): Promise<OpenIdConnectProviderCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
 
-    /**
-     * ListByServiceNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByService method.
-     * @param options The options parameters.
-     */
-    private _listByServiceNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: OpenIdConnectProviderListByServiceNextOptionalParams
-    ): Promise<OpenIdConnectProviderListByServiceNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByServiceNextOperationSpec
-        );
-    }
+  /**
+   * Updates the specific OpenID Connect Provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    ifMatch: string,
+    parameters: OpenidConnectProviderUpdateContract,
+    options?: OpenIdConnectProviderUpdateOptionalParams,
+  ): Promise<OpenIdConnectProviderUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, ifMatch, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes specific OpenID Connect Provider of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    ifMatch: string,
+    options?: OpenIdConnectProviderDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, ifMatch, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the client secret details of the OpenID Connect Provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param opid Identifier of the OpenID Connect Provider.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    opid: string,
+    options?: OpenIdConnectProviderListSecretsOptionalParams,
+  ): Promise<OpenIdConnectProviderListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, opid, options },
+      listSecretsOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: OpenIdConnectProviderListByServiceNextOptionalParams,
+  ): Promise<OpenIdConnectProviderListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OpenIdConnectProviderCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OpenIdConnectProviderCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OpenidConnectProviderContract,
-            headersMapper: Mappers.OpenIdConnectProviderGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OpenidConnectProviderContract,
+      headersMapper: Mappers.OpenIdConnectProviderGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OpenidConnectProviderContract,
-            headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.OpenidConnectProviderContract,
-            headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OpenidConnectProviderContract,
+      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters55,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.OpenidConnectProviderContract,
+      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters63,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-    httpMethod: "PATCH",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OpenidConnectProviderContract,
-            headersMapper: Mappers.OpenIdConnectProviderUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OpenidConnectProviderContract,
+      headersMapper: Mappers.OpenIdConnectProviderUpdateHeaders,
     },
-    requestBody: Parameters.parameters56,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch1
-    ],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters64,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}/listSecrets",
-    httpMethod: "POST",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ClientSecretContract,
-            headersMapper: Mappers.OpenIdConnectProviderListSecretsHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClientSecretContract,
+      headersMapper: Mappers.OpenIdConnectProviderListSecretsHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.opid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.opid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OpenIdConnectProviderCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OpenIdConnectProviderCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -119,4 +119,88 @@ describe("oauth2AuthenticationPolicy", () => {
 
     vi.clearAllMocks();
   });
+
+  it("should add bearer token to the request with change of scope", async () => {
+    const newScopeScheme: AuthScheme = {
+      kind: "oauth2",
+      flows: [
+        {
+          kind: "clientCredentials",
+          tokenUrl: "https://example.com/token",
+          scopes: ["https://example.com/.default"],
+        },
+      ],
+    };
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      authSchemes: [newScopeScheme],
+    });
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(successResponse);
+    const mockToken = "testToken";
+    const getTokenSpy = vi.fn().mockResolvedValue(mockToken);
+
+    const policy = oauth2AuthenticationPolicy<OAuth2Flow>({
+      credential: {
+        getOAuth2Token: getTokenSpy,
+      },
+      authSchemes: [exampleScheme],
+    });
+
+    await policy.sendRequest(request, next);
+
+    // Verify initial token was used
+    expect(request.headers.get("Authorization")).toBe(`Bearer ${mockToken}`);
+
+    // Verify the credential was called with the original flows
+    expect(getTokenSpy).toHaveBeenCalledWith(newScopeScheme.flows, expect.anything());
+  });
+
+  it.each([
+    // authSchemes set to empty array, should override service level scheme
+    { authSchemes: [], shouldAuthenticate: false },
+    // authSchemes is not defined, should use service level scheme
+    { authSchemes: undefined, shouldAuthenticate: true },
+  ])(
+    "handles authentication correctly when request authSchemes is $authSchemes",
+    async ({ authSchemes, shouldAuthenticate }) => {
+      const request = createPipelineRequest({ url: "https://example.com" });
+      request.authSchemes = authSchemes;
+
+      const mockToken = "test-token";
+      const getTokenSpy = vi.fn().mockResolvedValue(mockToken);
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValue(successResponse);
+
+      const policy = oauth2AuthenticationPolicy<OAuth2Flow>({
+        credential: {
+          getOAuth2Token: getTokenSpy,
+        },
+        authSchemes: [exampleScheme],
+      });
+
+      await policy.sendRequest(request, next);
+
+      if (shouldAuthenticate) {
+        expect(getTokenSpy).toHaveBeenCalled();
+        expect(request.headers.get("Authorization")).toBe(`Bearer ${mockToken}`);
+      } else {
+        expect(getTokenSpy).not.toHaveBeenCalled();
+        expect(request.headers.has("Authorization")).toBe(false);
+        expect(next).toHaveBeenCalledWith(request);
+      }
+    },
+  );
 });

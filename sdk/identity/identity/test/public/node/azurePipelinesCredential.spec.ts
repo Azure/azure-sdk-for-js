@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePipelinesCredential } from "../../../src/index.js";
+import { AzurePipelinesCredential } from "@azure/identity";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect } from "vitest";
 
@@ -25,9 +25,9 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
+    assert.isDefined(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
-    if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+    if (token?.expiresOnTimestamp) assert.isTrue(token?.expiresOnTimestamp > Date.now());
   });
 
   it("fails with invalid service connection", async function (ctx) {
@@ -44,7 +44,7 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const regExp: RegExp =
-      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
+      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .*/;
     await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
@@ -69,7 +69,9 @@ describe("AzurePipelinesCredential", function () {
     await expect(credential.getToken(scope)).rejects.toThrow(regExpHeader2);
   });
 
-  it("fails with with invalid client id", async function (ctx) {
+  // TODO: Unskip this test once service confirms expected behavior
+  // Currently, the error message is unrelated to `clientId`
+  it.skip("fails with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }

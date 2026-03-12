@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/abort-controller": ["./src/index.ts"],
+      "@azure/abort-controller/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

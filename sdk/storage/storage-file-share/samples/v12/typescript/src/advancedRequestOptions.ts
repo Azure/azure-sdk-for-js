@@ -5,7 +5,7 @@
  * @summary use advanced HTTP pipeline and request options for several methods
  */
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 

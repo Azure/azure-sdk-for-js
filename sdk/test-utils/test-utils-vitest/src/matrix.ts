@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// dev-tool snippets ignore
+
 /**
  * Takes a jagged 2D array and a function and runs the function with every
  * possible combination of elements of each of the arrays

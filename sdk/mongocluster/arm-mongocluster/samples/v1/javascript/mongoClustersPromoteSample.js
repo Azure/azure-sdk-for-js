@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to promotes a replica mongo cluster to a primary role.
  *
  * @summary promotes a replica mongo cluster to a primary role.
- * x-ms-original-file: 2024-07-01/MongoClusters_ForcePromoteReplica.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_ForcePromoteReplica.json
  */
 async function promotesAReplicaMongoClusterResourceToAPrimaryRole() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function promotesAReplicaMongoClusterResourceToAPrimaryRole() {
 }
 
 async function main() {
-  promotesAReplicaMongoClusterResourceToAPrimaryRole();
+  await promotesAReplicaMongoClusterResourceToAPrimaryRole();
 }
 
 main().catch(console.error);

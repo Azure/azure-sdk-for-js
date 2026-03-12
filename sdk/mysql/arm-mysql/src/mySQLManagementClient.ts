@@ -105,7 +105,7 @@ export class MySQLManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mysql/5.1.1`;
+    const packageDetails = `azsdk-js-arm-mysql/5.1.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

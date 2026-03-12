@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.6 (Unreleased)
+## 8.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 8.0.0-beta.6 (2025-08-22)
+
+### Other Changes
+
+  - Other fixes
 
 ## 8.0.0-beta.5 (2024-03-28)
     

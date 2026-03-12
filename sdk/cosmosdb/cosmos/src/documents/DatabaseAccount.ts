@@ -67,6 +67,10 @@ export class DatabaseAccount {
   /** Gets the UserConsistencyPolicy settings. */
   public readonly consistencyPolicy: ConsistencyLevel;
   public readonly enableMultipleWritableLocations: boolean;
+  /**
+   * Indicates whether per-partition failover behavior is enabled for the database account.
+   */
+  public readonly enablePerPartitionFailover: boolean = false;
 
   // TODO: body - any
   public constructor(body: { [key: string]: any }, headers: CosmosHeaders) {
@@ -87,6 +91,13 @@ export class DatabaseAccount {
       this.enableMultipleWritableLocations =
         body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === true ||
         body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === "true";
+    } else {
+      this.enableMultipleWritableLocations = false;
+    }
+    if (body[Constants.EnablePerPartitionFailover]) {
+      this.enablePerPartitionFailover =
+        body[Constants.EnablePerPartitionFailover] === true ||
+        body[Constants.EnablePerPartitionFailover] === "true";
     }
   }
 }

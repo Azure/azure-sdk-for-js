@@ -21,7 +21,7 @@ pagination parameters.
  *
  * @summary Provides a pageable list of protectable objects within your subscription according to the query filter and the
 pagination parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectableItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupProtectableItems_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectableItems.list(
+  for await (const item of client.backupProtectableItems.list(
     vaultName,
     resourceGroupName,
     options,
@@ -46,7 +46,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
 }
 
 async function main(): Promise<void> {
-  listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
 main().catch(console.error);

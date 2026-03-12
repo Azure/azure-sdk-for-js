@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
-import { AzureKeyCredential } from "@azure/core-auth";
-import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to group similar faces.
  *
  * @summary Face grouping.
  */
+
+import { readFileSync } from "node:fs";
+import { AzureKeyCredential } from "@azure/core-auth";
+import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import "dotenv/config";
 
 async function main(): Promise<void> {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";

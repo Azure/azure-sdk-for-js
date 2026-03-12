@@ -3,24 +3,19 @@
 
 import type { PipelinePolicy } from "../pipeline.js";
 import type { Agent } from "../interfaces.js";
+import {
+  agentPolicyName as tspAgentPolicyName,
+  agentPolicy as tspAgentPolicy,
+} from "@typespec/ts-http-runtime/internal/policies";
 
 /**
  * Name of the Agent Policy
  */
-export const agentPolicyName = "agentPolicy";
+export const agentPolicyName = tspAgentPolicyName;
 
 /**
  * Gets a pipeline policy that sets http.agent
  */
 export function agentPolicy(agent?: Agent): PipelinePolicy {
-  return {
-    name: agentPolicyName,
-    sendRequest: async (req, next) => {
-      // Users may define an agent on the request, honor it over the client level one
-      if (!req.agent) {
-        req.agent = agent;
-      }
-      return next(req);
-    },
-  };
+  return tspAgentPolicy(agent);
 }

@@ -36,11 +36,11 @@ async function authToStorageHelper(context: InvocationContext): Promise<void> {
 
   const clientId = process.env.IDENTITY_USER_DEFINED_CLIENT_ID!;
   const account1 = process.env.IDENTITY_STORAGE_NAME_1;
-  const account2 = process.env.IDENTITY_STORAGE_NAME_2;
+  const accountUserAssigned = process.env.IDENTITY_STORAGE_NAME_USER_ASSIGNED;
 
-  const credential2 = new ManagedIdentityCredential({ clientId });
+  const credentialUserAssigned = new ManagedIdentityCredential({ clientId });
   const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credential1);
-  const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credential2);
+  const clientUserAssigned = new BlobServiceClient(`https://${accountUserAssigned}.blob.core.windows.net`, credentialUserAssigned);
   context.log("Getting containers for storage account client: system managed identity");
   let iter = client1.listContainers();
   let i = 1;
@@ -52,7 +52,7 @@ async function authToStorageHelper(context: InvocationContext): Promise<void> {
   }
 
   context.log("Getting properties for storage account client: user assigned managed identity");
-  iter = client2.listContainers();
+  iter = clientUserAssigned.listContainers();
   context.log("Client with user assigned identity");
   containerItem = await iter.next();
   while (!containerItem.done) {

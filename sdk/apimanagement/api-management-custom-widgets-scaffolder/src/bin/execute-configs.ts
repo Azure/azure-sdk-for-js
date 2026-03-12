@@ -100,6 +100,10 @@ export const validateMiscConfig: Validate<Options> = {
 };
 
 export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
+  const prefilledAnswers: Pick<WidgetConfig, "displayName"> = {
+    ...partial,
+    displayName: partial.displayName ?? "",
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
@@ -112,7 +116,7 @@ export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promis
       },
       {
         name: "technology",
-        type: "list",
+        type: "select",
         message: fieldIdToName.technology,
         choices: [
           { name: "React", value: "react" },
@@ -121,13 +125,17 @@ export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promis
         ],
       },
     ],
-    partial,
+    prefilledAnswers,
   );
 };
 
 export const promptServiceInformation = async (
   partial: Partial<ServiceInformation>,
 ): Promise<ServiceInformation> => {
+  const prefilledAnswers: Pick<ServiceInformation, "managementApiEndpoint"> = {
+    ...partial,
+    managementApiEndpoint: partial.managementApiEndpoint ?? "",
+  };
   const inquirerImport = await import("inquirer");
   const inquirer = inquirerImport.default;
   return inquirer.prompt(
@@ -140,18 +148,22 @@ export const promptServiceInformation = async (
       },
       {
         name: "managementApiEndpoint",
-        type: "list",
+        type: "select",
         message: fieldIdToName.managementApiEndpoint,
         choices: [
           {
-            name: "management.azure.com (if you're not sure what to select, use this option)",
-            value: "management.azure.com",
+            name: "https://management.azure.com (if you're not sure what to select, use this option)",
+            value: "https://management.azure.com",
           },
-          { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
-          { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
+          {
+            name: "https://management.usgovcloudapi.net",
+            value: "https://management.usgovcloudapi.net",
+          },
+          {
+            name: "https://management.chinacloudapi.cn",
+            value: "https://management.chinacloudapi.cn",
+          },
         ],
-        transformer: prefixUrlProtocol,
-        validate: validateDeployConfig.managementApiEndpoint,
       },
       {
         name: "apiVersion",
@@ -159,7 +171,7 @@ export const promptServiceInformation = async (
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
     ],
-    partial,
+    prefilledAnswers,
   );
 };
 

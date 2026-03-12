@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Utility functions for eng system tools",
   "main": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
@@ -17,6 +18,12 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
+    "@pnpm/fs.find-packages": "^1000.0.8",
+    "json5": "^2.2.3",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.33",
+    "@types/node": "^20.0.0"
   }
 }

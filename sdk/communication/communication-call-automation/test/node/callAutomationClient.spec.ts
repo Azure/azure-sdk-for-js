@@ -9,17 +9,9 @@ import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
 } from "../utils/connectionUtils.js";
-import type {
-  CommunicationIdentifier,
-  MicrosoftTeamsAppIdentifier,
-} from "@azure/communication-common";
-import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
-import type {
-  AnswerCallEventResult,
-  CreateCallEventResult,
-} from "../../src/eventprocessor/eventResponses.js";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import type { CallInvite, CallConnection } from "../../src/index.js";
 import { randomUUID } from "@azure/core-util";
-import { KnownCommunicationCloudEnvironmentModel } from "../../src/generated/src/index.js";
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
 
@@ -82,11 +74,8 @@ describe("Call Automation Client Unit Tests", () => {
     const createCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
-    vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "createCall").mockResolvedValue(createCallResultMock);
 
     const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
 
@@ -102,12 +91,11 @@ describe("Call Automation Client Unit Tests", () => {
     const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
 
-    vi.spyOn(client, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "createGroupCall").mockResolvedValue(
+      createGroupCallResultMock,
+    );
 
     const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
 
@@ -118,62 +106,13 @@ describe("Call Automation Client Unit Tests", () => {
     assert.equal(result, createGroupCallResultMock);
   });
 
-  it("CreateOPSCall", async () => {
-    // defined dummy variables
-    const appId = "28:acs:redacted";
-    const appCloud = KnownCommunicationCloudEnvironmentModel.Public;
-
-    // mocks
-    const createCallResultMock: CreateCallResult = {
-      callConnectionProperties: {
-        source: {
-          rawId: appId,
-          teamsAppId: appId,
-          cloud: appCloud,
-        } as MicrosoftTeamsAppIdentifier,
-      } as CallConnectionProperties,
-      callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
-    };
-
-    vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
-    const promiseResult = client.createCall(target, CALL_CALLBACK_URL, {
-      teamsAppSource: {
-        rawId: appId,
-        teamsAppId: appId,
-        cloud: appCloud,
-      } as MicrosoftTeamsAppIdentifier,
-    });
-
-    // asserts
-    promiseResult
-      .then((result: CreateCallResult) => {
-        assert.isNotNull(result);
-        expect(client.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL, {
-          teamsAppSource: {
-            rawId: appId,
-            teamsAppId: appId,
-            cloud: appCloud,
-          } as MicrosoftTeamsAppIdentifier,
-        });
-        assert.equal(result, createCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
-  });
-
   it("AnswerCall", async () => {
     // mocks
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as AnswerCallEventResult;
-      },
     };
-    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
+    vi.spyOn(client as CallAutomationClient, "answerCall").mockResolvedValue(answerCallResultMock);
 
     const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
 
@@ -185,41 +124,9 @@ describe("Call Automation Client Unit Tests", () => {
     assert.equal(result, answerCallResultMock);
   });
 
-  it("AnswerCall with custom context", async () => {
-    // mocks
-    const answerCallResultMock: AnswerCallResult = {
-      callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as AnswerCallEventResult;
-      },
-    };
-    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
-    const answerCallOptions: AnswerCallOptions = {
-      operationContext: "operationContextAnswerCall",
-      customCallingContext: [{ kind: "voip", key: "foo", value: "bar" }],
-    };
-    const promiseResult = client.answerCall(
-      CALL_INCOMING_CALL_CONTEXT,
-      CALL_CALLBACK_URL,
-      answerCallOptions,
-    );
-
-    // asserts
-    const result = await promiseResult;
-
-    assert.isNotNull(result);
-    expect(client.answerCall).toHaveBeenCalledWith(
-      CALL_INCOMING_CALL_CONTEXT,
-      CALL_CALLBACK_URL,
-      answerCallOptions,
-    );
-    assert.equal(result, answerCallResultMock);
-  });
-
   it("RedirectCall", async () => {
     // mocks
-    vi.spyOn(client, "redirectCall").mockReturnValue(
+    vi.spyOn(client as CallAutomationClient, "redirectCall").mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -234,7 +141,7 @@ describe("Call Automation Client Unit Tests", () => {
 
   it("RejectCall", async () => {
     // mocks
-    vi.spyOn(client, "rejectCall").mockReturnValue(
+    vi.spyOn(client as CallAutomationClient, "rejectCall").mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),

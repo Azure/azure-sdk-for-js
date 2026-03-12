@@ -8,14 +8,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the mongo clusters in a given subscription.
  *
  * @summary list all the mongo clusters in a given subscription.
- * x-ms-original-file: 2024-07-01/MongoClusters_List.json
+ * x-ms-original-file: 2025-09-01/MongoClusters_List.json
  */
 async function listsTheMongoClusterResourcesInASubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.mongoClusters.list()) {
+  for await (const item of client.mongoClusters.list()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listsTheMongoClusterResourcesInASubscription() {
 }
 
 async function main() {
-  listsTheMongoClusterResourcesInASubscription();
+  await listsTheMongoClusterResourcesInASubscription();
 }
 
 main().catch(console.error);

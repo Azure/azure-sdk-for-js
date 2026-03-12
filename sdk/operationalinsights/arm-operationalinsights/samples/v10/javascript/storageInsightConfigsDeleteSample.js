@@ -1,0 +1,34 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Deletes a storageInsightsConfigs resource
+ *
+ * @summary Deletes a storageInsightsConfigs resource
+ * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/examples/StorageInsightsDelete.json
+ */
+async function storageInsightsDelete() {
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "OIAutoRest5123";
+  const workspaceName = "aztest5048";
+  const storageInsightName = "AzTestSI1110";
+  const credential = new DefaultAzureCredential();
+  const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+  const result = await client.storageInsightConfigs.delete(
+    resourceGroupName,
+    workspaceName,
+    storageInsightName,
+  );
+  console.log(result);
+}
+
+async function main() {
+  await storageInsightsDelete();
+}
+
+main().catch(console.error);

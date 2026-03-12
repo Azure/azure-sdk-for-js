@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databricks": ["./src/index.ts"],
+      "@azure/arm-databricks/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

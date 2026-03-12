@@ -1,0 +1,197 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { AIProjectContext as Client } from "../index.js";
+import type { Connection, _PagedConnection, ConnectionType } from "../../models/models.js";
+import { connectionDeserializer, _pagedConnectionDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
+  ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _listSend(
+  context: Client,
+  options: ConnectionsListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/connections{?api-version,connectionType,defaultConnection}",
+    {
+      "api-version": context.apiVersion,
+      connectionType: options?.connectionType,
+      defaultConnection: options?.defaultConnection,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedConnectionDeserializer(result.body);
+}
+
+/** List all connections in the project, without populating connection credentials */
+export function list(
+  context: Client,
+  options: ConnectionsListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Connection> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+  );
+}
+
+export function _getWithCredentialsSend(
+  context: Client,
+  name: string,
+  options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/connections/{name}/getConnectionWithCredentials{?api-version}",
+    {
+      name: name,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getWithCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Connection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return connectionDeserializer(result.body);
+}
+
+/** Get a connection by name, with its connection credentials */
+export async function getWithCredentials(
+  context: Client,
+  name: string,
+  options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
+): Promise<Connection> {
+  const result = await _getWithCredentialsSend(context, name, options);
+  return _getWithCredentialsDeserialize(result);
+}
+
+export function _getSend(
+  context: Client,
+  name: string,
+  options: ConnectionsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/connections/{name}{?api-version}",
+    {
+      name: name,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Connection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return connectionDeserializer(result.body);
+}
+
+/** Get a connection by name, without populating connection credentials */
+export async function get(
+  context: Client,
+  name: string,
+  options: ConnectionsGetOptionalParams = { requestOptions: {} },
+): Promise<Connection> {
+  if (options.includeCredentials) {
+    return getWithCredentials(context, name, options);
+  }
+  const result = await _getSend(context, name, options);
+  return _getDeserialize(result);
+}
+
+/**
+ * Get the default connection for a given connection type.
+ *
+ * @param context - The AIProjectContext client
+ * @param connectionType - The type of the connection. Required.
+ * @param options - Optional parameters.
+ * @returns A Connection object
+ * @throws Error if no default connection is found for the given type.
+ */
+export async function getDefault(
+  context: Client,
+  connectionType: ConnectionType,
+  options?: ConnectionsGetDefaultOptionalParams,
+): Promise<Connection> {
+  const { includeCredentials, ...listOptions } = options ?? {};
+  const connections = list(context, {
+    connectionType,
+    defaultConnection: true,
+    ...listOptions,
+  });
+
+  // Find the first default connection
+  for await (const connection of connections) {
+    if (includeCredentials) {
+      // If credentials are requested, get the connection with credentials
+      return getWithCredentials(context, connection.name, options);
+    }
+    return connection;
+  }
+
+  throw new Error(`No default connection found for type: ${connectionType}.`);
+}

@@ -47,8 +47,8 @@ describe("Cosmosdb test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastasia";
-    resourceGroupName = "myjstest";
+    location = "uksouth";
+    resourceGroupName = "SSS3PT_myjstest";
     accountName = "myaccountxxyz2";
   });
 
@@ -69,7 +69,7 @@ describe("Cosmosdb test", () => {
           //   isZoneRedundant: false
           // },
           {
-            locationName: "eastasia",
+            locationName: "uksouth",
             failoverPriority: 1,
           },
           {

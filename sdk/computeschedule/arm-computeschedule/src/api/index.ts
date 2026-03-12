@@ -3,18 +3,6 @@
 
 export {
   createComputeSchedule,
-  ComputeScheduleContext,
-  ComputeScheduleClientOptionalParams,
+  type ComputeScheduleContext,
+  type ComputeScheduleClientOptionalParams,
 } from "./computeScheduleContext.js";
-export {
-  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  OperationsListOptionalParams,
-} from "./options.js";

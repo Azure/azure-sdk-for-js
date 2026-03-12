@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-vmwarecloudsimple": ["./src/index.ts"],
+      "@azure/arm-vmwarecloudsimple/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  SchedulersListBySubscriptionOptionalParams,
-  SchedulersListByResourceGroupOptionalParams,
-  SchedulersDeleteOptionalParams,
-  SchedulersUpdateOptionalParams,
-  SchedulersCreateOrUpdateOptionalParams,
-  SchedulersGetOptionalParams,
+  type SchedulersListBySubscriptionOptionalParams,
+  type SchedulersListByResourceGroupOptionalParams,
+  type SchedulersDeleteOptionalParams,
+  type SchedulersUpdateOptionalParams,
+  type SchedulersCreateOrUpdateOptionalParams,
+  type SchedulersGetOptionalParams,
 } from "./options.js";

@@ -24,6 +24,11 @@ export class MaxAggregator implements Aggregator {
    * Add the provided item to aggregation result.
    */
   public aggregate(other: MaxAggregateResult): void {
+    // Skip aggregation if other.max is undefined (empty partition with count:0)
+    if (other.max === undefined) {
+      return;
+    }
+
     if (this.value === undefined) {
       this.value = other.max;
     } else if (

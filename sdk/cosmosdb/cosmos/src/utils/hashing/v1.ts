@@ -6,6 +6,7 @@ import { writeStringForBinaryEncoding } from "./encoding/string.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
+import { concatUint8Arrays, hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
 
 const MAX_STRING_CHARS = 100;
 
@@ -15,46 +16,46 @@ export function hashV1PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): 
   const hash = MurmurHash.x86.hash32(toHash);
   const encodedJSBI = writeNumberForBinaryEncodingBigInt(hash);
   const encodedValue = encodeByType(key);
-  const finalHash = Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
+  const finalHash = uint8ArrayToHex(concatUint8Arrays([encodedJSBI, encodedValue])).toUpperCase();
   return finalHash;
 }
 
-function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
-  let bytes: Buffer;
+function prefixKeyByType(key: PrimitivePartitionKeyValue): Uint8Array {
+  let bytes: Uint8Array;
   switch (typeof key) {
     case "string": {
       const truncated = key.substr(0, MAX_STRING_CHARS);
-      bytes = Buffer.concat([
-        Buffer.from(BytePrefix.String, "hex"),
-        Buffer.from(truncated),
-        Buffer.from(BytePrefix.Undefined, "hex"),
+      bytes = concatUint8Arrays([
+        hexStringToUint8Array(BytePrefix.String),
+        new TextEncoder().encode(truncated),
+        hexStringToUint8Array(BytePrefix.Undefined),
       ]);
       return bytes;
     }
     case "number": {
       const numberBytes = doubleToByteArrayBigInt(key);
-      bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
+      bytes = concatUint8Arrays([hexStringToUint8Array(BytePrefix.Number), numberBytes]);
       return bytes;
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
-      return Buffer.from(prefix, "hex");
+      return hexStringToUint8Array(prefix);
     }
     case "object": {
       if (key === null) {
-        return Buffer.from(BytePrefix.Null, "hex");
+        return hexStringToUint8Array(BytePrefix.Null);
       }
-      return Buffer.from(BytePrefix.Undefined, "hex");
+      return hexStringToUint8Array(BytePrefix.Undefined);
     }
     case "undefined": {
-      return Buffer.from(BytePrefix.Undefined, "hex");
+      return hexStringToUint8Array(BytePrefix.Undefined);
     }
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
   }
 }
 
-function encodeByType(key: PrimitivePartitionKeyValue): Buffer {
+function encodeByType(key: PrimitivePartitionKeyValue): Uint8Array {
   switch (typeof key) {
     case "string": {
       const truncated = key.substring(0, MAX_STRING_CHARS);
@@ -65,15 +66,15 @@ function encodeByType(key: PrimitivePartitionKeyValue): Buffer {
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
-      return Buffer.from(prefix, "hex");
+      return hexStringToUint8Array(prefix);
     }
     case "object":
       if (key === null) {
-        return Buffer.from(BytePrefix.Null, "hex");
+        return hexStringToUint8Array(BytePrefix.Null);
       }
-      return Buffer.from(BytePrefix.Undefined, "hex");
+      return hexStringToUint8Array(BytePrefix.Undefined);
     case "undefined":
-      return Buffer.from(BytePrefix.Undefined, "hex");
+      return hexStringToUint8Array(BytePrefix.Undefined);
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
   }

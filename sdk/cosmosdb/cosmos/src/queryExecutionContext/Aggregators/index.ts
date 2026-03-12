@@ -23,6 +23,7 @@ export function createAggregator(
     case "Average":
       return new AverageAggregator();
     case "Count":
+    case "CountIf":
       return new CountAggregator();
     case "Max":
       return new MaxAggregator();
@@ -40,4 +41,4 @@ export function createAggregator(
 }
 
 export { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator };
-export { Aggregator } from "./Aggregator.js";
+export type { Aggregator } from "./Aggregator.js";

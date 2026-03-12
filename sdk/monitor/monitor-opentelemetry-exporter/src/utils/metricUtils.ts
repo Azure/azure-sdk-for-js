@@ -14,13 +14,15 @@ import type {
   MetricsData,
   MetricDataPoint,
 } from "../generated/index.js";
-import { createTagsFromResource } from "./common.js";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../types.js";
+import { createTagsFromResource, truncateCustomDimensions } from "./common.js";
+import type { Tags } from "../types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 import {
   ENV_OTEL_METRICS_EXPORTER,
   ENV_OTLP_METRICS_ENDPOINT,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
+  isEnvVarTrue,
 } from "../Declarations/Constants.js";
 import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
 import { getInstance } from "../platform/index.js";
@@ -29,9 +31,17 @@ const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
   [OTelPerformanceCounterNames.AVAILABLE_BYTES, BreezePerformanceCounterNames.AVAILABLE_BYTES],
   [OTelPerformanceCounterNames.PROCESSOR_TIME, BreezePerformanceCounterNames.PROCESSOR_TIME],
-  [OTelPerformanceCounterNames.PROCESS_TIME, BreezePerformanceCounterNames.PROCESS_TIME],
+  [
+    OTelPerformanceCounterNames.PROCESS_TIME_STANDARD,
+    BreezePerformanceCounterNames.PROCESS_TIME_STANDARD,
+  ],
+  [
+    OTelPerformanceCounterNames.PROCESS_TIME_NORMALIZED,
+    BreezePerformanceCounterNames.PROCESS_TIME_NORMALIZED,
+  ],
   [OTelPerformanceCounterNames.REQUEST_RATE, BreezePerformanceCounterNames.REQUEST_RATE],
   [OTelPerformanceCounterNames.REQUEST_DURATION, BreezePerformanceCounterNames.REQUEST_DURATION],
+  [OTelPerformanceCounterNames.EXCEPTION_RATE, BreezePerformanceCounterNames.EXCEPTION_RATE],
 ]);
 
 function createPropertiesFromMetricAttributes(attributes?: Attributes): {
@@ -85,7 +95,7 @@ export function resourceMetricsToEnvelope(
           shouldSendToOtlp() &&
           isAksAttach() &&
           !isStandardMetric(dataPoint) &&
-          process.env[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] === "false" &&
+          !isEnvVarTrue(ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED) &&
           !isStatsbeat
         ) {
           return;
@@ -129,6 +139,7 @@ export function resourceMetricsToEnvelope(
             baseType: "MetricData",
             baseData: {
               ...baseData,
+              properties: truncateCustomDimensions(baseData.properties || {}),
             },
           },
         };
@@ -141,9 +152,7 @@ export function resourceMetricsToEnvelope(
 }
 
 export function isAksAttach(): boolean {
-  return !!(
-    process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" && process.env.AKS_ARM_NAMESPACE_ID
-  );
+  return !!(isEnvVarTrue(ENV_AZURE_MONITOR_AUTO_ATTACH) && process.env.AKS_ARM_NAMESPACE_ID);
 }
 
 export function shouldSendToOtlp(): boolean {
@@ -160,7 +169,7 @@ export function isStandardMetric(
 }
 
 export function getAttachType(): AttachTypeName {
-  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true") {
+  if (isEnvVarTrue(AZURE_MONITOR_AUTO_ATTACH)) {
     return AttachTypeName.INTEGRATED_AUTO;
   }
   return AttachTypeName.MANUAL;

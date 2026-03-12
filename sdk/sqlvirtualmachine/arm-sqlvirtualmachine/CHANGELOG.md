@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.9 (Unreleased)
+## 5.0.0-beta.10 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.0.0-beta.9 (2025-08-21)
+
+### Other Changes
+
+  - Other fixes
 
 ## 5.0.0-beta.8 (2023-06-08)
 

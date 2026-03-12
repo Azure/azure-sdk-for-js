@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure-tools/communication-toll-free-verification"
 description: Toll Free Verification client
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./swagger.json

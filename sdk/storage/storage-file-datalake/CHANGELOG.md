@@ -1,10 +1,53 @@
 # Release History
 
-## 12.26.0 (2025-03-18)
+## 12.30.0-beta.1 (2026-03-05)
 
 ### Features Added
 
-- Added support for service version 2025-05-05.
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
+## 12.29.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
+
+## 12.29.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for the StartFrom parameter on DataLakeFileSystemClient.listPaths()
+
+## 12.28.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.1.
+
+## 12.27.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.27.0-beta.1.
+
+## 12.28.0-beta.1 (2025-06-16)
+
+### Features Added
+
+- Added support for service version 2025-11-05.
+- Added more useful error message when the SDK encounters an x-ms-version mis-match issue.
+
+## 12.27.0-beta.1 (2025-05-20)
+
+### Features Added
+
+- Added support for service version 2025-07-05.
 
 ## 12.25.0 (2024-11-13)
 

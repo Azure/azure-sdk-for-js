@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Event Hubs client library samples for TypeScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -34,14 +34,15 @@
     "rhea-promise": "^3.0.0",
     "@azure/core-amqp": "^4.3.2",
     "@azure/keyvault-secrets": "^4.9.0",
-    "@azure/identity": "^4.8.0",
+    "@azure/identity": "^4.13.0",
     "ws": "^8.2.0",
     "https-proxy-agent": "^7.0.0"
   },
   "devDependencies": {
-    "@types/ws": "^7.2.4",
-    "@types/node": "^18.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "@types/ws": "^8.18.1",
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

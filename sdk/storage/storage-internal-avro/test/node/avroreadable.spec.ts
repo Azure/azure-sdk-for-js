@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { AvroReadableFromStream } from "../../src/index.js";
 import { Readable } from "node:stream";
 import { describe, it, assert } from "vitest";
@@ -24,7 +24,7 @@ describe("AvroReadableFromStream", () => {
       assert.equal(err.message, "Stream no longer readable.");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
   });
 
   it("abort read should work", async () => {
@@ -39,7 +39,7 @@ describe("AvroReadableFromStream", () => {
         AbortErrorCaught = true;
       }
     }
-    assert.ok(AbortErrorCaught);
+    assert.isDefined(AbortErrorCaught);
   });
 
   it("abort after read should not throw", async () => {

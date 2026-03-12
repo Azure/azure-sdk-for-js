@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-elasticsan": ["./src/index.ts"],
+      "@azure/arm-elasticsan/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

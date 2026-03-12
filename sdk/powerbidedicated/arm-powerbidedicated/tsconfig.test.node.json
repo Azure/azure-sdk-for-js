@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-powerbidedicated": ["./src/index.ts"],
+      "@azure/arm-powerbidedicated/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

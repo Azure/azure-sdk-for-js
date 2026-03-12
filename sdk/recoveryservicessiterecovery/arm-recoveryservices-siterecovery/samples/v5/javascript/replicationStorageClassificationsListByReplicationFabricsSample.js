@@ -10,28 +10,28 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the storage classifications available in the specified fabric.
  *
  * @summary Lists the storage classifications available in the specified fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
-  const resourceName = "vault1";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
+  const resourceName = "vault1";
   const fabricName = "2a48e3770ac08aa2be8bfbd94fcfb1cbf2dcc487b78fb9d3bd778304441b06a0";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationStorageClassifications.listByReplicationFabrics(
-    resourceName,
+  for await (const item of client.replicationStorageClassifications.listByReplicationFabrics(
     resourceGroupName,
+    resourceName,
     fabricName,
   )) {
     resArray.push(item);
@@ -40,7 +40,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
 }
 
 async function main() {
-  getsTheListOfStorageClassificationObjectsUnderAFabric();
+  await getsTheListOfStorageClassificationObjectsUnderAFabric();
 }
 
 main().catch(console.error);

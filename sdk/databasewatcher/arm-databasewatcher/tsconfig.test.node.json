@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databasewatcher": ["./src/index.ts"],
+      "@azure/arm-databasewatcher/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

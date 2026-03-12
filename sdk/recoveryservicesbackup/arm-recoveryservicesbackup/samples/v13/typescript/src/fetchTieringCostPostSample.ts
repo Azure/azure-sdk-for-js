@@ -24,7 +24,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForRehydrate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForRehydrate.json
  */
 async function getTheRehydrationCostForRecoveryPoint(): Promise<void> {
   const subscriptionId =
@@ -59,7 +59,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForPolicy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForPolicy.json
  */
 async function getTheTieringSavingsCostInfoForPolicy(): Promise<void> {
   const subscriptionId =
@@ -90,7 +90,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForProtectedItem.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForProtectedItem.json
  */
 async function getTheTieringSavingsCostInfoForProtectedItem(): Promise<void> {
   const subscriptionId =
@@ -123,7 +123,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
  *
  * @summary Provides the details of the tiering related sizes and cost.
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForVault.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForVault.json
  */
 async function getTheTieringSavingsCostInfoForVault(): Promise<void> {
   const subscriptionId =
@@ -148,10 +148,10 @@ async function getTheTieringSavingsCostInfoForVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheRehydrationCostForRecoveryPoint();
-  getTheTieringSavingsCostInfoForPolicy();
-  getTheTieringSavingsCostInfoForProtectedItem();
-  getTheTieringSavingsCostInfoForVault();
+  await getTheRehydrationCostForRecoveryPoint();
+  await getTheTieringSavingsCostInfoForPolicy();
+  await getTheTieringSavingsCostInfoForProtectedItem();
+  await getTheTieringSavingsCostInfoForVault();
 }
 
 main().catch(console.error);

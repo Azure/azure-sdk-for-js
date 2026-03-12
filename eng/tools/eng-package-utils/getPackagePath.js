@@ -1,33 +1,42 @@
-let argv = require("yargs")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// @ts-check
+
+import process from "node:process";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { findPackages } from "@pnpm/fs.find-packages";
+
+const argv = yargs(hideBin(process.argv))
   .options({
     "package-name": {
       type: "string",
       describe:
         "name of the artifact to be set (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
-      demandOption: true
+      demandOption: true,
     },
     "repo-root": {
       type: "string",
       default: "../../../",
       describe: "root of the repository (e.g. ../../../)",
-      demandOption: true
-    }
+      demandOption: true,
+    },
   })
   .help().argv;
-
-const { getRushSpec } = require("./index");
-const path = require("path");
 
 async function main(argv) {
   const packageName = argv["package-name"];
   const repoRoot = argv["repo-root"];
-  const rushSpec = await getRushSpec(repoRoot);
 
-  const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName == packageName
-  );
+  const pkgs = (
+    await findPackages(repoRoot, {
+      patterns: ["sdk/*/*", "common/tools/*"],
+    })
+  ).filter((pkg) => pkg.manifest.name === packageName);
 
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const targetPackagePath = pkgs[0].rootDirRealPath;
+
   console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
   console.log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }

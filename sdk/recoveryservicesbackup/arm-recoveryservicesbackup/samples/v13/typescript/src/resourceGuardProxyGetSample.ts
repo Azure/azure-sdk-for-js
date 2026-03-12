@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns ResourceGuardProxy under vault and with the name referenced in request
  *
  * @summary Returns ResourceGuardProxy under vault and with the name referenced in request
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
 async function getResourceGuardProxy(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getResourceGuardProxy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getResourceGuardProxy();
+  await getResourceGuardProxy();
 }
 
 main().catch(console.error);

@@ -4,30 +4,31 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
-  BrokerProperties,
-  AcknowledgeResult,
-  FailedLockToken,
-  ReleaseResult,
-  RejectResult,
-  ReleaseDelay,
-  RenewLocksResult,
-  AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
-  ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
-  RejectCloudEventsOptionalParams as RejectEventsOptionalParams,
-  RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
-  PublishCloudEventsOptionalParams as SendEventsOptionalParams,
-  PublishCloudEventOptionalParams as SendEventOptionalParams,
-} from "./cadl-generated/models/index.js";
+  type BrokerProperties,
+  type AcknowledgeResult,
+  type FailedLockToken,
+  type ReleaseResult,
+  type RejectResult,
+  type ReleaseDelay,
+  KnownReleaseDelay,
+  type RenewLocksResult,
+  type AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
+  type ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
+  type RejectCloudEventsOptionalParams as RejectEventsOptionalParams,
+  type RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
+  type PublishCloudEventsOptionalParams as SendEventsOptionalParams,
+  type PublishCloudEventOptionalParams as SendEventOptionalParams,
+} from "./generated/index.js";
 
 export { EventGridSenderClient } from "./eventGridSenderClient.js";
 
 export { EventGridReceiverClient } from "./eventGridReceiverClient.js";
 
-export { EventGridClientOptions } from "./cadl-generated/index.js";
+export type { EventGridClientOptionalParams as EventGridClientOptions } from "./generated/index.js";
 
-export { OperationOptions } from "@azure-rest/core-client";
+export type { OperationOptions } from "@azure-rest/core-client";
 
-export {
+export type {
   CloudEvent,
   SendEventsOptions,
   ReceiveResult,
@@ -39,7 +40,6 @@ export {
   RenewEventLocksOptions,
   EventGridSenderClientOptions,
   EventGridReceiverClientOptions,
-  KnownReleaseDelay,
 } from "./models.js";
 
 export { EventGridDeserializer } from "./consumer.js";

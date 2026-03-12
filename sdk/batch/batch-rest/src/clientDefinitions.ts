@@ -274,7 +274,7 @@ export interface CreatePool {
   post(
     options: CreatePoolParameters,
   ): StreamableMethod<CreatePool201Response | CreatePoolDefaultResponse>;
-  /** Lists all of the Pools which be mounted. */
+  /** Lists all of the Pools in the specified Account. */
   get(
     options?: ListPoolsParameters,
   ): StreamableMethod<ListPools200Response | ListPoolsDefaultResponse>;

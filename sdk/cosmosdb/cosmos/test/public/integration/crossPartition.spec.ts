@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as util from "node:util";
+import util from "node:util";
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
 import type { SqlQuerySpec } from "../../../src/index.js";
@@ -273,12 +273,14 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
     }): Promise<void> {
       options.populateQueryMetrics = true;
       const queryIterator = container.items.query(query, options);
+      console.log(" fetchAll called with options: ", options);
       const fetchAllResponse = await validateFetchAll(
         queryIterator,
         options,
         expectedOrderIds,
         expectedCount,
       );
+      console.log(" fetchAll response: ", fetchAllResponse);
       if (expectedRus) {
         const percentDifference =
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
@@ -290,6 +292,7 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
         );
       }
       queryIterator.reset();
+      console.log(" validateFetchNextAndHasMoreResults called with options: ", options);
       await validateFetchNextAndHasMoreResults(
         options,
         queryIterator,
@@ -299,10 +302,10 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
         expectedIteratorCalls,
       );
       queryIterator.reset();
+      console.log("fetchNext successful");
+      console.log(" validateAsyncIterator called with options: ", options);
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
-
-      // Adding these to test the new flag enableQueryControl in FeedOptions
-      options.enableQueryControl = true;
+      console.log("validateAsyncIterator successful");
       const queryIteratorWithEnableQueryControl = container.items.query(query, options);
       await validateFetchAll(
         queryIteratorWithEnableQueryControl,

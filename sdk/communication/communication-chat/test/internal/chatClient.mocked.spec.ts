@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChatClientOptions, CreateChatThreadRequest } from "../../src/index.js";
+import type {
+  ChatClientOptions,
+  CreateChatThreadOptions,
+  CreateChatThreadRequest,
+} from "../../src/index.js";
 import { ChatClient } from "../../src/index.js";
 import type * as RestModel from "../../src/generated/src/models/index.js";
 import { apiVersion } from "../../src/generated/src/models/parameters.js";
@@ -14,6 +18,7 @@ import {
   mockCreateThreadResult,
   mockThread,
   mockThreadItem,
+  mockThreadItemWithRetentionPolicy,
 } from "./utils/mockClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi } from "vitest";
@@ -56,7 +61,9 @@ describe("[Mocked] ChatClient", async () => {
       topic: mockThread.topic!,
     };
 
-    const sendOptions = {};
+    const sendOptions = {
+      metadata: mockThread.metadata,
+    };
 
     const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
@@ -68,12 +75,47 @@ describe("[Mocked] ChatClient", async () => {
       (createThreadResult.chatThread?.createdBy as CommunicationUserIdentifier).communicationUserId,
       mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id,
     );
+    assert.deepEqual(createThreadResult.chatThread?.metadata, mockThread.metadata);
 
     const request = spy.mock.calls[0][0];
 
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
-    assert.deepEqual(JSON.parse(request.body as string), sendRequest);
+    assert.deepEqual(JSON.parse(request.body as string), {
+      ...sendRequest,
+      ...sendOptions,
+    });
+    assert.isNotEmpty(request.headers.get("repeatability-request-id"));
+  });
+
+  it("makes successful create thread request with retention policy", async function () {
+    const mockHttpClient = generateHttpClient(201, {
+      chatThread: mockThreadItemWithRetentionPolicy,
+    });
+
+    chatClient = createChatClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const sendRequest: CreateChatThreadRequest = {
+      topic: mockThread.topic!,
+    };
+
+    const sendOptions: CreateChatThreadOptions = {
+      retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
+    };
+
+    const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
+
+    expect(spy).toHaveBeenCalledOnce();
+    assert.isDefined(createThreadResult.chatThread);
+    assert.equal(createThreadResult.chatThread?.id, mockThreadItemWithRetentionPolicy.id);
+    assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
+    assert.deepEqual(createThreadResult.chatThread?.retentionPolicy, sendOptions.retentionPolicy);
+
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
+    assert.equal(request.method, "POST");
+    assert.deepEqual(JSON.parse(request.body as string), { ...sendRequest, ...sendOptions });
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 

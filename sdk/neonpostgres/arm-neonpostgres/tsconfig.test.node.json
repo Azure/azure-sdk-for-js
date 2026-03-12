@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-neonpostgres": ["./src/index.ts"],
+      "@azure/arm-neonpostgres/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

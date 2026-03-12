@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/communication-identity": ["./src/index.ts"],
+      "@azure/communication-identity/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

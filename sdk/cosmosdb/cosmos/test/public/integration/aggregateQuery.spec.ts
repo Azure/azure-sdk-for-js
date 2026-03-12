@@ -376,10 +376,10 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
       containerDefinitionWithCompositeIndex,
     );
 
-    containerWithCompositeIndexDef.items.create({ id: "1", pk: "1", key: "1", field: "4" });
-    containerWithCompositeIndexDef.items.create({ id: "2", pk: "1", key: "2", field: "3" });
-    containerWithCompositeIndexDef.items.create({ id: "3", pk: "1", key: "3", field: "2" });
-    containerWithCompositeIndexDef.items.create({ id: "4", pk: "1", key: "4", field: "1" });
+    await containerWithCompositeIndexDef.items.create({ id: "1", pk: "1", key: "1", field: "4" });
+    await containerWithCompositeIndexDef.items.create({ id: "2", pk: "1", key: "2", field: "3" });
+    await containerWithCompositeIndexDef.items.create({ id: "3", pk: "1", key: "3", field: "2" });
+    await containerWithCompositeIndexDef.items.create({ id: "4", pk: "1", key: "4", field: "1" });
     const queryIterator1 = containerWithCompositeIndexDef.items.query(
       "SELECT * FROM r ORDER BY r.key, r.field",
     );
@@ -393,16 +393,43 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
       // If the fetch succeeds unexpectedly, fail the test
       assert.fail("Expected composite index not found error, but the fetch succeeded");
     } catch (error) {
+      const stringifiedError = JSON.stringify(error);
       if (
         error instanceof Error &&
-        error.message.includes(
-          "The order by query does not have a corresponding composite index that it can be served from.",
-        )
+        stringifiedError.includes("does not have a corresponding composite index")
       ) {
         // If the fetch fails as expected, pass the test
       } else {
         assert.fail(`Unexpected error: ${error.message}`);
       }
     }
+  });
+
+  it("should return both MIN and MAX values with empty partitions", async () => {
+    // Regression test: MIN aggregate was incorrectly overwritten to undefined
+    // when processing empty partitions (count:0) due to missing guard clause
+    const multiPartitionContainer = await getTestContainer(
+      "MIN MAX aggregate with empty partitions",
+      undefined,
+      {
+        id: "minmaxemptypartitions",
+        partitionKey: { paths: ["/pk"] },
+      },
+      { offerThroughput: 12000 }, // Force multiple physical partitions
+    );
+
+    // Create documents distributed across partitions (some partitions will be empty)
+    await multiPartitionContainer.items.create({ id: "1", pk: "partition1", date: "2025-01-15" });
+    await multiPartitionContainer.items.create({ id: "2", pk: "partition2", date: "2025-09-25" });
+
+    const queryIterator = multiPartitionContainer.items.query(
+      "SELECT MIN(c.date) AS minDate, MAX(c.date) AS maxDate FROM c",
+      { maxItemCount: 1 },
+    );
+    const { resources } = await queryIterator.fetchAll();
+
+    assert.equal(resources.length, 1, "Should return exactly one aggregate result");
+    assert.equal(resources[0].minDate, "2025-01-15", "MIN value should not be lost");
+    assert.equal(resources[0].maxDate, "2025-09-25", "MAX value should be present");
   });
 });

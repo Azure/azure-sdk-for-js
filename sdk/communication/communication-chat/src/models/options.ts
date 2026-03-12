@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { ChatMessageType } from "../generated/src/models/index.js";
-import {
+import type {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models/index.js";
-import type { ChatParticipant } from "./models.js";
+import type { ChatParticipant, ChatRetentionPolicy } from "./models.js";
 
-export {
+export type {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
@@ -31,6 +31,18 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
  * Options to update a chat thread.
  */
 export interface UpdateTopicOptions extends OperationOptions {}
+
+/**
+ * Options to update a chat thread.
+ */
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+  /** Thread topic. */
+  topic?: string;
+  /** Thread metadata. */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
+}
 
 /**
  * Options to get chat threads.
@@ -72,6 +84,10 @@ export interface CreateChatThreadOptions extends OperationOptions {
   participants?: ChatParticipant[];
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   idempotencyToken?: string;
+  /** metadata */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**

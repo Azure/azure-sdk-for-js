@@ -36,8 +36,8 @@ import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitie
 import type { TracingClient } from "@azure/core-tracing";
 import { createTracingClient } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
+import type { StringIndexType } from "./util.js";
 import {
-  StringIndexType,
   addParamsToTask,
   compose,
   setCategoriesFilter,
@@ -46,26 +46,27 @@ import {
   setStrEncodingParamValue,
   throwError,
 } from "./util.js";
-import {
+import type {
   AnalyzeHealthcareEntitiesPollerLike,
-  BeginAnalyzeHealthcarePoller,
   PollerLikeWithCancellation,
 } from "./lro/health/poller.js";
-import {
+import { BeginAnalyzeHealthcarePoller } from "./lro/health/poller.js";
+import type {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
 } from "./lro/health/operation.js";
 import type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller.js";
-import {
+import type { AnalyzeActionsPollerLike } from "./lro/analyze/poller.js";
+import { BeginAnalyzeActionsPoller } from "./lro/analyze/poller.js";
+import type {
   AnalyzeActionsOperationMetadata,
   AnalyzeActionsOperationState,
   BeginAnalyzeActionsOptions,
 } from "./lro/analyze/operation.js";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller.js";
+import type { AnalysisPollOperationState, OperationMetadata } from "./lro/poller.js";
 import type { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
-export {
+export type {
   BeginAnalyzeActionsOptions,
   AnalyzeActionsPollerLike,
   AnalyzeActionsOperationState,
@@ -685,7 +686,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -705,7 +706,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */

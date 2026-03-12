@@ -1,0 +1,39 @@
+{
+  "apiVersion": "2025-08-15",
+  "emitterVersion": "0.46.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ComputeLimit",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-computelimit!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-computelimit!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-computelimit!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-computelimit!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-computelimit!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-computelimit!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-computelimit!GuestSubscription:interface": "Microsoft.ComputeLimit.GuestSubscription",
+      "@azure/arm-computelimit!GuestSubscriptionProperties:interface": "Microsoft.ComputeLimit.GuestSubscriptionProperties",
+      "@azure/arm-computelimit!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-computelimit!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-computelimit!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-computelimit!GuestSubscriptionListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!SharedLimit:interface": "Microsoft.ComputeLimit.SharedLimit",
+      "@azure/arm-computelimit!SharedLimitProperties:interface": "Microsoft.ComputeLimit.SharedLimitProperties",
+      "@azure/arm-computelimit!LimitName:interface": "Microsoft.ComputeLimit.LimitName",
+      "@azure/arm-computelimit!SharedLimitListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-computelimit!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-computelimit!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-computelimit!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-computelimit!KnownVersions:enum": "Microsoft.ComputeLimit.Versions",
+      "@azure/arm-computelimit!SharedLimitsOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.SharedLimits.listBySubscriptionLocationResource",
+      "@azure/arm-computelimit!SharedLimitsOperations#delete:member": "Microsoft.ComputeLimit.SharedLimits.delete",
+      "@azure/arm-computelimit!SharedLimitsOperations#create:member": "Microsoft.ComputeLimit.SharedLimits.create",
+      "@azure/arm-computelimit!SharedLimitsOperations#get:member": "Microsoft.ComputeLimit.SharedLimits.get",
+      "@azure/arm-computelimit!GuestSubscriptionsOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.GuestSubscriptions.listBySubscriptionLocationResource",
+      "@azure/arm-computelimit!GuestSubscriptionsOperations#delete:member": "Microsoft.ComputeLimit.GuestSubscriptions.delete",
+      "@azure/arm-computelimit!GuestSubscriptionsOperations#create:member": "Microsoft.ComputeLimit.GuestSubscriptions.create",
+      "@azure/arm-computelimit!GuestSubscriptionsOperations#get:member": "Microsoft.ComputeLimit.GuestSubscriptions.get",
+      "@azure/arm-computelimit!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

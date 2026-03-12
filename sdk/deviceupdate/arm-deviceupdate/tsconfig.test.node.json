@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-deviceupdate": ["./src/index.ts"],
+      "@azure/arm-deviceupdate/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

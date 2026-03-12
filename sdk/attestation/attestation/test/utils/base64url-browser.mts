@@ -4,26 +4,6 @@
 /// <reference lib="dom" />
 
 /**
- * Encodes a string in base64 format.
- * @param value - the string to encode
- */
-export function encodeString(value: string): string {
-  return btoa(value);
-}
-
-/**
- * Encodes a byte array in base64 format.
- * @param value - the Uint8Array to encode
- */
-export function encodeByteArray(value: Uint8Array): string {
-  let str = "";
-  for (let i = 0; i < value.length; i++) {
-    str += String.fromCharCode(value[i]);
-  }
-  return btoa(str);
-}
-
-/**
  * Decodes a base64 string into a byte array.
  * @param value - the base64 string to decode
  */

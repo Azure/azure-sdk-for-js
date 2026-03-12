@@ -41,7 +41,7 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-toll-free-verification/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-communication-toll-free-verification/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

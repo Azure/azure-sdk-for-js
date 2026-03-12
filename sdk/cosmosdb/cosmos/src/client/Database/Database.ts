@@ -74,6 +74,18 @@ export class Database {
 
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
+   * @example
+   * ```ts snippet:DatabaseGetUrl
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const url = database.url;
+   * ```
    */
   public get url(): string {
     return createDatabaseUri(this.id);

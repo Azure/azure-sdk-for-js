@@ -11,7 +11,7 @@
 
 const { AppConfigurationClient } = require("@azure/app-configuration");
 const { isSystemEvent, EventGridDeserializer } = require("@azure/eventgrid");
-const { appConfigTestEvent } = require("./testData");
+const { appConfigTestEvent } = require("./testData.js");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -22,7 +22,7 @@ dotenv.config();
 const consumer = new EventGridDeserializer();
 
 /**
- * For a full implementation, another service would act as a receiver for events {@link https://learn.microsoft.com/en-us/azure/event-grid/event-handlers}.
+ * For a full implementation, another service would act as a receiver for events {@link https://learn.microsoft.com/azure/event-grid/event-handlers}.
  * However, to avoid additional complexity for this sample, a hardcoded test event is being used. For full EventGrid samples, see
  * {@link https://github.com/Azure/azure-sdk-for-js/tree/ebbfcff02ca15b1792dc6c45d8ba10913891c530/sdk/eventgrid/eventgrid/samples-dev}.
  */

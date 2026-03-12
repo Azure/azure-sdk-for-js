@@ -6,8 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  WebPubSubGroupMember,
+  WebPubSubListConnectionsInGroupOptionalParams,
   AddToGroupsRequest,
   WebPubSubAddConnectionsToGroupsOptionalParams,
   WebPubSubCloseAllConnectionsOptionalParams,
@@ -42,8 +45,21 @@ import {
   WebPubSubAddUserToGroupOptionalParams,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSub. */
 export interface WebPubSub {
+  /**
+   * List connections in a group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, whose length should be greater than 0 and less than 1025.
+   * @param options The options parameters.
+   */
+  listConnectionsInGroup(
+    hub: string,
+    group: string,
+    options?: WebPubSubListConnectionsInGroupOptionalParams,
+  ): PagedAsyncIterableIterator<WebPubSubGroupMember>;
   /**
    * Add filtered connections to multiple groups.
    * @param hub Target hub name, which should start with alphabetic characters and only contain

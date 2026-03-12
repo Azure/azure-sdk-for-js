@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get the provider permissions.
  *
  * @summary Get the provider permissions.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetProviderPermissions.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetProviderPermissions.json
  */
 async function getProviderResourceTypes() {
   const subscriptionId =

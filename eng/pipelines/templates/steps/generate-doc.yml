@@ -5,7 +5,7 @@ steps:
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
-    displayName: "Install tool dependencies"
+    displayName: "Install generate-doc tool dependencies"
 
   - script: |
       npm run build

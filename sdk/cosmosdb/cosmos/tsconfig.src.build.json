@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.src.build.json",
+  "compilerOptions": {
+    "stripInternal": true,
+    "removeComments": false,
+    "strict": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}

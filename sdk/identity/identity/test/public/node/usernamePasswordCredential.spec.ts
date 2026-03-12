@@ -7,7 +7,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure-tools/test-recorder";
-import { type GetTokenOptions, UsernamePasswordCredential } from "../../../src/index.js";
+import { type GetTokenOptions, UsernamePasswordCredential } from "@azure/identity";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -41,8 +41,8 @@ describe("UsernamePasswordCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isDefined(token?.token);
+    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("allows cancelling the authentication", async function () {
@@ -73,7 +73,7 @@ describe("UsernamePasswordCredential", function () {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
-    assert.ok(error?.message.includes("endpoints_resolution_error"));
+    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
   });
 
   it("supports tracing", async function () {

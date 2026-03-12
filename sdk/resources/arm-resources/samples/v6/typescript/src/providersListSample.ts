@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all resource providers for a subscription.
  *
  * @summary Gets all resource providers for a subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetProviders.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetProviders.json
  */
 async function getProviders(): Promise<void> {
   const subscriptionId =
@@ -23,7 +23,7 @@ async function getProviders(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.providers.list()) {
+  for await (const item of client.providers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

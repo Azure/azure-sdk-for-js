@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/template-dpg": ["./src/index.ts"],
+      "@azure/template-dpg/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

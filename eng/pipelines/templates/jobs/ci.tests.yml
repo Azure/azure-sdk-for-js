@@ -10,6 +10,9 @@ parameters:
     default: []
   - name: Matrix
     type: string
+  - name: MaxParallel
+    type: number
+    default: 10
   - name: DependsOn
     type: object
     default: []
@@ -31,7 +34,8 @@ jobs:
       and(
         succeededOrFailed(),
         ne(variables['Skip.Test'], 'true'),
-        ne(${{ parameters.Matrix }}, '{}')
+        ne(${{ parameters.Matrix }}, '{}'),
+        ne(lower(dependencies.generate_job_matrix.outputs['scope.SkipTests']), 'true')
       )
 
     dependsOn:
@@ -39,6 +43,7 @@ jobs:
 
     strategy:
       matrix: $[ ${{ parameters.Matrix }} ]
+      maxParallel: ${{ parameters.MaxParallel }}
 
     pool:
       name: $(Pool)

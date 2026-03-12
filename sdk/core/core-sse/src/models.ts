@@ -19,10 +19,9 @@ export interface EventMessage {
 /**
  * A stream of event messages
  */
-export interface EventMessageStream
-  extends ReadableStream<EventMessage>,
-    AsyncDisposable,
-    AsyncIterable<EventMessage> {}
+export type EventMessageStream = ReadableStream<EventMessage> &
+  AsyncDisposable &
+  AsyncIterable<EventMessage>;
 
 export type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

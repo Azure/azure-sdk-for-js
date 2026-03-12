@@ -6,12 +6,13 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type {
+  BlobGetUserDelegationKeyParameters,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
@@ -23,12 +24,16 @@ import type {
   ServiceListFileSystemsSegmentResponse,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
+  DataLakeClientOptions,
+  DataLakeClientConfig,
+  DataLakeGetUserDelegationKeyParameters,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
+  isDataLakeGetUserDelegationKeyParameters,
 } from "./utils/utils.common.js";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms.js";
 import type {
@@ -75,7 +80,7 @@ export class DataLakeServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -89,7 +94,7 @@ export class DataLakeServiceClient extends StorageClient {
           options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         }
         const pipeline = newPipeline(sharedKeyCredential, options);
-        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
+        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline, options);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
@@ -98,6 +103,7 @@ export class DataLakeServiceClient extends StorageClient {
       return new DataLakeServiceClient(
         toDfsEndpointUrl(extractedCreds.url) + "?" + extractedCreds.accountSas,
         pipeline,
+        options,
       );
     } else {
       throw new Error(
@@ -120,7 +126,7 @@ export class DataLakeServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -132,7 +138,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  public constructor(url: string, pipeline: Pipeline);
+  public constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   public constructor(
     url: string,
@@ -143,10 +149,10 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -156,7 +162,7 @@ export class DataLakeServiceClient extends StorageClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     // this.serviceContext = new Service(this.storageClientContext);
@@ -174,6 +180,7 @@ export class DataLakeServiceClient extends StorageClient {
     return new DataLakeFileSystemClient(
       appendToURLPath(this.url, encodeURIComponent(fileSystemName)),
       this.pipeline,
+      this.dataLakeClientConfig,
     );
   }
 
@@ -218,7 +225,7 @@ export class DataLakeServiceClient extends StorageClient {
    *   accountName,
    * ).toString();
    * ```
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
    *
    * @param startsOn - The start time for the user delegation SAS. Must be within 7 days of the current time.
    * @param expiresOn - The end time for the user delegation SAS. Must be within 7 days of the current time.
@@ -227,15 +234,60 @@ export class DataLakeServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  /**
+   * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+   *
+   * Retrieves a user delegation key for the Data Lake service. This is only a valid operation when using
+   * bearer token authentication.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
+   *
+   * @param parameters - Parameters to specific start time, expiry time and tenant id.
+   * @param options -
+   */
+  public async getUserDelegationKey(
+    parameters: DataLakeGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | DataLakeGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    return tracingClient.withSpan(
-      "DataLakeServiceClient-getUserDelegationKey",
-      options,
-      async (updatedOptions) => {
-        return this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, updatedOptions);
-      },
-    );
+    let calledWithParameters = false;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)) {
+      calledWithParameters = true;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
+    if (calledWithParameters) {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as BlobGetUserDelegationKeyParameters,
+            updatedOptions,
+          );
+        },
+      );
+    } else {
+      return tracingClient.withSpan(
+        "DataLakeServiceClient-getUserDelegationKey",
+        getUserDelegationKeyOptions,
+        async (updatedOptions) => {
+          return this.blobServiceClient.getUserDelegationKey(
+            startsOnOrParam as Date,
+            expiresOnOrOption as Date,
+            updatedOptions,
+          );
+        },
+      );
+    }
   }
 
   /**
@@ -342,7 +394,7 @@ export class DataLakeServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-containers2
    *
    * @param options -
    */
@@ -366,7 +418,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -411,7 +463,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -492,7 +544,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Blob service endpoint, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
    * @returns Response data for the Service Get Properties operation.
@@ -515,7 +567,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Blob service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-blob-service-properties
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.

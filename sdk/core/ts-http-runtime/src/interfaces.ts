@@ -136,9 +136,10 @@ export interface PipelineRequest {
   /**
    * List of authentication schemes used for this specific request.
    * These schemes define how the request will be authenticated.
-   * If provided, these schemes override the client level authentication schemes.
    *
-   * If no auth schemes are provided at client or request level, defaults to no auth.
+   * If values are provided, these schemes override the client level authentication schemes.
+   * If an empty array is provided, it explicitly specifies no authentication for the request.
+   * If not provided at the request level, the client level authentication schemes will be used.
    */
   authSchemes?: AuthScheme[];
 
@@ -242,6 +243,18 @@ export interface PipelineRequest {
 
   /** Settings for configuring TLS authentication */
   tlsSettings?: TlsSettings;
+
+  /**
+   * Additional options to set on the request. This provides a way to override
+   * existing ones or provide request properties that are not declared.
+   *
+   * For possible valid properties, see
+   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
+   *
+   * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
+   */
+  requestOverrides?: Record<string, unknown>;
 }
 
 /**

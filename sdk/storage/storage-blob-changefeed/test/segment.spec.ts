@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type { BlobChangeFeedEvent } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 import type { ContainerClient, BlobClient } from "@azure/storage-blob";
@@ -59,7 +59,7 @@ describe("Segment", async () => {
   it("getChange round robin in shards", async () => {
     const segmentFactory = new SegmentFactory(shardFactoryStub);
     const segment = await segmentFactory.create(containerClientStub, manifestPath);
-    assert.ok(segment.hasNext());
+    assert.isTrue(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
 
     // round robin
@@ -107,7 +107,7 @@ describe("Segment", async () => {
       SegmentPath: "idx/segments/2020/03/25/0200/meta.json",
       ShardCursors: [],
     } as any);
-    assert.ok(segment.hasNext());
+    assert.isTrue(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
     const segmentCursor = segment.getCursor();
     assert.equal(segmentCursor.CurrentShardPath, CurrentShardPath);

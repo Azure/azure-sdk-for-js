@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
-
 /**
  * This sample demonstrates how to list enclave quotes using client AAD Authentication
  *
  * @summary gets a list of all enclave quotes using AAD Authentication
  * @azsdk-weight 30
  */
+
+import "dotenv/config";
+
 import ConfidentialLedger, {
   getLedgerIdentity,
   isUnexpected,
 } from "@azure-rest/confidential-ledger";
 
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
-
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
@@ -41,7 +39,7 @@ export async function main(): Promise<void> {
     throw enclaveQuotes.body.error;
   }
 
-  await Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
+  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
     console.log(enclaveQuotes.body.enclaveQuotes[property].nodeId);
   });
 }

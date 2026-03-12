@@ -239,4 +239,170 @@ describe("GlobalEndpointManager", () => {
       );
     });
   });
+
+  describe("#refreshEndpoints", () => {
+    it("check only new regions are present", async () => {
+      const updatedDatabaseAccountBody: any = {
+        writableLocations: [
+          {
+            name: "East US 2",
+            databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/",
+          },
+        ],
+        readableLocations: [
+          {
+            name: "East US 2",
+            databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/",
+          },
+        ],
+        DatabasesLink: "/dbs/",
+        MediaLink: "/media/",
+        ConsistencyPolicy: "Session",
+      };
+      let callCount = 0;
+      const readStub = async () => {
+        const body = callCount === 0 ? databaseAccountBody : updatedDatabaseAccountBody;
+        callCount++;
+        const account = new DatabaseAccount(body, headers);
+        return new ResourceResponse(account, headers, 200, getEmptyCosmosDiagnostics());
+      };
+
+      const gem = new GlobalEndpointManager(
+        {
+          endpoint: "https://test.documents.azure.com:443/",
+          key: masterKey,
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+          },
+        },
+        readStub,
+      );
+      await gem.refreshEndpointList(createDummyDiagnosticNode());
+
+      const writableLocations = await gem.getWriteEndpoints();
+      const readableLocations = await gem.getReadEndpoints();
+
+      assert.deepEqual(writableLocations, ["https://test-westus2.documents.azure.com:443/"]);
+      assert.deepEqual(readableLocations, [
+        "https://test-westus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/",
+      ]);
+
+      await gem.refreshEndpointList(createDummyDiagnosticNode());
+
+      const newWritableLocations = await gem.getWriteEndpoints();
+      const newReadableLocations = await gem.getReadEndpoints();
+
+      assert.deepEqual(newWritableLocations, ["https://test-eastus2.documents.azure.com:443/"]);
+      assert.deepEqual(newReadableLocations, ["https://test-eastus2.documents.azure.com:443/"]);
+    });
+    it("preserves unavailable flags for endpoints still present and drops stale ones", async () => {
+      const updatedDatabaseAccountBody1: any = {
+        writableLocations: [
+          {
+            name: "West US 2",
+            databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/",
+          },
+          {
+            name: "East US 2",
+            databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/",
+          },
+        ],
+        readableLocations: [
+          {
+            name: "West US 2",
+            databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/",
+          },
+          {
+            name: "East US 2",
+            databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/",
+          },
+        ],
+        DatabasesLink: "/dbs/",
+        MediaLink: "/media/",
+        ConsistencyPolicy: "Session",
+      };
+      // the eastus2 read and write region is removed here.
+      const updatedDatabaseAccountBody2: any = {
+        writableLocations: [
+          {
+            name: "West US 2",
+            databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/",
+          },
+          {
+            name: "West US 3",
+            databaseAccountEndpoint: "https://test-westus3.documents.azure.com:443/",
+          },
+        ],
+        readableLocations: [
+          {
+            name: "West US 2",
+            databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/",
+          },
+          {
+            name: "West US 3",
+            databaseAccountEndpoint: "https://test-westus3.documents.azure.com:443/",
+          },
+        ],
+        DatabasesLink: "/dbs/",
+        MediaLink: "/media/",
+        ConsistencyPolicy: "Session",
+      };
+
+      let callCount = 0;
+      const readStub = async () => {
+        let body;
+        if (callCount === 0) body = databaseAccountBody;
+        else if (callCount === 1) body = updatedDatabaseAccountBody1;
+        else if (callCount === 2) body = updatedDatabaseAccountBody2;
+        callCount++;
+        const account = new DatabaseAccount(body, headers);
+        return new ResourceResponse(account, headers, 200, getEmptyCosmosDiagnostics());
+      };
+
+      const gem = new GlobalEndpointManager(
+        {
+          endpoint: "https://test.documents.azure.com:443/",
+          key: masterKey,
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+          },
+        },
+        readStub,
+      );
+      await gem.refreshEndpointList(createDummyDiagnosticNode());
+
+      const writableLocations = await gem.getWriteEndpoints();
+      const readableLocations = await gem.getReadEndpoints();
+
+      assert.deepEqual(writableLocations, ["https://test-westus2.documents.azure.com:443/"]);
+      assert.deepEqual(readableLocations, [
+        "https://test-westus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/",
+      ]);
+
+      await gem.markCurrentLocationUnavailableForWrite(
+        createDummyDiagnosticNode(),
+        "https://test-westus2.documents.azure.com:443/",
+      );
+
+      const newWritableLocation1 = await gem.getWriteEndpoint(createDummyDiagnosticNode());
+      const newReadableLocations1 = await gem.getReadEndpoints();
+      assert.equal(newWritableLocation1, "https://test-eastus2.documents.azure.com:443/");
+      assert.deepEqual(newReadableLocations1, [
+        "https://test-westus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/",
+      ]);
+
+      await gem.refreshEndpointList(createDummyDiagnosticNode());
+      const newWritableLocation2 = await gem.getWriteEndpoint(createDummyDiagnosticNode());
+      const newReadableLocations2 = await gem.getReadEndpoints();
+
+      assert.equal(newWritableLocation2, "https://test-westus3.documents.azure.com:443/");
+      assert.deepEqual(newReadableLocations2, [
+        "https://test-westus2.documents.azure.com:443/",
+        "https://test-westus3.documents.azure.com:443/",
+      ]);
+    });
+  });
 });

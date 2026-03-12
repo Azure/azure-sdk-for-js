@@ -20,6 +20,12 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { type ParallelQueryResult } from "./parallelQueryResult.js";
+import {
+  rejectContinuationTokenForUnsupportedQueries,
+  QueryTypes,
+} from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -50,11 +56,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
+    private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
+    rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+      QueryTypes.hybridSearch(true),
+    ]);
+
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
@@ -64,8 +75,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
       this.globalStatisticsAggregator = new GlobalStatisticsAggregator();
 
-      const globalStatisticsQuery =
-        this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery;
+      const globalStatisticsQuery: string | SqlQuerySpec =
+        typeof this.query === "string"
+          ? this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery
+          : {
+              query: this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery,
+              parameters: this.query?.parameters ?? [],
+            };
       const globalStatisticsQueryExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
         queryInfo: {
@@ -164,7 +180,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
         if (result && result.result) {
-          for (const item of result.result) {
+          const resultData = (result.result as ParallelQueryResult).buffer;
+          for (const item of resultData) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
               // iterate over the components update placeholders from globalStatistics
@@ -198,10 +215,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            const resultData = result.result;
+            if (result && resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -220,10 +238,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         for (const componentExecutionContext of this.componentsExecutionContext) {
           while (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            const resultData = result.result;
+            if (result && resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -250,7 +269,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
 
     // Initialize an array to hold ranks for each document
-    const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(this.hybridSearchResult);
+    const componentWeights = this.extractComponentWeights();
+    const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(
+      this.hybridSearchResult,
+      componentWeights,
+    );
     // store the result to buffer
     // add only data from the sortedHybridSearchResult in the buffer
     sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
@@ -318,6 +341,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
   private sortHybridSearchResultByRRFScore(
     hybridSearchResult: HybridSearchQueryResult[],
+    componentWeights: ComponentWeight[],
   ): HybridSearchQueryResult[] {
     if (hybridSearchResult.length === 0) {
       return [];
@@ -329,7 +353,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     // Compute ranks for each component score
     for (let i = 0; i < hybridSearchResult[0].componentScores.length; i++) {
       // Sort based on the i-th component score
-      hybridSearchResult.sort((a, b) => b.componentScores[i] - a.componentScores[i]);
+      hybridSearchResult.sort((a, b) =>
+        componentWeights[i].comparator(a.componentScores[i], b.componentScores[i]),
+      );
 
       // Assign ranks
       let rank = 1;
@@ -338,7 +364,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           j > 0 &&
           hybridSearchResult[j].componentScores[i] !== hybridSearchResult[j - 1].componentScores[i]
         ) {
-          rank = j + 1;
+          ++rank;
         }
         const rankIndex = ranksArray.findIndex(
           (rankItem) => rankItem.rid === hybridSearchResult[j].rid,
@@ -347,20 +373,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
     }
 
-    // Function to compute RRF score
-    const computeRRFScore = (ranks: number[], k: number): number => {
-      return ranks.reduce((acc, rank) => acc + 1 / (k + rank), 0);
-    };
-
     // Compute RRF scores and sort based on them
     const rrfScores = ranksArray.map((item) => ({
       rid: item.rid,
-      rrfScore: computeRRFScore(item.ranks, this.RRF_CONSTANT),
+      rrfScore: this.computeRRFScore(item.ranks, this.RRF_CONSTANT, componentWeights),
     }));
 
     // Sort based on RRF scores
     rrfScores.sort((a, b) => b.rrfScore - a.rrfScore);
-
     // Map sorted RRF scores back to hybridSearchResult
     const sortedHybridSearchResult = rrfScores.map((scoreItem) =>
       hybridSearchResult.find((item) => item.rid === scoreItem.rid),
@@ -381,10 +401,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const componentExecutionContext = this.componentsExecutionContext[0];
         if (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          const resultData = result.result;
+
+          if (result && resultData) {
+            resultData.forEach((item: any) => {
               this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -402,10 +424,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         // add check for enable query control
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          const resultData = result.result;
+          if (result && resultData) {
+            resultData.forEach((item: any) => {
               hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -437,14 +460,22 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         queryInfo: componentQueryInfo,
         queryRanges: this.partitionedQueryExecutionInfo.queryRanges,
       };
+      const rewrittenSqlQuerySpec: string | SqlQuerySpec =
+        typeof this.query === "string"
+          ? componentQueryInfo.rewrittenQuery
+          : {
+              query: componentQueryInfo.rewrittenQuery,
+              parameters: this.query?.parameters ?? [],
+            };
       const executionContext = new PipelinedQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
-        componentQueryInfo.rewrittenQuery,
+        rewrittenSqlQuerySpec,
         this.options,
         componentPartitionExecutionInfo,
         this.correlatedActivityId,
         this.emitRawOrderByPayload,
+        /* supportsContinuationTokens */ false,
       );
       this.componentsExecutionContext.push(executionContext);
     }
@@ -455,8 +486,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     globalStats: GlobalStatistics,
   ): QueryInfo[] {
     return componentQueryInfos.map((queryInfo) => {
-      if (!queryInfo.hasNonStreamingOrderBy) {
-        throw new Error("The component query must have a non-streaming order by clause.");
+      let rewrittenOrderByExpressions = queryInfo.orderByExpressions;
+      if (queryInfo.orderBy && queryInfo.orderBy.length > 0) {
+        if (!queryInfo.hasNonStreamingOrderBy) {
+          throw new Error("The component query must have a non-streaming order by clause.");
+        }
+        rewrittenOrderByExpressions = queryInfo.orderByExpressions.map((expr) =>
+          this.replacePlaceholdersWorkaroud(expr, globalStats, componentQueryInfos.length),
+        );
       }
       return {
         ...queryInfo,
@@ -465,9 +502,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           globalStats,
           componentQueryInfos.length,
         ),
-        orderByExpressions: queryInfo.orderByExpressions.map((expr) =>
-          this.replacePlaceholdersWorkaroud(expr, globalStats, componentQueryInfos.length),
-        ),
+        orderByExpressions: rewrittenOrderByExpressions,
       };
     });
   }
@@ -531,4 +566,62 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
     return query;
   }
+
+  private computeRRFScore = (
+    ranks: number[],
+    k: number,
+    componentWeights: ComponentWeight[],
+  ): number => {
+    if (ranks.length !== componentWeights.length) {
+      throw new Error("Ranks and component weights length mismatch");
+    }
+    let rrfScore = 0;
+    for (let i = 0; i < ranks.length; i++) {
+      const rank = ranks[i];
+      const weight = componentWeights[i].weight;
+      rrfScore += weight * (1 / (k + rank));
+    }
+    return rrfScore;
+  };
+
+  private extractComponentWeights(): ComponentWeight[] {
+    const hybridSearchQueryInfo = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
+    const useDefaultComponentWeight =
+      !hybridSearchQueryInfo.componentWeights ||
+      hybridSearchQueryInfo.componentWeights.length === 0;
+
+    const result: {
+      weight: number;
+      comparator: (x: number, y: number) => number;
+    }[] = [];
+
+    for (let index = 0; index < hybridSearchQueryInfo.componentQueryInfos.length; ++index) {
+      const queryInfo = hybridSearchQueryInfo.componentQueryInfos[index];
+
+      if (queryInfo.orderBy && queryInfo.orderBy.length > 0) {
+        if (!queryInfo.hasNonStreamingOrderBy) {
+          throw new Error("The component query should have a non streaming order by");
+        }
+
+        if (!queryInfo.orderByExpressions || queryInfo.orderByExpressions.length !== 1) {
+          throw new Error("The component query should have exactly one order by expression");
+        }
+      }
+      const componentWeight = useDefaultComponentWeight
+        ? 1
+        : hybridSearchQueryInfo.componentWeights[index];
+      const hasOrderBy = queryInfo.orderBy && queryInfo.orderBy.length > 0;
+      const sortOrder = hasOrderBy && queryInfo.orderBy[0].includes("Ascending") ? 1 : -1;
+      result.push({
+        weight: componentWeight,
+        comparator: (x: number, y: number) => sortOrder * (x - y),
+      });
+    }
+    return result;
+  }
+}
+
+export interface ComponentWeight {
+  weight: number;
+  comparator: (x: number, y: number) => number;
 }

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/functions-authentication-events": ["./src/index.ts"],
+      "@azure/functions-authentication-events/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

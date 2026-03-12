@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as net from "node:net";
-import * as tls from "node:tls";
+import fs from "node:fs";
+import net from "node:net";
+import tls from "node:tls";
 
 import jwt from "jsonwebtoken";
 import ms from "ms";
 import { randomUUID } from "@azure/core-util";
+
+/**
+ * Check if the service principal tests should be skipped
+ */
+export function shouldRunSPTest(): boolean {
+  return process.env.SKIP_SP_LIVE_TESTS?.toLowerCase() === "true";
+}
 
 export async function createJWTTokenFromCertificate(
   authorityHost: string,

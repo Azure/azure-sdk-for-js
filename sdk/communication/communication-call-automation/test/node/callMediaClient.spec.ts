@@ -17,8 +17,8 @@ import type {
   TextSource,
   SsmlSource,
   RecognitionChoice,
-  MediaStreamingOptions,
   CallParticipant,
+  MediaStreamingOptions,
   TranscriptionOptions,
 } from "../../src/models/models.js";
 import { DtmfTone } from "../../src/models/models.js";
@@ -42,9 +42,7 @@ import type {
   StopMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
-  InterruptAudioAndAnnounceOptions,
 } from "../../src/index.js";
-import { CallAutomationEventProcessor } from "../../src/index.js";
 
 // Current directory imports
 import {
@@ -85,12 +83,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor(),
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -247,7 +240,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -352,7 +345,7 @@ describe("CallMedia Unit Tests", async function () {
     const options: HoldOptions = {
       playSource: playSource,
       operationContext: "withPlaySource",
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.hold(participantToHold, options);
     const request = spy.mock.calls[0][0];
@@ -635,6 +628,304 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
+  it("validates all properties are populated for CallMediaRecognizeDtmfOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeDtmfOptions = {
+      kind: "callMediaRecognizeDtmfOptions",
+      // DTMF specific properties
+      interToneTimeoutInSeconds: 3,
+      stopDtmfTones: [DtmfTone.Pound, DtmfTone.Asterisk],
+      maxTonesToCollect: 10,
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "dtmf");
+
+    // Validate DTMF options
+    assert.isDefined(data.recognizeOptions.dtmfOptions);
+    assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeChoiceOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const choices: RecognitionChoice[] = [
+      { label: "option1", phrases: ["yes", "confirm"] },
+      { label: "option2", phrases: ["no", "cancel"] },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeChoiceOptions = {
+      kind: "callMediaRecognizeChoiceOptions",
+      // Choice specific properties
+      choices: choices,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "choices");
+
+    // Validate choice options
+    assert.isDefined(data.recognizeOptions.choices);
+    assert.equal(data.recognizeOptions.choices.length, 2);
+    assert.equal(data.recognizeOptions.choices[0].label, "option1");
+    assert.deepEqual(data.recognizeOptions.choices[0].phrases, ["yes", "confirm"]);
+    assert.equal(data.recognizeOptions.choices[1].label, "option2");
+    assert.deepEqual(data.recognizeOptions.choices[1].phrases, ["no", "cancel"]);
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeSpeechOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOptions = {
+      kind: "callMediaRecognizeSpeechOptions",
+      // Speech specific properties
+      endSilenceTimeoutInSeconds: 5,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "speech");
+
+    // Validate Speech options
+    assert.isDefined(data.recognizeOptions.speechOptions);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 5000); // 5 seconds * 1000
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
+  it("validates all properties are populated for CallMediaRecognizeSpeechOrDtmfOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
+
+    const playPrompt: FileSource = { kind: "fileSource", url: MEDIA_URL_WAV };
+    const playPrompts: (FileSource | TextSource | SsmlSource)[] = [
+      { kind: "fileSource", url: MEDIA_URL_WAV },
+      { kind: "textSource", text: "test text" },
+    ];
+
+    const recognizeOptions: CallMediaRecognizeSpeechOrDtmfOptions = {
+      kind: "callMediaRecognizeSpeechOrDtmfOptions",
+      // SpeechOrDtmf specific properties
+      endSilenceTimeoutInSeconds: 5,
+      interToneTimeoutInSeconds: 3,
+      stopDtmfTones: [DtmfTone.Pound, DtmfTone.Asterisk],
+      maxTonesToCollect: 10,
+      speechLanguage: "en-US",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
+      // Base CallMediaRecognizeOptions properties
+      playPrompt: playPrompt,
+      playPrompts: playPrompts,
+      interruptCallMediaOperation: true,
+      operationContext: "testOperationContext",
+      interruptPrompt: true,
+      initialSilenceTimeoutInSeconds: 10,
+      operationCallbackUrl: "https://localhost/callback",
+    };
+
+    await callMedia.startRecognizing(targetParticipant, recognizeOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    // Validate request method
+    assert.equal(request.method, "POST");
+
+    // Validate recognizeInputType
+    assert.equal(data.recognizeInputType, "speechOrDtmf");
+
+    // Validate DTMF options
+    assert.isDefined(data.recognizeOptions.dtmfOptions);
+    assert.equal(data.recognizeOptions.dtmfOptions.interToneTimeoutInSeconds, 3);
+    assert.equal(data.recognizeOptions.dtmfOptions.maxTonesToCollect, 10);
+    assert.deepEqual(data.recognizeOptions.dtmfOptions.stopTones, [
+      DtmfTone.Pound,
+      DtmfTone.Asterisk,
+    ]);
+
+    // Validate Speech options
+    assert.isDefined(data.recognizeOptions.speechOptions);
+    assert.equal(data.recognizeOptions.speechOptions.endSilenceTimeoutInMs, 5000); // 5 seconds * 1000
+
+    // Validate speech language and model endpoint
+    assert.equal(data.recognizeOptions.speechLanguage, "en-US");
+    assert.equal(data.recognizeOptions.speechRecognitionModelEndpointId, "customModelEndpointId");
+
+    // Validate base recognize options
+    assert.equal(data.recognizeOptions.interruptPrompt, true);
+    assert.equal(data.recognizeOptions.initialSilenceTimeoutInSeconds, 10);
+    assert.isDefined(data.recognizeOptions.targetParticipant);
+
+    // Validate play prompt (single)
+    assert.isDefined(data.playPrompt);
+    assert.equal(data.playPrompt.kind, "file");
+    assert.equal(data.playPrompt.file.uri, MEDIA_URL_WAV);
+
+    // Validate play prompts (multiple)
+    assert.isDefined(data.playPrompts);
+    assert.equal(data.playPrompts.length, 2);
+    assert.equal(data.playPrompts[0].kind, "file");
+    assert.equal(data.playPrompts[1].kind, "text");
+
+    // Validate other request properties
+    assert.equal(data.interruptCallMediaOperation, true);
+    assert.equal(data.operationContext, "testOperationContext");
+    assert.equal(data.operationCallbackUri, "https://localhost/callback");
+  });
+
   it("makes successful PlayToAll barge in request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
@@ -661,7 +952,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playOptions.interruptCallMediaOperation, options.interruptCallMediaOperation);
+    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
   });
 
   it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
@@ -689,35 +980,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playOptions.interruptCallMediaOperation, undefined);
-  });
-
-  it("makes successful interrupt audio and announce test", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    const playSource: FileSource[] = [
-      {
-        url: MEDIA_URL_WAV,
-        kind: "fileSource",
-      },
-    ];
-
-    const options: InterruptAudioAndAnnounceOptions = {
-      operationContext: "interruptAudioAndAnnounceContext",
-    };
-    const playTo: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    await callMedia.interruptAudioAndAnnounce(playSource, playTo, options);
-    const request = spy.mock.calls[0][0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
-    assert.equal(request.method, "POST");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playTo.rawId, CALL_TARGET_ID);
+    assert.equal(data.interruptCallMediaOperation, undefined);
   });
 });
 
@@ -2288,168 +2551,4 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callDisconnectedEvent);
     }
   });
-
-  it.skip(
-    "Interrupt audio and announce to hold participant in a call",
-    { timeout: 60000 },
-    async function (ctx) {
-      const fullTitle: string | undefined =
-        ctx.task.suite && ctx.task.suite.name && ctx.task.name
-          ? `${ctx.task.suite.name} ${ctx.task.name}`
-          : undefined;
-      testName = fullTitle
-        ? fullTitle.replace(/ /g, "_")
-        : "interrupt_audio_annouce_hold_participant_in_a_call";
-      await loadPersistedEvents(testName);
-
-      const callInvite: CallInvite = { targetParticipant: testUser2 };
-      const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-      const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-      const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-      const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-      const callConnectionId: string = result.callConnectionProperties.callConnectionId
-        ? result.callConnectionProperties.callConnectionId
-        : "";
-      assert.isDefined(incomingCallContext);
-      if (incomingCallContext) {
-        await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
-      }
-      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-      assert.isDefined(callConnectedEvent);
-      callConnection = result.callConnection;
-
-      await callConnection.getCallMedia().hold(testUser2);
-
-      const holdAudioStartedEvent = await waitForEvent("HoldAudioStarted", callConnectionId, 8000);
-      assert.isDefined(holdAudioStartedEvent);
-
-      const participantHold: CallParticipant = await callConnection.getParticipant(testUser2);
-      assert.isDefined(participantHold);
-      assert.isTrue(participantHold.isOnHold);
-
-      const playSource: FileSource[] = [
-        {
-          url: fileSourceUrl,
-          kind: "fileSource",
-        },
-      ];
-
-      await callConnection.getCallMedia().interruptAudioAndAnnounce(playSource, testUser2);
-
-      const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
-      assert.isDefined(holdAudioPausedEvent);
-
-      const playStartedEvent = await waitForEvent("PlayStarted", callConnectionId, 8000);
-      assert.isDefined(playStartedEvent);
-
-      const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 8000);
-      assert.isDefined(playCompletedEvent);
-
-      const holdAudioResumedEvent = await waitForEvent("HoldAudioResumed", callConnectionId, 8000);
-      assert.isDefined(holdAudioResumedEvent);
-
-      await callConnection.getCallMedia().unhold(testUser2);
-
-      const holdAudioCompletedEvent = await waitForEvent(
-        "HoldAudioCompleted",
-        callConnectionId,
-        8000,
-      );
-      assert.isDefined(holdAudioCompletedEvent);
-
-      const participantUnhold = await callConnection.getParticipant(testUser2);
-      assert.isDefined(participantUnhold);
-      assert.isFalse(participantUnhold.isOnHold);
-
-      await callConnection.hangUp(true);
-      const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-      assert.isDefined(callDisconnectedEvent);
-    },
-  );
-
-  it(
-    "Play audio to target participant when participant on hold",
-    { timeout: 60000 },
-    async function (ctx) {
-      const fullTitle: string | undefined =
-        ctx.task.suite && ctx.task.suite.name && ctx.task.name
-          ? `${ctx.task.suite.name} ${ctx.task.name}`
-          : undefined;
-      testName = fullTitle ? fullTitle.replace(/ /g, "_") : "create_call_and_hang_up";
-      await loadPersistedEvents(testName);
-
-      const callInvite: CallInvite = { targetParticipant: testUser2 };
-      const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-      const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-      const createCallOption: CreateCallOptions = { operationContext: "playAudioCreateCall" };
-
-      const result = await callerCallAutomationClient.createCall(
-        callInvite,
-        callBackUrl,
-        createCallOption,
-      );
-      const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-      const callConnectionId: string = result.callConnectionProperties.callConnectionId
-        ? result.callConnectionProperties.callConnectionId
-        : "";
-      assert.isDefined(incomingCallContext);
-
-      if (incomingCallContext) {
-        const answerCallOption: AnswerCallOptions = { operationContext: "playAudioAnswer" };
-        await receiverCallAutomationClient.answerCall(
-          incomingCallContext,
-          callBackUrl,
-          answerCallOption,
-        );
-      }
-      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-      assert.isDefined(callConnectedEvent);
-      callConnection = result.callConnection;
-
-      const holdPlaySource: FileSource = {
-        url: fileSourceUrl,
-        kind: "fileSource",
-      };
-
-      const holdOptions: HoldOptions = {
-        playSource: holdPlaySource,
-        operationContext: "holdContext",
-      };
-
-      await callConnection.getCallMedia().hold(testUser2, holdOptions);
-      const holdAudioStartedEvent = await waitForEvent("HoldAudioStarted", callConnectionId, 8000);
-      assert.isDefined(holdAudioStartedEvent);
-
-      const playSource: FileSource[] = [
-        {
-          url: fileSourceUrl,
-          kind: "fileSource",
-        },
-      ];
-
-      const playOption: PlayOptions = { operationContext: "playAudio", interruptHoldAudio: true };
-      await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
-      const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
-      assert.isDefined(holdAudioPausedEvent);
-      const playStartedEvent = await waitForEvent("PlayStarted", callConnectionId, 20000);
-      assert.isDefined(playStartedEvent);
-      const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
-      assert.isDefined(playCompletedEvent);
-      const holdAudioResumedEvent = await waitForEvent("HoldAudioResumed", callConnectionId, 8000);
-      assert.isDefined(holdAudioResumedEvent);
-
-      await callConnection.getCallMedia().unhold(testUser2);
-      const holdAudioCompletedEvent = await waitForEvent(
-        "HoldAudioCompleted",
-        callConnectionId,
-        10000,
-      );
-      assert.isDefined(holdAudioCompletedEvent);
-
-      await callConnection.hangUp(true);
-      const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-      assert.isDefined(callDisconnectedEvent);
-    },
-  );
 });

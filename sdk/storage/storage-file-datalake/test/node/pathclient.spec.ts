@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { join } from "node:path";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import type {
   AccessControlChangeCounters,
   AccessControlChanges,
@@ -1251,11 +1251,11 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       {
         batchSize: 2,
         onProgress: (progress) => {
-          assert.ok(
+          assert.isAtMost(
             progress.batchCounters.changedDirectoriesCount +
               progress.batchCounters.changedFilesCount +
-              progress.batchCounters.failedChangesCount <=
-              2,
+              progress.batchCounters.failedChangesCount,
+            2,
           );
           cumulativeCounters.changedDirectoriesCount +=
             progress.batchCounters.changedDirectoriesCount;

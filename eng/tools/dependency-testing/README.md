@@ -13,17 +13,17 @@ In order to run the minimum and maximum semver dependency testing **locally on y
 
 ### Setup your local dev environment to simulate min/max testing
 
-1. Go to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run rush update and build package along with all its dependencies.
+1. Go to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run pnpm install and build package along with all its dependencies.
 
 ```
-   rush update
-   rush build -t "package-name" --verbose
+   pnpm install
+   pnpm build --filter <package-name>... --verbose
 ```
 
 For example:
 
 ```
-   rush build -t "@azure/communication-sms" --verbose
+   pnpm build --filter @azure/communication-sms... --verbose
 ```
 
 2. Install the dependency-testing package dependencies:
@@ -48,13 +48,13 @@ node index.js --artifact-name "@azure/communication-sms" --version-type "min" --
 
 (Note: You may not need to do `npm install` every time you are testing, only once should be enough).
 
-4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `rush update`
+4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `pnpm install`
 5. Go to your package's `test\public` folder and run these steps from inside it:
 
 ```
 cd sdk/communication/communication-sms/test/public
-rushx build
-rushx integration-test:node
+pnpm build
+pnpm test:node
 ```
 
 ### Restore your local dev environment
@@ -63,11 +63,11 @@ rushx integration-test:node
 2. Revert the modified test files: run `git checkout -- .`
 3. Delete the uncommitted files added to the test folder: (package.json, tsconfig.json etc.)
 4. Delete the `node_modules` folder under the package's `test\public` folder
-5. Run the fowing steps from the root of the repo (e.g. `C:\repos\azure-sdk-for-js`)
+5. Run the following steps from the root of the repo (e.g. `C:\repos\azure-sdk-for-js`)
 
 ```
-rush update
-rush rebuild
+pnpm install
+pnpm rebuild
 ```
 
 Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files and push any commits you wanted to etc)
@@ -75,16 +75,21 @@ Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Wa
 ### Troubleshooting guide for min-max test failures
 
 #### This is not a module
+
 When you see an error message as shown below, it implies that there has been an internal source reference in a file inside the test/public folder that has been replaced by an empty file to avoid multiple versions of a dependency being pulled in.
 
 ```
 communicationIdentityClient.mocked.spec.ts(8,68): error TS2306: File '/mnt/vss/_work/1/s/sdk/communication/communication-identity/test/public/utils/mockHttpClients.ts' is not a module.
 utils/testCommunicationIdentityClient.ts(17,8): error TS2306: File '/mnt/vss/_work/1/s/sdk/communication/communication-identity/test/public/utils/mockHttpClients.ts' is not a module.
 ```
+
 To fix the error, first locate where in the above file are you using the internal source reference. For example, from the above error, you notice that `/mnt/vss/_work/1/s/sdk/communication/communication-identity/test/public/utils/mockHttpClients.ts` probably has an internal source reference, which is why it's not accessible anymore since it's replaced by an empty file by the dependency-testing tool. This is the internal source reference detected in the `test/public/utils/mockHttpClients.ts` file.
+
 ```
 import { CommunicationIdentityAccessTokenResult } from "../../../src/generated/src/models";
 ```
+
 After locating the internal source reference, you have one of the following options:
+
 - Either expose the above interface/ constant through the public API in the src/index.ts file of the Azure-SDK and change the import to accessing it from the src in this format - `../../../src` so that it becomes a public reference
 - Or move the tests and references to test/internal folder if there's something you are accessing that cannot be exposed publicly.

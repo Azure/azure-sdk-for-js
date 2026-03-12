@@ -34,7 +34,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -91,7 +91,7 @@ const examplePackageGood = `{
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
@@ -123,8 +123,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/node": "^20.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
@@ -157,7 +156,6 @@ const examplePackageGood = `{
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.8.2",
     "ws": "^7.1.1",
@@ -185,7 +183,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -242,7 +240,7 @@ const examplePackageBad = `{
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
@@ -274,8 +272,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/node": "^20.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
@@ -308,7 +305,6 @@ const examplePackageBad = `{
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.8.2",
     "ws": "^7.1.1",

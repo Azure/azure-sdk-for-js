@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/communication-messages": ["./src/index.ts"],
+      "@azure-rest/communication-messages/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

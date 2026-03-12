@@ -1,4 +1,435 @@
 # Release History
+
+## 36.0.0 (2026-02-11)
+
+### Features Added
+  - Added operation group ServiceGateways
+  - Added operation group VirtualNetworkAppliances
+  - Added Interface GetServiceGatewayAddressLocationsResult
+  - Added Interface GetServiceGatewayServicesResult
+  - Added Interface RouteTargetAddressPropertiesFormat
+  - Added Interface ServiceGateway
+  - Added Interface ServiceGatewayAddress
+  - Added Interface ServiceGatewayAddressLocation
+  - Added Interface ServiceGatewayAddressLocationResponse
+  - Added Interface ServiceGatewayListResult
+  - Added Interface ServiceGatewaysCreateOrUpdateOptionalParams
+  - Added Interface ServiceGatewaysDeleteHeaders
+  - Added Interface ServiceGatewaysDeleteOptionalParams
+  - Added Interface ServiceGatewayService
+  - Added Interface ServiceGatewayServiceRequest
+  - Added Interface ServiceGatewaysGetAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysGetOptionalParams
+  - Added Interface ServiceGatewaysGetServicesOptionalParams
+  - Added Interface ServiceGatewaySku
+  - Added Interface ServiceGatewaysListAllOptionalParams
+  - Added Interface ServiceGatewaysListOptionalParams
+  - Added Interface ServiceGatewaysUpdateAddressLocationsHeaders
+  - Added Interface ServiceGatewaysUpdateAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysUpdateServicesHeaders
+  - Added Interface ServiceGatewaysUpdateServicesOptionalParams
+  - Added Interface ServiceGatewaysUpdateTagsOptionalParams
+  - Added Interface ServiceGatewayUpdateAddressLocationsRequest
+  - Added Interface ServiceGatewayUpdateServicesRequest
+  - Added Interface VirtualNetworkAppliance
+  - Added Interface VirtualNetworkApplianceIpConfiguration
+  - Added Interface VirtualNetworkApplianceListResult
+  - Added Interface VirtualNetworkAppliancesCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkAppliancesDeleteHeaders
+  - Added Interface VirtualNetworkAppliancesDeleteOptionalParams
+  - Added Interface VirtualNetworkAppliancesGetOptionalParams
+  - Added Interface VirtualNetworkAppliancesListAllOptionalParams
+  - Added Interface VirtualNetworkAppliancesListOptionalParams
+  - Added Interface VirtualNetworkAppliancesUpdateTagsOptionalParams
+  - Interface NatGateway has a new optional parameter serviceGateway
+  - Interface PolicySettings has a new optional parameter captchaCookieExpirationInMins
+  - Interface Subnet has a new optional parameter serviceGateway
+  - Added Type Alias AddressUpdateAction
+  - Added Type Alias ServiceGatewaysCreateOrUpdateResponse
+  - Added Type Alias ServiceGatewaysDeleteResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsNextResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysGetResponse
+  - Added Type Alias ServiceGatewaysGetServicesNextResponse
+  - Added Type Alias ServiceGatewaysGetServicesResponse
+  - Added Type Alias ServiceGatewaySkuName
+  - Added Type Alias ServiceGatewaySkuTier
+  - Added Type Alias ServiceGatewaysListAllNextResponse
+  - Added Type Alias ServiceGatewaysListAllResponse
+  - Added Type Alias ServiceGatewaysListNextResponse
+  - Added Type Alias ServiceGatewaysListResponse
+  - Added Type Alias ServiceGatewaysUpdateAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysUpdateServicesResponse
+  - Added Type Alias ServiceGatewaysUpdateTagsResponse
+  - Added Type Alias ServiceType
+  - Added Type Alias ServiceUpdateAction
+  - Added Type Alias UpdateAction
+  - Added Type Alias VirtualNetworkAppliancesCreateOrUpdateResponse
+  - Added Type Alias VirtualNetworkAppliancesDeleteResponse
+  - Added Type Alias VirtualNetworkAppliancesGetResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllResponse
+  - Added Type Alias VirtualNetworkAppliancesListNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListResponse
+  - Added Type Alias VirtualNetworkAppliancesUpdateTagsResponse
+  - Added Enum KnownAddressUpdateAction
+  - Added Enum KnownServiceGatewaySkuName
+  - Added Enum KnownServiceGatewaySkuTier
+  - Added Enum KnownServiceType
+  - Added Enum KnownServiceUpdateAction
+  - Added Enum KnownUpdateAction
+  - Enum KnownActionType has a new value Captcha
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Core
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Emerging
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Off
+  - Enum KnownWebApplicationFirewallAction has a new value Captcha
+
+### Breaking Changes
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Advanced
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Basic
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Standard
+
+## 35.0.0 (2025-11-19)
+
+### Features Added
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIp
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIpAndWait
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddress
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddressAndWait
+  - Added Interface ApplicationGatewayEntraJWTValidationConfig
+  - Added Interface DdosDetectionRule
+  - Added Interface DisassociateCloudServicePublicIpRequest
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams
+  - Added Interface ReserveCloudServicePublicIpAddressRequest
+  - Added Interface TrafficDetectionRule
+  - Interface ApplicationGateway has a new optional parameter entraJWTValidationConfigs
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientAuthMode
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter entraJWTValidationConfig
+  - Interface DdosCustomPolicy has a new optional parameter detectionRules
+  - Interface DdosCustomPolicy has a new optional parameter frontEndIpConfiguration
+  - Interface FlowLog has a new optional parameter recordTypes
+  - Interface FlowLogInformation has a new optional parameter recordTypes
+  - Interface PrivateEndpoint has a new optional parameter ipVersionType
+  - Added Type Alias ApplicationGatewayClientAuthVerificationModes
+  - Added Type Alias ApplicationGatewayUnAuthorizedRequestAction
+  - Added Type Alias DdosDetectionMode
+  - Added Type Alias DdosTrafficType
+  - Added Type Alias IsRollback
+  - Added Type Alias PrivateEndpointIPVersionType
+  - Added Type Alias PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+  - Added Type Alias PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+  - Added Enum KnownApplicationGatewayClientAuthVerificationModes
+  - Added Enum KnownApplicationGatewayUnAuthorizedRequestAction
+  - Added Enum KnownDdosDetectionMode
+  - Added Enum KnownDdosTrafficType
+  - Added Enum KnownIsRollback
+  - Added Enum KnownPrivateEndpointIPVersionType
+
+### Breaking Changes
+  - Enum KnownApplicationGatewayWafRuleSensitivityTypes no longer has value None
+  - Enum KnownSensitivityType no longer has value None
+
+## 34.2.0 (2025-11-12)
+
+### Features Added
+  - Added Interface CertificateAuthentication
+  - Interface ApplicationGatewayBackendSettings has a new optional parameter enableL4ClientIpPreservation
+  - Interface ApplicationGatewayOnDemandProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface ApplicationGatewayProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface LoadBalancer has a new optional parameter scope
+  - Interface NetworkManagerRoutingConfiguration has a new optional parameter routeTableUsageMode
+  - Interface PrivateLinkService has a new optional parameter accessMode
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter authenticationType
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter certificateAuthentication
+  - Added Type Alias AccessMode
+  - Added Type Alias ConnectionAuthenticationType
+  - Added Type Alias LoadBalancerScope
+  - Added Type Alias RouteTableUsageMode
+  - Added Enum KnownAccessMode
+  - Added Enum KnownConnectionAuthenticationType
+  - Added Enum KnownLoadBalancerScope
+  - Added Enum KnownRouteTableUsageMode
+
+## 34.1.0 (2025-10-16)
+
+### Features Added
+  - Added operation group NetworkSecurityPerimeterServiceTags
+  - Added operation AzureFirewalls.beginPacketCaptureOperation
+  - Added operation AzureFirewalls.beginPacketCaptureOperationAndWait
+  - Added operation VirtualNetworkGateways.listRadiusSecrets
+  - Added operation VpnServerConfigurations.listRadiusSecrets
+  - Added Interface AzureFirewallPacketCaptureResponse
+  - Added Interface AzureFirewallsPacketCaptureOperationHeaders
+  - Added Interface AzureFirewallsPacketCaptureOperationOptionalParams
+  - Added Interface NetworkSecurityPerimeterServiceTagsListOptionalParams
+  - Added Interface NspServiceTagsListResult
+  - Added Interface NspServiceTagsResource
+  - Added Interface NvaInterfaceConfigurationsProperties
+  - Added Interface NvaInVnetSubnetReferenceProperties
+  - Added Interface RadiusAuthServer
+  - Added Interface RadiusAuthServerListResult
+  - Added Interface VirtualNetworkGatewaysListRadiusSecretsOptionalParams
+  - Added Interface VpnServerConfigurationsListRadiusSecretsOptionalParams
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter dedicatedBackendConnection
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter sniName
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateCertChainAndExpiry
+  - Interface ApplicationGatewayBackendHttpSettings has a new optional parameter validateSNI
+  - Interface AzureFirewall has a new optional parameter extendedLocation
+  - Interface FirewallPacketCaptureParameters has a new optional parameter operation
+  - Interface NetworkVirtualAppliance has a new optional parameter nvaInterfaceConfigurations
+  - Interface NetworkVirtualAppliance has a new optional parameter privateIpAddress
+  - Added Type Alias AzureFirewallPacketCaptureOperationType
+  - Added Type Alias AzureFirewallPacketCaptureResponseCode
+  - Added Type Alias AzureFirewallsPacketCaptureOperationResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterServiceTagsListResponse
+  - Added Type Alias NvaNicType
+  - Added Type Alias VirtualNetworkGatewaysListRadiusSecretsResponse
+  - Added Type Alias VpnServerConfigurationsListRadiusSecretsResponse
+  - Added Enum KnownAzureFirewallPacketCaptureOperationType
+  - Added Enum KnownAzureFirewallPacketCaptureResponseCode
+  - Added Enum KnownNvaNicType
+  - Enum KnownTransportProtocol has a new value Quic
+
+    
+## 34.0.0 (2025-05-22)
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterAccessRules
+  - Added operation group NetworkSecurityPerimeterAssociableResourceTypes
+  - Added operation group NetworkSecurityPerimeterAssociations
+  - Added operation group NetworkSecurityPerimeterLinkReferences
+  - Added operation group NetworkSecurityPerimeterLinks
+  - Added operation group NetworkSecurityPerimeterLoggingConfigurations
+  - Added operation group NetworkSecurityPerimeterOperationStatuses
+  - Added operation group NetworkSecurityPerimeterProfiles
+  - Added operation group NetworkSecurityPerimeters
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogsAndWait
+  - Added operation NetworkVirtualAppliances.beginReimage
+  - Added operation NetworkVirtualAppliances.beginReimageAndWait
+  - Added operation VirtualNetworkGateways.beginGetResiliencyInformation
+  - Added operation VirtualNetworkGateways.beginGetResiliencyInformationAndWait
+  - Added operation VirtualNetworkGateways.beginGetRoutesInformation
+  - Added operation VirtualNetworkGateways.beginGetRoutesInformationAndWait
+  - Added operation VirtualNetworkGateways.beginInvokeAbortMigration
+  - Added operation VirtualNetworkGateways.beginInvokeAbortMigrationAndWait
+  - Added operation VirtualNetworkGateways.beginInvokeCommitMigration
+  - Added operation VirtualNetworkGateways.beginInvokeCommitMigrationAndWait
+  - Added operation VirtualNetworkGateways.beginInvokeExecuteMigration
+  - Added operation VirtualNetworkGateways.beginInvokeExecuteMigrationAndWait
+  - Added operation VirtualNetworkGateways.beginInvokePrepareMigration
+  - Added operation VirtualNetworkGateways.beginInvokePrepareMigrationAndWait
+  - Added Interface AdvertisedPublicPrefixProperties
+  - Added Interface CircuitMetadataMap
+  - Added Interface ConnectivityConfigurationPropertiesConnectivityCapabilities
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface GatewayResiliencyInformation
+  - Added Interface GatewayResiliencyRecommendation
+  - Added Interface GatewayRouteSet
+  - Added Interface GatewayRouteSetsInformation
+  - Added Interface ManagedRuleSetRuleGroup
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterAccessRulesCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociableResourceTypesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsCreateOrUpdateHeaders
+  - Added Interface NetworkSecurityPerimeterAssociationsCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterAssociationsDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterLinksDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksListOptionalParams
+  - Added Interface NetworkSecurityPerimeterListResult
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterOperationStatusesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesListOptionalParams
+  - Added Interface NetworkSecurityPerimetersCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimetersDeleteHeaders
+  - Added Interface NetworkSecurityPerimetersDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimetersGetOptionalParams
+  - Added Interface NetworkSecurityPerimetersListBySubscriptionNextOptionalParams
+  - Added Interface NetworkSecurityPerimetersListBySubscriptionOptionalParams
+  - Added Interface NetworkSecurityPerimetersListNextOptionalParams
+  - Added Interface NetworkSecurityPerimetersListOptionalParams
+  - Added Interface NetworkSecurityPerimetersPatchOptionalParams
+  - Added Interface NetworkVirtualApplianceBootDiagnosticParameters
+  - Added Interface NetworkVirtualApplianceInstanceId
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  - Added Interface NetworkVirtualAppliancesReimageHeaders
+  - Added Interface NetworkVirtualAppliancesReimageOptionalParams
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleListResult
+  - Added Interface NspAssociation
+  - Added Interface NspAssociationsListResult
+  - Added Interface NspLink
+  - Added Interface NspLinkListResult
+  - Added Interface NspLinkReference
+  - Added Interface NspLinkReferenceListResult
+  - Added Interface NspLoggingConfiguration
+  - Added Interface NspLoggingConfigurationListResult
+  - Added Interface NspProfile
+  - Added Interface NspProfileListResult
+  - Added Interface OperationStatusResult
+  - Added Interface PerimeterAssociableResource
+  - Added Interface PerimeterAssociableResourcesListResult
+  - Added Interface PerimeterBasedAccessRule
+  - Added Interface ProxyResource
+  - Added Interface ResiliencyRecommendationComponents
+  - Added Interface RouteSourceDetails
+  - Added Interface SecurityPerimeterProxyResource
+  - Added Interface SecurityPerimeterResource
+  - Added Interface SecurityPerimeterSystemData
+  - Added Interface SubscriptionId
+  - Added Interface TrackedResource
+  - Added Interface UpdateTagsRequest
+  - Added Interface VirtualNetworkGatewayConnectionTunnelProperties
+  - Added Interface VirtualNetworkGatewayMigrationParameters
+  - Added Interface VirtualNetworkGatewayMigrationStatus
+  - Added Interface VirtualNetworkGatewaysGetResiliencyInformationHeaders
+  - Added Interface VirtualNetworkGatewaysGetResiliencyInformationOptionalParams
+  - Added Interface VirtualNetworkGatewaysGetRoutesInformationHeaders
+  - Added Interface VirtualNetworkGatewaysGetRoutesInformationOptionalParams
+  - Added Interface VirtualNetworkGatewaysInvokeAbortMigrationHeaders
+  - Added Interface VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams
+  - Added Interface VirtualNetworkGatewaysInvokeCommitMigrationHeaders
+  - Added Interface VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams
+  - Added Interface VirtualNetworkGatewaysInvokeExecuteMigrationHeaders
+  - Added Interface VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams
+  - Added Interface VirtualNetworkGatewaysInvokePrepareMigrationHeaders
+  - Added Interface VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias AdvertisedPublicPrefixPropertiesValidationState
+  - Added Type Alias AssociationAccessMode
+  - Added Type Alias ConnectedGroupAddressOverlap
+  - Added Type Alias ConnectedGroupPrivateEndpointsScale
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesListResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesReconcileResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociableResourceTypesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociableResourceTypesListResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsReconcileResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesListResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksListResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterOperationStatusesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesListResponse
+  - Added Type Alias NetworkSecurityPerimetersCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimetersGetResponse
+  - Added Type Alias NetworkSecurityPerimetersListBySubscriptionNextResponse
+  - Added Type Alias NetworkSecurityPerimetersListBySubscriptionResponse
+  - Added Type Alias NetworkSecurityPerimetersListNextResponse
+  - Added Type Alias NetworkSecurityPerimetersListResponse
+  - Added Type Alias NetworkSecurityPerimetersPatchResponse
+  - Added Type Alias NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+  - Added Type Alias NetworkVirtualAppliancesReimageResponse
+  - Added Type Alias NspLinkProvisioningState
+  - Added Type Alias NspLinkStatus
+  - Added Type Alias NspProvisioningState
+  - Added Type Alias PeeringEnforcement
+  - Added Type Alias VirtualNetworkGatewayMigrationPhase
+  - Added Type Alias VirtualNetworkGatewayMigrationState
+  - Added Type Alias VirtualNetworkGatewayMigrationType
+  - Added Type Alias VirtualNetworkGatewaysGetResiliencyInformationResponse
+  - Added Type Alias VirtualNetworkGatewaysGetRoutesInformationResponse
+  - Added Type Alias VirtualNetworkGatewaysInvokeAbortMigrationResponse
+  - Added Type Alias VirtualNetworkGatewaysInvokeCommitMigrationResponse
+  - Added Type Alias VirtualNetworkGatewaysInvokeExecuteMigrationResponse
+  - Added Type Alias VirtualNetworkGatewaysInvokePrepareMigrationResponse
+  - Interface ConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface ExpressRouteCircuitPeeringConfig has a new optional parameter advertisedPublicPrefixInfo
+  - Interface IpamPool has a new optional parameter etag
+  - Interface IpamPoolsCreateOptionalParams has a new optional parameter ifMatch
+  - Interface IpamPoolsDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface IpamPoolsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface LoadBalancingRule has a new optional parameter enableConnectionTracking
+  - Interface ManagedRuleSet has a new optional parameter computedDisabledRules
+  - Interface NatGateway has a new optional parameter publicIpAddressesV6
+  - Interface NatGateway has a new optional parameter publicIpPrefixesV6
+  - Interface NatGateway has a new optional parameter sourceVirtualNetwork
+  - Interface VerifierWorkspace has a new optional parameter etag
+  - Interface VerifierWorkspacesCreateOptionalParams has a new optional parameter ifMatch
+  - Interface VerifierWorkspacesDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface VerifierWorkspacesUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualNetwork has a new optional parameter defaultPublicNatGateway
+  - Interface VirtualNetworkGateway has a new optional parameter enableHighBandwidthVpnGateway
+  - Interface VirtualNetworkGateway has a new optional parameter virtualNetworkGatewayMigrationStatus
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter tunnelProperties
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownAdvertisedPublicPrefixPropertiesValidationState
+  - Added Enum KnownAssociationAccessMode
+  - Added Enum KnownConnectedGroupAddressOverlap
+  - Added Enum KnownConnectedGroupPrivateEndpointsScale
+  - Added Enum KnownNspLinkProvisioningState
+  - Added Enum KnownNspLinkStatus
+  - Added Enum KnownNspProvisioningState
+  - Added Enum KnownPeeringEnforcement
+  - Added Enum KnownVirtualNetworkGatewayMigrationPhase
+  - Added Enum KnownVirtualNetworkGatewayMigrationState
+  - Added Enum KnownVirtualNetworkGatewayMigrationType
+  - Enum KnownApplicationGatewayFirewallUserSessionVariable has a new value ClientAddrXFFHeader
+  - Enum KnownApplicationGatewayFirewallUserSessionVariable has a new value GeoLocationXFFHeader
+  - Enum KnownNatGatewaySkuName has a new value StandardV2
+  - Enum KnownPublicIPAddressSkuName has a new value StandardV2
+  - Enum KnownPublicIPPrefixSkuName has a new value StandardV2
+
+### Breaking Changes
+
+  - Removed operation ConnectionMonitors.beginQuery
+  - Removed operation ConnectionMonitors.beginQueryAndWait
+  - Removed operation ConnectionMonitors.beginStart
+  - Removed operation ConnectionMonitors.beginStartAndWait
+  - Type of parameter networkInterfaceIPConfigurationId of interface LoadBalancerHealthPerRulePerBackendAddress is changed from NetworkInterfaceIPConfiguration to string
+    
     
 ## 33.5.0 (2024-12-10)
     

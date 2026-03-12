@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -19,7 +19,7 @@ import {
   generateAccountSASQueryParameters,
   SASProtocol,
 } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { newPipeline } from "../../src/Pipeline.js";
 import { ShareServiceClient } from "../../src/ShareServiceClient.js";
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
@@ -290,4 +290,14 @@ export async function compareBodyWithUint8Array(
 ): Promise<boolean> {
   const buf = await streamToBuffer(response.readableStreamBody!);
   return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
+}
+
+export function parseJwt(token: string): any {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }

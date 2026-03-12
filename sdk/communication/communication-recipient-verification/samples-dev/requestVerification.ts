@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
   };
 
   // get the verification status
-  var status = await client.requestVerification(verificationRequest);
+  const status = await client.requestVerification(verificationRequest);
 
   // print the status of the phone number
   console.log(status);

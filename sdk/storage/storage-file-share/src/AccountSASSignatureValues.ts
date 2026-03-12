@@ -4,7 +4,7 @@
 import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes.js";
 import { AccountSASServices } from "./AccountSASServices.js";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
@@ -21,10 +21,10 @@ import { truncatedISO8061Date } from "./utils/utils.common.js";
  * the former is mutable and a logical representation while the latter is immutable and used to generate actual REST
  * requests.
  *
- * @see https://learn.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
+ * @see https://learn.microsoft.com/azure/storage/common/storage-dotnet-shared-access-signature-part-1
  * for more conceptual information on SAS
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
  * for descriptions of the parameters, including which are required
  */
 export interface AccountSASSignatureValues {
@@ -78,7 +78,7 @@ export interface AccountSASSignatureValues {
  * Generates a {@link SASQueryParameters} object which contains all SAS query parameters needed to make an actual
  * REST request.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
  *
  * @param sharedKeyCredential -
  */

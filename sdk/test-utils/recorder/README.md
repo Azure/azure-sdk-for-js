@@ -67,16 +67,18 @@ From this point forward, we'll assume that you're developing (perhaps contributi
   // ... your package.json properties
   "devDependencies": {
     // ... your devDependencies
-    "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
-    "@azure-tools/test-recorder": "^4.1.0"
+    "@azure-tools/test-credential": "workspace:^", // If you are using `@azure/identity` in your tests
+    "@azure-tools/test-recorder": "workspace:^"
     // ... more of your devDependencies
   }
   // ... more of your package.json properties
 }
 ```
-Do `rush update` and `rush build -t .` to install and build the latest dependencies.
+Do `pnpm install` and `pnpm build --filter @azure-tools/test-recorder...` to install and build the latest dependencies.
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
+
+<!-- dev-tool snippets ignore -->
 
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
@@ -140,7 +142,7 @@ For further understanding, please read the [ASSET_SYNC_WORKFLOW.md](https://gith
 
 Inside a vitest test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
-```js
+```ts
 let recorder: Recorder;
 
 beforeEach(async function (context) {
@@ -150,13 +152,13 @@ beforeEach(async function (context) {
 
 The client being tested needs to add the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
 
-```js
+```ts
 const client = new MyServiceClient(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
 Recording starts with the `recorder.start()` method.
 
-```js
+```ts
 await recorder.start(/** recorderOptions go here **/);
 ```
 
@@ -166,7 +168,7 @@ Any requests that are made using the above `client (MyServiceClient)` will be re
 
 Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
 
-```js
+```ts
 await recorder.stop();
 ```
 
@@ -251,7 +253,7 @@ To record your tests,
 
 In the following example, we'll use the recorder with the client from `@azure/data-tables`:
 
-_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/configurationClient.spec.ts) from the template project if you want to check out._
+_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/sampleTest.spec.ts) from the template project if you want to check out._
 
 ```typescript
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
@@ -339,7 +341,7 @@ We try our best to make sure the sensitive information is not leaked anywhere wi
 
 `envSetupForPlayback` expects key-value pairs, with keys signifying the names of the environment variables, and the values would be the fake ones that you'd like to map/swap the originals with.
 
-```js
+```ts
   envSetupForPlayback: {
     TABLES_URL: "https://fakeaccount.table.core.windows.net",
   }
@@ -412,6 +414,20 @@ Since new resources are likely to get accumulated because some tests would crash
 
 ## Troubleshooting
 
+### 🤖 The test recording agent
+
+We have developed a GitHub Copilot agent which will help you debug recorded test issues. It is based on a custom prompt that provides special information about recordings, and can
+
+- Help you with your sanitizer configuration
+- Help determine whether you have asset sync set up properly
+- Check your recordings for secrets
+
+To get started, say `/test-recording <...query>` to Copilot Chat in Agent mode. Claude Sonnet 4 is the recommended model. For example:
+
+```
+/test-recording my tests are failing in playback mode, but passing in recording mode. Please help fix them!
+```
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
@@ -461,6 +477,9 @@ For detailed troubleshooting steps related to Asset Sync workflow, refer to the 
 
 - **How do I inspect my recordings?**  
   Inspect recordings in the `.assets` directory at the root of the repository. See [Inspecting Recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#inspecting-recordings-with-asset-sync-enabled).
+
+- **Test succeeds in record mode, but why are the recordings not saved?**  
+  Make sure you're stopping the recorder with `await recorder.stop()` at the end of your test.
 
 ### Next steps
 

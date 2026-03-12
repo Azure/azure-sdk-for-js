@@ -9,9 +9,9 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import type { SearchClient } from "@azure/search-documents";
 import { odata, SearchIndexClient } from "@azure/search-documents";
+import "dotenv/config";
 import type { Hotel } from "./interfaces.js";
 import { createIndex, delay, WAIT_TIME } from "./setup.js";
-import "dotenv/config";
 
 /**
  * If you're querying a replicated index, Azure AI Search may target any replica with your queries.
@@ -22,7 +22,7 @@ import "dotenv/config";
  * so.
  *
  * Please see the
- * {@link https://learn.microsoft.com/en-us/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
+ * {@link https://learn.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
  * for more information.
  */
 const endpoint = process.env.ENDPOINT || "";
@@ -73,4 +73,6 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

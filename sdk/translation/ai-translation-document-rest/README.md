@@ -75,7 +75,7 @@ With the value of the `KeyCredential` you can create the `DocumentTranslationCli
 ```ts snippet:ReadmeSampleCreateClient
 import DocumentTranslationClient from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -94,11 +94,11 @@ Used to synchronously translate a single document. The method doesn't require an
 ```ts snippet:ReadmeSampleSynchronousDocumentTranslation
 import DocumentTranslationClient, {
   DocumentTranslateParameters,
-  isUnexpected,
 } from "@azure-rest/ai-translation-document";
-import { writeFileSync } from "node:fs";
+import { ErrorResponse } from "@azure-rest/core-client";
+import { writeFile } from "node:fs/promises";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -120,13 +120,20 @@ const options: DocumentTranslateParameters = {
   ],
 };
 
-const response = await client.path("/document:translate").post(options);
-if (isUnexpected(response)) {
-  throw response.body.error;
+const response = await client.path("/document:translate").post(options).asNodeStream();
+if (!response.body) {
+  throw new Error("No response body received");
 }
 
-// Write the response to a file
-writeFileSync("test-output.txt", response.body);
+if (response.status !== "200") {
+  const errorResponse: ErrorResponse = JSON.parse(response.body.read().toString());
+  throw new Error(
+    `Translation failed with status: ${response.status}, error: ${errorResponse.error.message}`,
+  );
+}
+
+// Write the buffer to a file
+await writeFile("test-output.txt", response.body);
 ```
 
 ### Batch Document Translation
@@ -137,7 +144,7 @@ Used to execute an asynchronous batch translation request. The method requires a
 import DocumentTranslationClient from "@azure-rest/ai-translation-document";
 import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -196,7 +203,7 @@ This cancels a translation job that is currently processing or queued (pending) 
 ```ts snippet:ReadmeSampleCancelDocumentTranslation
 import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -223,7 +230,7 @@ import DocumentTranslationClient, {
   paginate,
 } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -253,7 +260,7 @@ import DocumentTranslationClient, {
   paginate,
 } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -298,7 +305,7 @@ import DocumentTranslationClient, {
   paginate,
 } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -335,7 +342,7 @@ Used to request the status of a specific translation job. The response includes 
 ```ts snippet:ReadmeSampleGetTranslationStatus
 import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,
@@ -365,7 +372,7 @@ This returns a list of document or glossary formats supported by the Document Tr
 ```ts snippet:ReadmeSampleGetSupportedFormats
 import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
 const credential = {
   key,

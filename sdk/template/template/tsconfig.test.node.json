@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/template": ["./src/index.ts"],
+      "@azure/template/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

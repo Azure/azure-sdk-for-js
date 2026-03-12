@@ -23,13 +23,14 @@ import {
   FederatedIdentityCredentialsGetOptionalParams,
   FederatedIdentityCredentialsGetResponse,
   FederatedIdentityCredentialsDeleteOptionalParams,
-  FederatedIdentityCredentialsListNextResponse
+  FederatedIdentityCredentialsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FederatedIdentityCredentials operations. */
 export class FederatedIdentityCredentialsImpl
-  implements FederatedIdentityCredentials {
+  implements FederatedIdentityCredentials
+{
   private readonly client: ManagedServiceIdentityClient;
 
   /**
@@ -49,7 +50,7 @@ export class FederatedIdentityCredentialsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: FederatedIdentityCredentialsListOptionalParams
+    options?: FederatedIdentityCredentialsListOptionalParams,
   ): PagedAsyncIterableIterator<FederatedIdentityCredential> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -67,9 +68,9 @@ export class FederatedIdentityCredentialsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +78,7 @@ export class FederatedIdentityCredentialsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: FederatedIdentityCredentialsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FederatedIdentityCredential[]> {
     let result: FederatedIdentityCredentialsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +94,7 @@ export class FederatedIdentityCredentialsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +106,12 @@ export class FederatedIdentityCredentialsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: FederatedIdentityCredentialsListOptionalParams
+    options?: FederatedIdentityCredentialsListOptionalParams,
   ): AsyncIterableIterator<FederatedIdentityCredential> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +126,11 @@ export class FederatedIdentityCredentialsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: FederatedIdentityCredentialsListOptionalParams
+    options?: FederatedIdentityCredentialsListOptionalParams,
   ): Promise<FederatedIdentityCredentialsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -147,7 +148,7 @@ export class FederatedIdentityCredentialsImpl
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
     parameters: FederatedIdentityCredential,
-    options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams
+    options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams,
   ): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -155,9 +156,9 @@ export class FederatedIdentityCredentialsImpl
         resourceName,
         federatedIdentityCredentialResourceName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -173,16 +174,16 @@ export class FederatedIdentityCredentialsImpl
     resourceGroupName: string,
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
-    options?: FederatedIdentityCredentialsGetOptionalParams
+    options?: FederatedIdentityCredentialsGetOptionalParams,
   ): Promise<FederatedIdentityCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         federatedIdentityCredentialResourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -198,16 +199,16 @@ export class FederatedIdentityCredentialsImpl
     resourceGroupName: string,
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
-    options?: FederatedIdentityCredentialsDeleteOptionalParams
+    options?: FederatedIdentityCredentialsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         federatedIdentityCredentialResourceName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -222,11 +223,11 @@ export class FederatedIdentityCredentialsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: FederatedIdentityCredentialsListNextOptionalParams
+    options?: FederatedIdentityCredentialsListNextOptionalParams,
   ): Promise<FederatedIdentityCredentialsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -234,45 +235,43 @@ export class FederatedIdentityCredentialsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FederatedIdentityCredentialsListResult
+      bodyMapper: Mappers.FederatedIdentityCredentialsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skiptoken
+    Parameters.skiptoken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FederatedIdentityCredential
+      bodyMapper: Mappers.FederatedIdentityCredential,
     },
     201: {
-      bodyMapper: Mappers.FederatedIdentityCredential
+      bodyMapper: Mappers.FederatedIdentityCredential,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -281,23 +280,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.resourceGroupName1,
-    Parameters.federatedIdentityCredentialResourceName
+    Parameters.federatedIdentityCredentialResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FederatedIdentityCredential
+      bodyMapper: Mappers.FederatedIdentityCredential,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -305,21 +303,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.resourceGroupName1,
-    Parameters.federatedIdentityCredentialResourceName
+    Parameters.federatedIdentityCredentialResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -327,29 +324,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.resourceGroupName1,
-    Parameters.federatedIdentityCredentialResourceName
+    Parameters.federatedIdentityCredentialResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FederatedIdentityCredentialsListResult
+      bodyMapper: Mappers.FederatedIdentityCredentialsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

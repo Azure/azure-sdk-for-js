@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a AlertRuleResource
  *
  * @summary create a AlertRuleResource
  * x-ms-original-file: 2025-01-02/AlertRuleResources_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function alertRuleResourcesCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";

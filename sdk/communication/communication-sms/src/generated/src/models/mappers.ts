@@ -110,6 +110,36 @@ export const SmsSendOptions: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      messagingConnect: {
+        serializedName: "messagingConnect",
+        type: {
+          name: "Composite",
+          className: "MessagingConnectOptions",
+        },
+      },
+    },
+  },
+};
+
+export const MessagingConnectOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessagingConnectOptions",
+    modelProperties: {
+      apiKey: {
+        serializedName: "apiKey",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      partner: {
+        serializedName: "partner",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

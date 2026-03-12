@@ -1,36 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "node:os";
+import os from "node:os";
 import type {
   MeterProviderOptions,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../../shared/config.js";
 import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
   MonitoringDataPoint,
   IsSubscribedOptionalParams,
-  IsSubscribedResponse,
-  PublishResponse,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
-  KeyValuePairString,
+  KeyValuePairStringString,
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,
 } from "../../generated/index.js";
-import {
-  KnownCollectionConfigurationErrorType,
-  KnownTelemetryType,
-} from "../../generated/index.js";
+import type { QuickpulseResponse } from "./export/sender.js";
 import {
   getLogDocument,
   getSdkVersion,
@@ -238,9 +232,7 @@ export class LiveMetrics {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async quickPulseDone(
-    response: PublishResponse | IsSubscribedResponse | undefined,
-  ): Promise<void> {
+  private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -272,12 +264,12 @@ export class LiveMetrics {
         this.handle.unref();
       }
 
-      const endpointRedirect = (response as IsSubscribedResponse).xMsQpsServiceEndpointRedirectV2;
+      const endpointRedirect = response.xMsQpsServiceEndpointRedirectV2;
       if (endpointRedirect) {
         this.pingSender.handlePermanentRedirect(endpointRedirect);
         this.quickpulseExporter.getSender().handlePermanentRedirect(endpointRedirect);
       }
-      const pollingInterval = (response as IsSubscribedResponse).xMsQpsServicePollingIntervalHint;
+      const pollingInterval = response.xMsQpsServicePollingIntervalHint;
       if (pollingInterval) {
         this.pingInterval = Number(pollingInterval);
       } else {
@@ -458,14 +450,14 @@ export class LiveMetrics {
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
         documentConfiguration =
-          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) ||
+          this.validDocumentFilterConjuctionGroupInfos.get("Request") ||
           new Map<string, FilterConjunctionGroupInfo[]>();
-        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
+        derivedMetricInfos = this.validDerivedMetrics.get("Request") || [];
       } else {
         documentConfiguration =
-          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) ||
+          this.validDocumentFilterConjuctionGroupInfos.get("Dependency") ||
           new Map<string, FilterConjunctionGroupInfo[]>();
-        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
+        derivedMetricInfos = this.validDerivedMetrics.get("Dependency") || [];
       }
       this.applyDocumentFilters(documentConfiguration, columns);
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
@@ -495,14 +487,14 @@ export class LiveMetrics {
               span.attributes,
             );
             documentConfiguration =
-              this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+              this.validDocumentFilterConjuctionGroupInfos.get("Exception") ||
               new Map<string, FilterConjunctionGroupInfo[]>();
             this.applyDocumentFilters(
               documentConfiguration,
               exceptionColumns,
               event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
             );
-            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            derivedMetricInfos = this.validDerivedMetrics.get("Exception") || [];
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
             this.totalExceptionCount++;
           }
@@ -515,29 +507,29 @@ export class LiveMetrics {
    * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
    * @internal
    */
-  public recordLog(logRecord: LogRecord): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     if (this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       if (isExceptionData(columns)) {
         documentConfiguration =
-          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+          this.validDocumentFilterConjuctionGroupInfos.get("Exception") ||
           new Map<string, FilterConjunctionGroupInfo[]>();
         this.applyDocumentFilters(
           documentConfiguration,
           columns,
           logRecord.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
         );
-        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+        derivedMetricInfos = this.validDerivedMetrics.get("Exception") || [];
         this.totalExceptionCount++;
       } else {
         // trace
         documentConfiguration =
-          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Trace) ||
+          this.validDocumentFilterConjuctionGroupInfos.get("Trace") ||
           new Map<string, FilterConjunctionGroupInfo[]>();
         this.applyDocumentFilters(documentConfiguration, columns);
-        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
+        derivedMetricInfos = this.validDerivedMetrics.get("Trace") || [];
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
     }
@@ -666,7 +658,7 @@ export class LiveMetrics {
     }
   }
 
-  private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+  private updateConfiguration(response: QuickpulseResponse): void {
     this.etag = response.xMsQpsConfigurationEtag || "";
     this.quickpulseExporter.setEtag(this.etag);
     this.errorTracker.clearValidationTimeErrors();
@@ -679,7 +671,7 @@ export class LiveMetrics {
     this.parseMetricFilterConfiguration(response);
   }
 
-  private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+  private parseDocumentFilterConfiguration(response: QuickpulseResponse): void {
     if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
       return;
     }
@@ -709,23 +701,24 @@ export class LiveMetrics {
           }
         } catch (error) {
           const configError: CollectionConfigurationError = {
-            collectionConfigurationErrorType: "",
+            collectionConfigurationErrorType: "Unknown",
             message: "",
             fullException: "",
             data: [],
           };
           if (error instanceof TelemetryTypeError) {
-            configError.collectionConfigurationErrorType = "DocumentTelemetryTypeUnsupported";
+            configError.collectionConfigurationErrorType =
+              "CollectionConfigurationFailureToCreateUnexpected";
           } else if (error instanceof UnexpectedFilterCreateError) {
             configError.collectionConfigurationErrorType =
-              KnownCollectionConfigurationErrorType.DocumentStreamFailureToCreateFilterUnexpected;
+              "DocumentStreamFailureToCreateFilterUnexpected";
           }
 
           if (error instanceof Error) {
             configError.message = error.message;
             configError.fullException = error.stack || "";
           }
-          const data: KeyValuePairString[] = [];
+          const data: KeyValuePairStringString[] = [];
           data.push({ key: "DocumentStreamInfoId", value: documentStreamInfo.id });
           data.push({ key: "ETag", value: this.etag });
           configError.data = data;
@@ -768,8 +761,7 @@ export class LiveMetrics {
     }
   }
 
-  private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
-    // eslint-disable-next-line eqeqeq
+  private parseMetricFilterConfiguration(response: QuickpulseResponse): void {
     if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
       return;
     }
@@ -795,27 +787,24 @@ export class LiveMetrics {
         this.derivedMetricProjection.initDerivedMetricProjection(derivedMetricInfo);
       } catch (error) {
         const configError: CollectionConfigurationError = {
-          collectionConfigurationErrorType: "",
+          collectionConfigurationErrorType: "Unknown",
           message: "",
           fullException: "",
           data: [],
         };
         if (error instanceof TelemetryTypeError) {
-          configError.collectionConfigurationErrorType =
-            KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
+          configError.collectionConfigurationErrorType = "MetricTelemetryTypeUnsupported";
         } else if (error instanceof UnexpectedFilterCreateError) {
-          configError.collectionConfigurationErrorType =
-            KnownCollectionConfigurationErrorType.MetricFailureToCreateFilterUnexpected;
+          configError.collectionConfigurationErrorType = "MetricFailureToCreateFilterUnexpected";
         } else if (error instanceof DuplicateMetricIdError) {
-          configError.collectionConfigurationErrorType =
-            KnownCollectionConfigurationErrorType.MetricDuplicateIds;
+          configError.collectionConfigurationErrorType = "MetricDuplicateIds";
         }
 
         if (error instanceof Error) {
           configError.message = error.message;
           configError.fullException = error.stack || "";
         }
-        const data: KeyValuePairString[] = [];
+        const data: KeyValuePairStringString[] = [];
         data.push({ key: "MetricId", value: derivedMetricInfo.id });
         data.push({ key: "ETag", value: this.etag });
         configError.data = data;
@@ -834,20 +823,19 @@ export class LiveMetrics {
           this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
         } catch (error) {
           const configError: CollectionConfigurationError = {
-            collectionConfigurationErrorType: "",
+            collectionConfigurationErrorType: "Unknown",
             message: "",
             fullException: "",
             data: [],
           };
           if (error instanceof MetricFailureToCreateError) {
-            configError.collectionConfigurationErrorType =
-              KnownCollectionConfigurationErrorType.MetricFailureToCreate;
+            configError.collectionConfigurationErrorType = "MetricFailureToCreate";
 
             if (error instanceof Error) {
               configError.message = error.message;
               configError.fullException = error.stack || "";
             }
-            const errorData: KeyValuePairString[] = [];
+            const errorData: KeyValuePairStringString[] = [];
             errorData.push({ key: "MetricId", value: derivedMetricInfo.id });
             errorData.push({ key: "ETag", value: this.etag });
             configError.data = errorData;

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/ai-vision-face": ["./src/index.ts"],
+      "@azure-rest/ai-vision-face/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

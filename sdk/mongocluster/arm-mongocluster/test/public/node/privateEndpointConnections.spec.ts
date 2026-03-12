@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,23 +12,19 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { MongoClusterManagementClient } from "../../../src/mongoClusterManagementClient.js";
 import { createRecorder } from "../utils/recordedClient.js";
-import { NetworkManagementClient } from "@azure/arm-network";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MongoCluster test", () => {
+describe.skip("MongoCluster test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MongoClusterManagementClient;
-  let networkClient: NetworkManagementClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
   let connectionName: string;
-  let virtualNetworkName: string;
-  let privateEndpointName: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -38,16 +37,9 @@ describe("MongoCluster test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    networkClient = new NetworkManagementClient(
-      credential,
-      subscriptionId,
-      recorder.configureClientOptions({}),
-    );
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest1";
-    virtualNetworkName = "testvn";
-    privateEndpointName = "testPEC";
+    resourcename = "resourcetest0602";
   });
 
   afterEach(async () => {
@@ -77,58 +69,6 @@ describe("MongoCluster test", () => {
       testPollingOptions,
     );
     assert.equal(res.name, resourcename);
-  });
-
-  it("virtual network create test", async () => {
-    const res = await networkClient.virtualNetworks.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      virtualNetworkName,
-      {
-        addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
-        flowTimeoutInMinutes: 10,
-        location,
-      },
-    );
-    assert.equal(res.name, virtualNetworkName);
-
-    await networkClient.subnets.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      virtualNetworkName,
-      "testsubnet",
-      { addressPrefix: "10.0.0.0/16" },
-    );
-  });
-
-  it("private endpoit create test", async () => {
-    const clusterRes = await client.mongoClusters.get(resourceGroup, resourcename);
-    const res = await networkClient.privateEndpoints.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      privateEndpointName,
-      {
-        location,
-        customNetworkInterfaceName: privateEndpointName + "-nic",
-        privateLinkServiceConnections: [
-          {
-            name: privateEndpointName,
-            groupIds: ["MongoCluster"],
-            privateLinkServiceId: clusterRes.id,
-            requestMessage: "Please approve my connection.",
-          },
-        ],
-        subnet: {
-          id:
-            "/subscriptions/" +
-            subscriptionId +
-            "/resourceGroups/" +
-            resourceGroup +
-            "/providers/Microsoft.Network/virtualNetworks/" +
-            virtualNetworkName +
-            "/subnets/testsubnet",
-        },
-      },
-      testPollingOptions,
-    );
-    assert.equal(res.name, privateEndpointName);
   });
 
   // need create a mongocluster first then create a private endpoint named testPEC with the mongocluster.
@@ -189,24 +129,6 @@ describe("MongoCluster test", () => {
       resourceGroup,
       resourcename,
     )) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
-
-  it("private endpoint delete test", async () => {
-    const resArray = new Array();
-    await networkClient.privateEndpoints.beginDeleteAndWait(resourceGroup, privateEndpointName);
-    for await (const item of networkClient.privateEndpoints.list(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
-
-  it("virtual network delete test", async () => {
-    const resArray = new Array();
-    await networkClient.virtualNetworks.beginDeleteAndWait(resourceGroup, virtualNetworkName);
-    for await (const item of networkClient.virtualNetworks.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

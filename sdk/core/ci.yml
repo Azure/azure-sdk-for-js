@@ -10,8 +10,9 @@ trigger:
     include:
       - sdk/core/
       - eng/
-      - common/
-      - rush.json
+      - common
+      - pnpm-*.yaml
+      - tsconfig*.json
     exclude:
       - common/smoke-test/
       - eng/common/
@@ -27,8 +28,9 @@ pr:
     include:
       - sdk/core/
       - eng/
-      - common/
-      - rush.json
+      - common
+      - pnpm-*.yaml
+      - tsconfig*.json
     exclude:
       - common/smoke-test/
       - eng/common/
@@ -41,60 +43,75 @@ extends:
       - name: azure-abort-controller
         safeName: azureabortcontroller
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-amqp
         safeName: azurecoreamqp
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-auth
         safeName: azurecoreauth
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-client
         safeName: azurecoreclient
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-lro
         safeName: azurecorelro
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-paging
         safeName: azurecorepaging
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-tracing
         safeName: azurecoretracing
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-xml
         safeName: azurecorexml
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-util
         safeName: azurecoreutil
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-logger
         safeName: azurelogger
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: azure-core-sse
         safeName: azurecoresse
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
         triggeringPaths:
-        - /common/config/
+        - pnpm-*.yaml
+        - tsconfig*.json

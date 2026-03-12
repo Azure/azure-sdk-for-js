@@ -9,7 +9,7 @@ import { getInitialHeader } from "./headerUtils.js";
 import type { ExecutionContext } from "./index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
-import { addDignosticChild } from "../utils/diagnostics.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
@@ -35,8 +35,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private currentPartitionIndex: number;
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
-  public continuationToken: string; // TODO: any continuation
-  public get continuation(): string {
+  public continuationToken: string | undefined; // TODO: any continuation
+  public get continuation(): string | undefined {
     return this.continuationToken;
   }
   private state: STATES;
@@ -63,7 +63,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.currentPartitionIndex = 0;
     this.fetchFunctions = Array.isArray(fetchFunctions) ? fetchFunctions : [fetchFunctions];
     this.options = options || {};
-    this.continuationToken = this.options.continuationToken || this.options.continuation || null;
+    this.continuationToken =
+      this.options.continuationToken || this.options.continuation || undefined;
     this.state = DefaultQueryExecutionContext.STATES.start;
     this.correlatedActivityId = correlatedActivityId;
   }
@@ -128,7 +129,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return addDignosticChild(
+    return addDiagnosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
           return {

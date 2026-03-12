@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-relay": ["./src/index.ts"],
+      "@azure/arm-relay/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/keyvault-admin": ["./src/index.ts"],
+      "@azure/keyvault-admin/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

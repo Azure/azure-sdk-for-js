@@ -90,6 +90,41 @@ describe("basicAuthenticationPolicy", () => {
 
     vi.clearAllMocks();
   });
+
+  it.each([
+    // authSchemes set to empty array, should override service level scheme
+    { authSchemes: [], shouldAuthenticate: false },
+    // authSchemes is not defined, should use service level scheme
+    { authSchemes: undefined, shouldAuthenticate: true },
+  ])(
+    "handles authentication correctly when request authSchemes is $authSchemes",
+    async ({ authSchemes, shouldAuthenticate }) => {
+      const request = createPipelineRequest({ url: "https://example.com" });
+      request.authSchemes = authSchemes;
+
+      const username = "testuser";
+      const password = "testpass";
+      const expectedHeader = "Basic dGVzdHVzZXI6dGVzdHBhc3M="; // base64(testuser:testpass)
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValue(successResponse);
+
+      const policy = createBasicAuthPolicy(username, password);
+      await policy.sendRequest(request, next);
+
+      if (shouldAuthenticate) {
+        expect(request.headers.get("Authorization")).toBe(expectedHeader);
+      } else {
+        expect(request.headers.has("Authorization")).toBe(false);
+        expect(next).toHaveBeenCalledWith(request);
+      }
+    },
+  );
 });
 
 function createBasicAuthPolicy(username: string, password: string): PipelinePolicy {

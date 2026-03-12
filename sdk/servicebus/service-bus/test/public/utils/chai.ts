@@ -12,6 +12,12 @@ chai.use(chaiAzure);
 const should = shouldFn();
 export { assert, expect, should };
 
+declare global {
+  interface Object {
+    should: Chai.Assertion;
+  }
+}
+
 export function assertAggregateError(err: unknown): asserts err is AggregateError {
   assert.instanceOf(err, AggregateError);
 }

@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the specified resource provider at the tenant level.
  *
  * @summary Gets the specified resource provider at the tenant level.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetNamedProviderAtTenant.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetNamedProviderAtTenant.json
  */
 async function getAResourceProviderAtTenantScope() {
   const expand = "resourceTypes/aliases";

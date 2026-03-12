@@ -31,7 +31,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-01",
+    defaultValue: "2024-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -333,6 +333,44 @@ export const group: OperationURLParameter = {
   },
 };
 
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 200,
+      InclusiveMinimum: 1,
+    },
+    serializedName: "maxpagesize",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 2147483647,
+      InclusiveMinimum: 1,
+    },
+    serializedName: "top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const continuationToken: OperationQueryParameter = {
+  parameterPath: ["options", "continuationToken"],
+  mapper: {
+    serializedName: "continuationToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const permission: OperationURLParameter = {
   parameterPath: "permission",
   mapper: {
@@ -366,4 +404,16 @@ export const userId1: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };

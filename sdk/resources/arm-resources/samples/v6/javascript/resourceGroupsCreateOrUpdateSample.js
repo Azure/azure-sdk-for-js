@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates or updates a resource group.
  *
  * @summary Creates or updates a resource group.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/CreateResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/CreateResourceGroup.json
  */
 async function createOrUpdateAResourceGroup() {
   const subscriptionId =

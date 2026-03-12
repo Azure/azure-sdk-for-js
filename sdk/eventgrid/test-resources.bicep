@@ -156,4 +156,4 @@ output SERVICE_BUS_FQDN string = replace(
   ''
 )
 output SERVICE_BUS_QUEUE_NAME string = serviceBusQueueName
-output EVENT_GRID_NAMESPACES_ENDPOINT string = egNamespace.properties.topicsConfiguration.hostname
+output EVENT_GRID_NAMESPACES_ENDPOINT string = 'https://${egNamespace.properties.topicsConfiguration.hostname}'

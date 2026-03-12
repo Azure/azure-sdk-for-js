@@ -12,21 +12,21 @@ import type {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels.js";
-import type { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { KeyVaultClient } from "./keyVaultClient.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { mappings } from "./mappings.js";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
 import type { PollerLike } from "./lro/shim.js";
 import { wrapPoller, updateState } from "./lro/shim.js";
-import {
+import type {
   KeyVaultAdminPollOperationState,
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,
 } from "./lro/models.js";
-import { restorePoller } from "./generated/restorePollerHelpers.js";
+import { restorePoller } from "./restorePollerHelpers.js";
 
-export {
+export type {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,

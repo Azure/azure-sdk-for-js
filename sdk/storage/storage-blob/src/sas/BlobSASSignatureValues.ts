@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions.js";
-import type { UserDelegationKey } from "../BlobServiceClient.js";
 import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
+import { RequestHeaders, RequestQueryParameters } from "../models.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -74,9 +75,16 @@ export interface BlobSASSignatureValues {
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -121,6 +129,14 @@ export interface BlobSASSignatureValues {
    * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  /**
+   * Request headers used in generating a SAS token
+   */
+  requestHeaders?: RequestHeaders;
+  /**
+   * Request query parameters used in generating a SAS token
+   */
+  requestQueryParameters?: RequestQueryParameters;
 }
 
 /**
@@ -353,16 +369,28 @@ export function generateBlobSASQueryParametersInternal(
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20201206(blobSASSignatureValues, sharedKeyCredential);
     } else {
-      return generateBlobSASQueryParametersUDK20201206(
-        blobSASSignatureValues,
-        userDelegationKeyCredential!,
-      );
+      if (version >= "2026-04-06") {
+        return generateBlobSASQueryParametersUDK20260406(
+          blobSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      } else if (version >= "2025-07-05") {
+        return generateBlobSASQueryParametersUDK20250705(
+          blobSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      } else {
+        return generateBlobSASQueryParametersUDK20201206(
+          blobSASSignatureValues,
+          userDelegationKeyCredential!,
+        );
+      }
     }
   }
 
   // Version 2019-12-12 adds support for the blob tags permission.
   // Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields.
-  // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
+  // https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
   if (version >= "2018-11-09") {
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(blobSASSignatureValues, sharedKeyCredential);
@@ -1070,6 +1098,310 @@ function generateBlobSASQueryParametersUDK20201206(
     ),
     stringToSign: stringToSign,
   };
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * IMPLEMENTATION FOR API VERSION FROM 2020-12-06.
+ *
+ * Creates an instance of SASQueryParameters.
+ *
+ * Only accepts required settings needed to create a SAS. For optional settings please
+ * set corresponding properties directly, such as permissions, startsOn.
+ *
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
+ *
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ */
+function generateBlobSASQueryParametersUDK20250705(
+  blobSASSignatureValues: BlobSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
+  // Stored access policies are not supported for a user delegation SAS.
+  if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  let resource: string = "c";
+  let timestamp = blobSASSignatureValues.snapshotTime;
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+    if (blobSASSignatureValues.snapshotTime) {
+      resource = "bs";
+    } else if (blobSASSignatureValues.versionId) {
+      resource = "bv";
+      timestamp = blobSASSignatureValues.versionId;
+    }
+  }
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
+  if (blobSASSignatureValues.permissions) {
+    if (blobSASSignatureValues.blobName) {
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString(),
+      ).toString();
+    } else {
+      verifiedPermissions = ContainerSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString(),
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
+      : "",
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      blobSASSignatureValues.containerName,
+      blobSASSignatureValues.blobName,
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    blobSASSignatureValues.preauthorizedAgentObjectId,
+    undefined, // agentObjectId
+    blobSASSignatureValues.correlationId,
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    blobSASSignatureValues.delegatedUserObjectId,
+    blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
+    blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
+    blobSASSignatureValues.version,
+    resource,
+    timestamp,
+    blobSASSignatureValues.encryptionScope,
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      blobSASSignatureValues.preauthorizedAgentObjectId,
+      blobSASSignatureValues.correlationId,
+      blobSASSignatureValues.encryptionScope,
+      blobSASSignatureValues.delegatedUserObjectId,
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * IMPLEMENTATION FOR API VERSION FROM 2020-12-06.
+ *
+ * Creates an instance of SASQueryParameters.
+ *
+ * Only accepts required settings needed to create a SAS. For optional settings please
+ * set corresponding properties directly, such as permissions, startsOn.
+ *
+ * WARNING: identifier will be ignored, permissions and expiresOn are required.
+ *
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ */
+function generateBlobSASQueryParametersUDK20260406(
+  blobSASSignatureValues: BlobSASSignatureValues,
+  userDelegationKeyCredential: UserDelegationKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
+
+  // Stored access policies are not supported for a user delegation SAS.
+  if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+    );
+  }
+
+  let resource: string = "c";
+  let timestamp = blobSASSignatureValues.snapshotTime;
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+    if (blobSASSignatureValues.snapshotTime) {
+      resource = "bs";
+    } else if (blobSASSignatureValues.versionId) {
+      resource = "bv";
+      timestamp = blobSASSignatureValues.versionId;
+    }
+  }
+
+  // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
+  if (blobSASSignatureValues.permissions) {
+    if (blobSASSignatureValues.blobName) {
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString(),
+      ).toString();
+    } else {
+      verifiedPermissions = ContainerSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString(),
+      ).toString();
+    }
+  }
+
+  // Signature is generated on the un-url-encoded values.
+  const stringToSign = [
+    verifiedPermissions ? verifiedPermissions : "",
+    blobSASSignatureValues.startsOn
+      ? truncatedISO8061Date(blobSASSignatureValues.startsOn, false)
+      : "",
+    blobSASSignatureValues.expiresOn
+      ? truncatedISO8061Date(blobSASSignatureValues.expiresOn, false)
+      : "",
+    getCanonicalName(
+      userDelegationKeyCredential.accountName,
+      blobSASSignatureValues.containerName,
+      blobSASSignatureValues.blobName,
+    ),
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
+    userDelegationKeyCredential.userDelegationKey.signedStartsOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedExpiresOn
+      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      : "",
+    userDelegationKeyCredential.userDelegationKey.signedService,
+    userDelegationKeyCredential.userDelegationKey.signedVersion,
+    blobSASSignatureValues.preauthorizedAgentObjectId,
+    undefined, // agentObjectId
+    blobSASSignatureValues.correlationId,
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    blobSASSignatureValues.delegatedUserObjectId,
+    blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
+    blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
+    blobSASSignatureValues.version,
+    resource,
+    timestamp,
+    blobSASSignatureValues.encryptionScope,
+    formatRequestHeadersForSasSigning(blobSASSignatureValues.requestHeaders),
+    formatRequestQueryParametersForSasSigning(blobSASSignatureValues.requestQueryParameters),
+    blobSASSignatureValues.cacheControl,
+    blobSASSignatureValues.contentDisposition,
+    blobSASSignatureValues.contentEncoding,
+    blobSASSignatureValues.contentLanguage,
+    blobSASSignatureValues.contentType,
+  ].join("\n");
+
+  const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      blobSASSignatureValues.preauthorizedAgentObjectId,
+      blobSASSignatureValues.correlationId,
+      blobSASSignatureValues.encryptionScope,
+      blobSASSignatureValues.delegatedUserObjectId,
+      getKeysOfRequestHeaders(blobSASSignatureValues.requestHeaders),
+      getKeysOfRequestHeaders(blobSASSignatureValues.requestQueryParameters),
+    ),
+    stringToSign: stringToSign,
+  };
+}
+
+function formatRequestHeadersForSasSigning(
+  requestHeaders: RequestHeaders | undefined,
+): string | undefined {
+  if (requestHeaders === undefined) {
+    return undefined;
+  }
+
+  let canonicalValue = "";
+  Object.keys(requestHeaders).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    canonicalValue = canonicalValue + key + ":" + requestHeaders[key] + "\n";
+  });
+  return canonicalValue;
+}
+
+function formatRequestQueryParametersForSasSigning(
+  queryParameters: RequestQueryParameters | undefined,
+): string | undefined {
+  if (queryParameters === undefined) {
+    return undefined;
+  }
+
+  let canonicalValue = "";
+  Object.keys(queryParameters).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key];
+  });
+  return canonicalValue;
+}
+
+function getKeysOfRequestHeaders(requestHeaders: RequestHeaders | undefined): string | undefined {
+  if (requestHeaders === undefined) {
+    return undefined;
+  }
+
+  let requestKeys = "";
+  let index = 0;
+  Object.keys(requestHeaders).forEach(function (key) {
+    // key: the name of the object key
+    // index: the ordinal position of the key within the object
+    if (index !== 0) {
+      requestKeys = requestKeys + ",";
+    }
+
+    requestKeys = requestKeys + key;
+    ++index;
+  });
+  return requestKeys;
 }
 
 function getCanonicalName(accountName: string, containerName: string, blobName?: string): string {

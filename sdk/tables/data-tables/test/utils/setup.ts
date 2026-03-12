@@ -9,12 +9,13 @@ import * as MOCKS from "./constants.js";
 
 declare module "vitest" {
   type MyEnvVarKeys = {
-    [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: string;
+    [K in (typeof EnvVarKeys)[keyof typeof EnvVarKeys]]: K extends (typeof EnvVarKeys)["ALLOW_SHARED_KEY_ACCESS"]
+      ? boolean
+      : K extends (typeof EnvVarKeys)["TEST_MODE"]
+        ? string | undefined
+        : string;
   };
-  export interface ProvidedContext extends MyEnvVarKeys {
-    [EnvVarKeys.TEST_MODE]: string | undefined;
-    [EnvVarKeys.ALLOW_SHARED_KEY_ACCESS]: boolean;
-  }
+  export interface ProvidedContext extends MyEnvVarKeys {}
 }
 
 function assertEnvironmentVariable<

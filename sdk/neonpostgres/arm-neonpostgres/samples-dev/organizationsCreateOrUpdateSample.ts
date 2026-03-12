@@ -1,67 +1,140 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresClient } from "@azure/arm-neonpostgres";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a OrganizationResource
  *
  * @summary create a OrganizationResource
- * x-ms-original-file: 2024-08-01-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function organizationsCreateOrUpdate(): Promise<void> {
+
+import { PostgresClient } from "@azure/arm-neonpostgres";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
+  const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.organizations.createOrUpdate("rgneon", "XB-.:", {
+  const result = await client.organizations.createOrUpdate("rgneon", "test-org", {
     properties: {
       marketplaceDetails: {
-        subscriptionId: "yxmkfivp",
+        subscriptionId: "xfahbbbzwlcwhhjbxarnwfcy",
         subscriptionStatus: "PendingFulfillmentStart",
         offerDetails: {
-          publisherId: "hporaxnopmolttlnkbarw",
-          offerId: "bunyeeupoedueofwrzej",
-          planId: "nlbfiwtslenfwek",
-          planName: "ljbmgpkfqklaufacbpml",
-          termUnit: "qbcq",
-          termId: "aedlchikwqckuploswthvshe",
+          publisherId: "eibghzuyqsksouwlgqphhmuxeqeigf",
+          offerId: "qscggwfdnippiwrrnmuscg",
+          planId: "sveqoxtdwxutxmtniuufyrdu",
+          planName: "t",
+          termUnit: "jnxhyql",
+          termId: "uptombvymytfonj",
         },
       },
       userDetails: {
-        firstName: "buwwe",
-        lastName: "escynjpynkoox",
-        emailAddress: "3i_%@w8-y.H-p.tvj.dG",
-        upn: "fwedjamgwwrotcjaucuzdwycfjdqn",
-        phoneNumber: "dlrqoowumy",
+        firstName: "zhelh",
+        lastName: "zbdhouyeozylnerrc",
+        emailAddress: "test@contoso.com",
+        upn: "mixcikvxlnhkfugetqlngz",
+        phoneNumber: "zmejenytglrmjnt",
       },
       companyDetails: {
-        companyName: "uxn",
-        country: "lpajqzptqchuko",
-        officeAddress: "chpkrlpmfslmawgunjxdllzcrctykq",
-        businessPhone: "hbeb",
-        domain: "krjldeakhwiepvs",
-        numberOfEmployees: 23,
+        companyName: "xtul",
+        country: "ycmyjdcpyjieemfrthfyxdlvn",
+        officeAddress: "icirtoqmmozijk",
+        businessPhone: "hucxvzcvpaupqjkgb",
+        domain: "snoshqumfsthyofpnrsgyjhszvgtj",
+        numberOfEmployees: 12,
       },
       partnerOrganizationProperties: {
-        organizationId: "nrhvoqzulowcunhmvwfgjcaibvwcl",
-        organizationName: "2__.-",
+        organizationId: "hzejhmftwsruhwspvtwoy",
+        organizationName: "entity-name",
         singleSignOnProperties: {
           singleSignOnState: "Initial",
-          enterpriseAppId: "fpibacregjfncfdsojs",
-          singleSignOnUrl: "tmojh",
-          aadDomains: ["kndszgrwzbvvlssvkej"],
+          enterpriseAppId: "urtjzjfr",
+          singleSignOnUrl: "gcmlwvtxcsjozitm",
+          aadDomains: ["mdzbelaiphukhe"],
         },
       },
+      projectProperties: {
+        entityName: "entity-name",
+        attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+        regionId: "tlcltldfrnxh",
+        storage: 7,
+        pgVersion: 10,
+        historyRetention: 7,
+        defaultEndpointSettings: {
+          autoscalingLimitMinCu: 26,
+          autoscalingLimitMaxCu: 20,
+        },
+        branch: {
+          entityName: "entity-name",
+          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+          projectId: "oik",
+          parentId: "entity-id",
+          roleName: "qrrairsupyosxnqotdwhbpc",
+          databaseName: "duhxebzhd",
+          roles: [
+            {
+              entityName: "entity-name",
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
+              permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
+              isSuperUser: true,
+            },
+          ],
+          databases: [
+            {
+              entityName: "entity-name",
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              branchId: "orfdwdmzvfvlnrgussvcvoek",
+              ownerName: "odmbeg",
+            },
+          ],
+          endpoints: [
+            {
+              entityName: "entity-name",
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
+              branchId: "rzsyrhpfbydxtfkpaa",
+              endpointType: "read_only",
+            },
+          ],
+        },
+        roles: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
+            permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
+            isSuperUser: true,
+          },
+        ],
+        databases: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            branchId: "orfdwdmzvfvlnrgussvcvoek",
+            ownerName: "odmbeg",
+          },
+        ],
+        endpoints: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
+            branchId: "rzsyrhpfbydxtfkpaa",
+            endpointType: "read_only",
+          },
+        ],
+      },
     },
-    tags: { key2099: "omjjymaqtrqzksxszhzgyl" },
-    location: "upxxgikyqrbnv",
+    tags: { key8832: "rvukepuxkykdtqjtwk" },
+    location: "kcdph",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationsCreateOrUpdate();
+  await organizationsCreateOrUpdateMaximumSet();
 }
 
 main().catch(console.error);

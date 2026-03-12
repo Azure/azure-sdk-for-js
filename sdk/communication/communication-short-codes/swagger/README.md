@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-short-codes"
 description: Short code acquiring and management client
-package-version: 1.0.0-beta.5
+package-version: 1.0.0-beta.6
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./shortcodes.json

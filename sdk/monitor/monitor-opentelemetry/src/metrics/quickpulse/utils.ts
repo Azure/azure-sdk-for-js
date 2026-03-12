@@ -4,20 +4,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
-  KeyValuePairString,
+  KeyValuePairStringString,
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
   CollectionConfigurationError,
 } from "../../generated/index.js";
-import { KnownDocumentType } from "../../generated/index.js";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
@@ -90,7 +88,7 @@ import { Logger } from "../../shared/logging/index.js";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
-  const { nodeVersion } = process.versions;
+  const nodeVersion = process.versions.node;
   const opentelemetryVersion = SDK_INFO[SEMRESATTRS_TELEMETRY_SDK_VERSION];
   const version = getSdkVersionType();
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
@@ -293,7 +291,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   if (span.kind === SpanKind.PRODUCER) {
     dependencyData.Type = DependencyTypes.QueueMessage;
   }
-  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanContext?.spanId) {
     dependencyData.Type = DependencyTypes.InProc;
   }
 
@@ -393,7 +391,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   return dependencyData;
 }
 
-export function getLogData(log: LogRecord): ExceptionData | TraceData {
+export function getLogData(log: SdkLogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {
@@ -415,7 +413,7 @@ export function getLogData(log: LogRecord): ExceptionData | TraceData {
 export function getLogDocument(data: TelemetryData, exceptionType?: string): Trace | Exception {
   if (isExceptionData(data) && exceptionType) {
     return {
-      documentType: KnownDocumentType.Exception,
+      documentType: "Exception",
       exceptionMessage: data.Message,
       exceptionType: exceptionType,
       properties: mapToKeyValuePairList(data.CustomDimensions),
@@ -423,7 +421,7 @@ export function getLogDocument(data: TelemetryData, exceptionType?: string): Tra
   } else {
     // trace
     return {
-      documentType: KnownDocumentType.Trace,
+      documentType: "Trace",
       message: (data as TraceData).Message,
       properties: mapToKeyValuePairList(data.CustomDimensions),
     };
@@ -448,12 +446,12 @@ export function isExceptionData(data: TelemetryData): data is ExceptionData {
 
 export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteDependency {
   let document: Request | RemoteDependency = {
-    documentType: KnownDocumentType.Request,
+    documentType: "Request",
   };
 
   if (isRequestData(telemetryData)) {
     document = {
-      documentType: KnownDocumentType.Request,
+      documentType: "Request",
       name: telemetryData.Name,
       url: telemetryData.Url,
       responseCode: String(telemetryData.ResponseCode),
@@ -461,7 +459,7 @@ export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteD
     };
   } else if (isDependencyData(telemetryData)) {
     document = {
-      documentType: KnownDocumentType.RemoteDependency,
+      documentType: "RemoteDependency",
       name: telemetryData.Name,
       commandName: telemetryData.Data,
       resultCode: String(telemetryData.ResultCode),
@@ -494,8 +492,8 @@ function createCustomDimsFromAttributes(
   return customDims;
 }
 
-function mapToKeyValuePairList(map: Map<string, string>): KeyValuePairString[] {
-  const list: KeyValuePairString[] = [];
+function mapToKeyValuePairList(map: Map<string, string>): KeyValuePairStringString[] {
+  const list: KeyValuePairStringString[] = [];
   map.forEach((value, key) => {
     list.push({ key, value });
   });

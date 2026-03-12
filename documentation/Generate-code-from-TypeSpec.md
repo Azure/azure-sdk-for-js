@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
 
 ## Prerequisites
 
-- [Node.js 18.x LTS](https://nodejs.org/en/download) or later
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - [Git](https://git-scm.com/downloads)
 - Local Clone of Rest API Spec Repo Fork
   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
@@ -29,23 +29,17 @@ Getting Started: Generate JS SDK with TypeSpec
 
 ## Use TypeSpec defined in REST API specifications
 
-It is recommended to configure TypeSpec package on [REST API specifications](https://github.com/Azure/azure-rest-api-specs). Please refer to [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/typespec-structure-guidelines.md).
+It is recommended to configure TypeSpec package on [REST API specifications](https://github.com/Azure/azure-rest-api-specs). Please refer to [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/Getting-started-with-TypeSpec-specifications.md).
 
 ### How to configure tspconfig.yaml
 You can reference these two config files to configure the Modular or RLC package:
 - [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
-- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
+- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
-Please make sure `service-dir`, `package-dir`, `package-details`, `is-modular-library`, `generate-metadata`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums`, `enable-operation-group`, `hierarchy-client` are the optional configs.
-If you want to enable sample generation with typespec-ts, you should add 
-```
-generate-sample:true
-```
-in your tspconfig.yaml
-
+Please make sure `service-dir`, `emitter-output-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.The `is-modular-library` option is true by default, if you want to generate RLC libraries for data-plane SDKs, you must add `is-modular-library: false` in your tspconfig.yaml.
 
 - "parameters.service-dir.default" would be `sdk/<service>`
-- "options.@azure-tools/typespec-ts.package-dir" would be `<module>`
+- "options.@azure-tools/typespec-ts.emitter-output-dir" would be `{output-dir}/{service-dir}/<module>`
 
 SDK module would be generated under the SDK project folder at `sdk/<service>/<module>`.
 
@@ -54,9 +48,9 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
 
 Install dependencies to use code-gen-pipeline,  
 ```ps
-npm install -g @azure-tools/typespec-client-generator-cli@0.14.1
-npm install -g @microsoft/rush@5.92.0
-npm install -g @azure-tools/js-sdk-release-tools
+npm --prefix eng/common/tsp-client ci
+npm install -g @pnpm
+npm --prefix eng/tools/js-sdk-release-tools ci
 ```
 
 Create a local json file named generatedInput.json with content similar to that shown below
@@ -74,7 +68,7 @@ Create a local json file named generatedInput.json with content similar to that 
 
 Run the command
 ```
-code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
+npm --prefix eng/tools/js-sdk-release-tools exec --no -- code-gen-pipeline --inputJsonPath=<path-to-generatedInput.json> --outputJsonPath=<path-to-generatedOutput.json> --typespecEmitter=@azure-tools/typespec-ts --local
 ```
 
 > path-to-generatedOutput.json is the detailed information of generated package, you can ignore it without pipeline. [generateOutput.json](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json) is to show us the location of generated artifact and any other messages.
@@ -86,8 +80,7 @@ This command will automatically:
 4. Generate samples, if enabled.
 5. Create or update the `CHANGELOG.md`.
 6. Bump the version according to the Azure SDK for JS policy.
-7. If this is a new package, add it to the project items in `rush.json`.
-8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
+7. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
 After all the steps finished, you can prepare the release for this generation. See [Prepare Release](#prepare-release)
@@ -98,36 +91,26 @@ After all the steps finished, you can prepare the release for this generation. S
 Install `tsp-client` CLI tool
 
 ```ps
-npm install -g @azure-tools/typespec-client-generator-cli@0.14.1
+npm --prefix eng/common/tsp-client ci
 ```
 
 For initial set up, from the root of the SDK repo, call
 
 ```
-tsp-client init -c <url-to-tspconfig>
+npm --prefix eng/common/tsp-client exec --no -- tsp-client init -c <url-to-tspconfig>
 ```
 
 For updating TypeSpec generated SDK, call below in the SDK module folder (`sdk/<service>/<module>`) where `tsp-location.yaml` exists
 
 ```ps
-tsp-client update
+npm --prefix ../../../eng/common/tsp-client exec --no -- tsp-client update
 ```
 
 **Notice**
-If you use tsp-client to generate code and your generated SDK is new, you need to do two extra things:
+If you use tsp-client to generate code and your generated SDK is new, you need to do one extra thing:
 
-**1**: 
-You should add your new SDK in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json).
-Here is the example of the config
-```
-{
-  "packageName": <your-package-name>,
-  "projectFolder": <sdk/<service>/<module>>,
-  "versionPolicyName": <"management"-or-"client">
-}
-```
 
-**2**: You should add `ci.yml` or `ci.mgmt.yml` under `sdk/<service>/<module`. `ci.yml` is for `Data Plane SDKs` and `ci.mgmt.yml` is for `Mgmt Plane SDKs`. See [Create/Update the ci.yaml](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#createupdate-the-ciyaml)
+**1**: You should add `ci.yml` or `ci.mgmt.yml` under `sdk/<service>/<module`. `ci.yml` is for `Data Plane SDKs` and `ci.mgmt.yml` is for `Mgmt Plane SDKs`. See [Create/Update the ci.yaml](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#createupdate-the-ciyaml)
 
 #### Build
 

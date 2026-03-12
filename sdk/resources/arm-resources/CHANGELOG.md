@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.1 (Unreleased)
+## 7.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,44 @@
 
 ### Other Changes
 
+
+## 7.0.0 (2025-06-10)
+    
+- operation groups `DeploymentOperations` and `Deployments` has been split into an independent library [`@azure/arm-resourcesdeployment`](https://www.npmjs.com/package/@azure/arm-resourcesdeployments/v/1.0.0-beta.1).
+
+### Breaking Changes
+
+  - Removed operation group DeploymentOperations
+  - Removed operation group Deployments
+  - Class ResourceManagementClient no longer has parameter deploymentOperations
+  - Class ResourceManagementClient no longer has parameter deployments
+  - Removed Enum KnownExpressionEvaluationOptionsScopeType
+  - Removed Enum KnownExtensionConfigPropertyType
+  - Removed Enum KnownLevel
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownValidationLevel
+    
+    
+## 6.1.0 (2025-05-14)
+    
+### Features Added
+
+  - Added Interface DeploymentExtensionConfigItem
+  - Added Interface DeploymentExtensionDefinition
+  - Added Type Alias ExtensionConfigPropertyType
+  - Interface DeploymentProperties has a new optional parameter extensionConfigs
+  - Interface DeploymentPropertiesExtended has a new optional parameter extensions
+  - Interface ResourceReference has a new optional parameter apiVersion
+  - Interface ResourceReference has a new optional parameter extension
+  - Interface ResourceReference has a new optional parameter identifiers
+  - Interface ResourceReference has a new optional parameter resourceType
+  - Interface TargetResource has a new optional parameter apiVersion
+  - Interface TargetResource has a new optional parameter extension
+  - Interface TargetResource has a new optional parameter identifiers
+  - Interface TargetResource has a new optional parameter symbolicName
+  - Added Enum KnownExtensionConfigPropertyType
+    
+    
 ## 6.0.0 (2025-02-19)
     
 ### Features Added

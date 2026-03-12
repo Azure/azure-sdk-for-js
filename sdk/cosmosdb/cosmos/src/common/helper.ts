@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosClientOptions } from "../CosmosClientOptions.js";
-import { PartitionKeyDefinition } from "../documents/index.js";
-import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { PartitionKeyDefinition } from "../documents/index.js";
+import type { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type { Serializer } from "../encryption/Serializers/index.js";
 import {
-  Serializer,
   NumberSerializer,
   FloatSerializer,
   StringSerializer,
@@ -538,4 +538,13 @@ export function validateClientEncryptionPolicy(
       "Encryption of partition key or id is only supported with policy format version 2.",
     );
   }
+}
+
+/**
+ * Checks if excluded locations can be applied to the given resource type
+ * @param resourceType - The resource type to check
+ * @returns true if excluded locations can be applied, false otherwise
+ */
+export function canApplyExcludedLocations(resourceType: ResourceType): boolean {
+  return resourceType === ResourceType.item;
 }

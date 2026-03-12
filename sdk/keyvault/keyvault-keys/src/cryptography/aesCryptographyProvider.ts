@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import * as crypto from "node:crypto";
+import crypto from "node:crypto";
 import type {
   AesCbcEncryptParameters,
   DecryptOptions,

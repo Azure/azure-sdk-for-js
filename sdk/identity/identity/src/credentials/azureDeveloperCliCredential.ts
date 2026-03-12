@@ -17,10 +17,46 @@ import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
+ * Messages to use when throwing in this credential.
+ * @internal
+ */
+export const azureDeveloperCliPublicErrorMessages = {
+  notInstalled:
+    "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+  login:
+    "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+  unknown: "Unknown error while trying to retrieve the access token",
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
+};
+
+/**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
  * @internal
  */
 export const developerCliCredentialInternals = {
+  /**
+   * Parses azd stderr JSON output to extract the error message.
+   * azd outputs JSON like: \{"type":"consoleMessage","timestamp":"...","data":\{"message":"ERROR: ..."\}\}
+   * If parsing succeeds and .data.message exists, returns the trimmed message.
+   * Otherwise, returns the raw stderr.
+   * @param stderr - The stderr output from azd command
+   * @returns The parsed error message or raw stderr
+   * @internal
+   */
+  parseAzdStderr(stderr: string): string {
+    try {
+      const parsed = JSON.parse(stderr);
+      const message = parsed?.data?.message;
+      if (typeof message === "string" && message.trim().length > 0) {
+        return message.trim();
+      }
+    } catch {
+      // If JSON parsing fails, fall through to return raw stderr
+    }
+    return stderr;
+  },
+
   /**
    * @internal
    */
@@ -50,26 +86,36 @@ export const developerCliCredentialInternals = {
     scopes: string[],
     tenantId?: string,
     timeout?: number,
+    claims?: string,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
       tenantSection = ["--tenant-id", tenantId];
     }
+
+    let claimsSections: string[] = [];
+    if (claims) {
+      const encodedClaims = btoa(claims);
+      claimsSections = ["--claims", encodedClaims];
+    }
     return new Promise((resolve, reject) => {
       try {
-        child_process.execFile(
-          "azd",
-          [
-            "auth",
-            "token",
-            "--output",
-            "json",
-            ...scopes.reduce<string[]>(
-              (previous, current) => previous.concat("--scope", current),
-              [],
-            ),
-            ...tenantSection,
-          ],
+        const args = [
+          "auth",
+          "token",
+          "--output",
+          "json",
+          "--no-prompt",
+          ...scopes.reduce<string[]>(
+            (previous, current) => previous.concat("--scope", current),
+            [],
+          ),
+          ...tenantSection,
+          ...claimsSections,
+        ];
+        const command = ["azd", ...args].join(" ");
+        child_process.exec(
+          command,
           {
             cwd: developerCliCredentialInternals.getSafeWorkingDir(),
             timeout,
@@ -171,25 +217,37 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           scopeList,
           tenantId,
           this.timeout,
+          options.claims,
         );
+        const isMFARequiredError =
+          obj.stderr?.match("must use multi-factor authentication") ||
+          obj.stderr?.match("reauthentication required");
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
           obj.stderr?.match("not logged in, run `azd auth login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
           obj.stderr?.startsWith("'azd' is not recognized");
-
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+            azureDeveloperCliPublicErrorMessages.notInstalled,
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
 
         if (isNotLoggedInError) {
+          const error = new CredentialUnavailableError(azureDeveloperCliPublicErrorMessages.login);
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
+        if (isMFARequiredError) {
+          const scope = scopeList
+            .reduce<string[]>((previous, current) => previous.concat("--scope", current), [])
+            .join(" ");
+          const loginCmd = `azd auth login ${scope}`;
           const error = new CredentialUnavailableError(
-            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+            `${azureDeveloperCliPublicErrorMessages.claim} ${loginCmd}`,
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -205,7 +263,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           } as AccessToken;
         } catch (e: any) {
           if (obj.stderr) {
-            throw new CredentialUnavailableError(obj.stderr);
+            const errorMessage = developerCliCredentialInternals.parseAzdStderr(obj.stderr);
+            throw new CredentialUnavailableError(errorMessage);
           }
           throw e;
         }
@@ -214,7 +273,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token",
+                (err as Error).message || azureDeveloperCliPublicErrorMessages.unknown,
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;

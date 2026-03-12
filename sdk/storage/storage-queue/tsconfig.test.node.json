@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-queue": ["./src/index.ts"],
+      "@azure/storage-queue/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

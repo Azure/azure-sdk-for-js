@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as process from "node:process";
+import process from "node:process";
 import { describe, it, assert, vi, afterEach } from "vitest";
 import type { Agent, PipelineRequest } from "../../src/index.js";
 import { type ProxySettings, type SendRequest, createPipelineRequest } from "../../src/index.js";

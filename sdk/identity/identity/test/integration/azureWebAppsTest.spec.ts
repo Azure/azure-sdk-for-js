@@ -5,6 +5,7 @@ import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert } from "vitest";
+import { requireEnvVar } from "../authTestUtils.js";
 
 describe("AzureWebApps Integration test", function () {
   it.skipIf(!isLiveMode())(
@@ -24,10 +25,6 @@ describe("AzureWebApps Integration test", function () {
 });
 
 function baseUrl(): string {
-  const webAppName = process.env.IDENTITY_WEBAPP_NAME;
-  if (!webAppName) {
-    console.log("IDENTITY_WEBAPP_NAME is not set");
-    throw new Error("IDENTITY_WEBAPP_NAME is not set");
-  }
+  const webAppName = requireEnvVar("IDENTITY_WEBAPP_NAME");
   return `https://${webAppName}.azurewebsites.net/sync`;
 }

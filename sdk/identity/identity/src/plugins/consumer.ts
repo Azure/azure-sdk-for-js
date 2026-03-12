@@ -5,19 +5,17 @@ import type { AzurePluginContext, IdentityPlugin } from "./provider.js";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
+  msalNodeFlowVSCodeCredentialControl,
 } from "../msal/nodeFlows/msalPlugins.js";
-
-import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential.js";
 
 /**
  * The context passed to an Identity plugin. This contains objects that
  * plugins can use to set backend implementations.
- * @internal
  */
 const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,
   nativeBrokerPluginControl: msalNodeFlowNativeBrokerControl,
-  vsCodeCredentialControl: vsCodeCredentialControl,
+  vsCodeCredentialControl: msalNodeFlowVSCodeCredentialControl,
 };
 
 /**

@@ -1,5 +1,121 @@
 # Release History
 
+## 1.17.0 ()
+
+### Features Added
+
+- Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
+- Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+
+### Bugs Fixed
+
+- Fixed standard metrics and performance counters recording 0ms duration for all sub-second requests. `span.duration` is an `HrTime` tuple `[seconds, nanoseconds]` but was incorrectly read as `span.duration[0]` (seconds only). Converted to milliseconds using `hrTimeToMilliseconds()` from `@opentelemetry/core`.
+
+## 1.16.0 (2026-02-20)
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
+### Bugs Fixed
+
+- Fixed OpenTelemetry API version mismatch causing Noop providers in VS Code extensions. When a different version of `@opentelemetry/api` was already loaded (e.g. by the VS Code extension host), `useAzureMonitor` would silently fall back to Noop providers, discarding all telemetry. The fix clears the stale global API state before initializing the SDK.
+
+### 1.15.1 (2026-01-16)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.38.
+
+### 1.15.0 (2026-01-15)
+
+### Features Added
+
+- Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
+- Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
+- Support `OTEL_TRACES_SAMPLER`/`OTEL_TRACES_SAMPLER_ARG` environment variables for sampler selection.
+
+- Add support for automatic instrumentation in ESM environments.
+
+### 1.14.2 (2025-11-13)
+
+### Bugs Fixed
+
+- Fix azure SDK dependency version imports.
+
+### 1.14.1 (2025-11-10)
+
+### Bugs Fixed
+
+- Fix dynamically importing the monitor-opentelemetry packages in Next.js.
+
+### 1.14.0 (2025-09-16)
+
+### Other Changes
+
+- Update exporter version.
+
+### 1.13.1 (2025-09-10)
+
+### Bugs Fixed
+
+- Fix support for multiple metric exporters and OTLP metric exporter creation.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+
+### 1.13.0 (2025-09-05)
+
+### Features Added
+
+- All instrumentations apart from bunyan and winston are now enabled by default.
+
+### Bugs Fixed
+
+- Fix declaration of the preview customer statsbeat enablement environment variable.
+- Change customer statsbeat feature name to customer SDK Stats.
+
+## 1.12.0 (2025-08-04)
+
+### Features Added
+
+- Add RateLimitedSampler.
+
+### Other Changes
+
+- Add customer statsbeat feature to feature statsbeat.
+- Add multi-ikey feature to feature statsbeat.
+- Silence noisy warnings about expected async attributes and the @azure/core-tracing load order not being populated.
+
+## 1.11.1 (2025-06-09)
+
+### Other Changes
+
+- Update to using monitor-opentelemetry-exporter beta 32.
+
+## 1.11.0 (2025-04-16)
+
+### Features Added
+
+- Added support for Process Time Normalized and Exception Rate performance counters.
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+- Fixed import issue with @azure/functions-core that was causing bundling errors in applications that don't use Azure Functions. [#34045](https://github.com/Azure/azure-sdk-for-js/issues/34045)
+
+### Other Changes
+
+- Hide iKey in debug logs.
+
 ## 1.10.0 (2025-04-09)
 
 ### Features Added

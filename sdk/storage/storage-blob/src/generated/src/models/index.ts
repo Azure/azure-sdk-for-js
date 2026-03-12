@@ -89,6 +89,9 @@ export interface StaticWebsite {
 
 export interface StorageError {
   message?: string;
+  copySourceStatusCode?: number;
+  copySourceErrorCode?: string;
+  copySourceErrorMessage?: string;
   code?: string;
   authenticationErrorDetail?: string;
 }
@@ -152,6 +155,8 @@ export interface KeyInfo {
   startsOn: string;
   /** The date-time the key expires in ISO 8601 UTC time */
   expiresOn: string;
+  /** The delegated user tenant id in Azure AD */
+  delegatedUserTid?: string;
 }
 
 /** A user delegation key */
@@ -168,6 +173,8 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key */
   signedVersion: string;
+  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  signedDelegatedUserTenantId?: string;
   /** The key as a base64 string */
   value: string;
 }
@@ -1066,6 +1073,10 @@ export interface BlobDownloadHeaders {
   immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
   /** Indicates if a legal hold is present on the blob. */
   legalHold?: boolean;
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** Error Code */
   errorCode?: string;
   /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
@@ -1148,7 +1159,7 @@ export interface BlobGetPropertiesHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
-  /** The tier of page blob on a premium storage account or tier of block blob on blob storage LRS accounts. For a list of allowed premium page blob tiers, see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/premium-storage#features. For blob storage LRS accounts, valid values are Hot/Cool/Archive. */
+  /** The tier of page blob on a premium storage account or tier of block blob on blob storage LRS accounts. For a list of allowed premium page blob tiers, see https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd. For blob storage LRS accounts, valid values are Hot/Cool/Archive. */
   accessTier?: string;
   /** For page blobs on a premium storage account only. If the access tier is not explicitly set on the blob, the tier is inferred based on its content length and this header will be returned with true value. */
   accessTierInferred?: boolean;
@@ -1526,6 +1537,8 @@ export interface BlobStartCopyFromURLHeaders {
 /** Defines headers for Blob_startCopyFromURL operation. */
 export interface BlobStartCopyFromURLExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for Blob_copyFromURL operation. */
@@ -1561,6 +1574,8 @@ export interface BlobCopyFromURLHeaders {
 /** Defines headers for Blob_copyFromURL operation. */
 export interface BlobCopyFromURLExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for Blob_abortCopyFromURL operation. */
@@ -1795,6 +1810,8 @@ export interface PageBlobUploadPagesHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -1864,6 +1881,8 @@ export interface PageBlobUploadPagesFromURLHeaders {
 /** Defines headers for PageBlob_uploadPagesFromURL operation. */
 export interface PageBlobUploadPagesFromURLExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for PageBlob_getPageRanges operation. */
@@ -2054,6 +2073,8 @@ export interface AppendBlobAppendBlockHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2096,6 +2117,8 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
 /** Defines headers for AppendBlob_appendBlockFromUrl operation. */
 export interface AppendBlobAppendBlockFromUrlExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for AppendBlob_seal operation. */
@@ -2145,6 +2168,8 @@ export interface BlockBlobUploadHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2185,6 +2210,8 @@ export interface BlockBlobPutBlobFromUrlHeaders {
 /** Defines headers for BlockBlob_putBlobFromUrl operation. */
 export interface BlockBlobPutBlobFromUrlExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for BlockBlob_stageBlock operation. */
@@ -2207,6 +2234,8 @@ export interface BlockBlobStageBlockHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2243,6 +2272,8 @@ export interface BlockBlobStageBlockFromURLHeaders {
 /** Defines headers for BlockBlob_stageBlockFromURL operation. */
 export interface BlockBlobStageBlockFromURLExceptionHeaders {
   errorCode?: string;
+  copySourceErrorCode?: string;
+  copySourceStatusCode?: number;
 }
 
 /** Defines headers for BlockBlob_commitBlockList operation. */
@@ -2376,6 +2407,18 @@ export interface SourceModifiedAccessConditions {
 }
 
 /** Parameter group */
+export interface BlobModifiedAccessConditions {
+  /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+  ifModifiedSince?: Date;
+  /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+  ifUnmodifiedSince?: Date;
+  /** Specify an ETag value to operate only on blobs with a matching value. */
+  ifMatch?: string;
+  /** Specify an ETag value to operate only on blobs without a matching value. */
+  ifNoneMatch?: string;
+}
+
+/** Parameter group */
 export interface SequenceNumberAccessConditions {
   /** Specify this header value to operate only on a blob if it has a sequence number less than or equal to the specified. */
   ifSequenceNumberLessThanOrEqualTo?: number;
@@ -2383,6 +2426,16 @@ export interface SequenceNumberAccessConditions {
   ifSequenceNumberLessThan?: number;
   /** Specify this header value to operate only on a blob if it has the specified sequence number. */
   ifSequenceNumberEqualTo?: number;
+}
+
+/** Parameter group */
+export interface SourceCpkInfo {
+  /** Optional. Specifies the source encryption key to use to encrypt the source data provided in the request. */
+  sourceEncryptionKey?: string;
+  /** The SHA-256 hash of the provided source encryption key. Must be provided if the x-ms-source-encryption-key header is provided. */
+  sourceEncryptionKeySha256?: string;
+  /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
+  sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
 /** Parameter group */
@@ -2407,6 +2460,21 @@ export enum KnownEncryptionAlgorithmType {
  * **AES256**
  */
 export type EncryptionAlgorithmType = string;
+
+/** Known values of {@link FileShareTokenIntent} that the service accepts. */
+export enum KnownFileShareTokenIntent {
+  /** Backup */
+  Backup = "backup",
+}
+
+/**
+ * Defines values for FileShareTokenIntent. \
+ * {@link KnownFileShareTokenIntent} can be used interchangeably with FileShareTokenIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **backup**
+ */
+export type FileShareTokenIntent = string;
 
 /** Known values of {@link BlobExpiryOptions} that the service accepts. */
 export enum KnownBlobExpiryOptions {
@@ -2558,8 +2626,8 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** IncrementalCopyBlobMismatch */
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
-  /** IncrementalCopyOfEarlierVersionSnapshotNotAllowed */
-  IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
+  /** IncrementalCopyOfEarlierSnapshotNotAllowed */
+  IncrementalCopyOfEarlierSnapshotNotAllowed = "IncrementalCopyOfEarlierSnapshotNotAllowed",
   /** IncrementalCopySourceMustBeSnapshot */
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   /** InfiniteLeaseDurationRequired */
@@ -2731,7 +2799,7 @@ export enum KnownStorageErrorCode {
  * **CopyIdMismatch** \
  * **FeatureVersionMismatch** \
  * **IncrementalCopyBlobMismatch** \
- * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
+ * **IncrementalCopyOfEarlierSnapshotNotAllowed** \
  * **IncrementalCopySourceMustBeSnapshot** \
  * **InfiniteLeaseDurationRequired** \
  * **InvalidBlobOrBlock** \
@@ -2808,7 +2876,10 @@ export type SkuName =
   | "Standard_GRS"
   | "Standard_RAGRS"
   | "Standard_ZRS"
-  | "Premium_LRS";
+  | "Premium_LRS"
+  | "Standard_GZRS"
+  | "Premium_ZRS"
+  | "Standard_RAGZRS";
 /** Defines values for AccountKind. */
 export type AccountKind =
   | "Storage"
@@ -2874,7 +2945,7 @@ export type SyncCopyStatusType = "success";
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2886,7 +2957,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 /** Optional parameters. */
 export interface ServiceGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2899,7 +2970,7 @@ export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
 /** Optional parameters. */
 export interface ServiceGetStatisticsOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2912,7 +2983,7 @@ export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
 /** Optional parameters. */
 export interface ServiceListContainersSegmentOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2933,7 +3004,7 @@ export type ServiceListContainersSegmentResponse =
 /** Optional parameters. */
 export interface ServiceGetUserDelegationKeyOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2946,7 +3017,7 @@ export type ServiceGetUserDelegationKeyResponse =
 /** Optional parameters. */
 export interface ServiceGetAccountInfoOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2958,7 +3029,7 @@ export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders;
 /** Optional parameters. */
 export interface ServiceSubmitBatchOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -2985,7 +3056,7 @@ export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
 /** Optional parameters. */
 export interface ServiceFilterBlobsOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3006,7 +3077,7 @@ export interface ContainerCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   containerEncryptionScope?: ContainerEncryptionScope;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3024,7 +3095,7 @@ export interface ContainerGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3040,7 +3111,7 @@ export interface ContainerDeleteOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3056,7 +3127,7 @@ export interface ContainerSetMetadataOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3072,7 +3143,7 @@ export interface ContainerGetAccessPolicyOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3089,7 +3160,7 @@ export interface ContainerSetAccessPolicyOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3105,7 +3176,7 @@ export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders;
 /** Optional parameters. */
 export interface ContainerRestoreOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3121,7 +3192,7 @@ export type ContainerRestoreResponse = ContainerRestoreHeaders;
 /** Optional parameters. */
 export interface ContainerRenameOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3135,7 +3206,7 @@ export type ContainerRenameResponse = ContainerRenameHeaders;
 /** Optional parameters. */
 export interface ContainerSubmitBatchOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3162,7 +3233,7 @@ export type ContainerSubmitBatchResponse = ContainerSubmitBatchHeaders & {
 /** Optional parameters. */
 export interface ContainerFilterBlobsOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3183,7 +3254,7 @@ export interface ContainerAcquireLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3201,7 +3272,7 @@ export interface ContainerReleaseLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3215,7 +3286,7 @@ export interface ContainerRenewLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3229,7 +3300,7 @@ export interface ContainerBreakLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3245,7 +3316,7 @@ export interface ContainerChangeLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3257,7 +3328,7 @@ export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders;
 /** Optional parameters. */
 export interface ContainerListBlobFlatSegmentOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3269,6 +3340,8 @@ export interface ContainerListBlobFlatSegmentOptionalParams
   maxPageSize?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /** Contains response data for the listBlobFlatSegment operation. */
@@ -3278,7 +3351,7 @@ export type ContainerListBlobFlatSegmentResponse =
 /** Optional parameters. */
 export interface ContainerListBlobHierarchySegmentOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3290,6 +3363,8 @@ export interface ContainerListBlobHierarchySegmentOptionalParams
   maxPageSize?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /** Contains response data for the listBlobHierarchySegment operation. */
@@ -3299,7 +3374,7 @@ export type ContainerListBlobHierarchySegmentResponse =
 /** Optional parameters. */
 export interface ContainerGetAccountInfoOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3317,11 +3392,11 @@ export interface BlobDownloadOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3331,6 +3406,8 @@ export interface BlobDownloadOptionalParams
   rangeGetContentMD5?: boolean;
   /** When set to true and specified together with the Range, the service returns the CRC64 hash for the range, as long as the range is less than or equal to 4 MB in size. */
   rangeGetContentCRC64?: boolean;
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
 }
 
 /** Contains response data for the download operation. */
@@ -3360,11 +3437,11 @@ export interface BlobGetPropertiesOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3379,11 +3456,11 @@ export interface BlobDeleteOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3391,6 +3468,10 @@ export interface BlobDeleteOptionalParams extends coreClient.OperationOptions {
   deleteSnapshots?: DeleteSnapshotsOptionType;
   /** Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if blob soft delete is enabled. */
   blobDeleteType?: string;
+  /** Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time. */
+  accessTierIfModifiedSince?: Date;
+  /** Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time. */
+  accessTierIfUnmodifiedSince?: Date;
 }
 
 /** Contains response data for the delete operation. */
@@ -3399,7 +3480,7 @@ export type BlobDeleteResponse = BlobDeleteHeaders;
 /** Optional parameters. */
 export interface BlobUndeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3411,7 +3492,7 @@ export type BlobUndeleteResponse = BlobUndeleteHeaders;
 /** Optional parameters. */
 export interface BlobSetExpiryOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3431,7 +3512,7 @@ export interface BlobSetHttpHeadersOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   blobHttpHeaders?: BlobHttpHeaders;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3445,11 +3526,11 @@ export interface BlobSetImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3466,11 +3547,11 @@ export type BlobSetImmutabilityPolicyResponse =
 /** Optional parameters. */
 export interface BlobDeleteImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3483,11 +3564,11 @@ export type BlobDeleteImmutabilityPolicyResponse =
 /** Optional parameters. */
 export interface BlobSetLegalHoldOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3505,7 +3586,7 @@ export interface BlobSetMetadataOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3523,7 +3604,7 @@ export interface BlobAcquireLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3541,7 +3622,7 @@ export interface BlobReleaseLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3555,7 +3636,7 @@ export interface BlobRenewLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3569,7 +3650,7 @@ export interface BlobChangeLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3583,7 +3664,7 @@ export interface BlobBreakLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3603,7 +3684,7 @@ export interface BlobCreateSnapshotOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3625,7 +3706,7 @@ export interface BlobStartCopyFromURLOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3659,7 +3740,7 @@ export interface BlobCopyFromURLOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3683,6 +3764,8 @@ export interface BlobCopyFromURLOptionalParams
   copySourceAuthorization?: string;
   /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
   copySourceTags?: BlobCopySourceTags;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
 }
 
 /** Contains response data for the copyFromURL operation. */
@@ -3693,7 +3776,7 @@ export interface BlobAbortCopyFromURLOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3708,11 +3791,11 @@ export interface BlobSetTierOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3726,7 +3809,7 @@ export type BlobSetTierResponse = BlobSetTierHeaders;
 /** Optional parameters. */
 export interface BlobGetAccountInfoOptionalParams
   extends coreClient.OperationOptions {
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3743,11 +3826,11 @@ export interface BlobQueryOptionalParams extends coreClient.OperationOptions {
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** the query request */
   queryRequest?: QueryRequest;
@@ -3777,11 +3860,13 @@ export interface BlobGetTagsOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** Parameter group */
+  blobModifiedAccessConditions?: BlobModifiedAccessConditions;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
   versionId?: string;
@@ -3796,7 +3881,9 @@ export interface BlobSetTagsOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** Parameter group */
+  blobModifiedAccessConditions?: BlobModifiedAccessConditions;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3824,7 +3911,7 @@ export interface PageBlobCreateOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   blobHttpHeaders?: BlobHttpHeaders;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3860,18 +3947,22 @@ export interface PageBlobUploadPagesOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** Return only the bytes of the blob in the specified range. */
   range?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the uploadPages operation. */
@@ -3888,7 +3979,7 @@ export interface PageBlobClearPagesOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3914,7 +4005,9 @@ export interface PageBlobUploadPagesFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** Parameter group */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3924,6 +4017,8 @@ export interface PageBlobUploadPagesFromURLOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
 }
@@ -3939,7 +4034,7 @@ export interface PageBlobGetPageRangesOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3947,7 +4042,7 @@ export interface PageBlobGetPageRangesOptionalParams
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
   maxPageSize?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** Return only the bytes of the blob in the specified range. */
   range?: string;
@@ -3964,7 +4059,7 @@ export interface PageBlobGetPageRangesDiffOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -3972,7 +4067,7 @@ export interface PageBlobGetPageRangesDiffOptionalParams
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
   maxPageSize?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** Return only the bytes of the blob in the specified range. */
   range?: string;
@@ -3995,7 +4090,7 @@ export interface PageBlobResizeOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4013,7 +4108,7 @@ export interface PageBlobUpdateSequenceNumberOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4030,7 +4125,7 @@ export interface PageBlobCopyIncrementalOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4050,7 +4145,7 @@ export interface AppendBlobCreateOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   blobHttpHeaders?: BlobHttpHeaders;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4082,16 +4177,20 @@ export interface AppendBlobAppendBlockOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   appendPositionAccessConditions?: AppendPositionAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the appendBlock operation. */
@@ -4109,8 +4208,10 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
+  /** Parameter group */
   appendPositionAccessConditions?: AppendPositionAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4120,6 +4221,8 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
@@ -4141,7 +4244,7 @@ export interface AppendBlobSealOptionalParams
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   appendPositionAccessConditions?: AppendPositionAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4161,12 +4264,14 @@ export interface BlockBlobUploadOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   blobHttpHeaders?: BlobHttpHeaders;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
   metadata?: { [propertyName: string]: string };
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Specifies the date time when the blobs immutability policy is set to expire. */
   immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
@@ -4183,6 +4288,8 @@ export interface BlockBlobUploadOptionalParams
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the upload operation. */
@@ -4201,7 +4308,9 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
   blobHttpHeaders?: BlobHttpHeaders;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4219,6 +4328,8 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
   copySourceAuthorization?: string;
   /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
   copySourceTags?: BlobCopySourceTags;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Optional, default is true.  Indicates if properties from the source blob should be copied. */
@@ -4235,16 +4346,20 @@ export interface BlockBlobStageBlockOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   cpkInfo?: CpkInfo;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the stageBlock operation. */
@@ -4259,7 +4374,9 @@ export interface BlockBlobStageBlockFromURLOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** Parameter group */
+  sourceCpkInfo?: SourceCpkInfo;
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4269,6 +4386,8 @@ export interface BlockBlobStageBlockFromURLOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
   /** Bytes of source data in the specified range. */
@@ -4290,7 +4409,7 @@ export interface BlockBlobCommitBlockListOptionalParams
   cpkInfo?: CpkInfo;
   /** Parameter group */
   blobHttpHeaders?: BlobHttpHeaders;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -4324,11 +4443,11 @@ export interface BlockBlobGetBlockListOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
-  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+  /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://learn.microsoft.com/rest/api/storageservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
 }
 

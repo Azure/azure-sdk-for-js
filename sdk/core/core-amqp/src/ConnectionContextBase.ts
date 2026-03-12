@@ -11,6 +11,7 @@ import {
   generate_uuid,
 } from "rhea-promise";
 import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo.js";
+import { getGlobalProperty } from "./util/utils.js";
 import { CbsClient } from "./cbs.js";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig.js";
 import { Constants } from "./util/constants.js";
@@ -194,11 +195,9 @@ export const ConnectionContextBase = {
         : undefined,
     };
 
-    if (
-      parameters.config.webSocket ||
-      (!isNodeLike && typeof self !== "undefined" && (self as any).WebSocket)
-    ) {
-      const socket = parameters.config.webSocket || (self as any).WebSocket;
+    const globalWebSocket = (!isNodeLike && getGlobalProperty("WebSocket")) || undefined;
+    if (parameters.config.webSocket || globalWebSocket) {
+      const socket = parameters.config.webSocket || globalWebSocket;
       const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};

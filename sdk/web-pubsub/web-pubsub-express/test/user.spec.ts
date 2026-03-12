@@ -29,7 +29,7 @@ function buildRequest(
   req.headers["ce-event"] = "connect";
 }
 
-function mockBinaryBody(req: IncomingMessage, body: ArrayBuffer): void {
+function mockBinaryBody(req: IncomingMessage, body: Uint8Array): void {
   req.emit("data", body);
   req.emit("end");
 }

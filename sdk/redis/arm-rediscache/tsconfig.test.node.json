@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-rediscache": ["./src/index.ts"],
+      "@azure/arm-rediscache/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

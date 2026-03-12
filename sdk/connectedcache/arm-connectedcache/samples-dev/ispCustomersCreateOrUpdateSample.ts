@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api creates an ispCustomer with the specified create parameters
  *
  * @summary this api creates an ispCustomer with the specified create parameters
- * x-ms-original-file: 2023-05-01-preview/IspCustomers_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/IspCustomers_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,6 +35,7 @@ async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule(): Promise<voi
       additionalCustomerProperties: {
         customerEmail: "zdjgibsidydyzm",
         customerTransitAsn: "habgklnxqzmozqpazoyejwiphezpi",
+        customerTransitState: "voblixkxfejbmhxilb",
         customerAsn: "hgrelgnrtdkleisnepfolu",
         customerEntitlementSkuId: "b",
         customerEntitlementSkuGuid: "rvzmdpxyflgqetvpwupnfaxsweiiz",
