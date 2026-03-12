@@ -175,9 +175,9 @@ export class AsyncSeqQueue<T> {
 
   /**
    * Examples (initialSequenceId = 1):
-   * - Initial state: oldest=1, nextDequeue=1, nextEnqueue=1, items=[] -> no item.
-   * - After enqueue seq 1/2/3: oldest=1, nextDequeue=1, items=[1,2,3], itemIndex=0 -> returns seq 1.
-   * - After ack(3): oldest=3, nextDequeue=3, nextEnqueue=4, items=[3], itemIndex=0 -> returns seq 3.
+   * - Initial state: oldest=1, nextDequeue=1, nextEnqueue=1, items=[] -\> no item.
+   * - After enqueue seq 1/2/3: oldest=1, nextDequeue=1, items=[1,2,3], itemIndex=0 -\> returns seq 1.
+   * - After ack(3): oldest=3, nextDequeue=3, nextEnqueue=4, items=[3], itemIndex=0 -\> returns seq 3.
    */
   private _tryTakeNext(): SeqItem<T> | undefined {
     if (this._paused || this._nextDequeueSequenceId >= this._nextEnqueueSequenceId) {
