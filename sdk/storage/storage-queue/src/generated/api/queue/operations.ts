@@ -7,14 +7,14 @@ import {
   SignedIdentifiers,
   signedIdentifiersXmlSerializer,
   signedIdentifiersXmlDeserializer,
-  ListOfReceivedMessage,
-  listOfReceivedMessageXmlDeserializer,
+  ReceivedMessages,
+  receivedMessagesXmlDeserializer,
   QueueMessage,
   queueMessageXmlSerializer,
   ListOfSentMessage,
   listOfSentMessageXmlDeserializer,
-  ListOfPeekedMessage,
-  listOfPeekedMessageXmlDeserializer,
+  PeekedMessages,
+  peekedMessagesXmlDeserializer,
 } from "../../models/azure/storage/queues/models.js";
 import {
   StorageCompatResponseInfo,
@@ -24,7 +24,7 @@ import {
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   QueueDeleteMessageOptionalParams,
-  QueueUpdateOptionalParams,
+  QueueUpdateMessageOptionalParams,
   QueuePeekMessagesOptionalParams,
   QueueSendMessageOptionalParams,
   QueueClearOptionalParams,
@@ -33,7 +33,7 @@ import {
   QueueGetAccessPolicyOptionalParams,
   QueueSetMetadataOptionalParams,
   QueueDeleteOptionalParams,
-  QueueGetMetadataOptionalParams,
+  QueueGetPropertiesOptionalParams,
   QueueCreateOptionalParams,
 } from "./options.js";
 import {
@@ -153,12 +153,12 @@ export async function deleteMessage(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
-export function _updateSend(
+export function _updateMessageSend(
   context: Client,
   messageId: string,
   popReceipt: string,
   visibilityTimeout: number,
-  options: QueueUpdateOptionalParams = { requestOptions: {} },
+  options: QueueUpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "messages/{messageId}{?popreceipt,visibilitytimeout,timeout}",
@@ -190,12 +190,15 @@ export function _updateSend(
     });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _updateMessageDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-    error.details = { ...(error.details as any), ..._updateDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._updateMessageDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -207,7 +210,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
+export function _updateMessageDeserializeHeaders(result: PathUncheckedResponse): {
   popReceipt: string;
   nextVisibleOn: Date;
   version: string;
@@ -232,7 +235,7 @@ export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _updateDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _updateMessageDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
 } {
   return {
@@ -250,12 +253,12 @@ export function _updateDeserializeExceptionHeaders(result: PathUncheckedResponse
  * message must be in a format that can be included in an XML request with UTF-8
  * encoding, and the encoded message can be up to 64KB in size.
  */
-export async function update(
+export async function updateMessage(
   context: Client,
   messageId: string,
   popReceipt: string,
   visibilityTimeout: number,
-  options: QueueUpdateOptionalParams = { requestOptions: {} },
+  options: QueueUpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<
   {
     popReceipt: string;
@@ -277,12 +280,12 @@ export async function update(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _updateSend(context, messageId, popReceipt, visibilityTimeout, {
+  const result = await _updateMessageSend(context, messageId, popReceipt, visibilityTimeout, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  await _updateDeserialize(result);
-  const parsedHeaders = _updateDeserializeHeaders(result);
+  await _updateMessageDeserialize(result);
+  const parsedHeaders = _updateMessageDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
@@ -317,7 +320,7 @@ export function _peekMessagesSend(
 
 export async function _peekMessagesDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListOfPeekedMessage> {
+): Promise<PeekedMessages> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -334,7 +337,7 @@ export async function _peekMessagesDeserialize(
     throw error;
   }
 
-  return listOfPeekedMessageXmlDeserializer(result.body);
+  return peekedMessagesXmlDeserializer(result.body);
 }
 
 export function _peekMessagesDeserializeHeaders(result: PathUncheckedResponse): {
@@ -385,9 +388,9 @@ export async function peekMessages(
     clientRequestId?: string;
     date: Date;
     contentType: "application/xml";
-  } & ListOfPeekedMessage &
+  } & PeekedMessages &
     StorageCompatResponseInfo<
-      ListOfPeekedMessage,
+      PeekedMessages,
       {
         version: string;
         requestId?: string;
@@ -667,7 +670,7 @@ export function _receiveMessagesSend(
 
 export async function _receiveMessagesDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListOfReceivedMessage> {
+): Promise<ReceivedMessages> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -684,7 +687,7 @@ export async function _receiveMessagesDeserialize(
     throw error;
   }
 
-  return listOfReceivedMessageXmlDeserializer(result.body);
+  return receivedMessagesXmlDeserializer(result.body);
 }
 
 export function _receiveMessagesDeserializeHeaders(result: PathUncheckedResponse): {
@@ -735,9 +738,9 @@ export async function receiveMessages(
     clientRequestId?: string;
     date: Date;
     contentType: "application/xml";
-  } & ListOfReceivedMessage &
+  } & ReceivedMessages &
     StorageCompatResponseInfo<
-      ListOfReceivedMessage,
+      ReceivedMessages,
       {
         version: string;
         requestId?: string;
@@ -1191,9 +1194,9 @@ export async function $delete(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
-export function _getMetadataSend(
+export function _getPropertiesSend(
   context: Client,
-  options: QueueGetMetadataOptionalParams = { requestOptions: {} },
+  options: QueueGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "?comp=metadata{?timeout}",
@@ -1218,14 +1221,14 @@ export function _getMetadataSend(
     });
 }
 
-export async function _getMetadataDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _getPropertiesDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
     error.details = {
       ...(error.details as any),
-      ..._getMetadataDeserializeExceptionHeaders(result),
+      ..._getPropertiesDeserializeExceptionHeaders(result),
     };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1238,7 +1241,7 @@ export async function _getMetadataDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-export function _getMetadataDeserializeHeaders(result: PathUncheckedResponse): {
+export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   approximateMessagesCount?: number;
   version: string;
   requestId?: string;
@@ -1265,7 +1268,7 @@ export function _getMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _getMetadataDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
 } {
   return {
@@ -1277,9 +1280,9 @@ export function _getMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
 }
 
 /** returns all user-defined metadata and system properties for the specified queue. */
-export async function getMetadata(
+export async function getProperties(
   context: Client,
-  options: QueueGetMetadataOptionalParams = { requestOptions: {} },
+  options: QueueGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
     approximateMessagesCount?: number;
@@ -1299,12 +1302,12 @@ export async function getMetadata(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _getMetadataSend(context, {
+  const result = await _getPropertiesSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  await _getMetadataDeserialize(result);
-  const parsedHeaders = _getMetadataDeserializeHeaders(result);
+  await _getPropertiesDeserialize(result);
+  const parsedHeaders = _getPropertiesDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 

@@ -763,7 +763,7 @@ export class QueueClient extends StorageClient {
     options: QueueGetPropertiesOptions = {},
   ): Promise<QueueGetPropertiesResponse> {
     return tracingClient.withSpan("QueueClient-getProperties", options, async (updatedOptions) => {
-      const rawResult = await this.storageClientContext.queue.getMetadata(updatedOptions);
+      const rawResult = await this.storageClientContext.queue.getProperties(updatedOptions);
       const result = adjustResponse(rawResult);
       // Extract metadata from raw response headers (x-ms-meta-* headers)
       const headers = result._response.headers;
@@ -1191,7 +1191,7 @@ export class QueueClient extends StorageClient {
       }
       return assertResponse<MessageIdUpdateHeaders, MessageIdUpdateHeaders>(
         adjustResponse(
-          await this.storageClientContext.queue.update(
+          await this.storageClientContext.queue.updateMessage(
             messageId,
             popReceipt,
             visibilityTimeout || 0,

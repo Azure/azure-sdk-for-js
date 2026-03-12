@@ -13,7 +13,7 @@ export interface QueueDeleteMessageOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface QueueUpdateOptionalParams extends OperationOptions {
+export interface QueueUpdateMessageOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
@@ -113,7 +113,7 @@ export interface QueueDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface QueueGetMetadataOptionalParams extends OperationOptions {
+export interface QueueGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
