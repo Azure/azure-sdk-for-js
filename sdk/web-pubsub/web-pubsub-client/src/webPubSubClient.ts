@@ -71,8 +71,7 @@ import type {
 } from "./websocket/websocketClientLike.js";
 import { AckManager } from "./ackManager.js";
 import { InvocationManager } from "./invocationManager.js";
-import { AsyncSeqQueue } from "./asyncSeqQueue.js";
-import { abortablePromise } from "./utils/abortablePromise.js";
+import { OutboundStreamSession } from "./outboundStreamSession.js";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -81,6 +80,8 @@ enum WebPubSubClientState {
   Connected = "Connected",
   Recovering = "Recovering",
 }
+
+const STREAM_PROTOCOL_VIOLATION = "ProtocolViolation";
 
 /**
  * Types which can be serialized and sent as JSON.
@@ -732,7 +733,7 @@ export class WebPubSubClient {
     try {
       await session.start(options?.abortSignal);
     } catch (err) {
-      session.dispose();
+      session.close();
       this._outboundStreams.delete(streamId);
       throw err;
     }
@@ -1265,7 +1266,7 @@ export class WebPubSubClient {
     const sessions = Array.from(this._outboundStreams.values());
     this._outboundStreams.clear();
     sessions.forEach((session) => {
-      session.abort(reason);
+      session.close(reason);
     });
   }
 
@@ -1314,26 +1315,69 @@ export class WebPubSubClient {
       `Received streamAck for streamId=${message.streamId}, expectedSequenceId=${message.expectedSequenceId}`,
     );
     const session = this._outboundStreams.get(message.streamId);
-    session?.ack(message.expectedSequenceId);
+    if (session == null) {
+      return;
+    }
+
+    try {
+      session.ack(message.expectedSequenceId);
+    } catch (err) {
+      this._handleOutboundStreamProtocolViolation(message.streamId, session, err);
+    }
   }
 
   private _handleInboundStreamNack(message: StreamNackMessage): void {
     const session = this._outboundStreams.get(message.streamId);
     // streamNack is handled as internal stream flow-control signal.
     // It should not surface as a terminal user-facing onError.
-    session?.ack(message.expectedSequenceId);
+    if (session != null) {
+      try {
+        session.ack(message.expectedSequenceId);
+      } catch (err) {
+        this._handleOutboundStreamProtocolViolation(message.streamId, session, err);
+      }
+    }
     logger.warning(
       `Received streamNack for streamId=${message.streamId}, expectedSequenceId=${message.expectedSequenceId}, name=${message.name}, message=${message.message ?? ""}`,
     );
   }
 
+  private _handleOutboundStreamProtocolViolation(
+    streamId: string,
+    session: OutboundStreamSession,
+    reason: unknown,
+  ): void {
+    const error = reason instanceof Error ? reason : new Error(String(reason));
+    logger.warning(`Outbound stream '${streamId}' detected invalid stream sequence state.`, error);
+    session.close(this._createNamedError(STREAM_PROTOCOL_VIOLATION, error.message));
+
+    if (this._canSendStreamTraffic()) {
+      void this
+        ._sendStreamEnd(streamId, {
+          error: {
+            message: error.message,
+            userErrorCode: STREAM_PROTOCOL_VIOLATION,
+          },
+        })
+        .catch((sendError) => {
+          logger.warning(
+            `Failed to send streamEnd for stream '${streamId}' after protocol violation.`,
+            sendError,
+          );
+        });
+    }
+
+    this._outboundStreams.delete(streamId);
+  }
+
   private _handleInboundStreamClosed(message: StreamClosedMessage): void {
     const session = this._outboundStreams.get(message.streamId);
     if (session != null) {
-      if (message.error != null) {
-        session.notifyError(message.error);
-      }
-      session.dispose();
+      session.close(
+        message.error == null
+          ? undefined
+          : this._createNamedError(message.error.name, message.error.message),
+      );
       this._outboundStreams.delete(message.streamId);
     }
 
@@ -1529,6 +1573,12 @@ export class WebPubSubClient {
     } catch (err) {
       logger.warning("Stream handler onError failed.", err);
     }
+  }
+
+  private _createNamedError(name: string, message?: string): Error {
+    const error = new Error(message);
+    error.name = name;
+    return error;
   }
 
   private _resetActiveStreamTimeout(active: ActiveStreamHandler): void {
@@ -1844,320 +1894,6 @@ class RetryPolicy {
   }
 }
 
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve(value: T): void;
-  reject(reason?: unknown): void;
-}
-
-type OutboundStreamAction = OutboundStreamDataAction | OutboundStreamEndAction;
-
-interface OutboundStreamDataAction {
-  type: "data";
-  data: JSONTypes | ArrayBuffer;
-  dataType: WebPubSubDataType;
-  completion: Deferred<void>;
-}
-
-interface OutboundStreamEndAction {
-  type: "end";
-  options?: EndStreamOptions;
-  completion: Deferred<void>;
-}
-
-interface OutboundStreamSessionOptions {
-  streamId: string;
-  groupName: string;
-  idleTimeoutMs?: number;
-  canSend(): boolean;
-  sendStart(): Promise<void>;
-  sendData(
-    sequenceId: number,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-  ): Promise<void>;
-  sendEnd(options?: EndStreamOptions): Promise<void>;
-  sendKeepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
-}
-
-class OutboundStreamSession {
-  public readonly streamId: string;
-  public readonly groupName: string;
-  public readonly idleTimeoutMs?: number;
-
-  private readonly _queue: AsyncSeqQueue<OutboundStreamAction>;
-  private readonly _errorHandlers: Set<(error: StreamDataError) => void>;
-  private readonly _pendingActionCompletions: Map<number, Deferred<void>>;
-  private readonly _abortController: AbortController;
-  private readonly _canSend: () => boolean;
-  private readonly _sendStart: () => Promise<void>;
-  private readonly _sendData: (
-    sequenceId: number,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-  ) => Promise<void>;
-  private readonly _sendEnd: (options?: EndStreamOptions) => Promise<void>;
-  private readonly _sendKeepalive: (options?: SendStreamKeepaliveOptions) => Promise<void>;
-
-  private _started = false;
-  private _writeClosed = false;
-  private _aborted = false;
-  private _paused = false;
-  private readonly _startCompletion: Deferred<void>;
-  private _startingPromise?: Promise<void>;
-
-  constructor(options: OutboundStreamSessionOptions) {
-    this.streamId = options.streamId;
-    this.groupName = options.groupName;
-    this.idleTimeoutMs = options.idleTimeoutMs;
-    this._queue = new AsyncSeqQueue<OutboundStreamAction>();
-    this._errorHandlers = new Set<(error: StreamDataError) => void>();
-    this._pendingActionCompletions = new Map<number, Deferred<void>>();
-    this._abortController = new AbortController();
-    this._startCompletion = createDeferred<void>();
-    this._canSend = options.canSend;
-    this._sendStart = options.sendStart;
-    this._sendData = options.sendData;
-    this._sendEnd = options.sendEnd;
-    this._sendKeepalive = options.sendKeepalive;
-
-    void this._runSendLoop();
-  }
-
-  public async start(abortSignal?: AbortSignalLike): Promise<void> {
-    this._throwIfClosed();
-    if (this._started) {
-      return;
-    }
-
-    if (this._startingPromise == null) {
-      this._startingPromise = (async (): Promise<void> => {
-        await this._sendStart();
-        await this._startCompletion.promise;
-        this._started = true;
-      })();
-    }
-
-    try {
-      if (abortSignal == null) {
-        await this._startingPromise;
-      } else {
-        await abortablePromise(this._startingPromise, abortSignal);
-      }
-    } finally {
-      this._startingPromise = undefined;
-    }
-  }
-
-  public onError(listener: (error: StreamDataError) => void): () => void {
-    this._errorHandlers.add(listener);
-    return () => {
-      this._errorHandlers.delete(listener);
-    };
-  }
-
-  public notifyError(error: StreamDataError): void {
-    this._errorHandlers.forEach((handler) => {
-      try {
-        handler(error);
-      } catch (err) {
-        logger.warning("Outbound stream error handler failed.", err);
-      }
-    });
-  }
-
-  public async publish(
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-    abortSignal?: AbortSignalLike,
-  ): Promise<void> {
-    this._throwIfClosed();
-    const completion = await this._enqueueDataAction(content, dataType);
-    await this._waitForActionCompletion(completion.promise, abortSignal);
-  }
-
-  public async keepalive(options?: SendStreamKeepaliveOptions): Promise<void> {
-    this._throwIfClosed();
-    if (this._paused || !this._canSend()) {
-      throw new Error(
-        `Stream '${this.streamId}' cannot send keepalive while connection is unavailable.`,
-      );
-    }
-
-    await this._sendKeepalive(options);
-  }
-
-  public async complete(options?: EndStreamOptions): Promise<void> {
-    this._throwIfClosed();
-    this._writeClosed = true;
-
-    const endCompletion = await this._enqueueEndAction(
-      options?.error == null ? undefined : { error: options.error },
-    );
-    await this._waitForActionCompletion(endCompletion.promise, options?.abortSignal);
-  }
-
-  public pause(): void {
-    if (this._aborted) {
-      return;
-    }
-
-    if (!this._started) {
-      this.abort(
-        new Error(
-          `Stream '${this.streamId}' failed before start acknowledgement because connection is unavailable.`,
-        ),
-      );
-      return;
-    }
-
-    this._paused = true;
-    this._queue.pause();
-  }
-
-  public resume(): void {
-    if (this._aborted) {
-      return;
-    }
-
-    if (!this._paused) {
-      return;
-    }
-
-    this._paused = false;
-    this._queue.reset(this._queue.oldestUnackedSequenceId);
-    this._queue.resume();
-  }
-
-  public ack(expectedSequenceId: number): void {
-    if (this._aborted) {
-      return;
-    }
-
-    if (!this._started && expectedSequenceId === 1) {
-      this._startCompletion.resolve();
-    }
-    this._queue.ack(expectedSequenceId);
-  }
-
-  public abort(reason?: unknown): void {
-    if (this._aborted) {
-      return;
-    }
-
-    this._aborted = true;
-    this._writeClosed = true;
-    const effectiveReason = reason ?? new Error(`Stream '${this.streamId}' is completed.`);
-    this._queue.close(effectiveReason);
-    try {
-      this._abortController.abort();
-    } catch {
-      /** empty */
-    }
-
-    if (this._startingPromise != null) {
-      this._startCompletion.reject(effectiveReason);
-    }
-
-    this._pendingActionCompletions.forEach((completion) => {
-      completion.reject(effectiveReason);
-    });
-    this._pendingActionCompletions.clear();
-  }
-
-  public dispose(): void {
-    this.abort(new Error(`Stream '${this.streamId}' is completed.`));
-  }
-
-  private async _enqueueDataAction(
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-  ): Promise<Deferred<void>> {
-    const completion = createDeferred<void>();
-    const sequenceId = await this._queue.enqueue({
-      type: "data",
-      data: content,
-      dataType,
-      completion,
-    });
-    this._pendingActionCompletions.set(sequenceId, completion);
-    return completion;
-  }
-
-  private async _enqueueEndAction(options?: EndStreamOptions): Promise<Deferred<void>> {
-    const completion = createDeferred<void>();
-    const sequenceId = await this._queue.enqueue({
-      type: "end",
-      options,
-      completion,
-    });
-    this._pendingActionCompletions.set(sequenceId, completion);
-    return completion;
-  }
-
-  private async _waitForActionCompletion(
-    completion: Promise<void>,
-    abortSignal?: AbortSignalLike,
-  ): Promise<void> {
-    if (abortSignal == null) {
-      await completion;
-      return;
-    }
-
-    await abortablePromise(completion, abortSignal);
-  }
-
-  private async _runSendLoop(): Promise<void> {
-    while (!this._aborted) {
-      let item;
-      try {
-        item = await this._queue.dequeue(this._abortController.signal);
-      } catch {
-        return;
-      }
-
-      try {
-        if (item.value.type === "data") {
-          await this._sendData(item.sequenceId, item.value.data, item.value.dataType);
-        } else {
-          await this._sendEnd(item.value.options);
-        }
-        this._resolveActionCompletion(item.sequenceId);
-      } catch (err) {
-        if (this._aborted) {
-          this._rejectActionCompletion(item.sequenceId, err);
-          return;
-        }
-
-        this._queue.reset(item.sequenceId);
-        this.pause();
-      }
-    }
-  }
-
-  private _resolveActionCompletion(sequenceId: number): void {
-    const completion = this._pendingActionCompletions.get(sequenceId);
-    if (completion != null) {
-      this._pendingActionCompletions.delete(sequenceId);
-      completion.resolve();
-    }
-  }
-
-  private _rejectActionCompletion(sequenceId: number, reason: unknown): void {
-    const completion = this._pendingActionCompletions.get(sequenceId);
-    if (completion != null) {
-      this._pendingActionCompletions.delete(sequenceId);
-      completion.reject(reason);
-    }
-  }
-
-  private _throwIfClosed(): void {
-    if (this._aborted || this._writeClosed) {
-      throw new Error(`Stream '${this.streamId}' is completed.`);
-    }
-  }
-}
-
 class StreamSubscription {
   public readonly id: number;
   public readonly groupName: string;
@@ -2246,21 +1982,6 @@ class SequenceId {
     this._sequenceId = 0;
     this._isUpdate = false;
   }
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolvePromise!: (value: T) => void;
-  let rejectPromise!: (reason?: unknown) => void;
-  const promise = new Promise<T>((resolve, reject) => {
-    resolvePromise = resolve;
-    rejectPromise = reject;
-  });
-
-  return {
-    promise,
-    resolve: resolvePromise,
-    reject: rejectPromise,
-  };
 }
 
 class AbortableTask {

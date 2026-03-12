@@ -29,6 +29,10 @@ interface DequeueWaiter<T> {
  * - `reset(sequenceId)` rewinds dequeue position to replay unacked items.
  */
 export class AsyncSeqQueue<T> {
+  // Sequence window:
+  // - _oldestUnackedSequenceId: inclusive lower bound kept in _items.
+  // - _nextEnqueueSequenceId: exclusive upper bound (next id to assign).
+  // - _nextDequeueSequenceId: next id to replay/dequeue in [oldestUnacked, nextEnqueue].
   private readonly _items: SeqItem<T>[] = [];
   private readonly _dequeueWaiters: DequeueWaiter<T>[] = [];
   private _closed = false;
@@ -68,7 +72,7 @@ export class AsyncSeqQueue<T> {
 
     const sequenceId = this._nextEnqueueSequenceId++;
     this._items.push({ sequenceId, value });
-    this._drainDequeueWaiters();
+    this._resolveWaiters();
     return sequenceId;
   }
 
@@ -81,7 +85,7 @@ export class AsyncSeqQueue<T> {
       throw new AbortError("The operation was aborted.");
     }
 
-    const item = this._takeNextIfAvailableAndActive();
+    const item = this._tryTakeNext();
     if (item != null) {
       return item;
     }
@@ -110,25 +114,32 @@ export class AsyncSeqQueue<T> {
    * @returns Number of items removed from the queue.
    */
   public ack(expectedSequenceId: number): number {
-    const normalizedExpectedSequenceId = this._normalizeSequenceId(expectedSequenceId);
-    if (normalizedExpectedSequenceId === this._oldestUnackedSequenceId) {
+    this._validateSequenceId(expectedSequenceId, "ack");
+    const targetSequenceId = expectedSequenceId;
+    if (targetSequenceId === this._oldestUnackedSequenceId) {
       return 0;
     }
 
-    const acknowledgedCount = normalizedExpectedSequenceId - this._oldestUnackedSequenceId;
+    const acknowledgedCount = targetSequenceId - this._oldestUnackedSequenceId;
+    // _items is anchored at _oldestUnackedSequenceId, so ack is a prefix trim.
     this._items.splice(0, Math.min(acknowledgedCount, this._items.length));
-    this._oldestUnackedSequenceId = normalizedExpectedSequenceId;
+    this._oldestUnackedSequenceId = targetSequenceId;
     if (this._nextDequeueSequenceId < this._oldestUnackedSequenceId) {
       this._nextDequeueSequenceId = this._oldestUnackedSequenceId;
     }
 
-    this._drainDequeueWaiters();
+    this._resolveWaiters();
     return acknowledgedCount;
   }
 
+  /**
+   * Rewinds dequeue cursor to replay unacked items.
+   * @throws if `sequenceId` is outside [oldestUnackedSequenceId, nextEnqueueSequenceId].
+   */
   public reset(sequenceId: number): void {
-    this._nextDequeueSequenceId = this._normalizeSequenceId(sequenceId);
-    this._drainDequeueWaiters();
+    this._validateSequenceId(sequenceId, "reset");
+    this._nextDequeueSequenceId = sequenceId;
+    this._resolveWaiters();
   }
 
   public pause(): void {
@@ -145,7 +156,7 @@ export class AsyncSeqQueue<T> {
     }
 
     this._paused = false;
-    this._drainDequeueWaiters();
+    this._resolveWaiters();
   }
 
   public close(reason?: unknown): void {
@@ -162,40 +173,32 @@ export class AsyncSeqQueue<T> {
     }
   }
 
-  private _takeNextIfAvailableAndActive(): SeqItem<T> | undefined {
-    if (this._paused) {
+  /**
+   * Examples (initialSequenceId = 1):
+   * - Initial state: oldest=1, nextDequeue=1, nextEnqueue=1, items=[] -> no item.
+   * - After enqueue seq 1/2/3: oldest=1, nextDequeue=1, items=[1,2,3], itemIndex=0 -> returns seq 1.
+   * - After ack(3): oldest=3, nextDequeue=3, nextEnqueue=4, items=[3], itemIndex=0 -> returns seq 3.
+   */
+  private _tryTakeNext(): SeqItem<T> | undefined {
+    if (this._paused || this._nextDequeueSequenceId >= this._nextEnqueueSequenceId) {
       return undefined;
     }
 
-    if (this._nextDequeueSequenceId < this._oldestUnackedSequenceId) {
-      this._nextDequeueSequenceId = this._oldestUnackedSequenceId;
-    }
-
-    if (this._nextDequeueSequenceId >= this._nextEnqueueSequenceId) {
-      return undefined;
-    }
-
-    const index = this._nextDequeueSequenceId - this._oldestUnackedSequenceId;
-    if (index < 0 || index >= this._items.length) {
-      return undefined;
-    }
-
-    const item = this._items[index];
-    if (item.sequenceId !== this._nextDequeueSequenceId) {
-      return undefined;
-    }
-
+    // Since _items[0] is the oldest unacked item, sequenceId maps to array index by offset.
+    const itemIndex = this._nextDequeueSequenceId - this._oldestUnackedSequenceId;
+    const item = this._items[itemIndex]!;
     this._nextDequeueSequenceId += 1;
     return item;
   }
 
-  private _drainDequeueWaiters(): void {
+  private _resolveWaiters(): void {
     if (this._paused) {
       return;
     }
 
+    // Waiters are FIFO; each resolved waiter consumes one sequence item.
     while (this._dequeueWaiters.length > 0) {
-      const item = this._takeNextIfAvailableAndActive();
+      const item = this._tryTakeNext();
       if (item == null) {
         return;
       }
@@ -220,16 +223,16 @@ export class AsyncSeqQueue<T> {
     this._disposeWaiter(waiter);
   }
 
-  private _normalizeSequenceId(sequenceId: number): number {
-    if (sequenceId < this._oldestUnackedSequenceId) {
-      return this._oldestUnackedSequenceId;
+  private _validateSequenceId(sequenceId: number, operation: "ack" | "reset"): void {
+    if (
+      sequenceId < this._oldestUnackedSequenceId ||
+      sequenceId > this._nextEnqueueSequenceId
+    ) {
+      throw new Error(
+        `Invalid sequence id ${sequenceId} for ${operation}. Expected range [` +
+          `${this._oldestUnackedSequenceId}, ${this._nextEnqueueSequenceId}].`,
+      );
     }
-
-    if (sequenceId > this._nextEnqueueSequenceId) {
-      return this._nextEnqueueSequenceId;
-    }
-
-    return sequenceId;
   }
 }
 

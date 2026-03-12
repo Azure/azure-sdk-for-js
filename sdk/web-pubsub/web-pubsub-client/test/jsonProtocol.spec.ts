@@ -476,7 +476,7 @@ describe("JsonProtocol", function () {
           type: "streamNack",
           streamId: "stream1",
           expectedSequenceId: 2,
-          name: "InvalidSequenceId",
+          name: "ProtocolViolation",
           message: "out of order",
         },
         assertFunc: (msg: WebPubSubMessage) => {
@@ -484,7 +484,7 @@ describe("JsonProtocol", function () {
           const typedMessage = msg as StreamNackMessage;
           assert.equal(typedMessage.streamId, "stream1");
           assert.equal(typedMessage.expectedSequenceId, 2);
-          assert.equal(typedMessage.name, "InvalidSequenceId");
+          assert.equal(typedMessage.name, "ProtocolViolation");
           assert.equal(typedMessage.message, "out of order");
         },
       },

@@ -246,7 +246,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     sendStreamNack(socket, {
       streamId: "s1",
       expectedSequenceId: 2,
-      name: "InvalidSequenceId",
+      name: "ProtocolViolation",
       message: "out of order",
     });
     sendStreamClosed(socket, "s1", { name: "StreamNotFound", message: "not found" });
@@ -324,7 +324,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     sendStreamNack(socket, {
       streamId: "publisher-s1",
       expectedSequenceId: 1,
-      name: "InvalidSequenceId",
+      name: "ProtocolViolation",
       message: "out of order",
     });
     await new Promise<void>((resolve) => setTimeout(resolve, 50));
@@ -342,6 +342,58 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       name: "StreamNotFound",
       message: "stream closed",
     });
+  });
+
+  it("closes outbound stream and sends streamEnd when service sends invalid streamAck", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const socket = await startClientAndConnect(client, wss);
+    const sent: Record<string, unknown>[] = [];
+    socket.on("message", (data) => {
+      sent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    enableAutoStartAck(socket);
+    const stream = await client.stream("g1", { streamId: "invalid-ack-s1" });
+    const protocolError = createDeferred<{ name: string; message?: string }>();
+    stream.onError((error) => {
+      protocolError.resolve(error);
+    });
+
+    sendStreamAck(socket, "invalid-ack-s1", 999);
+
+    await waitForCollectedMessages(sent, 2);
+    expect(sent[0]).toEqual({
+      type: "streamStart",
+      streamId: "invalid-ack-s1",
+      target: "group",
+      group: "g1",
+    });
+    expect(sent[1]).toEqual({
+      type: "streamEnd",
+      streamId: "invalid-ack-s1",
+      error: {
+        message: "Invalid sequence id 999 for ack. Expected range [1, 1].",
+        userErrorCode: "ProtocolViolation",
+      },
+    });
+
+    await expect(
+      withTimeout(
+        protocolError.promise,
+        2000,
+        "Timed out waiting for invalid stream ack protocol error callback.",
+      ),
+    ).resolves.toEqual({
+      name: "ProtocolViolation",
+      message: "Invalid sequence id 999 for ack. Expected range [1, 1].",
+    });
+
+    await expect(stream.publish("after-invalid-ack", "text")).rejects.toThrow("is completed");
   });
 
   it("provides a user-facing stream handler API for whole-stream processing", async () => {
