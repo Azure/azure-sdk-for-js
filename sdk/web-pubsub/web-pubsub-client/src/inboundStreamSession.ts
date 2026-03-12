@@ -214,7 +214,7 @@ export class InboundStreamSession {
 
       const timeoutError: StreamDataError = {
         name: "IdleTimeout",
-        message: "Stream handler exceeded ttlInMs in client registry.",
+        message: "Stream handler idle timeout: no data received within ttlInMs in client registry.",
       };
       this._invokeOnError(current, timeoutError);
       this._activeHandlers.delete(active.key);

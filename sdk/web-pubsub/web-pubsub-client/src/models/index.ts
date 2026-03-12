@@ -396,7 +396,9 @@ export interface StreamHandler {
  */
 export interface OnStreamOptions {
   /**
-   * Maximum stream lifetime in milliseconds in the client-side handler registry.
+   * Inactivity timeout in milliseconds for a stream handler in the client-side registry.
+   * The timer is reset whenever a new stream fragment is received.
+   * If no fragment arrives within this duration, the stream handler is evicted.
    * Default: 300000 (5 minutes).
    */
   ttlInMs?: number;
