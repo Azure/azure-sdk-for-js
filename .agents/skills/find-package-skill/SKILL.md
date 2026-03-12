@@ -1,6 +1,6 @@
 ---
 name: find-package-skill
-description: '**UTILITY SKILL** — Locates package-specific domain knowledge skills for SDK packages in this monorepo. Load this first before modifying, regenerating, or debugging any SDK package. WHEN: "regenerate SDK from typespec", "modify SDK package", "fix bug in SDK", "change SDK library", "update SDK code".'
+description: '**UTILITY SKILL** — Must be consulted before making any changes to packages under sdk/. Provides package-specific domain knowledge that prevents common mistakes. WHEN: "add feature to package", "fix bug in package", "modify package code", "regenerate from typespec", "change client library".'
 ---
 
 # Find Package Skill
