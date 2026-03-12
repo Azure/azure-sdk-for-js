@@ -7,9 +7,7 @@
  *
  * It shows how to:
  * - Create a memory store with advanced options (user profile with custom details, chat summary)
- * - Use previousUpdateId to chain incremental memory updates
  * - Search memories with context from a previous search using previousSearchId
- * - Check the status of a memory update via getUpdateResult
  * - Clean up scoped memories and the memory store
  *
  * @summary Create a memory store with advanced options, chain memory updates, perform contextual
@@ -17,10 +15,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type {
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-} from "@azure/ai-projects";
+import type { MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -100,10 +95,6 @@ export async function main(): Promise<void> {
     );
   }
 
-  // Use getUpdateResult to check the status of an update by its ID and retrieve its update_id for chaining.
-  // The update_id from the first update's operation state can be used as previousUpdateId to extend it
-  // with additional messages. Passing previousUpdateId lets the service continue from where the previous
-  // update left off rather than starting a fresh extraction pass.
   const cappuccinoMessage: Record<string, unknown> = {
     type: "message",
     role: "user",
@@ -115,10 +106,7 @@ export async function main(): Promise<void> {
     ],
   };
 
-  // Submit a follow-up update. If you have the update_id from a previous scheduled update that has not
-  // yet started processing (e.g. one submitted with a non-zero updateDelayInSecs), you can pass it as
-  // previousUpdateId to extend or supersede that update with additional messages:
-  //   previousUpdateId: "<update_id from a previous queued update>",
+  // Submit a follow-up update.
   console.log("\nSubmitting follow-up memory update...");
   const secondUpdateResult = await project.beta.memoryStores
     .updateMemories(memoryStore.name, scope, {
@@ -156,7 +144,7 @@ export async function main(): Promise<void> {
 
   // Perform a follow-up search using the previous search as context.
   // Passing previousSearchId lets the service use prior search results to resolve ambiguous
-  // or follow-up queries (e.g. "What about afternoon?" in the context of a previous coffee query).
+  // or follow-up queries.
   const agentMessage: Record<string, unknown> = {
     type: "message",
     role: "assistant",
