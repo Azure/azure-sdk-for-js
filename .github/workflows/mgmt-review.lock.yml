@@ -867,7 +867,12 @@ jobs:
           SECRET_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Append agent step summary
         if: always()
-        run: bash /opt/gh-aw/actions/append_agent_step_summary.sh
+        run: |
+          if [ -f /opt/gh-aw/actions/append_agent_step_summary.sh ]; then
+            bash /opt/gh-aw/actions/append_agent_step_summary.sh
+          else
+            echo "append_agent_step_summary.sh not found; skipping summary append"
+          fi
       - name: Copy safe outputs
         if: always()
         run: |
