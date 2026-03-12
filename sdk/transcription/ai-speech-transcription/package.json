@@ -59,7 +59,7 @@
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
-    "dotenv": "^17.3.1",
+    "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "eslint": "catalog:",
     "prettier": "catalog:",

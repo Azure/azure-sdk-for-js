@@ -310,9 +310,19 @@ const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
   enhancedMode: {
     task: "transcribe",
+    prompt: ["Output must be in lexical format."],
   },
+  // Existing Fast Transcription options work alongside enhanced mode
+  diarizationOptions: {
+    maxSpeakers: 2,
+  },
+  profanityFilterMode: "Masked",
+  activeChannels: [0, 1],
 });
-console.log("Transcription:", result.combinedPhrases[0]?.text);
+
+for (const phrase of result.phrases) {
+  console.log(`[Speaker ${phrase.speaker}] ${phrase.text}`);
+}
 ```
 
 ### Translate with Enhanced Mode
@@ -331,6 +341,7 @@ const result = await client.transcribe(audioFile, {
     task: "translate",
     targetLanguage: "ko", // Translate to Korean
   },
+  profanityFilterMode: "Masked",
 });
 console.log("Translated to Korean:", result.combinedPhrases[0]?.text);
 ```

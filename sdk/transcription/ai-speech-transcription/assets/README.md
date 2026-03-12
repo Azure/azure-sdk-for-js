@@ -2,10 +2,9 @@
 
 This directory contains audio files used by the transcription SDK tests.
 
-## Required Files
+## Files
 
-The following audio files are needed for tests. Copy them from the C# SDK repo
-([azure-sdk-for-net/sdk/transcription/Azure.AI.Speech.Transcription/samples/assets/](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/transcription/Azure.AI.Speech.Transcription/samples/assets)):
+The following audio files are included in this directory for tests:
 
 | File | Description |
 | ---- | ----------- |
@@ -13,6 +12,7 @@ The following audio files are needed for tests. Copy them from the C# SDK repo
 | `sample-profanity.wav` | Audio sample containing profanity (for profanity filter tests) |
 | `sample-audio.wav` | General audio sample |
 | `sample-howstheweather-cn.wav` | Chinese audio sample |
+| `sample-SheWillStopTheAspirin.wav` | Audio sample ("She will stop the aspirin") |
 
 ## Usage
 

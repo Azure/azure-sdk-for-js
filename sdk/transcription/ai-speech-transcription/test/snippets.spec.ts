@@ -152,12 +152,22 @@ describe("snippets", () => {
     const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
+      // Enhanced mode: LLM-powered speech recognition with prompt customization
       enhancedMode: {
         task: "transcribe",
+        prompt: ["Output must be in lexical format."],
       },
+      // Existing Fast Transcription options work alongside enhanced mode
+      diarizationOptions: {
+        maxSpeakers: 2,
+      },
+      profanityFilterMode: "Masked",
+      activeChannels: [0, 1],
     });
 
-    console.log("Transcription:", result.combinedPhrases[0]?.text);
+    for (const phrase of result.phrases) {
+      console.log(`[Speaker ${phrase.speaker}] ${phrase.text}`);
+    }
   });
 
   it("TranslateWithEnhancedMode", async () => {
@@ -170,6 +180,7 @@ describe("snippets", () => {
         task: "translate",
         targetLanguage: "ko", // Translate to Korean
       },
+      profanityFilterMode: "Masked",
     });
 
     console.log("Translated to Korean:", result.combinedPhrases[0]?.text);
