@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
+import type { OperationStatus as LroPollStatus } from "@azure/core-lro";
 import type {
   MemoryStoreDefinitionUnion,
   MemoryStore,
@@ -11,6 +12,7 @@ import type {
   MemoryStoreUpdateResponse,
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
+  MemoryStoreUpdateStatus,
 } from "../../../models/models.js";
 import {
   memorySearchOptionsSerializer,
@@ -213,8 +215,15 @@ export function updateMemories(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-
     apiVersion: context.apiVersion,
+    pollHeaders: { "foundry-features": "MemoryStores=V1Preview" },
+    statusNormalizations: {
+      queued: "running",
+      in_progress: "running",
+      completed: "succeeded",
+      failed: "failed",
+      superseded: "canceled",
+    } satisfies Record<MemoryStoreUpdateStatus, LroPollStatus>,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult

@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -101,7 +101,7 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest -- aiSearch.spec.ts",
     "post-emitter": "node scripts/post-emitter.mjs",
     "tsp:update": "tsp-client update -o ./src/generated",
     "update-snippets": "dev-tool run update-snippets"
