@@ -70,3 +70,5 @@ https://www.npmjs.com/package/@azure/arm-artifactsigning
 https://learn.microsoft.com/javascript/api/@azure/arm-disconnectedoperations
 https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1
 https://learn.microsoft.com/javascript/api/@azure/template?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-marketplace
