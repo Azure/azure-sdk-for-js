@@ -11,7 +11,7 @@ documented in `.github/copilot-instructions.md`.
 Only review for **public API design** issues. Do not comment on:
 - Style, formatting, or whitespace
 - Implementation internals (private methods, internal helpers)
-- Files under `src/generated/` (auto-generated code)
+- Files under `src/generated/` or `generated/` (auto-generated code)
 - APIs tagged with `@internal` in their TSDoc comment
 - Test files, samples, or documentation prose
 
@@ -21,12 +21,13 @@ Only review for **public API design** issues. Do not comment on:
 
 Flag any removal or incompatible change to the public surface:
 - Removed or renamed exports from `src/index.ts`
-- Changed method signatures (parameter order, required→optional flip,
+- Changed method signatures (parameter order, optional→required flip,
   narrowed types)
 - Removed interface members or enum values
 - Changes to `review/*.api.md` that remove lines (each line is a public
   API; removals indicate a breaking change)
-- Do not remove enums or known-value types from stable releases
+- Avoid removing enums or known-value types from stable releases
+  (acceptable in major version bumps with proper deprecation notice)
 - Prefer adding new functions over modifying existing ones when
   introducing significant behavioral changes
 - Changing a property type (e.g. `number` → `string`) is a breaking
@@ -58,7 +59,7 @@ Flag if:
 | Client classes | Must end with `Client` suffix |
 | Options interfaces | Must end with `Options` suffix, prefixed with the method name (e.g. `CreateItemOptions`). Use plain `OperationOptions` only when no custom options are needed |
 | Methods on a `FooClient` | Drop the noun — prefer `create()` over `createFoo()` |
-| Discriminator properties | Pick one of `type` or `kind` and use it consistently across the package |
+| Discriminator properties | Prefer `kind` over `type` (avoids conflict with the TypeScript `type` keyword) and use it consistently across the package |
 | Subclient accessors | Must be named `get<Name>Client()` — e.g. `getQueueClient()`. Enforced by `ts-naming-subclients` lint rule |
 
 Additional naming rules:
@@ -112,9 +113,10 @@ Use the standard verbs instead: `create`, `upsert`, `get`, `list`,
 
 ### 7. Parameter & options design
 
-- Use an **options bag** (extending `OperationOptions`) for optional
-  parameters. Do not add optional parameters directly to method
-  signatures.
+- **Service operation methods** must use an **options bag** (extending
+  `OperationOptions`) for optional parameters. General utility functions
+  with three or fewer parameters may accept them directly without an
+  options bag.
 - Make required properties non-optional — do not mark them `?` unless
   they are truly conditional.
 - Use `undefined` (via `?`) rather than `null` for absent values.
@@ -167,8 +169,10 @@ When a package provides both a class-based client and modular functions:
 - The class-based client should internally delegate to the modular
   functions, not duplicate logic
 
-**REST-level clients (RLC)** follow a different pattern — they use
-`@azure-rest/core-client` instead of `@azure/core-client`:
+**REST-level clients (RLC)** are a legacy pattern used in some existing
+packages. New packages should prefer the modular client pattern above.
+RLC packages use `@azure-rest/core-client` instead of
+`@azure/core-client`:
 - A `createClient()` factory function (no class), returning a typed
   client object
 - Response types use `isUnexpected()` narrowing helpers instead of

@@ -41,10 +41,8 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
 ## Important Constraints
 
 - Only review changes to the **public API surface**. Ignore implementation
-  internals, private methods, generated code under `src/generated/`, and
-  test files.
-- `snippets.spec.ts` files under `sdk/**/*/test/` are documentation snippet
-  sources, **not** real tests — ignore them.
+  internals, private methods, generated code under `src/generated/` or
+  `generated/`, and test files under `test/`.
 - Only flag issues **introduced or worsened** by this pull request. Do not
   flag pre-existing issues in unchanged code.
 - If other review agent labels are present on this PR, focus strictly on
@@ -67,6 +65,9 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
 1. List the files changed in the pull request using the GitHub API.
 2. Focus on:
    - `src/index.ts` or barrel export files (added/removed exports)
+   - Subpath export entry points defined in the `exports` field of
+     `package.json` (e.g. `./models`, `./api`) and their corresponding
+     source files
    - `review/*.api.md` files (the API report — each line is a public symbol)
    - New or modified public interfaces, classes, types, and functions
 3. If no public API surface was changed, post a single comment saying the

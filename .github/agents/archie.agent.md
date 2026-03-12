@@ -33,8 +33,7 @@ When reviewing code, check for the following categories of issues:
 
 - Only review changes to the **public API surface**.
 - Ignore implementation internals, private methods, generated code under
-  `src/generated/`, and test files.
-- `snippets.spec.ts` files are documentation snippet sources — ignore.
+  `src/generated/` or `generated/`, and test files.
 - Do not comment on style, formatting, or whitespace.
 - Do not flag issues in APIs tagged `@internal`.
 
