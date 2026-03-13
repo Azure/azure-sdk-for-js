@@ -1,67 +1,85 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- *
- * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountEncryption.json
- */
-
-import type { MapsAccountUpdateParameters } from "@azure/arm-maps";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function updateAccountEncryption(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccountUpdateParameters: MapsAccountUpdateParameters = {
-    encryption: {
-      customerManagedKeyEncryption: {
-        keyEncryptionKeyIdentity: {
-          identityType: "systemAssignedIdentity",
-          userAssignedIdentityResourceId: undefined,
-        },
-        keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
-      },
-    },
-    identity: {
-      type: "SystemAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
-          {},
-      },
-    },
-  };
+/**
+ * This sample demonstrates how to updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ *
+ * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ * x-ms-original-file: 2025-10-01-preview/UpdateAccount.json
+ */
+async function updateAccountTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    resourceGroupName,
-    accountName,
-    mapsAccountUpdateParameters,
-  );
+  const result = await client.accounts.update("myResourceGroup", "myMapsAccount", {
+    tags: { specialTag: "true" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ * This sample demonstrates how to updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  *
- * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountManagedIdentity.json
+ * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ * x-ms-original-file: 2025-10-01-preview/UpdateAccountEncryption.json
+ */
+async function updateAccountEncryption(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.update("myResourceGroup", "myMapsAccount", {
+    identity: {
+      type: "SystemAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName":
+          null,
+      },
+    },
+    encryption: {
+      customerManagedKeyEncryption: {
+        keyEncryptionKeyIdentity: { identityType: "systemAssignedIdentity" },
+        keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ *
+ * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ * x-ms-original-file: 2025-10-01-preview/UpdateAccountGen2.json
+ */
+async function updateToGen2Account(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.update("myResourceGroup", "myMapsAccount", {
+    kind: "Gen2",
+    sku: { name: "G2" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ *
+ * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
+ * x-ms-original-file: 2025-10-01-preview/UpdateAccountManagedIdentity.json
  */
 async function updateAccountManagedIdentities(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccountUpdateParameters: MapsAccountUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const client = new AzureMapsManagementClient(credential, subscriptionId);
+  const result = await client.accounts.update("myResourceGroup", "myMapsAccount", {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+        "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName":
           {},
       },
     },
@@ -73,97 +91,15 @@ async function updateAccountManagedIdentities(): Promise<void> {
       },
     ],
     sku: { name: "G2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    resourceGroupName,
-    accountName,
-    mapsAccountUpdateParameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- *
- * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccount.json
- */
-async function updateAccountTags(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccountUpdateParameters: MapsAccountUpdateParameters = {
-    tags: { specialTag: "true" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    resourceGroupName,
-    accountName,
-    mapsAccountUpdateParameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- *
- * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountGen1.json
- */
-async function updateToGen1Account(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccountUpdateParameters: MapsAccountUpdateParameters = {
-    kind: "Gen1",
-    sku: { name: "S1" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    resourceGroupName,
-    accountName,
-    mapsAccountUpdateParameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- *
- * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
- * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountGen2.json
- */
-async function updateToGen2Account(): Promise<void> {
-  const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
-  const accountName = "myMapsAccount";
-  const mapsAccountUpdateParameters: MapsAccountUpdateParameters = {
-    kind: "Gen2",
-    sku: { name: "G2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.update(
-    resourceGroupName,
-    accountName,
-    mapsAccountUpdateParameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateAccountEncryption();
-  await updateAccountManagedIdentities();
   await updateAccountTags();
-  await updateToGen1Account();
+  await updateAccountEncryption();
   await updateToGen2Account();
+  await updateAccountManagedIdentities();
 }
 
 main().catch(console.error);
