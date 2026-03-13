@@ -16,7 +16,7 @@ import {
   scheduleRunDeserializer,
   _pagedScheduleRunDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
@@ -81,7 +81,16 @@ export function listRuns(
     () => _listRunsSend(context, id, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Schedules=V1Preview",
+        },
+      },
+    },
   );
 }
 
@@ -196,7 +205,7 @@ export function _listSend(
     "/schedules{?api-version,type,enabled}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam,
+      type: options?.scheduleType,
       enabled: options?.enabled,
     },
     {
@@ -235,7 +244,16 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Schedules=V1Preview",
+        },
+      },
+    },
   );
 }
 

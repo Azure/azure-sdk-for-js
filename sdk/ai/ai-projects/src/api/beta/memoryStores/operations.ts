@@ -11,6 +11,7 @@ import type {
   MemoryStoreUpdateResponse,
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
+  MemoryStoreUpdateStatus,
 } from "../../../models/models.js";
 import {
   memorySearchOptionsSerializer,
@@ -19,13 +20,12 @@ import {
   memoryStoreDeserializer,
   _agentsPagedResultMemoryStoreObjectDeserializer,
   deleteMemoryStoreResponseDeserializer,
-  inputItemUnionArraySerializer,
   memoryStoreSearchResponseDeserializer,
   memoryStoreUpdateResponseDeserializer,
   memoryStoreUpdateCompletedResultDeserializer,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
@@ -42,7 +42,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,
@@ -176,7 +176,7 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: options?.items,
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelayInSecs,
     },
@@ -214,8 +214,18 @@ export function updateMemories(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-
     apiVersion: context.apiVersion,
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "MemoryStores=V1Preview",
+    },
+    statusNormalizations: {
+      queued: "running",
+      in_progress: "running",
+      completed: "succeeded",
+      failed: "failed",
+      superseded: "canceled",
+    } satisfies Record<MemoryStoreUpdateStatus, OperationStatus>,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
@@ -249,7 +259,11 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: !options?.items
+        ? options?.items
+        : options?.items.map((p: any) => {
+            return p;
+          }),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
@@ -382,7 +396,15 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "MemoryStores=V1Preview",
+        },
+      },
+    },
   );
 }
 

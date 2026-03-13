@@ -9,11 +9,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type {
-  EasyInputMessage,
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-} from "@azure/ai-projects";
+import type { MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -70,7 +66,7 @@ export async function main(): Promise<void> {
   }
 
   // Add memories to the store via an update operation
-  const userMessage: EasyInputMessage = {
+  const userMessage: Record<string, unknown> = {
     type: "message",
     role: "user",
     content: [
@@ -82,7 +78,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.beta.memoryStores.updateMemories(memoryStoreName, scope, {
     items: [userMessage],
     updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
@@ -95,8 +91,14 @@ export async function main(): Promise<void> {
     );
   }
 
+  const storeList = project.beta.memoryStores.list();
+  console.log("Listing all memory stores...");
+  for await (const store of storeList) {
+    console.log(`  - Memory Store: ${store.name} (${store.id})`);
+  }
+
   // Search for stored memories
-  const queryMessage: EasyInputMessage = {
+  const queryMessage: Record<string, unknown> = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "What are my coffee preferences?" }],

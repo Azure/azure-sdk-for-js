@@ -166,8 +166,8 @@ export async function main(): Promise<void> {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
-    typeParam: "builtin",
+  const builtinEvaluators = project.beta.evaluators.list({
+    evaluatorType: "builtin",
   });
   console.log("List of builtin evaluator versions:");
   for await (const evaluator of builtinEvaluators) {
@@ -176,8 +176,8 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
-    typeParam: "custom",
+  const customEvaluators = project.beta.evaluators.list({
+    evaluatorType: "custom",
   });
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {
