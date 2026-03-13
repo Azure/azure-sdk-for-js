@@ -1,6 +1,6 @@
 # Release History
 
-## 23.1.0-beta.1 (2026-03-10)
+## 23.1.0-beta.1 (2026-03-13)
 Compared with version 23.0.0
 
 ### Features Added
@@ -256,7 +256,6 @@ Compared with version 23.0.0
   - Added Enum KnownSnapshotUsage
   - Added Enum KnownVolumeLanguage
   - Added Enum KnownVolumeSize
-  - Enum KnownApplicationType has a new value Custom
   - Enum KnownVersions has a new value V20251215Preview
 
 ## 23.0.0 (2026-02-27)
