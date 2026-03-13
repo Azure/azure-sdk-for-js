@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Management SDK Review Agent
 
-Follow the guidelines in [mgmt-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/mgmt-review-guidelines.md).
+Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guidelines.md).
 
 ## Quick-Reference Checklist
 
