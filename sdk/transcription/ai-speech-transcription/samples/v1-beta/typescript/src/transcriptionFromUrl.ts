@@ -6,7 +6,6 @@
  * Azure AI Speech Transcription service.
  *
  * @summary transcribe audio from a URL
- * @azsdk-weight 90
  */
 
 import { TranscriptionClient } from "@azure/ai-speech-transcription";

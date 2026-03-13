@@ -9,7 +9,6 @@
  * call center analytics, and any multi-speaker conversation.
  *
  * @summary identify and separate different speakers in audio
- * @azsdk-weight 80
  */
 
 import { TranscriptionClient } from "@azure/ai-speech-transcription";

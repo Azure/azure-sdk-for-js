@@ -28,7 +28,6 @@ export async function main(): Promise<void> {
   const audioFilePath = process.env.AUDIO_FILE_PATH ?? "path/to/meeting.wav";
   const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
 
-  // <ReadmeSampleTranscriptionOptions>
   // Combine multiple options for complex transcription scenarios such as meetings
   const result = await client.transcribe(audioFile, {
     // Enable speaker diarization to identify different speakers
@@ -54,7 +53,6 @@ export async function main(): Promise<void> {
   for (const phrase of result.phrases) {
     console.log(`Speaker ${phrase.speaker}: ${phrase.text}`);
   }
-  // </ReadmeSampleTranscriptionOptions>
 }
 
 main().catch((err) => {

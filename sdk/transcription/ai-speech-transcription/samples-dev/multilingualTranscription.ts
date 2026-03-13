@@ -37,7 +37,6 @@ export async function main(): Promise<void> {
   const audioFilePath = process.env.AUDIO_FILE_PATH ?? "path/to/multilingual-audio.wav";
   const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
 
-  // <ReadmeSampleMultilingualTranscription>
   // For multilingual content, do not specify any locales.
   // The service will automatically detect and transcribe each language segment.
   const result = await client.transcribe(audioFile);
@@ -50,7 +49,6 @@ export async function main(): Promise<void> {
   for (const phrase of result.phrases) {
     console.log(`[${phrase.locale}] ${phrase.text}`);
   }
-  // </ReadmeSampleMultilingualTranscription>
 }
 
 main().catch((err) => {

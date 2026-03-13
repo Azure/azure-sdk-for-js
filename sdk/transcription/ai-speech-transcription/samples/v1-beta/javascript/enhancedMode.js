@@ -21,17 +21,19 @@
  * - `locales` and `phraseList` options are not required or applicable with Enhanced Mode
  *
  * @summary use Enhanced Mode for LLM-powered transcription and translation
- * @azsdk-weight 85
  */
 
-import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
-import { AzureKeyCredential } from "@azure/core-auth";
-import * as fs from "fs";
+const {
+  TranscriptionClient,
+  KnownProfanityFilterModes,
+} = require("@azure/ai-speech-transcription");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const fs = require("fs");
 
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Enhanced Mode Sample ==");
 
   const endpoint = process.env.ENDPOINT ?? "<endpoint>";
@@ -78,3 +80,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

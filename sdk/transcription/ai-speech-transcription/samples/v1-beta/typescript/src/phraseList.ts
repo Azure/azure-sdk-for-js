@@ -12,7 +12,6 @@
  * - "Contoso" might be recognized as "can't do so"
  *
  * @summary use phrase lists to improve transcription accuracy
- * @azsdk-weight 70
  */
 
 import { TranscriptionClient } from "@azure/ai-speech-transcription";

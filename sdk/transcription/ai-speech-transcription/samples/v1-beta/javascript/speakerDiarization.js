@@ -4,6 +4,10 @@
 /**
  * Demonstrates how to transcribe an audio file with speaker diarization enabled.
  *
+ * Speaker diarization automatically identifies and labels different speakers in an audio file.
+ * This is useful for meeting transcriptions, interview recordings, podcast transcriptions,
+ * call center analytics, and any multi-speaker conversation.
+ *
  * @summary identify and separate different speakers in audio
  */
 
@@ -24,9 +28,11 @@ async function main() {
   const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
 
   // Enable speaker diarization by specifying maxSpeakers.
+  // The total number of identified speakers will never exceed maxSpeakers.
+  // If the actual audio contains more speakers than specified, the service will consolidate them.
   const result = await client.transcribe(audioFile, {
     diarizationOptions: {
-      maxSpeakers: 4,
+      maxSpeakers: 4, // Expect up to 4 speakers in the conversation
     },
   });
 

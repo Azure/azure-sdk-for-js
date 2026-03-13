@@ -5,17 +5,23 @@
  * Demonstrates how to use profanity filtering modes to control how
  * profanity is handled in transcription results.
  *
+ * The ProfanityFilterMode supports the following modes:
+ * - "None":    No filtering is applied. Profane words appear as spoken.
+ * - "Masked":  (Default) Profane words are replaced with asterisks (e.g., "f***").
+ * - "Removed": Profane words are completely removed from the output.
+ * - "Tags":    Profane words are wrapped in XML tags (e.g., "<profanity>word</profanity>").
+ *
  * @summary control profanity handling in transcription results
  */
 
-const { TranscriptionClient } = require("@azure/ai-speech-transcription");
-const { AzureKeyCredential } = require("@azure/core-auth");
-const fs = require("fs");
+import { TranscriptionClient, ProfanityFilterMode } from "@azure/ai-speech-transcription";
+import { AzureKeyCredential } from "@azure/core-auth";
+import * as fs from "fs";
 
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
-async function main() {
+export async function main(): Promise<void> {
   console.log("== Profanity Filtering Sample ==");
 
   const endpoint = process.env.ENDPOINT ?? "<endpoint>";
@@ -25,7 +31,12 @@ async function main() {
   const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
 
   // Demonstrate all four profanity filter modes
-  const filterModes = ["None", "Masked", "Removed", "Tags"];
+  const filterModes: ProfanityFilterMode[] = [
+    "None", // No filtering - profanity appears as spoken
+    "Masked", // Default - profanity is replaced with asterisks (e.g., "f***")
+    "Removed", // Profanity is completely removed from the text
+    "Tags", // Profanity is wrapped in XML tags (e.g., "<profanity>word</profanity>")
+  ];
 
   for (const filterMode of filterModes) {
     const result = await client.transcribe(audioFile, {
@@ -51,5 +62,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

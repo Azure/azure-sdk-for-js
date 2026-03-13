@@ -5,6 +5,12 @@
  * Demonstrates how to use custom phrase lists to improve transcription accuracy
  * for domain-specific terminology, product names, or proper nouns.
  *
+ * A phrase list allows you to provide terms that may not be well-recognized
+ * by the default speech model. For example, without a phrase list:
+ * - "Jessie" might be recognized as "Jesse"
+ * - "Rehaan" might be recognized as "everyone"
+ * - "Contoso" might be recognized as "can't do so"
+ *
  * @summary use phrase lists to improve transcription accuracy
  */
 
@@ -27,6 +33,7 @@ async function main() {
   // Add custom phrases to improve recognition of names and domain-specific terms
   const result = await client.transcribe(audioFile, {
     phraseList: {
+      // Add names, locations, and terms that might be misrecognized
       phrases: ["Contoso", "Jessie", "Rehaan"],
     },
   });

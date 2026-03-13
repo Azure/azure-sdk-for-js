@@ -5,7 +5,6 @@
  * Demonstrates how to transcribe a local audio file using the Azure AI Speech Transcription service.
  *
  * @summary transcribe a local audio file
- * @azsdk-weight 100
  */
 
 import { TranscriptionClient } from "@azure/ai-speech-transcription";

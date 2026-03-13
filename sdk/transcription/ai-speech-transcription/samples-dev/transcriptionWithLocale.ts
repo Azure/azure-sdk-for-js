@@ -40,21 +40,18 @@ export async function main(): Promise<void> {
   // to improve transcription accuracy and minimize latency.
   console.log("\n--- Known Locale (en-US) ---");
 
-  // <ReadmeSampleTranscriptionWithKnownLocale>
   const knownLocaleResult = await client.transcribe(audioFile, {
     locales: ["en-US"],
   });
 
   console.log("Transcription with known locale (en-US):");
   console.log(knownLocaleResult.combinedPhrases[0]?.text);
-  // </ReadmeSampleTranscriptionWithKnownLocale>
 
   // === Transcribe with Language Identification ===
   // When you're not sure about the locale, specify multiple candidate locales.
   // The service will identify the main language of the audio (one locale per audio file).
   console.log("\n--- Language Identification ---");
 
-  // <ReadmeSampleTranscriptionWithLocale>
   const langIdResult = await client.transcribe(audioFile, {
     locales: ["en-US", "es-ES"],
   });
@@ -63,7 +60,6 @@ export async function main(): Promise<void> {
   for (const phrase of langIdResult.phrases) {
     console.log(`[${phrase.locale}] ${phrase.text}`);
   }
-  // </ReadmeSampleTranscriptionWithLocale>
 }
 
 main().catch((err) => {
