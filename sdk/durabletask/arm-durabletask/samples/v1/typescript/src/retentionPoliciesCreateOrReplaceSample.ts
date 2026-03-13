@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a Retention Policy
  *
  * @summary create or Update a Retention Policy
- * x-ms-original-file: 2025-11-01/RetentionPolicies_CreateOrReplace_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01/RetentionPolicies_CreateOrReplace_MaximumSet_Gen.json
  */
 async function retentionPoliciesCreateOrReplaceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

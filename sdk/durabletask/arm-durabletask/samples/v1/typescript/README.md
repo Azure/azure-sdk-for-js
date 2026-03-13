@@ -2,24 +2,31 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-durabletask in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                                                                          |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [operationsListSample.ts][operationslistsample]                                     | list the operations for the provider x-ms-original-file: 2025-11-01/Operations_List.json                                 |
-| [retentionPoliciesCreateOrReplaceSample.ts][retentionpoliciescreateorreplacesample] | create or Update a Retention Policy x-ms-original-file: 2025-11-01/RetentionPolicies_CreateOrReplace_MaximumSet_Gen.json |
-| [retentionPoliciesDeleteSample.ts][retentionpoliciesdeletesample]                   | delete a Retention Policy x-ms-original-file: 2025-11-01/RetentionPolicies_Delete_MaximumSet_Gen.json                    |
-| [retentionPoliciesGetSample.ts][retentionpoliciesgetsample]                         | get a Retention Policy x-ms-original-file: 2025-11-01/RetentionPolicies_Get_MaximumSet_Gen.json                          |
-| [retentionPoliciesListBySchedulerSample.ts][retentionpolicieslistbyschedulersample] | list Retention Policies x-ms-original-file: 2025-11-01/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json             |
-| [retentionPoliciesUpdateSample.ts][retentionpoliciesupdatesample]                   | update a Retention Policy x-ms-original-file: 2025-11-01/RetentionPolicies_Update_MaximumSet_Gen.json                    |
-| [schedulersCreateOrUpdateSample.ts][schedulerscreateorupdatesample]                 | create or update a Scheduler x-ms-original-file: 2025-11-01/Schedulers_CreateOrUpdate.json                               |
-| [schedulersDeleteSample.ts][schedulersdeletesample]                                 | delete a Scheduler x-ms-original-file: 2025-11-01/Schedulers_Delete.json                                                 |
-| [schedulersGetSample.ts][schedulersgetsample]                                       | get a Scheduler x-ms-original-file: 2025-11-01/Schedulers_Get.json                                                       |
-| [schedulersListByResourceGroupSample.ts][schedulerslistbyresourcegroupsample]       | list Schedulers by resource group x-ms-original-file: 2025-11-01/Schedulers_ListByResourceGroup.json                     |
-| [schedulersListBySubscriptionSample.ts][schedulerslistbysubscriptionsample]         | list Schedulers by subscription x-ms-original-file: 2025-11-01/Schedulers_ListBySubscription.json                        |
-| [schedulersUpdateSample.ts][schedulersupdatesample]                                 | update a Scheduler x-ms-original-file: 2025-11-01/Schedulers_Update.json                                                 |
-| [taskHubsCreateOrUpdateSample.ts][taskhubscreateorupdatesample]                     | create or Update a Task Hub x-ms-original-file: 2025-11-01/TaskHubs_CreateOrUpdate.json                                  |
-| [taskHubsDeleteSample.ts][taskhubsdeletesample]                                     | delete a Task Hub x-ms-original-file: 2025-11-01/TaskHubs_Delete.json                                                    |
-| [taskHubsGetSample.ts][taskhubsgetsample]                                           | get a Task Hub x-ms-original-file: 2025-11-01/TaskHubs_Get.json                                                          |
-| [taskHubsListBySchedulerSample.ts][taskhubslistbyschedulersample]                   | list Task Hubs x-ms-original-file: 2025-11-01/TaskHubs_ListByScheduler.json                                              |
+| **File Name**                                                                                                         | **Description**                                                                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [operationsListSample.ts][operationslistsample]                                                                       | list the operations for the provider x-ms-original-file: 2026-02-01/Operations_List.json                                                                           |
+| [retentionPoliciesCreateOrReplaceSample.ts][retentionpoliciescreateorreplacesample]                                   | create or Update a Retention Policy x-ms-original-file: 2026-02-01/RetentionPolicies_CreateOrReplace_MaximumSet_Gen.json                                           |
+| [retentionPoliciesDeleteSample.ts][retentionpoliciesdeletesample]                                                     | delete a Retention Policy x-ms-original-file: 2026-02-01/RetentionPolicies_Delete_MaximumSet_Gen.json                                                              |
+| [retentionPoliciesGetSample.ts][retentionpoliciesgetsample]                                                           | get a Retention Policy x-ms-original-file: 2026-02-01/RetentionPolicies_Get_MaximumSet_Gen.json                                                                    |
+| [retentionPoliciesListBySchedulerSample.ts][retentionpolicieslistbyschedulersample]                                   | list Retention Policies x-ms-original-file: 2026-02-01/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json                                                       |
+| [retentionPoliciesUpdateSample.ts][retentionpoliciesupdatesample]                                                     | update a Retention Policy x-ms-original-file: 2026-02-01/RetentionPolicies_Update_MaximumSet_Gen.json                                                              |
+| [schedulersCreateOrUpdatePrivateEndpointConnectionSample.ts][schedulerscreateorupdateprivateendpointconnectionsample] | create or update a private endpoint connection for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Create_MaximumSet_Gen.json |
+| [schedulersCreateOrUpdateSample.ts][schedulerscreateorupdatesample]                                                   | create or update a Scheduler x-ms-original-file: 2026-02-01/Schedulers_CreateOrUpdate.json                                                                         |
+| [schedulersDeletePrivateEndpointConnectionSample.ts][schedulersdeleteprivateendpointconnectionsample]                 | delete a private endpoint connection for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Delete_MaximumSet_Gen.json           |
+| [schedulersDeleteSample.ts][schedulersdeletesample]                                                                   | delete a Scheduler x-ms-original-file: 2026-02-01/Schedulers_Delete.json                                                                                           |
+| [schedulersGetPrivateEndpointConnectionSample.ts][schedulersgetprivateendpointconnectionsample]                       | get a private endpoint connection for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Get_MaximumSet_Gen.json                 |
+| [schedulersGetPrivateLinkSample.ts][schedulersgetprivatelinksample]                                                   | get a private link resource for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateLinkResources_Get_MaximumSet_Gen.json                             |
+| [schedulersGetSample.ts][schedulersgetsample]                                                                         | get a Scheduler x-ms-original-file: 2026-02-01/Schedulers_Get.json                                                                                                 |
+| [schedulersListByResourceGroupSample.ts][schedulerslistbyresourcegroupsample]                                         | list Schedulers by resource group x-ms-original-file: 2026-02-01/Schedulers_ListByResourceGroup.json                                                               |
+| [schedulersListBySubscriptionSample.ts][schedulerslistbysubscriptionsample]                                           | list Schedulers by subscription x-ms-original-file: 2026-02-01/Schedulers_ListBySubscription.json                                                                  |
+| [schedulersListPrivateEndpointConnectionsSample.ts][schedulerslistprivateendpointconnectionssample]                   | list private endpoint connections for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateEndpointConnections_List_MaximumSet_Gen.json                |
+| [schedulersListPrivateLinksSample.ts][schedulerslistprivatelinkssample]                                               | list private link resources for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateLinkResources_List_MaximumSet_Gen.json                            |
+| [schedulersUpdatePrivateEndpointConnectionSample.ts][schedulersupdateprivateendpointconnectionsample]                 | update a private endpoint connection for the durable task scheduler x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Update.json                          |
+| [schedulersUpdateSample.ts][schedulersupdatesample]                                                                   | update a Scheduler x-ms-original-file: 2026-02-01/Schedulers_Update.json                                                                                           |
+| [taskHubsCreateOrUpdateSample.ts][taskhubscreateorupdatesample]                                                       | create or Update a Task Hub x-ms-original-file: 2026-02-01/TaskHubs_CreateOrUpdate.json                                                                            |
+| [taskHubsDeleteSample.ts][taskhubsdeletesample]                                                                       | delete a Task Hub x-ms-original-file: 2026-02-01/TaskHubs_Delete.json                                                                                              |
+| [taskHubsGetSample.ts][taskhubsgetsample]                                                                             | get a Task Hub x-ms-original-file: 2026-02-01/TaskHubs_Get.json                                                                                                    |
+| [taskHubsListBySchedulerSample.ts][taskhubslistbyschedulersample]                                                     | list Task Hubs x-ms-original-file: 2026-02-01/TaskHubs_ListByScheduler.json                                                                                        |
 
 ## Prerequisites
 
@@ -61,10 +68,10 @@ npm run build
 node dist/operationsListSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/operationsListSample.js
+node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -77,11 +84,18 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [retentionpoliciesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/retentionPoliciesGetSample.ts
 [retentionpolicieslistbyschedulersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/retentionPoliciesListBySchedulerSample.ts
 [retentionpoliciesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/retentionPoliciesUpdateSample.ts
+[schedulerscreateorupdateprivateendpointconnectionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersCreateOrUpdatePrivateEndpointConnectionSample.ts
 [schedulerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersCreateOrUpdateSample.ts
+[schedulersdeleteprivateendpointconnectionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersDeletePrivateEndpointConnectionSample.ts
 [schedulersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersDeleteSample.ts
+[schedulersgetprivateendpointconnectionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersGetPrivateEndpointConnectionSample.ts
+[schedulersgetprivatelinksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersGetPrivateLinkSample.ts
 [schedulersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersGetSample.ts
 [schedulerslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersListByResourceGroupSample.ts
 [schedulerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersListBySubscriptionSample.ts
+[schedulerslistprivateendpointconnectionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersListPrivateEndpointConnectionsSample.ts
+[schedulerslistprivatelinkssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersListPrivateLinksSample.ts
+[schedulersupdateprivateendpointconnectionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersUpdatePrivateEndpointConnectionSample.ts
 [schedulersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/schedulersUpdateSample.ts
 [taskhubscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/taskHubsCreateOrUpdateSample.ts
 [taskhubsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1/typescript/src/taskHubsDeleteSample.ts
