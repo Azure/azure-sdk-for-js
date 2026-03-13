@@ -19,9 +19,11 @@ safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for reviewing..."
@@ -35,7 +37,7 @@ timeout-minutes: 15
 
 Review Azure SDK for JS management library pull request #${{ github.event.pull_request.number }} against the official API review guidelines.
 
-Follow the guidelines in [mgmt-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/mgmt-review-guidelines.m).
+Follow the guidelines in [mgmt-review-guidelines.md](https://github.com/marygao/azure-sdk-for-js/blob/main/.github/prompts/mgmt-review-guidelines.m).
 
 ## Important Constraints
 
