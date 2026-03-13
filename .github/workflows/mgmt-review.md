@@ -41,45 +41,45 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 
 ## Important Constraints
 
-- Focus reviewing changes to the LISTED rules' validation on **tool** and **public API surface** in guidelines. 
+- Focus the review on changes relevant to the listed validation rules for **tooling** and **public API surface** in the guidelines.
 - Ignore implementation internals, private methods, generated code, and test or samples files.
 - Do **not** comment on style, formatting, documentation, or whitespace.
 - Do **not** flag issues in APIs tagged `@internal`.
-- Do **not** flag issues in APIs undocumented.
-- Do **not** flag issues in sub modules.
+- Do **not** flag undocumented APIs.
+- Do **not** flag issues in submodules.
 
 ## Step 1 — Context Gathering
 
 1. **Check CI status** — use the Actions toolset to check whether CI checks are 
   passing on this PR. If the build is failing, note it but proceed with the 
   review (management SDK review issues exist regardless of build).
-2. **Recall past context** — use cache-memory to check if this PR or
+2. **Recall past context** — use `cache-memory` to check whether this PR or
    package has been reviewed before.
 
 ## Step 2 - Validate any tool issues
 
 1. List the files changed in the pull request using the GitHub API.
-2. Focus on the tool validation rules and hightlight tool issue reporting.
-3. If no any listed violation found, proceed with following steps.
+2. Focus on the tool validation rules and highlight tool issues.
+3. If no listed violations are found, proceed to the following steps.
 
 ## Step 3 — Validate changed public API surface
 
 1. List the files changed in the pull request using the GitHub API.
 2. Focus on:
    - `review/{package-name}-node.api.md` files (the API report — each line is a public symbol)
-   - Only consider checkpoints mentioned in guidelines
+  - Only consider checkpoints mentioned in the guidelines
    No need to:
-   - Review sub-modules like /models or /api
-   - Focus other issues not mentioned by guidelines like undocumented
-3. If no violations mentioned in guidelines, say no concern for public API.
+  - Review submodules like `/models` or `/api`
+  - Focus on issues not mentioned in the guidelines, such as `undocumented`
+3. If no guideline violations are found, state that there are no public API concerns.
 
 ## Step 4 - Double check review comments
 
-1. Go through all review comments
-2. If some comments mention missing data, we should
-    2.1 first check relevant complete files not just PR's diff
-    2.2 then double check if the data is missing
-3. If the data is missing, keep this comment; Otherwise remove this comment because the data is there but not in current PR.
+1. Go through all review comments.
+2. If any comments mention missing data:
+   2.1 First, check the relevant full files, not just the PR diff.
+   2.2 Then double-check whether the data is actually missing.
+3. If the data is missing, keep the comment; otherwise remove it because the data exists but is not part of the current PR.
 
 ## Step 5 — Submit Review
 
@@ -90,8 +90,8 @@ line using `create-pull-request-review-comment`:
 
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
-> We should not compare with any alpha versions in CHANGELOG.md and there should be a bug in tool.
-> **Fix:**: Update the CHANGELOG to compare with lastest preview or stable version and report the issue in [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
+> **Fix:** Update `CHANGELOG.md` to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
 
 After all inline comments, **submit the review** using
 `submit-pull-request-review` with:
@@ -111,9 +111,9 @@ After all inline comments, **submit the review** using
 </pre>
 
 If no issues were found, submit a `COMMENT` review with a one-sentence
-body confirming the API surface looks good.
+body confirming that the API surface looks good.
 
 ## Step 6 — Update Memory
 
-After posting, store a brief summary in cache-memory (PR number,
+After posting, store a brief summary in `cache-memory` (PR number,
 package, outcome) so future runs can detect repeat patterns.
