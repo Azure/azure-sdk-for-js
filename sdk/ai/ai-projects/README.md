@@ -20,7 +20,7 @@ resources in your Microsoft Foundry Project. Use it to:
   * Model Context Protocol (MCP)
   * OpenAPI
   * Microsoft SharePoint (Preview)
-  * Web Search (Preview)
+  * Web Search
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
@@ -37,7 +37,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-latest)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
