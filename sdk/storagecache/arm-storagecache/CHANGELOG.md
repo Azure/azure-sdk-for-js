@@ -1,5 +1,34 @@
 # Release History
 
+## 8.2.0 (2026-03-13)
+
+### Features Added
+  - Added operation group ExpansionJobs
+  - Added Interface ExpansionJob
+  - Added Interface ExpansionJobsCreateOrUpdateHeaders
+  - Added Interface ExpansionJobsCreateOrUpdateOptionalParams
+  - Added Interface ExpansionJobsDeleteHeaders
+  - Added Interface ExpansionJobsDeleteOptionalParams
+  - Added Interface ExpansionJobsGetOptionalParams
+  - Added Interface ExpansionJobsListByAmlFilesystemOptionalParams
+  - Added Interface ExpansionJobsListResult
+  - Added Interface ExpansionJobsUpdateHeaders
+  - Added Interface ExpansionJobsUpdateOptionalParams
+  - Added Interface ExpansionJobUpdate
+  - Interface AmlFilesystem has a new optional parameter clusterUuid
+  - Interface AmlFilesystem has a new optional parameter currentStorageCapacityTiB
+  - Added Type Alias ExpansionJobPropertiesProvisioningState
+  - Added Type Alias ExpansionJobsCreateOrUpdateResponse
+  - Added Type Alias ExpansionJobsDeleteResponse
+  - Added Type Alias ExpansionJobsGetResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemNextResponse
+  - Added Type Alias ExpansionJobsListByAmlFilesystemResponse
+  - Added Type Alias ExpansionJobStatusType
+  - Added Type Alias ExpansionJobsUpdateResponse
+  - Added Enum KnownExpansionJobPropertiesProvisioningState
+  - Added Enum KnownExpansionJobStatusType
+  - Enum KnownAmlFilesystemHealthStateType has a new value Expanding
+
 ## 8.1.0 (2025-09-26)
 
 ### Features Added

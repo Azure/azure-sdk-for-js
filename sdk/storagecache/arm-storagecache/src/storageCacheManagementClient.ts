@@ -13,6 +13,7 @@ import {
   AutoExportJobsImpl,
   ImportJobsImpl,
   AutoImportJobsImpl,
+  ExpansionJobsImpl,
   OperationsImpl,
   SkusImpl,
   UsageModelsImpl,
@@ -27,6 +28,7 @@ import {
   AutoExportJobs,
   ImportJobs,
   AutoImportJobs,
+  ExpansionJobs,
   Operations,
   Skus,
   UsageModels,
@@ -77,7 +79,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/8.1.0`;
+    const packageDetails = `azsdk-js-arm-storagecache/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -127,11 +129,12 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-07-01";
+    this.apiVersion = options.apiVersion || "2026-01-01";
     this.amlFilesystems = new AmlFilesystemsImpl(this);
     this.autoExportJobs = new AutoExportJobsImpl(this);
     this.importJobs = new ImportJobsImpl(this);
     this.autoImportJobs = new AutoImportJobsImpl(this);
+    this.expansionJobs = new ExpansionJobsImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.usageModels = new UsageModelsImpl(this);
@@ -190,6 +193,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   autoExportJobs: AutoExportJobs;
   importJobs: ImportJobs;
   autoImportJobs: AutoImportJobs;
+  expansionJobs: ExpansionJobs;
   operations: Operations;
   skus: Skus;
   usageModels: UsageModels;

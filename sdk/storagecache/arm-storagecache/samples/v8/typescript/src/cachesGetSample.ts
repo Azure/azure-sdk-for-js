@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a cache.
  *
  * @summary Returns a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_Get.json
  */
 async function cachesGet(): Promise<void> {
   const subscriptionId =
