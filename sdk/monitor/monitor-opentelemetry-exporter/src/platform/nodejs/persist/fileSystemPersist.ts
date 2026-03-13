@@ -128,9 +128,12 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await unlink(filePath);
     } catch (e: any) {
-      if (e.code !== "ENOENT") {
-        diag.warn(`Failed to remove persisted file: ${filePath}`, e);
+      if (e.code === "ENOENT") {
+        // File already removed or does not exist; treat as success.
+        return;
       }
+      diag.warn(`Failed to remove persisted file: ${filePath}`, e);
+      throw e;
     }
   }
 
@@ -143,9 +146,9 @@ export class FileSystemPersist implements PersistentStorage {
       const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
         const origFiles = await readdir(this._tempDirectory);
-        const files = origFiles.filter((f) =>
-          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
-        );
+        const files = origFiles
+          .filter((f) => basename(f).includes(FileSystemPersist.FILENAME_SUFFIX))
+          .sort();
         if (files.length === 0) {
           return null;
         } else {
@@ -177,9 +180,9 @@ export class FileSystemPersist implements PersistentStorage {
       const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
         const origFiles = await readdir(this._tempDirectory);
-        const files = origFiles.filter((f) =>
-          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
-        );
+        const files = origFiles
+          .filter((f) => basename(f).includes(FileSystemPersist.FILENAME_SUFFIX))
+          .sort();
         if (files.length === 0) {
           return null;
         } else {
