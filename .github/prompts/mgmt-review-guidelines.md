@@ -21,11 +21,11 @@ Also the review suggestions should be well organized with proper guidances.
 Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules.
 
 ### 1. Package version and api versions
-- Carelyfully check the package version are aligned among package.json, clientContext.ts and CHANGELOG.md files. If inconsistent, follow the changelog entry detail to provide suggested versions and report this as critical tool issue.
+- Carefully check that the package version is aligned among `package.json`, the management client context file under `src/api/` (for example, `src/api/*Context.ts` such as `src/api/managedOpsContext.ts`), and `CHANGELOG.md`. The agent should first discover the appropriate `*Context.ts` file in `src/api/` and then validate its version. If inconsistent, follow the changelog entry detail to provide suggested versions and report this as a critical tool issue.
 - Cross-check the code references among README.md, snippets.spec.ts and public API. If inconsistent, follow public API to change other places and report a tool issue.
 - Package version should be aligned with api versions. The first package version could only be preview one no matter api versions. For other cases, preview api versions could only be released in preview package versions.
 - The first CHANGELOG entry is hard-coded and ignore its content review and only review its versions.
-- No alpha versions among CHANGELOG.md, clientContext and package.json files.
+- No alpha versions among CHANGELOG.md, the context file(s) under `src/api/` and package.json files.
 
 ### 2. Samples and tests
 - Do not comment on style, formatting, documentation, or whitespace.
