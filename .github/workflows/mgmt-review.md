@@ -33,7 +33,7 @@ timeout-minutes: 15
 
 ---
 
-# Azure JS Management SDK PR Review
+# Management SDK PR Review
 
 Review Azure SDK for JS management library pull request #${{ github.event.pull_request.number }} against the official API review guidelines.
 
@@ -41,16 +41,12 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 
 ## Important Constraints
 
-- Focus reviewing changes to the **public API surface** and **listed tool validation rules**. 
-  Ignore implementation internals, private methods, generated code, and test or samples files.
-- Only flag issues **introduced or worsened** by this pull request. Do not
-  flag pre-existing issues in unchanged code.
-- If other review agent labels are present on this PR, focus strictly on
-  API design. Do not duplicate findings better handled by other agents
-  (Dexter for dependencies, Sentinel for security, Dash for performance,
-  Scribe for docs, Tester for tests).
-- Do **not** comment on style, formatting, or whitespace.
+- Focus reviewing changes to the LISTED rules' validation on **tool** and **public API surface** in guidelines. 
+- Ignore implementation internals, private methods, generated code, and test or samples files.
+- Do **not** comment on style, formatting, documentation, or whitespace.
 - Do **not** flag issues in APIs tagged `@internal`.
+- Do **not** flag issues in APIs undocumented.
+- Do **not** flag issues in sub modules.
 
 ## Step 0 — Context Gathering
 
@@ -60,34 +56,30 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 2. **Recall past context** — use cache-memory to check if this PR or
    package has been reviewed before.
 
-## Step 1 — Identify Changed public API Surface
+## Step 2 - Validate any tool issues
+
+1. List the files changed in the pull request using the GitHub API.
+2. Focus on the tool validation rules and hightlight tool issue reporting.
+3. If no any listed violation found, proceed with following steps.
+
+## Step 3 — Validate changed public API surface
 
 1. List the files changed in the pull request using the GitHub API.
 2. Focus on:
-   - `src/index.ts` or barrel export files (added/removed exports)
-   - `review/*node.api.md` files (the API report — each line is a public symbol)
-   - New or modified public interfaces, classes, types, and functions
-3. If no public API surface was changed, skip to Step 3 to check if any tool
-   issue.
-
-## Step 2 — Check Against Guidelines
-
-For each changed public API element, apply the full checklist from the
-architecture review guidelines. If no violation found, go to Step 3 for tool review.
-
-## Step 3 - Validate Any Tool Issues
-
-1. List the files changed in the pull request using the GitHub API.
-2. Focus on the tool validation rules checking for changed files.
-3. If no any listed violation found, saying no review concerns were found and stop.
+   - `review/{package-name}-node.api.md` files (the API report — each line is a public symbol)
+   - Only consider checkpoints mentioned in guidelines
+   No need to:
+   - Review sub-modules like /models or /api
+   - Focus other issues not mentioned by guidelines like undocumented
+3. If no violations mentioned in guidelines, say no concern for public API.
 
 ## Step 4 - Double check review comments
 
-1. Go througth all review comments
+1. Go through all review comments
 2. If some comments mention missing data, we should
     2.1 first check relevant complete files not just PR's diff
     2.2 then double check if the data is missing
-3. If the data is missing, keep this comment; Otherwise remove this comment because the data is there but not in curent PR.
+3. If the data is missing, keep this comment; Otherwise remove this comment because the data is there but not in current PR.
 
 ## Step 5 — Submit Review
 
@@ -96,24 +88,23 @@ Submit your findings as a **pull request review** with inline code comments.
 For each finding, create a **review comment** on the specific file and
 line using `create-pull-request-review-comment`:
 
-> 🔴 **Breaking** — `CHANGELOG.md:42`
-> `Remove class AzureVMwareSolutionAPIClient`.
-> Client name change is a breaking for customers.
-> **Fix:**: Use `@@clientName` to rename it back to original one and triggering SDK regeneration could mitigate this.
+> 🔴 **Tool Issue** — `CHANGELOG.md:42`
+> `Compared with 1.0.0-alpha.20260311.1:`.
+> We should not compare with any alpha versions in CHANGELOG.md and there should be a bug in tool.
+> **Fix:**: Update the CHANGELOG to compare with lastest preview or stable version and report the issue in [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
 
 After all inline comments, **submit the review** using
 `submit-pull-request-review` with:
 
 - **event**: `COMMENT` (this is an advisory review, not a blocking gate)
-- **body**: A one-paragraph summary (count of findings by severity, or
-  "No API design issues found") followed by:
+- **body**: A one-paragraph summary (count of findings by issue type, or "No API design issues found") followed by:
 
 <pre>
 &lt;details&gt;
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"archie","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"critical|medium|low","category":"...","description":"..."}]}
+{"agent":"mgm-reviewer","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"issueType":"tool|design","category":"...","description":"..."}]}
 ```
 
 &lt;/details&gt;
@@ -122,7 +113,7 @@ After all inline comments, **submit the review** using
 If no issues were found, submit a `COMMENT` review with a one-sentence
 body confirming the API surface looks good.
 
-## Step 5 — Update Memory
+## Step 6 — Update Memory
 
 After posting, store a brief summary in cache-memory (PR number,
 package, outcome) so future runs can detect repeat patterns.

@@ -15,9 +15,27 @@ Do not comment on:
 
 Also the review suggestions should be well organized with proper guidances.
 
+
+
+## Tool validation rules
+Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules.
+
+### 1. Package version and api versions
+- Carelyfully check the package version are aligned among package.json, clientContext.ts and CHANGELOG.md files. If inconsistent, follow the changelog entry detail to provide suggested versions and report this as critical tool issue.
+- Cross-check the code references among README.md, snippets.spec.ts and public API. If inconsistent, follow public API to change other places and report a tool issue.
+- Package version should be aligned with api versions. The first package version could only be preview one no matter api versions. For other cases, preview api versions could only be released in preview package versions.
+- The first CHANGELOG entry is hard-coded and ignore its content review and only review its versions.
+- No alpha versions among CHANGELOG.md, clientContext and package.json files.
+
+### 2. Samples and tests
+- Do not comment on style, formatting, documentation, or whitespace.
+- Do not comment on implementation internals (private methods, internal helpers).
+- Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
+- Don't need to review other parts if not mentioned by above rules.
+
 ## Public API surface
 
-All public API surfaces are exposed by `review/*-node.api.md` file and this file reflects exported interfaces under `src/index.ts`. Any changes should be expressed in latest CHANGELOG entry.
+All public API surfaces are exposed by `review/{package-name}-node.api.md` file and this file reflects exported interfaces under `src/index.ts`. Any changes should be expressed in latest CHANGELOG entry.
 
 ### Checklist
 #### 1. Breaking changes
@@ -46,33 +64,15 @@ However we should report the following cases:
 - Avoid `unknown` in return types that users must cast to use — prefer a concrete type or a discriminated union.
 - Avoid `unknown` in public models except the one in `ErrorAdditionalInfo`.
 - Avoid `void` as return type for any create/update/get/list operations(`void` return should be proper for some actions like delete/upgrade/reset etc). 
-- Avoid `any` as return type in public API. Use the most specific type.
-- However `any` in other places are acceptable and do not flag it.
+- `any` is acceptable and do NOT flag it.
 
 #### 4. Exports
 
-- New public symbols must be re-exported from `src/index.ts` and must appear in the `review/*-node.api.md` API report.
+- New public symbols must be re-exported from `src/index.ts` and must appear in the `review/{package-name}-node.api.md` API report.
 - Every symbol referenced in `review/*.api.md` must be exported — resolve all `ae-forgotten-export` warnings from API Extractor. Note an `ae-forgotten-export` warning means missing exported models and usually a tool bug during generation. 
 - Do not export internal models, helpers, or implementation details. Only symbols intended for external consumption belong in the public API.
 - Avoid exporting names that clash with well-known web/DOM types (e.g. `Request`, `Response`, `Event`). Use a service-specific prefix when collisions are likely.
 - The `undocumented` for public API is acceptable and please do not comment on this.
-
-
-## Tool validation rules
-Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules.
-
-### 1. Package version and api versions
-- Carelyfully check the package version are aligned among package.json, clientContext.ts and CHANGELOG.md files. If inconsistent, follow the changelog entry detail to provide suggested versions and report this as critical tool issue.
-- Cross-check the code references among README.md, snippets.spec.ts and public API. If inconsistent, follow public API to change other places and report a tool issue.
-- Package version should be aligned with api versions. The first package version could only be preview one no matter api versions. For other cases, preview api versions could only be released in preview package versions.
-- The first CHANGELOG entry is hard-coded and ignore its content review and only review its versions.
-- No alpha versions among CHANGELOG.md, clientContext and package.json files.
-
-### 2. Samples and tests
-- Do not comment on style, formatting, documentation, or whitespace.
-- Do not comment on implementation internals (private methods, internal helpers).
-- Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
-- Don't need to review other parts if not mentioned by above rules.
 
 ## Output Format
 
@@ -87,8 +87,7 @@ Tool Issue Comment: Except requiring changes in spec, we have prepared some vali
 For each finding, include:
 
 - **File and line**
-- **Severity**: 🔴 Breaking, 🟡 Design concern, 🔵 Suggestion
-- **Issue Type**: Tool issue, design issue in public API
+- **Issue Type**:🔴 Tool issue, 🔴 design issue in public API, 🔵 Suggestion
 - A one-line description of the issue
 - A concrete suggested fix
 
@@ -99,13 +98,13 @@ If the API surface and tool validation look good, say so explicitly in one sente
 ### Good finding
 
 #### Issue in public API
-> 🔴 **Breaking** — `CHANGELOG.md:42`
+> 🔴 **Design Concern** — `CHANGELOG.md:42`
 > `Remove class AzureVMwareSolutionAPIClient`.
 > This is a design concern. Client name change is a breaking for customers. 
 > **Fix:**: Use `@@clientName` to rename it back in `client.tsp` in spec repo and trigger SDK regeneration.
 
 #### Issue in generation tool
-> 🔴 **Breaking** — `CHANGELOG.md:42`
+> 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with any alpha versions in CHANGELOG.md and there should be a bug in tool.
 > **Fix:**: Update the CHANGELOG to compare with lastest preview or stable version and report the issue in [generation tool repository](https://github.com/Azure/autorest.typescript/issues).

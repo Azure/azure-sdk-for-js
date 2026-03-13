@@ -25,7 +25,7 @@
 #
 # gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"086f828ae015310438128559ef95dea9688a7b7750c0230df9c5bef6ea943481","compiler_version":"v0.57.2","strict":true}
 
-name: "Azure JS Management SDK PR Review"
+name: "Management SDK PR Review"
 "on":
   pull_request:
     # names: # Label filtering applied via job conditions
@@ -39,7 +39,7 @@ concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}"
   cancel-in-progress: true
 
-run-name: "Azure JS Management SDK PR Review"
+run-name: "Management SDK PR Review"
 
 jobs:
   activation:
@@ -72,7 +72,7 @@ jobs:
           GH_AW_INFO_VERSION: ""
           GH_AW_INFO_AGENT_VERSION: "latest"
           GH_AW_INFO_CLI_VERSION: "v0.57.2"
-          GH_AW_INFO_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          GH_AW_INFO_WORKFLOW_NAME: "Management SDK PR Review"
           GH_AW_INFO_EXPERIMENTAL: "false"
           GH_AW_INFO_SUPPORTS_TOOLS_ALLOWLIST: "true"
           GH_AW_INFO_STAGED: "false"
@@ -1005,7 +1005,7 @@ jobs:
         if: always() && steps.detection_guard.outputs.run_detection == 'true'
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
-          WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          WORKFLOW_NAME: "Management SDK PR Review"
           WORKFLOW_DESCRIPTION: "Review a pull request for management-plane SDKs"
           HAS_PATCH: ${{ steps.collect_output.outputs.has_patch }}
         with:
@@ -1137,7 +1137,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
           GH_AW_NOOP_MAX: "1"
-          GH_AW_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          GH_AW_WORKFLOW_NAME: "Management SDK PR Review"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -1150,7 +1150,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          GH_AW_WORKFLOW_NAME: "Management SDK PR Review"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -1163,7 +1163,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          GH_AW_WORKFLOW_NAME: "Management SDK PR Review"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
           GH_AW_WORKFLOW_ID: "mgmt-review"
@@ -1190,7 +1190,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+          GH_AW_WORKFLOW_NAME: "Management SDK PR Review"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
           GH_AW_NOOP_MESSAGE: ${{ steps.noop.outputs.noop_message }}
@@ -1306,7 +1306,7 @@ jobs:
       GH_AW_ENGINE_ID: "copilot"
       GH_AW_SAFE_OUTPUT_MESSAGES: "{\"footer\":\"\\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*\",\"runStarted\":\"⚡ [{workflow_name}]({run_url}) is profiling this PR for reviewing...\",\"runSuccess\":\"⚡ [{workflow_name}]({run_url}) completed the management-plane SDKs review. ✅\",\"runFailure\":\"⚡ [{workflow_name}]({run_url}) {status}. ❌\"}"
       GH_AW_WORKFLOW_ID: "mgmt-review"
-      GH_AW_WORKFLOW_NAME: "Azure JS Management SDK PR Review"
+      GH_AW_WORKFLOW_NAME: "Management SDK PR Review"
     outputs:
       code_push_failure_count: ${{ steps.process_safe_outputs.outputs.code_push_failure_count }}
       code_push_failure_errors: ${{ steps.process_safe_outputs.outputs.code_push_failure_errors }}
