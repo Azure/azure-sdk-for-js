@@ -27,6 +27,11 @@ export interface PromptContext {
   language?: LanguageConfig;
   /** Test directory name (e.g., "test") for output path instructions. */
   testDir?: string;
+  /**
+   * Pre-computed conventions document from LLM analysis of the test suite.
+   * When provided, replaces the inline `extractConventions` call.
+   */
+  conventions?: string;
 }
 
 export async function buildPrompt(
@@ -40,11 +45,13 @@ export async function buildPrompt(
 
   const [sourceCode, conventions] = await Promise.all([
     tryReadFile(resolve(packageDir, sourceFile)),
-    extractConventions(packageDir, ctx.specFiles, {
-      count: examples.count,
-      maxLines: examples.maxLines,
-      language: lang,
-    }),
+    ctx.conventions
+      ? Promise.resolve(ctx.conventions)
+      : extractConventions(packageDir, ctx.specFiles, {
+          count: examples.count,
+          maxLines: examples.maxLines,
+          language: lang,
+        }),
   ]);
 
   if (!sourceCode) throw new Error(`Source file not found: ${resolve(packageDir, sourceFile)}`);

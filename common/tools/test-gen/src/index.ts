@@ -3,6 +3,8 @@
 
 export { extractGaps, computeBranchCoverage, filterGapsForFile, formatGaps } from "./extract-gaps.ts";
 export { extractConventions } from "./extract-conventions.ts";
+export { extractTestContext } from "./extract-context.ts";
+export type { TestContextOptions } from "./extract-context.ts";
 export { send, stopClient } from "./llm.ts";
 export type { SendOptions, SendResult } from "./llm.ts";
 export { buildPrompt } from "./build-prompt.ts";

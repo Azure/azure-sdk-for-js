@@ -14,6 +14,7 @@ import { writeFile, readdir, mkdir } from "node:fs/promises";
 import { extractGaps, computeBranchCoverage } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import { buildPrompt } from "./build-prompt.ts";
+import { extractTestContext } from "./extract-context.ts";
 import { stopClient, send } from "./llm.ts";
 import type { SendOptions } from "./llm.ts";
 import { tryReadFile } from "./utils.ts";
@@ -151,6 +152,8 @@ async function writeAndFix(
   log: (msg: string) => void,
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
+  /** Relative path to the source file under test (the gap file). */
+  sourceFile?: string,
 ): Promise<void> {
   const absPath = resolve(packageDir, relPath);
   await mkdir(dirname(absPath), { recursive: true });
@@ -159,9 +162,16 @@ async function writeAndFix(
   const maxFix = cfg.loop.fixMaxIterations;
   if (maxFix <= 0) return;
 
-  const { testFramework } = cfg.language;
   const codeFence = codeFenceFor(cfg.language.outputExtension);
   const fixSchema = JSON.stringify(FixResponse.toJSONSchema(), null, 2);
+
+  // Read the source file under test so the LLM can reference actual types/signatures.
+  const sourceCode = sourceFile
+    ? await tryReadFile(resolve(packageDir, sourceFile))
+    : undefined;
+  const sourceSection = sourceCode
+    ? `\n## Source Under Test\n\n\`${sourceFile}\`\n\n\`\`\`${codeFence}\n${sourceCode}\n\`\`\`\n`
+    : "";
 
   interface FixContext {
     currentCode: string;
@@ -184,15 +194,17 @@ async function writeAndFix(
       },
 
       async act(ctx) {
-        const prompt = `The following ${testFramework} test file has failures. Fix the code so all tests pass.
+        const prompt = `Fix the failing tests in the file below so that all tests pass.
 
-## Test File (\`${relPath}\`)
+## Test File
+
+\`${relPath}\`
 
 \`\`\`${codeFence}
 ${ctx.currentCode}
 \`\`\`
-
-## Test Output (errors)
+${sourceSection}
+## Errors
 
 \`\`\`
 ${ctx.errors}
@@ -200,11 +212,11 @@ ${ctx.errors}
 
 ## Instructions
 
-1. Fix ONLY the failing tests — do NOT remove, skip, or delete any test.
-2. **Every existing describe/it block must remain in the output.** Never replace a failing test with a skip or a placeholder.
-3. Preserve the file structure, all passing tests, imports, and helpers verbatim.
+1. Fix ONLY the failing tests — do not remove, skip, or delete any test.
+2. Every existing test must remain in the output.
+3. Preserve passing tests, imports, and helpers verbatim.
 4. Only change what is strictly necessary to make the failing tests pass.
-5. Return the complete corrected file — no omissions.
+5. Return the complete corrected test file.
 
 Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
 ${fixSchema}`;
@@ -240,6 +252,8 @@ interface CoverageContext {
   gapsResult: ExtractGapsResult | null;
   specFiles: string[];
   folderTree: string;
+  /** LLM-generated conventions document (computed once, reused across iterations). */
+  conventions: string;
 }
 
 async function runTests(
@@ -360,6 +374,26 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
     const { folderTree, specFiles } = scanTestDir(entries, cfg);
     const specs = specFiles(testDir);
 
+    // Extract conventions for the dry-run prompts
+    let conventions: string | undefined;
+    log("\n🔍 Analyzing test suite conventions...");
+    try {
+      conventions = await extractTestContext({
+        packageDir,
+        cfg,
+        specFiles: specs,
+        gapsResult,
+        llmStats,
+        signal: options.signal,
+        onProgress: (tokens) =>
+          process.stdout.write(`\r    🔍 Analyzing conventions... (${tokens} tokens)`),
+      });
+      process.stdout.write("\n");
+      log("    ✅ Conventions extracted");
+    } catch (e) {
+      log(`    ⚠️  Convention extraction failed, using fallback: ${(e as Error).message}`);
+    }
+
     for (let i = 0; i < ranked.length; i++) {
       if (options.signal?.aborted) break;
       const [file] = ranked[i];
@@ -370,6 +404,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
         gapsResult,
         folderTree,
         specFiles: specs,
+        conventions,
       });
 
       const augmented = `${prompt}\n\nRespond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:\n${testGenJsonSchema}`;
@@ -403,6 +438,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
     gapsResult: null,
     specFiles: [],
     folderTree: "",
+    conventions: "",
   };
 
   const iterations = await aiLoop<CoverageContext>(
@@ -467,6 +503,27 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
         ctx.specFiles = scan.specFiles(testDir);
         ctx.folderTree = scan.folderTree;
 
+        // Extract conventions once (first measurement only)
+        if (!ctx.conventions) {
+          log("\n🔍 Analyzing test suite conventions...");
+          try {
+            ctx.conventions = await extractTestContext({
+              packageDir: ctx.packageDir,
+              cfg: ctx.cfg,
+              specFiles: ctx.specFiles,
+              gapsResult: ctx.gapsResult,
+              llmStats,
+              signal: options.signal,
+              onProgress: (tokens) =>
+                process.stdout.write(`\r    🔍 Analyzing conventions... (${tokens} tokens)`),
+            });
+            process.stdout.write("\n");
+            log("    ✅ Conventions extracted");
+          } catch (e) {
+            log(`    ⚠️  Convention extraction failed, using fallback: ${(e as Error).message}`);
+          }
+        }
+
         return false;
       },
 
@@ -479,6 +536,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
           gapsResult: ctx.gapsResult!,
           folderTree: ctx.folderTree,
           specFiles: ctx.specFiles,
+          conventions: ctx.conventions || undefined,
         });
 
         return {
@@ -490,7 +548,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
             );
             generatedFiles.push(response.path);
             log(`  📝 ${file} → ${response.path}`);
-            await writeAndFix(ctx.packageDir, response.path, finalCode, ctx.cfg, log, llmStats, options.signal);
+            await writeAndFix(ctx.packageDir, response.path, finalCode, ctx.cfg, log, llmStats, options.signal, file);
           },
         };
       },
