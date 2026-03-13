@@ -3083,7 +3083,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>;
+export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders, BlobServiceProperties>;
 
 // @public
 export type ServiceGetPropertiesResponseInternal = ServiceGetPropertiesHeaders & BlobServiceProperties;
