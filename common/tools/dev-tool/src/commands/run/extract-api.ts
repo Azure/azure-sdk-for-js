@@ -57,7 +57,6 @@ interface ApiJson {
   metadata: Record<string, unknown>;
   kind: string;
   name: string;
-  version?: string;
   members: {
     kind: string;
     name: string;
@@ -291,32 +290,11 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
-function insertKeyAfter<T extends Record<string, unknown>>(
-  obj: T,
-  afterKey: string,
-  newKey: string,
-  newValue: unknown,
-): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
-  let inserted = false;
-  for (const [key, value] of Object.entries(obj)) {
-    result[key] = value;
-    if (key === afterKey) {
-      result[newKey] = newValue;
-      inserted = true;
-    }
-  }
-  if (!inserted) {
-    result[newKey] = newValue;
-  }
-  return result;
-}
-
 async function injectVersionIntoApiJson(filePath: string, version: string): Promise<void> {
   if (!existsSync(filePath)) return;
   const apiJson = JSON.parse(await readFile(filePath, "utf-8"));
-  const reordered = insertKeyAfter(apiJson, "name", "version", version);
-  await writeFile(filePath, JSON.stringify(reordered, undefined, 2));
+  apiJson.metadata.version = version;
+  await writeFile(filePath, JSON.stringify(apiJson, undefined, 2));
 }
 
 async function buildMergedApiJson(
@@ -372,8 +350,8 @@ async function buildMergedApiJson(
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  const reordered = insertKeyAfter(apiJson, "name", "version", version);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(reordered, undefined, 2));
+  apiJson.metadata.version = version;
+  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
   return augmentedApiJsonPath;
 }
 
