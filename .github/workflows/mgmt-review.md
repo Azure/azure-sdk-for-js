@@ -81,7 +81,15 @@ architecture review guidelines. If no violation found, go to Step 3 for tool rev
 2. Focus on the tool validation rules checking for changed files.
 3. If no any listed violation found, saying no review concerns were found and stop.
 
-## Step 4 — Submit Review
+## Step 4 - Double check review comments
+
+1. Go througth all review comments
+2. If some comments mention missing data, we should
+    2.1 first check relevant complete files not just PR's diff
+    2.2 then double check if the data is missing
+3. If the data is missing, keep this comment; Otherwise remove this comment because the data is there but not in curent PR.
+
+## Step 5 — Submit Review
 
 Submit your findings as a **pull request review** with inline code comments.
 
