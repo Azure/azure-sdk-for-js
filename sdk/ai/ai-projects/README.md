@@ -354,7 +354,7 @@ const agent = await project.agents.createVersion("agent-web-search", {
   instructions: "You are a helpful assistant that can search the web",
   tools: [
     {
-      type: "web_search_preview",
+      type: "web_search",
       user_location: {
         type: "approximate",
         country: "GB",
