@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-03-12)
+## 4.0.0 (2026-03-13)
 
 ### Features Added
   - Added operation group ApiKeysOperations
