@@ -72,7 +72,7 @@ export interface DirectoryListHandlesOptionalParams extends OperationOptions {
   /** A string value that identifies the portion of the list to be returned with the next listing operation. */
   marker?: string;
   /** Specifies the maximum number of items to return. */
-  maxPageSize?: number;
+  maxResults?: number;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
@@ -96,7 +96,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends O
   /** A string value that identifies the portion of the list to be returned with the next listing operation. */
   marker?: string;
   /** Specifies the maximum number of items to return. */
-  maxPageSize?: number;
+  maxResults?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListFilesIncludeType[];
   /** The timeout parameter is expressed in seconds. */

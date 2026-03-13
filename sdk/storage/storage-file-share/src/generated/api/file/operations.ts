@@ -980,7 +980,7 @@ export function _listHandlesSend(
     "?comp=listhandles{?marker,maxresults,timeout,sharesnapshot}",
     {
       marker: options?.marker,
-      maxresults: options?.maxPageSize,
+      maxresults: options?.maxResults,
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.sharesnapshot,
     },

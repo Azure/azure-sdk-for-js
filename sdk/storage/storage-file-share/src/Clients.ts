@@ -5638,6 +5638,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.listHandles({
               ...updatedOptions,
+              maxResults: updatedOptions.maxPageSize,
               ...this.shareClientConfig,
               marker,
             }),

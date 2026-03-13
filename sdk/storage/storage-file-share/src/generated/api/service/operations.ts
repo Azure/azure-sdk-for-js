@@ -172,7 +172,7 @@ export function _listSharesSegmentSend(
     {
       prefix: options?.prefix,
       marker: options?.marker,
-      maxresults: options?.maxPageSize,
+      maxresults: options?.maxResults,
       timeout: options?.timeoutInSeconds,
       include: !options?.include
         ? options?.include

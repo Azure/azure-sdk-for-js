@@ -24,7 +24,7 @@ export interface ServiceListSharesSegmentOptionalParams extends OperationOptions
   /** A string value that identifies the portion of the list to be returned with the next listing operation. */
   marker?: string;
   /** Specifies the maximum number of items to return. */
-  maxPageSize?: number;
+  maxResults?: number;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Valid values are 'backup'. */

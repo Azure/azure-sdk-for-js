@@ -1250,7 +1250,7 @@ export interface ListSharesResponse {
   /** The marker. */
   marker?: string;
   /** The max results. */
-  maxPageSize?: number;
+  maxResults?: number;
   /** The share items. */
   shareItems?: ShareItemInternal[];
   /** The next marker. */
@@ -1262,7 +1262,7 @@ export function listSharesResponseDeserializer(item: any): ListSharesResponse {
     serviceEndpoint: item["serviceEndpoint"],
     prefix: item["prefix"],
     marker: item["marker"],
-    maxPageSize: item["maxPageSize"],
+    maxResults: item["maxResults"],
     shareItems: !item["shareItems"]
       ? item["shareItems"]
       : shareItemInternalArrayDeserializer(item["shareItems"]),
@@ -1291,7 +1291,7 @@ export function listSharesResponseXmlDeserializer(xmlString: string): ListShares
       primitiveSubtype: "string",
     },
     {
-      propertyName: "maxPageSize",
+      propertyName: "maxResults",
       xmlOptions: { name: "MaxResults" },
       type: "primitive",
       primitiveSubtype: "number",
@@ -2213,7 +2213,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   /** The marker. */
   marker?: string;
   /** The max results. */
-  maxPageSize?: number;
+  maxResults?: number;
   /** Abstract for entries that can be listed from Directory. */
   segment: FilesAndDirectoriesListSegment;
   /** The next marker. */
@@ -2233,7 +2233,7 @@ export function listFilesAndDirectoriesSegmentResponseDeserializer(
     directoryPath: item["directoryPath"],
     prefix: stringEncodedDeserializer(item["prefix"]),
     marker: item["marker"],
-    maxPageSize: item["maxPageSize"],
+    maxResults: item["maxResults"],
     segment: filesAndDirectoriesListSegmentDeserializer(item["segment"]),
     continuationToken: item["continuationToken"],
     directoryId: item["directoryId"],
@@ -2287,7 +2287,7 @@ export function listFilesAndDirectoriesSegmentResponseXmlDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "maxPageSize",
+      propertyName: "maxResults",
       xmlOptions: { name: "MaxResults" },
       type: "primitive",
       primitiveSubtype: "number",

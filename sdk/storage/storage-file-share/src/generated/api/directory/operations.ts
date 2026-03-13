@@ -418,7 +418,7 @@ export function _listHandlesSend(
     "?comp=listhandles{?marker,maxresults,timeout,sharesnapshot}",
     {
       marker: options?.marker,
-      maxresults: options?.maxPageSize,
+      maxresults: options?.maxResults,
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,
     },
@@ -556,7 +556,7 @@ export function _listFilesAndDirectoriesSegmentSend(
       prefix: options?.prefix,
       sharesnapshot: options?.shareSnapshot,
       marker: options?.marker,
-      maxresults: options?.maxPageSize,
+      maxresults: options?.maxResults,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
