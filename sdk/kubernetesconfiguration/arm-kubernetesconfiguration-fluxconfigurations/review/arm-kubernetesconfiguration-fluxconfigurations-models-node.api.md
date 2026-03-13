@@ -4,16 +4,6 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
-
 // @public
 export interface AzureBlobDefinition {
     accountKey?: string;
@@ -41,16 +31,6 @@ export interface AzureBlobPatchDefinition {
 }
 
 // @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
 export interface BucketDefinition {
     accessKey?: string;
     bucketName?: string;
@@ -71,11 +51,6 @@ export interface BucketPatchDefinition {
     timeoutInSeconds?: number;
     url?: string;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -102,15 +77,6 @@ export interface ErrorResponse {
 
 // @public
 export type FluxComplianceState = string;
-
-// @public
-export interface FluxConfigOperationStatusGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FluxConfigOperationStatusOperations {
-    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, operationId: string, options?: FluxConfigOperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
-}
 
 // @public
 export interface FluxConfiguration extends ProxyResource {
@@ -182,51 +148,6 @@ export interface FluxConfigurationProperties {
     readonly statusUpdatedAt?: Date;
     suspend?: boolean;
     waitForReconciliation?: boolean;
-}
-
-// @public
-export interface FluxConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FluxConfigurationsDeleteOptionalParams extends OperationOptions {
-    forceDelete?: boolean;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FluxConfigurationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FluxConfigurationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FluxConfigurationsOperations {
-    // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FluxConfiguration>, FluxConfiguration>>;
-    // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => Promise<FluxConfiguration>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => Promise<void>;
-    // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FluxConfiguration>, FluxConfiguration>>;
-    // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => Promise<FluxConfiguration>;
-    createOrUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
-    delete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams) => Promise<FluxConfiguration>;
-    list: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams) => PagedAsyncIterableIterator<FluxConfiguration>;
-    update: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
-}
-
-// @public
-export interface FluxConfigurationsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -321,20 +242,6 @@ export enum KnownSourceKindType {
 // @public
 export enum KnownVersions {
     V20250401 = "2025-04-01"
-}
-
-// @public (undocumented)
-export class KubernetesConfigurationClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesConfigurationClientOptionalParams);
-    readonly fluxConfigOperationStatus: FluxConfigOperationStatusOperations;
-    readonly fluxConfigurations: FluxConfigurationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -481,18 +388,6 @@ export interface OperationStatusResult {
 export type OperationType = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface PostBuildDefinition {
     substitute?: Record<string, string>;
     substituteFrom?: SubstituteFromDefinition[];
@@ -531,16 +426,6 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type ScopeType = string;
 
 // @public
@@ -561,28 +446,6 @@ export interface ServicePrincipalPatchDefinition {
     clientId?: string;
     clientSecret?: string;
     tenantId?: string;
-}
-
-// @public
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
-    getOperationState(): TState;
-    getResult(): TResult | undefined;
-    isDone(): boolean;
-    // @deprecated
-    isStopped(): boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TState>;
-    pollUntilDone(pollOptions?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
-    serialize(): Promise<string>;
-    // @deprecated
-    stopPolling(): void;
-    submitted(): Promise<void>;
-    // @deprecated
-    toString(): string;
 }
 
 // @public
