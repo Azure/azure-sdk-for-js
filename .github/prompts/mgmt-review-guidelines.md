@@ -50,7 +50,7 @@ However we should report the following cases:
 | Stable versions are removed in `KnownVersions` | Not allowed. flag and discuss migration in Spec side. Note preview versions could be removed. |
 | Constructor parameters like `subscriptionId` are removed | Not recommended and flag and discuss migration.|
 | Last major version was released within 6 monthes | Frequent breakings are not recommended. Flag and discuss why.|
-| Method parameters are re-ordered | Parameter ordering changes mean un-intentional breaking and mitigate to order them back. Use `@override` to mitigate if TypeSpec generation  |
+| Method parameters are re-ordered | Parameter ordering changes mean unintentional breaking and mitigate to order them back. Use `@override` to mitigate if TypeSpec generation  |
 
 #### 2. Naming validation
 
