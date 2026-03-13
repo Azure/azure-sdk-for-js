@@ -200,7 +200,7 @@ async function extractApiForEntry(
   configPath: string,
   pkgPath: string,
   projectInfo: ProjectInfo,
-  version: string,
+  version: string | undefined,
 ): Promise<string> {
   const baseReportFolder = baseConfig.apiReport?.reportFolder || `<projectFolder>/review`;
   const reportFolder = resolveTemplate(baseReportFolder, projectInfo);
@@ -290,8 +290,11 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
-async function injectVersionIntoApiJson(filePath: string, version: string): Promise<void> {
-  if (!existsSync(filePath)) return;
+async function injectVersionIntoApiJson(
+  filePath: string,
+  version: string | undefined,
+): Promise<void> {
+  if (!version || !existsSync(filePath)) return;
   const apiJson = JSON.parse(await readFile(filePath, "utf-8"));
   apiJson.metadata.version = version;
   await writeFile(filePath, JSON.stringify(apiJson, undefined, 2));
@@ -302,7 +305,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
-  version: string,
+  version: string | undefined,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -350,7 +353,9 @@ async function buildMergedApiJson(
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  apiJson.metadata.version = version;
+  if (version) {
+    apiJson.metadata.version = version;
+  }
   await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
   return augmentedApiJsonPath;
 }
@@ -394,7 +399,7 @@ export default leafCommand(commandInfo, async () => {
         configPath,
         pkgPath,
         projectInfo,
-        pkgJson["version"] || "",
+        pkgJson["version"],
       );
 
       runtimeApiFiles.node ??= {};
@@ -409,7 +414,7 @@ export default leafCommand(commandInfo, async () => {
           configPath,
           pkgPath,
           projectInfo,
-          pkgJson["version"] || "",
+          pkgJson["version"],
         );
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
@@ -428,7 +433,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
-        pkgJson["version"] || "",
+        pkgJson["version"],
         true,
       );
     }
@@ -436,7 +441,7 @@ export default leafCommand(commandInfo, async () => {
     success = extractApi(baseConfig, configPath, pkgPath);
     if (baseConfig.docModel?.enabled && baseConfig.docModel?.apiJsonFilePath) {
       const apiJsonPath = resolveTemplate(baseConfig.docModel.apiJsonFilePath, projectInfo);
-      await injectVersionIntoApiJson(apiJsonPath, pkgJson["version"] || "");
+      await injectVersionIntoApiJson(apiJsonPath, pkgJson["version"]);
     }
   }
 
