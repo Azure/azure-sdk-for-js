@@ -48,7 +48,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** flag issues in APIs undocumented.
 - Do **not** flag issues in sub modules.
 
-## Step 0 — Context Gathering
+## Step 1 — Context Gathering
 
 1. **Check CI status** — use the Actions toolset to check whether CI checks are 
   passing on this PR. If the build is failing, note it but proceed with the 
