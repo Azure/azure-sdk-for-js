@@ -68,7 +68,7 @@ describe("DataLakeServiceClient", () => {
     await serviceClient.setProperties(serviceProperties);
     await delay(5 * 1000);
 
-    let properties = await serviceClient.getProperties();
+    const properties = await serviceClient.getProperties();
     assert.deepStrictEqual(serviceProperties.blobAnalyticsLogging, properties.blobAnalyticsLogging);
     assert.deepStrictEqual(serviceProperties.hourMetrics, properties.hourMetrics);
     assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
