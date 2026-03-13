@@ -45,7 +45,7 @@ export async function createBatchWindowsPool(
         password: fakeTestPasswordPlaceholder2,
         elevationLevel: "NonAdmin",
       },
-    ]
+    ],
   });
   return pool;
 }
