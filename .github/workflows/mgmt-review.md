@@ -104,7 +104,7 @@ After all inline comments, **submit the review** using
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"mgm-reviewer","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"issueType":"tool|design","category":"...","description":"..."}]}
+{"agent":"mgmt-reviewer","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"issueType":"tool|design","category":"...","description":"..."}]}
 ```
 
 &lt;/details&gt;
