@@ -1,17 +1,17 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-kubernetesconfiguration-extensiontypes client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-kubernetesconfiguration-extensiontypes in some common scenarios.
 
-| **File Name**                                                                         | **Description**                                                                                                                                                                                                                                                                 |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [extensionTypesClusterGetVersionSample.ts][extensiontypesclustergetversionsample]     | Get details of a version for an Extension Type installable to the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeVersion.json         |
-| [extensionTypesClusterListVersionsSample.ts][extensiontypesclusterlistversionssample] | List the version for an Extension Type installable to the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypeVersions.json               |
-| [extensionTypesGetSample.ts][extensiontypesgetsample]                                 | Get an Extension Type installable to the cluster based region and type for the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionType.json   |
-| [extensionTypesGetVersionSample.ts][extensiontypesgetversionsample]                   | Get details of a version for an extension type and location x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeVersionByLocation.json              |
-| [extensionTypesListSample.ts][extensiontypeslistsample]                               | List installable Extension Types for the cluster based region and type for the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypes.json |
-| [extensionTypesListVersionsSample.ts][extensiontypeslistversionssample]               | List the versions for an extension type and location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypeVersionsByLocation.json                  |
-| [extensionTypesLocationGetSample.ts][extensiontypeslocationgetsample]                 | Get an extension type for the location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeByLocation.json                                         |
-| [extensionTypesLocationListSample.ts][extensiontypeslocationlistsample]               | List all Extension Types for the location. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypesByLocation.json                                    |
+| **File Name**                                                                         | **Description**                                                                                                                                        |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [extensionTypesClusterGetVersionSample.ts][extensiontypesclustergetversionsample]     | get details of a version for an Extension Type installable to the cluster. x-ms-original-file: 2024-11-01-preview/GetExtensionTypeVersion.json         |
+| [extensionTypesClusterListVersionsSample.ts][extensiontypesclusterlistversionssample] | list the version for an Extension Type installable to the cluster. x-ms-original-file: 2024-11-01-preview/ListExtensionTypeVersions.json               |
+| [extensionTypesGetSample.ts][extensiontypesgetsample]                                 | get an Extension Type installable to the cluster based region and type for the cluster. x-ms-original-file: 2024-11-01-preview/GetExtensionType.json   |
+| [extensionTypesGetVersionSample.ts][extensiontypesgetversionsample]                   | get details of a version for an extension type and location x-ms-original-file: 2024-11-01-preview/GetExtensionTypeVersionByLocation.json              |
+| [extensionTypesListSample.ts][extensiontypeslistsample]                               | list installable Extension Types for the cluster based region and type for the cluster. x-ms-original-file: 2024-11-01-preview/ListExtensionTypes.json |
+| [extensionTypesListVersionsSample.ts][extensiontypeslistversionssample]               | list the versions for an extension type and location. x-ms-original-file: 2024-11-01-preview/ListExtensionTypeVersionsByLocation.json                  |
+| [extensionTypesLocationGetSample.ts][extensiontypeslocationgetsample]                 | get an extension type for the location. x-ms-original-file: 2024-11-01-preview/GetExtensionTypeByLocation.json                                         |
+| [extensionTypesLocationListSample.ts][extensiontypeslocationlistsample]               | list all Extension Types for the location. x-ms-original-file: 2024-11-01-preview/ListExtensionTypesByLocation.json                                    |
 
 ## Prerequisites
 
@@ -53,10 +53,10 @@ npm run build
 node dist/extensionTypesClusterGetVersionSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KUBERNETESCONFIGURATION_SUBSCRIPTION_ID="<kubernetesconfiguration subscription id>" KUBERNETESCONFIGURATION_RESOURCE_GROUP="<kubernetesconfiguration resource group>" node dist/extensionTypesClusterGetVersionSample.js
+node dist/extensionTypesClusterGetVersionSample.js
 ```
 
 ## Next Steps

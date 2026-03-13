@@ -1,0 +1,39 @@
+{
+  "apiVersions": {
+    "Microsoft.KubernetesConfiguration": "2024-11-01-preview"
+  },
+  "emitterVersion": "0.50.4",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.KubernetesConfiguration",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionType:interface": "Microsoft.KubernetesConfiguration.ExtensionType",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeProperties:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeProperties",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypePropertiesPlanInfo:interface": "Microsoft.KubernetesConfiguration.ExtensionTypePropertiesPlanInfo",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypePropertiesSupportedScopes:interface": "Microsoft.KubernetesConfiguration.ExtensionTypePropertiesSupportedScopes",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ClusterScopeSettings:interface": "Microsoft.KubernetesConfiguration.ClusterScopeSettings",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ClusterScopeSettingsProperties:interface": "Microsoft.KubernetesConfiguration.ClusterScopeSettingsProperties",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesList:interface": "Microsoft.KubernetesConfiguration.ExtensionTypesList",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionForReleaseTrain:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrain",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionForReleaseTrainProperties:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainProperties",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionUnsupportedKubernetesMatrixItem:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionsList:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionsList",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!KnownVersions:enum": "Microsoft.KubernetesConfiguration.Versions",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#clusterListVersions:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainOperationGroup.clusterListVersions",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#clusterGetVersion:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainOperationGroup.clusterGetVersion",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#listVersions:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrains.listVersions",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#getVersion:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrains.getVersion",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#list:member": "Microsoft.KubernetesConfiguration.ExtensionTypeOperationGroup.list",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#get:member": "Microsoft.KubernetesConfiguration.ExtensionTypeOperationGroup.get",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#locationList:member": "Microsoft.KubernetesConfiguration.ExtensionTypes.locationList",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#locationGet:member": "Microsoft.KubernetesConfiguration.ExtensionTypes.locationGet"
+    }
+  }
+}
