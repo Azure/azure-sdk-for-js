@@ -47,6 +47,7 @@ However we should report the following cases:
 - Avoid `unknown` in public models except the one in `ErrorAdditionalInfo`.
 - Avoid `void` as return type for any create/update/get/list operations(`void` return should be proper for some actions like delete/upgrade/reset etc). 
 - Avoid `any` as return type in public API. Use the most specific type.
+- However `any` in other places are acceptable and do not flag it.
 
 #### 4. Exports
 
@@ -87,6 +88,7 @@ For each finding, include:
 
 - **File and line**
 - **Severity**: 🔴 Breaking, 🟡 Design concern, 🔵 Suggestion
+- **Issue Type**: Tool issue, design issue in public API
 - A one-line description of the issue
 - A concrete suggested fix
 
@@ -96,10 +98,17 @@ If the API surface and tool validation look good, say so explicitly in one sente
 
 ### Good finding
 
+#### Issue in public API
 > 🔴 **Breaking** — `CHANGELOG.md:42`
 > `Remove class AzureVMwareSolutionAPIClient`.
-> Client name change is a breaking for customers.
+> This is a design concern. Client name change is a breaking for customers. 
 > **Fix:**: Use `@@clientName` to rename it back in `client.tsp` in spec repo and trigger SDK regeneration.
+
+#### Issue in generation tool
+> 🔴 **Breaking** — `CHANGELOG.md:42`
+> `Compared with 1.0.0-alpha.20260311.1:`.
+> We should not compare with any alpha versions in CHANGELOG.md and there should be a bug in tool.
+> **Fix:**: Update the CHANGELOG to compare with lastest preview or stable version and report the issue in [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
 
 ### Bad finding (too noisy — do NOT flag these)
 
