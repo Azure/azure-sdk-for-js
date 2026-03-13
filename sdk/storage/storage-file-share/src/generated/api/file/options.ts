@@ -262,7 +262,7 @@ export interface FileUploadRangeOptionalParams extends OperationOptions {
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** Optional. Used for structured put operations. */
-  structuredBodyPut?: string;
+  structuredBodyType?: string;
   /** Optional. Used for structured put operations to specify content length. */
   structuredContentLength?: number;
   /** Initial data. */
@@ -436,7 +436,7 @@ export interface FileDownloadOptionalParams extends OperationOptions {
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** Optional. Used for structured get operations. */
-  structuredBodyGet?: string;
+  structuredBodyType?: string;
 }
 
 /** Optional parameters. */

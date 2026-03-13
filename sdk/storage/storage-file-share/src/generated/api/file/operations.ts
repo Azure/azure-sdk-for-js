@@ -1234,7 +1234,7 @@ export function _startCopySend(
   options: FileStartCopyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=copy{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -1796,8 +1796,8 @@ export function _uploadRangeSend(
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
-        ...(options?.structuredBodyPut !== undefined
-          ? { "x-ms-structured-body": options?.structuredBodyPut }
+        ...(options?.structuredBodyType !== undefined
+          ? { "x-ms-structured-body": options?.structuredBodyType }
           : {}),
         ...(options?.structuredContentLength !== undefined
           ? { "x-ms-structured-content-length": options?.structuredContentLength }
@@ -3440,8 +3440,8 @@ export function _downloadSend(
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
-        ...(options?.structuredBodyGet !== undefined
-          ? { "x-ms-structured-body": options?.structuredBodyGet }
+        ...(options?.structuredBodyType !== undefined
+          ? { "x-ms-structured-body": options?.structuredBodyType }
           : {}),
         accept: "application/xml",
         ...options.requestOptions?.headers,
