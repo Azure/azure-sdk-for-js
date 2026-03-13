@@ -614,7 +614,6 @@ describe("BaseSender", () => {
     });
 
     it("should persist envelopes and schedule retry on 429 throttle", async () => {
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
@@ -633,7 +632,6 @@ describe("BaseSender", () => {
     it("should schedule retry timer with retryAfterMs on 429", async () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
 
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
@@ -674,7 +672,6 @@ describe("BaseSender", () => {
     it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
 
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
         (statusCode) => statusCode === 429 || statusCode === 200,
       );
