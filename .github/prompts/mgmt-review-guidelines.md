@@ -22,7 +22,9 @@ All public API surfaces are exposed by `review/*-node.api.md` file and this file
 ### Checklist
 #### 1. Breaking changes
 
-Breaking changes are accepted in management SDKs and this usually means any removal or incompatible change to the public surface and also an `Breaking Changes` section in CHANGELOG.md. However we should report the following cases:
+Breaking changes are accepted in management SDKs and this usually means any removal or incompatible change to the public surface and also an `Breaking Changes` section in CHANGELOG.md(Note the first CHANGELOG entry is fixed content which could have no `Breaking Changes` section so do not flag it).
+
+However we should report the following cases:
 
 | Case | Suggestion |
 |---------|-----------|
@@ -31,7 +33,6 @@ Breaking changes are accepted in management SDKs and this usually means any remo
 | Constructor parameters like `subscriptionId` are removed | Not recommended and flag and discuss migration.|
 | Last major version was released within 6 monthes | Frequent breakings are not recommended. Flag and discuss why.|
 | Method parameters are re-ordered | Parameter ordering changes mean un-intentional breaking and mitigate to order them back. Use `@override` to mitigate if TypeSpec generation  |
-| Removal in public API but no breaking change entry in CHANGELOG| This indicate a tool issue during CHANGELOG generation. Note this should be ok if first CHANGELOG entry.|
 
 #### 2. Naming validation
 
@@ -53,19 +54,23 @@ Breaking changes are accepted in management SDKs and this usually means any remo
 - Every symbol referenced in `review/*.api.md` must be exported — resolve all `ae-forgotten-export` warnings from API Extractor. Note an `ae-forgotten-export` warning means missing exported models and usually a tool bug during generation. 
 - Do not export internal models, helpers, or implementation details. Only symbols intended for external consumption belong in the public API.
 - Avoid exporting names that clash with well-known web/DOM types (e.g. `Request`, `Response`, `Event`). Use a service-specific prefix when collisions are likely.
+- The `undocumented` for public API is acceptable and please do not comment on this.
 
 
 ## Tool validation rules
-Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules:
+Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules.
 
+### 1. Package version and api versions
+- Carelyfully check the package version are aligned among package.json, clientContext.ts and CHANGELOG.md files. If inconsistent, follow the changelog entry detail to provide suggested versions and report this as critical tool issue.
 - Cross-check the code references among README.md, snippets.spec.ts and public API. If inconsistent, follow public API to change other places and report a tool issue.
-- Check the package version are aligned among package.json, clientContext.ts and CHANGELOG.md files. If inconsistent, follow the changelog entry detail to provide suggested versions and report a tool issue.
-- Do not comment on style, formatting, or whitespace.
-- Do not comment on implementation internals (private methods, internal helpers).
-- Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
 - Package version should be aligned with api versions. The first package version could only be preview one no matter api versions. For other cases, preview api versions could only be released in preview package versions.
 - The first CHANGELOG entry is hard-coded and ignore its content review and only review its versions.
 - No alpha versions among CHANGELOG.md, clientContext and package.json files.
+
+### 2. Samples and tests
+- Do not comment on style, formatting, documentation, or whitespace.
+- Do not comment on implementation internals (private methods, internal helpers).
+- Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
 - Don't need to review other parts if not mentioned by above rules.
 
 ## Output Format
