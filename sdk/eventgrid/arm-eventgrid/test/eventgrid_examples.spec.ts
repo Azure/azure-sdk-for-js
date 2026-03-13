@@ -59,7 +59,7 @@ describe("Eventgrid test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroupName = "myjstest";
+    resourceGroupName = "SSS3PT_myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";
     domaintopicName = "mydomaintopicxxx";
