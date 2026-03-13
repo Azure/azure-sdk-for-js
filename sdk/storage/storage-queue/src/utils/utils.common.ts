@@ -543,8 +543,10 @@ export function adjustResponse<
 } {
   const compatResponse = toCompatResponse(result._response.rawResponse);
   compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
-  const { _response, ...rest } = result._response.parsedBody as any;
-  compatResponse.parsedBody = rest;
+  if (result._response.parsedBody !== undefined) {
+    const { _response, ...rest } = result._response.parsedBody as any;
+    compatResponse.parsedBody = rest;
+  }
   compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
   Object.defineProperty(result, "_response", {
     value: compatResponse,
