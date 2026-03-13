@@ -48,7 +48,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { stringToUint8Array } from "@azure/core-util";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 export function _createHardLinkSend(
   context: Client,
@@ -1785,7 +1785,13 @@ export function _uploadRangeSend(
         "x-ms-range": range,
         "x-ms-write": fileRangeWrite,
         "content-length": contentLength,
-        ...(options?.contentMd5 !== undefined ? { "content-md5": options?.contentMd5 } : {}),
+        ...(options?.contentMD5 !== undefined
+          ? {
+              "content-md5": !options?.contentMD5
+                ? options?.contentMD5
+                : uint8ArrayToString(options?.contentMD5, "base64"),
+            }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.fileLastWrittenMode !== undefined
           ? { "x-ms-file-last-write-time": options?.fileLastWrittenMode }
@@ -1831,7 +1837,7 @@ export async function _uploadRangeDeserialize(result: PathUncheckedResponse): Pr
 export function _uploadRangeDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5?: Uint8Array;
+  contentMD5?: Uint8Array;
   requestServerEncrypted?: boolean;
   fileLastWriteTime?: Date;
   structuredBody?: string;
@@ -1843,7 +1849,7 @@ export function _uploadRangeDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
         ? result.headers["content-md5"]
         : typeof result.headers["content-md5"] === "string"
@@ -1909,7 +1915,7 @@ export async function uploadRange(
   {
     etag: string;
     lastModified: Date;
-    contentMd5?: Uint8Array;
+    contentMD5?: Uint8Array;
     requestServerEncrypted?: boolean;
     fileLastWriteTime?: Date;
     structuredBody?: string;
@@ -1922,7 +1928,7 @@ export async function uploadRange(
     {
       etag: string;
       lastModified: Date;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
       structuredBody?: string;
@@ -3117,7 +3123,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   contentLength: number;
   contentType?: string;
   etag: string;
-  contentMd5?: Uint8Array;
+  contentMD5?: Uint8Array;
   contentEncoding?: string;
   cacheControl?: string;
   contentDisposition?: string;
@@ -3158,7 +3164,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         ? result.headers["content-type"]
         : result.headers["content-type"],
     etag: result.headers["etag"],
-    contentMd5:
+    contentMD5:
       result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
         ? result.headers["content-md5"]
         : typeof result.headers["content-md5"] === "string"
@@ -3324,7 +3330,7 @@ export async function getProperties(
     contentLength: number;
     contentType?: string;
     etag: string;
-    contentMd5?: Uint8Array;
+    contentMD5?: Uint8Array;
     contentEncoding?: string;
     cacheControl?: string;
     contentDisposition?: string;
@@ -3363,7 +3369,7 @@ export async function getProperties(
       contentLength: number;
       contentType?: string;
       etag: string;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       contentEncoding?: string;
       cacheControl?: string;
       contentDisposition?: string;
@@ -3471,7 +3477,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   contentLength: number;
   contentRange?: string;
   etag: string;
-  contentMd5?: Uint8Array;
+  contentMD5?: Uint8Array;
   contentEncoding?: string;
   cacheControl?: string;
   contentDisposition?: string;
@@ -3516,7 +3522,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["content-range"]
         : result.headers["content-range"],
     etag: result.headers["etag"],
-    contentMd5:
+    contentMD5:
       result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
         ? result.headers["content-md5"]
         : typeof result.headers["content-md5"] === "string"
@@ -3701,7 +3707,7 @@ export async function download(
     contentLength: number;
     contentRange?: string;
     etag: string;
-    contentMd5?: Uint8Array;
+    contentMD5?: Uint8Array;
     contentEncoding?: string;
     cacheControl?: string;
     contentDisposition?: string;
@@ -3745,7 +3751,7 @@ export async function download(
         contentLength: number;
         contentRange?: string;
         etag: string;
-        contentMd5?: Uint8Array;
+        contentMD5?: Uint8Array;
         contentEncoding?: string;
         cacheControl?: string;
         contentDisposition?: string;
@@ -3872,7 +3878,13 @@ export function _createSend(
         ...(options?.nfsFileType !== undefined
           ? { "x-ms-file-file-type": options?.nfsFileType }
           : {}),
-        ...(options?.contentMd5 !== undefined ? { "content-md5": options?.contentMd5 } : {}),
+        ...(options?.contentMD5 !== undefined
+          ? {
+              "content-md5": !options?.contentMD5
+                ? options?.contentMD5
+                : uint8ArrayToString(options?.contentMD5, "base64"),
+            }
+          : {}),
         ...(options?.filePropertySemantics !== undefined
           ? { "x-ms-file-property-semantics": options?.filePropertySemantics }
           : {}),
@@ -3917,7 +3929,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
-  contentMd5?: Uint8Array;
+  contentMD5?: Uint8Array;
   contentLength?: number;
   apiVersion: string;
   requestId: string;
@@ -3979,7 +3991,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-group"]
         : result.headers["x-ms-group"],
     nfsFileType: result.headers["x-ms-file-file-type"] as any,
-    contentMd5:
+    contentMD5:
       result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
         ? result.headers["content-md5"]
         : typeof result.headers["content-md5"] === "string"
@@ -4044,7 +4056,7 @@ export async function create(
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
-    contentMd5?: Uint8Array;
+    contentMD5?: Uint8Array;
     contentLength?: number;
     apiVersion: string;
     requestId: string;
@@ -4067,7 +4079,7 @@ export async function create(
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       contentLength?: number;
       apiVersion: string;
       requestId: string;

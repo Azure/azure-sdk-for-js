@@ -2080,6 +2080,36 @@ export function signedIdentifierXmlDeserializer(xmlString: string): SignedIdenti
   return deserializeFromXml<SignedIdentifier>(xmlString, properties, "SignedIdentifier");
 }
 
+export function signedIdentifierXmlObjectSerializer(item: SignedIdentifier): XmlSerializedObject {
+  return {
+    Id: item["id"],
+    AccessPolicy:
+      item["accessPolicy"] !== undefined
+        ? accessPolicyXmlObjectSerializer(item["accessPolicy"])
+        : undefined,
+  };
+}
+
+export function signedIdentifierXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): SignedIdentifier {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "id",
+      xmlOptions: { name: "Id" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "accessPolicy",
+      xmlOptions: { name: "AccessPolicy" },
+      type: "object",
+      deserializer: accessPolicyXmlObjectDeserializer,
+    },
+  ];
+  return deserializeXmlObject<SignedIdentifier>(xmlObject, properties);
+}
+
 /** An Access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
@@ -2167,6 +2197,40 @@ export function accessPolicyXmlObjectDeserializer(
     },
   ];
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
+}
+
+/** Represents an array of signed identifiers */
+export interface SignedIdentifiers {
+  /** The array of signed identifiers. */
+  items: SignedIdentifier[];
+}
+
+export function signedIdentifiersSerializer(item: SignedIdentifiers): any {
+  return { items: signedIdentifierArraySerializer(item["items"]) };
+}
+
+export function signedIdentifiersXmlSerializer(item: SignedIdentifiers): string {
+  const properties: XmlPropertyMetadata[] = [
+    {
+      propertyName: "items",
+      xmlOptions: { name: "SignedIdentifier", unwrapped: true, itemsName: "SignedIdentifier" },
+      type: "array",
+      serializer: signedIdentifierXmlObjectSerializer,
+    },
+  ];
+  return serializeToXml(item, properties, "SignedIdentifiers");
+}
+
+export function signedIdentifierArraySerializer(result: Array<SignedIdentifier>): any[] {
+  return result.map((item) => {
+    return signedIdentifierSerializer(item);
+  });
+}
+
+export function signedIdentifierArrayDeserializer(result: Array<SignedIdentifier>): any[] {
+  return result.map((item) => {
+    return signedIdentifierDeserializer(item);
+  });
 }
 
 /** Stats for the share. */
@@ -3248,16 +3312,4 @@ export type OwnerCopyMode = "source" | "override";
 export enum KnownVersions {
   /** API Version 2026-04-06 */
   V20260406 = "2026-04-06",
-}
-
-export function signedIdentifierArraySerializer(result: Array<SignedIdentifier>): any[] {
-  return result.map((item) => {
-    return signedIdentifierSerializer(item);
-  });
-}
-
-export function signedIdentifierArrayDeserializer(result: Array<SignedIdentifier>): any[] {
-  return result.map((item) => {
-    return signedIdentifierDeserializer(item);
-  });
 }

@@ -252,7 +252,7 @@ export interface FileUploadRangeOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** An MD5 hash of the content. This hash is used to verify the integrity of data during transport. */
-  contentMd5?: string;
+  contentMD5?: Uint8Array;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** If the file last write time should be preserved or overwritten. */
@@ -488,7 +488,7 @@ export interface FileCreateOptionalParams extends OperationOptions {
   /** Optional, NFS only. Type of the file or directory. */
   nfsFileType?: NfsFileType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. */
-  contentMd5?: string;
+  contentMD5?: Uint8Array;
   /** SMB only. Default value is New. */
   filePropertySemantics?: FilePropertySemantics;
   /** Optional. Specifies the content length of the file. */

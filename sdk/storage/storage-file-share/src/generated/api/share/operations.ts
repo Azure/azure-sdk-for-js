@@ -8,10 +8,10 @@ import {
   sharePermissionSerializer,
   sharePermissionDeserializer,
   SignedIdentifier,
+  signedIdentifiersXmlSerializer,
+  signedIdentifierArrayDeserializer,
   ShareStats,
   shareStatsXmlDeserializer,
-  signedIdentifierArraySerializer,
-  signedIdentifierArrayDeserializer,
 } from "../../models/azure/storage/files/shares/models.js";
 import {
   StorageCompatResponseInfo,
@@ -383,7 +383,7 @@ export function _setAccessPolicySend(
       },
       body: !options["shareAcl"]
         ? options["shareAcl"]
-        : signedIdentifierArraySerializer(options["shareAcl"]),
+        : signedIdentifiersXmlSerializer(options["shareAcl"]),
     });
 }
 

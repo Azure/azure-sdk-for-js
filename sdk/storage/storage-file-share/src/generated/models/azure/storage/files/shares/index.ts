@@ -27,6 +27,7 @@ export type {
   FilePermissionFormat,
   SignedIdentifier,
   AccessPolicy,
+  SignedIdentifiers,
   ShareStats,
   ListFilesAndDirectoriesSegmentResponse,
   StringEncoded,

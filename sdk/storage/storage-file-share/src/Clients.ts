@@ -1265,7 +1265,7 @@ export class ShareClient extends StorageClient {
               ...updatedOptions,
               ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
-              shareAcl: acl,
+              shareAcl: { items: acl },
             }),
           ),
         );

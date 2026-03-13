@@ -373,7 +373,7 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
       structuredBody?: string;
@@ -386,7 +386,7 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
-        contentMd5?: Uint8Array;
+        contentMD5?: Uint8Array;
         requestServerEncrypted?: boolean;
         fileLastWriteTime?: Date;
         structuredBody?: string;
@@ -605,7 +605,7 @@ export interface FileOperations {
       contentLength: number;
       contentType?: string;
       etag: string;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       contentEncoding?: string;
       cacheControl?: string;
       contentDisposition?: string;
@@ -644,7 +644,7 @@ export interface FileOperations {
         contentLength: number;
         contentType?: string;
         etag: string;
-        contentMd5?: Uint8Array;
+        contentMD5?: Uint8Array;
         contentEncoding?: string;
         cacheControl?: string;
         contentDisposition?: string;
@@ -687,7 +687,7 @@ export interface FileOperations {
       contentLength: number;
       contentRange?: string;
       etag: string;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       contentEncoding?: string;
       cacheControl?: string;
       contentDisposition?: string;
@@ -731,7 +731,7 @@ export interface FileOperations {
           contentLength: number;
           contentRange?: string;
           etag: string;
-          contentMd5?: Uint8Array;
+          contentMD5?: Uint8Array;
           contentEncoding?: string;
           cacheControl?: string;
           contentDisposition?: string;
@@ -790,7 +790,7 @@ export interface FileOperations {
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      contentMd5?: Uint8Array;
+      contentMD5?: Uint8Array;
       contentLength?: number;
       apiVersion: string;
       requestId: string;
@@ -813,7 +813,7 @@ export interface FileOperations {
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
-        contentMd5?: Uint8Array;
+        contentMD5?: Uint8Array;
         contentLength?: number;
         apiVersion: string;
         requestId: string;

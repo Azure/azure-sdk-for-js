@@ -4,7 +4,7 @@
 import {
   ShareRootSquash,
   FilePermissionFormat,
-  SignedIdentifier,
+  SignedIdentifiers,
   ShareTokenIntent,
   ShareAccessTier,
   DeleteSnapshotsOptionType,
@@ -48,7 +48,7 @@ export interface ShareSetAccessPolicyOptionalParams extends OperationOptions {
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** The ACL for the share. */
-  shareAcl?: SignedIdentifier[];
+  shareAcl?: SignedIdentifiers;
 }
 
 /** Optional parameters. */
