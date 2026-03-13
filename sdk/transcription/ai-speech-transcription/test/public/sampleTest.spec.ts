@@ -5,6 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, createClient, ASSET_PATH } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { TranscriptionClient } from "../../src/index.js";
+import { KnownProfanityFilterModes } from "../../src/index.js";
 import { createReadStream, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -55,7 +56,7 @@ describe("TranscriptionClient", () => {
       });
 
       assert.isNotNull(result);
-      assert.isAbove(result.durationMilliseconds, 0);
+      assert.isAbove(result.durationInMs, 0);
       assert.isNotNull(result.combinedPhrases);
       assert.isNotNull(result.phrases);
     });
@@ -69,7 +70,7 @@ describe("TranscriptionClient", () => {
       });
 
       assert.isNotNull(result);
-      assert.isAbove(result.durationMilliseconds, 0);
+      assert.isAbove(result.durationInMs, 0);
     });
 
     it("transcribe from readable stream", async function () {
@@ -81,7 +82,7 @@ describe("TranscriptionClient", () => {
       });
 
       assert.isNotNull(result);
-      assert.isAbove(result.durationMilliseconds, 0);
+      assert.isAbove(result.durationInMs, 0);
       assert.isNotNull(result.phrases);
     });
 
@@ -94,7 +95,7 @@ describe("TranscriptionClient", () => {
       });
 
       assert.isNotNull(result);
-      assert.isAbove(result.durationMilliseconds, 0);
+      assert.isAbove(result.durationInMs, 0);
     });
   });
 
@@ -109,7 +110,7 @@ describe("TranscriptionClient", () => {
 
       const result = await client.transcribe(audioBuffer, {
         locales: ["en-US"],
-        profanityFilterMode: "Masked",
+        profanityFilterMode: KnownProfanityFilterModes.Masked,
       });
 
       assert.isNotNull(result);
@@ -122,7 +123,7 @@ describe("TranscriptionClient", () => {
 
       const result = await client.transcribe(audioBuffer, {
         locales: ["en-US"],
-        profanityFilterMode: "Removed",
+        profanityFilterMode: KnownProfanityFilterModes.Removed,
       });
 
       assert.isNotNull(result);
@@ -135,7 +136,7 @@ describe("TranscriptionClient", () => {
 
       const result = await client.transcribe(audioBuffer, {
         locales: ["en-US"],
-        profanityFilterMode: "None",
+        profanityFilterMode: KnownProfanityFilterModes.None,
       });
 
       assert.isNotNull(result);
@@ -250,7 +251,7 @@ describe("TranscriptionClient", () => {
 
       const result = await client.transcribe(audioBuffer, {
         locales: ["en-US"],
-        profanityFilterMode: "Masked",
+        profanityFilterMode: KnownProfanityFilterModes.Masked,
         diarizationOptions: {
           maxSpeakers: 3,
         },
@@ -278,7 +279,7 @@ describe("TranscriptionClient", () => {
         locales: ["en-US"],
       });
 
-      assert.isAbove(result.durationMilliseconds, 0);
+      assert.isAbove(result.durationInMs, 0);
     });
 
     it("result has combined phrases", async function () {

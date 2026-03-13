@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { KnownServiceApiVersions } from "./models.js";
+export { KnownServiceApiVersions, KnownProfanityFilterModes } from "./models.js";
 export type {
   TranscriptionContent,
   TranscriptionOptions,

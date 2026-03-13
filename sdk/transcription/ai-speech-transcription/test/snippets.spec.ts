@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TranscriptionClient, KnownServiceApiVersions } from "../src/index.js";
+import {
+  TranscriptionClient,
+  KnownServiceApiVersions,
+  KnownProfanityFilterModes,
+} from "../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
@@ -42,7 +46,7 @@ describe("snippets", () => {
     // @ts-ignore
     const result = await client.transcribe(audioFile);
 
-    console.log(`Duration: ${result.durationMilliseconds}ms`);
+    console.log(`Duration: ${result.durationInMs}ms`);
     console.log("Transcription:", result.combinedPhrases[0]?.text);
   });
 
@@ -100,7 +104,7 @@ describe("snippets", () => {
     const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
-      profanityFilterMode: "Masked", // Default - profanity replaced with asterisks
+      profanityFilterMode: KnownProfanityFilterModes.Masked, // Default - profanity replaced with asterisks
     });
 
     console.log("Transcription:", result.combinedPhrases[0]?.text);
@@ -161,7 +165,7 @@ describe("snippets", () => {
       diarizationOptions: {
         maxSpeakers: 2,
       },
-      profanityFilterMode: "Masked",
+      profanityFilterMode: KnownProfanityFilterModes.Masked,
       activeChannels: [0, 1],
     });
 
@@ -180,7 +184,7 @@ describe("snippets", () => {
         task: "translate",
         targetLanguage: "ko", // Translate to Korean
       },
-      profanityFilterMode: "Masked",
+      profanityFilterMode: KnownProfanityFilterModes.Masked,
     });
 
     console.log("Translated to Korean:", result.combinedPhrases[0]?.text);
@@ -197,7 +201,7 @@ describe("snippets", () => {
         maxSpeakers: 5,
       },
       // Mask profanity
-      profanityFilterMode: "Masked",
+      profanityFilterMode: KnownProfanityFilterModes.Masked,
       // Add custom phrases
       phraseList: {
         phrases: ["action items", "Q4", "KPIs"],

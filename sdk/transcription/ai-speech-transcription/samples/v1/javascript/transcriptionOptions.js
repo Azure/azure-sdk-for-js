@@ -7,7 +7,7 @@
  * @summary combine multiple transcription options
  */
 
-const { TranscriptionClient } = require("@azure/ai-speech-transcription");
+const { TranscriptionClient, KnownProfanityFilterModes } = require("@azure/ai-speech-transcription");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const fs = require("fs");
 
@@ -28,13 +28,13 @@ async function main() {
     diarizationOptions: {
       maxSpeakers: 5,
     },
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
     phraseList: {
       phrases: ["action items", "Q4", "KPIs"],
     },
   });
 
-  console.log(`Duration: ${(result.durationMilliseconds / 1000).toFixed(1)}s`);
+  console.log(`Duration: ${(result.durationInMs / 1000).toFixed(1)}s`);
   console.log();
   console.log("Full Transcript:");
   console.log(result.combinedPhrases[0]?.text);

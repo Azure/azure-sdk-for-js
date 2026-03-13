@@ -18,6 +18,14 @@ export interface EnhancedModeOptions {
 }
 
 // @public
+export enum KnownProfanityFilterModes {
+    Masked = "Masked",
+    None = "None",
+    Removed = "Removed",
+    Tags = "Tags"
+}
+
+// @public
 export enum KnownServiceApiVersions {
     V20251015 = "2025-10-15"
 }
@@ -29,7 +37,7 @@ export interface PhraseListOptions {
 }
 
 // @public
-export type ProfanityFilterMode = "None" | "Removed" | "Tags" | "Masked" | string;
+export type ProfanityFilterMode = string;
 
 // @public
 export interface TranscribedPhrase {
@@ -81,7 +89,7 @@ export interface TranscriptionOptions {
 // @public
 export interface TranscriptionResult {
     combinedPhrases: ChannelCombinedPhrases[];
-    durationMilliseconds: number;
+    durationInMs: number;
     phrases: TranscribedPhrase[];
 }
 

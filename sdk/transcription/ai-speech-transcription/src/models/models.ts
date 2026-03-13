@@ -87,7 +87,19 @@ export function transcriptionOptionsSerializer(item: TranscriptionOptions): any 
 }
 
 /** Mode of profanity filtering. */
-export type ProfanityFilterMode = "None" | "Removed" | "Tags" | "Masked" | string;
+export type ProfanityFilterMode = string;
+
+/** Known values of {@link ProfanityFilterMode}. */
+export enum KnownProfanityFilterModes {
+  /** No profanity filtering. */
+  None = "None",
+  /** Profanity is removed from the transcription. */
+  Removed = "Removed",
+  /** Profanity is wrapped in XML tags. */
+  Tags = "Tags",
+  /** Profanity is replaced with asterisks. */
+  Masked = "Masked",
+}
 
 /** The Speaker Diarization settings. Diarization settings must be specified to enable speaker diarization. */
 export interface TranscriptionDiarizationOptions {
@@ -148,7 +160,7 @@ export function phraseListOptionsSerializer(item: PhraseListOptions): any {
 /** The result of the transcribe operation. */
 export interface TranscriptionResult {
   /** The duration of the audio in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The full transcript for each channel. */
   combinedPhrases: ChannelCombinedPhrases[];
   /** The transcription results segmented into phrases. */
@@ -157,7 +169,7 @@ export interface TranscriptionResult {
 
 export function transcriptionResultDeserializer(item: any): TranscriptionResult {
   return {
-    durationMilliseconds: item["durationMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
     combinedPhrases: channelCombinedPhrasesArrayDeserializer(item["combinedPhrases"]),
     phrases: transcribedPhraseArrayDeserializer(item["phrases"]),
   };

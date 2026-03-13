@@ -12,7 +12,7 @@
  * @azsdk-weight 95
  */
 
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 
@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
       maxSpeakers: 5,
     },
     // Mask profanity in the transcription
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
     // Add custom phrases to improve recognition of domain-specific terms
     phraseList: {
       phrases: ["action items", "Q4", "KPIs"],
@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
   });
 
   // Display results
-  console.log(`Duration: ${(result.durationMilliseconds / 1000).toFixed(1)}s`);
+  console.log(`Duration: ${(result.durationInMs / 1000).toFixed(1)}s`);
   console.log();
   console.log("Full Transcript:");
   console.log(result.combinedPhrases[0]?.text);

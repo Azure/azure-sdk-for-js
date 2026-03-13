@@ -153,7 +153,7 @@ import { readFileSync } from "node:fs";
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile);
-console.log(`Duration: ${result.durationMilliseconds}ms`);
+console.log(`Duration: ${result.durationInMs}ms`);
 console.log("Transcription:", result.combinedPhrases[0]?.text);
 ```
 
@@ -225,14 +225,14 @@ for (const phrase of result.phrases) {
 Control how profanity appears in your transcriptions using different filter modes:
 
 ```ts snippet:TranscribeWithProfanityFilter
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
-  profanityFilterMode: "Masked", // Default - profanity replaced with asterisks
+  profanityFilterMode: KnownProfanityFilterModes.Masked, // Default - profanity replaced with asterisks
 });
 console.log("Transcription:", result.combinedPhrases[0]?.text);
 ```
@@ -301,7 +301,7 @@ for (const phrase of result.phrases) {
 Enhanced Mode uses LLM-powered processing for the highest accuracy transcription:
 
 ```ts snippet:TranscribeWithEnhancedMode
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";
 
@@ -317,7 +317,7 @@ const result = await client.transcribe(audioFile, {
   diarizationOptions: {
     maxSpeakers: 2,
   },
-  profanityFilterMode: "Masked",
+  profanityFilterMode: KnownProfanityFilterModes.Masked,
   activeChannels: [0, 1],
 });
 for (const phrase of result.phrases) {
@@ -330,7 +330,7 @@ for (const phrase of result.phrases) {
 Enhanced Mode also supports translating speech to a target language:
 
 ```ts snippet:TranslateWithEnhancedMode
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";
 
@@ -341,7 +341,7 @@ const result = await client.transcribe(audioFile, {
     task: "translate",
     targetLanguage: "ko", // Translate to Korean
   },
-  profanityFilterMode: "Masked",
+  profanityFilterMode: KnownProfanityFilterModes.Masked,
 });
 console.log("Translated to Korean:", result.combinedPhrases[0]?.text);
 ```
@@ -351,7 +351,7 @@ console.log("Translated to Korean:", result.combinedPhrases[0]?.text);
 You can combine multiple transcription features for complex scenarios:
 
 ```ts snippet:TranscribeWithMultipleOptions
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";
 
@@ -363,7 +363,7 @@ const result = await client.transcribe(audioFile, {
     maxSpeakers: 5,
   },
   // Mask profanity
-  profanityFilterMode: "Masked",
+  profanityFilterMode: KnownProfanityFilterModes.Masked,
   // Add custom phrases
   phraseList: {
     phrases: ["action items", "Q4", "KPIs"],

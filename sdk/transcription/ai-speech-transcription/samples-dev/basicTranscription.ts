@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   const result = await client.transcribe(audioFile);
 
   // Display the transcription results
-  console.log(`Total audio duration: ${result.durationMilliseconds}ms`);
+  console.log(`Total audio duration: ${result.durationInMs}ms`);
   console.log("\nTranscription:");
   console.log(result.combinedPhrases[0]?.text);
   // </ReadmeSampleBasicTranscription>

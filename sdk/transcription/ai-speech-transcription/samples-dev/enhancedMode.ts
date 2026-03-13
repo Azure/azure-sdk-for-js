@@ -24,7 +24,7 @@
  * @azsdk-weight 85
  */
 
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 
@@ -52,7 +52,7 @@ export async function main(): Promise<void> {
     diarizationOptions: {
       maxSpeakers: 2,
     },
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
     activeChannels: [0, 1],
   });
 
@@ -61,7 +61,7 @@ export async function main(): Promise<void> {
   }
   // </ReadmeSampleEnhancedModeTranscribe>
 
-  console.log(`Duration: ${transcribeResult.durationMilliseconds}ms`);
+  console.log(`Duration: ${transcribeResult.durationInMs}ms`);
 
   // === Enhanced Mode Translation ===
   console.log("\n--- Enhanced Mode Translation ---");
@@ -73,7 +73,7 @@ export async function main(): Promise<void> {
       task: "translate",
       targetLanguage: "ko", // Translate to Korean
     },
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
   });
   console.log("Translated to Korean:", translateResult.combinedPhrases[0]?.text);
   // </ReadmeSampleEnhancedModeTranslate>

@@ -29,7 +29,7 @@ async function main() {
   const result = await client.transcribe(audioUrl);
 
   console.log(`Transcribed audio from URL: ${audioUrl}`);
-  console.log(`Duration: ${result.durationMilliseconds}ms`);
+  console.log(`Duration: ${result.durationInMs}ms`);
   console.log("\nTranscription:", result.combinedPhrases[0]?.text);
 }
 

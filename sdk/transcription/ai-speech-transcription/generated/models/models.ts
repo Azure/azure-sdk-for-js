@@ -136,7 +136,7 @@ export function phraseListOptionsSerializer(item: PhraseListOptions): any {
 /** The result of the transcribe operation. */
 export interface TranscriptionResult {
   /** The duration of the audio in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The full transcript for each channel. */
   combinedPhrases: ChannelCombinedPhrases[];
   /** The transcription results segmented into phrases. */
@@ -145,7 +145,7 @@ export interface TranscriptionResult {
 
 export function transcriptionResultDeserializer(item: any): TranscriptionResult {
   return {
-    durationMilliseconds: item["durationMilliseconds"],
+    durationInMs: item["durationMilliseconds"],
     combinedPhrases: channelCombinedPhrasesArrayDeserializer(item["combinedPhrases"]),
     phrases: transcribedPhraseArrayDeserializer(item["phrases"]),
   };

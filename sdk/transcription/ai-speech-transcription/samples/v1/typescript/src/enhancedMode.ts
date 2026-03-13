@@ -22,7 +22,7 @@
  * @azsdk-weight 85
  */
 
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { TranscriptionClient, KnownProfanityFilterModes } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 
@@ -47,7 +47,7 @@ export async function main(): Promise<void> {
     },
   });
   console.log("Transcription:", transcribeResult.combinedPhrases[0]?.text);
-  console.log(`Duration: ${transcribeResult.durationMilliseconds}ms`);
+  console.log(`Duration: ${transcribeResult.durationInMs}ms`);
 
   // === Translate with Enhanced Mode ===
   console.log("\n--- Enhanced Mode Translation ---");
@@ -80,7 +80,7 @@ export async function main(): Promise<void> {
       task: "transcribe",
       prompt: ["Output must be in lexical format."],
     },
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
     diarizationOptions: {
       maxSpeakers: 2,
     },

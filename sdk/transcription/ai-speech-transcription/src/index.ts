@@ -4,7 +4,7 @@
 import type { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { TranscriptionClient } from "./transcriptionClient.js";
-export { KnownServiceApiVersions } from "./models/index.js";
+export { KnownServiceApiVersions, KnownProfanityFilterModes } from "./models/index.js";
 export type {
   TranscriptionOptions,
   ProfanityFilterMode,

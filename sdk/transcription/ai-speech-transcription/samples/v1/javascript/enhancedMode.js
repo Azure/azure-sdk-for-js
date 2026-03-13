@@ -7,7 +7,7 @@
  * @summary use Enhanced Mode for LLM-powered transcription and translation
  */
 
-const { TranscriptionClient } = require("@azure/ai-speech-transcription");
+const { TranscriptionClient, KnownProfanityFilterModes } = require("@azure/ai-speech-transcription");
 const { AzureKeyCredential } = require("@azure/core-auth");
 const fs = require("fs");
 
@@ -32,7 +32,7 @@ async function main() {
     },
   });
   console.log("Transcription:", transcribeResult.combinedPhrases[0]?.text);
-  console.log(`Duration: ${transcribeResult.durationMilliseconds}ms`);
+  console.log(`Duration: ${transcribeResult.durationInMs}ms`);
 
   // === Translate with Enhanced Mode ===
   console.log("\n--- Enhanced Mode Translation ---");
@@ -65,7 +65,7 @@ async function main() {
       task: "transcribe",
       prompt: ["Output must be in lexical format."],
     },
-    profanityFilterMode: "Masked",
+    profanityFilterMode: KnownProfanityFilterModes.Masked,
     diarizationOptions: {
       maxSpeakers: 2,
     },
