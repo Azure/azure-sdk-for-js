@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { SearchClient } from "./searchClient.js";
-export {
+export type {
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,

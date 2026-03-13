@@ -4640,8 +4640,8 @@ export function _detectorResponsePropertiesDeserializer(item: any) {
   };
 }
 
-export function _applicationPackagePropertiesSerializer(item: ApplicationPackage): any {
-  return item;
+export function _applicationPackagePropertiesSerializer(_item: ApplicationPackage): any {
+  return {};
 }
 
 export function _applicationPackagePropertiesDeserializer(item: any) {

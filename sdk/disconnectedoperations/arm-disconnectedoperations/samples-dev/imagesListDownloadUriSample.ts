@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the URI to download the image.
  *
  * @summary get the URI to download the image.
- * x-ms-original-file: 2025-06-01-preview/Images_ListDownloadUri_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Images_ListDownloadUri_MaximumSet_Gen.json
  */
 async function imagesListDownloadUri(): Promise<void> {
   const credential = new DefaultAzureCredential();
