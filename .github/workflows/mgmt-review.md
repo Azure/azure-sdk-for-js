@@ -37,7 +37,7 @@ timeout-minutes: 15
 
 Review Azure SDK for JS management library pull request #${{ github.event.pull_request.number }} against the official API review guidelines.
 
-Follow the guidelines in [mgmt-review-guidelines.md](https://github.com/marygao/azure-sdk-for-js/blob/main/.github/prompts/mgmt-review-guidelines.m).
+Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guidelines.m).
 
 ## Important Constraints
 
