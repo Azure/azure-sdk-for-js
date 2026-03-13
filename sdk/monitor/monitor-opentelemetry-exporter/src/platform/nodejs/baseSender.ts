@@ -165,8 +165,8 @@ export abstract class BaseSender {
         }
         if (result) {
           diag.info(result);
-          const breezeResponse = JSON.parse(result) as BreezeResponse;
-          const filteredEnvelopes: Envelope[] = [];
+          const { breezeResponse, retriableEnvelopes: filteredEnvelopes } =
+            this.parseRetriableEnvelopes(envelopes, result);
           // Create a list of successful envelopes by filtering out the failed ones for customer SDK Stats
           const successfulEnvelopes: Envelope[] = [...envelopes];
 
@@ -174,21 +174,10 @@ export abstract class BaseSender {
           if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
-          // Figure out if we need to either retry or count failures
+          // Mark errored envelopes so they are excluded from successful counts
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
-              // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
-
-              // Add to retry list if status code is retriable and not a sampling rejection
-              // Sampling rejections should not be retried as the server will always reject these items
-              if (
-                error.statusCode &&
-                isRetriable(error.statusCode) &&
-                !isSamplingRejection(error)
-              ) {
-                filteredEnvelopes.push(envelopes[error.index]);
-              }
             });
           }
 
@@ -397,9 +386,11 @@ export abstract class BaseSender {
       const peeked = await this.persister.peek();
       if (peeked) {
         const envelopes = peeked.data as Envelope[];
-        await this.send(envelopes);
+        const sendResult = await this.send(envelopes);
         // Only delete the file after a successful send
         await this.persister.remove(peeked.filePath);
+        // Re-persist any retriable failures from a 206 partial success
+        await this.persistRetriableFromResponse(envelopes, sendResult);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
@@ -415,9 +406,11 @@ export abstract class BaseSender {
       while (peeked) {
         const envelopes = peeked.data as Envelope[];
         try {
-          await this.send(envelopes);
+          const sendResult = await this.send(envelopes);
           // Only delete after successful send
           await this.persister.remove(peeked.filePath);
+          // Re-persist any retriable failures from a 206 partial success
+          await this.persistRetriableFromResponse(envelopes, sendResult);
         } catch (err: any) {
           // If send fails, stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`, err);
@@ -427,6 +420,47 @@ export abstract class BaseSender {
       }
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
+    }
+  }
+
+  /**
+   * Parse a Breeze response and extract envelopes whose errors have retriable status codes.
+   */
+  private parseRetriableEnvelopes(
+    envelopes: Envelope[],
+    responseBody: string,
+  ): {
+    breezeResponse: BreezeResponse;
+    retriableEnvelopes: Envelope[];
+  } {
+    const breezeResponse = JSON.parse(responseBody) as BreezeResponse;
+    const retriableEnvelopes: Envelope[] = [];
+    if (breezeResponse.errors) {
+      for (const error of breezeResponse.errors) {
+        if (error.statusCode && isRetriable(error.statusCode) && !isSamplingRejection(error)) {
+          retriableEnvelopes.push(envelopes[error.index]);
+        }
+      }
+    }
+    return { breezeResponse, retriableEnvelopes };
+  }
+
+  /**
+   * If the send result is a 206 partial success, re-persist only the retriable failed envelopes.
+   */
+  private async persistRetriableFromResponse(
+    envelopes: Envelope[],
+    sendResult: SenderResult,
+  ): Promise<void> {
+    if (sendResult.statusCode === 206 && sendResult.result) {
+      try {
+        const { retriableEnvelopes } = this.parseRetriableEnvelopes(envelopes, sendResult.result);
+        if (retriableEnvelopes.length > 0) {
+          await this.persister.push(retriableEnvelopes);
+        }
+      } catch (parseError: any) {
+        diag.warn("Failed to parse partial success response for persisted file retry", parseError);
+      }
     }
   }
 
