@@ -1,6 +1,6 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
     names: [mgmt-review-needed]
 description: "Review a pull request for management-plane SDKs"
