@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_DEFAULT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
