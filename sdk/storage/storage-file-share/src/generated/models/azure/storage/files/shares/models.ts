@@ -80,7 +80,7 @@ export function fileServicePropertiesXmlSerializer(item: FileServiceProperties):
     },
     {
       propertyName: "protocol",
-      xmlOptions: { name: "Protocol" },
+      xmlOptions: { name: "ProtocolSettings" },
       type: "object",
       serializer: shareProtocolSettingsXmlObjectSerializer,
     },
@@ -110,7 +110,7 @@ export function fileServicePropertiesXmlDeserializer(xmlString: string): FileSer
     },
     {
       propertyName: "protocol",
-      xmlOptions: { name: "Protocol" },
+      xmlOptions: { name: "ProtocolSettings" },
       type: "object",
       deserializer: shareProtocolSettingsXmlObjectDeserializer,
     },
@@ -508,13 +508,13 @@ export function shareProtocolSettingsXmlSerializer(item: ShareProtocolSettings):
   const properties: XmlPropertyMetadata[] = [
     {
       propertyName: "smb",
-      xmlOptions: { name: "Smb" },
+      xmlOptions: { name: "SMB" },
       type: "object",
       serializer: shareSmbSettingsXmlObjectSerializer,
     },
     {
       propertyName: "nfs",
-      xmlOptions: { name: "Nfs" },
+      xmlOptions: { name: "NFS" },
       type: "object",
       serializer: shareNfsSettingsXmlObjectSerializer,
     },
@@ -526,13 +526,13 @@ export function shareProtocolSettingsXmlDeserializer(xmlString: string): SharePr
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "smb",
-      xmlOptions: { name: "Smb" },
+      xmlOptions: { name: "SMB" },
       type: "object",
       deserializer: shareSmbSettingsXmlObjectDeserializer,
     },
     {
       propertyName: "nfs",
-      xmlOptions: { name: "Nfs" },
+      xmlOptions: { name: "NFS" },
       type: "object",
       deserializer: shareNfsSettingsXmlObjectDeserializer,
     },
@@ -544,8 +544,8 @@ export function shareProtocolSettingsXmlObjectSerializer(
   item: ShareProtocolSettings,
 ): XmlSerializedObject {
   return {
-    Smb: item["smb"] !== undefined ? shareSmbSettingsXmlObjectSerializer(item["smb"]) : undefined,
-    Nfs: item["nfs"] !== undefined ? shareNfsSettingsXmlObjectSerializer(item["nfs"]) : undefined,
+    SMB: item["smb"] !== undefined ? shareSmbSettingsXmlObjectSerializer(item["smb"]) : undefined,
+    NFS: item["nfs"] !== undefined ? shareNfsSettingsXmlObjectSerializer(item["nfs"]) : undefined,
   };
 }
 
@@ -555,13 +555,13 @@ export function shareProtocolSettingsXmlObjectDeserializer(
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "smb",
-      xmlOptions: { name: "Smb" },
+      xmlOptions: { name: "SMB" },
       type: "object",
       deserializer: shareSmbSettingsXmlObjectDeserializer,
     },
     {
       propertyName: "nfs",
-      xmlOptions: { name: "Nfs" },
+      xmlOptions: { name: "NFS" },
       type: "object",
       deserializer: shareNfsSettingsXmlObjectDeserializer,
     },
@@ -2023,6 +2023,58 @@ export function sharePermissionDeserializer(item: any): SharePermission {
 /** The file permission format. */
 export type FilePermissionFormat = "Sddl" | "Binary";
 
+/** Represents an array of signed identifiers */
+export interface SignedIdentifiers {
+  /** The array of signed identifiers. */
+  items: SignedIdentifier[];
+}
+
+export function signedIdentifiersSerializer(item: SignedIdentifiers): any {
+  return { items: signedIdentifierArraySerializer(item["items"]) };
+}
+
+export function signedIdentifiersDeserializer(item: any): SignedIdentifiers {
+  return {
+    items: signedIdentifierArrayDeserializer(item["items"]),
+  };
+}
+
+export function signedIdentifiersXmlSerializer(item: SignedIdentifiers): string {
+  const properties: XmlPropertyMetadata[] = [
+    {
+      propertyName: "items",
+      xmlOptions: { name: "SignedIdentifier", unwrapped: true, itemsName: "SignedIdentifier" },
+      type: "array",
+      serializer: signedIdentifierXmlObjectSerializer,
+    },
+  ];
+  return serializeToXml(item, properties, "SignedIdentifiers");
+}
+
+export function signedIdentifiersXmlDeserializer(xmlString: string): SignedIdentifiers {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "items",
+      xmlOptions: { name: "SignedIdentifier", unwrapped: true, itemsName: "SignedIdentifier" },
+      type: "array",
+      deserializer: signedIdentifierXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<SignedIdentifiers>(xmlString, properties, "SignedIdentifiers");
+}
+
+export function signedIdentifierArraySerializer(result: Array<SignedIdentifier>): any[] {
+  return result.map((item) => {
+    return signedIdentifierSerializer(item);
+  });
+}
+
+export function signedIdentifierArrayDeserializer(result: Array<SignedIdentifier>): any[] {
+  return result.map((item) => {
+    return signedIdentifierDeserializer(item);
+  });
+}
+
 /** Signed identifier. */
 export interface SignedIdentifier {
   /** A unique id. */
@@ -2197,40 +2249,6 @@ export function accessPolicyXmlObjectDeserializer(
     },
   ];
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
-}
-
-/** Represents an array of signed identifiers */
-export interface SignedIdentifiers {
-  /** The array of signed identifiers. */
-  items: SignedIdentifier[];
-}
-
-export function signedIdentifiersSerializer(item: SignedIdentifiers): any {
-  return { items: signedIdentifierArraySerializer(item["items"]) };
-}
-
-export function signedIdentifiersXmlSerializer(item: SignedIdentifiers): string {
-  const properties: XmlPropertyMetadata[] = [
-    {
-      propertyName: "items",
-      xmlOptions: { name: "SignedIdentifier", unwrapped: true, itemsName: "SignedIdentifier" },
-      type: "array",
-      serializer: signedIdentifierXmlObjectSerializer,
-    },
-  ];
-  return serializeToXml(item, properties, "SignedIdentifiers");
-}
-
-export function signedIdentifierArraySerializer(result: Array<SignedIdentifier>): any[] {
-  return result.map((item) => {
-    return signedIdentifierSerializer(item);
-  });
-}
-
-export function signedIdentifierArrayDeserializer(result: Array<SignedIdentifier>): any[] {
-  return result.map((item) => {
-    return signedIdentifierDeserializer(item);
-  });
 }
 
 /** Stats for the share. */

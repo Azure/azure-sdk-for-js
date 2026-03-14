@@ -1571,7 +1571,7 @@ export function _uploadRangeFromUrlSend(
   options: FileUploadRangeFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=range&fromURL{?timeout}",
+    "?comp=range{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },

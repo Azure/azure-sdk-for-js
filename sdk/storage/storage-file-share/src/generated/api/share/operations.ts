@@ -7,9 +7,9 @@ import {
   SharePermission,
   sharePermissionSerializer,
   sharePermissionDeserializer,
-  SignedIdentifier,
+  SignedIdentifiers,
   signedIdentifiersXmlSerializer,
-  signedIdentifierArrayDeserializer,
+  signedIdentifiersXmlDeserializer,
   ShareStats,
   shareStatsXmlDeserializer,
 } from "../../models/azure/storage/files/shares/models.js";
@@ -520,7 +520,7 @@ export function _getAccessPolicySend(
 
 export async function _getAccessPolicyDeserialize(
   result: PathUncheckedResponse,
-): Promise<SignedIdentifier[]> {
+): Promise<SignedIdentifiers> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -537,7 +537,7 @@ export async function _getAccessPolicyDeserialize(
     throw error;
   }
 
-  return signedIdentifierArrayDeserializer(result.body);
+  return signedIdentifiersXmlDeserializer(result.body);
 }
 
 export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
@@ -600,9 +600,9 @@ export async function getAccessPolicy(
     clientRequestId?: string;
     date: Date;
     contentType: "application/xml";
-  } & SignedIdentifier[] &
+  } & SignedIdentifiers &
     StorageCompatResponseInfo<
-      SignedIdentifier[],
+      SignedIdentifiers,
       {
         etag: string;
         lastModified: Date;
@@ -1381,7 +1381,7 @@ export function _breakLeaseSend(
   options: ShareBreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=share&comp=lease&break{?timeout,sharesnapshot}",
+    "?restype=share&comp=lease{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,
@@ -1531,7 +1531,7 @@ export function _renewLeaseSend(
   options: ShareRenewLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=share&comp=lease&renew{?timeout,sharesnapshot}",
+    "?restype=share&comp=lease{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,
@@ -1672,7 +1672,7 @@ export function _changeLeaseSend(
   options: ShareChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=share&comp=lease&change{?timeout,sharesnapshot}",
+    "?restype=share&comp=lease{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,
@@ -1816,7 +1816,7 @@ export function _releaseLeaseSend(
   options: ShareReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=share&comp=lease&release{?timeout,sharesnapshot}",
+    "?restype=share&comp=lease{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,
@@ -1949,7 +1949,7 @@ export function _acquireLeaseSend(
   options: ShareAcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=share&comp=lease&acquire{?timeout,sharesnapshot}",
+    "?restype=share&comp=lease{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
       sharesnapshot: options?.shareSnapshot,

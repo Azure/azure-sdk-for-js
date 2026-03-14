@@ -42,7 +42,7 @@ import {
 } from "../../api/share/options.js";
 import {
   SharePermission,
-  SignedIdentifier,
+  SignedIdentifiers,
   ShareStats,
 } from "../../models/azure/storage/files/shares/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
@@ -143,9 +143,9 @@ export interface ShareOperations {
       clientRequestId?: string;
       date: Date;
       contentType: "application/xml";
-    } & SignedIdentifier[] &
+    } & SignedIdentifiers &
       StorageCompatResponseInfo<
-        SignedIdentifier[],
+        SignedIdentifiers,
         {
           etag: string;
           lastModified: Date;
