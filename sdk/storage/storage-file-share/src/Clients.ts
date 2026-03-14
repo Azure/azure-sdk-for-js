@@ -860,6 +860,7 @@ export class ShareClient extends StorageClient {
           if (e.details?.errorCode === "ShareAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -1109,6 +1110,7 @@ export class ShareClient extends StorageClient {
         ) {
           return {
             succeeded: false,
+            errorCode: e.details?.errorCode,
             ...e.response?.parsedHeaders,
             _response: e.response,
           };
@@ -1168,9 +1170,9 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const response = assertResponse<
-          ShareGetAccessPolicyHeaders & SignedIdentifierModel[],
+          ShareGetAccessPolicyHeaders & { items: SignedIdentifierModel[] },
           ShareGetAccessPolicyHeaders,
-          SignedIdentifierModel[]
+          { items: SignedIdentifierModel[] }
         >(
           adjustResponse(
             await this.context.getAccessPolicy({
@@ -1182,7 +1184,7 @@ export class ShareClient extends StorageClient {
         );
 
         const res: ShareGetAccessPolicyResponse = {
-          _response: response._response,
+          _response: response._response as any,
           date: response.date,
           etag: response.etag,
           lastModified: response.lastModified,
@@ -1191,7 +1193,7 @@ export class ShareClient extends StorageClient {
           version: response.version,
         };
 
-        for (const identifier of response) {
+        for (const identifier of response.items) {
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -1995,6 +1997,7 @@ export class ShareDirectoryClient extends StorageClient {
           if (e.details?.errorCode === "ResourceAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -2352,6 +2355,7 @@ export class ShareDirectoryClient extends StorageClient {
           ) {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -4636,6 +4640,7 @@ export class ShareFileClient extends StorageClient {
           ) {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
