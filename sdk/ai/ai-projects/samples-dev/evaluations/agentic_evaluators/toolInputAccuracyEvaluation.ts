@@ -18,8 +18,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName =
-  process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client

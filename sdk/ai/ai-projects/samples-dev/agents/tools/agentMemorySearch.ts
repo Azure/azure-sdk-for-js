@@ -22,8 +22,7 @@ import {
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const agentModelDeployment =
-  process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
+const agentModelDeployment = process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
 const embeddingModelDeployment =

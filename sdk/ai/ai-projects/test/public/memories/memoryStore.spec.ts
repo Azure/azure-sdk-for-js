@@ -24,7 +24,9 @@ describe("memoryStores", () => {
   it("should create and delete a memory store", async function () {
     const memoryStoreName = "test_memory_store_create_1";
     const chatModel = assertEnvironmentVariable("MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME");
-    const embeddingModel = assertEnvironmentVariable("MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME");
+    const embeddingModel = assertEnvironmentVariable(
+      "MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME",
+    );
 
     const definition: MemoryStoreDefaultDefinition = {
       kind: "default",
@@ -51,7 +53,9 @@ describe("memoryStores", () => {
       const memoryStoreName = "test_memory_store_update_1";
       const scope = "test_user_001";
       const chatModel = assertEnvironmentVariable("MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME");
-      const embeddingModel = assertEnvironmentVariable("MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME");
+      const embeddingModel = assertEnvironmentVariable(
+        "MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME",
+      );
 
       const definition: MemoryStoreDefaultDefinition = {
         kind: "default",
