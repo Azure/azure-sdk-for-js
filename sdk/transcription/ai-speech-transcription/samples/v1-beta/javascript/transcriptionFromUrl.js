@@ -6,20 +6,19 @@
  * Azure AI Speech Transcription service.
  *
  * @summary transcribe audio from a URL
- * @azsdk-weight 90
  */
 
-import { TranscriptionClient } from "@azure/ai-speech-transcription";
-import { AzureKeyCredential } from "@azure/core-auth";
+const { TranscriptionClient } = require("@azure/ai-speech-transcription");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-import "dotenv/config";
+require("dotenv/config");
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Transcription from URL Sample ==");
 
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const apiKey = process.env.API_KEY ?? "<api-key>";
+  const endpoint = process.env.TRANSCRIPTION_ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.TRANSCRIPTION_API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   // Transcribe audio directly from a publicly accessible URL
@@ -37,3 +36,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

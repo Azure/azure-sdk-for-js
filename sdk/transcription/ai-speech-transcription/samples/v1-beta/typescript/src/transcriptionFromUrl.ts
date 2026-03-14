@@ -8,17 +8,17 @@
  * @summary transcribe audio from a URL
  */
 
-const { TranscriptionClient } = require("@azure/ai-speech-transcription");
-const { AzureKeyCredential } = require("@azure/core-auth");
+import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
-async function main() {
+export async function main(): Promise<void> {
   console.log("== Transcription from URL Sample ==");
 
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const apiKey = process.env.API_KEY ?? "<api-key>";
+  const endpoint = process.env.TRANSCRIPTION_ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.TRANSCRIPTION_API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   // Transcribe audio directly from a publicly accessible URL
@@ -36,5 +36,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

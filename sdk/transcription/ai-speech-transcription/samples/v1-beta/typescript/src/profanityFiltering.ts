@@ -12,7 +12,6 @@
  * - "Tags":    Profane words are wrapped in XML tags (e.g., "<profanity>word</profanity>").
  *
  * @summary control profanity handling in transcription results
- * @azsdk-weight 60
  */
 
 import { TranscriptionClient, ProfanityFilterMode } from "@azure/ai-speech-transcription";
@@ -25,8 +24,8 @@ import "dotenv/config";
 export async function main(): Promise<void> {
   console.log("== Profanity Filtering Sample ==");
 
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const apiKey = process.env.API_KEY ?? "<api-key>";
+  const endpoint = process.env.TRANSCRIPTION_ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.TRANSCRIPTION_API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
   const audioFilePath = process.env.PROFANITY_AUDIO_FILE_PATH ?? "path/to/audio-with-profanity.wav";
   const audioFile = fs.existsSync(audioFilePath) ? fs.readFileSync(audioFilePath) : Buffer.from([]);
@@ -52,7 +51,7 @@ export async function main(): Promise<void> {
   console.log("=== When to Use Each Mode ===");
   console.log("None:    Use when you need the exact spoken content (e.g., content moderation).");
   console.log(
-    'Masked:  Use for general applications where you want to indicate profanity (default).',
+    "Masked:  Use for general applications where you want to indicate profanity (default).",
   );
   console.log("Removed: Use when you want completely clean output.");
   console.log(

@@ -18,7 +18,6 @@
  * regardless of accent).
  *
  * @summary transcribe multilingual audio content (preview)
- * @azsdk-weight 50
  */
 
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
