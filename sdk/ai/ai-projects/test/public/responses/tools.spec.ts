@@ -597,9 +597,9 @@ describe("tools - basic", () => {
   }, 120000);
 
   it.skip("should create responses with Memory Search tool", async function () {
-    const chatModelDeployment = process.env["AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+    const chatModelDeployment = process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
     const embeddingModelDeployment =
-      process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "text-embedding-3-large";
+      process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "text-embedding-3-large";
     const memoryStoreName = `test_memory_store_${Date.now()}`;
     const scope = "test_user_123";
 

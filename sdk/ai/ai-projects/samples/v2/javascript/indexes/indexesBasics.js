@@ -12,7 +12,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const azureAIIndexName = process.env["AZURE_AI_SEARCH_INDEX_NAME"] || "<index name>";
 const azureAIIndexVersion = process.env["AZURE_AI_SEARCH_INDEX_VERSION"] || "<index version>";
 const azureAIConnectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection name>";

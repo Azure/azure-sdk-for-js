@@ -12,7 +12,8 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 const GenericSanitizedValue = "Sanitized";
 
 const replaceableVariables = {
-  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  FOUNDRY_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  FOUNDRY_AGENT_NAME: "gpt-5.2",
   AZURE_AI_PUBLISHED_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
   DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
@@ -30,8 +31,8 @@ const replaceableVariables = {
   AZURE_AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   AI_SEARCH_INDEX_NAME: "test-index",
   BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
-  AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-4o-mini",
-  AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
+  MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-4o-mini",
+  MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
   COMPUTER_USE_MODEL_DEPLOYMENT_NAME: "computer-use-preview",
   MCP_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   OPENAPI_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
@@ -174,7 +175,7 @@ export function createProjectsClient(
   options?: AIProjectClientOptionalParams,
 ): AIProjectClient {
   const credential = createTestCredential();
-  const endpoint = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+  const endpoint = assertEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
   return new AIProjectClient(
     endpoint,
     credential,
@@ -215,6 +216,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const endpoint = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+  const endpoint = assertEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
   return new AIProjectClient(endpoint, credential, options);
 }
