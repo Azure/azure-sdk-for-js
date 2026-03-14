@@ -146,8 +146,7 @@
     "productName": "Azure AI Speech Transcription",
     "productSlugs": [
       "azure"
-    ],
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription"
+    ]
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",

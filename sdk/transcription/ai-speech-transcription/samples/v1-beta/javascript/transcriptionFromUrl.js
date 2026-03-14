@@ -17,8 +17,8 @@ require("dotenv/config");
 async function main() {
   console.log("== Transcription from URL Sample ==");
 
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const apiKey = process.env.API_KEY ?? "<api-key>";
+  const endpoint = process.env.TRANSCRIPTION_ENDPOINT ?? "<endpoint>";
+  const apiKey = process.env.TRANSCRIPTION_API_KEY ?? "<api-key>";
   const client = new TranscriptionClient(endpoint, new AzureKeyCredential(apiKey));
 
   // Transcribe audio directly from a publicly accessible URL

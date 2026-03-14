@@ -66,7 +66,7 @@ node dist/basicTranscription.js
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" AUDIO_FILE_PATH="<audio file path>" node dist/basicTranscription.js
+npx cross-env TRANSCRIPTION_ENDPOINT="<transcription endpoint>" TRANSCRIPTION_API_KEY="<transcription api key>" AUDIO_FILE_PATH="<audio file path>" node dist/basicTranscription.js
 ```
 
 ## Next Steps
