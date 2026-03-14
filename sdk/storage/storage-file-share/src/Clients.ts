@@ -1059,6 +1059,7 @@ export class ShareClient extends StorageClient {
       return {
         ...res,
         ...this.shareClientConfig,
+        metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         protocols: toShareProtocols(res.enabledProtocols),
       };
     });
@@ -2295,6 +2296,7 @@ export class ShareDirectoryClient extends StorageClient {
         return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response,
+          metadata: rawHeadersToMetadata((rawResponse as any)._response.headers.rawHeaders()),
           posixProperties: {
             fileMode: parseOctalFileMode(rawResponse.fileMode),
             owner: rawResponse.owner,
@@ -4507,6 +4509,7 @@ export class ShareFileClient extends StorageClient {
         return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          metadata: rawHeadersToMetadata((rawResponse as any)._response.headers.rawHeaders()),
           posixProperties: {
             fileMode: parseOctalFileMode(rawResponse.fileMode),
             fileType: rawResponse.nfsFileType,
