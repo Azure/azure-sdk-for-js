@@ -30,5 +30,5 @@ extends:
   parameters:
     ServiceDirectory: transcription
     Artifacts:
-      - name: ai-speech-transcription
-        safeName: aispeechtranscription
+      - name: azure-ai-speech-transcription
+        safeName: azureaispeechtranscription
