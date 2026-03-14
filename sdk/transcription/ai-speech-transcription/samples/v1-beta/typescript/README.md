@@ -82,7 +82,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/profanityFiltering.ts
 [transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/transcriptionWithLocale.ts
 [multilingualtranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/multilingualTranscription.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
