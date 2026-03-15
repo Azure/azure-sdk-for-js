@@ -28,10 +28,15 @@ export interface ExtractGapsOptions {
   fileFilter?: string;
   coveragePath?: string;
   sourcePrefix?: string;
+  sourceExclusions?: string[];
   coverageFormat?: "istanbul" | "coveragepy";
 }
 
 // ── Shared helpers ──
+
+function isExcluded(path: string, exclusions?: string[]): boolean {
+  return !!exclusions?.some((ex) => path.includes(ex));
+}
 
 function pct(covered: number, total: number): string {
   return total ? ((covered / total) * 100).toFixed(1) : "100.0";
@@ -89,6 +94,7 @@ function parseIstanbul(
   packageDir: string,
   sourcePrefix: string,
   fileFilter?: string,
+  sourceExclusions?: string[],
 ): ExtractGapsResult {
   const coverage = JSON.parse(raw) as CoverageMap;
   const allGaps: CoverageGap[] = [];
@@ -97,6 +103,7 @@ function parseIstanbul(
   for (const [absPath, fileCov] of Object.entries(coverage)) {
     const relPath = relative(packageDir, absPath);
     if (!relPath.startsWith(sourcePrefix)) continue;
+    if (isExcluded(relPath, sourceExclusions)) continue;
     if (fileFilter && relPath !== fileFilter) continue;
 
     const gaps = extractIstanbulFileGaps(relPath, fileCov);
@@ -151,6 +158,7 @@ function parseCoveragePy(
   packageDir: string,
   sourcePrefix: string,
   fileFilter?: string,
+  sourceExclusions?: string[],
 ): ExtractGapsResult {
   const report = JSON.parse(raw) as CoveragePyReport;
   const allGaps: CoverageGap[] = [];
@@ -159,6 +167,7 @@ function parseCoveragePy(
   for (const [filePath, fileCov] of Object.entries(report.files)) {
     const relPath = isAbsolute(filePath) ? relative(packageDir, filePath) : filePath;
     if (!relPath.startsWith(sourcePrefix)) continue;
+    if (isExcluded(relPath, sourceExclusions)) continue;
     if (fileFilter && relPath !== fileFilter) continue;
 
     const gaps = extractCoveragePyFileGaps(relPath, fileCov);
@@ -196,6 +205,7 @@ export async function extractGaps(
     fileFilter,
     coveragePath = "coverage/coverage-final.json",
     sourcePrefix = "src/",
+    sourceExclusions,
     coverageFormat = "istanbul",
   } = options ?? {};
 
@@ -203,14 +213,13 @@ export async function extractGaps(
   const raw = await tryReadFile(coverageFile);
 
   if (!raw) {
-    throw new Error(
-      `Coverage file not found: ${coverageFile}\nRun tests with coverage first.`,
-    );
+    throw new Error(`Coverage file not found: ${coverageFile}\nRun tests with coverage first.`);
   }
 
-  const result = coverageFormat === "coveragepy"
-    ? parseCoveragePy(raw, packageDir, sourcePrefix, fileFilter)
-    : parseIstanbul(raw, packageDir, sourcePrefix, fileFilter);
+  const result =
+    coverageFormat === "coveragepy"
+      ? parseCoveragePy(raw, packageDir, sourcePrefix, fileFilter, sourceExclusions)
+      : parseIstanbul(raw, packageDir, sourcePrefix, fileFilter, sourceExclusions);
 
   result.gaps.sort((a, b) => a.file.localeCompare(b.file) || a.start.line - b.start.line);
   return result;
@@ -246,8 +255,9 @@ export function formatGaps({ gaps, fileStats }: ExtractGapsResult): string {
     "## Coverage Gaps Summary\n",
     "| File | Gaps | Branch% | Stmt% | Fn% |",
     "|------|------|---------|-------|-----|",
-    ...ranked.map(([file, s]) =>
-      `| ${file} | ${s.gapCount} | ${pct(s.branches.covered, s.branches.total)}% | ${pct(s.statements.covered, s.statements.total)}% | ${pct(s.functions.covered, s.functions.total)}% |`,
+    ...ranked.map(
+      ([file, s]) =>
+        `| ${file} | ${s.gapCount} | ${pct(s.branches.covered, s.branches.total)}% | ${pct(s.statements.covered, s.statements.total)}% | ${pct(s.functions.covered, s.functions.total)}% |`,
     ),
   ];
 
@@ -257,7 +267,8 @@ export function formatGaps({ gaps, fileStats }: ExtractGapsResult): string {
       currentFile = file;
       lines.push(`\n### ${file}`);
     }
-    const range = start.line === end.line ? `line ${start.line}` : `lines ${start.line}-${end.line}`;
+    const range =
+      start.line === end.line ? `line ${start.line}` : `lines ${start.line}-${end.line}`;
     lines.push(`- UNCOVERED ${type.toUpperCase()}: ${detail} at ${range}`);
   }
 

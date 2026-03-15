@@ -24,6 +24,8 @@ export interface RunnerConfig {
   maxBuffer: number;
   /** Number of trailing stdout lines to display after a test run. */
   tailLines: number;
+  /** Path to .coverage SQLite DB for test→source mapping (relative to packageDir). */
+  coverageDbPath: string;
 }
 
 /** Directory and file naming conventions. */
@@ -38,12 +40,16 @@ export interface PathsConfig {
   specSuffix: string;
   /** Substrings to exclude from spec file discovery. */
   specExclusions: string[];
+  /** Substrings to exclude from source/coverage gap file selection. */
+  sourceExclusions?: string[];
 }
 
 /** LLM interaction settings. */
 export interface LlmConfig {
-  /** Default model name (overridden by TEST_GEN_MODEL env var). */
+  /** Model for generation and context resolution prompts (fast, large context preferred). */
   model: string;
+  /** Model for fix-loop prompts (stronger reasoning preferred). Falls back to `model`. */
+  fixModel?: string;
 }
 
 /** Coverage loop parameters. */
@@ -56,6 +62,10 @@ export interface LoopConfig {
   fixMaxIterations: number;
   /** Number of gap files to process before re-measuring coverage. */
   batchSize: number;
+  /** Number of uncovered branches per LLM call in single-pass mode (default 5). */
+  gapBatchSize: number;
+  /** Maximum number of source files to target in single-pass mode. */
+  maxGapFiles: number;
 }
 
 /** Example test file selection for prompt building. */
@@ -110,6 +120,7 @@ export const defaults: Config = {
     timeout: 120_000,
     maxBuffer: 10 * 1024 * 1024,
     tailLines: 20,
+    coverageDbPath: ".coverage",
   },
   paths: {
     testDir: "test",
@@ -126,6 +137,8 @@ export const defaults: Config = {
     maxIterations: 5,
     fixMaxIterations: 3,
     batchSize: 3,
+    gapBatchSize: 5,
+    maxGapFiles: 20,
   },
   examples: {
     maxLines: 80,
@@ -138,17 +151,20 @@ export const defaults: Config = {
 };
 
 /** Deep-merge a partial config over defaults. */
-export function resolveConfig(overrides?: Partial<{
-  [K in keyof Config]: Partial<Config[K]>;
-}>): Config {
-  if (!overrides) return {
-    runner: { ...defaults.runner },
-    paths: { ...defaults.paths },
-    llm: { ...defaults.llm },
-    loop: { ...defaults.loop },
-    examples: { ...defaults.examples },
-    language: { ...defaults.language },
-  };
+export function resolveConfig(
+  overrides?: Partial<{
+    [K in keyof Config]: Partial<Config[K]>;
+  }>,
+): Config {
+  if (!overrides)
+    return {
+      runner: { ...defaults.runner },
+      paths: { ...defaults.paths },
+      llm: { ...defaults.llm },
+      loop: { ...defaults.loop },
+      examples: { ...defaults.examples },
+      language: { ...defaults.language },
+    };
   return {
     runner: { ...defaults.runner, ...overrides.runner },
     paths: { ...defaults.paths, ...overrides.paths },

@@ -10,17 +10,22 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import { resolve, join, dirname } from "node:path";
-import { writeFile, readdir, mkdir } from "node:fs/promises";
-import { extractGaps, computeBranchCoverage } from "./extract-gaps.ts";
+import { writeFile, readFile, readdir, mkdir, rename } from "node:fs/promises";
+import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
+import type { CoverageGap } from "./types.ts";
 import { buildPrompt } from "./build-prompt.ts";
 import { extractTestContext } from "./extract-context.ts";
+import { extractTestMap } from "./extract-test-map.ts";
+import { resolveContext } from "./resolve-context.ts";
+import type { ContextFile } from "./resolve-context.ts";
 import { stopClient, send } from "./llm.ts";
 import type { SendOptions } from "./llm.ts";
 import { tryReadFile } from "./utils.ts";
 import { resolveConfig, codeFenceFor } from "./config.ts";
 import type { Config } from "./config.ts";
 import { aiLoop, loop } from "./loop/index.ts";
+import { annotateSource, commentPrefixFor, mergeAdjacentGaps } from "./annotate-source.ts";
 import type { RunReport, LlmCallStats } from "./types.ts";
 import { z } from "zod";
 
@@ -30,12 +35,12 @@ const execAsync = promisify(exec);
 function testGenSchema(cfg: Config): z.ZodObject<{ path: z.ZodString; code: z.ZodString }> {
   const fence = codeFenceFor(cfg.language.outputExtension);
   return z.object({
-    path: z.string().describe(
-      `Relative test file path starting with ${cfg.paths.testDir}/ and ending with ${cfg.language.outputExtension}`,
-    ),
-    code: z.string().describe(
-      `The complete generated ${fence} test file content`,
-    ),
+    path: z
+      .string()
+      .describe(
+        `Relative test file path starting with ${cfg.paths.testDir}/ and ending with ${cfg.language.outputExtension}`,
+      ),
+    code: z.string().describe(`The complete generated ${fence} test file content`),
   });
 }
 
@@ -83,10 +88,32 @@ function tail(text: string, lines: number): string {
   let i = text.length;
   while (i > 0 && count < lines) {
     i = text.lastIndexOf("\n", i - 1);
-    if (i === -1) { i = 0; break; }
+    if (i === -1) {
+      i = 0;
+      break;
+    }
     count++;
   }
   return i === 0 ? text : text.slice(i + 1);
+}
+
+/**
+ * Run the full test suite command and return pass/fail + output.
+ * Unlike `runTests()` which logs and continues, this captures the result.
+ */
+async function runFullSuite(command: string, packageDir: string, cfg: Config): Promise<TestResult> {
+  try {
+    const { stdout } = await execAsync(`${command} 2>&1`, {
+      cwd: packageDir,
+      timeout: cfg.runner.timeout,
+      maxBuffer: cfg.runner.maxBuffer,
+    });
+    return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
+  } catch (e) {
+    const err = e as { stdout?: string; stderr?: string; message?: string };
+    const output = err.stdout ?? err.stderr ?? err.message ?? "Unknown error";
+    return { passed: false, output: tail(output, cfg.runner.tailLines) };
+  }
 }
 
 /**
@@ -134,7 +161,10 @@ ${newCode}
 Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
 ${mergeSchema}`;
 
-  const { content, inputTokens, outputTokens, durationMs } = await send(prompt, { model: cfg.llm.model, signal });
+  const { content, inputTokens, outputTokens, durationMs } = await send(prompt, {
+    model: cfg.llm.fixModel ?? cfg.llm.model,
+    signal,
+  });
   llmStats.push({ inputTokens, outputTokens, durationMs });
   const result = MergeResponse.parse(JSON.parse(content));
   return result.code;
@@ -166,11 +196,9 @@ async function writeAndFix(
   const fixSchema = JSON.stringify(FixResponse.toJSONSchema(), null, 2);
 
   // Read the source file under test so the LLM can reference actual types/signatures.
-  const sourceCode = sourceFile
-    ? await tryReadFile(resolve(packageDir, sourceFile))
-    : undefined;
+  const sourceCode = sourceFile ? await tryReadFile(resolve(packageDir, sourceFile)) : undefined;
   const sourceSection = sourceCode
-    ? `\n## Source Under Test\n\n\`${sourceFile}\`\n\n\`\`\`${codeFence}\n${sourceCode}\n\`\`\`\n`
+    ? `\n## Source Under Test\n\n**\`${sourceFile}\`**\n\n\`\`\`${codeFence}\n${sourceCode}\n\`\`\`\n`
     : "";
 
   interface FixContext {
@@ -194,34 +222,157 @@ async function writeAndFix(
       },
 
       async act(ctx) {
-        const prompt = `Fix the failing tests in the file below so that all tests pass.
+        const prompt = `A generated test file has failures. Fix the failing tests.
 
 ## Test File
 
-\`${relPath}\`
+**\`${relPath}\`**
 
 \`\`\`${codeFence}
 ${ctx.currentCode}
 \`\`\`
 ${sourceSection}
-## Errors
+## Test Output (errors)
 
 \`\`\`
 ${ctx.errors}
 \`\`\`
 
-## Instructions
+## Diagnosis Instructions
 
-1. Fix ONLY the failing tests — do not remove, skip, or delete any test.
-2. Every existing test must remain in the output.
-3. Preserve passing tests, imports, and helpers verbatim.
-4. Only change what is strictly necessary to make the failing tests pass.
-5. Return the complete corrected test file.
+Before fixing, analyze each failure:
+
+1. **Read the error message.** Is it an ImportError, AttributeError, AssertionError, TypeError, or something else?
+2. **Trace to root cause:**
+   - ImportError → wrong module path or non-existent symbol. Check the source file for the correct import.
+   - AttributeError → wrong attribute/method name. Check the source file for the actual API.
+   - AssertionError → wrong expected value. Re-read the source logic and correct the assertion.
+   - TypeError → wrong argument count or type. Check the function signature in the source.
+   - Other → examine the traceback and fix accordingly.
+3. **Apply the minimal fix.** Change ONLY what's needed to make the test pass while still testing the intended branch.
+
+## Rules
+
+1. Fix ONLY the failing tests. Do NOT modify passing tests.
+2. NEVER delete or skip a test — every test in the input must appear in the output.
+3. Preserve all imports, helpers, and structure not related to the failure.
+4. If a test's assertion was wrong, fix the expected value — do NOT weaken the assertion.
+5. If an import is wrong, fix it using the actual symbols visible in the source file.
+6. Return the COMPLETE corrected file — not a diff, not a partial snippet.
 
 Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
 ${fixSchema}`;
 
-        const { content, inputTokens, outputTokens, durationMs } = await send(prompt, { model: cfg.llm.model, signal });
+        const { content, inputTokens, outputTokens, durationMs } = await send(prompt, {
+          model: cfg.llm.fixModel ?? cfg.llm.model,
+          signal,
+        });
+        llmStats.push({ inputTokens, outputTokens, durationMs });
+        const result = FixResponse.parse(JSON.parse(content));
+        ctx.currentCode = result.code;
+        await writeFile(absPath, ctx.currentCode, "utf8");
+      },
+    },
+    ctx,
+    maxFix,
+    signal,
+  );
+}
+
+/**
+ * Fix loop for isolation issues: the test file passes alone but breaks other
+ * tests when run together. Runs the full suite to verify after each fix attempt.
+ */
+async function isolationFixLoop(
+  packageDir: string,
+  relPath: string,
+  cfg: Config,
+  log: (msg: string) => void,
+  llmStats: LlmCallStats[],
+  suiteErrors: string,
+  signal?: AbortSignal,
+): Promise<void> {
+  const absPath = resolve(packageDir, relPath);
+  const codeFence = codeFenceFor(cfg.language.outputExtension);
+  const fixSchema = JSON.stringify(FixResponse.toJSONSchema(), null, 2);
+  const maxFix = cfg.loop.fixMaxIterations;
+
+  interface IsoFixContext {
+    currentCode: string;
+    errors: string;
+  }
+
+  let currentCode: string;
+  try {
+    currentCode = await readFile(absPath, "utf8");
+  } catch {
+    log("    ❌ Could not read culprit file");
+    return;
+  }
+
+  const ctx: IsoFixContext = { currentCode, errors: suiteErrors };
+
+  await loop<IsoFixContext>(
+    {
+      async isTerminal(ctx) {
+        const result = await runFullSuite(cfg.runner.command, packageDir, cfg);
+        if (result.passed) {
+          log("    ✅ Full suite passes");
+          return true;
+        }
+        ctx.errors = result.output;
+        log("    ⚠️  Full suite still failing — asking LLM to fix isolation issue");
+        return false;
+      },
+
+      async act(ctx) {
+        const prompt = `A generated test file passes when run alone but causes OTHER tests to fail
+when run as part of the full test suite. This is a test isolation problem — your tests
+are leaking global state that corrupts the test environment for subsequent tests.
+
+## Test File (the culprit)
+
+**\`${relPath}\`**
+
+\`\`\`${codeFence}
+${ctx.currentCode}
+\`\`\`
+
+## Full Suite Errors
+
+These failures appear in OTHER test files when YOUR test file is included in the suite:
+
+\`\`\`
+${ctx.errors}
+\`\`\`
+
+## Diagnosis Instructions
+
+1. **Identify the leaked state.** Common causes:
+   - Module reloading (\`importlib.reload\`) that permanently mutates module-level globals
+   - Monkey-patching globals/singletons without proper cleanup
+   - Registering hooks, handlers, or instrumentation that persists across tests
+   - Modifying class-level or module-level dictionaries/lists
+2. **Determine if the test can be rewritten safely.** Can the branch be tested WITHOUT
+   mutating global state? If so, rewrite to use a local mock or isolated approach.
+3. **If the branch is untestable without global mutation**, remove the offending test(s)
+   and add a comment explaining why: \`# Skipped: branch requires module reload which leaks global state\`
+
+## Rules
+
+1. Fix ONLY the tests that cause isolation problems. Do NOT modify tests that are safe.
+2. Prefer rewriting over removing. Only remove a test if there is no safe alternative.
+3. If you remove a test, keep it as a commented-out block with explanation.
+4. The remaining tests must still pass when run alone.
+5. Return the COMPLETE corrected file.
+
+Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
+${fixSchema}`;
+
+        const { content, inputTokens, outputTokens, durationMs } = await send(prompt, {
+          model: cfg.llm.fixModel ?? cfg.llm.model,
+          signal,
+        });
         llmStats.push({ inputTokens, outputTokens, durationMs });
         const result = FixResponse.parse(JSON.parse(content));
         ctx.currentCode = result.code;
@@ -279,7 +430,10 @@ async function runTests(
   }
 }
 
-function scanTestDir(entries: string[], cfg: Config): {
+function scanTestDir(
+  entries: string[],
+  cfg: Config,
+): {
   folderTree: string;
   specFiles: (testDir: string) => string[];
 } {
@@ -292,9 +446,7 @@ function scanTestDir(entries: string[], cfg: Config): {
   const specFiles = (testDir: string) =>
     entries
       .filter(
-        (e) =>
-          e.endsWith(paths.specSuffix) &&
-          !paths.specExclusions.some((ex) => e.includes(ex)),
+        (e) => e.endsWith(paths.specSuffix) && !paths.specExclusions.some((ex) => e.includes(ex)),
       )
       .map((e) => join(testDir, e));
 
@@ -349,6 +501,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
       gapsResult = await extractGaps(packageDir, {
         coveragePath: cfg.runner.coveragePath,
         sourcePrefix: cfg.paths.sourcePrefix,
+        sourceExclusions: cfg.paths.sourceExclusions,
         coverageFormat: cfg.runner.coverageFormat,
       });
     } catch {
@@ -412,7 +565,8 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
       const sendOpts: SendOptions = {
         model: cfg.llm.model,
         signal: options.signal,
-        onProgress: (tokens) => process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
+        onProgress: (tokens) =>
+          process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
       };
       const { content, inputTokens, outputTokens, durationMs } = await send(augmented, sendOpts);
       llmStats.push({ inputTokens, outputTokens, durationMs });
@@ -458,13 +612,12 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
         await runTests(ctx.cfg.runner.command, ctx.packageDir, log, ctx.cfg);
 
         try {
-          ctx.gapsResult = await extractGaps(
-            ctx.packageDir, {
-              coveragePath: ctx.cfg.runner.coveragePath,
-              sourcePrefix: ctx.cfg.paths.sourcePrefix,
-              coverageFormat: ctx.cfg.runner.coverageFormat,
-            },
-          );
+          ctx.gapsResult = await extractGaps(ctx.packageDir, {
+            coveragePath: ctx.cfg.runner.coveragePath,
+            sourcePrefix: ctx.cfg.paths.sourcePrefix,
+            sourceExclusions: ctx.cfg.paths.sourceExclusions,
+            coverageFormat: ctx.cfg.runner.coverageFormat,
+          });
         } catch {
           log(`\n❌ ${ctx.cfg.runner.coveragePath} not generated.`);
           log("   Ensure the test config includes a JSON coverage reporter.");
@@ -476,7 +629,9 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
         log(`\n📊 Branch coverage: ${ctx.branchCov.toFixed(1)}%`);
 
         if (ctx.branchCov >= ctx.cfg.loop.targetCoverage) {
-          log(`\n✅ Target ${ctx.cfg.loop.targetCoverage}% reached! (actual: ${ctx.branchCov.toFixed(1)}%)`);
+          log(
+            `\n✅ Target ${ctx.cfg.loop.targetCoverage}% reached! (actual: ${ctx.branchCov.toFixed(1)}%)`,
+          );
           return true;
         }
 
@@ -490,9 +645,7 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
           return true;
         }
 
-        ctx.batch = ranked
-          .slice(0, ctx.cfg.loop.batchSize)
-          .map(([file]) => file);
+        ctx.batch = ranked.slice(0, ctx.cfg.loop.batchSize).map(([file]) => file);
 
         log(`\n📦 Batch: ${ctx.batch.join(", ")}`);
 
@@ -544,19 +697,36 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
           schema: TestGenResponse,
           async onResponse(response) {
             const finalCode = await mergeIfExists(
-              ctx.packageDir, response.path, response.code, ctx.cfg, llmStats,
+              ctx.packageDir,
+              response.path,
+              response.code,
+              ctx.cfg,
+              llmStats,
             );
             generatedFiles.push(response.path);
             log(`  📝 ${file} → ${response.path}`);
-            await writeAndFix(ctx.packageDir, response.path, finalCode, ctx.cfg, log, llmStats, options.signal, file);
+            await writeAndFix(
+              ctx.packageDir,
+              response.path,
+              finalCode,
+              ctx.cfg,
+              log,
+              llmStats,
+              options.signal,
+              file,
+            );
           },
         };
       },
     },
     ctx,
-    { maxIterations: cfg.loop.maxIterations, model: cfg.llm.model, signal: options.signal,
+    {
+      maxIterations: cfg.loop.maxIterations,
+      model: cfg.llm.model,
+      signal: options.signal,
       onProgress: (tokens) => process.stdout.write(`\r    🤖 Generating... (${tokens} tokens)`),
-      llmStats },
+      llmStats,
+    },
   );
 
   return buildReport(
@@ -567,6 +737,430 @@ export async function runLoop(options: RunOptions): Promise<RunReport> {
     wallStart,
     iterations,
   );
+}
+
+/** Response schema for single-pass mode (includes analysis array). */
+const SinglePassResponse = z.object({
+  path: z.string(),
+  code: z.string(),
+  analysis: z
+    .array(
+      z.object({
+        marker_line: z.number(),
+        branch_condition: z.string(),
+        test_function: z.string(),
+        trigger_strategy: z.string(),
+      }),
+    )
+    .optional(),
+});
+
+/**
+ * Single-pass test generation: measure once → resolve context → batch generate → fix → verify.
+ *
+ * Unlike `runLoop` which re-measures coverage after each batch, this function
+ * measures coverage exactly once, then generates tests for all gap files in
+ * branch-level batches. Each batch targets N uncovered branches and produces
+ * a focused test file.
+ */
+export async function runSinglePass(options: RunOptions): Promise<RunReport> {
+  const wallStart = Date.now();
+  const cfg = resolveConfig(options.config);
+  const { packageDir, dryRun = false } = options;
+  const log = options.onProgress ?? console.log;
+  const llmStats: LlmCallStats[] = [];
+  const generatedFiles: string[] = [];
+
+  log("╔══════════════════════════════════════════════════════════════╗");
+  log("║  Single-Pass Test Generation                                ║");
+  log("╠══════════════════════════════════════════════════════════════╣");
+  log(`║  Model:      ${cfg.llm.model}`);
+  if (cfg.llm.fixModel) log(`║  Fix model:  ${cfg.llm.fixModel}`);
+  log(`║  Batch size: ${cfg.loop.gapBatchSize} branches per LLM call`);
+  log(`║  Max files:  ${cfg.loop.maxGapFiles}`);
+  log(`║  Fix iter:   ${cfg.loop.fixMaxIterations} per file`);
+  if (dryRun) log("║  Mode:       dry-run (print only, no writes)");
+  log("╚══════════════════════════════════════════════════════════════╝");
+
+  // ── Step 1: Measure coverage ──
+  log("\n━━━ Step 1: Measuring coverage ━━━");
+  await runTests(cfg.runner.command, packageDir, log, cfg);
+
+  let gapsResult: ExtractGapsResult;
+  try {
+    gapsResult = await extractGaps(packageDir, {
+      coveragePath: cfg.runner.coveragePath,
+      sourcePrefix: cfg.paths.sourcePrefix,
+      sourceExclusions: cfg.paths.sourceExclusions,
+      coverageFormat: cfg.runner.coverageFormat,
+    });
+  } catch {
+    log(`\n❌ ${cfg.runner.coveragePath} not generated.`);
+    await stopClient();
+    return buildReport(0, 0, [], llmStats, wallStart, 0);
+  }
+
+  const initialBranchCov = computeBranchCoverage(gapsResult.fileStats);
+  log(`\n📊 Initial branch coverage: ${initialBranchCov.toFixed(1)}%`);
+
+  // ── Step 2: Rank gap files ──
+  const ranked = Object.entries(gapsResult.fileStats)
+    .filter(([, s]) => s.gapCount > 0)
+    .sort(([, a], [, b]) => b.gapCount - a.gapCount)
+    .slice(0, cfg.loop.maxGapFiles);
+
+  if (ranked.length === 0) {
+    log("\n✅ No coverage gaps found!");
+    await stopClient();
+    return buildReport(initialBranchCov, initialBranchCov, [], llmStats, wallStart, 0);
+  }
+
+  log(`\n📦 ${ranked.length} source files with gaps:`);
+  for (const [file, stats] of ranked) {
+    log(`    ${file} — ${stats.gapCount} uncovered locations`);
+  }
+
+  // ── Step 3: Extract test map (from .coverage DB if available) ──
+  log("\n━━━ Step 2: Building test map ━━━");
+  let testMap = new Map<string, { testFile: string; arcCount: number }[]>();
+  try {
+    testMap = await extractTestMap(packageDir, cfg.runner.coverageDbPath, cfg.paths.sourcePrefix);
+    if (testMap.size > 0) {
+      log(`    ✅ Test map: ${testMap.size} source files → test file mappings`);
+    } else {
+      log("    ℹ️  No test map available (no .coverage DB with context tracking)");
+    }
+  } catch (e) {
+    log(`    ⚠️  Test map extraction failed: ${(e as Error).message}`);
+  }
+
+  // ── Step 3: Read test directory ──
+  log("\n━━━ Step 3: Reading test directory ━━━");
+  const testDir = resolve(packageDir, cfg.paths.testDir);
+  const entries = await readTestEntries(testDir, cfg);
+  const scan = scanTestDir(entries, cfg);
+  const specFiles = scan.specFiles(testDir);
+  log(`    📁 ${specFiles.length} spec file(s), ${entries.length} total entries`);
+
+  // ── Step 4: Discover source files & read fixtures ──
+  const allSourceFiles = await discoverSourceFiles(packageDir, cfg);
+  log(`    📁 ${allSourceFiles.length} source files discovered for context resolution`);
+
+  // Read fixture/helper files from test directory
+  // Fixture = any test dir file NOT in the spec files list (conftest.py, helpers, etc.)
+  const specAbsSet = new Set(specFiles);
+  const fixtureFiles: { path: string; content: string }[] = [];
+  const MAX_FIXTURE_LINES = 200;
+  for (const entry of entries) {
+    const absEntry = join(testDir, entry);
+    if (specAbsSet.has(absEntry)) continue;
+    if (entry.includes("__pycache__")) continue;
+    const content = await tryReadFile(absEntry);
+    if (!content) continue;
+    const lines = content.split("\n");
+    const truncated =
+      lines.length > MAX_FIXTURE_LINES
+        ? lines.slice(0, MAX_FIXTURE_LINES).join("\n") +
+          `\n... (truncated at ${MAX_FIXTURE_LINES} lines)`
+        : content;
+    fixtureFiles.push({ path: `${cfg.paths.testDir}/${entry}`, content: truncated });
+  }
+  if (fixtureFiles.length > 0) {
+    log(
+      `    📎 ${fixtureFiles.length} fixture/helper file(s): ${fixtureFiles.map((f) => f.path).join(", ")}`,
+    );
+  }
+
+  // ── Step 5: Process each gap file ──
+  log("\n━━━ Step 4: Generating tests ━━━");
+  let totalBatches = 0;
+
+  const promptCtxBase = {
+    examples: cfg.examples,
+    language: cfg.language,
+    testDir: cfg.paths.testDir,
+    gapsResult,
+    folderTree: scan.folderTree,
+    specFiles,
+    fixtureFiles: fixtureFiles.length > 0 ? fixtureFiles : undefined,
+  };
+
+  for (let fileIdx = 0; fileIdx < ranked.length; fileIdx++) {
+    if (options.signal?.aborted) break;
+    const [file, stats] = ranked[fileIdx];
+    log(`\n🎯 [${fileIdx + 1}/${ranked.length}] ${file} (${stats.gapCount} gaps)`);
+
+    // Get all gaps for this file, merge adjacent branch arcs
+    const fileGaps = filterGapsForFile(gapsResult, file);
+    const gaps = mergeAdjacentGaps(fileGaps.gaps);
+    if (gaps.length === 0) continue;
+
+    // Context resolution: ask LLM what files it needs
+    log("    🔗 Resolving context...");
+    let contextFiles: ContextFile[] = [];
+    try {
+      const annotated = annotateSource(
+        (await tryReadFile(resolve(packageDir, file))) ?? "",
+        gaps,
+        commentPrefixFor(cfg.language.outputExtension),
+      );
+      contextFiles = await resolveContext({
+        packageDir,
+        sourceFile: file,
+        annotatedSource: annotated,
+        allSourceFiles,
+        codeFence: codeFenceFor(cfg.language.outputExtension),
+        model: cfg.llm.model,
+        llmStats,
+        signal: options.signal,
+        onProgress: (tokens) =>
+          process.stdout.write(`\r    🔗 Resolving context... (${tokens} tokens)`),
+      });
+      process.stdout.write("\n");
+      if (contextFiles.length > 0) {
+        log(`    ✅ Context: ${contextFiles.map((f) => f.path).join(", ")}`);
+      }
+    } catch (e) {
+      log(`    ⚠️  Context resolution failed: ${(e as Error).message}`);
+    }
+
+    // Look up existing tests from test map
+    let existingTests: string | undefined;
+    const testEntries = testMap.get(file);
+    if (testEntries && testEntries.length > 0) {
+      const topTestFile = testEntries[0].testFile;
+      const testContent = await tryReadFile(resolve(packageDir, topTestFile));
+      if (testContent) {
+        const maxLines = 300;
+        const testLines = testContent.split("\n");
+        existingTests =
+          testLines.length > maxLines
+            ? testLines.slice(0, maxLines).join("\n") + `\n... (truncated at ${maxLines} lines)`
+            : testContent;
+        log(`    📋 Existing tests: ${topTestFile} (${testLines.length} lines)`);
+      }
+    }
+
+    // Chunk gaps into batches
+    const batchSize = cfg.loop.gapBatchSize;
+    const batches: CoverageGap[][] = [];
+    for (let i = 0; i < gaps.length; i += batchSize) {
+      batches.push(gaps.slice(i, i + batchSize));
+    }
+
+    log(`    📦 ${batches.length} batch(es) of ≤${batchSize} branches`);
+
+    // Track test functions generated by earlier batches for this file
+    const priorBatchTests: string[] = [];
+
+    for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {
+      if (options.signal?.aborted) break;
+      const batch = batches[batchIdx];
+      totalBatches++;
+
+      log(`\n    ── Batch ${batchIdx + 1}/${batches.length} (${batch.length} branches) ──`);
+
+      // Build prompt with annotated source + context + existing tests + prior batch info
+      const prompt = await buildPrompt(packageDir, file, {
+        ...promptCtxBase,
+        contextFiles,
+        existingTests,
+        gapBatch: batch,
+        batchIndex: batchIdx + 1,
+        priorBatchTests: priorBatchTests.length > 0 ? priorBatchTests : undefined,
+      });
+
+      const singlePassSchema = JSON.stringify(SinglePassResponse.toJSONSchema(), null, 2);
+      const augmented = `${prompt}\n\nRespond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:\n${singlePassSchema}`;
+
+      if (dryRun) {
+        log("    🤖 [DRY RUN] Would generate tests...");
+        log(`    Prompt length: ${augmented.length} chars`);
+        continue;
+      }
+
+      log("    🤖 Generating tests...");
+      const sendOpts: SendOptions = {
+        model: cfg.llm.model,
+        signal: options.signal,
+        onProgress: (tokens) =>
+          process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
+      };
+
+      try {
+        const { content, inputTokens, outputTokens, durationMs } = await send(augmented, sendOpts);
+        llmStats.push({ inputTokens, outputTokens, durationMs });
+        process.stdout.write("\n");
+
+        const response = SinglePassResponse.parse(JSON.parse(content));
+        if (!generatedFiles.includes(response.path)) {
+          generatedFiles.push(response.path);
+        }
+
+        if (response.analysis) {
+          for (const a of response.analysis) {
+            log(`      📝 L${a.marker_line}: ${a.test_function}`);
+            priorBatchTests.push(`${response.path}::${a.test_function}`);
+          }
+        }
+
+        log(`    📝 → ${response.path}`);
+
+        // Merge if file already exists, then write and fix
+        const finalCode = await mergeIfExists(
+          packageDir,
+          response.path,
+          response.code,
+          cfg,
+          llmStats,
+          options.signal,
+        );
+        await writeAndFix(
+          packageDir,
+          response.path,
+          finalCode,
+          cfg,
+          log,
+          llmStats,
+          options.signal,
+          file,
+        );
+      } catch (e) {
+        log(`    ❌ Generation failed: ${(e as Error).message}`);
+      }
+    }
+  }
+
+  // ── Step 6: Full-suite validation & isolation fix ──
+  let finalBranchCov = initialBranchCov;
+  if (!dryRun && generatedFiles.length > 0) {
+    log("\n━━━ Step 5: Full-suite validation ━━━");
+    const suiteResult = await runFullSuite(cfg.runner.command, packageDir, cfg);
+
+    if (suiteResult.passed) {
+      log("    ✅ Full suite passes — no isolation issues");
+    } else {
+      log("    ⚠️  Full suite has failures — identifying culprit file(s)...");
+
+      // Find which generated files cause failures by temporarily removing them
+      const culprits: string[] = [];
+      for (const genFile of generatedFiles) {
+        if (options.signal?.aborted) break;
+        const absGen = resolve(packageDir, genFile);
+        const bakPath = absGen + ".bak";
+        try {
+          await rename(absGen, bakPath);
+          const without = await runFullSuite(cfg.runner.command, packageDir, cfg);
+          await rename(bakPath, absGen);
+          if (without.passed) {
+            culprits.push(genFile);
+            log(`    🔍 Culprit: ${genFile}`);
+          }
+        } catch {
+          // Restore if anything goes wrong
+          try {
+            await rename(bakPath, absGen);
+          } catch {
+            /* ignore */
+          }
+        }
+      }
+
+      // Fix loop for each culprit with isolation-aware prompt
+      if (culprits.length > 0) {
+        log(`\n    🔧 Fixing ${culprits.length} file(s) with isolation issues...`);
+        for (const culprit of culprits) {
+          if (options.signal?.aborted) break;
+          log(`\n    ── Isolation fix: ${culprit} ──`);
+          await isolationFixLoop(
+            packageDir,
+            culprit,
+            cfg,
+            log,
+            llmStats,
+            suiteResult.output,
+            options.signal,
+          );
+        }
+
+        // Re-verify full suite after fixes
+        log("\n    🔄 Re-verifying full suite...");
+        const recheck = await runFullSuite(cfg.runner.command, packageDir, cfg);
+        if (recheck.passed) {
+          log("    ✅ Full suite passes after isolation fixes");
+        } else {
+          log("    ⚠️  Some failures remain after isolation fixes");
+        }
+      }
+    }
+
+    // Measure final coverage
+    log("\n━━━ Step 6: Final coverage measurement ━━━");
+    await runTests(cfg.runner.command, packageDir, log, cfg);
+    try {
+      const finalGaps = await extractGaps(packageDir, {
+        coveragePath: cfg.runner.coveragePath,
+        sourcePrefix: cfg.paths.sourcePrefix,
+        sourceExclusions: cfg.paths.sourceExclusions,
+        coverageFormat: cfg.runner.coverageFormat,
+      });
+      finalBranchCov = computeBranchCoverage(finalGaps.fileStats);
+      log(
+        `\n📊 Final branch coverage: ${finalBranchCov.toFixed(1)}% (was ${initialBranchCov.toFixed(1)}%)`,
+      );
+      log(`📈 Improvement: +${(finalBranchCov - initialBranchCov).toFixed(1)}%`);
+    } catch {
+      log("    ⚠️  Could not measure final coverage");
+    }
+  }
+
+  await stopClient();
+
+  log(`\n✅ Done: ${generatedFiles.length} files generated across ${totalBatches} batches`);
+
+  return buildReport(
+    initialBranchCov,
+    finalBranchCov,
+    generatedFiles,
+    llmStats,
+    wallStart,
+    totalBatches,
+  );
+}
+
+/**
+ * Discover all source files under the sourcePrefix in the package directory.
+ * Used to provide the full file list for LLM context resolution.
+ */
+async function discoverSourceFiles(packageDir: string, cfg: Config): Promise<string[]> {
+  const sourceDir = resolve(packageDir, cfg.paths.sourcePrefix);
+  try {
+    const entries = await readdir(sourceDir, { recursive: true });
+    return entries
+      .filter((e) => {
+        // Filter to code files
+        const ext = e.slice(e.lastIndexOf("."));
+        const codeExts = [
+          ".py",
+          ".ts",
+          ".js",
+          ".java",
+          ".go",
+          ".cs",
+          ".rb",
+          ".rs",
+          ".cpp",
+          ".c",
+          ".h",
+        ];
+        return codeExts.includes(ext);
+      })
+      .filter((e) => !cfg.paths.sourceExclusions?.some((ex) => e.includes(ex)))
+      .map((e) => `${cfg.paths.sourcePrefix}${e}`)
+      .sort();
+  } catch {
+    return [];
+  }
 }
 
 function buildReport(

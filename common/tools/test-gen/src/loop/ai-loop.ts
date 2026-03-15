@@ -39,7 +39,11 @@ export interface AILoopOptions {
 }
 
 /** Measure → act loop with built-in LLM client lifecycle. */
-export async function aiLoop<T>(config: AILoop<T>, ctx: T, options: AILoopOptions): Promise<number> {
+export async function aiLoop<T>(
+  config: AILoop<T>,
+  ctx: T,
+  options: AILoopOptions,
+): Promise<number> {
   // Cache: zod schema → precomputed JSON schema string (avoids recomputing each iteration)
   const jsonSchemaCache = new Map<z.ZodType, string>();
 
