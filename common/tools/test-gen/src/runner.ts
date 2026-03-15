@@ -10,7 +10,7 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import { resolve, join, dirname } from "node:path";
-import { writeFile, readFile, readdir, mkdir, rename } from "node:fs/promises";
+import { writeFile, readFile, readdir, mkdir } from "node:fs/promises";
 import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import type { CoverageGap } from "./types.ts";
@@ -36,6 +36,27 @@ const MergeResponse = z.object({
 
 const FixResponse = z.object({
   code: z.string().describe("The corrected test file content"),
+});
+
+const IsolationFixResponse = z.object({
+  files: z
+    .array(
+      z.object({
+        path: z.string().describe("Relative path of the file that was modified"),
+        code: z.string().describe("Complete corrected file content"),
+      }),
+    )
+    .describe("Only files that were changed — omit files that are fine as-is"),
+  fixes: z
+    .array(
+      z.object({
+        file: z.string().describe("Which generated file was fixed"),
+        test_name: z.string().describe("Test function that was fixed or removed"),
+        error_type: z.string().describe("Type of isolation issue"),
+        fix: z.string().describe("What was changed and why"),
+      }),
+    )
+    .describe("Explanation of each fix applied"),
 });
 
 // ── Helpers ──
@@ -271,32 +292,34 @@ ${fixSchema}`;
  */
 async function isolationFixLoop(
   packageDir: string,
-  relPath: string,
+  generatedFiles: string[],
   cfg: Config,
   log: (msg: string) => void,
   llmStats: LlmCallStats[],
   suiteErrors: string,
   signal?: AbortSignal,
 ): Promise<void> {
-  const absPath = resolve(packageDir, relPath);
   const codeFence = codeFenceFor(cfg.language.outputExtension);
-  const fixSchema = JSON.stringify(FixResponse.toJSONSchema(), null, 2);
+  const fixSchema = JSON.stringify(IsolationFixResponse.toJSONSchema(), null, 2);
   const maxFix = cfg.loop.fixMaxIterations;
 
   interface IsoFixContext {
-    currentCode: string;
+    fileCodes: Map<string, string>;
     errors: string;
   }
 
-  let currentCode: string;
-  try {
-    currentCode = await readFile(absPath, "utf8");
-  } catch {
-    log("    ❌ Could not read culprit file");
-    return;
+  // Read all generated files
+  const fileCodes = new Map<string, string>();
+  for (const relPath of generatedFiles) {
+    try {
+      fileCodes.set(relPath, await readFile(resolve(packageDir, relPath), "utf8"));
+    } catch {
+      log(`    ⚠️  Could not read ${relPath}, skipping`);
+    }
   }
+  if (fileCodes.size === 0) return;
 
-  const ctx: IsoFixContext = { currentCode, errors: suiteErrors };
+  const ctx: IsoFixContext = { fileCodes, errors: suiteErrors };
 
   await loop<IsoFixContext>(
     {
@@ -307,26 +330,29 @@ async function isolationFixLoop(
           return true;
         }
         ctx.errors = result.output;
-        log("    ⚠️  Full suite still failing — asking LLM to fix isolation issue");
+        log("    ⚠️  Full suite still failing — asking LLM to fix isolation issues");
         return false;
       },
 
       async act(ctx) {
-        const prompt = `A generated test file passes when run alone but causes OTHER tests to fail
-when run as part of the full test suite. This is a test isolation problem — your tests
-are leaking global state that corrupts the test environment for subsequent tests.
+        const filesSection = Array.from(ctx.fileCodes.entries())
+          .map(
+            ([path, code]) =>
+              `### \`${path}\`\n\n\`\`\`${codeFence}\n${code}\n\`\`\``,
+          )
+          .join("\n\n");
 
-## Test File (the culprit)
+        const prompt = `Some generated test files pass when run individually but cause OTHER tests to fail
+when run as part of the full test suite. This is a test isolation problem — one or more
+of the generated files are leaking global state that corrupts the test environment.
 
-**\`${relPath}\`**
+## Generated Test Files (${ctx.fileCodes.size} files)
 
-\`\`\`${codeFence}
-${ctx.currentCode}
-\`\`\`
+${filesSection}
 
 ## Full Suite Errors
 
-These failures appear in OTHER test files when YOUR test file is included in the suite:
+These failures appear when the generated test files above are included in the suite:
 
 \`\`\`
 ${ctx.errors}
@@ -334,25 +360,24 @@ ${ctx.errors}
 
 ## Diagnosis Instructions
 
-1. **Identify the leaked state.** Common causes:
-   - Module reloading (\`importlib.reload\`) that permanently mutates module-level globals
-   - Monkey-patching globals/singletons without proper cleanup
-   - Registering hooks, handlers, or instrumentation that persists across tests
-   - Modifying class-level or module-level dictionaries/lists
-2. **Determine if the test can be rewritten safely.** Can the branch be tested WITHOUT
-   mutating global state? If so, rewrite to use a local mock or isolated approach.
-3. **If the branch is untestable without global mutation**, remove the offending test(s)
-   and add a comment explaining why: \`# Skipped: branch requires module reload which leaks global state\`
+1. **Read the error tracebacks** to identify which generated test(s) are causing the pollution.
+   Look for: module reloading, monkey-patching, global state mutation, singleton modification.
+2. **Cross-reference** the errors with the generated test files. The culprit file(s) will
+   contain code that mutates shared state without cleanup.
+3. **Fix ONLY the files that cause isolation problems.** Most files are likely fine — return
+   only the ones you changed.
+4. For each fix, prefer rewriting to use local mocks or isolated approaches over removing tests.
+5. If a branch is untestable without global mutation, remove the test and add a comment.
 
 ## Rules
 
-1. Fix ONLY the tests that cause isolation problems. Do NOT modify tests that are safe.
-2. Prefer rewriting over removing. Only remove a test if there is no safe alternative.
-3. If you remove a test, keep it as a commented-out block with explanation.
-4. The remaining tests must still pass when run alone.
-5. Return the COMPLETE corrected file.
+1. Return ONLY files you changed — do NOT include files that are fine as-is.
+2. Each returned file must contain the COMPLETE corrected content.
+3. Prefer rewriting over removing. Only remove a test if there is no safe alternative.
+4. Removed tests should be kept as commented-out blocks with explanation.
+5. Do NOT modify any tests that are working correctly.
 
-Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
+Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation:
 ${fixSchema}`;
 
         const { content, inputTokens, outputTokens, durationMs } = await send(prompt, {
@@ -360,9 +385,18 @@ ${fixSchema}`;
           signal,
         });
         llmStats.push({ inputTokens, outputTokens, durationMs });
-        const result = FixResponse.parse(JSON.parse(content));
-        ctx.currentCode = result.code;
-        await writeFile(absPath, ctx.currentCode, "utf8");
+        const result = IsolationFixResponse.parse(JSON.parse(content));
+
+        // Write only the files the LLM changed
+        for (const file of result.files) {
+          const absPath = resolve(packageDir, file.path);
+          await writeFile(absPath, file.code, "utf8");
+          ctx.fileCodes.set(file.path, file.code);
+          log(`    📝 Fixed: ${file.path}`);
+        }
+        for (const fix of result.fixes) {
+          log(`    🔧 ${fix.file}: ${fix.test_name} — ${fix.fix}`);
+        }
       },
     },
     ctx,
@@ -740,58 +774,18 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     if (suiteResult.passed) {
       log("    ✅ Full suite passes — no isolation issues");
     } else {
-      log("    ⚠️  Full suite has failures — identifying culprit file(s)...");
-
-      // Find which generated files cause failures by temporarily removing them
-      const culprits: string[] = [];
-      for (const genFile of generatedFiles) {
-        if (options.signal?.aborted) break;
-        const absGen = resolve(packageDir, genFile);
-        const bakPath = absGen + ".bak";
-        try {
-          await rename(absGen, bakPath);
-          const without = await runFullSuite(cfg.runner.command, packageDir, cfg);
-          await rename(bakPath, absGen);
-          if (without.passed) {
-            culprits.push(genFile);
-            log(`    🔍 Culprit: ${genFile}`);
-          }
-        } catch {
-          // Restore if anything goes wrong
-          try {
-            await rename(bakPath, absGen);
-          } catch {
-            /* ignore */
-          }
-        }
-      }
-
-      // Fix loop for each culprit with isolation-aware prompt
-      if (culprits.length > 0) {
-        log(`\n    🔧 Fixing ${culprits.length} file(s) with isolation issues...`);
-        for (const culprit of culprits) {
-          if (options.signal?.aborted) break;
-          log(`\n    ── Isolation fix: ${culprit} ──`);
-          await isolationFixLoop(
-            packageDir,
-            culprit,
-            cfg,
-            log,
-            llmStats,
-            suiteResult.output,
-            options.signal,
-          );
-        }
-
-        // Re-verify full suite after fixes
-        log("\n    🔄 Re-verifying full suite...");
-        const recheck = await runFullSuite(cfg.runner.command, packageDir, cfg);
-        if (recheck.passed) {
-          log("    ✅ Full suite passes after isolation fixes");
-        } else {
-          log("    ⚠️  Some failures remain after isolation fixes");
-        }
-      }
+      log(
+        `    ⚠️  Full suite has failures — fixing ${generatedFiles.length} generated file(s)...`,
+      );
+      await isolationFixLoop(
+        packageDir,
+        generatedFiles,
+        cfg,
+        log,
+        llmStats,
+        suiteResult.output,
+        options.signal,
+      );
     }
 
     // Measure final coverage
