@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import "../../../src/beta/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -11,7 +12,7 @@ import type {
   VectorSearchProfile,
 } from "../../../src/index.js";
 import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
-import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import { previewServiceVersion as defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {

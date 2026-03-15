@@ -41,6 +41,7 @@ import type {
   SearchIndexerSkillset,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
+import { betaState, previewServiceVersion } from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
@@ -76,13 +77,17 @@ export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly serviceVersion: string = utils.defaultServiceVersion;
+  public readonly serviceVersion: string = betaState.activated
+    ? previewServiceVersion
+    : utils.defaultServiceVersion;
 
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
    */
-  public readonly apiVersion: string = utils.defaultServiceVersion;
+  public readonly apiVersion: string = betaState.activated
+    ? previewServiceVersion
+    : utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -122,7 +127,10 @@ export class SearchIndexerClient {
 
     const internalClientPipelineOptions: SearchIndexerClientOptionalParams = {
       ...options,
-      apiVersion: options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion,
+      apiVersion:
+        options.serviceVersion ??
+        options.apiVersion ??
+        (betaState.activated ? previewServiceVersion : utils.defaultServiceVersion),
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -139,7 +147,9 @@ export class SearchIndexerClient {
     };
 
     this.serviceVersion =
-      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+      options.serviceVersion ??
+      options.apiVersion ??
+      (betaState.activated ? previewServiceVersion : utils.defaultServiceVersion);
     this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(this.endpoint, credential, internalClientPipelineOptions);

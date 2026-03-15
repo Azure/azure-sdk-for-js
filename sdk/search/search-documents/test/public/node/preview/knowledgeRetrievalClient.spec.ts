@@ -14,7 +14,8 @@ import {
   KnowledgeRetrievalClient,
   KnownKnowledgeRetrievalOutputMode,
 } from "@azure/search-documents";
-import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
+import "../../../../src/beta/index.js";
+import { previewServiceVersion as defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";

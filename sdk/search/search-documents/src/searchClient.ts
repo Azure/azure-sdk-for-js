@@ -59,6 +59,7 @@ import { KnownSearchAudience } from "./searchAudience.js";
 import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
+import { betaState, previewServiceVersion } from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type {
@@ -102,13 +103,17 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   /**
    *  The service version to use when communicating with the service.
    */
-  public readonly serviceVersion: string = utils.defaultServiceVersion;
+  public readonly serviceVersion: string = betaState.activated
+    ? previewServiceVersion
+    : utils.defaultServiceVersion;
 
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
    */
-  public readonly apiVersion: string = utils.defaultServiceVersion;
+  public readonly apiVersion: string = betaState.activated
+    ? previewServiceVersion
+    : utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -201,7 +206,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     };
 
     this.serviceVersion =
-      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+      options.serviceVersion ??
+      options.apiVersion ??
+      (betaState.activated ? previewServiceVersion : utils.defaultServiceVersion);
     this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(

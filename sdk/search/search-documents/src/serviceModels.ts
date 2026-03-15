@@ -115,7 +115,6 @@ import type {
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
-  SearchIndexPermissionFilterOption,
   SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
@@ -1361,15 +1360,9 @@ export interface SearchIndex {
    */
   vectorSearch?: VectorSearch;
   /**
-   * A value indicating whether permission filtering is enabled for the index.
-   */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /**
    * The ETag of the index.
    */
   etag?: string;
-  /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
-  purviewEnabled?: boolean;
 }
 
 export interface SearchIndexerCache {

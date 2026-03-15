@@ -22,6 +22,7 @@ import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
 import * as utils from "./serviceUtils.js";
+import { betaState, previewServiceVersion } from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
@@ -52,7 +53,9 @@ export class KnowledgeRetrievalClient {
   /**
    *  The service version to use when communicating with the service.
    */
-  public readonly serviceVersion: string = utils.defaultServiceVersion;
+  public readonly serviceVersion: string = betaState.activated
+    ? previewServiceVersion
+    : utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -105,7 +108,9 @@ export class KnowledgeRetrievalClient {
 
     const internalClientPipelineOptions: KnowledgeBaseRetrievalClientOptionalParams = {
       ...options,
-      apiVersion: options.serviceVersion ?? utils.defaultServiceVersion,
+      apiVersion:
+        options.serviceVersion ??
+        (betaState.activated ? previewServiceVersion : utils.defaultServiceVersion),
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -121,7 +126,9 @@ export class KnowledgeRetrievalClient {
       },
     };
 
-    this.serviceVersion = options.serviceVersion ?? utils.defaultServiceVersion;
+    this.serviceVersion =
+      options.serviceVersion ??
+      (betaState.activated ? previewServiceVersion : utils.defaultServiceVersion);
 
     this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
 

@@ -15,6 +15,7 @@ exports:
   "./models/azure/search/documents": "./src/models/azure/search/documents/index.ts"
   "./models/azure/search/documents/indexes": "./src/models/azure/search/documents/indexes/index.ts"
   "./models/azure/search/documents/knowledgeBases": "./src/models/azure/search/documents/knowledgeBases/index.ts"
+  "./beta": "./src/beta/index.ts"
 
 targets:
   - name: browser

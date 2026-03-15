@@ -385,4 +385,8 @@ describe("snippets", () => {
   it("SetLogLevel", () => {
     setLogLevel("info");
   });
+
+  it("BetaImportUsage", async () => {
+    const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+  });
 });
