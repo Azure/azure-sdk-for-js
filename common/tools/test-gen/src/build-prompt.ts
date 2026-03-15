@@ -149,8 +149,9 @@ ${contextSections.join("\n\n")}`,
       `## Existing Tests for This File
 
 These tests already exist and exercise other branches of the same source file.
-Study them to understand: how the code is instantiated, what fixtures are used,
-what the assertion patterns look like. Do NOT duplicate any of these tests.
+**Your generated tests MUST follow the same patterns shown here** — same base classes,
+same decorators, same setup/teardown approach, same assertion style.
+Do NOT duplicate any of these tests, but DO match their style exactly.
 
 \`\`\`${codeFence}
 ${ctx.existingTests}
@@ -199,23 +200,30 @@ For EACH ⚠️ UNCOVERED BRANCH marker in the source:
 
 **Step 1 — Analyze the branch.** Read the \`if\`/\`elif\`/\`else\`/\`try\`/\`except\`/\`match\` statement.
 Determine what condition must be true (or false) to enter the uncovered path. Identify what
-inputs, state, or mocks would trigger that condition.
+inputs, state, or setup would trigger that condition through the EXISTING test infrastructure.
 
-**Step 2 — Write the test.** Create a test function that:
-- Sets up the EXACT precondition identified in Step 1
-- Calls the function/method containing the uncovered branch
+**Step 2 — Write the test.** Create a test that:
+- Uses the SAME style, patterns, base classes, decorators, fixtures, and setup as the existing tests
+- Triggers the uncovered branch through the package's public API or client methods
 - Asserts the SPECIFIC outcome of taking that branch (return value, exception, side effect)
 
 ### Rules
 
 1. Write EXACTLY ${batchSize} test functions — one per ⚠️ marker, in the same order they appear in the source.
 2. Each test function name describes what branch it covers: \`test_<method>_when_<condition>_<expected_outcome>\`.
-3. Every assertion checks a CONCRETE value. Never: \`assert result is not None\`. Always: \`assert result == expected_value\` or \`assert isinstance(result, SpecificType)\`.
-4. If a branch raises an exception, test with \`pytest.raises(ExactExceptionType)\` (or framework equivalent) and verify the error message.
-5. Import ONLY from the package's public API and test utilities — never from internal/private modules unless the existing tests show that pattern.
-6. Follow the setup/teardown pattern shown in the existing tests and conventions — use the SAME fixtures, base classes, and decorators.
-7. If a ⚠️ branch is unreachable with public API alone (e.g., defensive coding), write the test anyway using minimal mocking, and add a comment: \`${comment} Tests defensive branch — requires mock\`.
-8. Do NOT duplicate functionality of any test in the "Existing Tests" section.
+3. **Match the existing test style exactly.** If existing tests use a base class, use that base class.
+   If they use decorators, use those decorators. If they use fixtures, use those fixtures.
+   Your generated tests must look like they belong in the same test suite.
+4. Every assertion checks a CONCRETE value. Never: \`assert result is not None\`. Always: \`assert result == expected_value\` or \`assert isinstance(result, SpecificType)\`.
+5. If a branch raises an exception, test with \`pytest.raises(ExactExceptionType)\` (or framework equivalent) and verify the error message.
+6. Trigger branches through the PUBLIC API — call the same client methods and constructors
+   that the existing tests use. Set up conditions (invalid arguments, specific configurations,
+   edge-case inputs) that drive execution into the uncovered path.
+7. Do NOT duplicate functionality of any test in the "Existing Tests" section.
+8. Only use mocking as a LAST RESORT when a branch is genuinely unreachable through the
+   public API (e.g., import fallback paths, OS-level failures). If you must mock, add a
+   comment: \`${comment} Tests defensive branch — requires mock.\`
+   The vast majority of tests should NOT need mocking.
 
 ## Output
 
