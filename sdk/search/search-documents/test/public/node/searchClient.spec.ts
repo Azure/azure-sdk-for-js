@@ -13,7 +13,7 @@ import type {
   SelectFields,
 } from "../../../src/index.js";
 import { AzureKeyCredential, IndexDocumentsBatch, SearchClient } from "../../../src/index.js";
-import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import { defaultServiceVersion, previewServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
@@ -77,8 +77,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         searchClient,
         indexClient,
         indexName: TEST_INDEX_NAME,
-      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      } = await createClients<Hotel>(previewServiceVersion, recorder, TEST_INDEX_NAME));
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, previewServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient);
     });

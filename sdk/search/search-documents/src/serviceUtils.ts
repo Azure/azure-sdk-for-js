@@ -136,7 +136,9 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2025-11-01-Preview";
+export const defaultServiceVersion = "2024-07-01";
+
+export const previewServiceVersion = "2025-11-01-Preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -473,7 +475,6 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
   } as SearchIndex;
 }
 
-export function generatedVectorSearchVectorizerToPublicVectorizer(): undefined;
 export function generatedVectorSearchVectorizerToPublicVectorizer(
   generatedVectorizer: GeneratedVectorSearchVectorizer,
 ): VectorSearchVectorizer;
