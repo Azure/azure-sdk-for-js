@@ -18,8 +18,8 @@ export type { ContextFile, ResolveContextOptions } from "./resolve-context.ts";
 export { send, stopClient } from "./llm.ts";
 export type { SendOptions, SendResult } from "./llm.ts";
 export { buildPrompt } from "./build-prompt.ts";
-export { runLoop, runSinglePass } from "./runner.ts";
-export { loop, aiLoop } from "./loop/index.ts";
+export { runSinglePass } from "./runner.ts";
+export { loop } from "./loop/index.ts";
 export { fileExists, tryReadFile, numberLines } from "./utils.ts";
 export { defaults, resolveConfig, codeFenceFor } from "./config.ts";
 export type {
@@ -35,7 +35,7 @@ export type {
 export type { PromptContext } from "./build-prompt.ts";
 export type { ConventionOptions } from "./extract-conventions.ts";
 export type { ExtractGapsOptions } from "./extract-gaps.ts";
-export type { Loop, AILoop, AILoopOptions, AIAction } from "./loop/index.ts";
+export type { Loop } from "./loop/index.ts";
 export type {
   Config,
   RunnerConfig,

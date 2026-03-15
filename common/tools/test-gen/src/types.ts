@@ -76,7 +76,7 @@ export interface LlmCallStats {
   durationMs: number;
 }
 
-/** Aggregate stats returned from a full runLoop() execution. */
+/** Aggregate stats returned from a full runSinglePass() execution. */
 export interface RunReport {
   initialBranchCoverage: number;
   finalBranchCoverage: number;
@@ -84,7 +84,7 @@ export interface RunReport {
   totalInputTokens: number;
   totalOutputTokens: number;
   totalDurationMs: number;
-  /** Wall-clock time for the entire runLoop() execution. */
+  /** Wall-clock time for the entire runSinglePass() execution. */
   wallClockMs: number;
   llmCalls: number;
   iterations: number;

@@ -5,12 +5,12 @@
  * cli.ts — Entry point for the test-gen CLI tool.
  *
  * Usage:
- *   test-gen <package-dir> [--target <pct>] [--max-iter <n>] [--dry-run]
+ *   test-gen <package-dir> [--model <name>] [--dry-run]
  */
 
 import { parseArgs } from "node:util";
 import { resolve } from "node:path";
-import { runLoop } from "./runner.ts";
+import { runSinglePass } from "./runner.ts";
 import { fileExists } from "./utils.ts";
 import { defaults } from "./config.ts";
 
@@ -21,11 +21,9 @@ test-gen — Coverage-driven test generation tool for Azure SDK packages
 USAGE:
   test-gen <package-dir> [options]
 
-  Runs the coverage loop: run tests → find gaps → generate tests → repeat.
+  Runs single-pass test generation: measure once → generate → verify.
 
 OPTIONS:
-  --target <pct>    Target branch coverage percentage (default: ${defaults.loop.targetCoverage})
-  --max-iter <n>    Maximum loop iterations (default: ${defaults.loop.maxIterations})
   --model <name>    LLM model name (default: ${defaults.llm.model})
   --dry-run         Print generated tests to console instead of writing to disk
   --help            Show this help message
@@ -36,8 +34,6 @@ async function main(): Promise<void> {
   const { values, positionals } = parseArgs({
     args: process.argv.slice(2),
     options: {
-      target: { type: "string", default: String(defaults.loop.targetCoverage) },
-      "max-iter": { type: "string", default: String(defaults.loop.maxIterations) },
       model: { type: "string", default: defaults.llm.model },
       "dry-run": { type: "boolean", default: false },
       help: { type: "boolean", default: false },
@@ -63,15 +59,11 @@ async function main(): Promise<void> {
     controller.abort();
   });
 
-  await runLoop({
+  await runSinglePass({
     packageDir,
     dryRun: values["dry-run"] ?? false,
     signal: controller.signal,
     config: {
-      loop: {
-        targetCoverage: parseFloat(values.target!),
-        maxIterations: parseInt(values["max-iter"]!, 10),
-      },
       llm: {
         model: values.model!,
       },

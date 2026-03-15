@@ -15,7 +15,6 @@ import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import type { CoverageGap } from "./types.ts";
 import { buildPrompt } from "./build-prompt.ts";
-import { extractTestContext } from "./extract-context.ts";
 import { extractTestMap } from "./extract-test-map.ts";
 import { resolveContext } from "./resolve-context.ts";
 import type { ContextFile } from "./resolve-context.ts";
@@ -24,25 +23,12 @@ import type { SendOptions } from "./llm.ts";
 import { tryReadFile } from "./utils.ts";
 import { resolveConfig, codeFenceFor } from "./config.ts";
 import type { Config } from "./config.ts";
-import { aiLoop, loop } from "./loop/index.ts";
+import { loop } from "./loop/index.ts";
 import { annotateSource, commentPrefixFor, mergeAdjacentGaps } from "./annotate-source.ts";
 import type { RunReport, LlmCallStats } from "./types.ts";
 import { z } from "zod";
 
 const execAsync = promisify(exec);
-
-/** Build the test generation response schema using config values. */
-function testGenSchema(cfg: Config): z.ZodObject<{ path: z.ZodString; code: z.ZodString }> {
-  const fence = codeFenceFor(cfg.language.outputExtension);
-  return z.object({
-    path: z
-      .string()
-      .describe(
-        `Relative test file path starting with ${cfg.paths.testDir}/ and ending with ${cfg.language.outputExtension}`,
-      ),
-    code: z.string().describe(`The complete generated ${fence} test file content`),
-  });
-}
 
 const MergeResponse = z.object({
   code: z.string().describe("The merged test file content"),
@@ -394,18 +380,7 @@ export interface RunOptions {
   config?: Partial<{ [K in keyof Config]: Partial<Config[K]> }>;
 }
 
-interface CoverageContext {
-  cfg: Config;
-  packageDir: string;
-  branchCov: number;
-  /** Queue of source files to generate tests for before re-measuring. */
-  batch: string[];
-  gapsResult: ExtractGapsResult | null;
-  specFiles: string[];
-  folderTree: string;
-  /** LLM-generated conventions document (computed once, reused across iterations). */
-  conventions: string;
-}
+/** Response schema for single-pass mode (includes analysis array). */
 
 async function runTests(
   command: string,
@@ -466,279 +441,6 @@ async function readTestEntries(testDir: string, cfg: Config): Promise<string[]> 
   }
 }
 
-export async function runLoop(options: RunOptions): Promise<RunReport> {
-  const wallStart = Date.now();
-  const cfg = resolveConfig(options.config);
-  const { packageDir, dryRun = false } = options;
-  const log = options.onProgress ?? console.log;
-  const TestGenResponse = testGenSchema(cfg);
-  const testGenJsonSchema = JSON.stringify(TestGenResponse.toJSONSchema(), null, 2);
-  const llmStats: LlmCallStats[] = [];
-  const generatedFiles: string[] = [];
-
-  log("╔══════════════════════════════════════════════════════════════╗");
-  log("║  Coverage-Driven Test Generation Loop                       ║");
-  log("╠══════════════════════════════════════════════════════════════╣");
-  log(`║  Target:   ${cfg.loop.targetCoverage}% branch coverage`);
-  log(`║  Max iter: ${cfg.loop.maxIterations}`);
-  log(`║  Batch:    ${cfg.loop.batchSize} files per measurement`);
-  log(`║  Fix iter: ${cfg.loop.fixMaxIterations} per file`);
-  if (dryRun) log("║  Mode:     dry-run (print only, no writes)");
-  log("╚══════════════════════════════════════════════════════════════╝");
-
-  const promptCtxBase = {
-    examples: cfg.examples,
-    language: cfg.language,
-    testDir: cfg.paths.testDir,
-  };
-
-  // ── Dry-run: generate tests and print to console without writing to disk ──
-  if (dryRun) {
-    await runTests(cfg.runner.command, packageDir, log, cfg);
-
-    let gapsResult: ExtractGapsResult;
-    try {
-      gapsResult = await extractGaps(packageDir, {
-        coveragePath: cfg.runner.coveragePath,
-        sourcePrefix: cfg.paths.sourcePrefix,
-        sourceExclusions: cfg.paths.sourceExclusions,
-        coverageFormat: cfg.runner.coverageFormat,
-      });
-    } catch {
-      log(`\n❌ ${cfg.runner.coveragePath} not generated.`);
-      return buildReport(0, 0, [], llmStats, wallStart, 0);
-    }
-
-    const branchCov = computeBranchCoverage(gapsResult.fileStats);
-    log(`\n📊 Branch coverage: ${branchCov.toFixed(1)}%`);
-
-    const ranked = Object.entries(gapsResult.fileStats)
-      .filter(([, s]) => s.gapCount > 0)
-      .sort(([, a], [, b]) => b.gapCount - a.gapCount)
-      .slice(0, cfg.loop.maxIterations);
-
-    if (ranked.length === 0) {
-      log("\n✅ No coverage gaps found!");
-      return buildReport(branchCov, branchCov, [], llmStats, wallStart, 0);
-    }
-
-    const testDir = resolve(packageDir, cfg.paths.testDir);
-    const entries = await readTestEntries(testDir, cfg);
-    const { folderTree, specFiles } = scanTestDir(entries, cfg);
-    const specs = specFiles(testDir);
-
-    // Extract conventions for the dry-run prompts
-    let conventions: string | undefined;
-    log("\n🔍 Analyzing test suite conventions...");
-    try {
-      conventions = await extractTestContext({
-        packageDir,
-        cfg,
-        specFiles: specs,
-        gapsResult,
-        llmStats,
-        signal: options.signal,
-        onProgress: (tokens) =>
-          process.stdout.write(`\r    🔍 Analyzing conventions... (${tokens} tokens)`),
-      });
-      process.stdout.write("\n");
-      log("    ✅ Conventions extracted");
-    } catch (e) {
-      log(`    ⚠️  Convention extraction failed, using fallback: ${(e as Error).message}`);
-    }
-
-    for (let i = 0; i < ranked.length; i++) {
-      if (options.signal?.aborted) break;
-      const [file] = ranked[i];
-      log(`\n🎯 [${i + 1}/${ranked.length}] Targeting: ${file}`);
-
-      const prompt = await buildPrompt(packageDir, file, {
-        ...promptCtxBase,
-        gapsResult,
-        folderTree,
-        specFiles: specs,
-        conventions,
-      });
-
-      const augmented = `${prompt}\n\nRespond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:\n${testGenJsonSchema}`;
-      log("    🤖 Generating tests...");
-      const sendOpts: SendOptions = {
-        model: cfg.llm.model,
-        signal: options.signal,
-        onProgress: (tokens) =>
-          process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
-      };
-      const { content, inputTokens, outputTokens, durationMs } = await send(augmented, sendOpts);
-      llmStats.push({ inputTokens, outputTokens, durationMs });
-      process.stdout.write("\n");
-      const response = TestGenResponse.parse(JSON.parse(content));
-
-      generatedFiles.push(response.path);
-      log(`\n  ── ${response.path} ──`);
-      log(response.code);
-    }
-
-    await stopClient();
-    return buildReport(branchCov, branchCov, generatedFiles, llmStats, wallStart, ranked.length);
-  }
-
-  // ── Normal mode: iterative measure → act loop ──
-  let initialBranchCov = -1;
-  const ctx: CoverageContext = {
-    cfg,
-    packageDir,
-    branchCov: 0,
-    batch: [],
-    gapsResult: null,
-    specFiles: [],
-    folderTree: "",
-    conventions: "",
-  };
-
-  const iterations = await aiLoop<CoverageContext>(
-    {
-      async isTerminal(ctx, iteration) {
-        // If batch still has files, keep going without re-measuring
-        if (ctx.batch.length > 0) {
-          log(`\n  ⏩ Batch has ${ctx.batch.length} file(s) remaining — skipping full test run`);
-          return false;
-        }
-
-        // Batch drained — run full suite and re-measure coverage
-        log(`\n${"━".repeat(60)}`);
-        log(`  ITERATION ${iteration} — measuring coverage`);
-        log("━".repeat(60));
-
-        await runTests(ctx.cfg.runner.command, ctx.packageDir, log, ctx.cfg);
-
-        try {
-          ctx.gapsResult = await extractGaps(ctx.packageDir, {
-            coveragePath: ctx.cfg.runner.coveragePath,
-            sourcePrefix: ctx.cfg.paths.sourcePrefix,
-            sourceExclusions: ctx.cfg.paths.sourceExclusions,
-            coverageFormat: ctx.cfg.runner.coverageFormat,
-          });
-        } catch {
-          log(`\n❌ ${ctx.cfg.runner.coveragePath} not generated.`);
-          log("   Ensure the test config includes a JSON coverage reporter.");
-          return true;
-        }
-
-        ctx.branchCov = computeBranchCoverage(ctx.gapsResult.fileStats);
-        if (initialBranchCov < 0) initialBranchCov = ctx.branchCov;
-        log(`\n📊 Branch coverage: ${ctx.branchCov.toFixed(1)}%`);
-
-        if (ctx.branchCov >= ctx.cfg.loop.targetCoverage) {
-          log(
-            `\n✅ Target ${ctx.cfg.loop.targetCoverage}% reached! (actual: ${ctx.branchCov.toFixed(1)}%)`,
-          );
-          return true;
-        }
-
-        // Populate batch with top N gap files
-        const ranked = Object.entries(ctx.gapsResult.fileStats)
-          .filter(([, s]) => s.gapCount > 0)
-          .sort(([, a], [, b]) => b.gapCount - a.gapCount);
-
-        if (ranked.length === 0) {
-          log("\n✅ No more coverage gaps found!");
-          return true;
-        }
-
-        ctx.batch = ranked.slice(0, ctx.cfg.loop.batchSize).map(([file]) => file);
-
-        log(`\n📦 Batch: ${ctx.batch.join(", ")}`);
-
-        // Refresh test dir metadata for the batch
-        const testDir = resolve(ctx.packageDir, ctx.cfg.paths.testDir);
-        const entries = await readTestEntries(testDir, ctx.cfg);
-        const scan = scanTestDir(entries, ctx.cfg);
-        ctx.specFiles = scan.specFiles(testDir);
-        ctx.folderTree = scan.folderTree;
-
-        // Extract conventions once (first measurement only)
-        if (!ctx.conventions) {
-          log("\n🔍 Analyzing test suite conventions...");
-          try {
-            ctx.conventions = await extractTestContext({
-              packageDir: ctx.packageDir,
-              cfg: ctx.cfg,
-              specFiles: ctx.specFiles,
-              gapsResult: ctx.gapsResult,
-              llmStats,
-              signal: options.signal,
-              onProgress: (tokens) =>
-                process.stdout.write(`\r    🔍 Analyzing conventions... (${tokens} tokens)`),
-            });
-            process.stdout.write("\n");
-            log("    ✅ Conventions extracted");
-          } catch (e) {
-            log(`    ⚠️  Convention extraction failed, using fallback: ${(e as Error).message}`);
-          }
-        }
-
-        return false;
-      },
-
-      async act(ctx, _iteration) {
-        const file = ctx.batch.shift()!;
-        log(`\n🎯 Targeting: ${file}`);
-
-        const prompt = await buildPrompt(ctx.packageDir, file, {
-          ...promptCtxBase,
-          gapsResult: ctx.gapsResult!,
-          folderTree: ctx.folderTree,
-          specFiles: ctx.specFiles,
-          conventions: ctx.conventions || undefined,
-        });
-
-        return {
-          prompt,
-          schema: TestGenResponse,
-          async onResponse(response) {
-            const finalCode = await mergeIfExists(
-              ctx.packageDir,
-              response.path,
-              response.code,
-              ctx.cfg,
-              llmStats,
-            );
-            generatedFiles.push(response.path);
-            log(`  📝 ${file} → ${response.path}`);
-            await writeAndFix(
-              ctx.packageDir,
-              response.path,
-              finalCode,
-              ctx.cfg,
-              log,
-              llmStats,
-              options.signal,
-              file,
-            );
-          },
-        };
-      },
-    },
-    ctx,
-    {
-      maxIterations: cfg.loop.maxIterations,
-      model: cfg.llm.model,
-      signal: options.signal,
-      onProgress: (tokens) => process.stdout.write(`\r    🤖 Generating... (${tokens} tokens)`),
-      llmStats,
-    },
-  );
-
-  return buildReport(
-    initialBranchCov < 0 ? 0 : initialBranchCov,
-    ctx.branchCov,
-    generatedFiles,
-    llmStats,
-    wallStart,
-    iterations,
-  );
-}
-
 /** Response schema for single-pass mode (includes analysis array). */
 const SinglePassResponse = z.object({
   path: z.string(),
@@ -758,10 +460,10 @@ const SinglePassResponse = z.object({
 /**
  * Single-pass test generation: measure once → resolve context → batch generate → fix → verify.
  *
- * Unlike `runLoop` which re-measures coverage after each batch, this function
- * measures coverage exactly once, then generates tests for all gap files in
+ * Measures coverage exactly once, then generates tests for all gap files in
  * branch-level batches. Each batch targets N uncovered branches and produces
- * a focused test file.
+ * a focused test file. All batches for the same source module merge into one
+ * output file (e.g., `test_init_gaps.py`).
  */
 export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   const wallStart = Date.now();
@@ -879,8 +581,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     examples: cfg.examples,
     language: cfg.language,
     testDir: cfg.paths.testDir,
-    gapsResult,
-    folderTree: scan.folderTree,
     specFiles,
     fixtureFiles: fixtureFiles.length > 0 ? fixtureFiles : undefined,
   };

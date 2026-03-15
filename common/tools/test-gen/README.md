@@ -105,8 +105,6 @@ test-gen <package-dir> [options]
 
 | Option | Description | Default |
 |---|---|---|
-| `--target <pct>` | Target branch coverage percentage | `80` |
-| `--max-iter <n>` | Maximum outer loop iterations | `5` |
 | `--model <name>` | LLM model name | `gpt-5.3-codex` |
 | `--dry-run` | Print generated tests to console without writing to disk | `false` |
 | `--help` | Show help | |
@@ -117,7 +115,7 @@ Ctrl+C (SIGINT) gracefully aborts after the current iteration.
 
 All behavior is controlled through a centralized `Config` object. The CLI maps
 flags to config overrides; programmatic callers pass a partial config to
-`runSinglePass()` or `runLoop()`. Every field has a default — only override what
+`runSinglePass()`. Every field has a default — only override what
 you need.
 
 ```typescript
@@ -166,12 +164,9 @@ interface Config {
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `targetCoverage` | `number` | `80` | Target branch coverage percentage |
-| `maxIterations` | `number` | `5` | Maximum outer loop iterations (legacy mode) |
 | `fixMaxIterations` | `number` | `3` | Maximum fix attempts per generated test file |
 | `gapBatchSize` | `number` | `5` | Uncovered branches per LLM generation call |
 | `maxGapFiles` | `number` | `20` | Maximum source files to process |
-| `batchSize` | `number` | `3` | Files per measurement batch (legacy mode) |
 
 ### `examples` — Prompt building
 
@@ -258,12 +253,12 @@ N+2. **fix** `{ code }` — current code + test errors *(only on failure)*
 src/
 ├── cli.ts                    # CLI entry point (parseArgs + SIGINT handler)
 ├── config.ts                 # Config schema, defaults, resolveConfig()
-├── runner.ts                 # runSinglePass(), runLoop(), merge, writeAndFix,
+├── runner.ts                 # runSinglePass(), merge, writeAndFix,
 │                             # isolationFixLoop(), runFullSuite()
-├── build-prompt.ts           # Prompt assembler (single-pass + legacy modes)
+├── build-prompt.ts           # Prompt assembler (annotated source + context)
 ├── extract-gaps.ts           # Coverage parser (Istanbul + coverage.py)
 ├── extract-test-map.ts       # .coverage SQLite DB → source↔test mapping
-├── extract-conventions.ts    # Test file pattern scanner (legacy mode)
+├── extract-conventions.ts    # Test file pattern scanner
 ├── resolve-context.ts        # LLM-driven context file identification
 ├── annotate-source.ts        # Inline ⚠️ marker injection for uncovered branches
 ├── llm.ts                    # Singleton CopilotClient, send()
@@ -273,23 +268,8 @@ src/
 ├── index.ts                  # Public API barrel export
 └── loop/
     ├── loop.ts               # Loop<T> + loop() — generic terminal loop
-    ├── ai-loop.ts            # AILoop<T> + aiLoop() — LLM-powered loop
     └── index.ts              # Barrel re-exports
 ```
-
-## Two Execution Modes
-
-### `runSinglePass()` (recommended)
-
-Measures coverage once, generates tests for all gap files, verifies with a
-full-suite isolation check. Produces one `test_<module>_gaps.<ext>` file per
-source module. Best for targeted coverage improvement.
-
-### `runLoop()` (legacy)
-
-Re-measures coverage after each batch, iterating until target is reached or
-max iterations exceeded. Uses the `aiLoop` abstraction. Better for incremental
-improvement over many iterations.
 
 ## Prerequisites
 

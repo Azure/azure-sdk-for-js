@@ -54,14 +54,8 @@ export interface LlmConfig {
 
 /** Coverage loop parameters. */
 export interface LoopConfig {
-  /** Target branch coverage percentage. */
-  targetCoverage: number;
-  /** Maximum outer loop iterations (one source file per iteration). */
-  maxIterations: number;
   /** Maximum fix attempts per generated test file (run tests → fix → repeat). */
   fixMaxIterations: number;
-  /** Number of gap files to process before re-measuring coverage. */
-  batchSize: number;
   /** Number of uncovered branches per LLM call in single-pass mode (default 5). */
   gapBatchSize: number;
   /** Maximum number of source files to target in single-pass mode. */
@@ -133,10 +127,7 @@ export const defaults: Config = {
     model: "gpt-5.3-codex",
   },
   loop: {
-    targetCoverage: 80,
-    maxIterations: 5,
     fixMaxIterations: 3,
-    batchSize: 3,
     gapBatchSize: 5,
     maxGapFiles: 20,
   },
