@@ -216,13 +216,26 @@ inputs, state, or setup would trigger that condition through the EXISTING test i
    Your generated tests must look like they belong in the same test suite.
 4. Every assertion checks a CONCRETE value. Never: \`assert result is not None\`. Always: \`assert result == expected_value\` or \`assert isinstance(result, SpecificType)\`.
 5. If a branch raises an exception, test with \`pytest.raises(ExactExceptionType)\` (or framework equivalent) and verify the error message.
-6. Trigger branches through the PUBLIC API — call the same client methods and constructors
+6. **Trigger branches through the PUBLIC API** — call the same client methods and constructors
    that the existing tests use. Set up conditions (invalid arguments, specific configurations,
    edge-case inputs) that drive execution into the uncovered path.
+   - For ERROR-HANDLING branches (try/except or try/catch around internal calls): trigger the
+     error by calling the public method with inputs that cause a real failure — invalid
+     credentials, wrong resource names, malformed parameters, missing prerequisites.
+     Do NOT mock the internal call that throws.
+   - For RETRY or I/O branches: use the public API methods with appropriate parameters
+     (e.g., concurrency settings for parallel paths). Do NOT mock internal helper methods.
+   - For PROPERTY-SETTING branches: call the public method and assert on the returned object's
+     properties. Do NOT mock the internal call just to verify a property was set.
 7. Do NOT duplicate functionality of any test in the "Existing Tests" section.
-8. Only use mocking as a LAST RESORT when a branch is genuinely unreachable through the
-   public API (e.g., import fallback paths, OS-level failures). If you must mock, add a
-   comment: \`${comment} Tests defensive branch — requires mock.\`
+8. **Do NOT mock private/internal methods or attributes.** Do NOT patch internal implementation
+   details to force a code path — these tests verify wiring, not behavior, and break when
+   internals change. Do NOT assert on mock call counts or call arguments — assert on
+   observable behavior (return values, exceptions, side effects).
+9. Only use mocking as a LAST RESORT when a branch is genuinely unreachable through ANY
+   public API call with ANY combination of inputs (e.g., import fallback paths for optional
+   dependencies, OS-level failures, dead code). If you must mock, add a comment:
+   \`${comment} Tests defensive branch — requires mock: <explain why no public API path exists>.\`
    The vast majority of tests should NOT need mocking.
 
 ## Output
