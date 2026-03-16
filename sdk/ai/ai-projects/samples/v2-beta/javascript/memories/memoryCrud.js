@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
