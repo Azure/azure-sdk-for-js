@@ -18,6 +18,8 @@ import { defaults, codeFenceFor } from "./config.ts";
 import type { ExamplesConfig, LanguageConfig } from "./config.ts";
 
 export interface PromptContext {
+  /** Source file content, when the caller already has it loaded. */
+  sourceCode?: string;
   /** Absolute paths to existing spec files (used for conventions fallback). */
   specFiles: string[];
   examples?: ExamplesConfig;
@@ -68,7 +70,7 @@ export async function buildPrompt(
   const codeFence = codeFenceFor(lang.outputExtension);
 
   const [sourceCode, conventions] = await Promise.all([
-    tryReadFile(resolve(packageDir, sourceFile)),
+    ctx.sourceCode ? Promise.resolve(ctx.sourceCode) : tryReadFile(resolve(packageDir, sourceFile)),
     ctx.conventions
       ? Promise.resolve(ctx.conventions)
       : extractConventions(packageDir, ctx.specFiles, {

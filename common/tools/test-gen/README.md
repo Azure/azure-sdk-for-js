@@ -13,12 +13,13 @@ The tool uses a **single-pass architecture**: measure once → generate all → 
 Run the full test suite with branch coverage enabled. Parse the coverage data
 to identify all uncovered branches, grouped by source file.
 
-### Step 2: Build Test Map
+### Step 2: Build Test Map & Conventions
 
 Query the coverage database (`.coverage` SQLite DB or Istanbul JSON) to discover
-which existing test files exercise which source files. The top existing test file
-is included in the prompt so the LLM can study patterns, fixtures, and assertion
-style.
+which existing test files exercise which source files. The tool also precomputes
+a shared conventions guide from the existing test suite once per run, so later
+generation prompts reuse concise instructions instead of repeating large fixture
+and example payloads.
 
 ### Step 3: Resolve Context
 
@@ -28,15 +29,17 @@ in the generation prompt alongside fixture files (e.g., `conftest.py`).
 
 ### Step 4: Generate Tests
 
-Uncovered branches are batched (default: 5 per LLM call). Each batch produces
-tests targeting specific `⚠️ UNCOVERED BRANCH` markers in the annotated source.
-All batches for the same source file merge into a single output file named after
-the source module (e.g., `__init__.py` → `test_init_gaps.py`).
+Uncovered branches are batched (default: 5 per LLM call, with adaptive upsizing
+when prompt context is small). Each batch produces tests targeting specific
+`⚠️ UNCOVERED BRANCH` markers in the annotated source. All batches for the same
+source file are merged once into a single output file named after the source
+module (e.g., `__init__.py` → `test_init_gaps.py`).
 
 ### Step 5: Fix Loop
 
-Each generated file is written to disk and run. If tests fail, the errors are
-sent back to the LLM for correction (up to `fixMaxIterations` attempts).
+After the per-file merge, the generated file is written to disk and run once.
+If tests fail, the errors are sent back to the LLM for correction (up to
+`fixMaxIterations` attempts).
 
 ### Step 6: Full-Suite Isolation Validation
 
@@ -199,33 +202,34 @@ flowchart TD
         RT --> EG["extractGaps<br/>→ uncovered branches per file"]
     end
 
-    subgraph MAP["Step 2: Test Map"]
+    subgraph MAP["Step 2: Test Map + Conventions"]
         EG --> TM["extractTestMap<br/>.coverage DB → source↔test mapping"]
+        TM --> TC["extractTestContext<br/>cached conventions guide"]
     end
 
     subgraph SCAN["Step 3: Scan"]
-        TM --> SD["scanTestDir<br/>spec files + fixture files"]
+        TC --> SD["scanTestDir<br/>spec files + fixture files"]
     end
 
     subgraph GEN["Step 4: Generate (per source file)"]
         SD --> RC2["resolveContext<br/>LLM identifies needed files"]
-        RC2 --> BATCH["chunk gaps into batches of N"]
-        BATCH --> BP["buildSinglePassPrompt<br/>annotated source + context +<br/>existing tests + fixtures"]
+        RC2 --> BATCH["chunk gaps into adaptive batches"]
+        BATCH --> BP["buildSinglePassPrompt<br/>annotated source + context +<br/>existing tests + cached conventions"]
         BP --> LLM["LLM generate<br/>→ { path, code, analysis }"]
-        LLM --> MRG["mergeIfExists<br/>(accumulates batches into one file)"]
-        MRG --> WF
+        LLM --> NEXT["next batch"]
+        NEXT -- "more batches" --> BP
+        NEXT -- "all batches done" --> MRG["mergeGeneratedBatches<br/>(one merge per source file)"]
 
         subgraph FIX["Fix Loop"]
-            WF["writeFile + runSingleTest"] -- "pass" --> NEXT
+            MRG --> WF["writeFile + runSingleTest"]
+            WF -- "pass" --> DONEFILE["source file complete"]
             WF -- "fail" --> FIXLLM["LLM fix → { code }"]
             FIXLLM -- "≤ fixMaxIterations" --> WF
         end
-
-        NEXT["next batch"] -- "more batches" --> BP
     end
 
     subgraph VALIDATE["Step 5: Isolation Validation"]
-        NEXT -- "all files done" --> FULL["runFullSuite"]
+        DONEFILE -- "all files done" --> FULL["runFullSuite"]
         FULL -- "pass" --> DONE(["✅ Done"])
         FULL -- "fail" --> IFIX["isolationFixLoop<br/>(all files + errors → LLM batch fix)"]
         IFIX --> FULL
@@ -234,10 +238,11 @@ flowchart TD
 
 **LLM calls per source file**
 
-1. **resolveContext** — identifies which project files to include as context
-2–N. **generate** `{ path, code, analysis }` — one call per batch of uncovered branches
-N+1. **merge** `{ code }` — when a second batch targets the same output file *(conditional)*
-N+2. **fix** `{ code }` — current code + test errors *(only on failure)*
+1. **extractTestContext** — one run-wide conventions pass *(once per package)*
+2. **resolveContext** — identifies which project files to include as context
+3–N. **generate** `{ path, code, analysis }` — one call per adaptive batch of uncovered branches
+N+1. **merge** `{ code }` — one merge call per source file when multiple batches exist or the file already exists
+N+2. **fix** `{ code }` — current merged file + test errors *(only on failure)*
 
 **Data sources**
 

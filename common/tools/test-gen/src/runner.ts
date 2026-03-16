@@ -15,7 +15,9 @@ import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import type { CoverageGap } from "./types.ts";
 import { buildPrompt } from "./build-prompt.ts";
+import { extractConventions } from "./extract-conventions.ts";
 import { extractTestMap } from "./extract-test-map.ts";
+import { extractTestContext } from "./extract-context.ts";
 import { resolveContext } from "./resolve-context.ts";
 import type { ContextFile } from "./resolve-context.ts";
 import { stopClient, send } from "./llm.ts";
@@ -130,6 +132,19 @@ async function runParallel(
   return total;
 }
 
+function chooseAdaptiveBatchSize(base: number, gapCount: number, staticPromptChars: number): number {
+  const cap = Math.max(base, Math.min(20, gapCount));
+  let size = base;
+  if (staticPromptChars <= 12_000) {
+    size = Math.max(size, base * 3);
+  } else if (staticPromptChars <= 24_000) {
+    size = Math.max(size, base * 2);
+  } else if (staticPromptChars <= 40_000) {
+    size = Math.max(size, Math.ceil(base * 1.5));
+  }
+  return Math.min(cap, size);
+}
+
 /**
  * Run the full test suite command and return pass/fail + output.
  * Unlike `runTests()` which logs and continues, this captures the result.
@@ -153,43 +168,57 @@ async function runFullSuite(command: string, packageDir: string, cfg: Config): P
  * If the target file already exists, ask the LLM to merge new tests into it.
  * Returns the final code to write (merged or original if file is new).
  */
-async function mergeIfExists(
+async function mergeGeneratedBatches(
   packageDir: string,
   relPath: string,
-  newCode: string,
+  generatedCodes: string[],
   cfg: Config,
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
 ): Promise<string> {
   const absPath = resolve(packageDir, relPath);
   const existing = await tryReadFile(absPath);
-  if (!existing) return newCode;
+  if (!existing && generatedCodes.length === 1) return generatedCodes[0];
 
   const { testFramework } = cfg.language;
   const codeFence = codeFenceFor(cfg.language.outputExtension);
   const mergeSchema = JSON.stringify(MergeResponse.toJSONSchema(), null, 2);
-  const prompt = `You are merging new ${testFramework} tests into an existing test file.
-
-## Existing File (\`${relPath}\`)
+  const existingSection = existing
+    ? `## Existing File (\`${relPath}\`)
 
 \`\`\`${codeFence}
 ${existing}
 \`\`\`
+`
+    : `## Existing File
 
-## New Tests to Add
+This file does not exist yet. Merge the generated batches below into a single new test file.
+`;
+  const generatedSection = generatedCodes
+    .map(
+      (code, index) => `### Generated Batch ${index + 1}
 
 \`\`\`${codeFence}
-${newCode}
-\`\`\`
+${code}
+\`\`\``,
+    )
+    .join("\n\n");
+  const prompt = `You are merging ${generatedCodes.length} generated ${testFramework} test batch(es) into a single complete test file.
+
+${existingSection}
+## Generated Tests to Merge
+
+${generatedSection}
 
 ## Instructions
 
-1. Merge the new tests into the existing file.
-2. Do NOT duplicate any existing describe/it blocks.
-3. **NEVER delete, skip, or modify existing tests.** Every existing describe/it block must appear in the output UNCHANGED.
-4. Preserve all existing imports, helpers, setup/teardown hooks, and structure verbatim.
-5. Add any new imports needed by the new tests.
-6. Return the complete merged file — existing tests first, then new tests appended.
+1. Merge all generated tests into one complete file.
+2. Do NOT duplicate any existing describe/it/test blocks.
+3. **NEVER delete, skip, or modify existing tests.** Every existing test block from the existing file must appear in the output UNCHANGED.
+4. Preserve existing imports, helpers, setup/teardown hooks, and structure verbatim when an existing file is present.
+5. Deduplicate imports and helpers across the generated batches.
+6. Add any new imports needed by the merged tests.
+7. Return the complete merged file.
 
 Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
 ${mergeSchema}`;
@@ -634,6 +663,46 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     );
   }
 
+  let conventions: string | undefined;
+  if (specFiles.length > 0) {
+    log("    🧭 Precomputing test conventions...");
+    try {
+      if (dryRun) {
+        conventions = await extractConventions(packageDir, specFiles, {
+          count: cfg.examples.count,
+          maxLines: cfg.examples.maxLines,
+          language: cfg.language,
+        });
+      } else {
+        conventions = await extractTestContext({
+          packageDir,
+          cfg,
+          specFiles,
+          gapsResult,
+          llmStats,
+          signal: options.signal,
+          onProgress: (tokens) =>
+            process.stdout.write(`\r    🧭 Precomputing test conventions... (${tokens} tokens)`),
+        });
+        process.stdout.write("\n");
+      }
+      log("    ✅ Cached conventions for all generation prompts");
+    } catch (e) {
+      if (!dryRun) process.stdout.write("\n");
+      log(`    ⚠️  Convention extraction failed: ${(e as Error).message}`);
+      try {
+        conventions = await extractConventions(packageDir, specFiles, {
+          count: cfg.examples.count,
+          maxLines: cfg.examples.maxLines,
+          language: cfg.language,
+        });
+        log("    ✅ Fell back to cached example-based conventions");
+      } catch {
+        // Fall back to per-prompt convention extraction if even the file-based pass fails.
+      }
+    }
+  }
+
   // ── Step 5: Process each gap file ──
   log("\n━━━ Step 4: Generating tests ━━━");
   let totalBatches = 0;
@@ -644,7 +713,11 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     language: cfg.language,
     testDir: cfg.paths.testDir,
     specFiles,
-    fixtureFiles: fixtureFiles.length > 0 ? fixtureFiles : undefined,
+    conventions,
+    fixtureFiles:
+      !conventions && fixtureFiles.length > 0
+        ? fixtureFiles
+        : undefined,
   };
 
   /** Process a single source file: resolve context → batch generate → fix. */
@@ -663,13 +736,14 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     const fileGaps = filterGapsForFile(gapsResult, file);
     const gaps = mergeAdjacentGaps(fileGaps.gaps);
     if (gaps.length === 0) return 0;
+    const sourceCode = (await tryReadFile(resolve(packageDir, file))) ?? "";
 
     // Context resolution: ask LLM what files it needs
     fileLog("    🔗 Resolving context...");
     let contextFiles: ContextFile[] = [];
     try {
       const annotated = annotateSource(
-        (await tryReadFile(resolve(packageDir, file))) ?? "",
+        sourceCode,
         gaps,
         commentPrefixFor(cfg.language.outputExtension),
       );
@@ -702,7 +776,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       const topTestFile = testEntries[0].testFile;
       const testContent = await tryReadFile(resolve(packageDir, topTestFile));
       if (testContent) {
-        const maxLines = 300;
+        const maxLines = 220;
         const testLines = testContent.split("\n");
         existingTests =
           testLines.length > maxLines
@@ -712,18 +786,30 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       }
     }
 
+    const staticPromptChars =
+      sourceCode.length +
+      (promptCtxBase.conventions?.length ?? 0) +
+      (existingTests?.length ?? 0) +
+      contextFiles.reduce((sum, item) => sum + item.content.length, 0) +
+      (promptCtxBase.fixtureFiles?.reduce((sum, item) => sum + item.content.length, 0) ?? 0);
+
     // Chunk gaps into batches
-    const batchSize = cfg.loop.gapBatchSize;
+    const batchSize = chooseAdaptiveBatchSize(cfg.loop.gapBatchSize, gaps.length, staticPromptChars);
     const batches: CoverageGap[][] = [];
     for (let i = 0; i < gaps.length; i += batchSize) {
       batches.push(gaps.slice(i, i + batchSize));
     }
 
-    fileLog(`    📦 ${batches.length} batch(es) of ≤${batchSize} branches`);
+    fileLog(
+      `    📦 ${batches.length} batch(es) of ≤${batchSize} branches` +
+        (batchSize !== cfg.loop.gapBatchSize ? ` (adaptive from ${cfg.loop.gapBatchSize})` : ""),
+    );
 
     // Track test functions generated by earlier batches for this file
     const priorBatchTests: string[] = [];
     let fileBatches = 0;
+    const batchOutputs: { path: string; code: string }[] = [];
+    let outputPath: string | undefined;
 
     for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {
       if (options.signal?.aborted) break;
@@ -735,6 +821,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       // Build prompt with annotated source + context + existing tests + prior batch info
       const prompt = await buildPrompt(packageDir, file, {
         ...promptCtxBase,
+        sourceCode,
         contextFiles,
         existingTests,
         gapBatch: batch,
@@ -767,41 +854,48 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         if (!parallel) process.stdout.write("\n");
 
         const response = SinglePassResponse.parse(JSON.parse(content));
-        if (!generatedFiles.includes(response.path)) {
-          generatedFiles.push(response.path);
+        outputPath ??= response.path;
+        if (response.path !== outputPath) {
+          fileLog(`    ⚠️  Ignoring path change from ${outputPath} to ${response.path}`);
         }
 
         if (response.analysis) {
           for (const a of response.analysis) {
             fileLog(`      📝 L${a.marker_line}: ${a.test_function}`);
-            priorBatchTests.push(`${response.path}::${a.test_function}`);
+            priorBatchTests.push(`${outputPath}::${a.test_function}`);
           }
         }
 
-        fileLog(`    📝 → ${response.path}`);
-
-        // Merge if file already exists, then write and fix
-        const finalCode = await mergeIfExists(
-          packageDir,
-          response.path,
-          response.code,
-          cfg,
-          llmStats,
-          options.signal,
-        );
-        await writeAndFix(
-          packageDir,
-          response.path,
-          finalCode,
-          cfg,
-          fileLog,
-          llmStats,
-          options.signal,
-          file,
-        );
+        fileLog(`    📝 → ${outputPath}`);
+        batchOutputs.push({ path: outputPath, code: response.code });
       } catch (e) {
         fileLog(`    ❌ Generation failed: ${(e as Error).message}`);
       }
+    }
+
+    if (!dryRun && outputPath && batchOutputs.length > 0) {
+      const mergedCode = await mergeGeneratedBatches(
+        packageDir,
+        outputPath,
+        batchOutputs.map((item) => item.code),
+        cfg,
+        llmStats,
+        options.signal,
+      );
+      if (!generatedFiles.includes(outputPath)) {
+        generatedFiles.push(outputPath);
+      }
+      fileLog("    🧪 Running fix loop once for merged file");
+      await writeAndFix(
+        packageDir,
+        outputPath,
+        mergedCode,
+        cfg,
+        fileLog,
+        llmStats,
+        options.signal,
+        file,
+      );
     }
     return fileBatches;
   }
