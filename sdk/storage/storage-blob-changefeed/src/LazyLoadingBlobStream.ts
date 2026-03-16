@@ -61,7 +61,12 @@ export class LazyLoadingBlobStream extends Readable {
     blockSize: number,
     options?: LazyLoadingBlobStreamOptions,
   ) {
-    super(options);
+    // Disable read-ahead buffering: Node.js streams proactively call _read() via
+    // process.nextTick to pre-fill the internal buffer. Because _read() is async
+    // (fire-and-forget — the stream does not await its return), any tracing spans
+    // started by a pre-fill _read() may still be open when the consumer's promise
+    // chain settles.  Setting highWaterMark to 0 prevents this pre-fill behaviour.
+    super({ ...options, highWaterMark: 0 });
     this.blobClient = blobClient;
     this.offset = offset;
     this.blockSize = blockSize;

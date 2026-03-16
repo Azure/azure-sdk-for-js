@@ -1,0 +1,194 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { createLiveCredential } from "@azure-tools/test-credential";
+import type { TestProject } from "vitest/node";
+import { EnvVarKeys } from "./constants.js";
+import * as MOCKS from "./constants.js";
+import { type StorageAccount, StorageManagementClient } from "@azure/arm-storage";
+
+declare module "vitest" {
+  export interface ProvidedContext extends Record<EnvVarKeys, string | undefined> {
+    [EnvVarKeys.ACCOUNT_NAME]: string;
+    [EnvVarKeys.ACCOUNT_QUEUE_URL]: string;
+    [EnvVarKeys.SECONDARY_ACCOUNT_NAME]: string;
+    [EnvVarKeys.SECONDARY_ACCOUNT_QUEUE_URL]: string;
+  }
+}
+
+/**
+ * Set an environment variable only if it is currently unset (undefined).
+ */
+export function setEnv(
+  name: string | undefined,
+  valueOrFactory:
+    | string
+    | null
+    | undefined
+    | ((current: string | undefined) => string | null | undefined),
+  { overwrite }: { overwrite?: boolean } = {},
+): boolean {
+  if (!name) {
+    return false;
+  }
+  const alreadyHas =
+    Object.prototype.hasOwnProperty.call(process.env, name) && process.env[name] !== undefined;
+  if (alreadyHas && !overwrite) {
+    return false;
+  }
+  let next: string | null | undefined;
+  if (typeof valueOrFactory === "function") {
+    next = valueOrFactory(process.env[name]);
+  } else {
+    next = valueOrFactory;
+  }
+  if (next === undefined || next === null || next === "") {
+    return false;
+  }
+  process.env[name] = next;
+  return true;
+}
+
+function assertEnvironmentVariable<
+  T extends Exclude<
+    typeof EnvVarKeys,
+    | EnvVarKeys.ACCOUNT_NAME
+    | EnvVarKeys.ACCOUNT_QUEUE_URL
+    | EnvVarKeys.SECONDARY_ACCOUNT_NAME
+    | EnvVarKeys.SECONDARY_ACCOUNT_QUEUE_URL
+  >,
+>(key: T): string | undefined;
+function assertEnvironmentVariable(key: string): string;
+function assertEnvironmentVariable(key: string): string | undefined {
+  const value = process.env[key];
+  if (key === EnvVarKeys.TEST_MODE) {
+    return !value ? value : value.toLowerCase();
+  }
+  if (
+    !(
+      [
+        EnvVarKeys.ACCOUNT_NAME,
+        EnvVarKeys.ACCOUNT_QUEUE_URL,
+        EnvVarKeys.SECONDARY_ACCOUNT_NAME,
+        EnvVarKeys.SECONDARY_ACCOUNT_QUEUE_URL,
+      ] as string[]
+    ).includes(key)
+  ) {
+    return value;
+  }
+  if (!value) {
+    throw new Error(`Environment variable ${key} is not defined.`);
+  }
+  return value;
+}
+
+async function ensureSharedKeyAndSas(
+  mgmtClient: StorageManagementClient,
+  rgName: string,
+  accountName: string,
+  accountQueueUrlEnvVarName: string,
+  accountKeyEnvVarName: string,
+  accountSasEnvVarName: string,
+  connectionStringEnvVarName: string,
+  connectionStringEnvVarNameWithSas: string,
+  endpointSuffix: string,
+): Promise<StorageAccount> {
+  const props = await mgmtClient.storageAccounts.getProperties(rgName, accountName);
+  const queueUrl = props.primaryEndpoints?.queue;
+  setEnv(accountQueueUrlEnvVarName, queueUrl);
+  const { allowSharedKeyAccess } = props;
+  if (!allowSharedKeyAccess) {
+    return props;
+  }
+
+  const { keys } = await mgmtClient.storageAccounts.listKeys(rgName, accountName);
+  if (!keys || keys.length === 0) {
+    throw new Error(`No keys found for storage account ${accountName}.`);
+  }
+  const accountKey = keys[0].value;
+  setEnv(accountKeyEnvVarName, accountKey);
+  const connectionString = `DefaultEndpointsProtocol=https;AccountName=${accountName};AccountKey=${accountKey};EndpointSuffix=${endpointSuffix}`;
+  setEnv(connectionStringEnvVarName, connectionString);
+
+  const { accountSasToken } = await mgmtClient.storageAccounts.listAccountSAS(rgName, accountName, {
+    permissions: "rwdlacup",
+    services: "bfqt",
+    resourceTypes: "sco",
+    keyToSign: "key2",
+    sharedAccessExpiryTime: new Date(Date.now() + 2 * 60 * 60 * 1000),
+  });
+
+  if (!accountSasToken) {
+    throw new Error(`No account SAS token found for storage account ${accountName}.`);
+  }
+  setEnv(accountSasEnvVarName, accountSasToken);
+  const connectionStringWithSas = `QueueEndpoint=${queueUrl};SharedAccessSignature=${accountSasToken}`;
+  setEnv(connectionStringEnvVarNameWithSas, connectionStringWithSas);
+  return props;
+}
+
+export default async function ({ provide }: TestProject): Promise<void> {
+  const testMode = process.env[EnvVarKeys.TEST_MODE]?.toLowerCase() ?? "";
+  if (["playback", ""].includes(testMode)) {
+    for (const key of Object.values(EnvVarKeys)) {
+      const val = (MOCKS as Record<string, unknown>)[key as string];
+      if (typeof val === "string") {
+        provide(key, val);
+      }
+    }
+    return;
+  }
+  const subId = assertEnvironmentVariable(EnvVarKeys.SUBSCRIPTION_ID);
+  const rgName = assertEnvironmentVariable(EnvVarKeys.RESOURCE_GROUP);
+  const accountName = assertEnvironmentVariable(EnvVarKeys.ACCOUNT_NAME);
+
+  if (!subId || !rgName) {
+    throw new Error("SUBSCRIPTION_ID and RESOURCE_GROUP environment variables are required.");
+  }
+
+  const cred = createLiveCredential();
+  const mgmtClient = new StorageManagementClient(cred, subId);
+  let endpointSuffix = "core.windows.net";
+  try {
+    const props = await mgmtClient.storageAccounts.getProperties(rgName, accountName!);
+    const queueEndpoint = props.primaryEndpoints?.queue;
+    if (queueEndpoint) {
+      const host = new URL(queueEndpoint).hostname;
+      const parts = host.split(".");
+      if (parts.length > 2) {
+        endpointSuffix = parts.slice(2).join(".");
+      }
+    }
+  } catch {
+    endpointSuffix = "core.windows.net";
+  }
+
+  await ensureSharedKeyAndSas(
+    mgmtClient,
+    rgName,
+    accountName!,
+    EnvVarKeys.ACCOUNT_QUEUE_URL,
+    EnvVarKeys.ACCOUNT_KEY,
+    EnvVarKeys.ACCOUNT_SAS,
+    EnvVarKeys.STORAGE_CONNECTION_STRING,
+    EnvVarKeys.STORAGE_CONNECTION_STRING_WITH_SAS,
+    endpointSuffix,
+  );
+
+  // Set secondary account info (derived from primary)
+  const primaryQueueUrl = assertEnvironmentVariable(EnvVarKeys.ACCOUNT_QUEUE_URL);
+  if (primaryQueueUrl) {
+    setEnv(EnvVarKeys.SECONDARY_ACCOUNT_NAME, () => `${accountName}-secondary`, {
+      overwrite: true,
+    });
+    setEnv(
+      EnvVarKeys.SECONDARY_ACCOUNT_QUEUE_URL,
+      () => primaryQueueUrl.replace(`${accountName}.queue.`, `${accountName}-secondary.queue.`),
+      { overwrite: true },
+    );
+  }
+
+  for (const key of Object.values(EnvVarKeys)) {
+    provide(key, assertEnvironmentVariable(key));
+  }
+}

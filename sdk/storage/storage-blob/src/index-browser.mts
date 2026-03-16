@@ -28,6 +28,8 @@ export {
   type AccessTierModifiedConditions,
   type RequestHeaders,
   type RequestQueryParameters,
+  StorageBlobAudience,
+  getBlobServiceAccountAudience,
 } from "./models.js";
 export {
   Pipeline,

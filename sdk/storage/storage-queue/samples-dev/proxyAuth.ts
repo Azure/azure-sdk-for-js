@@ -6,19 +6,18 @@
  * @azsdk-weight 30
  */
 
-import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+async function main(): Promise<void> {
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // To use the manual proxyOptions below, remove this block
   if (!process.env.HTTP_PROXY || !process.env.HTTPS_PROXY) {
@@ -27,8 +26,8 @@ export async function main(): Promise<void> {
   }
 
   const queueServiceClient = new QueueServiceClient(
-    `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential,
+    `https://${accountName}.queue.core.windows.net`,
+    new DefaultAzureCredential(),
     // The library tries to load the proxy settings from the environment variables like HTTP_PROXY
     // Alternatively, the service client accepts the following `proxyOptions` as part of its options:
     {
@@ -44,19 +43,10 @@ export async function main(): Promise<void> {
     },
   );
 
-  // Create a new queue
+  // Create a queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
-  );
-
-  // Delete the queue.
-  const deleteQueueResponse = await queueClient.delete();
-  console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
-  );
+  const createQueueResponse = await queueServiceClient.getQueueClient(queueName).create();
+  console.log(`Created queue ${queueName} successfully`, createQueueResponse.requestId);
 }
 
 main().catch((error) => {

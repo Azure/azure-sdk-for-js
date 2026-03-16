@@ -27906,6 +27906,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -27991,12 +27994,18 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -28213,6 +28222,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -28350,6 +28362,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -28542,6 +28557,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool

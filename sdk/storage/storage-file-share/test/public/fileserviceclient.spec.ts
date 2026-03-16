@@ -1,0 +1,611 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { delay, Recorder } from "@azure-tools/test-recorder";
+import type { ShareItem, ShareRootSquash, ShareServiceClient } from "../../src/index.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createShareServiceClient } from "../utils/clients.js";
+import { getUniqueName } from "../utils/testHelpers.js";
+import { getStorageConnectionStringWithSas } from "../utils/injectables.js";
+
+describe("FileServiceClient", () => {
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("ListShares with default parameters", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+
+    const result = (await serviceClient.listShares().byPage().next()).value;
+
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
+
+    if (result.shareItems!.length > 0) {
+      const share = result.shareItems![0];
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
+    }
+  });
+
+  it("listShares with default parameters - empty prefix should not cause an error", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+
+    const result = (await serviceClient.listShares({ prefix: "" }).byPage().next()).value;
+
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+
+    assert.isAbove(result.serviceEndpoint.length, 0);
+    assert.isAtLeast(result.shareItems!.length, 0);
+
+    if (result.shareItems!.length > 0) {
+      const share = result.shareItems![0];
+      assert.isAbove(share.name.length, 0);
+      assert.isAbove(share.properties.etag.length, 0);
+      assert.isDefined(share.properties.lastModified);
+    }
+  });
+
+  it("ListShares with all parameters configured", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+
+    const shareNamePrefix = getUniqueName("share", { recorder });
+    const shareName1 = `${shareNamePrefix}x1`;
+    const shareName2 = `${shareNamePrefix}x2`;
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
+
+    const iter = serviceClient
+      .listShares({
+        includeMetadata: true,
+        includeSnapshots: true,
+        prefix: shareNamePrefix,
+      })
+      .byPage({ maxPageSize: 1 });
+
+    let res = await iter.next();
+    let result1 = res.value;
+    while (!result1.shareItems && !res.done) {
+      res = await iter.next();
+      result1 = res.value;
+    }
+    assert.isDefined(result1.shareItems);
+    assert.isDefined(result1.continuationToken);
+    assert.equal(result1.shareItems!.length, 1);
+    assert.isTrue(result1.shareItems![0].name.startsWith(shareNamePrefix));
+    assert.isAbove(result1.shareItems![0].properties.etag.length, 0);
+    assert.isDefined(result1.shareItems![0].properties.lastModified);
+    assert.deepEqual(result1.shareItems![0].metadata!.key, "val");
+
+    const result2 = (
+      await serviceClient
+        .listShares({
+          includeMetadata: true,
+          includeSnapshots: true,
+          prefix: shareNamePrefix,
+        })
+        .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
+        .next()
+    ).value;
+
+    assert.equal(result2.continuationToken, "");
+    assert.equal(result2.shareItems!.length, 1);
+    assert.isTrue(result2.shareItems![0].name.startsWith(shareNamePrefix));
+    assert.isAbove(result2.shareItems![0].properties.etag.length, 0);
+    assert.isDefined(result2.shareItems![0].properties.lastModified);
+    assert.deepEqual(result2.shareItems![0].metadata!.key, "val");
+
+    await shareClient1.delete();
+    await shareClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator for listShares", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+    const shareNamePrefix = getUniqueName("share", { recorder });
+    const shareName1 = `${shareNamePrefix}x1`;
+    const shareName2 = `${shareNamePrefix}x2`;
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
+
+    for await (const item of serviceClient.listShares({
+      includeMetadata: true,
+      includeSnapshots: true,
+      prefix: shareNamePrefix,
+    })) {
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+
+    await shareClient1.delete();
+    await shareClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listShares", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+
+    const shareNamePrefix = getUniqueName("share", { recorder });
+    const shareName1 = `${shareNamePrefix}x1`;
+    const shareName2 = `${shareNamePrefix}x2`;
+    const shareClient1 = serviceClient.getShareClient(shareName1);
+    const shareClient2 = serviceClient.getShareClient(shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
+
+    const iter = serviceClient.listShares({
+      includeMetadata: true,
+      includeSnapshots: true,
+      prefix: shareNamePrefix,
+    });
+    let shareItem = getYieldedValue(await iter.next());
+    assert.isTrue(shareItem.name.startsWith(shareNamePrefix));
+    assert.isAbove(shareItem.properties.etag.length, 0);
+    assert.isDefined(shareItem.properties.lastModified);
+    assert.deepEqual(shareItem.metadata!.key, "val");
+
+    shareItem = getYieldedValue(await iter.next());
+    assert.isTrue(shareItem.name.startsWith(shareNamePrefix));
+    assert.isAbove(shareItem.properties.etag.length, 0);
+    assert.isDefined(shareItem.properties.lastModified);
+    assert.deepEqual(shareItem.metadata!.key, "val");
+
+    await shareClient1.delete();
+    await shareClient2.delete();
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage()) for listShares", async () => {
+    const shareClients = [];
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+    const shareNamePrefix = getUniqueName("share", { recorder });
+
+    for (let i = 0; i < 4; i++) {
+      const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
+      await shareClient.create({ metadata: { key: "val" } });
+      shareClients.push(shareClient);
+    }
+
+    for await (const response of serviceClient
+      .listShares({
+        includeMetadata: true,
+        includeSnapshots: true,
+        prefix: shareNamePrefix,
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const item of response.shareItems!) {
+        assert.isTrue(item.name.startsWith(shareNamePrefix));
+        assert.isAbove(item.properties.etag.length, 0);
+        assert.isDefined(item.properties.lastModified);
+        assert.deepEqual(item.metadata!.key, "val");
+      }
+    }
+
+    for (const shareClient of shareClients) {
+      await shareClient.delete();
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listShares", async () => {
+    const shareClients = [];
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+    const shareNamePrefix = getUniqueName("share", { recorder });
+
+    for (let i = 0; i < 4; i++) {
+      const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
+      await shareClient.create({ metadata: { key: "val" } });
+      shareClients.push(shareClient);
+    }
+
+    let iter = serviceClient
+      .listShares({
+        includeMetadata: true,
+        includeSnapshots: true,
+        prefix: shareNamePrefix,
+      })
+      .byPage({ maxPageSize: 2 });
+    let res = await iter.next();
+    let response = res.value;
+    while (!response.shareItems && !res.done) {
+      res = await iter.next();
+      response = res.value;
+    }
+    assert.isDefined(response.shareItems);
+    // Gets 2 shares
+    for (const item of response.shareItems!) {
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    iter = serviceClient
+      .listShares({
+        includeMetadata: true,
+        includeSnapshots: true,
+        prefix: shareNamePrefix,
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 shares
+    for (const item of response.shareItems!) {
+      assert.isTrue(item.name.startsWith(shareNamePrefix));
+      assert.isAbove(item.properties.etag.length, 0);
+      assert.isDefined(item.properties.lastModified);
+      assert.deepEqual(item.metadata!.key, "val");
+    }
+
+    for (const shareClient of shareClients) {
+      await shareClient.delete();
+    }
+  });
+
+  it("GetProperties", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+    const result = await serviceClient.getProperties();
+
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+
+    if (result.cors && result.cors!.length > 0) {
+      assert.isAbove(result.cors![0].allowedHeaders.length, 0);
+      assert.isAbove(result.cors![0].allowedMethods.length, 0);
+      assert.isAbove(result.cors![0].allowedOrigins.length, 0);
+      assert.isAbove(result.cors![0].exposedHeaders.length, 0);
+      assert.isAtLeast(result.cors![0].maxAgeInSeconds, 0);
+    }
+  });
+
+  it("SetProperties", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+
+    const serviceProperties = await serviceClient.getProperties();
+
+    serviceProperties.minuteMetrics = {
+      enabled: true,
+      includeAPIs: true,
+      retentionPolicy: {
+        days: 4,
+        enabled: true,
+      },
+      version: "1.0",
+    };
+
+    serviceProperties.hourMetrics = {
+      enabled: true,
+      includeAPIs: true,
+      retentionPolicy: {
+        days: 3,
+        enabled: true,
+      },
+      version: "1.0",
+    };
+
+    const newCORS = {
+      allowedHeaders: "*",
+      allowedMethods: "GET",
+      allowedOrigins: "example.com",
+      exposedHeaders: "*",
+      maxAgeInSeconds: 8888,
+    };
+    if (!serviceProperties.cors) {
+      serviceProperties.cors = [newCORS];
+    } else if (serviceProperties.cors!.length < 5) {
+      serviceProperties.cors.push(newCORS);
+    }
+
+    // SMB multi-channel is returned by getProperties() even when the feature is not supproted on the account.
+    const newServiceProperties = {
+      cors: serviceProperties.cors,
+      minuteMetrics: serviceProperties.minuteMetrics,
+      hourMetrics: serviceProperties.hourMetrics,
+    };
+
+    await serviceClient.setProperties(newServiceProperties);
+    await delay(5 * 1000);
+
+    const result = await serviceClient.getProperties();
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
+    assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
+  });
+
+  it("createShare and deleteShare", async () => {
+    const serviceClient = await createShareServiceClient("TokenCredential", { recorder });
+    const shareName = getUniqueName("share", { recorder });
+    const metadata = { key: "value" };
+
+    const { shareClient } = await serviceClient.createShare(shareName, { metadata });
+    const result = await shareClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await serviceClient.deleteShare(shareName);
+    try {
+      await shareClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
+      );
+    } catch (error: any) {
+      assert.strictEqual(error.statusCode as number, 404);
+    }
+  });
+
+  it.runIf(getStorageConnectionStringWithSas())(
+    "can be created from a sas connection string",
+    async () => {
+      const serviceClient = await createShareServiceClient("SasConnectionString", { recorder });
+      assert.isDefined(serviceClient);
+
+      const result = await serviceClient.getProperties();
+
+      assert.isDefined(result.requestId);
+      assert.isAbove(result.requestId!.length, 0);
+    },
+  );
+
+  it.runIf(getStorageConnectionStringWithSas())(
+    "can be created from a sas connection string and an option bag",
+    async () => {
+      const serviceClient = await createShareServiceClient("SasConnectionString", {
+        recorder,
+        options: {
+          retryOptions: {
+            maxTries: 5,
+          },
+        },
+      });
+      assert.isDefined(serviceClient);
+
+      const result = await serviceClient.getProperties();
+
+      assert.isDefined(result.requestId);
+      assert.isAbove(result.requestId!.length, 0);
+    },
+  );
+});
+
+describe("FileServiceClient - soft delete", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    serviceClient = await createShareServiceClient("TokenCredential", {
+      recorder,
+      account: "softDelete",
+    });
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("ListShares with deleted share", async () => {
+    const shareClient = serviceClient.getShareClient(getUniqueName("share", { recorder }));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name === shareClient.name) {
+        found = true;
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+      }
+    }
+    assert.isTrue(found);
+  });
+
+  it("Undelete share positive", async () => {
+    const shareClient = serviceClient.getShareClient(getUniqueName("share", { recorder }));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    let shareDeleted: ShareItem | undefined;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name === shareClient.name) {
+        found = true;
+        assert.isDefined(share.version);
+        assert.isDefined(share.deleted);
+        assert.isDefined(share.properties.deletedTime);
+        assert.isDefined(share.properties.remainingRetentionDays);
+
+        shareDeleted = share;
+      }
+    }
+    assert.isTrue(found);
+    assert.isDefined(shareDeleted);
+
+    // Await share to be deleted.
+    await delay(60 * 1000);
+
+    const restoredShareClient = await serviceClient.undeleteShare(
+      shareDeleted!.name,
+      shareDeleted!.version!,
+    );
+    await restoredShareClient.getProperties();
+
+    await restoredShareClient.delete();
+  });
+
+  it("Undelete share negative", async () => {
+    const shareClient = serviceClient.getShareClient(getUniqueName("share", { recorder }));
+    const invalidVersion = "01D60F8BB59A4652";
+
+    try {
+      await serviceClient.undeleteShare(shareClient.name, invalidVersion);
+      assert.fail("Expecting an error in undelete share with invalid version.");
+    } catch (error: any) {
+      assert.strictEqual(error.statusCode as number, 404);
+    }
+  });
+});
+
+describe("FileServiceClient Premium", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    serviceClient = await createShareServiceClient("TokenCredential", {
+      recorder,
+      account: "premiumFile",
+    });
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("SMB Multichannel", async function () {
+    await serviceClient.setProperties({
+      protocol: { smb: { multichannel: { enabled: true } } },
+    });
+    const propertiesSet = await serviceClient.getProperties();
+    assert.isDefined(propertiesSet.protocol?.smb?.multichannel);
+  });
+
+  it("Share Enable Protocol & Share Squash Root", async function () {
+    const shareName = getUniqueName("share", { recorder });
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    let rootSquash: ShareRootSquash = "RootSquash";
+    await shareClient.create({
+      protocols: {
+        smbEnabled: true,
+        nfsEnabled: true,
+      },
+      rootSquash,
+      enableSnapshotVirtualDirectoryAccess: true,
+    });
+
+    // get properties
+    const expectedProtocols = { nfsEnabled: true };
+    const getRes = await shareClient.getProperties();
+    assert.deepStrictEqual(getRes.protocols, expectedProtocols);
+    assert.deepStrictEqual(getRes.rootSquash, rootSquash);
+    assert.isDefined(getRes.enableSnapshotVirtualDirectoryAccess);
+
+    // set properties
+    rootSquash = "AllSquash";
+    await shareClient.setProperties({ rootSquash });
+
+    // list share
+    const shareName1 = getUniqueName("share1", { recorder });
+    const protocols = { smbEnabled: true };
+    await serviceClient.createShare(shareName1, {
+      protocols,
+    });
+
+    for await (const share of serviceClient.listShares()) {
+      if (share.name === shareName) {
+        assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
+        assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
+        assert.isDefined(share.properties.enableSnapshotVirtualDirectoryAccess);
+      } else if (share.name === shareName1) {
+        assert.deepStrictEqual(share.properties.protocols, protocols);
+      }
+    }
+  });
+
+  it("Premium Share getProperties", async function () {
+    const shareName = getUniqueName("share", { recorder });
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    await shareClient.create();
+
+    const getRes = await shareClient.getProperties();
+    assert.isDefined(getRes.provisionedBandwidthMibps);
+    assert.isDefined(getRes.quota);
+
+    await shareClient.delete();
+  });
+});
+
+describe("FileServiceClient SMB", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    serviceClient = await createShareServiceClient("TokenCredential", {
+      recorder,
+      account: "premiumFile",
+    });
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("Set&Get Encryption in Transit", async function () {
+    await serviceClient.setProperties({
+      protocol: {
+        smb: {
+          encryptionInTransit: {
+            required: true,
+          },
+        },
+      },
+    });
+    const properties = await serviceClient.getProperties();
+    assert.deepEqual(properties.protocol?.smb?.encryptionInTransit?.required, true);
+  });
+});
+
+describe("FileServiceClient NFS", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    serviceClient = await createShareServiceClient("TokenCredential", {
+      recorder,
+      account: "premiumFile",
+    });
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("Set&Get Encryption in Transit", async function () {
+    await serviceClient.setProperties({
+      protocol: {
+        nfs: {
+          encryptionInTransit: {
+            required: true,
+          },
+        },
+      },
+    });
+    const properties = await serviceClient.getProperties();
+    assert.deepEqual(properties.protocol?.nfs?.encryptionInTransit?.required, true);
+  });
+});

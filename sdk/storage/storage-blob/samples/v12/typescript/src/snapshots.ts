@@ -20,7 +20,8 @@
  * @summary create and read from a blob snapshot
  */
 
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { ContainerClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import { streamToBuffer } from "./utils/stream.js";
 
@@ -29,18 +30,16 @@ import "dotenv/config";
 
 async function main(): Promise<void> {
   // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "<account name>";
-  const accountKey = process.env.ACCOUNT_KEY || "<account key>";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
-    `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    `https://${accountName}.blob.core.windows.net/${containerName}`,
+    new DefaultAzureCredential(),
   );
 
   const createContainerResponse = await containerClient.create();
@@ -61,12 +60,12 @@ async function main(): Promise<void> {
   const response = await blobSnapshotClient.download(0);
   console.log(
     "Reading response to string...",
-    (await blobSnapshotClient.getProperties()).contentLength
+    (await blobSnapshotClient.getProperties()).contentLength,
   );
 
   console.log(
     "Downloaded blob content",
-    (await streamToBuffer(response.readableStreamBody!)).toString()
+    (await streamToBuffer(response.readableStreamBody!)).toString(),
   );
 
   // Delete container

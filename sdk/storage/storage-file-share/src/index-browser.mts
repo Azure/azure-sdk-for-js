@@ -29,8 +29,10 @@ export type {
   FileAttributesPreserveType,
   CloseHandlesInfo,
   HttpAuthorization,
+  StorageFileAudience,
   StorageChecksumAlgorithm,
 } from "./models.js";
+export { getFileServiceAccountAudience } from "./models.js";
 export {
   parseOctalFileMode,
   toOctalFileMode,
