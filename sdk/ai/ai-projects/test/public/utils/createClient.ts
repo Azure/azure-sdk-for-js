@@ -29,7 +29,7 @@ const replaceableVariables = {
   BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   BING_CUSTOM_SEARCH_INSTANCE_NAME: "test-instance",
   BING_GROUNDING_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
-  AZURE_AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   AI_SEARCH_INDEX_NAME: "sample_index",
   BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-5.2",
@@ -151,7 +151,7 @@ export function getToolConnectionId(toolType: string): string {
     case "bing-grounding":
       return assertEnvironmentVariable("BING_GROUNDING_CONNECTION_ID");
     case "azure-ai-search":
-      return assertEnvironmentVariable("AZURE_AI_SEARCH_CONNECTION_ID");
+      return assertEnvironmentVariable("AI_SEARCH_CONNECTION_ID");
     case "browser-automation":
       return (
         process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||

@@ -18,7 +18,7 @@ import "dotenv/config";
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const aiSearchConnectionId =
-  process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
+  process.env["AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
 export async function main(): Promise<void> {
