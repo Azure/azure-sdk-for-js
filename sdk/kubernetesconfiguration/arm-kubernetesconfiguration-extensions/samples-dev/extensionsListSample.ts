@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
+import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
-  const client = new KubernetesConfigurationClient(credential, subscriptionId);
+  const client = new ExtensionsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.extensions.list(
     "rg1",

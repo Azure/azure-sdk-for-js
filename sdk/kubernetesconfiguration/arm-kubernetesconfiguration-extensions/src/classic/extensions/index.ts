@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext } from "../../api/kubernetesConfigurationContext.js";
+import type { ExtensionsContext } from "../../api/extensionsContext.js";
 import { list, $delete, update, create, get } from "../../api/extensions/operations.js";
 import type {
   ExtensionsListOptionalParams,
@@ -129,7 +129,7 @@ export interface ExtensionsOperations {
   ) => Promise<Extension>;
 }
 
-function _getExtensions(context: KubernetesConfigurationContext) {
+function _getExtensions(context: ExtensionsContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -335,9 +335,7 @@ function _getExtensions(context: KubernetesConfigurationContext) {
   };
 }
 
-export function _getExtensionsOperations(
-  context: KubernetesConfigurationContext,
-): ExtensionsOperations {
+export function _getExtensionsOperations(context: ExtensionsContext): ExtensionsOperations {
   return {
     ..._getExtensions(context),
   };

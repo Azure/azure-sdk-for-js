@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { KubernetesConfigurationClient } from "./kubernetesConfigurationClient.js";
+export { ExtensionsClient } from "./extensionsClient.js";
 export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
@@ -44,7 +44,7 @@ export {
   KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
-export type { KubernetesConfigurationClientOptionalParams } from "./api/index.js";
+export type { ExtensionsClientOptionalParams } from "./api/index.js";
 export type {
   ExtensionsListOptionalParams,
   ExtensionsDeleteOptionalParams,

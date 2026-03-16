@@ -32,7 +32,7 @@ Install the Azure Extensions client library for JavaScript with `npm`:
 npm install @azure/arm-kubernetesconfiguration-extensions
 ```
 
-### Create and authenticate a `KubernetesConfigurationClient`
+### Create and authenticate a `ExtensionsClient`
 
 To create a client object to access the Azure Extensions API, you will need the `endpoint` of your Azure Extensions resource and a `credential`. The Azure Extensions client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure Extensions resource in the [Azure Portal][azure_portal].
@@ -52,25 +52,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
+import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new KubernetesConfigurationClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ExtensionsClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
+import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new KubernetesConfigurationClient(credential, subscriptionId);
+const client = new ExtensionsClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### KubernetesConfigurationClient
+### ExtensionsClient
 
-`KubernetesConfigurationClient` is the primary interface for developers using the Azure Extensions client library. Explore the methods on this client object to understand the different features of the Azure Extensions service that you can access.
+`ExtensionsClient` is the primary interface for developers using the Azure Extensions client library. Explore the methods on this client object to understand the different features of the Azure Extensions service that you can access.
 
 ## Troubleshooting
 

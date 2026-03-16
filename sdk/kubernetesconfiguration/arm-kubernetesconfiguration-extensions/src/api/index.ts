@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type {
-  KubernetesConfigurationContext,
-  KubernetesConfigurationClientOptionalParams,
-} from "./kubernetesConfigurationContext.js";
-export { createKubernetesConfiguration } from "./kubernetesConfigurationContext.js";
+export type { ExtensionsContext, ExtensionsClientOptionalParams } from "./extensionsContext.js";
+export { createExtensions } from "./extensionsContext.js";

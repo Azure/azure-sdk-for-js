@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): PollerLike<OperationState<Extension>, Extension>;
+export function create(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): PollerLike<OperationState<Extension>, Extension>;
 
 // @public
 export interface ExtensionsCreateOptionalParams extends OperationOptions {
@@ -40,13 +40,13 @@ export interface ExtensionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<Extension>;
+export function get(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<Extension>;
 
 // @public
-export function list(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams): PagedAsyncIterableIterator<Extension>;
+export function list(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams): PagedAsyncIterableIterator<Extension>;
 
 // @public
-export function update(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): PollerLike<OperationState<Extension>, Extension>;
+export function update(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): PollerLike<OperationState<Extension>, Extension>;
 
 // (No @packageDocumentation comment for this package)
 

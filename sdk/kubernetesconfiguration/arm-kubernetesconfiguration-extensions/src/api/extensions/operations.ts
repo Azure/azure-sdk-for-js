@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext as Client } from "../index.js";
+import type { ExtensionsContext as Client } from "../index.js";
 import type { Extension, PatchExtension, _ExtensionsList } from "../../models/models.js";
 import {
   extensionSerializer,

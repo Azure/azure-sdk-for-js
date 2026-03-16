@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  KubernetesConfigurationContext,
-  KubernetesConfigurationClientOptionalParams,
-} from "./api/index.js";
-import { createKubernetesConfiguration } from "./api/index.js";
+import type { ExtensionsContext, ExtensionsClientOptionalParams } from "./api/index.js";
+import { createExtensions } from "./api/index.js";
 import type { ExtensionsOperations } from "./classic/extensions/index.js";
 import { _getExtensionsOperations } from "./classic/extensions/index.js";
 import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
@@ -13,10 +10,10 @@ import { _getOperationStatusOperations } from "./classic/operationStatus/index.j
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { KubernetesConfigurationClientOptionalParams } from "./api/kubernetesConfigurationContext.js";
+export type { ExtensionsClientOptionalParams } from "./api/extensionsContext.js";
 
-export class KubernetesConfigurationClient {
-  private _client: KubernetesConfigurationContext;
+export class ExtensionsClient {
+  private _client: ExtensionsContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -24,13 +21,13 @@ export class KubernetesConfigurationClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: KubernetesConfigurationClientOptionalParams = {},
+    options: ExtensionsClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createKubernetesConfiguration(credential, subscriptionId, {
+    this._client = createExtensions(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

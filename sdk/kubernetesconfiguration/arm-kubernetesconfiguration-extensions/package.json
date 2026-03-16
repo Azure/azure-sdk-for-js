@@ -132,7 +132,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/kubernetesConfigurationContext.ts",
+        "path": "src/api/extensionsContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

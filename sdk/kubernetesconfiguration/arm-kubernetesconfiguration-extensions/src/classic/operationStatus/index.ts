@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext } from "../../api/kubernetesConfigurationContext.js";
+import type { ExtensionsContext } from "../../api/extensionsContext.js";
 import { get } from "../../api/operationStatus/operations.js";
 import type { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
 import type { OperationStatusResult } from "../../models/models.js";
@@ -20,7 +20,7 @@ export interface OperationStatusOperations {
   ) => Promise<OperationStatusResult>;
 }
 
-function _getOperationStatus(context: KubernetesConfigurationContext) {
+function _getOperationStatus(context: ExtensionsContext) {
   return {
     get: (
       resourceGroupName: string,
@@ -45,7 +45,7 @@ function _getOperationStatus(context: KubernetesConfigurationContext) {
 }
 
 export function _getOperationStatusOperations(
-  context: KubernetesConfigurationContext,
+  context: ExtensionsContext,
 ): OperationStatusOperations {
   return {
     ..._getOperationStatus(context),

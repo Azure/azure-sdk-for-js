@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusResult>;
+export function get(context: ExtensionsContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusResult>;
 
 // @public
 export interface OperationStatusGetOptionalParams extends OperationOptions {

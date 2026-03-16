@@ -102,6 +102,20 @@ export interface ExtensionPropertiesAksAssignedIdentity {
     type?: AKSIdentityType;
 }
 
+// @public (undocumented)
+export class ExtensionsClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ExtensionsClientOptionalParams);
+    readonly extensions: ExtensionsOperations;
+    readonly operationStatus: OperationStatusOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface ExtensionsClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
 // @public
 export interface ExtensionsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
@@ -193,20 +207,6 @@ export enum KnownVersions {
     V20241101 = "2024-11-01"
 }
 
-// @public (undocumented)
-export class KubernetesConfigurationClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesConfigurationClientOptionalParams);
-    readonly extensions: ExtensionsOperations;
-    readonly operationStatus: OperationStatusOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export type LevelType = string;
 
@@ -286,7 +286,7 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned";
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ExtensionsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
