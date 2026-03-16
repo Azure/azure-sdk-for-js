@@ -41,7 +41,7 @@ import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
-  ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT,
+  CUSTOM_DIMENSIONS_EXEMPT_KEYS,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
@@ -303,9 +303,8 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 }
 
 /**
- * Truncates each custom dimension value individually to stay within the configured size limit
- * (default 64KB per value). If the environment variable
- * AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT is set to "true", no truncation is applied.
+ * Truncates each custom dimension value individually to stay within the 64KB size limit.
+ * Properties whose keys are in {@link CUSTOM_DIMENSIONS_EXEMPT_KEYS} are excluded from truncation.
  * @internal
  */
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
@@ -321,10 +320,7 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         ? (properties[key] as string)
         : serializeAttribute(properties[key] as AnyValue);
 
-    if (
-      !isEnvVarTrue(ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT) &&
-      Buffer.byteLength(value, "utf-8") > maxSize
-    ) {
+    if (!CUSTOM_DIMENSIONS_EXEMPT_KEYS.has(key) && Buffer.byteLength(value, "utf-8") > maxSize) {
       value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
       truncated = true;
     }

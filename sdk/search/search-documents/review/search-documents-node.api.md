@@ -865,6 +865,9 @@ export interface ElisionTokenFilter extends BaseTokenFilter {
 }
 
 // @public
+export type EntityCategory = string;
+
+// @public
 export interface EntityLinkingSkill extends BaseSearchIndexerSkill {
     defaultLanguageCode?: string;
     minimumPrecision?: number;
@@ -882,9 +885,12 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export type EntityRecognitionSkillLanguage = string;
+
+// @public
 export interface EntityRecognitionSkillV3 extends BaseSearchIndexerSkill {
-    categories?: string[];
-    defaultLanguageCode?: string;
+    categories?: EntityCategory[];
+    defaultLanguageCode?: EntityRecognitionSkillLanguage;
     minimumPrecision?: number;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
@@ -1849,7 +1855,7 @@ export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
     OneToMany = "oneToMany"
 }
 
-// @public @deprecated
+// @public
 export enum KnownEntityCategory {
     Datetime = "datetime",
     Email = "email",
@@ -1860,7 +1866,7 @@ export enum KnownEntityCategory {
     Url = "url"
 }
 
-// @public @deprecated
+// @public
 export enum KnownEntityRecognitionSkillLanguage {
     Ar = "ar",
     Cs = "cs",
@@ -2535,7 +2541,7 @@ export enum KnownSemanticSearchResultsType {
     RerankedResults = "rerankedResults"
 }
 
-// @public @deprecated
+// @public
 export enum KnownSentimentSkillLanguage {
     Da = "da",
     De = "de",
@@ -3868,8 +3874,11 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export type SentimentSkillLanguage = string;
+
+// @public
 export interface SentimentSkillV3 extends BaseSearchIndexerSkill {
-    defaultLanguageCode?: string;
+    defaultLanguageCode?: SentimentSkillLanguage;
     includeOpinionMining?: boolean;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";

@@ -16,7 +16,19 @@ export function $delete(context: DurableTaskContext, resourceGroupName: string, 
 export function createOrUpdate(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, resource: Scheduler, options?: SchedulersCreateOrUpdateOptionalParams): PollerLike<OperationState<Scheduler>, Scheduler>;
 
 // @public
+export function createOrUpdatePrivateEndpointConnection(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+
+// @public
+export function deletePrivateEndpointConnection(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, options?: SchedulersDeletePrivateEndpointConnectionOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
 export function get(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, options?: SchedulersGetOptionalParams): Promise<Scheduler>;
+
+// @public
+export function getPrivateEndpointConnection(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, options?: SchedulersGetPrivateEndpointConnectionOptionalParams): Promise<PrivateEndpointConnection>;
+
+// @public
+export function getPrivateLink(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, privateLinkResourceName: string, options?: SchedulersGetPrivateLinkOptionalParams): Promise<SchedulerPrivateLinkResource>;
 
 // @public
 export function listByResourceGroup(context: DurableTaskContext, resourceGroupName: string, options?: SchedulersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Scheduler>;
@@ -25,7 +37,18 @@ export function listByResourceGroup(context: DurableTaskContext, resourceGroupNa
 export function listBySubscription(context: DurableTaskContext, options?: SchedulersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Scheduler>;
 
 // @public
+export function listPrivateEndpointConnections(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+
+// @public
+export function listPrivateLinks(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, options?: SchedulersListPrivateLinksOptionalParams): PagedAsyncIterableIterator<SchedulerPrivateLinkResource>;
+
+// @public
 export interface SchedulersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -35,7 +58,20 @@ export interface SchedulersDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SchedulersDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SchedulersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchedulersGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchedulersGetPrivateLinkOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -47,12 +83,28 @@ export interface SchedulersListBySubscriptionOptionalParams extends OperationOpt
 }
 
 // @public
+export interface SchedulersListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchedulersListPrivateLinksOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface SchedulersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface SchedulersUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export function update(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, properties: SchedulerUpdate, options?: SchedulersUpdateOptionalParams): PollerLike<OperationState<Scheduler>, Scheduler>;
+
+// @public
+export function updatePrivateEndpointConnection(context: DurableTaskContext, resourceGroupName: string, schedulerName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionUpdate, options?: SchedulersUpdatePrivateEndpointConnectionOptionalParams): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 
 // (No @packageDocumentation comment for this package)
 
