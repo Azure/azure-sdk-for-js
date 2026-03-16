@@ -1,15 +1,49 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/updateSummaries": "src/api/updateSummaries/index.ts"
+  "./api/devicePools": "src/api/devicePools/index.ts"
+  "./api/clusterJobs": "src/api/clusterJobs/index.ts"
+  "./api/ownershipVouchers": "src/api/ownershipVouchers/index.ts"
+  "./api/edgeMachineJobs": "src/api/edgeMachineJobs/index.ts"
+  "./api/edgeMachines": "src/api/edgeMachines/index.ts"
+  "./api/validatedSolutionRecipes": "src/api/validatedSolutionRecipes/index.ts"
+  "./api/updateSummariesOperationGroup": "src/api/updateSummariesOperationGroup/index.ts"
+  "./api/updates": "src/api/updates/index.ts"
+  "./api/updateRuns": "src/api/updateRuns/index.ts"
+  "./api/skus": "src/api/skus/index.ts"
+  "./api/securitySettings": "src/api/securitySettings/index.ts"
+  "./api/publishers": "src/api/publishers/index.ts"
+  "./api/extensions": "src/api/extensions/index.ts"
+  "./api/edgeDevices": "src/api/edgeDevices/index.ts"
+  "./api/edgeDeviceJobs": "src/api/edgeDeviceJobs/index.ts"
+  "./api/deploymentSettings": "src/api/deploymentSettings/index.ts"
+  "./api/clusters": "src/api/clusters/index.ts"
+  "./api/offers": "src/api/offers/index.ts"
+  "./api/arcSettings": "src/api/arcSettings/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./api/updateContents": "src/api/updateContents/index.ts"
+  "./api/osImages": "src/api/osImages/index.ts"
+  "./api/platformUpdates": "src/api/platformUpdates/index.ts"
+  "./api/kubernetesVersions": "src/api/kubernetesVersions/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
