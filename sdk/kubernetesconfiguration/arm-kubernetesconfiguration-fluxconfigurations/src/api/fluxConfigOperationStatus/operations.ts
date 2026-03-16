@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext as Client } from "../index.js";
+import type { FluxConfigurationContext as Client } from "../index.js";
 import type { OperationStatusResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,

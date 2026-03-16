@@ -10,7 +10,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Use these APIs to create Flux Configuration resources through ARM, for Kubernetes Clusters. */
-export interface KubernetesConfigurationContext extends Client {
+export interface FluxConfigurationContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -19,7 +19,7 @@ export interface KubernetesConfigurationContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
+export interface FluxConfigurationClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,15 +28,15 @@ export interface KubernetesConfigurationClientOptionalParams extends ClientOptio
 }
 
 /** Use these APIs to create Flux Configuration resources through ARM, for Kubernetes Clusters. */
-export function createKubernetesConfiguration(
+export function createFluxConfiguration(
   credential: TokenCredential,
   subscriptionId: string,
-  options: KubernetesConfigurationClientOptionalParams = {},
-): KubernetesConfigurationContext {
+  options: FluxConfigurationClientOptionalParams = {},
+): FluxConfigurationContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-kubernetesconfiguration-fluxconfigurations/1.0.0`;
+  const userAgentInfo = `azsdk-js-arm-kubernetesconfiguration-fluxconfigurations/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -48,5 +48,5 @@ export function createKubernetesConfiguration(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as KubernetesConfigurationContext;
+  return { ...clientContext, apiVersion, subscriptionId } as FluxConfigurationContext;
 }

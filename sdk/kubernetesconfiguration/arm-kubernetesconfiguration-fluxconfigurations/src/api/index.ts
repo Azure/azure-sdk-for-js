@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  KubernetesConfigurationContext,
-  KubernetesConfigurationClientOptionalParams,
-} from "./kubernetesConfigurationContext.js";
-export { createKubernetesConfiguration } from "./kubernetesConfigurationContext.js";
+  FluxConfigurationContext,
+  FluxConfigurationClientOptionalParams,
+} from "./fluxConfigurationContext.js";
+export { createFluxConfiguration } from "./fluxConfigurationContext.js";

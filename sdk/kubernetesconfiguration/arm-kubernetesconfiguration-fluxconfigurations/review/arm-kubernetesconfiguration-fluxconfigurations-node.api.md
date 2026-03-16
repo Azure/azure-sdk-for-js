@@ -136,6 +136,20 @@ export interface FluxConfiguration extends ProxyResource {
     waitForReconciliation?: boolean;
 }
 
+// @public (undocumented)
+export class FluxConfigurationClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: FluxConfigurationClientOptionalParams);
+    readonly fluxConfigOperationStatus: FluxConfigOperationStatusOperations;
+    readonly fluxConfigurations: FluxConfigurationsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface FluxConfigurationClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
 // @public
 export interface FluxConfigurationPatch {
     azureBlob?: AzureBlobPatchDefinition;
@@ -321,20 +335,6 @@ export enum KnownSourceKindType {
 // @public
 export enum KnownVersions {
     V20250401 = "2025-04-01"
-}
-
-// @public (undocumented)
-export class KubernetesConfigurationClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesConfigurationClientOptionalParams);
-    readonly fluxConfigOperationStatus: FluxConfigOperationStatusOperations;
-    readonly fluxConfigurations: FluxConfigurationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -531,7 +531,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FluxConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

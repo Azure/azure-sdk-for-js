@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext } from "../../api/kubernetesConfigurationContext.js";
+import type { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
 import { get } from "../../api/fluxConfigOperationStatus/operations.js";
 import type { FluxConfigOperationStatusGetOptionalParams } from "../../api/fluxConfigOperationStatus/options.js";
 import type { OperationStatusResult } from "../../models/models.js";
@@ -20,7 +20,7 @@ export interface FluxConfigOperationStatusOperations {
   ) => Promise<OperationStatusResult>;
 }
 
-function _getFluxConfigOperationStatus(context: KubernetesConfigurationContext) {
+function _getFluxConfigOperationStatus(context: FluxConfigurationContext) {
   return {
     get: (
       resourceGroupName: string,
@@ -45,7 +45,7 @@ function _getFluxConfigOperationStatus(context: KubernetesConfigurationContext) 
 }
 
 export function _getFluxConfigOperationStatusOperations(
-  context: KubernetesConfigurationContext,
+  context: FluxConfigurationContext,
 ): FluxConfigOperationStatusOperations {
   return {
     ..._getFluxConfigOperationStatus(context),

@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { KubernetesConfigurationClient } from "./kubernetesConfigurationClient.js";
+export { FluxConfigurationClient } from "./fluxConfigurationClient.js";
 export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
@@ -76,7 +76,7 @@ export {
   KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
-export type { KubernetesConfigurationClientOptionalParams } from "./api/index.js";
+export type { FluxConfigurationClientOptionalParams } from "./api/index.js";
 export type { FluxConfigOperationStatusGetOptionalParams } from "./api/fluxConfigOperationStatus/index.js";
 export type {
   FluxConfigurationsListOptionalParams,

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type {
-  KubernetesConfigurationContext,
-  KubernetesConfigurationClientOptionalParams,
+  FluxConfigurationContext,
+  FluxConfigurationClientOptionalParams,
 } from "./api/index.js";
-import { createKubernetesConfiguration } from "./api/index.js";
+import { createFluxConfiguration } from "./api/index.js";
 import type { FluxConfigOperationStatusOperations } from "./classic/fluxConfigOperationStatus/index.js";
 import { _getFluxConfigOperationStatusOperations } from "./classic/fluxConfigOperationStatus/index.js";
 import type { FluxConfigurationsOperations } from "./classic/fluxConfigurations/index.js";
@@ -13,10 +13,10 @@ import { _getFluxConfigurationsOperations } from "./classic/fluxConfigurations/i
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { KubernetesConfigurationClientOptionalParams } from "./api/kubernetesConfigurationContext.js";
+export type { FluxConfigurationClientOptionalParams } from "./api/fluxConfigurationContext.js";
 
-export class KubernetesConfigurationClient {
-  private _client: KubernetesConfigurationContext;
+export class FluxConfigurationClient {
+  private _client: FluxConfigurationContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -24,13 +24,13 @@ export class KubernetesConfigurationClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: KubernetesConfigurationClientOptionalParams = {},
+    options: FluxConfigurationClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createKubernetesConfiguration(credential, subscriptionId, {
+    this._client = createFluxConfiguration(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

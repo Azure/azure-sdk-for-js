@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KubernetesConfigurationContext } from "../../api/kubernetesConfigurationContext.js";
+import type { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
 import {
   list,
   $delete,
@@ -135,7 +135,7 @@ export interface FluxConfigurationsOperations {
   ) => Promise<FluxConfiguration>;
 }
 
-function _getFluxConfigurations(context: KubernetesConfigurationContext) {
+function _getFluxConfigurations(context: FluxConfigurationContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -342,7 +342,7 @@ function _getFluxConfigurations(context: KubernetesConfigurationContext) {
 }
 
 export function _getFluxConfigurationsOperations(
-  context: KubernetesConfigurationContext,
+  context: FluxConfigurationContext,
 ): FluxConfigurationsOperations {
   return {
     ..._getFluxConfigurations(context),

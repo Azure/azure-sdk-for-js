@@ -9,16 +9,16 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createKubernetesConfiguration(credential: TokenCredential, subscriptionId: string, options?: KubernetesConfigurationClientOptionalParams): KubernetesConfigurationContext;
+export function createFluxConfiguration(credential: TokenCredential, subscriptionId: string, options?: FluxConfigurationClientOptionalParams): FluxConfigurationContext;
 
 // @public
-export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
+export interface FluxConfigurationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface KubernetesConfigurationContext extends Client {
+export interface FluxConfigurationContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }

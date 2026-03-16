@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
+export function createOrUpdate(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
 
 // @public
 export interface FluxConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -40,13 +40,13 @@ export interface FluxConfigurationsUpdateOptionalParams extends OperationOptions
 }
 
 // @public
-export function get(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams): Promise<FluxConfiguration>;
+export function get(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams): Promise<FluxConfiguration>;
 
 // @public
-export function list(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams): PagedAsyncIterableIterator<FluxConfiguration>;
+export function list(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams): PagedAsyncIterableIterator<FluxConfiguration>;
 
 // @public
-export function update(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
+export function update(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
 
 // (No @packageDocumentation comment for this package)
 

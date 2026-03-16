@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
+import { FluxConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createFluxConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
-  const client = new KubernetesConfigurationClient(credential, subscriptionId);
+  const client = new FluxConfigurationClient(credential, subscriptionId);
   const result = await client.fluxConfigurations.createOrUpdate(
     "rg1",
     "Microsoft.Kubernetes",
@@ -76,7 +76,7 @@ async function createFluxConfiguration(): Promise<void> {
 async function createFluxConfigurationWithBucketSourceKind(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
-  const client = new KubernetesConfigurationClient(credential, subscriptionId);
+  const client = new FluxConfigurationClient(credential, subscriptionId);
   const result = await client.fluxConfigurations.createOrUpdate(
     "rg1",
     "Microsoft.Kubernetes",
@@ -125,7 +125,7 @@ async function createFluxConfigurationWithBucketSourceKind(): Promise<void> {
 async function createFluxConfigurationWithOCIRepositorySourceKind(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
-  const client = new KubernetesConfigurationClient(credential, subscriptionId);
+  const client = new FluxConfigurationClient(credential, subscriptionId);
   const result = await client.fluxConfigurations.createOrUpdate(
     "rg1",
     "Microsoft.Kubernetes",
@@ -173,7 +173,7 @@ async function createFluxConfigurationWithOCIRepositorySourceKind(): Promise<voi
 async function createFluxConfigurationWithGitRepositoryProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
-  const client = new KubernetesConfigurationClient(credential, subscriptionId);
+  const client = new FluxConfigurationClient(credential, subscriptionId);
   const result = await client.fluxConfigurations.createOrUpdate(
     "rg1",
     "Microsoft.Kubernetes",

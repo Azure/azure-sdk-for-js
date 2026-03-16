@@ -12,7 +12,7 @@ export interface FluxConfigOperationStatusGetOptionalParams extends OperationOpt
 }
 
 // @public
-export function get(context: KubernetesConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, operationId: string, options?: FluxConfigOperationStatusGetOptionalParams): Promise<OperationStatusResult>;
+export function get(context: FluxConfigurationContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, operationId: string, options?: FluxConfigOperationStatusGetOptionalParams): Promise<OperationStatusResult>;
 
 // (No @packageDocumentation comment for this package)
 

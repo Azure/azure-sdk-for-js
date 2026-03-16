@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-kubernetesconfiguration-fluxconfigurations",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for KubernetesConfigurationClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -132,7 +132,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/kubernetesConfigurationContext.ts",
+        "path": "src/api/fluxConfigurationContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
