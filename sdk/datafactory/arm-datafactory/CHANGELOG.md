@@ -1,4 +1,1112 @@
 # Release History
+
+## 20.0.0 (2026-03-16)
+
+### Features Added
+  - Added operation group CredentialOperationsOperations
+  - Added operation group IntegrationRuntimeOperations
+  - Added operation DataFlowDebugSessionOperations.create
+  - Added operation DataFlowDebugSessionOperations.executeCommand
+  - Added operation DataFlowDebugSessionOperations.queryByFactory
+  - Added operation IntegrationRuntimeObjectMetadataOperations.refresh
+  - Added operation IntegrationRuntimesOperations.start
+  - Added operation IntegrationRuntimesOperations.stop
+  - Added operation TriggersOperations.start
+  - Added operation TriggersOperations.stop
+  - Added operation TriggersOperations.subscribeToEvents
+  - Added operation TriggersOperations.unsubscribeFromEvents
+  - Added Interface AmazonMWSLinkedServiceTypeProperties
+  - Added Interface AmazonRdsForLinkedServiceTypeProperties
+  - Added Interface AmazonRdsForOracleTableDatasetTypeProperties
+  - Added Interface AmazonRdsForSqlServerTableDatasetTypeProperties
+  - Added Interface AmazonRedshiftLinkedServiceTypeProperties
+  - Added Interface AmazonRedshiftTableDatasetTypeProperties
+  - Added Interface AmazonS3CompatibleLinkedServiceTypeProperties
+  - Added Interface AmazonS3DatasetTypeProperties
+  - Added Interface AmazonS3LinkedServiceTypeProperties
+  - Added Interface AppendVariableActivityTypeProperties
+  - Added Interface AppFiguresLinkedServiceTypeProperties
+  - Added Interface AsanaLinkedServiceTypeProperties
+  - Added Interface AvroDatasetTypeProperties
+  - Added Interface AzPowerShellSetupTypeProperties
+  - Added Interface AzureBatchLinkedServiceTypeProperties
+  - Added Interface AzureBlobDatasetTypeProperties
+  - Added Interface AzureBlobFSDatasetTypeProperties
+  - Added Interface AzureBlobFSLinkedServiceTypeProperties
+  - Added Interface AzureBlobStorageLinkedServiceTypeProperties
+  - Added Interface AzureDatabricksDeltaLakeDatasetTypeProperties
+  - Added Interface AzureDatabricksDetltaLakeLinkedServiceTypeProperties
+  - Added Interface AzureDatabricksLinkedServiceTypeProperties
+  - Added Interface AzureDataExplorerCommandActivityTypeProperties
+  - Added Interface AzureDataExplorerDatasetTypeProperties
+  - Added Interface AzureDataExplorerLinkedServiceTypeProperties
+  - Added Interface AzureDataLakeAnalyticsLinkedServiceTypeProperties
+  - Added Interface AzureDataLakeStoreDatasetTypeProperties
+  - Added Interface AzureDataLakeStoreLinkedServiceTypeProperties
+  - Added Interface AzureFileStorageLinkedServiceTypeProperties
+  - Added Interface AzureFunctionActivityTypeProperties
+  - Added Interface AzureFunctionLinkedServiceTypeProperties
+  - Added Interface AzureKeyVaultLinkedServiceTypeProperties
+  - Added Interface AzureMariaDBLinkedServiceTypeProperties
+  - Added Interface AzureMLBatchExecutionActivityTypeProperties
+  - Added Interface AzureMLExecutePipelineActivityTypeProperties
+  - Added Interface AzureMLLinkedServiceTypeProperties
+  - Added Interface AzureMLServiceLinkedServiceTypeProperties
+  - Added Interface AzureMLUpdateResourceActivityTypeProperties
+  - Added Interface AzureMySqlLinkedServiceTypeProperties
+  - Added Interface AzureMySqlTableDatasetTypeProperties
+  - Added Interface AzurePostgreSqlLinkedServiceTypeProperties
+  - Added Interface AzurePostgreSqlTableDatasetTypeProperties
+  - Added Interface AzureSearchIndexDatasetTypeProperties
+  - Added Interface AzureSearchLinkedServiceTypeProperties
+  - Added Interface AzureSqlDWTableDatasetTypeProperties
+  - Added Interface AzureSqlMITableDatasetTypeProperties
+  - Added Interface AzureSqlTableDatasetTypeProperties
+  - Added Interface AzureSynapseArtifactsLinkedServiceTypeProperties
+  - Added Interface AzureTableDatasetTypeProperties
+  - Added Interface BinaryDatasetTypeProperties
+  - Added Interface BlobEventsTriggerTypeProperties
+  - Added Interface BlobTriggerTypeProperties
+  - Added Interface CassandraLinkedServiceTypeProperties
+  - Added Interface CassandraTableDatasetTypeProperties
+  - Added Interface ChainingTriggerTypeProperties
+  - Added Interface ChangeDataCapture
+  - Added Interface CloudErrorBody
+  - Added Interface CmdkeySetupTypeProperties
+  - Added Interface CommonDataServiceForAppsEntityDatasetTypeProperties
+  - Added Interface CommonDataServiceForAppsLinkedServiceTypeProperties
+  - Added Interface ConcurLinkedServiceTypeProperties
+  - Added Interface CopyActivityTypeProperties
+  - Added Interface CosmosDbLinkedServiceTypeProperties
+  - Added Interface CosmosDbMongoDbApiCollectionDatasetTypeProperties
+  - Added Interface CosmosDbMongoDbApiLinkedServiceTypeProperties
+  - Added Interface CosmosDbSqlApiCollectionDatasetTypeProperties
+  - Added Interface CouchbaseLinkedServiceTypeProperties
+  - Added Interface Credential
+  - Added Interface CustomActivityTypeProperties
+  - Added Interface CustomEventsTriggerTypeProperties
+  - Added Interface DatabricksJobActivity
+  - Added Interface DatabricksJobActivityTypeProperties
+  - Added Interface DatabricksNotebookActivityTypeProperties
+  - Added Interface DatabricksSparkJarActivityTypeProperties
+  - Added Interface DatabricksSparkPythonActivityTypeProperties
+  - Added Interface DataLakeAnalyticsUsqlActivityTypeProperties
+  - Added Interface DataworldLinkedServiceTypeProperties
+  - Added Interface Db2LinkedServiceTypeProperties
+  - Added Interface Db2TableDatasetTypeProperties
+  - Added Interface DeleteActivityTypeProperties
+  - Added Interface DelimitedTextDatasetTypeProperties
+  - Added Interface DocumentDbCollectionDatasetTypeProperties
+  - Added Interface DrillDatasetTypeProperties
+  - Added Interface DrillLinkedServiceTypeProperties
+  - Added Interface DynamicsAXLinkedServiceTypeProperties
+  - Added Interface DynamicsAXResourceDatasetTypeProperties
+  - Added Interface DynamicsCrmEntityDatasetTypeProperties
+  - Added Interface DynamicsCrmLinkedServiceTypeProperties
+  - Added Interface DynamicsEntityDatasetTypeProperties
+  - Added Interface DynamicsLinkedServiceTypeProperties
+  - Added Interface EloquaLinkedServiceTypeProperties
+  - Added Interface EnableInteractiveQueryRequest
+  - Added Interface EnvironmentVariableSetupTypeProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ExcelDatasetTypeProperties
+  - Added Interface ExecutePipelineActivityTypeProperties
+  - Added Interface ExecuteSsisPackageActivityTypeProperties
+  - Added Interface FactoryProperties
+  - Added Interface FactoryUpdateProperties
+  - Added Interface FailActivityTypeProperties
+  - Added Interface FileServerLinkedServiceTypeProperties
+  - Added Interface FileShareDatasetTypeProperties
+  - Added Interface FilterActivityTypeProperties
+  - Added Interface FlowletTypeProperties
+  - Added Interface ForEachActivityTypeProperties
+  - Added Interface FtpServerLinkedServiceTypeProperties
+  - Added Interface GenericDatasetTypeProperties
+  - Added Interface GetMetadataActivityTypeProperties
+  - Added Interface GoogleAdWordsLinkedServiceTypeProperties
+  - Added Interface GoogleBigQueryDatasetTypeProperties
+  - Added Interface GoogleBigQueryLinkedServiceTypeProperties
+  - Added Interface GoogleBigQueryV2DatasetTypeProperties
+  - Added Interface GoogleBigQueryV2LinkedServiceTypeProperties
+  - Added Interface GoogleCloudStorageLinkedServiceTypeProperties
+  - Added Interface GoogleSheetsLinkedServiceTypeProperties
+  - Added Interface GreenplumDatasetTypeProperties
+  - Added Interface GreenplumLinkedServiceTypeProperties
+  - Added Interface HBaseLinkedServiceTypeProperties
+  - Added Interface HdfsLinkedServiceTypeProperties
+  - Added Interface HDInsightHiveActivityTypeProperties
+  - Added Interface HDInsightLinkedServiceTypeProperties
+  - Added Interface HDInsightMapReduceActivityTypeProperties
+  - Added Interface HDInsightOnDemandLinkedServiceTypeProperties
+  - Added Interface HDInsightPigActivityTypeProperties
+  - Added Interface HDInsightSparkActivityTypeProperties
+  - Added Interface HDInsightStreamingActivityTypeProperties
+  - Added Interface HiveDatasetTypeProperties
+  - Added Interface HiveLinkedServiceTypeProperties
+  - Added Interface HttpDatasetTypeProperties
+  - Added Interface HttpLinkedServiceTypeProperties
+  - Added Interface HubspotLinkedServiceTypeProperties
+  - Added Interface IcebergDatasetTypeProperties
+  - Added Interface IfConditionActivityTypeProperties
+  - Added Interface ImpalaDatasetTypeProperties
+  - Added Interface ImpalaLinkedServiceTypeProperties
+  - Added Interface InformixLinkedServiceTypeProperties
+  - Added Interface InformixTableDatasetTypeProperties
+  - Added Interface IntegrationRuntimeDisableInteractiveQueryOptionalParams
+  - Added Interface IntegrationRuntimeEnableInteractiveQueryOptionalParams
+  - Added Interface InteractiveQueryProperties
+  - Added Interface JiraLinkedServiceTypeProperties
+  - Added Interface JiraTableDatasetTypeProperties
+  - Added Interface JsonDatasetTypeProperties
+  - Added Interface LakeHouseLinkedServiceTypeProperties
+  - Added Interface LakeHouseTableDatasetTypeProperties
+  - Added Interface LicensedComponentSetupTypeProperties
+  - Added Interface LookupActivityTypeProperties
+  - Added Interface MagentoLinkedServiceTypeProperties
+  - Added Interface ManagedIdentityTypeProperties
+  - Added Interface ManagedIntegrationRuntimeStatusTypeProperties
+  - Added Interface ManagedIntegrationRuntimeTypeProperties
+  - Added Interface MapperTableProperties
+  - Added Interface MappingDataFlowTypeProperties
+  - Added Interface MariaDBLinkedServiceTypeProperties
+  - Added Interface MarketoLinkedServiceTypeProperties
+  - Added Interface MicrosoftAccessLinkedServiceTypeProperties
+  - Added Interface MicrosoftAccessTableDatasetTypeProperties
+  - Added Interface MongoDbAtlasCollectionDatasetTypeProperties
+  - Added Interface MongoDbAtlasLinkedServiceTypeProperties
+  - Added Interface MongoDbCollectionDatasetTypeProperties
+  - Added Interface MongoDbLinkedServiceTypeProperties
+  - Added Interface MongoDbV2CollectionDatasetTypeProperties
+  - Added Interface MongoDbV2LinkedServiceTypeProperties
+  - Added Interface MySqlLinkedServiceTypeProperties
+  - Added Interface MySqlTableDatasetTypeProperties
+  - Added Interface NetezzaLinkedServiceTypeProperties
+  - Added Interface NetezzaTableDatasetTypeProperties
+  - Added Interface ODataLinkedServiceTypeProperties
+  - Added Interface ODataResourceDatasetTypeProperties
+  - Added Interface OdbcLinkedServiceTypeProperties
+  - Added Interface OdbcTableDatasetTypeProperties
+  - Added Interface Office365DatasetTypeProperties
+  - Added Interface Office365LinkedServiceTypeProperties
+  - Added Interface OperationProperties
+  - Added Interface OracleCloudStorageLinkedServiceTypeProperties
+  - Added Interface OracleLinkedServiceTypeProperties
+  - Added Interface OracleServiceCloudLinkedServiceTypeProperties
+  - Added Interface OracleTableDatasetTypeProperties
+  - Added Interface OrcDatasetTypeProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ParquetDatasetTypeProperties
+  - Added Interface PaypalLinkedServiceTypeProperties
+  - Added Interface PhoenixDatasetTypeProperties
+  - Added Interface PhoenixLinkedServiceTypeProperties
+  - Added Interface Pipeline
+  - Added Interface PostgreSqlLinkedServiceTypeProperties
+  - Added Interface PostgreSqlTableDatasetTypeProperties
+  - Added Interface PostgreSqlV2LinkedServiceTypeProperties
+  - Added Interface PostgreSqlV2TableDatasetTypeProperties
+  - Added Interface PowerQueryTypeProperties
+  - Added Interface PrestoDatasetTypeProperties
+  - Added Interface PrestoLinkedServiceTypeProperties
+  - Added Interface ProxyResource
+  - Added Interface QuickbaseLinkedServiceTypeProperties
+  - Added Interface QuickBooksLinkedServiceTypeProperties
+  - Added Interface RelationalTableDatasetTypeProperties
+  - Added Interface RerunTumblingWindowTriggerTypeProperties
+  - Added Interface ResponsysLinkedServiceTypeProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RestResourceDatasetTypeProperties
+  - Added Interface RestServiceLinkedServiceTypeProperties
+  - Added Interface SalesforceLinkedServiceTypeProperties
+  - Added Interface SalesforceMarketingCloudLinkedServiceTypeProperties
+  - Added Interface SalesforceObjectDatasetTypeProperties
+  - Added Interface SalesforceServiceCloudLinkedServiceTypeProperties
+  - Added Interface SalesforceServiceCloudObjectDatasetTypeProperties
+  - Added Interface SalesforceServiceCloudV2LinkedServiceTypeProperties
+  - Added Interface SalesforceServiceCloudV2ObjectDatasetTypeProperties
+  - Added Interface SalesforceV2LinkedServiceTypeProperties
+  - Added Interface SalesforceV2ObjectDatasetTypeProperties
+  - Added Interface SapBWLinkedServiceTypeProperties
+  - Added Interface SapCloudForCustomerLinkedServiceTypeProperties
+  - Added Interface SapCloudForCustomerResourceDatasetTypeProperties
+  - Added Interface SapEccLinkedServiceTypeProperties
+  - Added Interface SapEccResourceDatasetTypeProperties
+  - Added Interface SapHanaLinkedServiceProperties
+  - Added Interface SapHanaTableDatasetTypeProperties
+  - Added Interface SapOdpLinkedServiceTypeProperties
+  - Added Interface SapOdpResourceDatasetTypeProperties
+  - Added Interface SapOpenHubLinkedServiceTypeProperties
+  - Added Interface SapOpenHubTableDatasetTypeProperties
+  - Added Interface SapTableLinkedServiceTypeProperties
+  - Added Interface SapTableResourceDatasetTypeProperties
+  - Added Interface ScheduleTriggerTypeProperties
+  - Added Interface ScriptActivityTypeProperties
+  - Added Interface SelfHostedIntegrationRuntimeStatusTypeProperties
+  - Added Interface SelfHostedIntegrationRuntimeTypeProperties
+  - Added Interface ServiceNowLinkedServiceTypeProperties
+  - Added Interface ServiceNowV2DatasetTypeProperties
+  - Added Interface ServiceNowV2LinkedServiceTypeProperties
+  - Added Interface ServicePrincipalCredentialTypeProperties
+  - Added Interface SetVariableActivityTypeProperties
+  - Added Interface SftpServerLinkedServiceTypeProperties
+  - Added Interface SharePointOnlineListDatasetTypeProperties
+  - Added Interface SharePointOnlineListLinkedServiceTypeProperties
+  - Added Interface ShopifyLinkedServiceTypeProperties
+  - Added Interface SmartsheetLinkedServiceTypeProperties
+  - Added Interface SnowflakeDatasetTypeProperties
+  - Added Interface SnowflakeLinkedServiceTypeProperties
+  - Added Interface SnowflakeLinkedV2ServiceTypeProperties
+  - Added Interface SparkDatasetTypeProperties
+  - Added Interface SparkLinkedServiceTypeProperties
+  - Added Interface SqlServerStoredProcedureActivityTypeProperties
+  - Added Interface SqlServerTableDatasetTypeProperties
+  - Added Interface SquareLinkedServiceTypeProperties
+  - Added Interface SsisLogLocationTypeProperties
+  - Added Interface SsisPackageLocationTypeProperties
+  - Added Interface SwitchActivityTypeProperties
+  - Added Interface SybaseLinkedServiceTypeProperties
+  - Added Interface SybaseTableDatasetTypeProperties
+  - Added Interface SynapseNotebookActivityTypeProperties
+  - Added Interface SynapseSparkJobActivityTypeProperties
+  - Added Interface SystemData
+  - Added Interface TeamDeskLinkedServiceTypeProperties
+  - Added Interface TeradataLinkedServiceTypeProperties
+  - Added Interface TeradataTableDatasetTypeProperties
+  - Added Interface TumblingWindowTriggerTypeProperties
+  - Added Interface TwilioLinkedServiceTypeProperties
+  - Added Interface UntilActivityTypeProperties
+  - Added Interface ValidationActivityTypeProperties
+  - Added Interface VerticaDatasetTypeProperties
+  - Added Interface VerticaLinkedServiceTypeProperties
+  - Added Interface WaitActivityTypeProperties
+  - Added Interface WarehouseLinkedServiceTypeProperties
+  - Added Interface WarehouseTableDatasetTypeProperties
+  - Added Interface WebActivityTypeProperties
+  - Added Interface WebHookActivityTypeProperties
+  - Added Interface WebTableDatasetTypeProperties
+  - Added Interface XeroLinkedServiceTypeProperties
+  - Added Interface XmlDatasetTypeProperties
+  - Added Interface ZendeskLinkedServiceTypeProperties
+  - Added Interface ZohoLinkedServiceTypeProperties
+  - Interface Activity has a new optional parameter additionalProperties
+  - Interface ActivityDependency has a new optional parameter additionalProperties
+  - Interface ActivityPolicy has a new optional parameter additionalProperties
+  - Interface ActivityRun has a new optional parameter additionalProperties
+  - Interface AmazonMWSLinkedService has a new optional parameter additionalProperties
+  - Interface AmazonMWSObjectDataset has a new optional parameter additionalProperties
+  - Interface AmazonMWSSource has a new optional parameter additionalProperties
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter authenticationType
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter enableBulkLoad
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchTswtzAsTimestamp
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initializationString
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initialLobFetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter server
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter statementCacheSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter supportV1DataTypes
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter username
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter additionalProperties
+  - Interface AmazonRdsForOracleSource has a new optional parameter numberPrecision
+  - Interface AmazonRdsForOracleSource has a new optional parameter numberScale
+  - Interface AmazonRdsForOracleSource has a new optional parameter additionalProperties
+  - Interface AmazonRdsForOracleTableDataset has a new optional parameter additionalProperties
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter additionalProperties
+  - Interface AmazonRdsForSqlServerSource has a new optional parameter additionalProperties
+  - Interface AmazonRdsForSqlServerTableDataset has a new optional parameter additionalProperties
+  - Interface AmazonRedshiftLinkedService has a new optional parameter additionalProperties
+  - Interface AmazonRedshiftSource has a new optional parameter additionalProperties
+  - Interface AmazonRedshiftTableDataset has a new optional parameter additionalProperties
+  - Interface AmazonS3CompatibleLinkedService has a new optional parameter additionalProperties
+  - Interface AmazonS3CompatibleLocation has a new optional parameter additionalProperties
+  - Interface AmazonS3CompatibleReadSettings has a new optional parameter additionalProperties
+  - Interface AmazonS3Dataset has a new optional parameter additionalProperties
+  - Interface AmazonS3LinkedService has a new optional parameter additionalProperties
+  - Interface AmazonS3Location has a new optional parameter additionalProperties
+  - Interface AmazonS3ReadSettings has a new optional parameter additionalProperties
+  - Interface AppendVariableActivity has a new optional parameter additionalProperties
+  - Interface AppFiguresLinkedService has a new optional parameter additionalProperties
+  - Interface AsanaLinkedService has a new optional parameter additionalProperties
+  - Interface AvroDataset has a new optional parameter additionalProperties
+  - Interface AvroFormat has a new optional parameter additionalProperties
+  - Interface AvroSink has a new optional parameter additionalProperties
+  - Interface AvroSource has a new optional parameter additionalProperties
+  - Interface AvroWriteSettings has a new optional parameter additionalProperties
+  - Interface AzureBatchLinkedService has a new optional parameter additionalProperties
+  - Interface AzureBlobDataset has a new optional parameter additionalProperties
+  - Interface AzureBlobFSDataset has a new optional parameter additionalProperties
+  - Interface AzureBlobFSLinkedService has a new optional parameter additionalProperties
+  - Interface AzureBlobFSLocation has a new optional parameter additionalProperties
+  - Interface AzureBlobFSReadSettings has a new optional parameter additionalProperties
+  - Interface AzureBlobFSSink has a new optional parameter additionalProperties
+  - Interface AzureBlobFSSource has a new optional parameter additionalProperties
+  - Interface AzureBlobFSWriteSettings has a new optional parameter additionalProperties
+  - Interface AzureBlobStorageLinkedService has a new optional parameter additionalProperties
+  - Interface AzureBlobStorageLocation has a new optional parameter additionalProperties
+  - Interface AzureBlobStorageReadSettings has a new optional parameter additionalProperties
+  - Interface AzureBlobStorageWriteSettings has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeDataset has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeExportCommand has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeImportCommand has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeLinkedService has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeSink has a new optional parameter additionalProperties
+  - Interface AzureDatabricksDeltaLakeSource has a new optional parameter additionalProperties
+  - Interface AzureDatabricksLinkedService has a new optional parameter dataSecurityMode
+  - Interface AzureDatabricksLinkedService has a new optional parameter additionalProperties
+  - Interface AzureDataExplorerCommandActivity has a new optional parameter additionalProperties
+  - Interface AzureDataExplorerLinkedService has a new optional parameter additionalProperties
+  - Interface AzureDataExplorerSink has a new optional parameter additionalProperties
+  - Interface AzureDataExplorerSource has a new optional parameter additionalProperties
+  - Interface AzureDataExplorerTableDataset has a new optional parameter additionalProperties
+  - Interface AzureDataLakeAnalyticsLinkedService has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreDataset has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreLinkedService has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreLocation has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreReadSettings has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreSink has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreSource has a new optional parameter additionalProperties
+  - Interface AzureDataLakeStoreWriteSettings has a new optional parameter additionalProperties
+  - Interface AzureFileStorageLinkedService has a new optional parameter additionalProperties
+  - Interface AzureFileStorageLocation has a new optional parameter additionalProperties
+  - Interface AzureFileStorageReadSettings has a new optional parameter additionalProperties
+  - Interface AzureFileStorageWriteSettings has a new optional parameter additionalProperties
+  - Interface AzureFunctionActivity has a new optional parameter additionalProperties
+  - Interface AzureFunctionLinkedService has a new optional parameter additionalProperties
+  - Interface AzureKeyVaultLinkedService has a new optional parameter additionalProperties
+  - Interface AzureMariaDBLinkedService has a new optional parameter additionalProperties
+  - Interface AzureMariaDBSource has a new optional parameter additionalProperties
+  - Interface AzureMariaDBTableDataset has a new optional parameter additionalProperties
+  - Interface AzureMLBatchExecutionActivity has a new optional parameter additionalProperties
+  - Interface AzureMLExecutePipelineActivity has a new optional parameter additionalProperties
+  - Interface AzureMLLinkedService has a new optional parameter additionalProperties
+  - Interface AzureMLServiceLinkedService has a new optional parameter additionalProperties
+  - Interface AzureMLUpdateResourceActivity has a new optional parameter additionalProperties
+  - Interface AzureMySqlLinkedService has a new optional parameter additionalProperties
+  - Interface AzureMySqlSink has a new optional parameter additionalProperties
+  - Interface AzureMySqlSource has a new optional parameter additionalProperties
+  - Interface AzureMySqlTableDataset has a new optional parameter additionalProperties
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter additionalProperties
+  - Interface AzurePostgreSqlSink has a new optional parameter additionalProperties
+  - Interface AzurePostgreSqlSource has a new optional parameter additionalProperties
+  - Interface AzurePostgreSqlTableDataset has a new optional parameter additionalProperties
+  - Interface AzureQueueSink has a new optional parameter additionalProperties
+  - Interface AzureSearchIndexDataset has a new optional parameter additionalProperties
+  - Interface AzureSearchIndexSink has a new optional parameter additionalProperties
+  - Interface AzureSearchLinkedService has a new optional parameter additionalProperties
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter additionalProperties
+  - Interface AzureSqlDWLinkedService has a new optional parameter additionalProperties
+  - Interface AzureSqlDWTableDataset has a new optional parameter additionalProperties
+  - Interface AzureSqlMILinkedService has a new optional parameter additionalProperties
+  - Interface AzureSqlMITableDataset has a new optional parameter additionalProperties
+  - Interface AzureSqlSink has a new optional parameter additionalProperties
+  - Interface AzureSqlSource has a new optional parameter additionalProperties
+  - Interface AzureSqlTableDataset has a new optional parameter additionalProperties
+  - Interface AzureStorageLinkedService has a new optional parameter additionalProperties
+  - Interface AzureSynapseArtifactsLinkedService has a new optional parameter additionalProperties
+  - Interface AzureTableDataset has a new optional parameter additionalProperties
+  - Interface AzureTableSink has a new optional parameter additionalProperties
+  - Interface AzureTableSource has a new optional parameter additionalProperties
+  - Interface AzureTableStorageLinkedService has a new optional parameter additionalProperties
+  - Interface BinaryDataset has a new optional parameter additionalProperties
+  - Interface BinaryReadSettings has a new optional parameter additionalProperties
+  - Interface BinarySink has a new optional parameter additionalProperties
+  - Interface BinarySource has a new optional parameter additionalProperties
+  - Interface BlobEventsTrigger has a new optional parameter additionalProperties
+  - Interface BlobSink has a new optional parameter additionalProperties
+  - Interface BlobSource has a new optional parameter additionalProperties
+  - Interface BlobTrigger has a new optional parameter additionalProperties
+  - Interface CassandraLinkedService has a new optional parameter additionalProperties
+  - Interface CassandraSource has a new optional parameter additionalProperties
+  - Interface CassandraTableDataset has a new optional parameter additionalProperties
+  - Interface ChainingTrigger has a new optional parameter additionalProperties
+  - Interface ChangeDataCaptureResource has a new optional parameter additionalProperties
+  - Interface ChangeDataCaptureResource has a new optional parameter systemData
+  - Interface CommonDataServiceForAppsEntityDataset has a new optional parameter additionalProperties
+  - Interface CommonDataServiceForAppsLinkedService has a new optional parameter additionalProperties
+  - Interface CommonDataServiceForAppsSink has a new optional parameter additionalProperties
+  - Interface CommonDataServiceForAppsSource has a new optional parameter additionalProperties
+  - Interface CompressionReadSettings has a new optional parameter additionalProperties
+  - Interface ConcurLinkedService has a new optional parameter additionalProperties
+  - Interface ConcurObjectDataset has a new optional parameter additionalProperties
+  - Interface ConcurSource has a new optional parameter additionalProperties
+  - Interface ControlActivity has a new optional parameter additionalProperties
+  - Interface CopyActivity has a new optional parameter additionalProperties
+  - Interface CopyComputeScaleProperties has a new optional parameter additionalProperties
+  - Interface CopySink has a new optional parameter additionalProperties
+  - Interface CopySource has a new optional parameter additionalProperties
+  - Interface CosmosDbLinkedService has a new optional parameter additionalProperties
+  - Interface CosmosDbMongoDbApiCollectionDataset has a new optional parameter additionalProperties
+  - Interface CosmosDbMongoDbApiLinkedService has a new optional parameter additionalProperties
+  - Interface CosmosDbMongoDbApiSink has a new optional parameter additionalProperties
+  - Interface CosmosDbMongoDbApiSource has a new optional parameter additionalProperties
+  - Interface CosmosDbSqlApiCollectionDataset has a new optional parameter additionalProperties
+  - Interface CosmosDbSqlApiSink has a new optional parameter additionalProperties
+  - Interface CosmosDbSqlApiSource has a new optional parameter additionalProperties
+  - Interface CouchbaseLinkedService has a new optional parameter additionalProperties
+  - Interface CouchbaseSource has a new optional parameter additionalProperties
+  - Interface CouchbaseTableDataset has a new optional parameter additionalProperties
+  - Interface CredentialReference has a new optional parameter additionalProperties
+  - Interface CredentialResource has a new optional parameter systemData
+  - Interface CustomActivity has a new optional parameter additionalProperties
+  - Interface CustomDataset has a new optional parameter additionalProperties
+  - Interface CustomDataSourceLinkedService has a new optional parameter additionalProperties
+  - Interface CustomEventsTrigger has a new optional parameter additionalProperties
+  - Interface DatabricksNotebookActivity has a new optional parameter additionalProperties
+  - Interface DatabricksSparkJarActivity has a new optional parameter additionalProperties
+  - Interface DatabricksSparkPythonActivity has a new optional parameter additionalProperties
+  - Interface DataFlowDebugPackage has a new optional parameter additionalProperties
+  - Interface DataFlowDebugSessionInfo has a new optional parameter additionalProperties
+  - Interface DataFlowReference has a new optional parameter additionalProperties
+  - Interface DataFlowResource has a new optional parameter systemData
+  - Interface DataFlowSourceSetting has a new optional parameter additionalProperties
+  - Interface DataLakeAnalyticsUsqlActivity has a new optional parameter additionalProperties
+  - Interface Dataset has a new optional parameter additionalProperties
+  - Interface DatasetCompression has a new optional parameter additionalProperties
+  - Interface DatasetLocation has a new optional parameter additionalProperties
+  - Interface DatasetResource has a new optional parameter systemData
+  - Interface DatasetStorageFormat has a new optional parameter additionalProperties
+  - Interface DataworldLinkedService has a new optional parameter additionalProperties
+  - Interface Db2LinkedService has a new optional parameter additionalProperties
+  - Interface Db2Source has a new optional parameter additionalProperties
+  - Interface Db2TableDataset has a new optional parameter additionalProperties
+  - Interface DeleteActivity has a new optional parameter additionalProperties
+  - Interface DelimitedTextDataset has a new optional parameter additionalProperties
+  - Interface DelimitedTextReadSettings has a new optional parameter additionalProperties
+  - Interface DelimitedTextSink has a new optional parameter additionalProperties
+  - Interface DelimitedTextSource has a new optional parameter additionalProperties
+  - Interface DelimitedTextWriteSettings has a new optional parameter additionalProperties
+  - Interface DocumentDbCollectionDataset has a new optional parameter additionalProperties
+  - Interface DocumentDbCollectionSink has a new optional parameter additionalProperties
+  - Interface DocumentDbCollectionSource has a new optional parameter additionalProperties
+  - Interface DrillLinkedService has a new optional parameter additionalProperties
+  - Interface DrillSource has a new optional parameter additionalProperties
+  - Interface DrillTableDataset has a new optional parameter additionalProperties
+  - Interface DynamicsAXLinkedService has a new optional parameter additionalProperties
+  - Interface DynamicsAXResourceDataset has a new optional parameter additionalProperties
+  - Interface DynamicsAXSource has a new optional parameter additionalProperties
+  - Interface DynamicsCrmEntityDataset has a new optional parameter additionalProperties
+  - Interface DynamicsCrmLinkedService has a new optional parameter additionalProperties
+  - Interface DynamicsCrmSink has a new optional parameter additionalProperties
+  - Interface DynamicsCrmSource has a new optional parameter additionalProperties
+  - Interface DynamicsEntityDataset has a new optional parameter additionalProperties
+  - Interface DynamicsLinkedService has a new optional parameter additionalProperties
+  - Interface DynamicsSink has a new optional parameter additionalProperties
+  - Interface DynamicsSource has a new optional parameter additionalProperties
+  - Interface EloquaLinkedService has a new optional parameter additionalProperties
+  - Interface EloquaObjectDataset has a new optional parameter additionalProperties
+  - Interface EloquaSource has a new optional parameter additionalProperties
+  - Interface ExcelDataset has a new optional parameter additionalProperties
+  - Interface ExcelSource has a new optional parameter additionalProperties
+  - Interface ExecuteDataFlowActivity has a new optional parameter additionalProperties
+  - Interface ExecutePipelineActivity has a new optional parameter additionalProperties
+  - Interface ExecutePipelineActivityPolicy has a new optional parameter additionalProperties
+  - Interface ExecuteSsisPackageActivity has a new optional parameter additionalProperties
+  - Interface ExecuteWranglingDataflowActivity has a new optional parameter additionalProperties
+  - Interface ExecutionActivity has a new optional parameter additionalProperties
+  - Interface ExportSettings has a new optional parameter additionalProperties
+  - Interface Factory has a new optional parameter additionalProperties
+  - Interface Factory has a new optional parameter systemData
+  - Interface FailActivity has a new optional parameter additionalProperties
+  - Interface FileServerLinkedService has a new optional parameter additionalProperties
+  - Interface FileServerLocation has a new optional parameter additionalProperties
+  - Interface FileServerReadSettings has a new optional parameter additionalProperties
+  - Interface FileServerWriteSettings has a new optional parameter additionalProperties
+  - Interface FileShareDataset has a new optional parameter additionalProperties
+  - Interface FileSystemSink has a new optional parameter additionalProperties
+  - Interface FileSystemSource has a new optional parameter additionalProperties
+  - Interface FilterActivity has a new optional parameter additionalProperties
+  - Interface ForEachActivity has a new optional parameter additionalProperties
+  - Interface FormatReadSettings has a new optional parameter additionalProperties
+  - Interface FormatWriteSettings has a new optional parameter additionalProperties
+  - Interface FtpReadSettings has a new optional parameter additionalProperties
+  - Interface FtpServerLinkedService has a new optional parameter additionalProperties
+  - Interface FtpServerLocation has a new optional parameter additionalProperties
+  - Interface GetMetadataActivity has a new optional parameter additionalProperties
+  - Interface GlobalParameterResource has a new optional parameter systemData
+  - Interface GoogleAdWordsLinkedService has a new optional parameter additionalProperties
+  - Interface GoogleAdWordsObjectDataset has a new optional parameter additionalProperties
+  - Interface GoogleAdWordsSource has a new optional parameter additionalProperties
+  - Interface GoogleBigQueryLinkedService has a new optional parameter additionalProperties
+  - Interface GoogleBigQueryObjectDataset has a new optional parameter additionalProperties
+  - Interface GoogleBigQuerySource has a new optional parameter additionalProperties
+  - Interface GoogleBigQueryV2LinkedService has a new optional parameter additionalProperties
+  - Interface GoogleBigQueryV2ObjectDataset has a new optional parameter additionalProperties
+  - Interface GoogleBigQueryV2Source has a new optional parameter additionalProperties
+  - Interface GoogleCloudStorageLinkedService has a new optional parameter additionalProperties
+  - Interface GoogleCloudStorageLocation has a new optional parameter additionalProperties
+  - Interface GoogleCloudStorageReadSettings has a new optional parameter additionalProperties
+  - Interface GoogleSheetsLinkedService has a new optional parameter additionalProperties
+  - Interface GreenplumLinkedService has a new optional parameter additionalProperties
+  - Interface GreenplumSource has a new optional parameter additionalProperties
+  - Interface GreenplumTableDataset has a new optional parameter additionalProperties
+  - Interface HBaseLinkedService has a new optional parameter additionalProperties
+  - Interface HBaseObjectDataset has a new optional parameter additionalProperties
+  - Interface HBaseSource has a new optional parameter additionalProperties
+  - Interface HdfsLinkedService has a new optional parameter additionalProperties
+  - Interface HdfsLocation has a new optional parameter additionalProperties
+  - Interface HdfsReadSettings has a new optional parameter additionalProperties
+  - Interface HdfsSource has a new optional parameter additionalProperties
+  - Interface HDInsightHiveActivity has a new optional parameter additionalProperties
+  - Interface HDInsightLinkedService has a new optional parameter clusterAuthType
+  - Interface HDInsightLinkedService has a new optional parameter credential
+  - Interface HDInsightLinkedService has a new optional parameter additionalProperties
+  - Interface HDInsightMapReduceActivity has a new optional parameter additionalProperties
+  - Interface HDInsightOnDemandLinkedService has a new optional parameter clusterResourceGroupAuthType
+  - Interface HDInsightOnDemandLinkedService has a new optional parameter additionalProperties
+  - Interface HDInsightPigActivity has a new optional parameter additionalProperties
+  - Interface HDInsightSparkActivity has a new optional parameter additionalProperties
+  - Interface HDInsightStreamingActivity has a new optional parameter additionalProperties
+  - Interface HiveLinkedService has a new optional parameter enableServerCertificateValidation
+  - Interface HiveLinkedService has a new optional parameter additionalProperties
+  - Interface HiveObjectDataset has a new optional parameter additionalProperties
+  - Interface HiveSource has a new optional parameter additionalProperties
+  - Interface HttpDataset has a new optional parameter additionalProperties
+  - Interface HttpLinkedService has a new optional parameter additionalProperties
+  - Interface HttpReadSettings has a new optional parameter additionalProperties
+  - Interface HttpServerLocation has a new optional parameter additionalProperties
+  - Interface HttpSource has a new optional parameter additionalProperties
+  - Interface HubspotLinkedService has a new optional parameter additionalProperties
+  - Interface HubspotObjectDataset has a new optional parameter additionalProperties
+  - Interface HubspotSource has a new optional parameter additionalProperties
+  - Interface IcebergDataset has a new optional parameter additionalProperties
+  - Interface IcebergSink has a new optional parameter additionalProperties
+  - Interface IcebergWriteSettings has a new optional parameter additionalProperties
+  - Interface IfConditionActivity has a new optional parameter additionalProperties
+  - Interface ImpalaLinkedService has a new optional parameter enableServerCertificateValidation
+  - Interface ImpalaLinkedService has a new optional parameter thriftTransportProtocol
+  - Interface ImpalaLinkedService has a new optional parameter additionalProperties
+  - Interface ImpalaObjectDataset has a new optional parameter additionalProperties
+  - Interface ImpalaSource has a new optional parameter additionalProperties
+  - Interface ImportSettings has a new optional parameter additionalProperties
+  - Interface InformixLinkedService has a new optional parameter additionalProperties
+  - Interface InformixSink has a new optional parameter additionalProperties
+  - Interface InformixSource has a new optional parameter additionalProperties
+  - Interface InformixTableDataset has a new optional parameter additionalProperties
+  - Interface IntegrationRuntime has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeComputeProperties has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeConnectionInfo has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeDataFlowProperties has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeNodeMonitoringData has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeResource has a new optional parameter systemData
+  - Interface IntegrationRuntimeSsisCatalogInfo has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeSsisProperties has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeStatus has a new optional parameter additionalProperties
+  - Interface IntegrationRuntimeVNetProperties has a new optional parameter additionalProperties
+  - Interface JiraLinkedService has a new optional parameter additionalProperties
+  - Interface JiraObjectDataset has a new optional parameter schemaTypePropertiesSchema
+  - Interface JiraObjectDataset has a new optional parameter table
+  - Interface JiraObjectDataset has a new optional parameter additionalProperties
+  - Interface JiraSource has a new optional parameter additionalProperties
+  - Interface JsonDataset has a new optional parameter additionalProperties
+  - Interface JsonFormat has a new optional parameter additionalProperties
+  - Interface JsonReadSettings has a new optional parameter additionalProperties
+  - Interface JsonSink has a new optional parameter additionalProperties
+  - Interface JsonSource has a new optional parameter additionalProperties
+  - Interface JsonWriteSettings has a new optional parameter additionalProperties
+  - Interface LakeHouseLinkedService has a new optional parameter authenticationType
+  - Interface LakeHouseLinkedService has a new optional parameter credential
+  - Interface LakeHouseLinkedService has a new optional parameter additionalProperties
+  - Interface LakeHouseLocation has a new optional parameter additionalProperties
+  - Interface LakeHouseReadSettings has a new optional parameter additionalProperties
+  - Interface LakeHouseTableDataset has a new optional parameter additionalProperties
+  - Interface LakeHouseTableSink has a new optional parameter additionalProperties
+  - Interface LakeHouseTableSource has a new optional parameter additionalProperties
+  - Interface LakeHouseWriteSettings has a new optional parameter additionalProperties
+  - Interface LinkedService has a new optional parameter additionalProperties
+  - Interface LinkedServiceResource has a new optional parameter systemData
+  - Interface LogStorageSettings has a new optional parameter additionalProperties
+  - Interface LookupActivity has a new optional parameter treatDecimalAsString
+  - Interface LookupActivity has a new optional parameter additionalProperties
+  - Interface MagentoLinkedService has a new optional parameter additionalProperties
+  - Interface MagentoObjectDataset has a new optional parameter additionalProperties
+  - Interface MagentoSource has a new optional parameter additionalProperties
+  - Interface ManagedIdentityCredential has a new optional parameter additionalProperties
+  - Interface ManagedIntegrationRuntime has a new optional parameter interactiveQuery
+  - Interface ManagedIntegrationRuntime has a new optional parameter additionalProperties
+  - Interface ManagedIntegrationRuntimeError has a new optional parameter additionalProperties
+  - Interface ManagedIntegrationRuntimeNode has a new optional parameter additionalProperties
+  - Interface ManagedIntegrationRuntimeOperationResult has a new optional parameter additionalProperties
+  - Interface ManagedIntegrationRuntimeStatus has a new optional parameter additionalProperties
+  - Interface ManagedPrivateEndpoint has a new optional parameter additionalProperties
+  - Interface ManagedPrivateEndpointResource has a new optional parameter systemData
+  - Interface ManagedVirtualNetwork has a new optional parameter additionalProperties
+  - Interface ManagedVirtualNetworkResource has a new optional parameter systemData
+  - Interface MariaDBLinkedService has a new optional parameter additionalProperties
+  - Interface MariaDBSource has a new optional parameter additionalProperties
+  - Interface MariaDBTableDataset has a new optional parameter additionalProperties
+  - Interface MarketoLinkedService has a new optional parameter additionalProperties
+  - Interface MarketoObjectDataset has a new optional parameter additionalProperties
+  - Interface MarketoSource has a new optional parameter additionalProperties
+  - Interface MicrosoftAccessLinkedService has a new optional parameter additionalProperties
+  - Interface MicrosoftAccessSink has a new optional parameter additionalProperties
+  - Interface MicrosoftAccessSource has a new optional parameter additionalProperties
+  - Interface MicrosoftAccessTableDataset has a new optional parameter additionalProperties
+  - Interface MongoDbAtlasCollectionDataset has a new optional parameter additionalProperties
+  - Interface MongoDbAtlasLinkedService has a new optional parameter additionalProperties
+  - Interface MongoDbAtlasSink has a new optional parameter additionalProperties
+  - Interface MongoDbAtlasSource has a new optional parameter additionalProperties
+  - Interface MongoDbCollectionDataset has a new optional parameter additionalProperties
+  - Interface MongoDbCursorMethodsProperties has a new optional parameter additionalProperties
+  - Interface MongoDbLinkedService has a new optional parameter additionalProperties
+  - Interface MongoDbSource has a new optional parameter additionalProperties
+  - Interface MongoDbV2CollectionDataset has a new optional parameter additionalProperties
+  - Interface MongoDbV2LinkedService has a new optional parameter additionalProperties
+  - Interface MongoDbV2Sink has a new optional parameter additionalProperties
+  - Interface MongoDbV2Source has a new optional parameter additionalProperties
+  - Interface MultiplePipelineTrigger has a new optional parameter additionalProperties
+  - Interface MySqlLinkedService has a new optional parameter additionalProperties
+  - Interface MySqlSource has a new optional parameter additionalProperties
+  - Interface MySqlTableDataset has a new optional parameter additionalProperties
+  - Interface NetezzaLinkedService has a new optional parameter database
+  - Interface NetezzaLinkedService has a new optional parameter port
+  - Interface NetezzaLinkedService has a new optional parameter securityLevel
+  - Interface NetezzaLinkedService has a new optional parameter server
+  - Interface NetezzaLinkedService has a new optional parameter uid
+  - Interface NetezzaLinkedService has a new optional parameter additionalProperties
+  - Interface NetezzaSource has a new optional parameter additionalProperties
+  - Interface NetezzaTableDataset has a new optional parameter additionalProperties
+  - Interface ODataLinkedService has a new optional parameter additionalProperties
+  - Interface ODataResourceDataset has a new optional parameter additionalProperties
+  - Interface ODataSource has a new optional parameter additionalProperties
+  - Interface OdbcLinkedService has a new optional parameter additionalProperties
+  - Interface OdbcSink has a new optional parameter additionalProperties
+  - Interface OdbcSource has a new optional parameter additionalProperties
+  - Interface OdbcTableDataset has a new optional parameter additionalProperties
+  - Interface Office365Dataset has a new optional parameter additionalProperties
+  - Interface Office365LinkedService has a new optional parameter additionalProperties
+  - Interface Office365Source has a new optional parameter additionalProperties
+  - Interface OracleCloudStorageLinkedService has a new optional parameter additionalProperties
+  - Interface OracleCloudStorageLocation has a new optional parameter additionalProperties
+  - Interface OracleCloudStorageReadSettings has a new optional parameter additionalProperties
+  - Interface OracleLinkedService has a new optional parameter additionalProperties
+  - Interface OracleServiceCloudLinkedService has a new optional parameter additionalProperties
+  - Interface OracleServiceCloudObjectDataset has a new optional parameter additionalProperties
+  - Interface OracleServiceCloudSource has a new optional parameter additionalProperties
+  - Interface OracleSink has a new optional parameter additionalProperties
+  - Interface OracleSource has a new optional parameter numberPrecision
+  - Interface OracleSource has a new optional parameter numberScale
+  - Interface OracleSource has a new optional parameter additionalProperties
+  - Interface OracleTableDataset has a new optional parameter additionalProperties
+  - Interface OrcDataset has a new optional parameter additionalProperties
+  - Interface OrcFormat has a new optional parameter additionalProperties
+  - Interface OrcSink has a new optional parameter additionalProperties
+  - Interface OrcSource has a new optional parameter additionalProperties
+  - Interface OrcWriteSettings has a new optional parameter additionalProperties
+  - Interface ParquetDataset has a new optional parameter additionalProperties
+  - Interface ParquetFormat has a new optional parameter additionalProperties
+  - Interface ParquetReadSettings has a new optional parameter additionalProperties
+  - Interface ParquetSink has a new optional parameter additionalProperties
+  - Interface ParquetSource has a new optional parameter additionalProperties
+  - Interface ParquetWriteSettings has a new optional parameter additionalProperties
+  - Interface PaypalLinkedService has a new optional parameter additionalProperties
+  - Interface PaypalObjectDataset has a new optional parameter additionalProperties
+  - Interface PaypalSource has a new optional parameter additionalProperties
+  - Interface PhoenixLinkedService has a new optional parameter additionalProperties
+  - Interface PhoenixObjectDataset has a new optional parameter additionalProperties
+  - Interface PhoenixSource has a new optional parameter additionalProperties
+  - Interface PipelineExternalComputeScaleProperties has a new optional parameter additionalProperties
+  - Interface PipelineResource has a new optional parameter additionalProperties
+  - Interface PipelineResource has a new optional parameter systemData
+  - Interface PipelineRun has a new optional parameter additionalProperties
+  - Interface PolybaseSettings has a new optional parameter additionalProperties
+  - Interface PostgreSqlLinkedService has a new optional parameter additionalProperties
+  - Interface PostgreSqlSource has a new optional parameter additionalProperties
+  - Interface PostgreSqlTableDataset has a new optional parameter additionalProperties
+  - Interface PostgreSqlV2LinkedService has a new optional parameter additionalProperties
+  - Interface PostgreSqlV2Source has a new optional parameter additionalProperties
+  - Interface PostgreSqlV2TableDataset has a new optional parameter additionalProperties
+  - Interface PrestoLinkedService has a new optional parameter additionalProperties
+  - Interface PrestoObjectDataset has a new optional parameter additionalProperties
+  - Interface PrestoSource has a new optional parameter additionalProperties
+  - Interface PrivateEndpointConnectionResource has a new optional parameter systemData
+  - Interface QuickbaseLinkedService has a new optional parameter additionalProperties
+  - Interface QuickBooksLinkedService has a new optional parameter refreshToken
+  - Interface QuickBooksLinkedService has a new optional parameter additionalProperties
+  - Interface QuickBooksObjectDataset has a new optional parameter additionalProperties
+  - Interface QuickBooksSource has a new optional parameter additionalProperties
+  - Interface RecurrenceSchedule has a new optional parameter additionalProperties
+  - Interface RecurrenceScheduleOccurrence has a new optional parameter additionalProperties
+  - Interface RedirectIncompatibleRowSettings has a new optional parameter additionalProperties
+  - Interface RelationalSource has a new optional parameter additionalProperties
+  - Interface RelationalTableDataset has a new optional parameter additionalProperties
+  - Interface RerunTumblingWindowTrigger has a new optional parameter additionalProperties
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResponsysLinkedService has a new optional parameter additionalProperties
+  - Interface ResponsysObjectDataset has a new optional parameter additionalProperties
+  - Interface ResponsysSource has a new optional parameter additionalProperties
+  - Interface RestResourceDataset has a new optional parameter additionalProperties
+  - Interface RestServiceLinkedService has a new optional parameter additionalProperties
+  - Interface RestSink has a new optional parameter additionalProperties
+  - Interface RestSource has a new optional parameter additionalProperties
+  - Interface SalesforceLinkedService has a new optional parameter additionalProperties
+  - Interface SalesforceMarketingCloudLinkedService has a new optional parameter additionalProperties
+  - Interface SalesforceMarketingCloudObjectDataset has a new optional parameter additionalProperties
+  - Interface SalesforceMarketingCloudSource has a new optional parameter additionalProperties
+  - Interface SalesforceObjectDataset has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudLinkedService has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudObjectDataset has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudSink has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudSource has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudV2LinkedService has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudV2ObjectDataset has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudV2Sink has a new optional parameter additionalProperties
+  - Interface SalesforceServiceCloudV2Source has a new optional parameter additionalProperties
+  - Interface SalesforceSink has a new optional parameter additionalProperties
+  - Interface SalesforceSource has a new optional parameter additionalProperties
+  - Interface SalesforceV2LinkedService has a new optional parameter additionalProperties
+  - Interface SalesforceV2ObjectDataset has a new optional parameter additionalProperties
+  - Interface SalesforceV2Sink has a new optional parameter additionalProperties
+  - Interface SalesforceV2Source has a new optional parameter partitionOption
+  - Interface SalesforceV2Source has a new optional parameter additionalProperties
+  - Interface SapBwCubeDataset has a new optional parameter additionalProperties
+  - Interface SapBWLinkedService has a new optional parameter additionalProperties
+  - Interface SapBwSource has a new optional parameter additionalProperties
+  - Interface SapCloudForCustomerLinkedService has a new optional parameter additionalProperties
+  - Interface SapCloudForCustomerResourceDataset has a new optional parameter additionalProperties
+  - Interface SapCloudForCustomerSink has a new optional parameter additionalProperties
+  - Interface SapCloudForCustomerSource has a new optional parameter additionalProperties
+  - Interface SapEccLinkedService has a new optional parameter additionalProperties
+  - Interface SapEccResourceDataset has a new optional parameter additionalProperties
+  - Interface SapEccSource has a new optional parameter additionalProperties
+  - Interface SapHanaLinkedService has a new optional parameter additionalProperties
+  - Interface SapHanaSource has a new optional parameter additionalProperties
+  - Interface SapHanaTableDataset has a new optional parameter additionalProperties
+  - Interface SapOdpLinkedService has a new optional parameter additionalProperties
+  - Interface SapOdpResourceDataset has a new optional parameter additionalProperties
+  - Interface SapOdpSource has a new optional parameter additionalProperties
+  - Interface SapOpenHubLinkedService has a new optional parameter additionalProperties
+  - Interface SapOpenHubSource has a new optional parameter additionalProperties
+  - Interface SapOpenHubTableDataset has a new optional parameter additionalProperties
+  - Interface SapTableLinkedService has a new optional parameter additionalProperties
+  - Interface SapTableResourceDataset has a new optional parameter additionalProperties
+  - Interface SapTableSource has a new optional parameter additionalProperties
+  - Interface ScheduleTrigger has a new optional parameter additionalProperties
+  - Interface ScheduleTriggerRecurrence has a new optional parameter additionalProperties
+  - Interface ScriptActivity has a new optional parameter treatDecimalAsString
+  - Interface ScriptActivity has a new optional parameter additionalProperties
+  - Interface SelfHostedIntegrationRuntime has a new optional parameter additionalProperties
+  - Interface SelfHostedIntegrationRuntimeNode has a new optional parameter additionalProperties
+  - Interface SelfHostedIntegrationRuntimeStatus has a new optional parameter additionalProperties
+  - Interface ServiceNowLinkedService has a new optional parameter additionalProperties
+  - Interface ServiceNowObjectDataset has a new optional parameter additionalProperties
+  - Interface ServiceNowSource has a new optional parameter additionalProperties
+  - Interface ServiceNowV2LinkedService has a new optional parameter additionalProperties
+  - Interface ServiceNowV2ObjectDataset has a new optional parameter additionalProperties
+  - Interface ServiceNowV2Source has a new optional parameter additionalProperties
+  - Interface ServicePrincipalCredential has a new optional parameter additionalProperties
+  - Interface SetVariableActivity has a new optional parameter additionalProperties
+  - Interface SftpLocation has a new optional parameter additionalProperties
+  - Interface SftpReadSettings has a new optional parameter additionalProperties
+  - Interface SftpServerLinkedService has a new optional parameter additionalProperties
+  - Interface SftpWriteSettings has a new optional parameter additionalProperties
+  - Interface SharePointOnlineListLinkedService has a new optional parameter additionalProperties
+  - Interface SharePointOnlineListResourceDataset has a new optional parameter additionalProperties
+  - Interface SharePointOnlineListSource has a new optional parameter additionalProperties
+  - Interface ShopifyLinkedService has a new optional parameter additionalProperties
+  - Interface ShopifyObjectDataset has a new optional parameter additionalProperties
+  - Interface ShopifySource has a new optional parameter additionalProperties
+  - Interface SmartsheetLinkedService has a new optional parameter additionalProperties
+  - Interface SnowflakeDataset has a new optional parameter additionalProperties
+  - Interface SnowflakeExportCopyCommand has a new optional parameter additionalProperties
+  - Interface SnowflakeImportCopyCommand has a new optional parameter additionalProperties
+  - Interface SnowflakeLinkedService has a new optional parameter additionalProperties
+  - Interface SnowflakeSink has a new optional parameter additionalProperties
+  - Interface SnowflakeSource has a new optional parameter additionalProperties
+  - Interface SnowflakeV2Dataset has a new optional parameter additionalProperties
+  - Interface SnowflakeV2LinkedService has a new optional parameter useUtcTimestamps
+  - Interface SnowflakeV2LinkedService has a new optional parameter additionalProperties
+  - Interface SnowflakeV2Sink has a new optional parameter additionalProperties
+  - Interface SnowflakeV2Source has a new optional parameter additionalProperties
+  - Interface SparkLinkedService has a new optional parameter enableServerCertificateValidation
+  - Interface SparkLinkedService has a new optional parameter additionalProperties
+  - Interface SparkObjectDataset has a new optional parameter additionalProperties
+  - Interface SparkSource has a new optional parameter additionalProperties
+  - Interface SqlDWSink has a new optional parameter additionalProperties
+  - Interface SqlDWSource has a new optional parameter additionalProperties
+  - Interface SqlMISink has a new optional parameter additionalProperties
+  - Interface SqlMISource has a new optional parameter additionalProperties
+  - Interface SqlServerLinkedService has a new optional parameter additionalProperties
+  - Interface SqlServerSink has a new optional parameter additionalProperties
+  - Interface SqlServerSource has a new optional parameter additionalProperties
+  - Interface SqlServerStoredProcedureActivity has a new optional parameter additionalProperties
+  - Interface SqlServerTableDataset has a new optional parameter additionalProperties
+  - Interface SqlSink has a new optional parameter additionalProperties
+  - Interface SqlSource has a new optional parameter additionalProperties
+  - Interface SquareLinkedService has a new optional parameter additionalProperties
+  - Interface SquareObjectDataset has a new optional parameter additionalProperties
+  - Interface SquareSource has a new optional parameter additionalProperties
+  - Interface StagingSettings has a new optional parameter additionalProperties
+  - Interface StoreReadSettings has a new optional parameter additionalProperties
+  - Interface StoreWriteSettings has a new optional parameter additionalProperties
+  - Interface SwitchActivity has a new optional parameter additionalProperties
+  - Interface SybaseLinkedService has a new optional parameter additionalProperties
+  - Interface SybaseSource has a new optional parameter additionalProperties
+  - Interface SybaseTableDataset has a new optional parameter additionalProperties
+  - Interface SynapseNotebookActivity has a new optional parameter additionalProperties
+  - Interface SynapseSparkJobDefinitionActivity has a new optional parameter additionalProperties
+  - Interface TabularSource has a new optional parameter additionalProperties
+  - Interface TarGZipReadSettings has a new optional parameter additionalProperties
+  - Interface TarReadSettings has a new optional parameter additionalProperties
+  - Interface TeamDeskLinkedService has a new optional parameter additionalProperties
+  - Interface TeradataImportCommand has a new optional parameter additionalProperties
+  - Interface TeradataLinkedService has a new optional parameter additionalProperties
+  - Interface TeradataSink has a new optional parameter additionalProperties
+  - Interface TeradataSource has a new optional parameter additionalProperties
+  - Interface TeradataTableDataset has a new optional parameter additionalProperties
+  - Interface TextFormat has a new optional parameter additionalProperties
+  - Interface Trigger has a new optional parameter additionalProperties
+  - Interface TriggerResource has a new optional parameter systemData
+  - Interface TriggerRun has a new optional parameter additionalProperties
+  - Interface TumblingWindowTrigger has a new optional parameter additionalProperties
+  - Interface TwilioLinkedService has a new optional parameter additionalProperties
+  - Interface UntilActivity has a new optional parameter additionalProperties
+  - Interface ValidationActivity has a new optional parameter additionalProperties
+  - Interface VerticaLinkedService has a new optional parameter additionalProperties
+  - Interface VerticaSource has a new optional parameter additionalProperties
+  - Interface VerticaTableDataset has a new optional parameter additionalProperties
+  - Interface WaitActivity has a new optional parameter additionalProperties
+  - Interface WarehouseLinkedService has a new optional parameter authenticationType
+  - Interface WarehouseLinkedService has a new optional parameter credential
+  - Interface WarehouseLinkedService has a new optional parameter additionalProperties
+  - Interface WarehouseSink has a new optional parameter additionalProperties
+  - Interface WarehouseSource has a new optional parameter additionalProperties
+  - Interface WarehouseTableDataset has a new optional parameter additionalProperties
+  - Interface WebActivity has a new optional parameter additionalProperties
+  - Interface WebHookActivity has a new optional parameter additionalProperties
+  - Interface WebLinkedService has a new optional parameter additionalProperties
+  - Interface WebSource has a new optional parameter additionalProperties
+  - Interface WebTableDataset has a new optional parameter additionalProperties
+  - Interface XeroLinkedService has a new optional parameter additionalProperties
+  - Interface XeroObjectDataset has a new optional parameter additionalProperties
+  - Interface XeroSource has a new optional parameter additionalProperties
+  - Interface XmlDataset has a new optional parameter additionalProperties
+  - Interface XmlReadSettings has a new optional parameter additionalProperties
+  - Interface XmlSource has a new optional parameter additionalProperties
+  - Interface ZendeskLinkedService has a new optional parameter additionalProperties
+  - Interface ZipDeflateReadSettings has a new optional parameter additionalProperties
+  - Interface ZohoLinkedService has a new optional parameter additionalProperties
+  - Interface ZohoObjectDataset has a new optional parameter additionalProperties
+  - Interface ZohoSource has a new optional parameter additionalProperties
+  - Added Type Alias AmazonRdsForOracleAuthenticationType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias DatasetReferenceType
+  - Added Type Alias ExpressionType
+  - Added Type Alias HDInsightClusterAuthenticationType
+  - Added Type Alias HDInsightOndemandClusterResourceGroupAuthenticationType
+  - Added Type Alias ImpalaThriftTransportProtocol
+  - Added Type Alias IntegrationRuntimeReferenceType
+  - Added Type Alias InteractiveCapabilityStatus
+  - Added Type Alias LakehouseAuthenticationType
+  - Added Type Alias NetezzaSecurityLevelType
+  - Added Type Alias PipelineReferenceType
+  - Added Type Alias WarehouseAuthenticationType
+  - Added Enum AzureClouds
+  - Added Enum KnownAmazonRdsForOracleAuthenticationType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDatasetReferenceType
+  - Added Enum KnownExpressionType
+  - Added Enum KnownHDInsightClusterAuthenticationType
+  - Added Enum KnownHDInsightOndemandClusterResourceGroupAuthenticationType
+  - Added Enum KnownIntegrationRuntimeReferenceType
+  - Added Enum KnownInteractiveCapabilityStatus
+  - Added Enum KnownLakehouseAuthenticationType
+  - Added Enum KnownNetezzaSecurityLevelType
+  - Added Enum KnownPipelineReferenceType
+  - Added Enum KnownVersions
+  - Added Enum KnownWarehouseAuthenticationType
+
+### Breaking Changes
+  - Removed operation DataFlowDebugSession.beginCreate
+  - Removed operation DataFlowDebugSession.beginCreateAndWait
+  - Removed operation DataFlowDebugSession.beginExecuteCommand
+  - Removed operation DataFlowDebugSession.beginExecuteCommandAndWait
+  - Removed operation DataFlowDebugSession.listQueryByFactory
+  - Removed operation IntegrationRuntimeObjectMetadata.beginRefresh
+  - Removed operation IntegrationRuntimeObjectMetadata.beginRefreshAndWait
+  - Removed operation IntegrationRuntimes.beginStart
+  - Removed operation IntegrationRuntimes.beginStartAndWait
+  - Removed operation IntegrationRuntimes.beginStop
+  - Removed operation IntegrationRuntimes.beginStopAndWait
+  - Removed operation Triggers.beginStart
+  - Removed operation Triggers.beginStartAndWait
+  - Removed operation Triggers.beginStop
+  - Removed operation Triggers.beginStopAndWait
+  - Removed operation Triggers.beginSubscribeToEvents
+  - Removed operation Triggers.beginSubscribeToEventsAndWait
+  - Removed operation Triggers.beginUnsubscribeFromEvents
+  - Removed operation Triggers.beginUnsubscribeFromEventsAndWait
+  - Operation DataFlowDebugSession.addDataFlow has a new signature
+  - Operation DataFlows.createOrUpdate has a new signature
+  - Operation DataFlows.get has a new signature
+  - Operation Datasets.createOrUpdate has a new signature
+  - Operation Datasets.get has a new signature
+  - Operation Factories.configureFactoryRepo has a new signature
+  - Operation Factories.createOrUpdate has a new signature
+  - Operation Factories.get has a new signature
+  - Operation Factories.update has a new signature
+  - Operation IntegrationRuntimeObjectMetadata.get has a new signature
+  - Operation IntegrationRuntimes.createLinkedIntegrationRuntime has a new signature
+  - Operation IntegrationRuntimes.createOrUpdate has a new signature
+  - Operation IntegrationRuntimes.get has a new signature
+  - Operation IntegrationRuntimes.getStatus has a new signature
+  - Operation IntegrationRuntimes.update has a new signature
+  - Operation LinkedServices.createOrUpdate has a new signature
+  - Operation LinkedServices.get has a new signature
+  - Operation Pipelines.createOrUpdate has a new signature
+  - Operation Pipelines.get has a new signature
+  - Operation Triggers.createOrUpdate has a new signature
+  - Operation Triggers.get has a new signature
+  - Operation Triggers.queryByFactory has a new signature
+  - Removed Interface AdditionalColumns
+  - Removed Interface ChangeDataCaptureListResponse
+  - Removed Interface CopyTranslator
+  - Removed Interface Credential_2
+  - Removed Interface CredentialListResponse
+  - Removed Interface CredentialOperations
+  - Removed Interface DataFlowListResponse
+  - Removed Interface DatasetDataElement
+  - Removed Interface DatasetListResponse
+  - Removed Interface DatasetSchemaDataElement
+  - Removed Interface FactoryListResponse
+  - Removed Interface GetDataFactoryOperationStatusResponse
+  - Removed Interface GlobalParameterListResponse
+  - Removed Interface IntegrationRuntimeListResponse
+  - Removed Interface IntegrationRuntimeStatusListResponse
+  - Removed Interface LinkedServiceListResponse
+  - Removed Interface ManagedPrivateEndpointListResponse
+  - Removed Interface ManagedVirtualNetworkListResponse
+  - Removed Interface OperationListResponse
+  - Removed Interface OutputColumn
+  - Removed Interface PipelineListResponse
+  - Removed Interface PrivateEndpointConnectionListResponse
+  - Removed Interface QueryDataFlowDebugSessionsResponse
+  - Removed Interface StoredProcedureParameter
+  - Removed Interface TabularTranslator
+  - Removed Interface TriggerListResponse
+  - Removed Interface TypeConversionSettings
+  - Type of parameter type of interface Activity is changed from "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob" to string
+  - Type of parameter type of interface CompressionReadSettings is changed from "ZipDeflateReadSettings" | "TarReadSettings" | "TarGZipReadSettings" to string
+  - Type of parameter type of interface CopySink is changed from "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "TeradataSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink" to string
+  - Type of parameter type of interface CopySource is changed from "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakeHouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source" | "ServiceNowV2Source" to string
+  - Type of parameter type of interface CustomSetupBase is changed from "CmdkeySetup" | "EnvironmentVariableSetup" | "ComponentSetup" | "AzPowerShellSetup" to string
+  - Type of parameter type of interface DataFlow is changed from "MappingDataFlow" | "Flowlet" | "WranglingDataFlow" to string
+  - Type of parameter type of interface Dataset is changed from "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "Iceberg" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakehouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object" to string
+  - Type of parameter type of interface DatasetLocation is changed from "AzureBlobStorageLocation" | "AzureBlobFSLocation" | "AzureDataLakeStoreLocation" | "AmazonS3Location" | "FileServerLocation" | "AzureFileStorageLocation" | "AmazonS3CompatibleLocation" | "OracleCloudStorageLocation" | "GoogleCloudStorageLocation" | "FtpServerLocation" | "SftpLocation" | "HttpServerLocation" | "HdfsLocation" | "LakeHouseLocation" to string
+  - Type of parameter type of interface DatasetReference is changed from "DatasetReference" to DatasetReferenceType
+  - Type of parameter type of interface DatasetStorageFormat is changed from "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat" to string
+  - Type of parameter type of interface DependencyReference is changed from "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference" | "SelfDependencyTumblingWindowTriggerReference" to string
+  - Type of parameter sinks of interface ExecutePowerQueryActivityTypeProperties is changed from {
+        [propertyName: string]: PowerQuerySink;
+    } to Record<string, PowerQuerySink>
+  - Type of parameter sinks of interface ExecuteWranglingDataflowActivity is changed from {
+        [propertyName: string]: PowerQuerySink;
+    } to Record<string, PowerQuerySink>
+  - Type of parameter type of interface ExecutionActivity is changed from "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob" to "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob"
+  - Type of parameter type of interface ExportSettings is changed from "SnowflakeExportCopyCommand" | "AzureDatabricksDeltaLakeExportCommand" to string
+  - Type of parameter type of interface Expression is changed from "Expression" to ExpressionType
+  - Type of parameter type of interface FactoryRepoConfiguration is changed from "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration" to string
+  - Type of parameter type of interface FormatReadSettings is changed from "ParquetReadSettings" | "DelimitedTextReadSettings" | "JsonReadSettings" | "XmlReadSettings" | "BinaryReadSettings" to string
+  - Type of parameter type of interface FormatWriteSettings is changed from "AvroWriteSettings" | "OrcWriteSettings" | "ParquetWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings" | "IcebergWriteSettings" to string
+  - Type of parameter type of interface ImportSettings is changed from "TeradataImportCommand" | "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand" to string
+  - Type of parameter type of interface IntegrationRuntime is changed from "Managed" | "SelfHosted" to IntegrationRuntimeType
+  - Type of parameter type of interface IntegrationRuntimeReference is changed from "IntegrationRuntimeReference" to IntegrationRuntimeReferenceType
+  - Type of parameter type of interface IntegrationRuntimeStatus is changed from "Managed" | "SelfHosted" to IntegrationRuntimeType
+  - Type of parameter authorizationType of interface LinkedIntegrationRuntimeType is changed from "Key" | "RBAC" to string
+  - Type of parameter type of interface LinkedService is changed from "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "Lakehouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2" to string
+  - Type of parameter type of interface PipelineReference is changed from "PipelineReference" to PipelineReferenceType
+  - Type of parameter type of interface SecretBase is changed from "SecureString" | "AzureKeyVaultSecret" to string
+  - Type of parameter type of interface SsisObjectMetadata is changed from "Folder" | "Project" | "Package" | "Environment" to SsisObjectMetadataType
+  - Type of parameter type of interface StoreReadSettings is changed from "AzureBlobStorageReadSettings" | "AzureBlobFSReadSettings" | "AzureDataLakeStoreReadSettings" | "AmazonS3ReadSettings" | "FileServerReadSettings" | "AzureFileStorageReadSettings" | "AmazonS3CompatibleReadSettings" | "OracleCloudStorageReadSettings" | "GoogleCloudStorageReadSettings" | "FtpReadSettings" | "SftpReadSettings" | "HttpReadSettings" | "HdfsReadSettings" | "LakeHouseReadSettings" to string
+  - Type of parameter type of interface StoreWriteSettings is changed from "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakeHouseWriteSettings" to string
+  - Type of parameter type of interface Trigger is changed from "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger" | "TumblingWindowTrigger" | "RerunTumblingWindowTrigger" | "ChainingTrigger" to string
+  - Type of parameter authenticationType of interface WebLinkedServiceTypeProperties is changed from "Anonymous" | "Basic" | "ClientCertificate" to WebAuthenticationType
+  - Interface Resource no longer has parameter eTag
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Parameter value of interface SsisObjectMetadataListResponse is now required
+  - Parameter connectionString of interface AmazonRdsForOracleLinkedService is now optional
+  - Removed Type Alias AmazonRdsForOraclePartitionOption
+  - Removed Type Alias AvroCompressionCodec
+  - Removed Type Alias CompressionCodec
+  - Removed Type Alias CopyBehaviorType
+  - Removed Type Alias CopyTranslatorUnion
+  - Removed Type Alias DatasetCompressionLevel
+  - Removed Type Alias DynamicsAuthenticationType
+  - Removed Type Alias DynamicsDeploymentType
+  - Removed Type Alias HdiNodeTypes
+  - Removed Type Alias JsonFormatFilePattern
+  - Removed Type Alias JsonWriteFilePattern
+  - Removed Type Alias NetezzaPartitionOption
+  - Removed Type Alias OraclePartitionOption
+  - Removed Type Alias OrcCompressionCodec
+  - Removed Type Alias SalesforceSourceReadBehavior
+  - Removed Type Alias SapHanaPartitionOption
+  - Removed Type Alias SapTablePartitionOption
+  - Removed Type Alias ScriptType
+  - Removed Type Alias ServicePrincipalCredentialType
+  - Removed Type Alias SqlDWWriteBehaviorEnum
+  - Removed Type Alias SqlPartitionOption
+  - Removed Type Alias SqlWriteBehaviorEnum
+  - Removed Type Alias StoredProcedureParameterType
+  - Removed Type Alias TeradataPartitionOption
+  - Type alias "ActivityUnion" has been changed
+  - Type alias "CompressionReadSettingsUnion" has been changed
+  - Type alias "CopySinkUnion" has been changed
+  - Type alias "CopySourceUnion" has been changed
+  - Type alias "CredentialUnion" has been changed
+  - Type alias "CustomSetupBaseUnion" has been changed
+  - Type alias "DataFlowUnion" has been changed
+  - Type alias "DatasetLocationUnion" has been changed
+  - Type alias "DatasetStorageFormatUnion" has been changed
+  - Type alias "DatasetUnion" has been changed
+  - Type alias "DependencyReferenceUnion" has been changed
+  - Type alias "ExecutionActivityUnion" has been changed
+  - Type alias "ExportSettingsUnion" has been changed
+  - Type alias "FactoryRepoConfigurationUnion" has been changed
+  - Type alias "FormatReadSettingsUnion" has been changed
+  - Type alias "FormatWriteSettingsUnion" has been changed
+  - Type alias "ImportSettingsUnion" has been changed
+  - Type alias "IntegrationRuntimeStatusUnion" has been changed
+  - Type alias "IntegrationRuntimeUnion" has been changed
+  - Type alias "LinkedIntegrationRuntimeTypeUnion" has been changed
+  - Type alias "LinkedServiceUnion" has been changed
+  - Type alias "MultiplePipelineTriggerUnion" has been changed
+  - Type alias "SecretBaseUnion" has been changed
+  - Type alias "SsisObjectMetadataUnion" has been changed
+  - Type alias "StoreReadSettingsUnion" has been changed
+  - Type alias "StoreWriteSettingsUnion" has been changed
+  - Type alias "TriggerUnion" has been changed
+  - Type alias "WebLinkedServiceTypePropertiesUnion" has been changed
+  - Removed Enum KnownAmazonRdsForOraclePartitionOption
+  - Removed Enum KnownAvroCompressionCodec
+  - Removed Enum KnownCompressionCodec
+  - Removed Enum KnownCopyBehaviorType
+  - Removed Enum KnownDatasetCompressionLevel
+  - Removed Enum KnownDynamicsAuthenticationType
+  - Removed Enum KnownDynamicsDeploymentType
+  - Removed Enum KnownHdiNodeTypes
+  - Removed Enum KnownJsonFormatFilePattern
+  - Removed Enum KnownJsonWriteFilePattern
+  - Removed Enum KnownNetezzaPartitionOption
+  - Removed Enum KnownOraclePartitionOption
+  - Removed Enum KnownOrcCompressionCodec
+  - Removed Enum KnownSalesforceSourceReadBehavior
+  - Removed Enum KnownSapHanaPartitionOption
+  - Removed Enum KnownSapTablePartitionOption
+  - Removed Enum KnownScriptType
+  - Removed Enum KnownServicePrincipalCredentialType
+  - Removed Enum KnownSqlDWWriteBehaviorEnum
+  - Removed Enum KnownSqlPartitionOption
+  - Removed Enum KnownSqlWriteBehaviorEnum
+  - Removed Enum KnownStoredProcedureParameterType
+  - Removed Enum KnownTeradataPartitionOption
+
     
 ## 19.0.0 (2025-04-11)
     
