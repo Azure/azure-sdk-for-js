@@ -1,189 +1,215 @@
 # Release History
 
-## 5.0.0 (2026-03-07)
+## 4.1.0 (2026-03-16)
 
 ### Features Added
-  - Added operation ManagedHsmsOperations.createOrUpdate
-  - Added operation ManagedHsmsOperations.delete
-  - Added operation ManagedHsmsOperations.purgeDeleted
-  - Added operation ManagedHsmsOperations.update
-  - Added operation MhsmPrivateEndpointConnectionsOperations.delete
-  - Added operation PrivateEndpointConnectionsOperations.delete
-  - Added operation VaultsOperations.createOrUpdate
-  - Added operation VaultsOperations.purgeDeleted
-  - Added Interface MhsmPrivateEndpointConnectionProperties
-  - Added Interface MhsmPrivateLinkResourceProperties
-  - Added Interface OperationProperties
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
-  - Added Interface PrivateEndpointConnectionProperties
-  - Added Interface PrivateLinkResourceProperties
-  - Added Interface RestorePollerOptions
-  - Added Interface SimplePollerLike
-  - Added Type Alias AzureSupportedClouds
-  - Added Enum AzureClouds
-  - Added Enum KnownVersions
-
-### Breaking Changes
-  - Operation ManagedHsms.beginPurgeDeletedAndWait has a new signature
-  - Removed Interface ManagedHsmResource
-  - Parameter location of interface MhsmPrivateLinkResource is now required
-
-## 4.0.0 (2025-11-25)
-
-### Features Added
-  - Added Interface MhsmServiceTagRule
-  - Added Interface Permissions
-  - Added Interface ProxyResource
-  - Added Interface TrackedResource
-  - Added Interface VaultsCreateOrUpdateHeaders
-  - Added Interface VaultsPurgeDeletedHeaders
-  - Interface DeletedManagedHsm has a new optional parameter systemData
-  - Interface DeletedVault has a new optional parameter systemData
-  - Interface Key has a new optional parameter systemData
-  - Interface ManagedHsmKey has a new optional parameter systemData
-  - Interface ManagedHsmsCreateOrUpdateHeaders has a new optional parameter retryAfter
-  - Interface ManagedHsmsDeleteHeaders has a new optional parameter retryAfter
-  - Interface ManagedHsmsPurgeDeletedHeaders has a new optional parameter retryAfter
-  - Interface ManagedHsmsUpdateHeaders has a new optional parameter retryAfter
-  - Interface MhsmNetworkRuleSet has a new optional parameter serviceTags
-  - Interface MhsmPrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
-  - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface Resource has a new optional parameter systemData
-  - Interface Secret has a new optional parameter systemData
-  - Added Type Alias CreatedByType
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownReason
-  - Operation ManagedHsms.checkMhsmNameAvailability has a new signature
-  - Operation Vaults.checkNameAvailability has a new signature
-  - Type alias "Reason" has been changed
-
-### Breaking Changes
-
-  - Removed Interface ProxyResourceWithoutSystemData
-  - Interface Resource no longer has parameter location
-  - Interface Resource no longer has parameter tags
-  - Removed Type Alias IdentityType
-  - Removed Enum KnownIdentityType
-
-    
-## 3.2.0 (2025-03-12)
-    
-### Features Added
-
-  - Enum KnownManagedHsmSkuFamily has a new value C
-    
-    
-## 3.1.0 (2023-10-18)
-    
-### Features Added
-
-  - Added Interface ManagedServiceIdentity
-  - Added Interface UserAssignedIdentity
-  - Added Type Alias ManagedServiceIdentityType
-  - Interface ManagedHsmResource has a new optional parameter identity
-  - Added Enum KnownManagedServiceIdentityType
-    
-    
-## 3.0.0 (2023-04-10)
-    
-### Features Added
-
-  - Added operation group ManagedHsmKeys
-  - Added operation group MhsmRegions
-  - Added operation ManagedHsms.checkMhsmNameAvailability
+  - Added operation group KeysOperations
+  - Added operation group ManagedHsmKeysOperations
+  - Added operation group ManagedHsmsOperations
+  - Added operation group MhsmPrivateEndpointConnectionsOperations
+  - Added operation group MhsmPrivateLinkResourcesOperations
+  - Added operation group MhsmRegionsOperations
+  - Added operation group OperationsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added operation group SecretsOperations
+  - Added operation group VaultsOperations
+  - Added Class KeyVaultManagementClient
+  - Added Interface AccessPolicyEntry
   - Added Interface Action
+  - Added Interface Attributes
   - Added Interface CheckMhsmNameAvailabilityParameters
   - Added Interface CheckMhsmNameAvailabilityResult
+  - Added Interface CheckNameAvailabilityResult
+  - Added Interface CloudError
+  - Added Interface CloudErrorBody
+  - Added Interface DeletedManagedHsm
+  - Added Interface DeletedManagedHsmProperties
+  - Added Interface DeletedVault
+  - Added Interface DeletedVaultProperties
+  - Added Interface DimensionProperties
+  - Added Interface ErrorModel
+  - Added Interface IPRule
   - Added Interface Key
+  - Added Interface KeyAttributes
+  - Added Interface KeyCreateParameters
+  - Added Interface KeyProperties
   - Added Interface KeyReleasePolicy
   - Added Interface KeyRotationPolicyAttributes
+  - Added Interface KeysCreateIfNotExistOptionalParams
+  - Added Interface KeysGetOptionalParams
+  - Added Interface KeysGetVersionOptionalParams
+  - Added Interface KeysListOptionalParams
+  - Added Interface KeysListVersionsOptionalParams
+  - Added Interface KeyVaultManagementClientOptionalParams
   - Added Interface LifetimeAction
+  - Added Interface LogSpecification
   - Added Interface ManagedHsm
   - Added Interface ManagedHsmAction
+  - Added Interface ManagedHsmError
   - Added Interface ManagedHsmKey
   - Added Interface ManagedHsmKeyAttributes
   - Added Interface ManagedHsmKeyCreateParameters
-  - Added Interface ManagedHsmKeyListResult
   - Added Interface ManagedHsmKeyProperties
   - Added Interface ManagedHsmKeyReleasePolicy
   - Added Interface ManagedHsmKeyRotationPolicyAttributes
   - Added Interface ManagedHsmKeysCreateIfNotExistOptionalParams
   - Added Interface ManagedHsmKeysGetOptionalParams
   - Added Interface ManagedHsmKeysGetVersionOptionalParams
-  - Added Interface ManagedHsmKeysListNextOptionalParams
   - Added Interface ManagedHsmKeysListOptionalParams
-  - Added Interface ManagedHsmKeysListVersionsNextOptionalParams
   - Added Interface ManagedHsmKeysListVersionsOptionalParams
   - Added Interface ManagedHsmLifetimeAction
+  - Added Interface ManagedHsmProperties
   - Added Interface ManagedHsmRotationPolicy
   - Added Interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
-  - Added Interface ManagedHsmsCreateOrUpdateHeaders
-  - Added Interface ManagedHsmsDeleteHeaders
+  - Added Interface ManagedHsmsCreateOrUpdateOptionalParams
+  - Added Interface ManagedHsmsDeleteOptionalParams
   - Added Interface ManagedHSMSecurityDomainProperties
-  - Added Interface ManagedHsmsPurgeDeletedHeaders
-  - Added Interface ManagedHsmsUpdateHeaders
+  - Added Interface ManagedHsmsGetDeletedOptionalParams
+  - Added Interface ManagedHsmsGetOptionalParams
+  - Added Interface ManagedHsmSku
+  - Added Interface ManagedHsmsListByResourceGroupOptionalParams
+  - Added Interface ManagedHsmsListBySubscriptionOptionalParams
+  - Added Interface ManagedHsmsListDeletedOptionalParams
+  - Added Interface ManagedHsmsPurgeDeletedOptionalParams
+  - Added Interface ManagedHsmsUpdateOptionalParams
   - Added Interface ManagedHsmTrigger
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MetricSpecification
   - Added Interface MhsmGeoReplicatedRegion
+  - Added Interface MhsmipRule
+  - Added Interface MhsmNetworkRuleSet
+  - Added Interface MhsmPrivateEndpoint
   - Added Interface MhsmPrivateEndpointConnection
+  - Added Interface MhsmPrivateEndpointConnectionItem
+  - Added Interface MhsmPrivateEndpointConnectionProperties
+  - Added Interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface MhsmPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface MhsmPrivateEndpointConnectionsListByResourceOptionalParams
+  - Added Interface MhsmPrivateEndpointConnectionsPutOptionalParams
   - Added Interface MhsmPrivateLinkResource
-  - Added Interface MhsmRegionsListByResourceNextOptionalParams
+  - Added Interface MhsmPrivateLinkResourceListResult
+  - Added Interface MhsmPrivateLinkResourceProperties
+  - Added Interface MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
+  - Added Interface MhsmPrivateLinkServiceConnectionState
   - Added Interface MhsmRegionsListByResourceOptionalParams
-  - Added Interface MhsmRegionsListResult
+  - Added Interface MhsmServiceTagRule
+  - Added Interface MhsmVirtualNetworkRule
+  - Added Interface NetworkRuleSet
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationProperties
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Permissions
+  - Added Interface PrivateEndpoint
   - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionItem
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByResourceOptionalParams
+  - Added Interface PrivateEndpointConnectionsPutOptionalParams
   - Added Interface PrivateLinkResource
-  - Added Interface ProxyResourceWithoutSystemData
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesListByVaultOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
   - Added Interface RotationPolicy
   - Added Interface Secret
   - Added Interface SecretAttributes
+  - Added Interface SecretCreateOrUpdateParameters
+  - Added Interface SecretPatchParameters
+  - Added Interface SecretPatchProperties
+  - Added Interface SecretProperties
+  - Added Interface SecretsCreateOrUpdateOptionalParams
+  - Added Interface SecretsGetOptionalParams
+  - Added Interface SecretsListOptionalParams
+  - Added Interface SecretsUpdateOptionalParams
+  - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
+  - Added Interface Sku
+  - Added Interface SystemData
+  - Added Interface TrackedResource
   - Added Interface Trigger
+  - Added Interface UserAssignedIdentity
+  - Added Interface Vault
+  - Added Interface VaultAccessPolicyParameters
+  - Added Interface VaultAccessPolicyProperties
+  - Added Interface VaultCheckNameAvailabilityParameters
+  - Added Interface VaultCreateOrUpdateParameters
+  - Added Interface VaultPatchParameters
+  - Added Interface VaultPatchProperties
+  - Added Interface VaultProperties
+  - Added Interface VaultsCheckNameAvailabilityOptionalParams
+  - Added Interface VaultsCreateOrUpdateOptionalParams
+  - Added Interface VaultsDeleteOptionalParams
+  - Added Interface VaultsGetDeletedOptionalParams
+  - Added Interface VaultsGetOptionalParams
+  - Added Interface VaultsListByResourceGroupOptionalParams
+  - Added Interface VaultsListBySubscriptionOptionalParams
+  - Added Interface VaultsListDeletedOptionalParams
+  - Added Interface VaultsListOptionalParams
+  - Added Interface VaultsPurgeDeletedOptionalParams
+  - Added Interface VaultsUpdateAccessPolicyOptionalParams
+  - Added Interface VaultsUpdateOptionalParams
+  - Added Interface VirtualNetworkRule
+  - Added Type Alias AccessPolicyUpdateKind
+  - Added Type Alias ActionsRequired
   - Added Type Alias ActivationStatus
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CertificatePermissions
+  - Added Type Alias CreatedByType
+  - Added Type Alias CreateMode
+  - Added Type Alias DeletionRecoveryLevel
   - Added Type Alias GeoReplicationRegionProvisioningState
+  - Added Type Alias JsonWebKeyCurveName
+  - Added Type Alias JsonWebKeyOperation
+  - Added Type Alias JsonWebKeyType
+  - Added Type Alias KeyPermissions
   - Added Type Alias KeyRotationPolicyActionType
-  - Added Type Alias ManagedHsmKeysCreateIfNotExistResponse
-  - Added Type Alias ManagedHsmKeysGetResponse
-  - Added Type Alias ManagedHsmKeysGetVersionResponse
-  - Added Type Alias ManagedHsmKeysListNextResponse
-  - Added Type Alias ManagedHsmKeysListResponse
-  - Added Type Alias ManagedHsmKeysListVersionsNextResponse
-  - Added Type Alias ManagedHsmKeysListVersionsResponse
-  - Added Type Alias ManagedHsmsCheckMhsmNameAvailabilityResponse
-  - Added Type Alias ManagedHsmsPurgeDeletedResponse
-  - Added Type Alias MhsmRegionsListByResourceNextResponse
-  - Added Type Alias MhsmRegionsListByResourceResponse
-  - Interface KeyProperties has a new optional parameter releasePolicy
-  - Interface KeyProperties has a new optional parameter rotationPolicy
-  - Interface ManagedHsmProperties has a new optional parameter regions
-  - Interface ManagedHsmProperties has a new optional parameter securityDomainProperties
-  - Interface MhsmPrivateEndpointConnectionItem has a new optional parameter etag
-  - Interface MhsmPrivateEndpointConnectionItem has a new optional parameter id
+  - Added Type Alias ManagedHsmSkuFamily
+  - Added Type Alias ManagedHsmSkuName
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias NetworkRuleAction
+  - Added Type Alias NetworkRuleBypassOptions
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias Reason
+  - Added Type Alias SecretPermissions
+  - Added Type Alias SkuFamily
+  - Added Type Alias SkuName
+  - Added Type Alias StoragePermissions
+  - Added Type Alias VaultProvisioningState
+  - Added Enum AzureClouds
+  - Added Enum KnownActionsRequired
   - Added Enum KnownActivationStatus
+  - Added Enum KnownCertificatePermissions
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDeletionRecoveryLevel
   - Added Enum KnownGeoReplicationRegionProvisioningState
-  - Enum KnownJsonWebKeyOperation has a new value Release
-  - Enum KnownKeyPermissions has a new value Getrotationpolicy
-  - Enum KnownKeyPermissions has a new value Release
-  - Enum KnownKeyPermissions has a new value Rotate
-  - Enum KnownKeyPermissions has a new value Setrotationpolicy
-  - Added function getContinuationToken
-  - Interface SecretsListNextOptionalParams no longer has parameter top
-  - Interface VaultsListByResourceGroupNextOptionalParams no longer has parameter top
-  - Interface VaultsListBySubscriptionNextOptionalParams no longer has parameter top
-  - Interface VaultsListNextOptionalParams no longer has parameter top
-  - Interface ManagedHsmsListByResourceGroupNextOptionalParams no longer has parameter top
-  - Interface ManagedHsmsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Added Enum KnownJsonWebKeyCurveName
+  - Added Enum KnownJsonWebKeyOperation
+  - Added Enum KnownJsonWebKeyType
+  - Added Enum KnownKeyPermissions
+  - Added Enum KnownManagedHsmSkuFamily
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownNetworkRuleAction
+  - Added Enum KnownNetworkRuleBypassOptions
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownReason
+  - Added Enum KnownSecretPermissions
+  - Added Enum KnownSkuFamily
+  - Added Enum KnownStoragePermissions
+  - Added Enum KnownVaultProvisioningState
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-  - Interface MhsmPrivateEndpointConnectionsDeleteHeaders no longer has parameter retryAfter
-    
-    
-## 2.0.0 (2022-01-17)
-
-The package of @azure/arm-keyvault is using our next generation design principles since version 2.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
