@@ -1,21 +1,74 @@
 # Release History
 
-## 5.3.2 (Unreleased)
+## 6.0.0 (2026-03-16)
 
 ### Features Added
+  - Added operation EndpointsOperations.purgeContent
+  - Added operation ExperimentsOperations.createOrUpdate
+  - Added operation ExperimentsOperations.delete
+  - Added operation ExperimentsOperations.update
+  - Added operation FrontDoorsOperations.createOrUpdate
+  - Added operation FrontDoorsOperations.delete
+  - Added operation FrontendEndpointsOperations.disableHttps
+  - Added operation FrontendEndpointsOperations.enableHttps
+  - Added operation NetworkExperimentProfilesOperations.createOrUpdate
+  - Added operation NetworkExperimentProfilesOperations.delete
+  - Added operation NetworkExperimentProfilesOperations.update
+  - Added operation PoliciesOperations.createOrUpdate
+  - Added operation PoliciesOperations.delete
+  - Added operation PoliciesOperations.update
+  - Added operation RulesEnginesOperations.createOrUpdate
+  - Added operation RulesEnginesOperations.delete
+  - Added Interface BasicResource
+  - Added Interface BasicResourceWithSettableIDName
+  - Added Interface ExperimentProperties
+  - Added Interface ExperimentUpdateProperties
+  - Added Interface FrontDoorCertificateSourceParameters
+  - Added Interface KeyVaultCertificateSourceParameters
+  - Added Interface LatencyScorecardProperties
+  - Added Interface ManagedRuleSetDefinitionProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicySettingsLogScrubbing
+  - Added Interface PreconfiguredEndpointProperties
+  - Added Interface ProfileProperties
+  - Added Interface ProfileUpdateProperties
+  - Added Interface ResourcewithSettableName
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface TimeseriesProperties
+  - Added Interface WebApplicationFirewallPolicyProperties
+  - Interface ManagedRuleDefinition has a new optional parameter defaultSensitivity
+  - Interface ManagedRuleOverride has a new optional parameter sensitivity
+  - Interface PolicySettings has a new optional parameter captchaExpirationInMinutes
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias SensitivityType
+  - Added Enum AzureClouds
+  - Added Enum KnownSensitivityType
+  - Added Enum KnownVersions
+  - Enum KnownActionType has a new value Captcha
+  - Enum KnownOperator has a new value ServiceTagMatch
 
 ### Breaking Changes
+  - Operation FrontDoors.beginCreateOrUpdate has a new signature
+  - Operation FrontDoors.beginCreateOrUpdateAndWait has a new signature
+  - Operation FrontDoors.get has a new signature
+  - Operation RulesEngines.beginCreateOrUpdate has a new signature
+  - Operation RulesEngines.beginCreateOrUpdateAndWait has a new signature
+  - Operation RulesEngines.get has a new signature
+  - Removed Interface ErrorDetails
+  - Removed Interface ErrorModel
+  - Removed Interface ExperimentList
+  - Removed Interface ManagedRuleSetDefinitionList
+  - Removed Interface PreconfiguredEndpointList
+  - Removed Interface ProfileList
+  - Removed Interface WebApplicationFirewallPolicyList
+  - Type of parameter odataType of interface RouteConfiguration is changed from "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration" | "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration" to string
+  - Removed Type Alias NetworkOperationStatus
+  - Type alias "RouteConfigurationUnion" has been changed
+  - Removed Enum KnownNetworkOperationStatus
 
-### Bugs Fixed
-
-### Other Changes
-
-## 5.3.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 5.3.0 (2024-04-15)
     
 ### Features Added
