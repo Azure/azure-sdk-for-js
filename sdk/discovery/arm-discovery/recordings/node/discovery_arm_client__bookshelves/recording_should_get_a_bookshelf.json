@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Discovery/bookshelves/jstest-bkshelf-0316a?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.23.1 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "864",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 16 Mar 2026 17:51:55 GMT",
+        "ETag": "\"3400351d-0000-1100-0000-69b8288f0000\"",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "662d4389-4f5c-415a-ba31-976dbba8099d",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-global-reads": "16499",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHCENTRALUS:20260316T175155Z:662d4389-4f5c-415a-ba31-976dbba8099d",
+        "X-MSEdge-Ref": "Ref A: 0DAC33DFEDE24694B3E7749F0B52A434 Ref B: SN4AA2022302029 Ref C: 2026-03-16T17:51:54Z"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Discovery/bookshelves/jstest-bkshelf-0316a",
+        "name": "jstest-bkshelf-0316a",
+        "type": "microsoft.discovery/bookshelves",
+        "location": "uksouth",
+        "tags": {},
+        "systemData": {
+          "createdBy": "Sanitized",
+          "createdByType": "User",
+          "createdAt": "2026-03-16T15:44:16.4245823Z",
+          "lastModifiedBy": "Sanitized",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2026-03-16T15:44:16.4245823Z"
+        },
+        "properties": {
+          "managedResourceGroup": "mrg-dbksf-jstest-bkshelf-0316a-ibb8gn",
+          "managedOnBehalfOfConfiguration": {
+            "moboBrokerResources": [
+              {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Resources/moboBrokers/mobr-dbksf-jstest-bkshelf-0316a-ibb8gn"
+              }
+            ]
+          },
+          "workloadIdentities": {},
+          "provisioningState": "Succeeded",
+          "bookshelfUri": "https://jstest-bkshelf-0316a.bookshelf-dev.discovery.azure.com"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

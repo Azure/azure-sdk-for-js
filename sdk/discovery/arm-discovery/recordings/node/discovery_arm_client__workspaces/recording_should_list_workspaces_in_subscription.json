@@ -1,0 +1,924 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Discovery/workspaces?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.23.1 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "36883",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 16 Mar 2026 17:50:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "97684db5-ae92-4e3c-86a3-f40db8de3bc2",
+        "x-ms-original-request-ids": [
+          "f53a5e19-db56-4481-9652-2942f2792894",
+          "53194c94-49fc-42b1-bf69-aad560c59f02",
+          "40b07771-854f-4306-aa0e-229ba41f5acc",
+          "9955cafc-a104-4cca-ac8e-a812e94b1970"
+        ],
+        "x-ms-ratelimit-remaining-subscription-global-reads": "16499",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHCENTRALUS:20260316T175005Z:97684db5-ae92-4e3c-86a3-f40db8de3bc2",
+        "X-MSEdge-Ref": "Ref A: 8DD8519DC80149BB94BDF1B348069C83 Ref B: SN4AA2022305037 Ref C: 2026-03-16T17:50:04Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rp114-rg/providers/Microsoft.Discovery/workspaces/itworkrp114",
+            "name": "itworkrp114",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "WorkspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-01-15T00:34:10.0773703Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-01-15T00:34:10.0773703Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkrp114-4bncru",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/rp114-rg/providers/Microsoft.Discovery/supercomputers/itsuperp114"
+              ],
+              "workspaceApiUri": "https://itworkrp114.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkrp114",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/rp114-rg/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkrp114-4bncru"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/microsoft.discovery/workspaces/wrksptest53",
+            "name": "wrksptest53",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uk south",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-19T05:22:08.6568882Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-19T05:22:08.6568882Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wrksptest53-9ke163",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wrksptest53.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wrksptest53",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apitestmi",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wrksptest53-9ke163"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Discovery/workspaces/wksp25021",
+            "name": "wksp25021",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-25T13:40:46.4913501Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-25T13:40:46.4913501Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp25021-9r5ibw",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wksp25021.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp25021",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agentSubnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/PESubnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp25021-9r5ibw"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Discovery/workspaces/wksp03031",
+            "name": "wksp03031",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-02T20:01:56.834174Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-02T20:01:56.834174Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp03031-2788mh",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wksp03031.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp03031",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agentSubnet8",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/PESubnet2",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp03031-2788mh"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/vpandey0503rg/providers/Microsoft.Discovery/workspaces/vpandey0503ws",
+            "name": "vpandey0503ws",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-05T11:13:07.2149659Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-05T11:13:07.2149659Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-vpandey0503ws-zuxo6s",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://vpandey0503ws.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/vpandey0503ws",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/vpandey0503rg/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-vpandey0503ws-zuxo6s"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-nw-regression/providers/Microsoft.Discovery/workspaces/wksp05033",
+            "name": "wksp05033",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true",
+              "networkIsolation": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-05T14:45:24.0810777Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-05T14:45:24.0810777Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp05033-lxsduo",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wksp05033.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp05033",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agentSubnet11",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/PESubnet3",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet2",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-nw-regression/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp05033-lxsduo"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/umamm-wksp-test-0305/providers/Microsoft.Discovery/workspaces/wksp-0305b",
+            "name": "wksp-0305b",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true",
+              "networkIsolation": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-05T18:44:13.1353472Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-06T05:19:27.8661832Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp-0305b-c9z05a",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wksp-0305b.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp-0305b",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/umamm-wksp-test-0305/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp-0305b-c9z05a"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/umamm-wksp-test-0305/providers/Microsoft.Discovery/workspaces/wksp-0305c",
+            "name": "wksp-0305c",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "networkIsolation": "true",
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-05T19:25:13.6900237Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-09T09:41:01.8252163Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp-0305c-0mowtf",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wksp-0305c.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp-0305c",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-0305c",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/pe-0305c",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/wksp-0305c",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/umamm-wksp-test-0305/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp-0305c-0mowtf"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aifsp-siphy-oss-dev/providers/Microsoft.Discovery/workspaces/itworksiphy-oss",
+            "name": "itworksiphy-oss",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true",
+              "WorkspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-06T16:00:30.1255408Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-06T16:00:30.1255408Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworksiphy-oss-28zrvr",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aifsp-siphy-oss-dev/providers/Microsoft.Discovery/supercomputers/itsupesiphy-oss"
+              ],
+              "workspaceApiUri": "https://itworksiphy-oss.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworksiphy-oss",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aifsp-siphy-oss-dev/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworksiphy-oss-28zrvr"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-pe-sdk/providers/Microsoft.Discovery/workspaces/wksp11032ni",
+            "name": "wksp11032ni",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true",
+              "networkIsolation": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-11T11:47:16.575489Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-11T18:37:34.0560964Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wksp11032ni-gj2x3w",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/umamm-wksp-test-0305/providers/Microsoft.Discovery/supercomputers/itsupenw0305b"
+              ],
+              "workspaceApiUri": "https://wksp11032ni.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wksp11032ni",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "publicNetworkAccess": "Enabled",
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agentSubnet17",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/PESubnet3",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-Subnet5",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-pe-sdk/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wksp11032ni-gj2x3w"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aasbd/providers/Microsoft.Discovery/workspaces/itworkaasxd",
+            "name": "itworkaasxd",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T17:33:27.2093013Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T17:33:27.2093013Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaasxd-0vd8cb",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aasbd/providers/Microsoft.Discovery/supercomputers/itsupeaasxd"
+              ],
+              "workspaceApiUri": "https://itworkaasxd.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaasxd",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aasbd/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaasxd-0vd8cb"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaorr/providers/Microsoft.Discovery/workspaces/itworkaahge",
+            "name": "itworkaahge",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T20:39:51.3644137Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T20:39:51.3644137Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaahge-25h9ia",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aaorr/providers/Microsoft.Discovery/supercomputers/itsupeaahge"
+              ],
+              "workspaceApiUri": "https://itworkaahge.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaahge",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aaorr/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaahge-25h9ia"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaskjn/providers/Microsoft.Discovery/workspaces/itworkaasio",
+            "name": "itworkaasio",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T23:27:52.5351659Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T23:27:52.5351659Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaasio-djblis",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aaskjn/providers/Microsoft.Discovery/supercomputers/itsupeaasio"
+              ],
+              "workspaceApiUri": "https://itworkaasio.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaasio",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aaskjn/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaasio-djblis"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aatte/providers/Microsoft.Discovery/workspaces/itworkaawre",
+            "name": "itworkaawre",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-14T19:57:05.4817951Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-14T19:57:05.4817951Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaawre-8cyft2",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aatte/providers/Microsoft.Discovery/supercomputers/itsupeaawre"
+              ],
+              "workspaceApiUri": "https://itworkaawre.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaawre",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aatte/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaawre-8cyft2"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaooa/providers/Microsoft.Discovery/workspaces/itworkaasdg",
+            "name": "itworkaasdg",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-15T03:55:52.5977743Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-15T03:55:52.5977743Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaasdg-4dfa8r",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aaooa/providers/Microsoft.Discovery/supercomputers/itsupeaasdg"
+              ],
+              "workspaceApiUri": "https://itworkaasdg.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaasdg",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aaooa/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaasdg-4dfa8r"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aabbi/providers/Microsoft.Discovery/workspaces/itworkaabbu",
+            "name": "itworkaabbu",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-16T02:35:27.1980983Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-16T02:35:27.1980983Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaabbu-f0q203",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aabbi/providers/Microsoft.Discovery/supercomputers/itsupeaabbu"
+              ],
+              "workspaceApiUri": "https://itworkaabbu.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaabbu",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aabbi/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaabbu-f0q203"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaqii/providers/Microsoft.Discovery/workspaces/itworkaapii",
+            "name": "itworkaapii",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {
+              "SkipAssociateKeyVaultToNsp": "true"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-16T14:51:44.042629Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-16T14:51:44.042629Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-itworkaapii-fojgpe",
+              "supercomputerIds": [
+                "/subscriptions/azure_subscription_id/resourceGroups/aaqii/providers/Microsoft.Discovery/supercomputers/itsupeaapii"
+              ],
+              "workspaceApiUri": "https://itworkaapii.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/itworkaapii",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/agent-subnet",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/workspace-subnet",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/copilot-subnet",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/aaqii/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-itworkaapii-fojgpe"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Discovery/workspaces/jstest-wrksp-0316a",
+            "name": "jstest-wrksp-0316a",
+            "type": "microsoft.discovery/workspaces",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-16T16:01:06.20153Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-16T16:01:06.20153Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-jstest-wrksp-0316a-fut1vo",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://jstest-wrksp-0316a.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/jstest-wrksp-0316a",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "publicNetworkAccess": "Disabled",
+              "customerManagedKeys": "Enabled",
+              "keyVaultProperties": {
+                "keyVaultUri": "https://newapik.vault.azure.net/",
+                "keyName": "discoverykey",
+                "keyVersion": "2c9db3cf55d247b4a1c1831fbbdad906"
+              },
+              "logAnalyticsClusterId": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
+              "agentSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3",
+              "privateEndpointSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+              "workspaceSubnetId": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-jstest-wrksp-0316a-fut1vo"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/microsoft.discovery/workspaces/wrksptest45",
+            "name": "wrksptest45",
+            "type": "microsoft.discovery/workspaces",
+            "location": "centraluseuap",
+            "tags": {},
+            "systemData": {
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-04T09:19:20.1363722Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wrksptest45-4rxpj0",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wrksptest45.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wrksptest45",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apitestmi"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wrksptest45-4rxpj0"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Discovery/workspaces/diagnostic-setting-test",
+            "name": "diagnostic-setting-test",
+            "type": "microsoft.discovery/workspaces",
+            "location": "eastus2euap",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-13T04:46:50.8209277Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-13T04:46:50.8209277Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-diagnostic-setting-test-5fgqaw",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://diagnostic-setting-test.workspace.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/diagnostic-setting-test",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/mrg-dbksf-yaoswal-bookshelf-test-nxw403/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-dbksf-axbtrgaaaa",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-diagnostic-setting-test-5fgqaw"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Discovery/workspaces/yaoswal-dignostic-test",
+            "name": "yaoswal-dignostic-test",
+            "type": "microsoft.discovery/workspaces",
+            "location": "eastus2euap",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-13T12:26:22.4120133Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-13T12:26:22.4120133Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-yaoswal-dignostic-test-o3wx7d",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://yaoswal-dignostic-test.workspace.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/yaoswal-dignostic-test",
+              "workspaceIdentity": {
+                "id": "/subscriptions/b7b46ea4-92fa-466d-9a33-c25506fc99ac/resourceGroups/rg-yaoswal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/yaoswal-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-yaoswal-dignostic-test-o3wx7d"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Discovery/workspaces/yaoswal-diagnostic-test",
+            "name": "yaoswal-diagnostic-test",
+            "type": "microsoft.discovery/workspaces",
+            "location": "eastus2euap",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-13T15:00:41.9986465Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-13T15:00:41.9986465Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-yaoswal-diagnostic-test-vnjg0i",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://yaoswal-diagnostic-test.workspace.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/yaoswal-diagnostic-test",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/mrg-dbksf-yaoswal-bookshelf-test-nxw403/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-dbksf-axbtrgaaaa",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-yaoswal/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-yaoswal-diagnostic-test-vnjg0i"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/alchocro-test-copilotsandbox/providers/Microsoft.Discovery/workspaces/testwseusalch",
+            "name": "testwseusalch",
+            "type": "microsoft.discovery/workspaces",
+            "location": "eastus",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-26T00:24:42.4610232Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-26T00:24:42.4610232Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-testwseusalch-69oxho",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://testwseusalch.workspace.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/testwseusalch",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami",
+                "principalId": "00000000-0000-0000-0000-000000000000",
+                "clientId": "00000000-0000-0000-0000-000000000000"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/alchocro-test-copilotsandbox/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-testwseusalch-69oxho"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

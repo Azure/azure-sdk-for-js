@@ -1,0 +1,285 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Discovery/storageContainers?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.23.1 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "7618",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 16 Mar 2026 17:50:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ee044c0c-7f91-4099-98de-cca19ec1ec97",
+        "x-ms-original-request-ids": "1d0778f0-229e-4039-8d45-12595790fd21",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-global-reads": "16499",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHCENTRALUS:20260316T175008Z:ee044c0c-7f91-4099-98de-cca19ec1ec97",
+        "X-MSEdge-Ref": "Ref A: D1DD5B8BB35048D696381112F8AED6A2 Ref B: SN4AA2022305037 Ref C: 2026-03-16T17:50:07Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Discovery/storageContainers/testCon",
+            "name": "testCon",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T17:07:54.4803566Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/deray-private-test/providers/Microsoft.Storage/storageAccounts/derayprstg",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-sdronavalli-pe-bookshelf/providers/Microsoft.Discovery/storagecontainers/bkstestcontainer",
+            "name": "bkstestcontainer",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {
+              "environment": "test"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-12T06:59:32.0770221Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-12T06:59:32.0770221Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/rg-sdronavalli-pe-bookshelf/providers/Microsoft.Storage/storageAccounts/bksinputstorage",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/rg-sdronavalli-pe-bookshelf/providers/Microsoft.Discovery/storagecontainers/testkbsc",
+            "name": "testkbsc",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {
+              "environment": "test"
+            },
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-13T06:01:07.4524326Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-13T06:01:07.4524326Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/rg-sdronavalli-pe-bookshelf/providers/Microsoft.Storage/storageAccounts/bkskbteststroage",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aasbd/providers/Microsoft.Discovery/storageContainers/itsconaasxd",
+            "name": "itsconaasxd",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T17:15:33.7716361Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T19:22:24.4928176Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaorr/providers/Microsoft.Discovery/storageContainers/itsconaahge",
+            "name": "itsconaahge",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T20:26:25.916261Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-13T22:05:57.8927143Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaskjn/providers/Microsoft.Discovery/storageContainers/itsconaasio",
+            "name": "itsconaasio",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-13T23:15:52.0904996Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-14T00:22:16.9530739Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aatte/providers/Microsoft.Discovery/storageContainers/itsconaawre",
+            "name": "itsconaawre",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-14T19:38:41.8476023Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-15T02:10:21.2839148Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaooa/providers/Microsoft.Discovery/storageContainers/itsconaasdg",
+            "name": "itsconaasdg",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-15T03:38:33.2419291Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-16T15:10:59.1388557Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aabbi/providers/Microsoft.Discovery/storageContainers/itsconaabbu",
+            "name": "itsconaabbu",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-16T02:22:25.1273719Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-16T03:25:13.1891379Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/aaqii/providers/Microsoft.Discovery/storageContainers/itsconaapii",
+            "name": "itsconaapii",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "Application",
+              "createdAt": "2026-03-16T14:39:13.6494541Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2026-03-16T15:42:44.9489757Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Storage/storageAccounts/devstorageuksouth1",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Discovery/storageContainers/test-sc-8bef0d1a",
+            "name": "test-sc-8bef0d1a",
+            "type": "microsoft.discovery/storagecontainers",
+            "location": "uksouth",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-03-16T17:31:42.3481451Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-03-16T17:31:42.3481451Z"
+            },
+            "properties": {
+              "storageStore": {
+                "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
+                "kind": "AzureStorageBlob"
+              },
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
