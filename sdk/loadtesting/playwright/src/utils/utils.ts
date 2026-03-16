@@ -15,6 +15,7 @@ import {
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  BrowserSessionSourceType,
   UrlConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
@@ -135,7 +136,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&api-version=${apiVersion}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {
