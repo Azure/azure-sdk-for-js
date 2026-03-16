@@ -16,7 +16,7 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
  * 2) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for evaluation.
  * 3) DATASET_VERSION - Optional. The version of the Dataset to create and use in this sample.
@@ -29,7 +29,7 @@ import { tmpdir } from "os";
 import "dotenv/config";
 import * as fs from "node:fs/promises";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const datasetVersion = process.env["DATASET_VERSION"] || "1";
 

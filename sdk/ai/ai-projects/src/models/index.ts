@@ -206,6 +206,7 @@ export type {
   EvaluatorMetricDirection,
   CodeBasedEvaluatorDefinition,
   PromptBasedEvaluatorDefinition,
+  EvaluatorCredentialRequest,
   Insight,
   InsightsMetadata,
   OperationState,

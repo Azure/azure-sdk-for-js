@@ -19,13 +19,13 @@ import {
 } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const agentModelDeployment =
   process.env["MODEL_DEPLOYMENT_NAME"] || "<agent model deployment name>";
 const chatModelDeployment =
-  process.env["AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
+  process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
   "<memory embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store_123";

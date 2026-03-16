@@ -25,7 +25,7 @@ describe("snippets", function () {
   const filePath = "";
 
   it("setup", async function () {
-    const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
@@ -378,7 +378,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   it("agent-memory-search", async function () {
     const memoryStoreName = "AgentMemoryStore";
     const embeddingModelDeployment =
-      process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+      process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
     const scope = "user_123";
     const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,

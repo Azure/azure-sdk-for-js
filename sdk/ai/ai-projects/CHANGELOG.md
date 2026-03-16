@@ -8,6 +8,12 @@
 
 ## 2.0.0 (2026-03-06)
 
+### Features Added
+
+- Add `getCredentials` and `pendingUpload` operations to `project.beta.evaluators`.
+- Add `EvaluatorCredentialRequest` model type.
+- Add `entry_point` and `image_tag` optional fields to `CodeBasedEvaluatorDefinition`.
+
 ### Breaking changes
 
 - change `RedTeam` property `target` from required to optional.

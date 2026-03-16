@@ -5682,7 +5682,11 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
   /** The type discriminator, always 'code_based'. */
   type: "code";
   /** Inline code text for the evaluator */
-  code_text: string;
+  code_text?: string;
+  /** The entry point Python file name for the uploaded evaluator code (e.g. 'answer_length_evaluator.py') */
+  entry_point?: string;
+  /** The container image tag to use for evaluator code execution */
+  image_tag?: string;
 }
 
 export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorDefinition): any {
@@ -5692,6 +5696,8 @@ export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorD
     data_schema: item["data_schema"],
     metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
     code_text: item["code_text"],
+    entry_point: item["entry_point"],
+    image_tag: item["image_tag"],
   };
 }
 
@@ -5704,6 +5710,8 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     code_text: item["code_text"],
+    entry_point: item["entry_point"],
+    image_tag: item["image_tag"],
   };
 }
 
@@ -5739,6 +5747,16 @@ export function promptBasedEvaluatorDefinitionDeserializer(
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     prompt_text: item["prompt_text"],
   };
+}
+
+/** Request body for getting evaluator credentials */
+export interface EvaluatorCredentialRequest {
+  /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
+  blobUri: string;
+}
+
+export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
+  return { blobUri: item["blobUri"] };
 }
 
 /** The response body for cluster insights. */
