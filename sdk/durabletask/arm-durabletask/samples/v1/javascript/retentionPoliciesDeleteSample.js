@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Retention Policy
  *
  * @summary delete a Retention Policy
- * x-ms-original-file: 2025-11-01/RetentionPolicies_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-02-01/RetentionPolicies_Delete_MaximumSet_Gen.json
  */
 async function retentionPoliciesDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

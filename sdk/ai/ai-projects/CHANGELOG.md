@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.1 (2026-03-13)
+
+### Bugs Fixed
+
+- Fix polling for memory store update operations that cannot complete.
+
 ## 2.0.0 (2026-03-06)
 
 ### Breaking changes
