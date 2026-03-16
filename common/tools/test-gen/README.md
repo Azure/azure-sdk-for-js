@@ -106,6 +106,7 @@ test-gen <package-dir> [options]
 | Option | Description | Default |
 |---|---|---|
 | `--model <name>` | LLM model name | `gpt-5.3-codex` |
+| `--concurrency <n>` | Process N source files in parallel | `1` |
 | `--dry-run` | Print generated tests to console without writing to disk | `false` |
 | `--help` | Show help | |
 
@@ -167,6 +168,7 @@ interface Config {
 | `fixMaxIterations` | `number` | `3` | Maximum fix attempts per generated test file |
 | `gapBatchSize` | `number` | `5` | Uncovered branches per LLM generation call |
 | `maxGapFiles` | `number` | `20` | Maximum source files to process |
+| `concurrency` | `number` | `1` | Source files to process in parallel (1 = sequential) |
 
 ### `examples` — Prompt building
 

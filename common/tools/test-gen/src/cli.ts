@@ -25,6 +25,7 @@ USAGE:
 
 OPTIONS:
   --model <name>    LLM model name (default: ${defaults.llm.model})
+  --concurrency <n> Process N source files in parallel (default: 1)
   --dry-run         Print generated tests to console instead of writing to disk
   --help            Show this help message
 `);
@@ -35,6 +36,7 @@ async function main(): Promise<void> {
     args: process.argv.slice(2),
     options: {
       model: { type: "string", default: defaults.llm.model },
+      concurrency: { type: "string", default: "1" },
       "dry-run": { type: "boolean", default: false },
       help: { type: "boolean", default: false },
     },
@@ -53,6 +55,8 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
+  const concurrency = Math.max(1, parseInt(values.concurrency!, 10) || 1);
+
   const controller = new AbortController();
   process.on("SIGINT", () => {
     console.log("\n⏹️  Aborting after current iteration…");
@@ -66,6 +70,9 @@ async function main(): Promise<void> {
     config: {
       llm: {
         model: values.model!,
+      },
+      loop: {
+        concurrency,
       },
     },
   });

@@ -60,6 +60,8 @@ export interface LoopConfig {
   gapBatchSize: number;
   /** Maximum number of source files to target in single-pass mode. */
   maxGapFiles: number;
+  /** Number of source files to process in parallel (default 1 = sequential). */
+  concurrency: number;
 }
 
 /** Example test file selection for prompt building. */
@@ -130,6 +132,7 @@ export const defaults: Config = {
     fixMaxIterations: 3,
     gapBatchSize: 5,
     maxGapFiles: 20,
+    concurrency: 1,
   },
   examples: {
     maxLines: 80,
