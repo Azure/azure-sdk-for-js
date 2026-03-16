@@ -41,9 +41,9 @@ sent back to the LLM for correction (up to `fixMaxIterations` attempts).
 ### Step 6: Full-Suite Isolation Validation
 
 After all files are generated, the full test suite runs to detect cross-test
-isolation issues (e.g., global state pollution). If failures are found, the
-culprit file is identified by temporary removal and sent through a specialized
-isolation fix loop.
+isolation issues (e.g., global state pollution). If failures are found, all
+generated file contents and the error output are sent to the LLM in a single
+batch — it identifies which files need fixes and returns corrected versions.
 
 The system never modifies existing test files. Generated tests go into new
 `test_<module>_gaps.<ext>` files.
@@ -225,8 +225,7 @@ flowchart TD
     subgraph VALIDATE["Step 5: Isolation Validation"]
         NEXT -- "all files done" --> FULL["runFullSuite"]
         FULL -- "pass" --> DONE(["✅ Done"])
-        FULL -- "fail" --> CULPRIT["identify culprit files"]
-        CULPRIT --> IFIX["isolationFixLoop<br/>(specialized prompt)"]
+        FULL -- "fail" --> IFIX["isolationFixLoop<br/>(all files + errors → LLM batch fix)"]
         IFIX --> FULL
     end
 ```
@@ -259,6 +258,7 @@ src/
 ├── extract-gaps.ts           # Coverage parser (Istanbul + coverage.py)
 ├── extract-test-map.ts       # .coverage SQLite DB → source↔test mapping
 ├── extract-conventions.ts    # Test file pattern scanner
+├── extract-context.ts        # Test context extractor (base classes, fixtures, imports)
 ├── resolve-context.ts        # LLM-driven context file identification
 ├── annotate-source.ts        # Inline ⚠️ marker injection for uncovered branches
 ├── llm.ts                    # Singleton CopilotClient, send()
