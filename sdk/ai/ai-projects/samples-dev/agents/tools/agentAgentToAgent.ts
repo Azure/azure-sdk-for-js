@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Agent-to-Agent (A2A) capabilities
- * using the A2ATool and synchronous Azure AI Projects client. The agent can communicate
+ * using the A2APreviewTool and synchronous Azure AI Projects client. The agent can communicate
  * with other agents and provide responses based on inter-agent interactions using the
  * A2A protocol (https://a2a-protocol.org/latest/).
  *
@@ -25,7 +25,7 @@ const a2aProjectConnectionId =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with A2A tool...");
 
@@ -50,16 +50,19 @@ export async function main(): Promise<void> {
   });
 
   const userInput = await new Promise<string>((resolve) => {
-    rl.question("Enter your question (e.g., 'What can the secondary agent do?'): \n", (answer) => {
-      rl.close();
-      resolve(answer);
-    });
+    rl.question(
+      "Enter your question (Default: 'What can the secondary agent do?'): \n",
+      (answer) => {
+        rl.close();
+        resolve(answer);
+      },
+    );
   });
 
   console.log("\nSending request to A2A agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "What can the secondary agent do?",
       stream: true,
     },
     {

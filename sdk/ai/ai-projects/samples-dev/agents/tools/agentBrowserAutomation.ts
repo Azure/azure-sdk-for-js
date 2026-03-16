@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Browser Automation capabilities
- * using the BrowserAutomationAgentTool and synchronous Azure AI Projects client. The agent can
+ * using the BrowserAutomationPreviewTool and synchronous Azure AI Projects client. The agent can
  * perform automated web browsing tasks and provide responses based on web interactions.
  *
  * @summary This sample demonstrates how to create an agent with Browser Automation tool,
@@ -44,7 +44,7 @@ const handleBrowserCall = (item: any) => {
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Browser Automation tool...");
 

@@ -1,0 +1,20 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/artifacts": "./src/api/artifacts/index.ts"
+  "./api/images": "./src/api/images/index.ts"
+  "./api/disconnectedOperations": "./src/api/disconnectedOperations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

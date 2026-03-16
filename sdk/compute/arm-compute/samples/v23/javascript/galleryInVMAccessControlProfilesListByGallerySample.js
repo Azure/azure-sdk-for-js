@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List gallery inVMAccessControlProfiles in a gallery.
  *
  * @summary List gallery inVMAccessControlProfiles in a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_ListByGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_ListByGallery.json
  */
 async function listGalleryInVMAccessControlProfilesInAGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

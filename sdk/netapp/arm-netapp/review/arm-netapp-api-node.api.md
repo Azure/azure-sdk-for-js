@@ -19,7 +19,7 @@ export interface NetAppManagementClientOptionalParams extends ClientOptions {
 
 // @public
 export interface NetAppManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

@@ -53,7 +53,7 @@ describe("CommunicationService test", () => {
       recorder.configureClientOptions({}),
     );
     location = "global";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     communicationServiceName = "mycommunicationServicexxx";
   });
 

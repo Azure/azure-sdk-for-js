@@ -14,7 +14,7 @@ import type {
   MetricsData,
   MetricDataPoint,
 } from "../generated/index.js";
-import { createTagsFromResource } from "./common.js";
+import { createTagsFromResource, truncateCustomDimensions } from "./common.js";
 import type { Tags } from "../types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 import {
@@ -22,6 +22,7 @@ import {
   ENV_OTLP_METRICS_ENDPOINT,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
+  isEnvVarTrue,
 } from "../Declarations/Constants.js";
 import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
 import { getInstance } from "../platform/index.js";
@@ -94,7 +95,7 @@ export function resourceMetricsToEnvelope(
           shouldSendToOtlp() &&
           isAksAttach() &&
           !isStandardMetric(dataPoint) &&
-          process.env[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] === "false" &&
+          !isEnvVarTrue(ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED) &&
           !isStatsbeat
         ) {
           return;
@@ -138,6 +139,7 @@ export function resourceMetricsToEnvelope(
             baseType: "MetricData",
             baseData: {
               ...baseData,
+              properties: truncateCustomDimensions(baseData.properties || {}),
             },
           },
         };
@@ -150,9 +152,7 @@ export function resourceMetricsToEnvelope(
 }
 
 export function isAksAttach(): boolean {
-  return !!(
-    process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" && process.env.AKS_ARM_NAMESPACE_ID
-  );
+  return !!(isEnvVarTrue(ENV_AZURE_MONITOR_AUTO_ATTACH) && process.env.AKS_ARM_NAMESPACE_ID);
 }
 
 export function shouldSendToOtlp(): boolean {
@@ -169,7 +169,7 @@ export function isStandardMetric(
 }
 
 export function getAttachType(): AttachTypeName {
-  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true") {
+  if (isEnvVarTrue(AZURE_MONITOR_AUTO_ATTACH)) {
     return AttachTypeName.INTEGRATED_AUTO;
   }
   return AttachTypeName.MANUAL;

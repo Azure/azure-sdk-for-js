@@ -85,6 +85,14 @@ export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
   "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
+ * Checks if an environment variable is set to "true" (case-insensitive, trimmed).
+ * @internal
+ */
+export function isEnvVarTrue(envVarName: string): boolean {
+  return process.env[envVarName]?.trim().toLowerCase() === "true";
+}
+
+/**
  * REST error types for failed requests that can be retried.
  * @internal
  */
@@ -115,11 +123,10 @@ export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 export const APPLICATION_ID_RESOURCE_KEY = "microsoft.applicationId";
 
 /**
- * Enables the preview version of customer-facing SDK Stats.
+ * Disables customer-facing SDK Stats metrics.
  * @internal
  */
-export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
+export const ENV_DISABLE_SDKSTATS = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
 
 /**
  * Sets the export interval for customer-facing SDK Stats in seconds.
@@ -133,6 +140,21 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
  * @internal
  */
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
+
+/**
+ * Property keys that are exempt from the 64KB custom dimensions size limit.
+ * These Gen AI attributes can carry large payloads and should not be truncated.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_EXEMPT_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+  "gen_ai.system_instructions",
+  "gen_ai.tool.definitions",
+  "gen_ai.tool.call.arguments",
+  "gen_ai.tool.call.result",
+  "gen_ai.evaluation.explanation",
+]);
 
 /**
  * QuickPulse metric counter names.

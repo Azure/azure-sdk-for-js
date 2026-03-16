@@ -17,17 +17,28 @@ export interface AccountEncryption {
 // @public
 export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
-    readonly disableShowmount?: boolean | null;
+    readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
+    entraIdConfig?: EntraIdConfig;
     ldapConfiguration?: LdapConfiguration;
     readonly multiAdStatus?: MultiAdStatus;
-    nfsV4IDDomain?: string | null;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
 
 // @public
+export interface AccountPropertiesPatch {
+    activeDirectories?: ActiveDirectory[];
+    encryption?: AccountEncryption;
+    entraIdConfig?: EntraIdConfigPatch;
+    ldapConfiguration?: LdapConfigurationPatch;
+    multiAdStatus?: MultiAdStatus;
+    nfsV4IDDomain?: string;
+}
+
+// @public
 export interface ActiveDirectory {
-    activeDirectoryId?: string | null;
+    activeDirectoryId?: string;
     administrators?: string[];
     adName?: string;
     aesEncryption?: boolean;
@@ -114,6 +125,12 @@ export interface AuthorizeRequest {
 export type AvsDataStore = string;
 
 // @public
+export interface AzureKeyVaultDetails {
+    certificateAkvDetails?: CertificateAkvDetails;
+    credentialsAkvDetails?: CredentialsAkvDetails;
+}
+
+// @public
 export interface Backup extends ProxyResource {
     properties: BackupProperties;
 }
@@ -161,14 +178,14 @@ export interface BackupProperties {
     readonly backupId?: string;
     readonly backupPolicyResourceId?: string;
     readonly backupType?: BackupType;
-    readonly completionDate?: Date | null;
+    readonly completionDate?: Date;
     readonly creationDate?: Date;
     readonly failureReason?: string;
     readonly isLargeVolume?: boolean;
     label?: string;
     readonly provisioningState?: string;
     readonly size?: number;
-    readonly snapshotCreationDate?: Date | null;
+    readonly snapshotCreationDate?: Date;
     snapshotName?: string;
     useExistingSnapshot?: boolean;
     volumeResourceId: string;
@@ -258,8 +275,8 @@ export type BucketPatchPermissions = string;
 
 // @public
 export interface BucketPatchProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
-    path?: string;
     permissions?: BucketPatchPermissions;
     readonly provisioningState?: NetAppProvisioningState;
     server?: BucketServerPatchProperties;
@@ -270,6 +287,7 @@ export type BucketPermissions = string;
 
 // @public
 export interface BucketProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
     path?: string;
     permissions?: BucketPermissions;
@@ -282,6 +300,7 @@ export interface BucketProperties {
 export interface BucketServerPatchProperties {
     certificateObject?: string;
     fqdn?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 // @public
@@ -291,6 +310,7 @@ export interface BucketServerProperties {
     certificateObject?: string;
     fqdn?: string;
     readonly ipAddress?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 // @public
@@ -381,6 +401,12 @@ export interface CapacityPoolPatch {
 }
 
 // @public
+export interface CertificateAkvDetails {
+    certificateKeyVaultUri?: string;
+    certificateName?: string;
+}
+
+// @public
 export interface ChangeKeyVault {
     keyName: string;
     keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
@@ -448,6 +474,12 @@ export type CoolAccessTieringPolicy = string;
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CredentialsAkvDetails {
+    credentialsKeyVaultUri?: string;
+    secretName?: string;
+}
 
 // @public
 export type CredentialsStatus = string;
@@ -627,6 +659,7 @@ export interface ElasticEncryptionConfiguration {
 
 // @public
 export interface ElasticEncryptionIdentity {
+    federatedClientId?: string;
     readonly principalId?: string;
     userAssignedIdentity?: string;
 }
@@ -876,6 +909,36 @@ export type EncryptionType = string;
 export type EndpointType = string;
 
 // @public
+export interface EntraIdAkvConfig {
+    azureKeyVaultUri: string;
+    certificateName: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface EntraIdAkvConfigPatch {
+    azureKeyVaultUri?: string;
+    certificateName?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface EntraIdConfig {
+    applicationId: string;
+    domain: string;
+    entraIdAkvConfig?: EntraIdAkvConfig;
+    serverNamePrefix: string;
+}
+
+// @public
+export interface EntraIdConfigPatch {
+    applicationId?: string;
+    domain?: string;
+    entraIdAkvConfig?: EntraIdAkvConfigPatch;
+    serverNamePrefix?: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -926,7 +989,7 @@ export type FileAccessLogs = string;
 
 // @public
 export interface FilePathAvailabilityRequest {
-    availabilityZone?: string | null;
+    availabilityZone?: string;
     name: string;
     subnetId: string;
 }
@@ -1022,6 +1085,7 @@ export enum KnownActualRansomwareProtectionState {
 
 // @public
 export enum KnownApplicationType {
+    Custom = "CUSTOM",
     Oracle = "ORACLE",
     SAPHana = "SAP-HANA"
 }
@@ -1416,6 +1480,12 @@ export enum KnownNetworkSiblingSetProvisioningState {
 }
 
 // @public
+export enum KnownOnCertificateConflictAction {
+    Fail = "Fail",
+    Update = "Update"
+}
+
+// @public
 export enum KnownPolicyStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1432,6 +1502,14 @@ export enum KnownProtocolTypes {
 export enum KnownQosType {
     Auto = "Auto",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownQuotaType {
+    DefaultGroupQuota = "DefaultGroupQuota",
+    DefaultUserQuota = "DefaultUserQuota",
+    IndividualGroupQuota = "IndividualGroupQuota",
+    IndividualUserQuota = "IndividualUserQuota"
 }
 
 // @public
@@ -1532,21 +1610,12 @@ export enum KnownSnapshotUsage {
 }
 
 // @public
-export enum KnownType {
-    DefaultGroupQuota = "DefaultGroupQuota",
-    DefaultUserQuota = "DefaultUserQuota",
-    IndividualGroupQuota = "IndividualGroupQuota",
-    IndividualUserQuota = "IndividualUserQuota"
-}
-
-// @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview",
     V20250801 = "2025-08-01",
-    V20250801Preview = "2025-08-01-preview",
     V20250901 = "2025-09-01",
-    V20250901Preview = "2025-09-01-preview"
+    V20251201 = "2025-12-01",
+    V20251215Preview = "2025-12-15-preview"
 }
 
 // @public
@@ -1663,7 +1732,16 @@ export type LargeVolumeType = string;
 
 // @public
 export interface LdapConfiguration {
-    certificateCNHost?: string | null;
+    certificateCNHost?: string;
+    domain?: string;
+    ldapOverTLS?: boolean;
+    ldapServers?: string[];
+    serverCACertificate?: string;
+}
+
+// @public
+export interface LdapConfigurationPatch {
+    certificateCNHost?: string;
     domain?: string;
     ldapOverTLS?: boolean;
     ldapServers?: string[];
@@ -1685,7 +1763,12 @@ export type LdapState = string;
 
 // @public
 export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+    quotaReportRecords?: QuotaReport[];
+}
+
+// @public
+export interface ListQuotaReportResult {
+    properties?: ListQuotaReportResponse;
 }
 
 // @public
@@ -1704,7 +1787,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -1769,7 +1852,7 @@ export interface NetAppAccountPatch {
     identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
-    properties?: AccountProperties;
+    properties?: AccountPropertiesPatch;
     tags?: Record<string, string>;
     readonly type?: string;
 }
@@ -1804,6 +1887,9 @@ export interface NicInfo {
     readonly ipAddress?: string;
     volumeResourceIds?: string[];
 }
+
+// @public
+export type OnCertificateConflictAction = string;
 
 // @public
 export interface Operation {
@@ -1843,6 +1929,7 @@ export interface PeerClusterForVolumeMigrationRequest {
 export interface PeeringPassphrases {
     clusterPeeringCommand: string;
     clusterPeeringPassphrase: string;
+    readonly criticalWarning?: string;
     vserverPeeringCommand: string;
 }
 
@@ -1863,7 +1950,7 @@ export interface PoolChangeRequest {
 // @public
 export interface PoolPatchProperties {
     coolAccess?: boolean;
-    customThroughputMibps?: number | null;
+    customThroughputMibps?: number;
     qosType?: QosType;
     size?: number;
 }
@@ -1871,8 +1958,8 @@ export interface PoolPatchProperties {
 // @public
 export interface PoolProperties {
     coolAccess?: boolean;
-    customThroughputMibps?: number | null;
-    encryptionType?: EncryptionType | null;
+    customThroughputMibps?: number;
+    encryptionType?: EncryptionType;
     readonly poolId?: string;
     readonly provisioningState?: string;
     qosType?: QosType;
@@ -1914,7 +2001,7 @@ export interface QuotaItem extends ProxyResource {
 export interface QuotaItemProperties {
     readonly current?: number;
     readonly default?: number;
-    readonly usage?: number | null;
+    readonly usage?: number;
 }
 
 // @public
@@ -1924,8 +2011,18 @@ export interface QuotaReport {
     quotaLimitTotalInKiBs?: number;
     quotaLimitUsedInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
+
+// @public
+export interface QuotaReportFilterRequest {
+    quotaTarget?: string;
+    quotaType?: QuotaType;
+    usageThresholdPercentage?: number;
+}
+
+// @public
+export type QuotaType = string;
 
 // @public
 export interface RansomwareProtectionPatchSettings {
@@ -2019,7 +2116,7 @@ export interface Replication {
     endpointType?: EndpointType;
     readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
-    remoteVolumeResourceId: string;
+    remoteVolumeResourceId?: string;
     readonly replicationCreationTime?: Date;
     readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
@@ -2125,7 +2222,7 @@ export type SmbNonBrowsable = string;
 
 // @public
 export interface SmbSettings {
-    smbAccessBasedEnumerations?: SmbAccessBasedEnumeration;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbEncryption?: SmbEncryptionState;
     smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -2221,7 +2318,7 @@ export interface SubvolumeModelProperties {
 // @public
 export interface SubvolumePatchParams {
     path?: string;
-    size?: number | null;
+    size?: number;
 }
 
 // @public
@@ -2231,10 +2328,10 @@ export interface SubvolumePatchRequest {
 
 // @public
 export interface SubvolumeProperties {
-    parentPath?: string | null;
+    parentPath?: string;
     path?: string;
     readonly provisioningState?: string;
-    size?: number | null;
+    size?: number;
 }
 
 // @public
@@ -2263,9 +2360,6 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
-
-// @public
-export type Type = string;
 
 // @public
 export interface UpdateNetworkSiblingSetRequest {
@@ -2399,11 +2493,11 @@ export interface VolumePatchProperties {
     isDefaultQuotaEnabled?: boolean;
     protocolTypes?: string[];
     serviceLevel?: ServiceLevel;
-    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
     throughputMibps?: number;
-    unixPermissions?: string | null;
+    unixPermissions?: string;
     usageThreshold?: number;
 }
 
@@ -2424,11 +2518,11 @@ export interface VolumeProperties {
     acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
-    backupId?: string | null;
+    backupId?: string;
     readonly baremetalTenantId?: string;
     breakthroughMode?: BreakthroughMode;
     capacityPoolResourceId?: string;
-    readonly cloneProgress?: number | null;
+    readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
     coolAccessTieringPolicy?: CoolAccessTieringPolicy;
@@ -2446,7 +2540,7 @@ export interface VolumeProperties {
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
-    readonly inheritedSizeInBytes?: number | null;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     readonly isRestoring?: boolean;
@@ -2460,25 +2554,25 @@ export interface VolumeProperties {
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
-    readonly originatingResourceId?: string | null;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
-    readonly provisionedAvailabilityZone?: string | null;
+    readonly provisionedAvailabilityZone?: string;
     readonly provisioningState?: string;
     proximityPlacementGroup?: string;
     securityStyle?: SecurityStyle;
     serviceLevel?: ServiceLevel;
-    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbContinuouslyAvailable?: boolean;
     smbEncryption?: boolean;
     smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
-    snapshotId?: string | null;
+    snapshotId?: string;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
     subnetId: string;
     readonly t2Network?: string;
-    throughputMibps?: number | null;
-    unixPermissions?: string | null;
+    throughputMibps?: number;
+    unixPermissions?: string;
     usageThreshold: number;
     readonly volumeGroupName?: string;
     volumeSpecName?: string;
@@ -2515,7 +2609,7 @@ export interface VolumeQuotaRulesProperties {
     readonly provisioningState?: NetAppProvisioningState;
     quotaSizeInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
 
 // @public

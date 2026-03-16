@@ -18,15 +18,15 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable } from "../../utils/breezeUtils.js";
+import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
+import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -38,6 +38,7 @@ export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
+  private retryTimerDelayMs: number = 0;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -67,7 +68,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+      if (!process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -127,20 +128,14 @@ export abstract class BaseSender {
 
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
-        // Success -- @todo: start retry timer
-        if (!this.retryTimer) {
-          this.retryTimer = setTimeout(() => {
-            this.retryTimer = null;
-            this.sendFirstPersistedFile();
-          }, this.batchSendRetryIntervalMs);
-          this.retryTimer.unref();
-        }
+        // Success -- start retry timer to send persisted files
+        this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -149,14 +144,13 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 || statusCode === 439) {
+        if (statusCode === 429) {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          return {
-            code: ExportResultCode.SUCCESS,
-          };
+          this.scheduleRetryTimer(retryAfterMs);
+          return await this.persist(envelopes);
         }
         if (result) {
           diag.info(result);
@@ -175,8 +169,13 @@ export abstract class BaseSender {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
 
-              // Add to retry list if status code is retriable
-              if (error.statusCode && isRetriable(error.statusCode)) {
+              // Add to retry list if status code is retriable and not a sampling rejection
+              // Sampling rejections should not be retried as the server will always reject these items
+              if (
+                error.statusCode &&
+                isRetriable(error.statusCode) &&
+                !isSamplingRejection(error)
+              ) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });
@@ -196,6 +195,7 @@ export abstract class BaseSender {
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
+            this.scheduleRetryTimer(retryAfterMs);
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
@@ -217,6 +217,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
+          this.scheduleRetryTimer(retryAfterMs);
           return await this.persist(envelopes);
         }
       } else {
@@ -393,6 +394,23 @@ export abstract class BaseSender {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
       diag.warn(`Failed to fetch persisted file`, err);
+    }
+  }
+
+  private scheduleRetryTimer(retryAfterMs?: number): void {
+    const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+    // Reschedule if a new Retry-After would fire sooner than the existing timer
+    if (this.retryTimer && retryAfterMs !== undefined && delay < this.retryTimerDelayMs) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    if (!this.retryTimer) {
+      this.retryTimerDelayMs = delay;
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.sendFirstPersistedFile();
+      }, delay);
+      this.retryTimer.unref();
     }
   }
 

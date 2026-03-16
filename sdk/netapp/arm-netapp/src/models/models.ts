@@ -321,7 +321,7 @@ export interface QuotaItemProperties {
   /** The default quota value. */
   readonly default?: number;
   /** The usage quota value. */
-  readonly usage?: number | null;
+  readonly usage?: number;
 }
 
 export function quotaItemPropertiesDeserializer(item: any): QuotaItemProperties {
@@ -559,6 +559,8 @@ export enum KnownApplicationType {
   SAPHana = "SAP-HANA",
   /** ORACLE */
   Oracle = "ORACLE",
+  /** Custom application type allows min 2 and max 12 data volumes in a volume group. */
+  Custom = "CUSTOM",
 }
 
 /**
@@ -567,7 +569,8 @@ export enum KnownApplicationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SAP-HANA** \
- * **ORACLE**
+ * **ORACLE** \
+ * **CUSTOM**: Custom application type allows min 2 and max 12 data volumes in a volume group.
  */
 export type ApplicationType = string;
 
@@ -656,7 +659,9 @@ export function volumeGroupVolumePropertiesDeserializer(item: any): VolumeGroupV
     id: item["id"],
     name: item["name"],
     type: item["type"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -687,11 +692,11 @@ export interface VolumeProperties {
   /** Azure lifecycle management */
   readonly provisioningState?: string;
   /** Resource identifier used to identify the Snapshot. */
-  snapshotId?: string | null;
+  snapshotId?: string;
   /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
   deleteBaseSnapshot?: boolean;
   /** Resource identifier used to identify the Backup. */
-  backupId?: string | null;
+  backupId?: string;
   /** Unique Baremetal Tenant Identifier. */
   readonly baremetalTenantId?: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
@@ -723,13 +728,13 @@ export interface VolumeProperties {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
   smbEncryption?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
-  throughputMibps?: number | null;
+  throughputMibps?: number;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
   readonly actualThroughputMibps?: number;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
@@ -754,9 +759,9 @@ export interface VolumeProperties {
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
   coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string;
   /** When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning. */
-  readonly cloneProgress?: number | null;
+  readonly cloneProgress?: number;
   /** Flag indicating whether file access logs are enabled for the volume, based on active diagnostic settings present on the volume. */
   readonly fileAccessLogs?: FileAccessLogs;
   /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
@@ -788,7 +793,7 @@ export interface VolumeProperties {
   /** Flag indicating whether subvolume operations are enabled on the volume */
   enableSubvolumes?: EnableSubvolumes;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
-  readonly provisionedAvailabilityZone?: string | null;
+  readonly provisionedAvailabilityZone?: string;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
   isLargeVolume?: boolean;
   /**
@@ -798,9 +803,9 @@ export interface VolumeProperties {
    */
   largeVolumeType?: LargeVolumeType;
   /** Id of the snapshot or backup that the volume is restored from. */
-  readonly originatingResourceId?: string | null;
+  readonly originatingResourceId?: string;
   /** Space shared by short term clone volume with parent volume in bytes. */
-  readonly inheritedSizeInBytes?: number | null;
+  readonly inheritedSizeInBytes?: number;
   /** Language supported for volume. */
   language?: VolumeLanguage;
   /** Specifies whether the volume operates in Breakthrough Mode. */
@@ -984,9 +989,7 @@ export interface VolumePropertiesExportPolicy {
 }
 
 export function volumePropertiesExportPolicySerializer(item: VolumePropertiesExportPolicy): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 export function volumePropertiesExportPolicyDeserializer(item: any): VolumePropertiesExportPolicy {
@@ -1533,9 +1536,7 @@ export interface RansomwareProtectionSettings {
 }
 
 export function ransomwareProtectionSettingsSerializer(item: RansomwareProtectionSettings): any {
-  return {
-    desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"],
-  };
+  return { desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"] };
 }
 
 export function ransomwareProtectionSettingsDeserializer(item: any): RansomwareProtectionSettings {
@@ -2156,9 +2157,9 @@ export interface BackupProperties {
   /** The creation date of the backup */
   readonly creationDate?: Date;
   /** The snapshot creation date of the backup */
-  readonly snapshotCreationDate?: Date | null;
+  readonly snapshotCreationDate?: Date;
   /** The completion date of the backup */
-  readonly completionDate?: Date | null;
+  readonly completionDate?: Date;
   /** Azure lifecycle management */
   readonly provisioningState?: string;
   /** Size of backup in bytes */
@@ -2418,7 +2419,9 @@ export function volumeSerializer(item: Volume): any {
 
 export function volumeDeserializer(item: any): Volume {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2456,7 +2459,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -2512,7 +2517,7 @@ export interface VolumePatchProperties {
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
   defaultGroupQuotaInKiBs?: number;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -2529,7 +2534,7 @@ export interface VolumePatchProperties {
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
   snapshotDirectoryVisible?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -2573,9 +2578,7 @@ export interface VolumePatchPropertiesExportPolicy {
 export function volumePatchPropertiesExportPolicySerializer(
   item: VolumePatchPropertiesExportPolicy,
 ): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 /** DataProtection type volumes include an object containing details of the replication */
@@ -2611,9 +2614,7 @@ export interface RansomwareProtectionPatchSettings {
 export function ransomwareProtectionPatchSettingsSerializer(
   item: RansomwareProtectionPatchSettings,
 ): any {
-  return {
-    desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"],
-  };
+  return { desiredRansomwareProtectionState: item["desiredRansomwareProtectionState"] };
 }
 
 /** List of volume resources */
@@ -2800,7 +2801,7 @@ export interface Replication {
   /** Schedule */
   replicationSchedule?: ReplicationSchedule;
   /** The resource ID of the remote volume. */
-  remoteVolumeResourceId: string;
+  remoteVolumeResourceId?: string;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
   /** The status of the replication */
@@ -2919,15 +2920,73 @@ export function relocateVolumeRequestSerializer(item: RelocateVolumeRequest): an
   return { creationToken: item["creationToken"] };
 }
 
+/** Quota report filters. When filtering by quotaType or quotaTarget, both properties must be supplied together. This constraint is enforced by the service/API at runtime, and requests violating this rule will return a validation error. The usageThresholdPercentage filter is independent and can be used alone or in combination with quotaType and quotaTarget to further refine results. */
+export interface QuotaReportFilterRequest {
+  /** Type of quota. If provided, quotaTarget must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota type, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided. */
+  quotaType?: QuotaType;
+  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid>. If provided, quotaType must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota target, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided. */
+  quotaTarget?: string;
+  /** The usageThresholdPercentage filter takes the usage threshold percentage and returns records where the usage is greater than or equal to the input value. This is an optional property. */
+  usageThresholdPercentage?: number;
+}
+
+export function quotaReportFilterRequestSerializer(item: QuotaReportFilterRequest): any {
+  return {
+    quotaType: item["quotaType"],
+    quotaTarget: item["quotaTarget"],
+    usageThresholdPercentage: item["usageThresholdPercentage"],
+  };
+}
+
+/** Type of quota */
+export enum KnownQuotaType {
+  /** Default user quota */
+  DefaultUserQuota = "DefaultUserQuota",
+  /** Default group quota */
+  DefaultGroupQuota = "DefaultGroupQuota",
+  /** Individual user quota */
+  IndividualUserQuota = "IndividualUserQuota",
+  /** Individual group quota */
+  IndividualGroupQuota = "IndividualGroupQuota",
+}
+
+/**
+ * Type of quota \
+ * {@link KnownQuotaType} can be used interchangeably with QuotaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultUserQuota**: Default user quota \
+ * **DefaultGroupQuota**: Default group quota \
+ * **IndividualUserQuota**: Individual user quota \
+ * **IndividualGroupQuota**: Individual group quota
+ */
+export type QuotaType = string;
+
+/** * Result of ListQuotaReportResponse */
+export interface ListQuotaReportResult {
+  /** Represents the properties of the ListQuotaReport. */
+  properties?: ListQuotaReportResponse;
+}
+
+export function listQuotaReportResultDeserializer(item: any): ListQuotaReportResult {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : listQuotaReportResponseDeserializer(item["properties"]),
+  };
+}
+
 /** Quota Report for volume */
 export interface ListQuotaReportResponse {
   /** List of quota reports */
-  value?: QuotaReport[];
+  quotaReportRecords?: QuotaReport[];
 }
 
 export function listQuotaReportResponseDeserializer(item: any): ListQuotaReportResponse {
   return {
-    value: !item["value"] ? item["value"] : quotaReportArrayDeserializer(item["value"]),
+    quotaReportRecords: !item["quotaReportRecords"]
+      ? item["quotaReportRecords"]
+      : quotaReportArrayDeserializer(item["quotaReportRecords"]),
   };
 }
 
@@ -2940,7 +2999,7 @@ export function quotaReportArrayDeserializer(result: Array<QuotaReport>): any[] 
 /** Quota report record properties */
 export interface QuotaReport {
   /** Type of quota */
-  quotaType?: Type;
+  quotaType?: QuotaType;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
   quotaTarget?: string;
   /** Specifies the current usage in kibibytes for the user/group quota. */
@@ -2963,30 +3022,6 @@ export function quotaReportDeserializer(item: any): QuotaReport {
     isDerivedQuota: item["isDerivedQuota"],
   };
 }
-
-/** Type of quota */
-export enum KnownType {
-  /** Default user quota */
-  DefaultUserQuota = "DefaultUserQuota",
-  /** Default group quota */
-  DefaultGroupQuota = "DefaultGroupQuota",
-  /** Individual user quota */
-  IndividualUserQuota = "IndividualUserQuota",
-  /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota",
-}
-
-/**
- * Type of quota \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DefaultUserQuota**: Default user quota \
- * **DefaultGroupQuota**: Default group quota \
- * **IndividualUserQuota**: Individual user quota \
- * **IndividualGroupQuota**: Individual group quota
- */
-export type Type = string;
 
 /** Snapshot of a Volume */
 export interface Snapshot extends ProxyResource {
@@ -3111,7 +3146,9 @@ export function snapshotPolicySerializer(item: SnapshotPolicy): any {
 
 export function snapshotPolicyDeserializer(item: any): SnapshotPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3387,7 +3424,9 @@ export function backupPolicySerializer(item: BackupPolicy): any {
 
 export function backupPolicyDeserializer(item: any): BackupPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3542,7 +3581,9 @@ export function volumeQuotaRuleSerializer(item: VolumeQuotaRule): any {
 
 export function volumeQuotaRuleDeserializer(item: any): VolumeQuotaRule {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3563,7 +3604,7 @@ export interface VolumeQuotaRulesProperties {
   /** Size of quota */
   quotaSizeInKiBs?: number;
   /** Type of quota */
-  quotaType?: Type;
+  quotaType?: QuotaType;
   /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
   quotaTarget?: string;
 }
@@ -3896,7 +3937,9 @@ export function backupVaultSerializer(item: BackupVault): any {
 
 export function backupVaultDeserializer(item: any): BackupVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -4011,6 +4054,17 @@ export interface BucketProperties {
   server?: BucketServerProperties;
   /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
   permissions?: BucketPermissions;
+  /**
+   * Specifies the Azure Key Vault settings. These are used when
+   * a) retrieving the bucket server certificate, and
+   * b) storing the bucket credentials
+   *
+   * Notes:
+   *
+   * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+   * 2. These properties are mutually exclusive with the server.certificateObject property.
+   */
+  akvDetails?: AzureKeyVaultDetails;
 }
 
 export function bucketPropertiesSerializer(item: BucketProperties): any {
@@ -4021,6 +4075,9 @@ export function bucketPropertiesSerializer(item: BucketProperties): any {
       : fileSystemUserSerializer(item["fileSystemUser"]),
     server: !item["server"] ? item["server"] : bucketServerPropertiesSerializer(item["server"]),
     permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsSerializer(item["akvDetails"]),
   };
 }
 
@@ -4034,6 +4091,9 @@ export function bucketPropertiesDeserializer(item: any): BucketProperties {
     status: item["status"],
     server: !item["server"] ? item["server"] : bucketServerPropertiesDeserializer(item["server"]),
     permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsDeserializer(item["akvDetails"]),
   };
 }
 
@@ -4135,12 +4195,24 @@ export interface BucketServerProperties {
   readonly certificateExpiryDate?: Date;
   /** The bucket server's IPv4 address */
   readonly ipAddress?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
+  /**
+   * The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner.
+   * Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties.
+   */
   certificateObject?: string;
+  /**
+   * Action to take when there is a certificate conflict.
+   * Possible values include: 'Update', 'Fail'
+   */
+  onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 export function bucketServerPropertiesSerializer(item: BucketServerProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
+  return {
+    fqdn: item["fqdn"],
+    certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
+  };
 }
 
 export function bucketServerPropertiesDeserializer(item: any): BucketServerProperties {
@@ -4152,8 +4224,33 @@ export function bucketServerPropertiesDeserializer(item: any): BucketServerPrope
       : new Date(item["certificateExpiryDate"]),
     ipAddress: item["ipAddress"],
     certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
   };
 }
+
+/**
+ * This action is triggered when a certificate conflict occurs. A conflict arises if you try to create a new bucket while one or more already exist on the server, or if you update a bucket when multiple buckets are present. This happens because a single certificate is shared among all buckets on the same server.
+ *
+ * Note: This applies both to certificates provided directly via the certificateObject property and to those retrieved from Azure Key Vault. Details for the latter case are specified in the akvDetails.certificateAkvDetails section.
+ */
+export enum KnownOnCertificateConflictAction {
+  /** Update the existing certificate regardless of whether there is a conflict or not. This means all buckets on the server will now use the new certificate. */
+  Update = "Update",
+  /** Fail the operation if a conflict occurs, meaning the bucket operation will fail, and the existing certificate will continue to be in use. */
+  Fail = "Fail",
+}
+
+/**
+ * This action is triggered when a certificate conflict occurs. A conflict arises if you try to create a new bucket while one or more already exist on the server, or if you update a bucket when multiple buckets are present. This happens because a single certificate is shared among all buckets on the same server.
+ *
+ * Note: This applies both to certificates provided directly via the certificateObject property and to those retrieved from Azure Key Vault. Details for the latter case are specified in the akvDetails.certificateAkvDetails section. \
+ * {@link KnownOnCertificateConflictAction} can be used interchangeably with OnCertificateConflictAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Update**: Update the existing certificate regardless of whether there is a conflict or not. This means all buckets on the server will now use the new certificate. \
+ * **Fail**: Fail the operation if a conflict occurs, meaning the bucket operation will fail, and the existing certificate will continue to be in use.
+ */
+export type OnCertificateConflictAction = string;
 
 /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
 export enum KnownBucketPermissions {
@@ -4173,6 +4270,94 @@ export enum KnownBucketPermissions {
  */
 export type BucketPermissions = string;
 
+/**
+ * Specifies the Azure Key Vault settings. These are used when
+ * a) retrieving the bucket server certificate, and
+ * b) storing the bucket credentials
+ *
+ * Notes:
+ *
+ * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+ *
+ * 2. These properties are mutually exclusive with the server.certificateObject property.
+ */
+export interface AzureKeyVaultDetails {
+  /** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
+  certificateAkvDetails?: CertificateAkvDetails;
+  /** Specifies the Azure Key Vault settings for storing the bucket credentials. */
+  credentialsAkvDetails?: CredentialsAkvDetails;
+}
+
+export function azureKeyVaultDetailsSerializer(item: AzureKeyVaultDetails): any {
+  return {
+    certificateAkvDetails: !item["certificateAkvDetails"]
+      ? item["certificateAkvDetails"]
+      : certificateAkvDetailsSerializer(item["certificateAkvDetails"]),
+    credentialsAkvDetails: !item["credentialsAkvDetails"]
+      ? item["credentialsAkvDetails"]
+      : credentialsAkvDetailsSerializer(item["credentialsAkvDetails"]),
+  };
+}
+
+export function azureKeyVaultDetailsDeserializer(item: any): AzureKeyVaultDetails {
+  return {
+    certificateAkvDetails: !item["certificateAkvDetails"]
+      ? item["certificateAkvDetails"]
+      : certificateAkvDetailsDeserializer(item["certificateAkvDetails"]),
+    credentialsAkvDetails: !item["credentialsAkvDetails"]
+      ? item["credentialsAkvDetails"]
+      : credentialsAkvDetailsDeserializer(item["credentialsAkvDetails"]),
+  };
+}
+
+/** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
+export interface CertificateAkvDetails {
+  /** The base URI of the Azure Key Vault that is used when retrieving the bucket certificate. */
+  certificateKeyVaultUri?: string;
+  /** The name of the bucket server certificate stored in the Azure Key Vault. */
+  certificateName?: string;
+}
+
+export function certificateAkvDetailsSerializer(item: CertificateAkvDetails): any {
+  return {
+    certificateKeyVaultUri: item["certificateKeyVaultUri"],
+    certificateName: item["certificateName"],
+  };
+}
+
+export function certificateAkvDetailsDeserializer(item: any): CertificateAkvDetails {
+  return {
+    certificateKeyVaultUri: item["certificateKeyVaultUri"],
+    certificateName: item["certificateName"],
+  };
+}
+
+/** Specifies the Azure Key Vault settings for storing the bucket credentials. */
+export interface CredentialsAkvDetails {
+  /** The base URI of the Azure Key Vault that is used when storing the bucket credentials. */
+  credentialsKeyVaultUri?: string;
+  /**
+   * The name of the secret stored in Azure Key Vault. The associated key pair has the following structure:
+   *
+   * {
+   * "access_key_id": "<REDACTED>",
+   * "secret_access_key": "<REDACTED>"
+   * }
+   */
+  secretName?: string;
+}
+
+export function credentialsAkvDetailsSerializer(item: CredentialsAkvDetails): any {
+  return { credentialsKeyVaultUri: item["credentialsKeyVaultUri"], secretName: item["secretName"] };
+}
+
+export function credentialsAkvDetailsDeserializer(item: any): CredentialsAkvDetails {
+  return {
+    credentialsKeyVaultUri: item["credentialsKeyVaultUri"],
+    secretName: item["secretName"],
+  };
+}
+
 /** Bucket resource */
 export interface BucketPatch extends ProxyResource {
   /** Bucket properties */
@@ -4189,8 +4374,6 @@ export function bucketPatchSerializer(item: BucketPatch): any {
 
 /** Bucket resource properties for a Patch operation */
 export interface BucketPatchProperties {
-  /** The volume path mounted inside the bucket. */
-  path?: string;
   /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
   fileSystemUser?: FileSystemUser;
   /** Provisioning state of the resource */
@@ -4199,11 +4382,21 @@ export interface BucketPatchProperties {
   server?: BucketServerPatchProperties;
   /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
   permissions?: BucketPatchPermissions;
+  /**
+   * Specifies the Azure Key Vault settings. These are used when
+   * a) retrieving the bucket server certificate, and
+   * b) storing the bucket credentials
+   *
+   * Notes:
+   *
+   * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+   * 2. These properties are mutually exclusive with the server.certificateObject property.
+   */
+  akvDetails?: AzureKeyVaultDetails;
 }
 
 export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): any {
   return {
-    path: item["path"],
     fileSystemUser: !item["fileSystemUser"]
       ? item["fileSystemUser"]
       : fileSystemUserSerializer(item["fileSystemUser"]),
@@ -4211,6 +4404,9 @@ export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): an
       ? item["server"]
       : bucketServerPatchPropertiesSerializer(item["server"]),
     permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsSerializer(item["akvDetails"]),
   };
 }
 
@@ -4218,12 +4414,24 @@ export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): an
 export interface BucketServerPatchProperties {
   /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
   fqdn?: string;
-  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
+  /**
+   * The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner.
+   * Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties.
+   */
   certificateObject?: string;
+  /**
+   * Action to take when there is a certificate conflict.
+   * Possible values include: 'Update', 'Fail'
+   */
+  onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 export function bucketServerPatchPropertiesSerializer(item: BucketServerPatchProperties): any {
-  return { fqdn: item["fqdn"], certificateObject: item["certificateObject"] };
+  return {
+    fqdn: item["fqdn"],
+    certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
+  };
 }
 
 /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
@@ -4324,7 +4532,9 @@ export function cacheSerializer(item: Cache): any {
 
 export function cacheDeserializer(item: any): Cache {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -4472,9 +4682,7 @@ export interface CachePropertiesExportPolicy {
 }
 
 export function cachePropertiesExportPolicySerializer(item: CachePropertiesExportPolicy): any {
-  return {
-    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]),
-  };
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
 }
 
 export function cachePropertiesExportPolicyDeserializer(item: any): CachePropertiesExportPolicy {
@@ -4610,7 +4818,7 @@ export interface SmbSettings {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. */
   smbEncryption?: SmbEncryptionState;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumerations?: SmbAccessBasedEnumeration;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -4618,7 +4826,7 @@ export interface SmbSettings {
 export function smbSettingsSerializer(item: SmbSettings): any {
   return {
     smbEncryption: item["smbEncryption"],
-    smbAccessBasedEnumerations: item["smbAccessBasedEnumerations"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
   };
 }
@@ -4626,7 +4834,7 @@ export function smbSettingsSerializer(item: SmbSettings): any {
 export function smbSettingsDeserializer(item: any): SmbSettings {
   return {
     smbEncryption: item["smbEncryption"],
-    smbAccessBasedEnumerations: item["smbAccessBasedEnumerations"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
   };
 }
@@ -4866,6 +5074,8 @@ export interface PeeringPassphrases {
   clusterPeeringPassphrase: string;
   /** The vserver peering command. */
   vserverPeeringCommand: string;
+  /** Warnings that are critical for the cluster peering and vserver peering processes. */
+  readonly criticalWarning?: string;
 }
 
 export function peeringPassphrasesDeserializer(item: any): PeeringPassphrases {
@@ -4873,6 +5083,7 @@ export function peeringPassphrasesDeserializer(item: any): PeeringPassphrases {
     clusterPeeringCommand: item["clusterPeeringCommand"],
     clusterPeeringPassphrase: item["clusterPeeringPassphrase"],
     vserverPeeringCommand: item["vserverPeeringCommand"],
+    criticalWarning: item["criticalWarning"],
   };
 }
 
@@ -4901,7 +5112,9 @@ export function elasticAccountSerializer(item: ElasticAccount): any {
 
 export function elasticAccountDeserializer(item: any): ElasticAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5058,16 +5271,22 @@ export interface ElasticEncryptionIdentity {
   readonly principalId?: string;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
   userAssignedIdentity?: string;
+  /** ClientId of the multi-tenant Entra ID Application. Used to access cross-tenant keyvaults. */
+  federatedClientId?: string;
 }
 
 export function elasticEncryptionIdentitySerializer(item: ElasticEncryptionIdentity): any {
-  return { userAssignedIdentity: item["userAssignedIdentity"] };
+  return {
+    userAssignedIdentity: item["userAssignedIdentity"],
+    federatedClientId: item["federatedClientId"],
+  };
 }
 
 export function elasticEncryptionIdentityDeserializer(item: any): ElasticEncryptionIdentity {
   return {
     principalId: item["principalId"],
     userAssignedIdentity: item["userAssignedIdentity"],
+    federatedClientId: item["federatedClientId"],
   };
 }
 
@@ -5080,14 +5299,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -5095,7 +5311,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -5234,7 +5457,9 @@ export function elasticCapacityPoolSerializer(item: ElasticCapacityPool): any {
 
 export function elasticCapacityPoolDeserializer(item: any): ElasticCapacityPool {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -5556,7 +5781,9 @@ export function elasticVolumeSerializer(item: ElasticVolume): any {
 
 export function elasticVolumeDeserializer(item: any): ElasticVolume {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6234,7 +6461,9 @@ export function elasticSnapshotPolicySerializer(item: ElasticSnapshotPolicy): an
 
 export function elasticSnapshotPolicyDeserializer(item: any): ElasticSnapshotPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6342,11 +6571,7 @@ export interface ElasticSnapshotPolicyDailySchedule {
 export function elasticSnapshotPolicyDailyScheduleSerializer(
   item: ElasticSnapshotPolicyDailySchedule,
 ): any {
-  return {
-    snapshotsToKeep: item["snapshotsToKeep"],
-    hour: item["hour"],
-    minute: item["minute"],
-  };
+  return { snapshotsToKeep: item["snapshotsToKeep"], hour: item["hour"], minute: item["minute"] };
 }
 
 export function elasticSnapshotPolicyDailyScheduleDeserializer(
@@ -6613,7 +6838,9 @@ export function elasticBackupVaultSerializer(item: ElasticBackupVault): any {
 
 export function elasticBackupVaultDeserializer(item: any): ElasticBackupVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6703,7 +6930,9 @@ export function elasticBackupPolicySerializer(item: ElasticBackupPolicy): any {
 
 export function elasticBackupPolicyDeserializer(item: any): ElasticBackupPolicy {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7038,7 +7267,9 @@ export function activeDirectoryConfigSerializer(item: ActiveDirectoryConfig): an
 
 export function activeDirectoryConfigDeserializer(item: any): ActiveDirectoryConfig {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7507,7 +7738,9 @@ export function netAppAccountSerializer(item: NetAppAccount): any {
 
 export function netAppAccountDeserializer(item: any): NetAppAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7531,12 +7764,14 @@ export interface AccountProperties {
   readonly provisioningState?: string;
   /** Active Directories */
   activeDirectories?: ActiveDirectory[];
+  /** Entra ID configuration for the account. */
+  entraIdConfig?: EntraIdConfig;
   /** Encryption settings */
   encryption?: AccountEncryption;
   /** Shows the status of disableShowmount for all volumes under the subscription, null equals false */
-  readonly disableShowmount?: boolean | null;
+  readonly disableShowmount?: boolean;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string | null;
+  nfsV4IDDomain?: string;
   /** MultiAD Status for the account */
   readonly multiAdStatus?: MultiAdStatus;
   /** LDAP Configuration for the account. */
@@ -7548,6 +7783,9 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
     activeDirectories: !item["activeDirectories"]
       ? item["activeDirectories"]
       : activeDirectoryArraySerializer(item["activeDirectories"]),
+    entraIdConfig: !item["entraIdConfig"]
+      ? item["entraIdConfig"]
+      : entraIdConfigSerializer(item["entraIdConfig"]),
     encryption: !item["encryption"]
       ? item["encryption"]
       : accountEncryptionSerializer(item["encryption"]),
@@ -7564,6 +7802,9 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
     activeDirectories: !item["activeDirectories"]
       ? item["activeDirectories"]
       : activeDirectoryArrayDeserializer(item["activeDirectories"]),
+    entraIdConfig: !item["entraIdConfig"]
+      ? item["entraIdConfig"]
+      : entraIdConfigDeserializer(item["entraIdConfig"]),
     encryption: !item["encryption"]
       ? item["encryption"]
       : accountEncryptionDeserializer(item["encryption"]),
@@ -7591,7 +7832,7 @@ export function activeDirectoryArrayDeserializer(result: Array<ActiveDirectory>)
 /** Active Directory */
 export interface ActiveDirectory {
   /** Id of the Active Directory */
-  activeDirectoryId?: string | null;
+  activeDirectoryId?: string;
   /** A domain user account with permission to create machine accounts */
   username?: string;
   /** Plain text password of Active Directory domain administrator, value is masked in the response */
@@ -7746,6 +7987,66 @@ export function ldapSearchScopeOptDeserializer(item: any): LdapSearchScopeOpt {
   };
 }
 
+/** Entra ID configuration for the account. */
+export interface EntraIdConfig {
+  /** ApplicationId of the app created by customer to provide authentication and required API permissions for Microsoft Graph endpoint. */
+  applicationId: string;
+  /** Domain of the Active directory synced to Entra ID for hybrid identities. */
+  domain: string;
+  /** Using ServerNamePrefix, FQDN (Fully Qualified Domain Name) will be generated for SMB share, using this FQDN, SMB Share will be mounted on Entra Joined VM. */
+  serverNamePrefix: string;
+  /** Using AKV config, certificate will be fetched, which will contain private key & public certificate, that correspond to the public certificate which is uploaded on the application created by customer. This will be used further for authentication. */
+  entraIdAkvConfig?: EntraIdAkvConfig;
+}
+
+export function entraIdConfigSerializer(item: EntraIdConfig): any {
+  return {
+    applicationId: item["applicationId"],
+    domain: item["domain"],
+    serverNamePrefix: item["serverNamePrefix"],
+    entraIdAkvConfig: !item["entraIdAkvConfig"]
+      ? item["entraIdAkvConfig"]
+      : entraIdAkvConfigSerializer(item["entraIdAkvConfig"]),
+  };
+}
+
+export function entraIdConfigDeserializer(item: any): EntraIdConfig {
+  return {
+    applicationId: item["applicationId"],
+    domain: item["domain"],
+    serverNamePrefix: item["serverNamePrefix"],
+    entraIdAkvConfig: !item["entraIdAkvConfig"]
+      ? item["entraIdAkvConfig"]
+      : entraIdAkvConfigDeserializer(item["entraIdAkvConfig"]),
+  };
+}
+
+/** Using AKV config, certificate will be fetched, which will contain private key & public certificate, that correspond to the public certificate which is uploaded on the application created by customer. This will be used further for authentication. */
+export interface EntraIdAkvConfig {
+  /** The Azure Key Vault URI where the Entra ID credentials are stored. */
+  azureKeyVaultUri: string;
+  /** The name of the certificate in Azure Key Vault. */
+  certificateName: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. */
+  userAssignedIdentity?: string;
+}
+
+export function entraIdAkvConfigSerializer(item: EntraIdAkvConfig): any {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    certificateName: item["certificateName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+export function entraIdAkvConfigDeserializer(item: any): EntraIdAkvConfig {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    certificateName: item["certificateName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
 /** Encryption settings */
 export interface AccountEncryption {
   /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault */
@@ -7843,7 +8144,7 @@ export interface EncryptionIdentity {
   readonly principalId?: string;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
   userAssignedIdentity?: string;
-  /** ClientId of the multi-tenant AAD Application. Used to access cross-tenant keyvaults. */
+  /** ClientId of the multi-tenant Entra ID Application. Used to access cross-tenant keyvaults. */
   federatedClientId?: string;
 }
 
@@ -7891,7 +8192,7 @@ export interface LdapConfiguration {
   /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
-  certificateCNHost?: string | null;
+  certificateCNHost?: string;
 }
 
 export function ldapConfigurationSerializer(item: LdapConfiguration): any {
@@ -7935,7 +8236,7 @@ export interface NetAppAccountPatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** NetApp Account properties */
-  properties?: AccountProperties;
+  properties?: AccountPropertiesPatch;
   /** The identity used for the resource. */
   identity?: ManagedServiceIdentity;
 }
@@ -7946,10 +8247,114 @@ export function netAppAccountPatchSerializer(item: NetAppAccountPatch): any {
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : accountPropertiesSerializer(item["properties"]),
+      : accountPropertiesPatchSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+/** NetApp account properties for PATCH operations */
+export interface AccountPropertiesPatch {
+  /** Active Directories */
+  activeDirectories?: ActiveDirectory[];
+  /** Entra ID configuration for the account. */
+  entraIdConfig?: EntraIdConfigPatch;
+  /** Encryption settings */
+  encryption?: AccountEncryption;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string;
+  /** MultiAD Status for the account */
+  multiAdStatus?: MultiAdStatus;
+  /** LDAP Configuration for the account. */
+  ldapConfiguration?: LdapConfigurationPatch;
+}
+
+export function accountPropertiesPatchSerializer(item: AccountPropertiesPatch): any {
+  return {
+    activeDirectories: !item["activeDirectories"]
+      ? item["activeDirectories"]
+      : activeDirectoryArraySerializer(item["activeDirectories"]),
+    entraIdConfig: !item["entraIdConfig"]
+      ? item["entraIdConfig"]
+      : entraIdConfigPatchSerializer(item["entraIdConfig"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : accountEncryptionSerializer(item["encryption"]),
+    nfsV4IDDomain: item["nfsV4IDDomain"],
+    multiAdStatus: item["multiAdStatus"],
+    ldapConfiguration: !item["ldapConfiguration"]
+      ? item["ldapConfiguration"]
+      : ldapConfigurationPatchSerializer(item["ldapConfiguration"]),
+  };
+}
+
+/** Entra ID Patch configuration for the account. */
+export interface EntraIdConfigPatch {
+  /** ApplicationId of the app created by customer to provide authentication and required API permissions for Microsoft Graph endpoint. */
+  applicationId?: string;
+  /** Domain of the Active directory synced to Entra ID for hybrid identities. */
+  domain?: string;
+  /** Using ServerNamePrefix, FQDN (Fully Qualified Domain Name) will be generated for SMB share, using this FQDN, SMB Share will be mounted on Entra Joined VM. */
+  serverNamePrefix?: string;
+  /** Using AKV config, certificate will be fetched, which will contain private key & public certificate, that correspond to the public certificate which is uploaded on the application created by customer. This will be used further for authentication. */
+  entraIdAkvConfig?: EntraIdAkvConfigPatch;
+}
+
+export function entraIdConfigPatchSerializer(item: EntraIdConfigPatch): any {
+  return {
+    applicationId: item["applicationId"],
+    domain: item["domain"],
+    serverNamePrefix: item["serverNamePrefix"],
+    entraIdAkvConfig: !item["entraIdAkvConfig"]
+      ? item["entraIdAkvConfig"]
+      : entraIdAkvConfigPatchSerializer(item["entraIdAkvConfig"]),
+  };
+}
+
+/** Using AKV config, certificate will be fetched, which will contain private key & public certificate, that correspond to the public certificate which is uploaded on the application created by customer. This will be used further for authentication. */
+export interface EntraIdAkvConfigPatch {
+  /** The Azure Key Vault URI where the Entra ID credentials are stored. */
+  azureKeyVaultUri?: string;
+  /** The name of the certificate in Azure Key Vault. */
+  certificateName?: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. */
+  userAssignedIdentity?: string;
+}
+
+export function entraIdAkvConfigPatchSerializer(item: EntraIdAkvConfigPatch): any {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    certificateName: item["certificateName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+/** LDAP configuration for PATCH operations (no default values) */
+export interface LdapConfigurationPatch {
+  /** Name of the LDAP configuration domain */
+  domain?: string;
+  /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
+  ldapServers?: string[];
+  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
+  ldapOverTLS?: boolean;
+  /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
+  serverCACertificate?: string;
+  /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
+  certificateCNHost?: string;
+}
+
+export function ldapConfigurationPatchSerializer(item: LdapConfigurationPatch): any {
+  return {
+    domain: item["domain"],
+    ldapServers: !item["ldapServers"]
+      ? item["ldapServers"]
+      : item["ldapServers"].map((p: any) => {
+          return p;
+        }),
+    ldapOverTLS: item["ldapOverTLS"],
+    serverCACertificate: item["serverCACertificate"],
+    certificateCNHost: item["certificateCNHost"],
   };
 }
 
@@ -8123,7 +8528,9 @@ export function capacityPoolSerializer(item: CapacityPool): any {
 
 export function capacityPoolDeserializer(item: any): CapacityPool {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -8140,7 +8547,7 @@ export function capacityPoolDeserializer(item: any): CapacityPool {
 export interface PoolProperties {
   /** UUID v4 used to identify the Pool */
   readonly poolId?: string;
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are 512GiB (549755813888 bytes) or in 1TiB chunks (value must be multiple of 1099511627776). */
   size: number;
   /** The service level of the file system */
   serviceLevel: ServiceLevel;
@@ -8151,13 +8558,13 @@ export interface PoolProperties {
   /** Utilized throughput of pool in MiB/s */
   readonly utilizedThroughputMibps?: number;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
   /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
-  encryptionType?: EncryptionType | null;
+  encryptionType?: EncryptionType;
 }
 
 export function poolPropertiesSerializer(item: PoolProperties): any {
@@ -8250,14 +8657,14 @@ export function capacityPoolPatchSerializer(item: CapacityPoolPatch): any {
 
 /** Patchable pool properties */
 export interface PoolPatchProperties {
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are 512GiB (549755813888 bytes) or in 1TiB chunks (value must be multiple of 1099511627776). */
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number;
 }
 
 export function poolPatchPropertiesSerializer(item: PoolPatchProperties): any {
@@ -8349,19 +8756,15 @@ export interface SubvolumeProperties {
   /** Path to the subvolume */
   path?: string;
   /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
+  size?: number;
   /** parent path to the subvolume */
-  parentPath?: string | null;
+  parentPath?: string;
   /** Azure lifecycle management */
   readonly provisioningState?: string;
 }
 
 export function subvolumePropertiesSerializer(item: SubvolumeProperties): any {
-  return {
-    path: item["path"],
-    size: item["size"],
-    parentPath: item["parentPath"],
-  };
+  return { path: item["path"], size: item["size"], parentPath: item["parentPath"] };
 }
 
 export function subvolumePropertiesDeserializer(item: any): SubvolumeProperties {
@@ -8390,7 +8793,7 @@ export function subvolumePatchRequestSerializer(item: SubvolumePatchRequest): an
 /** Parameters with which a subvolume can be updated */
 export interface SubvolumePatchParams {
   /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
+  size?: number;
   /** path to the subvolume */
   path?: string;
 }
@@ -8509,11 +8912,7 @@ export interface ResourceNameAvailabilityRequest {
 export function resourceNameAvailabilityRequestSerializer(
   item: ResourceNameAvailabilityRequest,
 ): any {
-  return {
-    name: item["name"],
-    type: item["type"],
-    resourceGroup: item["resourceGroup"],
-  };
+  return { name: item["name"], type: item["type"], resourceGroup: item["resourceGroup"] };
 }
 
 /** Resource type used for verification. */
@@ -8589,7 +8988,7 @@ export interface FilePathAvailabilityRequest {
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
   /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
-  availabilityZone?: string | null;
+  availabilityZone?: string;
 }
 
 export function filePathAvailabilityRequestSerializer(item: FilePathAvailabilityRequest): any {
@@ -8611,11 +9010,7 @@ export interface QuotaAvailabilityRequest {
 }
 
 export function quotaAvailabilityRequestSerializer(item: QuotaAvailabilityRequest): any {
-  return {
-    name: item["name"],
-    type: item["type"],
-    resourceGroup: item["resourceGroup"],
-  };
+  return { name: item["name"], type: item["type"], resourceGroup: item["resourceGroup"] };
 }
 
 /** Resource type used for verification. */
@@ -8657,10 +9052,7 @@ export interface QueryNetworkSiblingSetRequest {
 }
 
 export function queryNetworkSiblingSetRequestSerializer(item: QueryNetworkSiblingSetRequest): any {
-  return {
-    networkSiblingSetId: item["networkSiblingSetId"],
-    subnetId: item["subnetId"],
-  };
+  return { networkSiblingSetId: item["networkSiblingSetId"], subnetId: item["subnetId"] };
 }
 
 /** Describes the contents of a network sibling set. */
@@ -8842,14 +9234,12 @@ export function usagePropertiesDeserializer(item: any): UsageProperties {
 export enum KnownVersions {
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
-  /** The 2025-07-01-preview API version. */
-  V20250701Preview = "2025-07-01-preview",
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
-  /** The 2025-08-01-preview API version. */
-  V20250801Preview = "2025-08-01-preview",
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
-  /** The 2025-09-01-preview API version. */
-  V20250901Preview = "2025-09-01-preview",
+  /** The 2025-12-01 API version. */
+  V20251201 = "2025-12-01",
+  /** The 2025-12-15-preview API version. */
+  V20251215Preview = "2025-12-15-preview",
 }

@@ -3,6 +3,6 @@
 
 export {
   createDeviceRegistryManagement,
-  DeviceRegistryManagementContext,
-  DeviceRegistryManagementClientOptionalParams,
+  type DeviceRegistryManagementContext,
+  type DeviceRegistryManagementClientOptionalParams,
 } from "./deviceRegistryManagementContext.js";

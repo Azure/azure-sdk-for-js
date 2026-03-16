@@ -3,8 +3,8 @@
 
 export {
   createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
+  type KeyVaultContext,
+  type KeyVaultClientOptionalParams,
 } from "./keyVaultContext.js";
 export {
   recoverDeletedCertificate,
@@ -35,7 +35,7 @@ export {
   deleteCertificate,
   getCertificates,
 } from "./operations.js";
-export {
+export type {
   RecoverDeletedCertificateOptionalParams,
   PurgeDeletedCertificateOptionalParams,
   GetDeletedCertificateOptionalParams,

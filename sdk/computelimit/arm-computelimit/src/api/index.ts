@@ -3,6 +3,6 @@
 
 export {
   createComputeLimit,
-  ComputeLimitContext,
-  ComputeLimitClientOptionalParams,
+  type ComputeLimitContext,
+  type ComputeLimitClientOptionalParams,
 } from "./computeLimitContext.js";

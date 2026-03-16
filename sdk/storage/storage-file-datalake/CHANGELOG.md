@@ -1,5 +1,15 @@
 # Release History
 
+## 12.30.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
 ## 12.29.0 (2026-01-16)
 
 ### Features Added

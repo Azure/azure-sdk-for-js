@@ -1,5 +1,26 @@
 # Release History
 
+## 12.32.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Added support for service version 2026-04-06.
+- Added support for Content Validation via Structured Message.
+- Added support for Delete Blob Conditional Tier.
+- Added support for Server-side Encryption Rekeying.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+- Added support for Dynamic User Delegation SAS.
+
+## 12.31.0 (2026-02-10)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+### Other Changes
+
+- Updated minimum version of `@azure/storage-common` to `^12.3.0`.
+
 ## 12.30.0 (2026-01-16)
 
 ### Features Added

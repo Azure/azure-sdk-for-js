@@ -62,7 +62,7 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/core": "^2.0.0",
-    "@opentelemetry/instrumentation": "^0.200.0",
+    "@opentelemetry/instrumentation": "^0.211.0",
     "@opentelemetry/sdk-trace-web": "^2.0.0",
     "tslib": "^2.7.0"
   },
@@ -81,7 +81,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -92,22 +91,6 @@
     "productSlugs": [],
     "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "requiredResources": {}
-  },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

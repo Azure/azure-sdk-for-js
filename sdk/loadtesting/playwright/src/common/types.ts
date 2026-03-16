@@ -4,7 +4,7 @@
 import type { ConnectOptions } from "@playwright/test";
 import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
-import { CIInfo } from "../utils/cIInfoProvider.js";
+import type { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 
@@ -209,6 +209,12 @@ export type WorkspaceMetaData = {
   regionalAffinity?: string;
   localAuth?: string;
   storageUri?: string;
+  reporting?: string;
+};
+
+export type TenantInfo = {
+  tenantId?: string;
+  defaultDomain?: string;
 };
 
 export interface UploadResult {

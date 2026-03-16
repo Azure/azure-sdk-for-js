@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.10 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.10 (2026-03-04)
 
 ### Other Changes
+
+- Updated `@opentelemetry/instrumentation` dependency to ^0.211.0.
 
 ## 1.0.0-beta.9 (2025-06-10)
 

@@ -168,7 +168,7 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
@@ -195,12 +195,12 @@ describe("Library/Config", () => {
       );
     });
 
-    it("microsoft.rate_limited without arg keeps default samplingRatio=1 in InternalConfig", () => {
+    it("microsoft.rate_limited without arg keeps default tracesPerSecond=5 in InternalConfig", () => {
       vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
 
       const config = new InternalConfig();
 
-      assert.strictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
     });
 
@@ -392,10 +392,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
       "test-region",
     );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
-      "test-slot",
-    );
+    assert.strictEqual(config.resource.attributes["deployment.environment.name"], "test-slot");
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
       "test-hostname",
@@ -432,6 +429,28 @@ describe("OpenTelemetry Resource", () => {
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
       "test-site",
+    );
+  });
+
+  it("Azure AKS resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config = new InternalConfig();
+    process.env = originalEnv;
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      "azure.aks",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
+      "test-cluster",
     );
   });
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionType } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { ConnectionType } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ConnectionsListOptionalParams extends OperationOptions {
@@ -22,6 +22,14 @@ export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface ConnectionsGetOptionalParams extends OperationOptions {
+  /** Whether to include credentials in the response. Default is false. */
+  includeCredentials?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+}
+
+/** Optional parameters for getDefault. */
+export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
+  /** Whether to include credentials in the response. Default is false. */
+  includeCredentials?: boolean;
 }

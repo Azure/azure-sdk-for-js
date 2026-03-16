@@ -1783,7 +1783,7 @@ export type ContainerWorkingDirectory = string;
 export type ContainerWorkingDirectoryOutput = string;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, input?: BatchClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)

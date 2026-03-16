@@ -54,6 +54,7 @@ import {
   isSqlDB,
   isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
 import {
@@ -400,14 +401,6 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   if (baseData.target) {
     baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
   }
-  if (baseData.properties) {
-    for (const key of Object.keys(baseData.properties)) {
-      baseData.properties[key] = baseData.properties[key].substring(
-        0,
-        MaxPropertyLengths.THIRTEEN_BIT,
-      );
-    }
-  }
 
   return {
     name,
@@ -420,7 +413,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseType,
       baseData: {
         ...baseData,
-        properties,
+        properties: truncateCustomDimensions(properties),
         measurements,
       },
     },
@@ -480,7 +473,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = exceptionData;
       } else {
@@ -489,7 +482,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const messageData: MessageData = {
           message: event.name,
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = messageData;
       }
@@ -500,14 +493,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       // Truncate properties
       if (baseData.message) {
         baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
-      }
-      if (baseData.properties) {
-        for (const key of Object.keys(baseData.properties)) {
-          baseData.properties[key] = baseData.properties[key].substring(
-            0,
-            MaxPropertyLengths.THIRTEEN_BIT,
-          );
-        }
       }
       const env: Envelope = {
         name: name,

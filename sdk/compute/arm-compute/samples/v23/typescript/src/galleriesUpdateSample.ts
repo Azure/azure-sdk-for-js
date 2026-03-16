@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a Shared Image Gallery.
  *
  * @summary Update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/Gallery_Update.json
  */
 async function updateASimpleGallery(): Promise<void> {
   const subscriptionId =

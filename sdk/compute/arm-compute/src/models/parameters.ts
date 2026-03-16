@@ -84,6 +84,10 @@ import {
   GalleryInVMAccessControlProfileUpdate as GalleryInVMAccessControlProfileUpdateMapper,
   GalleryInVMAccessControlProfileVersion as GalleryInVMAccessControlProfileVersionMapper,
   GalleryInVMAccessControlProfileVersionUpdate as GalleryInVMAccessControlProfileVersionUpdateMapper,
+  GalleryScript as GalleryScriptMapper,
+  GalleryScriptUpdate as GalleryScriptUpdateMapper,
+  GalleryScriptVersion as GalleryScriptVersionMapper,
+  GalleryScriptVersionUpdate as GalleryScriptVersionUpdateMapper,
   SharingUpdate as SharingUpdateMapper,
   CloudService as CloudServiceMapper,
   CloudServiceUpdate as CloudServiceUpdateMapper,
@@ -1145,7 +1149,7 @@ export const includeExtendedLocations: OperationQueryParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-03",
+    defaultValue: "2025-03-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1157,6 +1161,9 @@ export const apiVersion3: OperationQueryParameter = {
 export const galleryName: OperationURLParameter = {
   parameterPath: "galleryName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^_\\W][\\w-._]{0,79}(?<![-.])$"),
+    },
     serializedName: "galleryName",
     required: true,
     type: {
@@ -1361,6 +1368,54 @@ export const galleryInVMAccessControlProfileVersion: OperationParameter = {
 export const galleryInVMAccessControlProfileVersion1: OperationParameter = {
   parameterPath: "galleryInVMAccessControlProfileVersion",
   mapper: GalleryInVMAccessControlProfileVersionUpdateMapper,
+};
+
+export const galleryScriptName: OperationURLParameter = {
+  parameterPath: "galleryScriptName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "galleryScriptName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryScript: OperationParameter = {
+  parameterPath: "galleryScript",
+  mapper: GalleryScriptMapper,
+};
+
+export const galleryScript1: OperationParameter = {
+  parameterPath: "galleryScript",
+  mapper: GalleryScriptUpdateMapper,
+};
+
+export const galleryScriptVersionName: OperationURLParameter = {
+  parameterPath: "galleryScriptVersionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]+\\.[0-9]+\\.[0-9]+$"),
+    },
+    serializedName: "galleryScriptVersionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryScriptVersion: OperationParameter = {
+  parameterPath: "galleryScriptVersion",
+  mapper: GalleryScriptVersionMapper,
+};
+
+export const galleryScriptVersion1: OperationParameter = {
+  parameterPath: "galleryScriptVersion",
+  mapper: GalleryScriptVersionUpdateMapper,
 };
 
 export const sharingUpdate: OperationParameter = {

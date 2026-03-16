@@ -1,32 +1,12 @@
 {
   "name": "@azure/arm-dell-storage",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for StorageClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/fileSystems": "./src/api/fileSystems/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -86,7 +66,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

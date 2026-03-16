@@ -1,6 +1,6 @@
 {
   "name": "@typespec/ts-http-runtime",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -155,29 +155,9 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./internal/util": "./src/util/internal.ts",
-      "./internal/logger": "./src/logger/internal.ts",
-      "./internal/policies": "./src/policies/internal.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }

@@ -9,12 +9,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-  ResponsesUserMessageItemParam,
-} from "@azure/ai-projects";
+import type { MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -32,7 +28,7 @@ export async function main(): Promise<void> {
   // Delete the memory store if it already exists
   console.log(`Ensuring memory store '${memoryStoreName}' does not already exist...`);
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.beta.memoryStores.delete(memoryStoreName);
     console.log(`Memory store '${memoryStoreName}' deleted`);
   } catch (error: any) {
     if (error?.statusCode === 404) {
@@ -56,7 +52,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("Creating memory store...");
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
+  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
   console.log(
@@ -70,16 +66,21 @@ export async function main(): Promise<void> {
   }
 
   // Add memories to the store via an update operation
-  const userMessage: ResponsesUserMessageItemParam = {
+  const userMessage: Record<string, unknown> = {
     type: "message",
     role: "user",
-    content: "I prefer dark roast coffee and usually drink it in the morning",
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.beta.memoryStores.updateMemories(memoryStoreName, scope, {
     items: [userMessage],
-    updateDelay: 0, // Trigger update immediately without waiting for inactivity
+    updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
 
   const updateResult = await updatePoller.pollUntilDone();
@@ -90,15 +91,21 @@ export async function main(): Promise<void> {
     );
   }
 
+  const storeList = project.beta.memoryStores.list();
+  console.log("Listing all memory stores...");
+  for await (const store of storeList) {
+    console.log(`  - Memory Store: ${store.name} (${store.id})`);
+  }
+
   // Search for stored memories
-  const queryMessage: ResponsesUserMessageItemParam = {
+  const queryMessage: Record<string, unknown> = {
     type: "message",
     role: "user",
-    content: "What are my coffee preferences?",
+    content: [{ type: "input_text", text: "What are my coffee preferences?" }],
   };
 
   console.log("\nSearching memories for stored preferences...");
-  const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
+  const searchResponse = await project.beta.memoryStores.searchMemories(memoryStore.name, scope, {
     items: [queryMessage],
     options: { max_memories: 5 },
   });
@@ -112,12 +119,12 @@ export async function main(): Promise<void> {
 
   // Delete memories for the specific scope
   console.log("\nDeleting memories for scope...");
-  await project.memoryStores.deleteScope(memoryStore.name, scope);
+  await project.beta.memoryStores.deleteScope(memoryStore.name, scope);
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete the memory store itself
   console.log("Deleting memory store...");
-  await project.memoryStores.delete(memoryStore.name);
+  await project.beta.memoryStores.delete(memoryStore.name);
   console.log(`Deleted memory store '${memoryStore.name}'`);
 
   console.log("\nMemory basics sample completed!");

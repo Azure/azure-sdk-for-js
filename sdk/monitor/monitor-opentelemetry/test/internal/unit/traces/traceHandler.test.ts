@@ -88,6 +88,10 @@ describe("Library/TraceHandler", () => {
   });
 
   afterEach(async () => {
+    if (tracerProvider) {
+      await tracerProvider.shutdown();
+    }
+    trace.disable();
     activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
     activeInstrumentations = [];
     if (metricHandler) {
@@ -146,7 +150,26 @@ describe("Library/TraceHandler", () => {
       expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
     });
 
-    it("uses ApplicationInsightsSampler when no sampler or rate limit is provided", () => {
+    it("uses ApplicationInsightsSampler with ratio 1 when tracesPerSecond is 0 and samplingRatio is default", () => {
+      _config.tracesPerSecond = 0;
+      // samplingRatio defaults to 1 from InternalConfig constructor
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
+      expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{1}");
+    });
+
+    it("uses RateLimitedSampler by default with tracesPerSecond=5", () => {
+      // Default config has tracesPerSecond=5
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+
+      expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+    });
+
+    it("uses ApplicationInsightsSampler when tracesPerSecond is explicitly undefined", () => {
       _config.tracesPerSecond = undefined;
       _config.samplingRatio = 0.2;
 
@@ -233,6 +256,18 @@ describe("Library/TraceHandler", () => {
   };
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: true },
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
       tracerProvider = new NodeTracerProvider({
@@ -248,8 +283,14 @@ describe("Library/TraceHandler", () => {
       });
       await makeHttpRequest();
       await tracerProvider.forceFlush();
-      expect(exportSpy).toHaveBeenCalledOnce();
-      const spans = exportSpy.mock.calls[0][0];
+      expect(exportSpy).toHaveBeenCalled();
+      // Filter spans to only those from our test request (with custom attributes from our customSpanProcessor)
+      const allSpans = exportSpy.mock.calls.flatMap((call) => call[0]);
+      const spans = allSpans.filter(
+        (span: ReadableSpan) =>
+          span.attributes["startAttribute"] === "SomeValue" &&
+          span.attributes["http.target"] === "/test",
+      );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
       // Incoming request

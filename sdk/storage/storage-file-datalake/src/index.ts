@@ -9,12 +9,12 @@ export * from "./sas/AccountSASPermissions.js";
 export * from "./sas/AccountSASResourceTypes.js";
 export * from "./sas/AccountSASServices.js";
 export {
-  AccountSASSignatureValues,
+  type AccountSASSignatureValues,
   generateAccountSASQueryParameters,
 } from "./sas/AccountSASSignatureValues.js";
 export * from "./sas/DataLakeSASPermissions.js";
 export {
-  DataLakeSASSignatureValues,
+  type DataLakeSASSignatureValues,
   generateDataLakeSASQueryParameters,
 } from "./sas/DataLakeSASSignatureValues.js";
 export * from "./sas/FileSystemSASPermissions.js";
@@ -23,21 +23,21 @@ export * from "./models.js";
 export * from "./utils/DataLakeAclChangeFailedError.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  HttpRequestBody,
-  IHttpClient,
+  type StoragePipelineOptions,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type WebResource,
+  type HttpOperationResponse,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type IHttpClient,
   StorageOAuthScopes,
-  ServiceClientOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
 export {
   AnonymousCredential,
@@ -45,7 +45,7 @@ export {
   BaseRequestPolicy,
   CredentialPolicy,
   Credential,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicy,
   StorageRetryPolicyType,
   StorageRetryPolicyFactory,
@@ -53,13 +53,14 @@ export {
   StorageBrowserPolicyFactory,
   StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
-  BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
-  CredentialPolicyCreator,
+  type BlobServiceProperties as DataLakeServiceProperties,
+  type ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
+  type NodeJSReadableStream,
+  type CredentialPolicyCreator,
 } from "@azure/storage-blob";
-export { UserDelegationKey } from "@azure/storage-common";
-export { CommonOptions } from "./StorageClient.js";
-export { SasIPRange } from "./sas/SasIPRange.js";
+export { type UserDelegationKey } from "@azure/storage-common";
+export type { CommonOptions } from "./StorageClient.js";
+export type { SasIPRange } from "./sas/SasIPRange.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";

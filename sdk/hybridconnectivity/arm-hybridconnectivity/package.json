@@ -7,32 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/solutionTypes": "./src/api/solutionTypes/index.ts",
-      "./api/inventory": "./src/api/inventory/index.ts",
-      "./api/solutionConfigurations": "./src/api/solutionConfigurations/index.ts",
-      "./api/publicCloudConnectors": "./src/api/publicCloudConnectors/index.ts",
-      "./api/generateAwsTemplate": "./src/api/generateAwsTemplate/index.ts",
-      "./api/serviceConfigurations": "./src/api/serviceConfigurations/index.ts",
-      "./api/endpoints": "./src/api/endpoints/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -93,7 +67,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

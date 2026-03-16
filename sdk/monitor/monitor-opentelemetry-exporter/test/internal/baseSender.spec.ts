@@ -8,8 +8,8 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
+  ENV_DISABLE_SDKSTATS,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
 import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
@@ -143,11 +143,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
       .fn()
       .mockImplementation(
         (statusCode) =>
-          statusCode === 500 ||
-          statusCode === 503 ||
-          statusCode === 408 ||
-          statusCode === 429 ||
-          statusCode === 439,
+          statusCode === 500 || statusCode === 503 || statusCode === 408 || statusCode === 429,
       ),
   };
 });
@@ -651,6 +647,93 @@ describe("BaseSender", () => {
 
       expect(result.code).toBe(ExportResultCode.FAILED);
     });
+
+    it("should persist envelopes and schedule retry on 429 throttle", async () => {
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockNetworkStats.countThrottle).toHaveBeenCalledWith(429);
+      expect(mockPersist.push).toHaveBeenCalled();
+    });
+
+    it("should schedule retry timer with retryAfterMs on 429", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+        retryAfterMs: 30_000,
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalled();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it("should schedule retry timer with retryAfterMs on 200 success", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 15_000,
+      });
+
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 15_000);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation(
+        (statusCode) => statusCode === 429 || statusCode === 200,
+      );
+
+      // First call with default timer (no retryAfterMs)
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+      });
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Second call with a shorter retryAfterMs should reschedule
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 5_000,
+      });
+      await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
+
+      // Verify setTimeout was called with the shorter delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 5_000);
+
+      setTimeoutSpy.mockRestore();
+    });
   });
 
   describe("Performance Counter Detection", () => {
@@ -779,13 +862,11 @@ describe("BaseSender", () => {
 
   describe("Customer SDK Stats Exception Message Handling", () => {
     let testSender: TestBaseSender;
-    let originalEnv: string | undefined;
+    let originalEnvDisabled: string | undefined;
 
     beforeEach(async () => {
-      // Save original environment variable
-      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
-      // Set environment variable to enable Customer SDK Stats metrics
-      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
+      delete process.env[ENV_DISABLE_SDKSTATS];
 
       testSender = new TestBaseSender({
         endpointUrl: "https://example.com",
@@ -810,10 +891,10 @@ describe("BaseSender", () => {
 
     afterEach(() => {
       // Restore original environment variable
-      if (originalEnv === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      if (originalEnvDisabled === undefined) {
+        delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
     });
 
@@ -932,16 +1013,14 @@ describe("BaseSender", () => {
   });
 
   describe("Customer SDK Stats Export Interval Configuration", () => {
-    let originalEnvEnabled: string | undefined;
+    let originalEnvDisabled: string | undefined;
     let originalEnvInterval: string | undefined;
 
     beforeEach(() => {
       // Save original environment variables
-      originalEnvEnabled = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       originalEnvInterval = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
-
-      // Enable Customer SDK Stats for all tests in this section
-      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+      delete process.env[ENV_DISABLE_SDKSTATS];
 
       // Clear all mock calls from previous tests
       vi.clearAllMocks();
@@ -949,10 +1028,10 @@ describe("BaseSender", () => {
 
     afterEach(() => {
       // Restore original environment variables
-      if (originalEnvEnabled === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      if (originalEnvDisabled === undefined) {
+        delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnvEnabled;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
 
       if (originalEnvInterval === undefined) {
@@ -1046,6 +1125,54 @@ describe("BaseSender", () => {
         disableOfflineStorage: false,
         networkCollectionInterval: undefined,
       });
+    });
+
+    it("should not initialize Customer SDK Stats when ENV_DISABLE_SDKSTATS is set", async () => {
+      // Disable SDK stats by setting the environment variable
+      process.env[ENV_DISABLE_SDKSTATS] = "true";
+
+      // Clear mock calls
+      vi.clearAllMocks();
+
+      // Create a new sender - we need to NOT override customerSDKStatsMetrics in the constructor
+      // to test that it remains undefined when disabled
+      class TestSenderWithoutMockStats extends BaseSender {
+        sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
+        shutdownMock = vi.fn<() => Promise<void>>();
+
+        async send(payload: unknown[]): Promise<SenderResult> {
+          return this.sendMock(payload);
+        }
+
+        async shutdown(): Promise<void> {
+          return this.shutdownMock();
+        }
+
+        handlePermanentRedirect(_location: string | undefined): void {
+          // No-op
+        }
+
+        getCustomerSDKStatsMetrics(): any {
+          return (this as any).customerSDKStatsMetrics;
+        }
+      }
+
+      const testSender = new TestSenderWithoutMockStats({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Wait for async initialization to complete (if it were to happen)
+      await new Promise((resolve) => setTimeout(resolve, 150));
+
+      // Verify that customerSDKStatsMetrics is undefined (not initialized) when SDK stats are disabled
+      expect(testSender.getCustomerSDKStatsMetrics()).toBeUndefined();
     });
   });
 });

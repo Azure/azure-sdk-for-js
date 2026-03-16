@@ -1,6 +1,6 @@
 {
   "name": "@azure/create-playwright",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Package to setup @azure/playwright",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/create-playwright/README.md",
   "sdk-type": "client",
@@ -66,7 +66,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -80,18 +79,6 @@
     "requiredResources": {
       "Azure Playwright workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
-  },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

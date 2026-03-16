@@ -4314,12 +4314,14 @@ export interface GalleryArtifactPublishingProfileBase {
   readonly publishedDate?: Date;
   /** The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** Specifies the storage account type to be used to store the image. This property is not updatable. */
+  /** Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable. */
   storageAccountType?: StorageAccountType;
   /** Optional parameter which specifies the mode to be used for replication. This property is not updatable. */
   replicationMode?: ReplicationMode;
   /** The target extended locations where the Image Version is going to be replicated to. This property is updatable. */
   targetExtendedLocations?: GalleryTargetExtendedLocation[];
+  /** Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable. */
+  storageAccountStrategy?: StorageAccountStrategy;
 }
 
 /** Describes the target region information. */
@@ -4498,8 +4500,11 @@ export interface ValidationsProfile {
 export interface ExecutedValidation {
   /** This property specifies the type of image version validation. */
   type?: string;
-  /** This property specifies the status of the validationProfile of the image version. */
-  status?: ValidationStatus;
+  /**
+   * This property specifies the status of the validationProfile of the image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ValidationStatus;
   /** This property specifies the valid version of the validation. */
   version?: string;
   /** This property specifies the starting timestamp. */
@@ -4618,6 +4623,81 @@ export interface GalleryResourceProfileVersionPropertiesBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+}
+
+/** The List Gallery Script operation response. */
+export interface GalleryScriptList {
+  /** The GalleryScript items on this page */
+  value: GalleryScript[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Describes the properties of a gallery script definition. */
+export interface GalleryScriptProperties {
+  /** The description of this gallery script definition resource. This property is updatable. */
+  description?: string;
+  /** The Eula agreement (End User License Agreement) for the gallery Script Definition. */
+  eula?: string;
+  /** The privacy statement uri. */
+  privacyStatementUri?: string;
+  /** The release note uri. */
+  releaseNoteUri?: string;
+  /** The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
+  supportedOSType: OperatingSystemTypes;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+}
+
+/** Paged collection of GalleryScriptVersion items */
+export interface GalleryScriptVersionList {
+  /** The GalleryScriptVersion items on this page */
+  value: GalleryScriptVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Describes the properties of a gallery script version. */
+export interface GalleryScriptVersionProperties {
+  /** The publishing profile of a gallery image version. */
+  publishingProfile: GalleryScriptVersionPublishingProfile;
+  /** The safety profile of the Gallery Script Version. */
+  safetyProfile?: GalleryScriptVersionSafetyProfile;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/** The source script from which the Script Version is going to be created. */
+export interface ScriptSource {
+  /** Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled. */
+  scriptLink: string;
+  /** Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution. */
+  parameters?: GalleryScriptParameter[];
+}
+
+/** The definition of a generic gallery parameter. */
+export interface GenericGalleryParameter {
+  /** The name of the parameter. */
+  name: string;
+  /** Indicates whether this parameter must be passed. */
+  required?: boolean;
+  /** The default value of the parameter, only applies to string types. */
+  defaultValue?: string;
+  /** A description to help users understand what this parameter means */
+  description?: string;
 }
 
 /** Specifies information about the gallery sharing profile update. */
@@ -6213,6 +6293,45 @@ export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateReso
   rules?: AccessControlRules;
 }
 
+/** Specifies information about the gallery Script Definition that you want to update. */
+export interface GalleryScriptUpdate extends UpdateResourceDefinition {
+  /** The description of this gallery script definition resource. This property is updatable. */
+  description?: string;
+  /** The Eula agreement (End User License Agreement) for the gallery Script Definition. */
+  eula?: string;
+  /** The privacy statement uri. */
+  privacyStatementUri?: string;
+  /** The release note uri. */
+  releaseNoteUri?: string;
+  /** The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
+  supportedOSType?: OperatingSystemTypes;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+}
+
+/** Specifies information about the gallery Script Version that you want to update. */
+export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
+  /** The publishing profile of a gallery image version. */
+  publishingProfile?: GalleryScriptVersionPublishingProfile;
+  /** The safety profile of the Gallery Script Version. */
+  safetyProfile?: GalleryScriptVersionSafetyProfile;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
 /** The publishing profile of a gallery image version. */
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
   /** The source image from which the Image Version is going to be created. */
@@ -6230,6 +6349,12 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
 
 /** The publishing profile of a gallery image Version. */
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {}
+
+/** The publishing profile of a gallery image version. */
+export interface GalleryScriptVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+  /** The source script from which the Script Version is going to be created. */
+  source: ScriptSource;
+}
 
 /** Contains encryption settings for an OS disk image. */
 export interface OSDiskImageEncryption extends DiskImageEncryption {
@@ -6261,6 +6386,9 @@ export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyP
   /** Indicates whether or not the deletion is blocked for this Gallery Image Version if its End Of Life has not expired. */
   blockDeletionBeforeEndOfLife?: boolean;
 }
+
+/** The safety profile of the Gallery Script Version. */
+export interface GalleryScriptVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {}
 
 /** The source of the gallery artifact version. */
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
@@ -6305,6 +6433,18 @@ export interface GalleryInVMAccessControlProfileVersionProperties extends Galler
   defaultAccess: EndpointAccess;
   /** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
   rules?: AccessControlRules;
+}
+
+/** The definition of a parameter that can be passed to a script of a Gallery Script Version. */
+export interface GalleryScriptParameter extends GenericGalleryParameter {
+  /** Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum */
+  type?: GalleryScriptParameterType;
+  /** The minimum value of parameter. */
+  minValue?: string;
+  /** The minimum value of parameter. */
+  maxValue?: string;
+  /** A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'. */
+  enumValues?: string[];
 }
 
 /** Describes a Virtual Machine Image. */
@@ -7343,6 +7483,18 @@ export interface GalleryInVMAccessControlProfileVersion extends TrackedResource 
   defaultAccess?: EndpointAccess;
   /** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
   rules?: AccessControlRules;
+}
+
+/** Specifies information about the gallery Script Definition that you want to create or update. */
+export interface GalleryScript extends TrackedResource {
+  /** Describes the properties of a gallery Script Definition. */
+  properties?: GalleryScriptProperties;
+}
+
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+export interface GalleryScriptVersion extends TrackedResource {
+  /** Describes the properties of a gallery Script Version. */
+  properties?: GalleryScriptVersionProperties;
 }
 
 /** The details information of soft-deleted resource. */
@@ -8513,6 +8665,60 @@ export interface GalleryInVMAccessControlProfileVersionsDeleteHeaders {
   azureAsyncOperation?: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+}
+
+/** Defines headers for GalleryScripts_createOrUpdate operation. */
+export interface GalleryScriptsCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for GalleryScripts_update operation. */
+export interface GalleryScriptsUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for GalleryScripts_delete operation. */
+export interface GalleryScriptsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for GalleryScriptVersions_createOrUpdate operation. */
+export interface GalleryScriptVersionsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for GalleryScriptVersions_update operation. */
+export interface GalleryScriptVersionsUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for GalleryScriptVersions_delete operation. */
+export interface GalleryScriptVersionsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for GallerySharingProfile_update operation. */
@@ -11427,6 +11633,24 @@ export enum KnownEdgeZoneStorageAccountType {
  */
 export type EdgeZoneStorageAccountType = string;
 
+/** Known values of {@link StorageAccountStrategy} that the service accepts. */
+export enum KnownStorageAccountStrategy {
+  /** Choose Standard_ZRS storage if the region supports it, else choose Standard_LRS storage, unless overridden by specifying regional storageAccountType. If no storageAccountStrategy is specified, this is the default strategy (from API version 2025-03-03 onwards). */
+  PreferStandardZRS = "PreferStandard_ZRS",
+  /** Choose Standard_LRS storage unless overridden by specifying regional storageAccountType. */
+  DefaultStandardLRS = "DefaultStandard_LRS",
+}
+
+/**
+ * Defines values for StorageAccountStrategy. \
+ * {@link KnownStorageAccountStrategy} can be used interchangeably with StorageAccountStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PreferStandard_ZRS**: Choose Standard_ZRS storage if the region supports it, else choose Standard_LRS storage, unless overridden by specifying regional storageAccountType. If no storageAccountStrategy is specified, this is the default strategy (from API version 2025-03-03 onwards). \
+ * **DefaultStandard_LRS**: Choose Standard_LRS storage unless overridden by specifying regional storageAccountType.
+ */
+export type StorageAccountStrategy = string;
+
 /** Known values of {@link AggregatedReplicationState} that the service accepts. */
 export enum KnownAggregatedReplicationState {
   /** Unknown */
@@ -11576,6 +11800,33 @@ export enum KnownEndpointAccess {
  * **Deny**
  */
 export type EndpointAccess = string;
+
+/** Known values of {@link GalleryScriptParameterType} that the service accepts. */
+export enum KnownGalleryScriptParameterType {
+  /** String gallery script parameter type */
+  String = "String",
+  /** Int gallery script parameter type */
+  Int = "Int",
+  /** Double gallery script parameter type */
+  Double = "Double",
+  /** Boolean gallery script parameter type */
+  Boolean = "Boolean",
+  /** Enum gallery script parameter type */
+  Enum = "Enum",
+}
+
+/**
+ * Defines values for GalleryScriptParameterType. \
+ * {@link KnownGalleryScriptParameterType} can be used interchangeably with GalleryScriptParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String**: String gallery script parameter type \
+ * **Int**: Int gallery script parameter type \
+ * **Double**: Double gallery script parameter type \
+ * **Boolean**: Boolean gallery script parameter type \
+ * **Enum**: Enum gallery script parameter type
+ */
+export type GalleryScriptParameterType = string;
 
 /** Known values of {@link SharingUpdateOperationTypes} that the service accepts. */
 export enum KnownSharingUpdateOperationTypes {
@@ -14560,6 +14811,112 @@ export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessC
 /** Contains response data for the listByGalleryInVMAccessControlProfileNext operation. */
 export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse =
   GalleryInVMAccessControlProfileVersionList;
+
+/** Optional parameters. */
+export interface GalleryScriptsListByGalleryOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGallery operation. */
+export type GalleryScriptsListByGalleryResponse = GalleryScriptList;
+
+/** Optional parameters. */
+export interface GalleryScriptsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryScriptsGetResponse = GalleryScript;
+
+/** Optional parameters. */
+export interface GalleryScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GalleryScriptsCreateOrUpdateResponse = GalleryScript;
+
+/** Optional parameters. */
+export interface GalleryScriptsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GalleryScriptsUpdateResponse = GalleryScript;
+
+/** Optional parameters. */
+export interface GalleryScriptsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GalleryScriptsDeleteResponse = GalleryScriptsDeleteHeaders;
+
+/** Optional parameters. */
+export interface GalleryScriptsListByGalleryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryNext operation. */
+export type GalleryScriptsListByGalleryNextResponse = GalleryScriptList;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsListByGalleryScriptOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryScript operation. */
+export type GalleryScriptVersionsListByGalleryScriptResponse = GalleryScriptVersionList;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryScriptVersionsGetResponse = GalleryScriptVersion;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GalleryScriptVersionsCreateOrUpdateResponse = GalleryScriptVersion;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GalleryScriptVersionsUpdateResponse = GalleryScriptVersion;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GalleryScriptVersionsDeleteResponse = GalleryScriptVersionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryScriptNext operation. */
+export type GalleryScriptVersionsListByGalleryScriptNextResponse = GalleryScriptVersionList;
 
 /** Optional parameters. */
 export interface GallerySharingProfileUpdateOptionalParams extends coreClient.OperationOptions {

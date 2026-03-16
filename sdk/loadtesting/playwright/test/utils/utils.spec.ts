@@ -32,6 +32,7 @@ import {
   getPortalTestRunUrl,
   getStorageAccountNameFromUri,
   getTestRunConfig,
+  resolveTenantDomain,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -872,7 +873,7 @@ describe("Service Utils", () => {
   });
 
   describe("getPortalTestRunUrl", () => {
-    it("should build a portal link using workspace metadata", () => {
+    it("should build a portal link without tenant fragment when no tenant domain is provided", () => {
       const workspace = {
         subscriptionId: "sub id",
         resourceId:
@@ -882,7 +883,21 @@ describe("Service Utils", () => {
 
       const portalUrl = getPortalTestRunUrl(workspace);
       expect(portalUrl).toBe(
-        `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
+        `https://ms.portal.azure.com/#/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
+      );
+    });
+
+    it("should build a portal link with tenant fragment when tenant domain is provided", () => {
+      const workspace = {
+        subscriptionId: "sub id",
+        resourceId:
+          "/subscriptions/sub id/resourceGroups/My Resource Group/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
+        name: "workspace-name",
+      } as any;
+
+      const portalUrl = getPortalTestRunUrl(workspace, "contoso.onmicrosoft.com");
+      expect(portalUrl).toBe(
+        `https://ms.portal.azure.com/#@contoso.onmicrosoft.com/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
       );
     });
 
@@ -903,6 +918,30 @@ describe("Service Utils", () => {
       expect(() => getPortalTestRunUrl(workspace)).toThrow(
         "Invalid resourceId format: could not extract resource group name",
       );
+    });
+  });
+
+  describe("resolveTenantDomain", () => {
+    it("should return the default domain for a matching tenant", () => {
+      const tenants = [
+        { tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" },
+        { tenantId: "tenant-2", defaultDomain: "fabrikam.onmicrosoft.com" },
+      ];
+      expect(resolveTenantDomain("tenant-1", tenants)).toBe("contoso.onmicrosoft.com");
+    });
+
+    it("should return undefined when tenant ID is not found", () => {
+      const tenants = [{ tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" }];
+      expect(resolveTenantDomain("tenant-unknown", tenants)).toBeUndefined();
+    });
+
+    it("should return undefined when tenant ID is undefined", () => {
+      const tenants = [{ tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" }];
+      expect(resolveTenantDomain(undefined, tenants)).toBeUndefined();
+    });
+
+    it("should return undefined when tenants list is empty", () => {
+      expect(resolveTenantDomain("tenant-1", [])).toBeUndefined();
     });
   });
 

@@ -21,12 +21,12 @@ import "dotenv/config";
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
+const assetFilePath = path.resolve(__dirname, "../assets", "product_info.md");
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Setting up file search with streaming responses...");
 

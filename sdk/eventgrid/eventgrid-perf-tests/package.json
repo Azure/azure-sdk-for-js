@@ -21,14 +21,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -64,7 +56,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "scripts": {
@@ -81,20 +72,5 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
   }
 }

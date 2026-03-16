@@ -7,34 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/recoveryServices": "./src/api/recoveryServices/index.ts",
-      "./api/vaultExtendedInfo": "./src/api/vaultExtendedInfo/index.ts",
-      "./api/usages": "./src/api/usages/index.ts",
-      "./api/replicationUsages": "./src/api/replicationUsages/index.ts",
-      "./api/registeredIdentities": "./src/api/registeredIdentities/index.ts",
-      "./api/vaultCertificates": "./src/api/vaultCertificates/index.ts",
-      "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts",
-      "./api/deletedVaults": "./src/api/deletedVaults/index.ts",
-      "./api/vaults": "./src/api/vaults/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -94,7 +66,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

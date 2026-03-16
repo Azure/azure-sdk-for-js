@@ -1354,8 +1354,7 @@ export interface TranscriptionUpdated {
 }
 
 /** Represents the options for WebSocket transport. */
-export interface WebSocketMediaStreamingOptions
-  extends MediaStreamingOptionsInternal {
+export interface WebSocketMediaStreamingOptions extends MediaStreamingOptionsInternal {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   transportType: "websocket";
   /** The transport URL for media streaming. */
@@ -1372,8 +1371,7 @@ export interface WebSocketMediaStreamingOptions
 }
 
 /** Represents the options for WebSocket transport. */
-export interface WebSocketTranscriptionOptions
-  extends TranscriptionOptionsInternal {
+export interface WebSocketTranscriptionOptions extends TranscriptionOptionsInternal {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   transportType: "websocket";
   /** The URL used for live transcription transport. */

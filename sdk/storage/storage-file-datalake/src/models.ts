@@ -12,6 +12,7 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  NodeJSReadableStream,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -58,18 +59,19 @@ import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import type { StoragePipelineOptions } from "./Pipeline.js";
 
 export {
-  LeaseAccessConditions,
-  UserDelegationKeyModel,
-  ServiceListContainersSegmentResponse,
-  Lease,
-  LeaseOperationOptions,
-  LeaseOperationResponse,
+  type LeaseAccessConditions,
+  type UserDelegationKeyModel,
+  type ServiceListContainersSegmentResponse,
+  type Lease,
+  type LeaseOperationOptions,
+  type LeaseOperationResponse,
 } from "@azure/storage-blob";
 
-export {
+export type {
   BlobHierarchyListSegment,
   BlobItemModel,
   BlobPrefix,
@@ -178,6 +180,15 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+
+  /**
+   * Request headers used in generating a SAS token
+   */
+  requestHeaders?: RequestHeaders;
+  /**
+   * Request query parameters used in generating a SAS token
+   */
+  requestQueryParameters?: RequestQueryParameters;
 }
 
 /** ***********************************************************/
@@ -186,6 +197,24 @@ export interface CommonGenerateSasUrlOptions {
 
 export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Parameters for getting user delegation key.
+ */
+export interface DataLakeGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
+  startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
+  expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
+  delegatedUserTenantId: string;
 }
 
 // TODO: Leverage interface definitions from blob package directly, or duplicate create a copy here which will not have generation benefits
@@ -1000,6 +1029,8 @@ export interface PathHttpHeaders {
   contentDisposition?: string;
   contentType?: string;
   contentMD5?: Uint8Array;
+  /** Specify the transactional md5 for the body, to be validated by the service. */
+  transactionalContentHash?: Uint8Array;
 }
 
 export interface PathSetHttpHeadersHeaders {
@@ -1152,6 +1183,10 @@ export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   rangeGetContentMD5?: boolean;
   rangeGetContentCrc64?: boolean;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   conditions?: DataLakeRequestConditions;
   onProgress?: (progress: TransferProgressEvent) => void;
   maxRetryRequests?: number;
@@ -1208,12 +1243,16 @@ export interface FileReadHeaders {
    * POSIX access control rights on files and directories.
    */
   acl: PathAccessControlItem[];
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 export type FileReadResponse = WithResponse<
   FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
   },
   FileReadHeaders
 >;
@@ -1231,6 +1270,11 @@ export interface FileAppendOptions extends CommonOptions {
    * If file should be flushed automatically after the append
    */
   flush?: boolean;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
    * */
@@ -1341,6 +1385,11 @@ export interface FileParallelUploadOptions extends CommonOptions {
    */
   close?: boolean;
 
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
   // For parallel transfer control.
 
   /**
@@ -1401,6 +1450,10 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * because they doesn't emit network errors. Default value is 5.
    */
   maxRetryRequestsPerChunk?: number;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
   /**
    * chunkSize is size of data every request trying to read.
@@ -1598,6 +1651,41 @@ export enum StorageDataLakeAudience {
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }
+
+/**
+ * To indicate check sum algorithm used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+/**
+ * Config used in creating datalake client instances.
+ */
+export interface DataLakeClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+/**
+ * Options for creating blob client instances
+ */
+export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
+/**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
 
 /** *********************************************************/
 /** DataLakeLeaseClient option and response related models */

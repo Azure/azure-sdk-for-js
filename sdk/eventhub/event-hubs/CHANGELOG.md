@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.3 (Unreleased)
+## 6.0.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 6.0.3 (2026-01-20)
+
+### Bugs Fixed
+
+- Fixed additional dangling promises in close operations that could cause `UnhandledPromiseRejection` errors. [#37044](https://github.com/Azure/azure-sdk-for-js/pull/37044)
 
 ## 6.0.2 (2026-01-07)
 
