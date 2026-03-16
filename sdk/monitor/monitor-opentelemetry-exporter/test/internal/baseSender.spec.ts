@@ -143,11 +143,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
       .fn()
       .mockImplementation(
         (statusCode) =>
-          statusCode === 500 ||
-          statusCode === 503 ||
-          statusCode === 408 ||
-          statusCode === 429 ||
-          statusCode === 439,
+          statusCode === 500 || statusCode === 503 || statusCode === 408 || statusCode === 429,
       ),
   };
 });
@@ -650,6 +646,93 @@ describe("BaseSender", () => {
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
+    });
+
+    it("should persist envelopes and schedule retry on 429 throttle", async () => {
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockNetworkStats.countThrottle).toHaveBeenCalledWith(429);
+      expect(mockPersist.push).toHaveBeenCalled();
+    });
+
+    it("should schedule retry timer with retryAfterMs on 429", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+        retryAfterMs: 30_000,
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalled();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it("should schedule retry timer with retryAfterMs on 200 success", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 15_000,
+      });
+
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 15_000);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation(
+        (statusCode) => statusCode === 429 || statusCode === 200,
+      );
+
+      // First call with default timer (no retryAfterMs)
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+      });
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Second call with a shorter retryAfterMs should reschedule
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 5_000,
+      });
+      await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
+
+      // Verify setTimeout was called with the shorter delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 5_000);
+
+      setTimeoutSpy.mockRestore();
     });
   });
 
