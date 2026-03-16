@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Task Hubs
  *
  * @summary list Task Hubs
- * x-ms-original-file: 2025-11-01/TaskHubs_ListByScheduler.json
+ * x-ms-original-file: 2026-02-01/TaskHubs_ListByScheduler.json
  */
 async function taskHubsListByScheduler(): Promise<void> {
   const credential = new DefaultAzureCredential();

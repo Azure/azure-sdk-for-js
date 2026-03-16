@@ -2,6 +2,13 @@
 // Licensed under the MIT License.
 
 export {
+  listPrivateEndpointConnections,
+  deletePrivateEndpointConnection,
+  updatePrivateEndpointConnection,
+  createOrUpdatePrivateEndpointConnection,
+  getPrivateEndpointConnection,
+  listPrivateLinks,
+  getPrivateLink,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -9,11 +16,18 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type SchedulersListBySubscriptionOptionalParams,
-  type SchedulersListByResourceGroupOptionalParams,
-  type SchedulersDeleteOptionalParams,
-  type SchedulersUpdateOptionalParams,
-  type SchedulersCreateOrUpdateOptionalParams,
-  type SchedulersGetOptionalParams,
+export type {
+  SchedulersListPrivateEndpointConnectionsOptionalParams,
+  SchedulersDeletePrivateEndpointConnectionOptionalParams,
+  SchedulersUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersGetPrivateEndpointConnectionOptionalParams,
+  SchedulersListPrivateLinksOptionalParams,
+  SchedulersGetPrivateLinkOptionalParams,
+  SchedulersListBySubscriptionOptionalParams,
+  SchedulersListByResourceGroupOptionalParams,
+  SchedulersDeleteOptionalParams,
+  SchedulersUpdateOptionalParams,
+  SchedulersCreateOrUpdateOptionalParams,
+  SchedulersGetOptionalParams,
 } from "./options.js";

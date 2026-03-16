@@ -87,7 +87,11 @@ export type Measurements = { [key: string]: number };
  * Exporter sender result.
  * @internal
  */
-export type SenderResult = { statusCode: number | undefined; result: string };
+export type SenderResult = {
+  statusCode: number | undefined;
+  result: string;
+  retryAfterMs?: number;
+};
 
 /**
  * Exporter persistent storage.
