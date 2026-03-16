@@ -298,6 +298,12 @@
 # ServiceLabel: %Service Bus
 # ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
 
+# PRLabel: %Speech Transcription
+/sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
+# ServiceLabel: %Speech Transcription
+# ServiceOwners: @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
 # ServiceLabel: %Storage
 # PRLabel: %Storage
 /sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
@@ -1700,6 +1706,7 @@ sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
+/eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
