@@ -1,4 +1,4 @@
-# @azure/arm-kubernetesconfiguration-extensions client library samples for TypeScript
+# @azure/arm-kubernetesconfiguration-extensions client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-kubernetesconfiguration-extensions in some common scenarios.
 
@@ -61,12 +61,12 @@ node dist/extensionsCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[extensionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/extensionsCreateSample.ts
-[extensionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/extensionsDeleteSample.ts
-[extensionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/extensionsGetSample.ts
-[extensionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/extensionsListSample.ts
-[extensionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/extensionsUpdateSample.ts
-[operationstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1/typescript/src/operationStatusGetSample.ts
+[extensionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/extensionsCreateSample.ts
+[extensionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/extensionsDeleteSample.ts
+[extensionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/extensionsGetSample.ts
+[extensionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/extensionsListSample.ts
+[extensionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/extensionsUpdateSample.ts
+[operationstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples/v1-beta/typescript/src/operationStatusGetSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/README.md
