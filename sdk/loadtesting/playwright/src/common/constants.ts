@@ -116,4 +116,6 @@ export const UploadConstants = {
   RETRY_BASE_DELAY: 1000,
 };
 
-export const BrowserSessionSourceType = "PlaywrightWorkspacesTestRun";
+export const BrowserSessionSourceType = {
+  PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
+};

@@ -17,6 +17,7 @@ import {
   GitHubActionsConstants,
   BrowserSessionSourceType,
   UrlConstants,
+  UploadConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -33,7 +34,6 @@ import { exec } from "child_process";
 import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
-import { UploadConstants } from "../common/constants.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -136,7 +136,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType}&api-version=${apiVersion}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {

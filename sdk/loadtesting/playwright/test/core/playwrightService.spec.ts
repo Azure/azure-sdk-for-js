@@ -101,7 +101,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -133,7 +133,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -169,7 +169,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -335,7 +335,7 @@ describe("createAzurePlaywrightConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
           headers: {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
@@ -430,7 +430,7 @@ describe("getConnectOptions", () => {
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
-      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
+      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`,
       options: {
         headers: {
           Authorization: "Bearer token",
