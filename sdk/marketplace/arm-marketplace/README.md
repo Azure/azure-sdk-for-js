@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/marketplace/arm-marketplace)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-marketplace)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-marketplace)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/marketplace/arm-marketplace/samples)
 
 ## Getting started

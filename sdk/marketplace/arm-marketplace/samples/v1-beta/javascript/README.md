@@ -133,6 +133,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [queryrulessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplace/arm-marketplace/samples/v1-beta/javascript/queryRulesSample.js
 [queryuserrulessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplace/arm-marketplace/samples/v1-beta/javascript/queryUserRulesSample.js
 [setcollectionrulessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplace/arm-marketplace/samples/v1-beta/javascript/setCollectionRulesSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/marketplace/arm-marketplace/README.md
