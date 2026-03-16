@@ -1,5 +1,17 @@
 # Release History
 
+## 2.6.0 (Unreleased)
+
+### Features Added
+
+- support passing `pipeline` via `ClientOptions`
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.5.2 (Unreleased)
 
 ### Features Added
