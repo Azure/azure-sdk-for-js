@@ -3,31 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Regenerates the auth token for the notebook workspace
+ * This sample demonstrates how to regenerates the auth token for the notebook workspace
  *
- * @summary Regenerates the auth token for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
+ * @summary regenerates the auth token for the notebook workspace
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
-async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const notebookWorkspaceName = "default";
+async function cosmosDBNotebookWorkspaceRegenerateAuthToken() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.notebookWorkspaces.beginRegenerateAuthTokenAndWait(
-    resourceGroupName,
-    accountName,
-    notebookWorkspaceName,
-  );
-  console.log(result);
+  await client.notebookWorkspaces.regenerateAuthToken("rg1", "ddb1", "default");
 }
 
 async function main() {
-  await cosmosDbNotebookWorkspaceRegenerateAuthToken();
+  await cosmosDBNotebookWorkspaceRegenerateAuthToken();
 }
 
 main().catch(console.error);

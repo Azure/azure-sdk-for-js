@@ -3,30 +3,30 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to List all commands currently running on ring info
+ * This sample demonstrates how to list all commands currently running on ring info
  *
- * @summary List all commands currently running on ring info
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBManagedCassandraListCommand.json
+ * @summary list all commands currently running on ring info
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraListCommand.json
  */
-async function cosmosDbManagedCassandraListCommand() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
-  const clusterName = "cassandra-prod";
+async function cosmosDBManagedCassandraListCommand() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.cassandraClusters.listCommand(resourceGroupName, clusterName)) {
+  for await (const item of client.cassandraClusters.listCommand(
+    "cassandra-prod-rg",
+    "cassandra-prod",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbManagedCassandraListCommand();
+  await cosmosDBManagedCassandraListCommand();
 }
 
 main().catch(console.error);

@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  checkNameExists,
+  listMetricDefinitions,
+  listUsages,
+  listMetrics,
+  regenerateKey,
+  listReadOnlyKeys,
+  getReadOnlyKeys,
+  onlineRegion,
+  offlineRegion,
+  listConnectionStrings,
+  listKeys,
+  failoverPriorityChange,
+  list,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  DatabaseAccountsCheckNameExistsOptionalParams,
+  DatabaseAccountsListMetricDefinitionsOptionalParams,
+  DatabaseAccountsListUsagesOptionalParams,
+  DatabaseAccountsListMetricsOptionalParams,
+  DatabaseAccountsRegenerateKeyOptionalParams,
+  DatabaseAccountsListReadOnlyKeysOptionalParams,
+  DatabaseAccountsGetReadOnlyKeysOptionalParams,
+  DatabaseAccountsOnlineRegionOptionalParams,
+  DatabaseAccountsOfflineRegionOptionalParams,
+  DatabaseAccountsListConnectionStringsOptionalParams,
+  DatabaseAccountsListKeysOptionalParams,
+  DatabaseAccountsFailoverPriorityChangeOptionalParams,
+  DatabaseAccountsListOptionalParams,
+  DatabaseAccountsListByResourceGroupOptionalParams,
+  DatabaseAccountsDeleteOptionalParams,
+  DatabaseAccountsUpdateOptionalParams,
+  DatabaseAccountsCreateOrUpdateOptionalParams,
+  DatabaseAccountsGetOptionalParams,
+} from "./options.js";

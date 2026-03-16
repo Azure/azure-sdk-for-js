@@ -1,49 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FleetspaceUpdate,
-  FleetspaceUpdateOptionalParams} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
+ * This sample demonstrates how to update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
  *
- * @summary Update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetspaceUpdate.json
+ * @summary update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceUpdate.json
  */
-async function cosmosDbFleetspaceUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const fleetspaceName = "fleetspace1";
-  const body: FleetspaceUpdate = {
-    fleetspaceApiKind: "NoSQL",
-    throughputPoolConfiguration: {
-      maxThroughput: 1000000,
-      minThroughput: 100000,
-    },
-  };
-  const options: FleetspaceUpdateOptionalParams = { body };
+async function cosmosDBFleetspaceUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.fleetspace.beginUpdateAndWait(
-    resourceGroupName,
-    fleetName,
-    fleetspaceName,
-    options,
-  );
+  const result = await client.fleetspace.update("rg1", "fleet1", "fleetspace1", {
+    body: {
+      fleetspaceApiKind: "NoSQL",
+      throughputPoolConfiguration: { minThroughput: 100000, maxThroughput: 1000000 },
+    },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbFleetspaceUpdate();
+  await cosmosDBFleetspaceUpdate();
 }
 
 main().catch(console.error);

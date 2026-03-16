@@ -3,34 +3,25 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates some of the properties of a garnet cluster.
+ * This sample demonstrates how to updates some of the properties of a garnet cluster.
  *
- * @summary Updates some of the properties of a garnet cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGarnetClusterPatch.json
+ * @summary updates some of the properties of a garnet cluster.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterPatch.json
  */
-async function cosmosDbGarnetClusterPatch() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "garnet-prod-rg";
-  const clusterName = "garnet-prod";
-  const body = {
-    properties: { clusterType: "Production" },
-  };
+async function cosmosDBGarnetClusterPatch() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.garnetClusters.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    body,
-  );
+  const result = await client.garnetClusters.update("garnet-prod-rg", "garnet-prod", {
+    properties: { clusterType: "Production" },
+  });
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbGarnetClusterPatch();
+  await cosmosDBGarnetClusterPatch();
 }
 
 main().catch(console.error);

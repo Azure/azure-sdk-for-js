@@ -3,33 +3,30 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB Table Role Definitions.
+ * This sample demonstrates how to retrieves the list of all Azure Cosmos DB Table Role Definitions.
  *
- * @summary Retrieves the list of all Azure Cosmos DB Table Role Definitions.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/tablerbac/CosmosDBTableRoleDefinitionList.json
+ * @summary retrieves the list of all Azure Cosmos DB Table Role Definitions.
+ * x-ms-original-file: 2025-11-01-preview/tablerbac/CosmosDBTableRoleDefinitionList.json
  */
-async function cosmosDbTableRoleDefinitionList() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
+async function cosmosDBTableRoleDefinitionList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.tableResources.listTableRoleDefinitions(
-    resourceGroupName,
-    accountName,
+    "myResourceGroupName",
+    "myAccountName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbTableRoleDefinitionList();
+  await cosmosDBTableRoleDefinitionList();
 }
 
 main().catch(console.error);

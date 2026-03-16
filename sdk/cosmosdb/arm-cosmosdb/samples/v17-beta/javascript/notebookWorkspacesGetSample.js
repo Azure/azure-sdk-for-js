@@ -3,31 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the notebook workspace for a Cosmos DB account.
+ * This sample demonstrates how to gets the notebook workspace for a Cosmos DB account.
  *
- * @summary Gets the notebook workspace for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBNotebookWorkspaceGet.json
+ * @summary gets the notebook workspace for a Cosmos DB account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBNotebookWorkspaceGet.json
  */
-async function cosmosDbNotebookWorkspaceGet() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const notebookWorkspaceName = "default";
+async function cosmosDBNotebookWorkspaceGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.notebookWorkspaces.get(
-    resourceGroupName,
-    accountName,
-    notebookWorkspaceName,
-  );
+  const result = await client.notebookWorkspaces.get("rg1", "ddb1", "default");
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbNotebookWorkspaceGet();
+  await cosmosDBNotebookWorkspaceGet();
 }
 
 main().catch(console.error);

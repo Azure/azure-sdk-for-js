@@ -3,30 +3,27 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the given resource group.
+ * This sample demonstrates how to lists all the Azure Cosmos DB database accounts available under the given resource group.
  *
- * @summary Lists all the Azure Cosmos DB database accounts available under the given resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBDatabaseAccountListByResourceGroup.json
+ * @summary lists all the Azure Cosmos DB database accounts available under the given resource group.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountListByResourceGroup.json
  */
-async function cosmosDbDatabaseAccountListByResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
+async function cosmosDBDatabaseAccountListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.databaseAccounts.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.databaseAccounts.listByResourceGroup("rg1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbDatabaseAccountListByResourceGroup();
+  await cosmosDBDatabaseAccountListByResourceGroup();
 }
 
 main().catch(console.error);

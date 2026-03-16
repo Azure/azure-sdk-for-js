@@ -3,35 +3,26 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra Role Assignment.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Cassandra Role Assignment.
  *
- * @summary Deletes an existing Azure Cosmos DB Cassandra Role Assignment.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/cassandrarbac/CosmosDBCassandraRoleAssignmentDelete.json
+ * @summary deletes an existing Azure Cosmos DB Cassandra Role Assignment.
+ * x-ms-original-file: 2025-11-01-preview/cassandrarbac/CosmosDBCassandraRoleAssignmentDelete.json
  */
-async function cosmosDbCassandraRoleAssignmentDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
-  const roleAssignmentId = "myRoleAssignmentId";
+async function cosmosDBCassandraRoleAssignmentDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.cassandraResources.beginDeleteCassandraRoleAssignmentAndWait(
-      resourceGroupName,
-      accountName,
-      roleAssignmentId,
-    );
-  console.log(result);
+  await client.cassandraResources.deleteCassandraRoleAssignment(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleAssignmentId",
+  );
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCassandraRoleAssignmentDelete();
+  await cosmosDBCassandraRoleAssignmentDelete();
 }
 
 main().catch(console.error);

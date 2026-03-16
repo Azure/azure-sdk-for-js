@@ -3,31 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
+ * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
  *
- * @summary Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlRoleDefinitionGet.json
+ * @summary retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlRoleDefinitionGet.json
  */
-async function cosmosDbSqlRoleDefinitionGet() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
-  const roleDefinitionId = "myRoleDefinitionId";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
+async function cosmosDBSqlRoleDefinitionGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.sqlResources.getSqlRoleDefinition(
-    roleDefinitionId,
-    resourceGroupName,
-    accountName,
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleDefinitionId",
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbSqlRoleDefinitionGet();
+  await cosmosDBSqlRoleDefinitionGet();
 }
 
 main().catch(console.error);
