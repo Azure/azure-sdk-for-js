@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using reporting feature.
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using the reporting feature.
 
 ### Breaking Changes
 
