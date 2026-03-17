@@ -1316,7 +1316,7 @@ export interface ExistingRecoveryProximityPlacementGroup extends RecoveryProximi
 }
 
 // @public
-export interface ExistingRecoveryRecoveryResourceGroup extends RecoveryResourceGroupCustomDetails {
+export interface ExistingRecoveryResourceGroup extends RecoveryResourceGroupCustomDetails {
     recoveryResourceGroupId?: string;
     resourceType: "Existing";
 }
@@ -2157,7 +2157,7 @@ export interface InMageAzureV2SwitchProviderDetails {
 }
 
 // @public
-export interface InMageAzureV2SwitchProviderProviderInput extends SwitchProviderProviderSpecificInput {
+export interface InMageAzureV2SwitchProviderInput extends SwitchProviderSpecificInput {
     instanceType: "InMageAzureV2";
     targetApplianceID: string;
     targetFabricID: string;
@@ -4419,7 +4419,7 @@ export interface RecoveryResourceGroupCustomDetails {
 }
 
 // @public
-export type RecoveryResourceGroupCustomDetailsUnion = ExistingRecoveryRecoveryResourceGroup | RecoveryResourceGroupCustomDetails;
+export type RecoveryResourceGroupCustomDetailsUnion = ExistingRecoveryResourceGroup | RecoveryResourceGroupCustomDetails;
 
 // @public
 export interface RecoveryServicesProvider extends ProxyResource {
@@ -5038,17 +5038,17 @@ export interface SwitchProviderInput {
 
 // @public
 export interface SwitchProviderInputProperties {
-    providerSpecificDetails?: SwitchProviderProviderSpecificInputUnion;
+    providerSpecificDetails?: SwitchProviderSpecificInputUnion;
     targetInstanceType?: string;
 }
 
 // @public
-export interface SwitchProviderProviderSpecificInput {
+export interface SwitchProviderSpecificInput {
     instanceType: string;
 }
 
 // @public
-export type SwitchProviderProviderSpecificInputUnion = InMageAzureV2SwitchProviderProviderInput | SwitchProviderProviderSpecificInput;
+export type SwitchProviderSpecificInputUnion = InMageAzureV2SwitchProviderInput | SwitchProviderSpecificInput;
 
 // @public
 export interface SystemData {

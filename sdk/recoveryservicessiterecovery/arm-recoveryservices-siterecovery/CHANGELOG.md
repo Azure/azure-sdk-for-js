@@ -1,6 +1,7 @@
 # Release History
 
-## 6.0.0 (2026-03-12)
+## 6.0.0-beta.1 (2026-03-17)
+Compared with version 5.3.0
 
 ### Features Added
   - Added operation ReplicationFabricsOperations.checkConsistency
@@ -91,8 +92,6 @@
   - Added operation ReplicationvCentersOperations.delete
   - Added operation ReplicationvCentersOperations.update
   - Added Interface A2AAgentReinstallBlockingErrorDetails
-  - Added Interface ExistingRecoveryRecoveryResourceGroup
-  - Added Interface InMageAzureV2SwitchProviderProviderInput
   - Added Interface InMageRcmAgentReinstallBlockingErrorDetails
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
@@ -102,7 +101,6 @@
   - Added Interface ReplicationProtectedItemsReinstallMobilityServiceOptionalParams
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
-  - Added Interface SwitchProviderProviderSpecificInput
   - Added Interface SystemData
   - Interface A2AEnableProtectionInput has a new optional parameter platformFaultDomain
   - Interface A2AReplicationDetails has a new optional parameter agentReinstallAttemptToVersion
@@ -203,7 +201,6 @@
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias CreatedByType
   - Added Type Alias MobilityAgentReinstallType
-  - Added Type Alias SwitchProviderProviderSpecificInputUnion
   - Added Enum AzureClouds
   - Added Enum KnownAgentReinstallBlockedReason
   - Added Enum KnownCreatedByType
@@ -332,10 +329,8 @@
   - Removed Interface ClusterRecoveryPointCollection
   - Removed Interface EventCollection
   - Removed Interface EventQueryParameter
-  - Removed Interface ExistingRecoveryResourceGroup
   - Removed Interface FabricCollection
   - Removed Interface FabricQueryParameter
-  - Removed Interface InMageAzureV2SwitchProviderInput
   - Removed Interface JobCollection
   - Removed Interface LogicalNetworkCollection
   - Removed Interface MigrationItemCollection
@@ -360,7 +355,6 @@
   - Removed Interface RoleAssignment
   - Removed Interface StorageClassificationCollection
   - Removed Interface StorageClassificationMappingCollection
-  - Removed Interface SwitchProviderSpecificInput
   - Removed Interface TargetComputeSizeCollection
   - Removed Interface VaultSettingCollection
   - Removed Interface VCenterCollection
@@ -415,7 +409,7 @@
   - Type of parameter resourceType of interface StorageAccountCustomDetails is changed from "Existing" to string
   - Type of parameter instanceType of interface SwitchClusterProtectionProviderSpecificInput is changed from "A2A" to string
   - Type of parameter instanceType of interface SwitchProtectionProviderSpecificInput is changed from "A2A" to string
-  - Type of parameter providerSpecificDetails of interface SwitchProviderInputProperties is changed from SwitchProviderSpecificInputUnion to SwitchProviderProviderSpecificInputUnion
+  - Type of parameter instanceType of interface SwitchProviderSpecificInput is changed from "InMageAzureV2" to string
   - Type of parameter instanceType of interface TaskTypeDetails is changed from "AutomationRunbookTaskDetails" | "ConsistencyCheckTaskDetails" | "JobTaskDetails" | "FabricReplicationGroupTaskDetails" | "ManualActionTaskDetails" | "ScriptActionTaskDetails" | "VirtualMachineTaskDetails" | "VmNicUpdatesTaskDetails" to string
   - Type of parameter instanceType of interface TestFailoverProviderSpecificInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" | "InMage" to string
   - Type of parameter instanceType of interface TestMigrateProviderSpecificInput is changed from "VMwareCbt" to string
@@ -424,7 +418,6 @@
   - Type of parameter instanceType of interface UpdateMigrationItemProviderSpecificInput is changed from "VMwareCbt" to string
   - Type of parameter instanceType of interface UpdateReplicationProtectedItemProviderInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" to string
   - Interface Resource no longer has parameter location
-  - Removed Type Alias SwitchProviderSpecificInputUnion
   - Type alias "AddDisksProviderSpecificInputUnion" has been changed
   - Type alias "ApplianceSpecificDetailsUnion" has been changed
   - Type alias "ApplyClusterRecoveryPointProviderSpecificInputUnion" has been changed
@@ -477,6 +470,7 @@
   - Type alias "StorageAccountCustomDetailsUnion" has been changed
   - Type alias "SwitchClusterProtectionProviderSpecificInputUnion" has been changed
   - Type alias "SwitchProtectionProviderSpecificInputUnion" has been changed
+  - Type alias "SwitchProviderSpecificInputUnion" has been changed
   - Type alias "TaskTypeDetailsUnion" has been changed
   - Type alias "TestFailoverProviderSpecificInputUnion" has been changed
   - Type alias "TestMigrateProviderSpecificInputUnion" has been changed

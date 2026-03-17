@@ -6701,7 +6701,7 @@ export interface SwitchProviderInputProperties {
   /** Target provider type. */
   targetInstanceType?: string;
   /** Provider specific settings. */
-  providerSpecificDetails?: SwitchProviderProviderSpecificInputUnion;
+  providerSpecificDetails?: SwitchProviderSpecificInputUnion;
 }
 
 export function switchProviderInputPropertiesSerializer(item: SwitchProviderInputProperties): any {
@@ -6709,44 +6709,40 @@ export function switchProviderInputPropertiesSerializer(item: SwitchProviderInpu
     targetInstanceType: item["targetInstanceType"],
     providerSpecificDetails: !item["providerSpecificDetails"]
       ? item["providerSpecificDetails"]
-      : switchProviderProviderSpecificInputUnionSerializer(item["providerSpecificDetails"]),
+      : switchProviderSpecificInputUnionSerializer(item["providerSpecificDetails"]),
   };
 }
 
 /** Provider specific switch provider input. */
-export interface SwitchProviderProviderSpecificInput {
+export interface SwitchProviderSpecificInput {
   /** The class type. */
   /** The discriminator possible values: InMageAzureV2 */
   instanceType: string;
 }
 
-export function switchProviderProviderSpecificInputSerializer(
-  item: SwitchProviderProviderSpecificInput,
-): any {
+export function switchProviderSpecificInputSerializer(item: SwitchProviderSpecificInput): any {
   return { instanceType: item["instanceType"] };
 }
 
-/** Alias for SwitchProviderProviderSpecificInputUnion */
-export type SwitchProviderProviderSpecificInputUnion =
-  | InMageAzureV2SwitchProviderProviderInput
-  | SwitchProviderProviderSpecificInput;
+/** Alias for SwitchProviderSpecificInputUnion */
+export type SwitchProviderSpecificInputUnion =
+  | InMageAzureV2SwitchProviderInput
+  | SwitchProviderSpecificInput;
 
-export function switchProviderProviderSpecificInputUnionSerializer(
-  item: SwitchProviderProviderSpecificInputUnion,
+export function switchProviderSpecificInputUnionSerializer(
+  item: SwitchProviderSpecificInputUnion,
 ): any {
   switch (item.instanceType) {
     case "InMageAzureV2":
-      return inMageAzureV2SwitchProviderProviderInputSerializer(
-        item as InMageAzureV2SwitchProviderProviderInput,
-      );
+      return inMageAzureV2SwitchProviderInputSerializer(item as InMageAzureV2SwitchProviderInput);
 
     default:
-      return switchProviderProviderSpecificInputSerializer(item);
+      return switchProviderSpecificInputSerializer(item);
   }
 }
 
 /** Provider specific input for InMageAzureV2 switch provider. */
-export interface InMageAzureV2SwitchProviderProviderInput extends SwitchProviderProviderSpecificInput {
+export interface InMageAzureV2SwitchProviderInput extends SwitchProviderSpecificInput {
   /** The target vault Id. */
   targetVaultID: string;
   /** The target fabric Id. */
@@ -6757,8 +6753,8 @@ export interface InMageAzureV2SwitchProviderProviderInput extends SwitchProvider
   instanceType: "InMageAzureV2";
 }
 
-export function inMageAzureV2SwitchProviderProviderInputSerializer(
-  item: InMageAzureV2SwitchProviderProviderInput,
+export function inMageAzureV2SwitchProviderInputSerializer(
+  item: InMageAzureV2SwitchProviderInput,
 ): any {
   return {
     instanceType: item["instanceType"],
@@ -9205,7 +9201,7 @@ export function recoveryResourceGroupCustomDetailsDeserializer(
 
 /** Alias for RecoveryResourceGroupCustomDetailsUnion */
 export type RecoveryResourceGroupCustomDetailsUnion =
-  | ExistingRecoveryRecoveryResourceGroup
+  | ExistingRecoveryResourceGroup
   | RecoveryResourceGroupCustomDetails;
 
 export function recoveryResourceGroupCustomDetailsUnionSerializer(
@@ -9213,9 +9209,7 @@ export function recoveryResourceGroupCustomDetailsUnionSerializer(
 ): any {
   switch (item.resourceType) {
     case "Existing":
-      return existingRecoveryRecoveryResourceGroupSerializer(
-        item as ExistingRecoveryRecoveryResourceGroup,
-      );
+      return existingRecoveryResourceGroupSerializer(item as ExistingRecoveryResourceGroup);
 
     default:
       return recoveryResourceGroupCustomDetailsSerializer(item);
@@ -9227,9 +9221,7 @@ export function recoveryResourceGroupCustomDetailsUnionDeserializer(
 ): RecoveryResourceGroupCustomDetailsUnion {
   switch (item["resourceType"]) {
     case "Existing":
-      return existingRecoveryRecoveryResourceGroupDeserializer(
-        item as ExistingRecoveryRecoveryResourceGroup,
-      );
+      return existingRecoveryResourceGroupDeserializer(item as ExistingRecoveryResourceGroup);
 
     default:
       return recoveryResourceGroupCustomDetailsDeserializer(item);
@@ -9237,25 +9229,23 @@ export function recoveryResourceGroupCustomDetailsUnionDeserializer(
 }
 
 /** Existing recovery resource group input. */
-export interface ExistingRecoveryRecoveryResourceGroup extends RecoveryResourceGroupCustomDetails {
+export interface ExistingRecoveryResourceGroup extends RecoveryResourceGroupCustomDetails {
   /** The recovery resource group Id. Valid for V2 scenarios. */
   recoveryResourceGroupId?: string;
   /** The class type. */
   resourceType: "Existing";
 }
 
-export function existingRecoveryRecoveryResourceGroupSerializer(
-  item: ExistingRecoveryRecoveryResourceGroup,
-): any {
+export function existingRecoveryResourceGroupSerializer(item: ExistingRecoveryResourceGroup): any {
   return {
     resourceType: item["resourceType"],
     recoveryResourceGroupId: item["recoveryResourceGroupId"],
   };
 }
 
-export function existingRecoveryRecoveryResourceGroupDeserializer(
+export function existingRecoveryResourceGroupDeserializer(
   item: any,
-): ExistingRecoveryRecoveryResourceGroup {
+): ExistingRecoveryResourceGroup {
   return {
     resourceType: item["resourceType"],
     recoveryResourceGroupId: item["recoveryResourceGroupId"],
