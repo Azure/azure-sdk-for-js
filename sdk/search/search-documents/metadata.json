@@ -2,7 +2,7 @@
   "apiVersions": {
     "Search": "2026-04-01"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Search",
     "CrossLanguageDefinitionId": {
