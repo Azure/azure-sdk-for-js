@@ -41,11 +41,11 @@ export function _getCredentialsSend(
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators/{name}/versions/{version}/credentials{?api%2Dversion}",
+    "/evaluators/{name}/versions/{version}/credentials{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,11 +105,11 @@ export function _pendingUploadSend(
   options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluators/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
+    "/evaluators/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
