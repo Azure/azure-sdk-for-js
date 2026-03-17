@@ -126,11 +126,7 @@ describe("Discovery ARM Client - Tools", () => {
   });
 
   it("should delete a tool", async () => {
-    const poller = client.tools.delete(
-      resourceGroupName,
-      "test-tool-50d87c62",
-      testPollingOptions,
-    );
+    const poller = client.tools.delete(resourceGroupName, "test-tool-50d87c62", testPollingOptions);
     await poller.pollUntilDone();
   });
 });

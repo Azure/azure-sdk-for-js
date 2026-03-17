@@ -53,10 +53,7 @@ describe("Discovery ARM Client - Supercomputers", () => {
 
   // Skipped: blocked by vCPU quota - no valid recordings
   it.skip("should get a supercomputer", async () => {
-    const supercomputer = await client.supercomputers.get(
-      resourceGroupName,
-      "test-sc-2bbb25b8",
-    );
+    const supercomputer = await client.supercomputers.get(resourceGroupName, "test-sc-2bbb25b8");
     assert.isDefined(supercomputer);
     assert.isDefined(supercomputer.name);
     assert.isDefined(supercomputer.location);
@@ -64,13 +61,11 @@ describe("Discovery ARM Client - Supercomputers", () => {
 
   // Skipped: blocked by vCPU quota - no valid recordings
   it.skip("should create a supercomputer", async () => {
-    const miId =
-      `/subscriptions/${subscriptionId}/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity`;
+    const miId = `/subscriptions/${subscriptionId}/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity`;
     const supercomputerData: Supercomputer = {
       location: "uksouth",
       properties: {
-        subnetId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
+        subnetId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
         identities: {
           clusterIdentity: { id: miId },
           kubeletIdentity: { id: miId },

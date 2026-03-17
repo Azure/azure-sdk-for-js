@@ -35,9 +35,7 @@ describe("Discovery ARM Client - Storage Containers", () => {
 
   it("should list storage containers in resource group", async () => {
     const containers: any[] = [];
-    for await (const container of client.storageContainers.listByResourceGroup(
-      resourceGroupName,
-    )) {
+    for await (const container of client.storageContainers.listByResourceGroup(resourceGroupName)) {
       containers.push(container);
     }
     assert.isArray(containers);
@@ -52,10 +50,7 @@ describe("Discovery ARM Client - Storage Containers", () => {
   });
 
   it("should get a storage container", async () => {
-    const container = await client.storageContainers.get(
-      resourceGroupName,
-      "test-sc-8bef0d1a",
-    );
+    const container = await client.storageContainers.get(resourceGroupName, "test-sc-8bef0d1a");
     assert.isDefined(container);
     assert.isDefined(container.name);
   });
@@ -66,8 +61,7 @@ describe("Discovery ARM Client - Storage Containers", () => {
       properties: {
         storageStore: {
           kind: "AzureStorageBlob",
-          storageAccountId:
-            `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr`,
+          storageAccountId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr`,
         },
       },
     };

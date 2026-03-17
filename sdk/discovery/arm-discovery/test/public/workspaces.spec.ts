@@ -68,20 +68,16 @@ describe("Discovery ARM Client - Workspaces", () => {
         workspaceIdentity: {
           id: `/subscriptions/${subscriptionId}/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity`,
         },
-        agentSubnetId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3`,
-        privateEndpointSubnetId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
-        workspaceSubnetId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2`,
+        agentSubnetId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3`,
+        privateEndpointSubnetId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
+        workspaceSubnetId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2`,
         customerManagedKeys: "Enabled",
         keyVaultProperties: {
           keyName: "discoverykey",
           keyVaultUri: "https://newapik.vault.azure.net/",
           keyVersion: "2c9db3cf55d247b4a1c1831fbbdad906",
         },
-        logAnalyticsClusterId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse`,
+        logAnalyticsClusterId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse`,
         publicNetworkAccess: "Disabled",
       },
     };
@@ -117,11 +113,7 @@ describe("Discovery ARM Client - Workspaces", () => {
 
   it("should delete a workspace", async () => {
     const workspaceName = "jstest-wrksp-0316a";
-    const poller = client.workspaces.delete(
-      resourceGroupName,
-      workspaceName,
-      testPollingOptions,
-    );
+    const poller = client.workspaces.delete(resourceGroupName, workspaceName, testPollingOptions);
     await poller.pollUntilDone();
   });
 });

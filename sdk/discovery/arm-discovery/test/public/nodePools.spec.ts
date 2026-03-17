@@ -63,8 +63,7 @@ describe("Discovery ARM Client - Node Pools", () => {
     const nodePoolData: NodePool = {
       location: "uksouth",
       properties: {
-        subnetId:
-          `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
+        subnetId: `/subscriptions/${subscriptionId}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default`,
         vmSize: "Standard_D4s_v6",
         maxNodeCount: 3,
         minNodeCount: 1,
