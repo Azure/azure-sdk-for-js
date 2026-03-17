@@ -58,6 +58,8 @@ export type {
   CaptureStructuredOutputsTool,
   StructuredOutputDefinition,
   A2APreviewTool,
+  WorkIQPreviewTool,
+  WorkIQPreviewToolParameters,
   MemorySearchPreviewTool,
   MemorySearchOptions,
   CodeInterpreterTool,
@@ -294,12 +296,15 @@ export type {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
-  AgentObjectType,
+  ToolsetObject,
+  DeleteToolsetResponse,
   AgentDefinitionOptInKeys,
-  PageOrder,
+  AgentObjectType,
   FoundryFeaturesOptInKeys,
+  PageOrder,
   PendingUploadType,
   MemoryStoreObjectType,
+  ToolsetObjectType,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
@@ -395,6 +400,13 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
+  BetaToolsetsDeleteOptionalParams,
+  BetaToolsetsListOptionalParams,
+  BetaToolsetsGetOptionalParams,
+  BetaToolsetsUpdateOptionalParams,
+  BetaToolsetsCreateOptionalParams,
+} from "./api/beta/toolsets/index.js";
+export type {
   AgentsOperations,
   BetaOperations,
   ConnectionsOperations,
@@ -408,5 +420,6 @@ export type {
   BetaMemoryStoresOperations,
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
+  BetaToolsetsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
