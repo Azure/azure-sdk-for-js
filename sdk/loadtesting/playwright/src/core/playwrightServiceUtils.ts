@@ -5,11 +5,20 @@ import path from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore ESM only output
-const currentDir = dirname(fileURLToPath(import.meta.url));
+const tryGetCommonJSDirname = (): string | undefined => {
+  return eval("typeof __dirname !== 'undefined' ? __dirname : undefined") as string | undefined;
+};
+
+const getCurrentDir = (): string => {
+  const currentDir = tryGetCommonJSDirname();
+  if (currentDir) {
+    return currentDir;
+  }
+
+  return dirname(fileURLToPath(import.meta.url));
+};
 
 export const globalPaths = {
-  setup: path.join(currentDir, "./global/playwright-service-global-setup.js"),
-  teardown: path.join(currentDir, "./global/playwright-service-global-teardown.js"),
+  setup: path.join(getCurrentDir(), "./global/playwright-service-global-setup.js"),
+  teardown: path.join(getCurrentDir(), "./global/playwright-service-global-teardown.js"),
 };
