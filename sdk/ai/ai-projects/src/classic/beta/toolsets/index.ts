@@ -16,11 +16,6 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 /** Interface representing a BetaToolsets operations. */
 export interface BetaToolsetsOperations {
   /** Delete a toolset. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     toolSetName: string,
     foundryFeatures: "Toolsets=V1Preview",
