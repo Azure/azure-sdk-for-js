@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Maps": "2025-10-01-preview"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Maps",
     "CrossLanguageDefinitionId": {
@@ -13,7 +13,7 @@
       "@azure/arm-maps!CorsRule:interface": "Microsoft.Maps.CorsRule",
       "@azure/arm-maps!Encryption:interface": "Azure.ResourceManager.CommonTypes.Encryption",
       "@azure/arm-maps!CustomerManagedKeyEncryption:interface": "Azure.ResourceManager.CommonTypes.CustomerManagedKeyEncryption",
-      "@azure/arm-maps!KeyEncryptionKeyIdentity:interface": "Azure.ResourceManager.CommonTypes.KeyEncryptionKeyIdentity",
+      "@azure/arm-maps!CustomerManagedKeyEncryptionKeyIdentity:interface": "Azure.ResourceManager.CommonTypes.KeyEncryptionKeyIdentity",
       "@azure/arm-maps!LocationsItem:interface": "Microsoft.Maps.LocationsItem",
       "@azure/arm-maps!PrivateEndpointConnection:interface": "Microsoft.Maps.PrivateEndpointConnection",
       "@azure/arm-maps!PrivateEndpointConnectionProperties:interface": "Azure.ResourceManager.CommonTypes.PrivateEndpointConnectionProperties",
@@ -49,7 +49,7 @@
       "@azure/arm-maps!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
       "@azure/arm-maps!OperationStatusResult:interface": "Azure.ResourceManager.CommonTypes.OperationStatusResult",
       "@azure/arm-maps!KnownInfrastructureEncryption:enum": "Azure.ResourceManager.CommonTypes.InfrastructureEncryption",
-      "@azure/arm-maps!KnownKeyEncryptionKeyIdentityType:enum": "Azure.ResourceManager.CommonTypes.KeyEncryptionKeyIdentityType",
+      "@azure/arm-maps!KnownIdentityType:enum": "Azure.ResourceManager.CommonTypes.KeyEncryptionKeyIdentityType",
       "@azure/arm-maps!KnownPrivateEndpointServiceConnectionStatus:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointServiceConnectionStatus",
       "@azure/arm-maps!KnownPrivateEndpointConnectionProvisioningState:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointConnectionProvisioningState",
       "@azure/arm-maps!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",

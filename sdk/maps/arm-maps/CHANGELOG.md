@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-03-13)
+## 4.0.0-beta.1 (2026-03-17)
 Compared with version 3.1.0
 
 ### Features Added
@@ -8,7 +8,6 @@ Compared with version 3.1.0
   - Added operation group OperationStatusOperations
   - Added operation group PrivateEndpointConnectionsOperations
   - Added operation group PrivateLinkResourcesOperations
-  - Added Interface KeyEncryptionKeyIdentity
   - Added Interface LocationsItem
   - Added Interface Operation
   - Added Interface OperationResultGetOptionalParams
@@ -35,6 +34,7 @@ Compared with version 3.1.0
   - Interface CreatorProperties has a new optional parameter totalStorageUnitSizeInBytes
   - Interface CreatorUpdateParameters has a new optional parameter consumedStorageUnitSizeInBytes
   - Interface CreatorUpdateParameters has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface CustomerManagedKeyEncryptionKeyIdentity has a new optional parameter federatedClientId
   - Interface MapsAccountProperties has a new optional parameter locations
   - Interface MapsAccountProperties has a new optional parameter privateEndpointConnections
   - Interface MapsAccountProperties has a new optional parameter publicNetworkAccess
@@ -45,7 +45,6 @@ Compared with version 3.1.0
   - Interface TrackedResource has a new optional parameter systemData
   - Added Type Alias ActionType
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias KeyEncryptionKeyIdentityType
   - Added Type Alias KeyType
   - Added Type Alias Origin
   - Added Type Alias PrivateEndpointConnectionProvisioningState
@@ -53,7 +52,6 @@ Compared with version 3.1.0
   - Added Type Alias PublicNetworkAccess
   - Added Enum AzureClouds
   - Added Enum KnownActionType
-  - Added Enum KnownKeyEncryptionKeyIdentityType
   - Added Enum KnownOrigin
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
@@ -63,16 +61,13 @@ Compared with version 3.1.0
 ### Breaking Changes
   - Removed operation Maps.listSubscriptionOperations
   - Removed Interface CreatorList
-  - Removed Interface CustomerManagedKeyEncryptionKeyIdentity
   - Removed Interface Dimension
   - Removed Interface MapsAccounts
   - Removed Interface MapsListSubscriptionOperationsOptionalParams
   - Removed Interface MetricSpecification
   - Removed Interface OperationDetail
   - Removed Interface ServiceSpecification
-  - Removed Type Alias IdentityType
   - Removed Type Alias KeyType_2
-  - Removed Enum KnownIdentityType
   - Enum KnownKind no longer has value Gen1
   - Enum KnownName no longer has value S0
   - Enum KnownName no longer has value S1

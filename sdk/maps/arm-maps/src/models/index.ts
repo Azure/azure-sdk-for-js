@@ -10,8 +10,8 @@ export type {
   Encryption,
   InfrastructureEncryption,
   CustomerManagedKeyEncryption,
-  KeyEncryptionKeyIdentity,
-  KeyEncryptionKeyIdentityType,
+  CustomerManagedKeyEncryptionKeyIdentity,
+  IdentityType,
   LocationsItem,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
@@ -54,7 +54,7 @@ export type {
 } from "./models.js";
 export {
   KnownInfrastructureEncryption,
-  KnownKeyEncryptionKeyIdentityType,
+  KnownIdentityType,
   KnownPrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
   KnownPublicNetworkAccess,

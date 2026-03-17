@@ -250,7 +250,7 @@ export type InfrastructureEncryption = string;
 /** Customer-managed key encryption properties for the resource. */
 export interface CustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
   /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
   keyEncryptionKeyUrl?: string;
 }
@@ -259,7 +259,7 @@ export function customerManagedKeyEncryptionSerializer(item: CustomerManagedKeyE
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
-      : keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+      : customerManagedKeyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
@@ -268,15 +268,15 @@ export function customerManagedKeyEncryptionDeserializer(item: any): CustomerMan
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
-      : keyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
+      : customerManagedKeyEncryptionKeyIdentityDeserializer(item["keyEncryptionKeyIdentity"]),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
 
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface KeyEncryptionKeyIdentity {
+export interface CustomerManagedKeyEncryptionKeyIdentity {
   /** The type of identity to use. Values can be systemAssignedIdentity, userAssignedIdentity, or delegatedResourceIdentity. */
-  identityType?: KeyEncryptionKeyIdentityType;
+  identityType?: IdentityType;
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
   userAssignedIdentityResourceId?: string;
   /** application client identity to use for accessing key encryption key Url in a different tenant. Ex: f83c6b1b-4d34-47e4-bb34-9d83df58b540 */
@@ -285,7 +285,9 @@ export interface KeyEncryptionKeyIdentity {
   delegatedIdentityClientId?: string;
 }
 
-export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
+export function customerManagedKeyEncryptionKeyIdentitySerializer(
+  item: CustomerManagedKeyEncryptionKeyIdentity,
+): any {
   return {
     identityType: item["identityType"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -294,7 +296,9 @@ export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentit
   };
 }
 
-export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKeyIdentity {
+export function customerManagedKeyEncryptionKeyIdentityDeserializer(
+  item: any,
+): CustomerManagedKeyEncryptionKeyIdentity {
   return {
     identityType: item["identityType"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -304,7 +308,7 @@ export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKe
 }
 
 /** The type of identity to use. */
-export enum KnownKeyEncryptionKeyIdentityType {
+export enum KnownIdentityType {
   /** System assigned identity */
   SystemAssignedIdentity = "systemAssignedIdentity",
   /** User assigned identity */
@@ -315,14 +319,14 @@ export enum KnownKeyEncryptionKeyIdentityType {
 
 /**
  * The type of identity to use. \
- * {@link KnownKeyEncryptionKeyIdentityType} can be used interchangeably with KeyEncryptionKeyIdentityType,
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **systemAssignedIdentity**: System assigned identity \
  * **userAssignedIdentity**: User assigned identity \
  * **delegatedResourceIdentity**: Delegated identity
  */
-export type KeyEncryptionKeyIdentityType = string;
+export type IdentityType = string;
 
 export function locationsItemArraySerializer(result: Array<LocationsItem>): any[] {
   return result.map((item) => {

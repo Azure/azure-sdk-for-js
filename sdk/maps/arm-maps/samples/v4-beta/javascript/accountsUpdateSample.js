@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMapsManagementClient } from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: 2025-10-01-preview/UpdateAccount.json
  */
-async function updateAccountTags(): Promise<void> {
+async function updateAccountTags() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function updateAccountTags(): Promise<void> {
  * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: 2025-10-01-preview/UpdateAccountEncryption.json
  */
-async function updateAccountEncryption(): Promise<void> {
+async function updateAccountEncryption() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
@@ -54,7 +54,7 @@ async function updateAccountEncryption(): Promise<void> {
  * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: 2025-10-01-preview/UpdateAccountGen2.json
  */
-async function updateToGen2Account(): Promise<void> {
+async function updateToGen2Account() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
@@ -71,7 +71,7 @@ async function updateToGen2Account(): Promise<void> {
  * @summary updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: 2025-10-01-preview/UpdateAccountManagedIdentity.json
  */
-async function updateAccountManagedIdentities(): Promise<void> {
+async function updateAccountManagedIdentities() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
@@ -95,7 +95,7 @@ async function updateAccountManagedIdentities(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await updateAccountTags();
   await updateAccountEncryption();
   await updateToGen2Account();

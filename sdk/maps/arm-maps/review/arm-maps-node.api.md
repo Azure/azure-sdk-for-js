@@ -176,8 +176,16 @@ export interface CreatorUpdateParameters {
 
 // @public
 export interface CustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: KeyEncryptionKeyIdentity;
+    keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
     keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface CustomerManagedKeyEncryptionKeyIdentity {
+    delegatedIdentityClientId?: string;
+    federatedClientId?: string;
+    identityType?: IdentityType;
+    userAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -207,18 +215,10 @@ export interface ErrorResponse {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export type InfrastructureEncryption = string;
-
-// @public
-export interface KeyEncryptionKeyIdentity {
-    delegatedIdentityClientId?: string;
-    federatedClientId?: string;
-    identityType?: KeyEncryptionKeyIdentityType;
-    userAssignedIdentityResourceId?: string;
-}
-
-// @public
-export type KeyEncryptionKeyIdentityType = string;
 
 // @public
 export type KeyType = string;
@@ -240,16 +240,16 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownInfrastructureEncryption {
-    Disabled = "disabled",
-    Enabled = "enabled"
-}
-
-// @public
-export enum KnownKeyEncryptionKeyIdentityType {
+export enum KnownIdentityType {
     DelegatedResourceIdentity = "delegatedResourceIdentity",
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAssignedIdentity = "userAssignedIdentity"
+}
+
+// @public
+export enum KnownInfrastructureEncryption {
+    Disabled = "disabled",
+    Enabled = "enabled"
 }
 
 // @public
