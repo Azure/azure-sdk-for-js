@@ -53,7 +53,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -133,7 +133,7 @@ export function _renameDeserializeHeaders(result: PathUncheckedResponse): {
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -180,7 +180,7 @@ export function _renameDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -231,7 +231,7 @@ export async function rename(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -248,7 +248,7 @@ export async function rename(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -286,7 +286,7 @@ export function _forceCloseHandlesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -327,7 +327,7 @@ export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedRespon
   marker?: string;
   numberOfHandlesClosed: number;
   numberOfHandlesFailedToClose: number;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -339,7 +339,7 @@ export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedRespon
         : result.headers["x-ms-marker"],
     numberOfHandlesClosed: Number(result.headers["x-ms-number-of-handles-closed"]),
     numberOfHandlesFailedToClose: Number(result.headers["x-ms-number-of-handles-failed"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -383,7 +383,7 @@ export async function forceCloseHandles(
     marker?: string;
     numberOfHandlesClosed: number;
     numberOfHandlesFailedToClose: number;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -393,7 +393,7 @@ export async function forceCloseHandles(
       marker?: string;
       numberOfHandlesClosed: number;
       numberOfHandlesFailedToClose: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -431,7 +431,7 @@ export function _listHandlesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -471,14 +471,14 @@ export async function _listHandlesDeserialize(
 }
 
 export function _listHandlesDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/xml";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -519,7 +519,7 @@ export async function listHandles(
   options: DirectoryListHandlesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -528,7 +528,7 @@ export async function listHandles(
     StorageCompatResponseInfo<
       ListHandlesResponse,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -573,7 +573,7 @@ export function _listFilesAndDirectoriesSegmentSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -615,14 +615,14 @@ export async function _listFilesAndDirectoriesSegmentDeserialize(
 }
 
 export function _listFilesAndDirectoriesSegmentDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/xml";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -661,7 +661,7 @@ export async function listFilesAndDirectoriesSegment(
   options: DirectoryListFilesAndDirectoriesSegmentOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -670,7 +670,7 @@ export async function listFilesAndDirectoriesSegment(
     StorageCompatResponseInfo<
       ListFilesAndDirectoriesSegmentResponse,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -706,7 +706,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -744,7 +744,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   requestServerEncrypted?: boolean;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -756,7 +756,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-request-server-encrypted"] === null
         ? result.headers["x-ms-request-server-encrypted"]
         : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -798,7 +798,7 @@ export async function setMetadata(
   {
     etag: string;
     requestServerEncrypted?: boolean;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -807,7 +807,7 @@ export async function setMetadata(
     {
       etag: string;
       requestServerEncrypted?: boolean;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -842,7 +842,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -915,7 +915,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileMode?: string;
   owner?: string;
   group?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -974,7 +974,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-group"] === undefined || result.headers["x-ms-group"] === null
         ? result.headers["x-ms-group"]
         : result.headers["x-ms-group"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1027,7 +1027,7 @@ export async function setProperties(
     fileMode?: string;
     owner?: string;
     group?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1047,7 +1047,7 @@ export async function setProperties(
       fileMode?: string;
       owner?: string;
       group?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1082,7 +1082,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1115,13 +1115,13 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1166,13 +1166,13 @@ export async function $delete(
   options: DirectoryDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
   } & StorageCompatResponseInfo<
     undefined,
-    { apiVersion: string; requestId: string; clientRequestId?: string; date: Date }
+    { version: string; requestId: string; clientRequestId?: string; date: Date }
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
@@ -1201,7 +1201,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1251,7 +1251,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1311,7 +1311,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         ? result.headers["x-ms-group"]
         : result.headers["x-ms-group"],
     nfsFileType: result.headers["x-ms-file-file-type"] as any,
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1365,7 +1365,7 @@ export async function getProperties(
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1386,7 +1386,7 @@ export async function getProperties(
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1421,7 +1421,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1495,7 +1495,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1555,7 +1555,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-group"]
         : result.headers["x-ms-group"],
     nfsFileType: result.headers["x-ms-file-file-type"] as any,
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1609,7 +1609,7 @@ export async function create(
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1630,7 +1630,7 @@ export async function create(
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;

@@ -2376,7 +2376,7 @@ export function listFilesAndDirectoriesSegmentResponseXmlDeserializer(
     },
     {
       propertyName: "segment",
-      xmlOptions: { name: "Segment" },
+      xmlOptions: { name: "Entries" },
       type: "object",
       deserializer: filesAndDirectoriesListSegmentXmlObjectDeserializer,
     },
@@ -2476,18 +2476,22 @@ export function filesAndDirectoriesListSegmentXmlDeserializer(
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "directoryItems",
-      xmlOptions: { name: "DirectoryItems", unwrapped: true, itemsName: "DirectoryItems" },
+      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
       type: "array",
       deserializer: directoryItemXmlObjectDeserializer,
     },
     {
       propertyName: "fileItems",
-      xmlOptions: { name: "FileItems", unwrapped: true, itemsName: "FileItems" },
+      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
       type: "array",
       deserializer: fileItemXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<FilesAndDirectoriesListSegment>(xmlString, properties, "Entries");
+  return deserializeFromXml<FilesAndDirectoriesListSegment>(
+    xmlString,
+    properties,
+    "FilesAndDirectoriesListSegment",
+  );
 }
 
 export function filesAndDirectoriesListSegmentXmlObjectDeserializer(
@@ -2496,13 +2500,13 @@ export function filesAndDirectoriesListSegmentXmlObjectDeserializer(
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "directoryItems",
-      xmlOptions: { name: "DirectoryItems", unwrapped: true, itemsName: "DirectoryItems" },
+      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
       type: "array",
       deserializer: directoryItemXmlObjectDeserializer,
     },
     {
       propertyName: "fileItems",
-      xmlOptions: { name: "FileItems", unwrapped: true, itemsName: "FileItems" },
+      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
       type: "array",
       deserializer: fileItemXmlObjectDeserializer,
     },
@@ -2628,7 +2632,7 @@ export interface FileProperty {
   /** The creation time. */
   creationTime?: Date;
   /** The last access time. */
-  lastAccessedOn?: Date;
+  lastAccessTime?: Date;
   /** The last write time. */
   lastWriteTime?: Date;
   /** The change time. */
@@ -2643,9 +2647,9 @@ export function filePropertyDeserializer(item: any): FileProperty {
   return {
     contentLength: item["contentLength"],
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    lastAccessedOn: !item["lastAccessedOn"]
-      ? item["lastAccessedOn"]
-      : new Date(item["lastAccessedOn"]),
+    lastAccessTime: !item["lastAccessTime"]
+      ? item["lastAccessTime"]
+      : new Date(item["lastAccessTime"]),
     lastWriteTime: !item["lastWriteTime"] ? item["lastWriteTime"] : new Date(item["lastWriteTime"]),
     changeTime: !item["changeTime"] ? item["changeTime"] : new Date(item["changeTime"]),
     lastModified: !item["lastModified"] ? item["lastModified"] : new Date(item["lastModified"]),
@@ -2668,7 +2672,7 @@ export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastAccessedOn",
+      propertyName: "lastAccessTime",
       xmlOptions: { name: "LastAccessTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2718,7 +2722,7 @@ export function filePropertyXmlObjectDeserializer(
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastAccessedOn",
+      propertyName: "lastAccessTime",
       xmlOptions: { name: "LastAccessTime" },
       type: "date",
       dateEncoding: "rfc3339",

@@ -49,7 +49,7 @@ export interface DirectoryOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -66,7 +66,7 @@ export interface DirectoryOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -82,7 +82,7 @@ export interface DirectoryOperations {
       marker?: string;
       numberOfHandlesClosed: number;
       numberOfHandlesFailedToClose: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -92,7 +92,7 @@ export interface DirectoryOperations {
         marker?: string;
         numberOfHandlesClosed: number;
         numberOfHandlesFailedToClose: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -104,7 +104,7 @@ export interface DirectoryOperations {
     options?: DirectoryListHandlesOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -113,7 +113,7 @@ export interface DirectoryOperations {
       StorageCompatResponseInfo<
         ListHandlesResponse,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -126,7 +126,7 @@ export interface DirectoryOperations {
     options?: DirectoryListFilesAndDirectoriesSegmentOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -135,7 +135,7 @@ export interface DirectoryOperations {
       StorageCompatResponseInfo<
         ListFilesAndDirectoriesSegmentResponse,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -150,7 +150,7 @@ export interface DirectoryOperations {
     {
       etag: string;
       requestServerEncrypted?: boolean;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -159,7 +159,7 @@ export interface DirectoryOperations {
       {
         etag: string;
         requestServerEncrypted?: boolean;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -184,7 +184,7 @@ export interface DirectoryOperations {
       fileMode?: string;
       owner?: string;
       group?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -204,7 +204,7 @@ export interface DirectoryOperations {
         fileMode?: string;
         owner?: string;
         group?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -221,13 +221,13 @@ export interface DirectoryOperations {
     options?: DirectoryDeleteOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
     } & StorageCompatResponseInfo<
       undefined,
-      { apiVersion: string; requestId: string; clientRequestId?: string; date: Date }
+      { version: string; requestId: string; clientRequestId?: string; date: Date }
     >
   >;
   /** Returns all system properties for the specified directory, and can also be used to check the existence of a directory. */
@@ -249,7 +249,7 @@ export interface DirectoryOperations {
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -270,7 +270,7 @@ export interface DirectoryOperations {
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -296,7 +296,7 @@ export interface DirectoryOperations {
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -317,7 +317,7 @@ export interface DirectoryOperations {
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;

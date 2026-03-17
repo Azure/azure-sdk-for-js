@@ -78,7 +78,7 @@ export interface FileOperations {
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -97,7 +97,7 @@ export interface FileOperations {
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -112,7 +112,7 @@ export interface FileOperations {
       etag: string;
       lastModified: Date;
       linkText: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -122,7 +122,7 @@ export interface FileOperations {
         etag: string;
         lastModified: Date;
         linkText: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -146,7 +146,7 @@ export interface FileOperations {
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -164,7 +164,7 @@ export interface FileOperations {
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -187,7 +187,7 @@ export interface FileOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -204,7 +204,7 @@ export interface FileOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -220,7 +220,7 @@ export interface FileOperations {
       marker?: string;
       numberOfHandlesClosed: number;
       numberOfHandlesFailedToClose: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -230,7 +230,7 @@ export interface FileOperations {
         marker?: string;
         numberOfHandlesClosed: number;
         numberOfHandlesFailedToClose: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -242,7 +242,7 @@ export interface FileOperations {
     options?: FileListHandlesOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -251,7 +251,7 @@ export interface FileOperations {
       StorageCompatResponseInfo<
         ListHandlesResponse,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -265,13 +265,13 @@ export interface FileOperations {
     options?: FileAbortCopyOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
     } & StorageCompatResponseInfo<
       undefined,
-      { apiVersion: string; requestId: string; clientRequestId?: string; date: Date }
+      { version: string; requestId: string; clientRequestId?: string; date: Date }
     >
   >;
   /** Copies a blob or file to a destination file within the storage account. */
@@ -284,7 +284,7 @@ export interface FileOperations {
       lastModified: Date;
       copyId: string;
       copyStatus: CopyStatus;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -295,7 +295,7 @@ export interface FileOperations {
         lastModified: Date;
         copyId: string;
         copyStatus: CopyStatus;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -310,7 +310,7 @@ export interface FileOperations {
       lastModified: Date;
       etag: string;
       fileContentLength: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -322,7 +322,7 @@ export interface FileOperations {
           lastModified: Date;
           etag: string;
           fileContentLength: number;
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -344,7 +344,7 @@ export interface FileOperations {
       contentCrc64?: string;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -356,7 +356,7 @@ export interface FileOperations {
         contentCrc64?: string;
         requestServerEncrypted?: boolean;
         fileLastWriteTime?: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -376,8 +376,8 @@ export interface FileOperations {
       contentMD5?: Uint8Array;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
-      structuredBody?: string;
-      apiVersion: string;
+      structuredBodyType?: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -389,8 +389,8 @@ export interface FileOperations {
         contentMD5?: Uint8Array;
         requestServerEncrypted?: boolean;
         fileLastWriteTime?: Date;
-        structuredBody?: string;
-        apiVersion: string;
+        structuredBodyType?: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -406,7 +406,7 @@ export interface FileOperations {
       lastModified: Date;
       leaseTimeInSeconds?: number;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -417,7 +417,7 @@ export interface FileOperations {
         lastModified: Date;
         leaseTimeInSeconds?: number;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -433,7 +433,7 @@ export interface FileOperations {
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -443,7 +443,7 @@ export interface FileOperations {
         etag: string;
         lastModified: Date;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -458,7 +458,7 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -467,7 +467,7 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -482,7 +482,7 @@ export interface FileOperations {
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -492,7 +492,7 @@ export interface FileOperations {
         etag: string;
         lastModified: Date;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -506,7 +506,7 @@ export interface FileOperations {
     {
       etag: string;
       requestServerEncrypted?: boolean;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -515,7 +515,7 @@ export interface FileOperations {
       {
         etag: string;
         requestServerEncrypted?: boolean;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -541,7 +541,7 @@ export interface FileOperations {
       owner?: string;
       group?: string;
       linkCount?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -562,7 +562,7 @@ export interface FileOperations {
         owner?: string;
         group?: string;
         linkCount?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -580,7 +580,7 @@ export interface FileOperations {
   ) => Promise<
     {
       linkCount?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -588,7 +588,7 @@ export interface FileOperations {
       undefined,
       {
         linkCount?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -632,7 +632,7 @@ export interface FileOperations {
       group?: string;
       nfsFileType?: NfsFileType;
       linkCount?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -671,7 +671,7 @@ export interface FileOperations {
         group?: string;
         nfsFileType?: NfsFileType;
         linkCount?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -711,14 +711,14 @@ export interface FileOperations {
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
-      structuredBody?: string;
+      structuredBodyType?: string;
       structuredContentLength?: number;
       fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
       linkCount?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -755,14 +755,14 @@ export interface FileOperations {
           leaseDuration?: string;
           leaseState?: string;
           leaseStatus?: string;
-          structuredBody?: string;
+          structuredBodyType?: string;
           structuredContentLength?: number;
           fileMode?: string;
           owner?: string;
           group?: string;
           nfsFileType?: NfsFileType;
           linkCount?: number;
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -792,7 +792,7 @@ export interface FileOperations {
       nfsFileType?: NfsFileType;
       contentMD5?: Uint8Array;
       contentLength?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -815,7 +815,7 @@ export interface FileOperations {
         nfsFileType?: NfsFileType;
         contentMD5?: Uint8Array;
         contentLength?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;

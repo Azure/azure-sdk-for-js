@@ -53,7 +53,7 @@ export function _getUserDelegationKeySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -87,14 +87,14 @@ export async function _getUserDelegationKeyDeserialize(
 }
 
 export function _getUserDelegationKeyDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/xml";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -136,7 +136,7 @@ export async function getUserDelegationKey(
   options: ServiceGetUserDelegationKeyOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -145,7 +145,7 @@ export async function getUserDelegationKey(
     StorageCompatResponseInfo<
       UserDelegationKey,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -189,7 +189,7 @@ export function _listSharesSegmentSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -225,14 +225,14 @@ export async function _listSharesSegmentDeserialize(
 }
 
 export function _listSharesSegmentDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/xml";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -273,7 +273,7 @@ export async function listSharesSegment(
   options: ServiceListSharesSegmentOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -282,7 +282,7 @@ export async function listSharesSegment(
     StorageCompatResponseInfo<
       ListSharesResponse,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -318,7 +318,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -354,14 +354,14 @@ export async function _getPropertiesDeserialize(
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/xml";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -402,7 +402,7 @@ export async function getProperties(
   options: ServiceGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -411,7 +411,7 @@ export async function getProperties(
     StorageCompatResponseInfo<
       FileServiceProperties,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -449,7 +449,7 @@ export function _setPropertiesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -483,13 +483,13 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -530,13 +530,13 @@ export async function setProperties(
   options: ServiceSetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
   } & StorageCompatResponseInfo<
     undefined,
-    { apiVersion: string; requestId: string; clientRequestId?: string; date: Date }
+    { version: string; requestId: string; clientRequestId?: string; date: Date }
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);

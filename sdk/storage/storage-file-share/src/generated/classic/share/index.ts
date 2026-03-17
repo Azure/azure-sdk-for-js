@@ -61,7 +61,7 @@ export interface ShareOperations {
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
       shareMaxBurstCreditsForIops?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -75,7 +75,7 @@ export interface ShareOperations {
         shareProvisionedBandwidthMibps?: number;
         shareIncludedBurstIops?: number;
         shareMaxBurstCreditsForIops?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -89,7 +89,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -100,7 +100,7 @@ export interface ShareOperations {
         {
           etag: string;
           lastModified: Date;
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -115,7 +115,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -124,7 +124,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -138,7 +138,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -149,7 +149,7 @@ export interface ShareOperations {
         {
           etag: string;
           lastModified: Date;
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -164,7 +164,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -173,7 +173,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -195,7 +195,7 @@ export interface ShareOperations {
       shareNextAllowedQuotaDowngradeTime?: string;
       shareNextAllowedProvisionedIopsDowngradeTime?: string;
       shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -212,7 +212,7 @@ export interface ShareOperations {
         shareNextAllowedQuotaDowngradeTime?: string;
         shareNextAllowedProvisionedIopsDowngradeTime?: string;
         shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -225,7 +225,7 @@ export interface ShareOperations {
     options?: ShareGetPermissionOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -234,7 +234,7 @@ export interface ShareOperations {
       StorageCompatResponseInfo<
         SharePermission,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -249,7 +249,7 @@ export interface ShareOperations {
   ) => Promise<
     {
       filePermissionKey: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -257,7 +257,7 @@ export interface ShareOperations {
       undefined,
       {
         filePermissionKey: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -272,7 +272,7 @@ export interface ShareOperations {
       etag: string;
       lastModified: Date;
       snapshot: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -282,7 +282,7 @@ export interface ShareOperations {
         etag: string;
         lastModified: Date;
         snapshot: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -298,7 +298,7 @@ export interface ShareOperations {
       lastModified: Date;
       leaseTimeInSeconds?: number;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -309,7 +309,7 @@ export interface ShareOperations {
         lastModified: Date;
         leaseTimeInSeconds?: number;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -325,7 +325,7 @@ export interface ShareOperations {
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -335,7 +335,7 @@ export interface ShareOperations {
         etag: string;
         lastModified: Date;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -351,7 +351,7 @@ export interface ShareOperations {
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -361,7 +361,7 @@ export interface ShareOperations {
         etag: string;
         lastModified: Date;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -376,7 +376,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -385,7 +385,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -400,7 +400,7 @@ export interface ShareOperations {
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -410,7 +410,7 @@ export interface ShareOperations {
         etag: string;
         lastModified: Date;
         leaseId?: string;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -429,7 +429,7 @@ export interface ShareOperations {
     {
       usageBytes?: number;
       snapshotUsageBytes?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -438,7 +438,7 @@ export interface ShareOperations {
       {
         usageBytes?: number;
         snapshotUsageBytes?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -475,7 +475,7 @@ export interface ShareOperations {
       shareNextAllowedProvisionedIopsDowngradeTime?: string;
       shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
       enableSmbDirectoryLease?: boolean;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -507,7 +507,7 @@ export interface ShareOperations {
         shareNextAllowedProvisionedIopsDowngradeTime?: string;
         shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
         enableSmbDirectoryLease?: boolean;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -526,7 +526,7 @@ export interface ShareOperations {
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
       shareMaxBurstCreditsForIops?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -540,7 +540,7 @@ export interface ShareOperations {
         shareProvisionedBandwidthMibps?: number;
         shareIncludedBurstIops?: number;
         shareMaxBurstCreditsForIops?: number;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;

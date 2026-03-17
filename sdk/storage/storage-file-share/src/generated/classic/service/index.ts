@@ -30,7 +30,7 @@ export interface ServiceOperations {
     options?: ServiceGetUserDelegationKeyOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -39,7 +39,7 @@ export interface ServiceOperations {
       StorageCompatResponseInfo<
         UserDelegationKey,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -52,7 +52,7 @@ export interface ServiceOperations {
     options?: ServiceListSharesSegmentOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -61,7 +61,7 @@ export interface ServiceOperations {
       StorageCompatResponseInfo<
         ListSharesResponse,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -74,7 +74,7 @@ export interface ServiceOperations {
     options?: ServiceGetPropertiesOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -83,7 +83,7 @@ export interface ServiceOperations {
       StorageCompatResponseInfo<
         FileServiceProperties,
         {
-          apiVersion: string;
+          version: string;
           requestId: string;
           clientRequestId?: string;
           date: Date;
@@ -97,13 +97,13 @@ export interface ServiceOperations {
     options?: ServiceSetPropertiesOptionalParams,
   ) => Promise<
     {
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
     } & StorageCompatResponseInfo<
       undefined,
-      { apiVersion: string; requestId: string; clientRequestId?: string; date: Date }
+      { version: string; requestId: string; clientRequestId?: string; date: Date }
     >
   >;
 }

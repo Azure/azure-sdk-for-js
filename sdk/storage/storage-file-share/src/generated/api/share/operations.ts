@@ -63,7 +63,7 @@ export function _restoreSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -106,7 +106,7 @@ export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
   shareMaxBurstCreditsForIops?: number;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -139,7 +139,7 @@ export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
         : Number(result.headers["x-ms-share-max-burst-credits-for-iops"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -186,7 +186,7 @@ export async function restore(
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
     shareMaxBurstCreditsForIops?: number;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -200,7 +200,7 @@ export async function restore(
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
       shareMaxBurstCreditsForIops?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -232,7 +232,7 @@ export function _getStatisticsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -271,7 +271,7 @@ export async function _getStatisticsDeserialize(
 export function _getStatisticsDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -280,7 +280,7 @@ export function _getStatisticsDeserializeHeaders(result: PathUncheckedResponse):
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -323,7 +323,7 @@ export async function getStatistics(
   {
     etag: string;
     lastModified: Date;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -334,7 +334,7 @@ export async function getStatistics(
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -371,7 +371,7 @@ export function _setAccessPolicySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -410,7 +410,7 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
 export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -418,7 +418,7 @@ export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -460,7 +460,7 @@ export async function setAccessPolicy(
   {
     etag: string;
     lastModified: Date;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -469,7 +469,7 @@ export async function setAccessPolicy(
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -504,7 +504,7 @@ export function _getAccessPolicySend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -543,7 +543,7 @@ export async function _getAccessPolicyDeserialize(
 export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -552,7 +552,7 @@ export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -595,7 +595,7 @@ export async function getAccessPolicy(
   {
     etag: string;
     lastModified: Date;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -606,7 +606,7 @@ export async function getAccessPolicy(
       {
         etag: string;
         lastModified: Date;
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -642,7 +642,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -678,7 +678,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -686,7 +686,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -728,7 +728,7 @@ export async function setMetadata(
   {
     etag: string;
     lastModified: Date;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -737,7 +737,7 @@ export async function setMetadata(
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -772,7 +772,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -846,7 +846,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   shareNextAllowedQuotaDowngradeTime?: string;
   shareNextAllowedProvisionedIopsDowngradeTime?: string;
   shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -895,7 +895,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"]
         : result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -945,7 +945,7 @@ export async function setProperties(
     shareNextAllowedQuotaDowngradeTime?: string;
     shareNextAllowedProvisionedIopsDowngradeTime?: string;
     shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -962,7 +962,7 @@ export async function setProperties(
       shareNextAllowedQuotaDowngradeTime?: string;
       shareNextAllowedProvisionedIopsDowngradeTime?: string;
       shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -998,7 +998,7 @@ export function _getPermissionSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1038,14 +1038,14 @@ export async function _getPermissionDeserialize(
 }
 
 export function _getPermissionDeserializeHeaders(result: PathUncheckedResponse): {
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
   contentType: "application/json";
 } {
   return {
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1087,7 +1087,7 @@ export async function getPermission(
   options: ShareGetPermissionOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1096,7 +1096,7 @@ export async function getPermission(
     StorageCompatResponseInfo<
       SharePermission,
       {
-        apiVersion: string;
+        version: string;
         requestId: string;
         clientRequestId?: string;
         date: Date;
@@ -1134,7 +1134,7 @@ export function _createPermissionSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1169,14 +1169,14 @@ export async function _createPermissionDeserialize(result: PathUncheckedResponse
 
 export function _createPermissionDeserializeHeaders(result: PathUncheckedResponse): {
   filePermissionKey: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
     filePermissionKey: result.headers["x-ms-file-permission-key"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1218,7 +1218,7 @@ export async function createPermission(
 ): Promise<
   {
     filePermissionKey: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1226,7 +1226,7 @@ export async function createPermission(
     undefined,
     {
       filePermissionKey: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1261,7 +1261,7 @@ export function _createSnapshotSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1297,7 +1297,7 @@ export function _createSnapshotDeserializeHeaders(result: PathUncheckedResponse)
   etag: string;
   lastModified: Date;
   snapshot: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1306,7 +1306,7 @@ export function _createSnapshotDeserializeHeaders(result: PathUncheckedResponse)
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     snapshot: result.headers["x-ms-snapshot"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1349,7 +1349,7 @@ export async function createSnapshot(
     etag: string;
     lastModified: Date;
     snapshot: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1359,7 +1359,7 @@ export async function createSnapshot(
       etag: string;
       lastModified: Date;
       snapshot: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1395,7 +1395,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1437,7 +1437,7 @@ export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   lastModified: Date;
   leaseTimeInSeconds?: number;
   leaseId?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1453,7 +1453,7 @@ export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1497,7 +1497,7 @@ export async function breakLease(
     lastModified: Date;
     leaseTimeInSeconds?: number;
     leaseId?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1508,7 +1508,7 @@ export async function breakLease(
       lastModified: Date;
       leaseTimeInSeconds?: number;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1545,7 +1545,7 @@ export function _renewLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1583,7 +1583,7 @@ export function _renewLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   leaseId?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1595,7 +1595,7 @@ export function _renewLeaseDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1639,7 +1639,7 @@ export async function renewLease(
     etag: string;
     lastModified: Date;
     leaseId?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1649,7 +1649,7 @@ export async function renewLease(
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1686,7 +1686,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1727,7 +1727,7 @@ export function _changeLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   leaseId?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1739,7 +1739,7 @@ export function _changeLeaseDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1783,7 +1783,7 @@ export async function changeLease(
     etag: string;
     lastModified: Date;
     leaseId?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1793,7 +1793,7 @@ export async function changeLease(
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1830,7 +1830,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1867,7 +1867,7 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
 export function _releaseLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -1875,7 +1875,7 @@ export function _releaseLeaseDeserializeHeaders(result: PathUncheckedResponse): 
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -1918,7 +1918,7 @@ export async function releaseLease(
   {
     etag: string;
     lastModified: Date;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -1927,7 +1927,7 @@ export async function releaseLease(
     {
       etag: string;
       lastModified: Date;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -1963,7 +1963,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2006,7 +2006,7 @@ export function _acquireLeaseDeserializeHeaders(result: PathUncheckedResponse): 
   etag: string;
   lastModified: Date;
   leaseId?: string;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -2018,7 +2018,7 @@ export function _acquireLeaseDeserializeHeaders(result: PathUncheckedResponse): 
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -2061,7 +2061,7 @@ export async function acquireLease(
     etag: string;
     lastModified: Date;
     leaseId?: string;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -2071,7 +2071,7 @@ export async function acquireLease(
       etag: string;
       lastModified: Date;
       leaseId?: string;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -2107,7 +2107,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2143,7 +2143,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   usageBytes?: number;
   snapshotUsageBytes?: number;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -2159,7 +2159,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-file-share-snapshot-usage-bytes"] === null
         ? result.headers["x-ms-file-share-snapshot-usage-bytes"]
         : Number(result.headers["x-ms-file-share-snapshot-usage-bytes"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -2206,7 +2206,7 @@ export async function $delete(
   {
     usageBytes?: number;
     snapshotUsageBytes?: number;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -2215,7 +2215,7 @@ export async function $delete(
     {
       usageBytes?: number;
       snapshotUsageBytes?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -2248,7 +2248,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2307,7 +2307,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   shareNextAllowedProvisionedIopsDowngradeTime?: string;
   shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
   enableSmbDirectoryLease?: boolean;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -2428,7 +2428,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-enable-smb-directory-lease"] === null
         ? result.headers["x-ms-enable-smb-directory-lease"]
         : result.headers["x-ms-enable-smb-directory-lease"].trim().toLowerCase() === "true",
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -2493,7 +2493,7 @@ export async function getProperties(
     shareNextAllowedProvisionedIopsDowngradeTime?: string;
     shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
     enableSmbDirectoryLease?: boolean;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -2525,7 +2525,7 @@ export async function getProperties(
       shareNextAllowedProvisionedIopsDowngradeTime?: string;
       shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
       enableSmbDirectoryLease?: boolean;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
@@ -2560,7 +2560,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.apiVersion ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2630,7 +2630,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
   shareMaxBurstCreditsForIops?: number;
-  apiVersion: string;
+  version: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
@@ -2663,7 +2663,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
         : Number(result.headers["x-ms-share-max-burst-credits-for-iops"]),
-    apiVersion: result.headers["x-ms-version"],
+    version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
       result.headers["x-ms-client-request-id"] === undefined ||
@@ -2710,7 +2710,7 @@ export async function create(
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
     shareMaxBurstCreditsForIops?: number;
-    apiVersion: string;
+    version: string;
     requestId: string;
     clientRequestId?: string;
     date: Date;
@@ -2724,7 +2724,7 @@ export async function create(
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
       shareMaxBurstCreditsForIops?: number;
-      apiVersion: string;
+      version: string;
       requestId: string;
       clientRequestId?: string;
       date: Date;
