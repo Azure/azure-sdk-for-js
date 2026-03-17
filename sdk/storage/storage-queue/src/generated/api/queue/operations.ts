@@ -987,7 +987,6 @@ export async function getAccessPolicy(
 
 export function _setMetadataSend(
   context: Client,
-  _metadata: string,
   options: QueueSetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1068,7 +1067,6 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
 /** operation sets one or more user-defined name-value pairs for the specified queue. */
 export async function setMetadata(
   context: Client,
-  metadata: string,
   options: QueueSetMetadataOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -1082,7 +1080,7 @@ export async function setMetadata(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setMetadataSend(context, metadata, {
+  const result = await _setMetadataSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -1339,7 +1337,7 @@ export function _createSend(
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["201"];
+  const expectedStatuses = ["201", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
@@ -1387,7 +1385,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
   };
 }
 
-/** Creates a new queue under the specified account. If the queue with the same name already exists, the operation fails. */
+/** Creates a new queue under the specified account. If a queue with the same name already exists, the operation succeeds when the metadata is identical and returns 204; if the metadata differs, the operation returns 409. */
 export async function create(
   context: Client,
   options: QueueCreateOptionalParams = { requestOptions: {} },

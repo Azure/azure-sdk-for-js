@@ -222,7 +222,6 @@ export interface QueueOperations {
   >;
   /** operation sets one or more user-defined name-value pairs for the specified queue. */
   setMetadata: (
-    metadata: string,
     options?: QueueSetMetadataOptionalParams,
   ) => Promise<
     {
@@ -275,7 +274,7 @@ export interface QueueOperations {
       }
     >
   >;
-  /** Creates a new queue under the specified account. If the queue with the same name already exists, the operation fails. */
+  /** Creates a new queue under the specified account. If a queue with the same name already exists, the operation succeeds when the metadata is identical and returns 204; if the metadata differs, the operation returns 409. */
   create: (
     options?: QueueCreateOptionalParams,
   ) => Promise<
@@ -314,8 +313,7 @@ function _getQueue(context: QueuesContext) {
       setAccessPolicy(context, queueAcl, options),
     getAccessPolicy: (options?: QueueGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
-    setMetadata: (metadata: string, options?: QueueSetMetadataOptionalParams) =>
-      setMetadata(context, metadata, options),
+    setMetadata: (options?: QueueSetMetadataOptionalParams) => setMetadata(context, options),
     delete: (options?: QueueDeleteOptionalParams) => $delete(context, options),
     getProperties: (options?: QueueGetPropertiesOptionalParams) => getProperties(context, options),
     create: (options?: QueueCreateOptionalParams) => create(context, options),
