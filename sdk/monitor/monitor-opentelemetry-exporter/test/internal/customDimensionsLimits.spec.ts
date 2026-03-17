@@ -76,24 +76,29 @@ describe("Custom Dimensions Size Limits", () => {
       assert.strictEqual(result["key2"].length, halfSize);
     });
 
-    it("should not truncate exempt gen_ai keys that exceed 64KB", () => {
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
+    it("should truncate exempt gen_ai keys at 256KB instead of 64KB", () => {
+      const over64KBValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
+      const over256KBValue = "x".repeat(MaxPropertyLengths.EIGHTEEN_BIT + 1000);
 
       for (const exemptKey of CUSTOM_DIMENSIONS_EXEMPT_KEYS) {
-        const properties: { [key: string]: string } = {
-          [exemptKey]: largeValue,
-        };
-
-        const result = truncateCustomDimensions(properties);
+        // Value over 64KB but under 256KB should NOT be truncated
+        const smallResult = truncateCustomDimensions({ [exemptKey]: over64KBValue });
         assert.strictEqual(
-          result[exemptKey],
-          largeValue,
-          `Exempt key '${exemptKey}' should not be truncated`,
+          smallResult[exemptKey],
+          over64KBValue,
+          `Exempt key '${exemptKey}' under 256KB should not be truncated`,
+        );
+
+        // Value over 256KB SHOULD be truncated
+        const largeResult = truncateCustomDimensions({ [exemptKey]: over256KBValue });
+        assert.isTrue(
+          Buffer.byteLength(largeResult[exemptKey], "utf-8") <= MaxPropertyLengths.EIGHTEEN_BIT,
+          `Exempt key '${exemptKey}' over 256KB should be truncated to 256KB`,
         );
       }
     });
 
-    it("should truncate non-exempt keys while preserving exempt keys in the same call", () => {
+    it("should truncate non-exempt keys at 64KB while exempt keys use 256KB limit", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
         "gen_ai.input.messages": largeValue,
@@ -102,10 +107,10 @@ describe("Custom Dimensions Size Limits", () => {
 
       const result = truncateCustomDimensions(properties);
 
-      // Exempt key should be preserved
+      // Exempt key should be preserved (under 256KB)
       assert.strictEqual(result["gen_ai.input.messages"], largeValue);
 
-      // Non-exempt key should be truncated
+      // Non-exempt key should be truncated to 64KB
       assert.isTrue(
         Buffer.byteLength(result["regularKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
         "Non-exempt key should be truncated to 64KB",
@@ -168,6 +173,10 @@ describe("Custom Dimensions Size Limits", () => {
 
     it("should verify default limit is 64KB", () => {
       assert.strictEqual(MaxPropertyLengths.SIXTEEN_BIT, 64 * 1024);
+    });
+
+    it("should verify gen_ai limit is 256KB", () => {
+      assert.strictEqual(MaxPropertyLengths.EIGHTEEN_BIT, 256 * 1024);
     });
 
     it("should stringify non-string values (number, boolean, object, array)", () => {
