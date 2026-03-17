@@ -1611,11 +1611,9 @@ export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
 }
 
 // @public
-export interface ManagedNamespace extends Resource {
+export interface ManagedNamespace extends TrackedResource {
     readonly eTag?: string;
-    location?: string;
     properties?: NamespaceProperties;
-    tags?: Record<string, string>;
 }
 
 // @public

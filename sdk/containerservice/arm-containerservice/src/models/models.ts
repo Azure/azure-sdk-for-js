@@ -6911,29 +6911,29 @@ export function maintenanceConfigurationArrayDeserializer(
 }
 
 /** Namespace managed by ARM. */
-export interface ManagedNamespace extends Resource {
+export interface ManagedNamespace extends TrackedResource {
   /** Properties of a namespace. */
   properties?: NamespaceProperties;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location?: string;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
 }
 
 export function managedNamespaceSerializer(item: ManagedNamespace): any {
   return {
+    tags: item["tags"],
+    location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
       : namespacePropertiesSerializer(item["properties"]),
-    tags: item["tags"],
-    location: item["location"],
   };
 }
 
 export function managedNamespaceDeserializer(item: any): ManagedNamespace {
   return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
     id: item["id"],
     name: item["name"],
     type: item["type"],
@@ -6943,10 +6943,6 @@ export function managedNamespaceDeserializer(item: any): ManagedNamespace {
     properties: !item["properties"]
       ? item["properties"]
       : namespacePropertiesDeserializer(item["properties"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     eTag: item["eTag"],
   };
 }

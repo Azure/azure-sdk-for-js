@@ -19,6 +19,7 @@ async function createOrUpdateManagedNamespace(): Promise<void> {
     "clustername1",
     "namespace1",
     {
+      location: "eastus2",
       properties: {
         adoptionPolicy: "IfIdentical",
         annotations: { annatationKey: "annatationValue" },

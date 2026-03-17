@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceClient } from "@azure/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceClient } = require("@azure/arm-containerservice");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure aspects like resource quotas, network ingress/egress policies, and more. See aka.ms/aks/managed-namespaces for more details.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure aspects like resource quotas, network ingress/egress policies, and more. See aka.ms/aks/managed-namespaces for more details.
  * x-ms-original-file: 2026-01-01/ManagedNamespacesCreate_Update.json
  */
-async function createOrUpdateManagedNamespace(): Promise<void> {
+async function createOrUpdateManagedNamespace() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceClient(credential, subscriptionId);
@@ -19,6 +19,7 @@ async function createOrUpdateManagedNamespace(): Promise<void> {
     "clustername1",
     "namespace1",
     {
+      location: "eastus2",
       properties: {
         adoptionPolicy: "IfIdentical",
         annotations: { annatationKey: "annatationValue" },
@@ -38,7 +39,7 @@ async function createOrUpdateManagedNamespace(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createOrUpdateManagedNamespace();
 }
 
