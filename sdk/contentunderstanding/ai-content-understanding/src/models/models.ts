@@ -4,6 +4,7 @@
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import type { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
+import { ContentRange } from "./contentRange.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -22,7 +23,7 @@ export interface AnalysisInput {
   /** The MIME type of the input content.  Ex. application/pdf, image/jpeg, etc. */
   mimeType?: string;
   /** Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  contentRange?: string;
+  contentRange?: string | ContentRange;
 }
 
 export function analysisInputSerializer(item: AnalysisInput): any {
@@ -31,7 +32,7 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     data: !item["data"] ? item["data"] : uint8ArrayToString(item["data"], "base64"),
     name: item["name"],
     mimeType: item["mimeType"],
-    range: item["contentRange"],
+    range: item["contentRange"] !== undefined ? String(item["contentRange"]) : undefined,
   };
 }
 

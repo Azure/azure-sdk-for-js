@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export { ContentRange } from "./contentRange.js";
 export {
   type AnalysisInput,
   type ContentAnalyzerAnalyzeOperationStatus,

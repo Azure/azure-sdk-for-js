@@ -706,7 +706,7 @@ export function _analyzeBinarySend(
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
       stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.contentRange,
+      range: options?.contentRange !== undefined ? String(options.contentRange) : undefined,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -7,7 +7,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
-import { type DocumentContent } from "../../../../src/index.js";
+import { type DocumentContent, ContentRange } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
@@ -83,5 +83,103 @@ describe("Sample: analyzeBinary", () => {
         `Document pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber} (${totalPages} pages)`,
       );
     }
+  });
+
+  it("should analyze specific pages with ContentRange.page", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: ContentRange.page(2),
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.equal(doc.startPageNumber, 2);
+    assert.equal(doc.endPageNumber, 2);
+  });
+
+  it("should analyze a page range with ContentRange.pages", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: ContentRange.pages(1, 3),
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.equal(doc.startPageNumber, 1);
+    assert.equal(doc.endPageNumber, 3);
+  });
+
+  it("should analyze from a start page with ContentRange.pagesFrom", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: ContentRange.pagesFrom(8),
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.ok(doc.startPageNumber >= 8);
+    assert.equal(doc.endPageNumber, 10);
+  });
+
+  it("should analyze combined pages with ContentRange.combine", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: ContentRange.combine(
+        ContentRange.pages(1, 3),
+        ContentRange.page(5),
+        ContentRange.pagesFrom(9),
+      ),
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+  });
+
+  it("should analyze with raw ContentRange string", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: new ContentRange("1-3,5,9-"),
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
   });
 });

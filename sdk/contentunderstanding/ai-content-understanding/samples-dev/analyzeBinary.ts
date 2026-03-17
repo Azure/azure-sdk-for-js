@@ -23,7 +23,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient, type DocumentContent } from "@azure/ai-content-understanding";
+import {
+  ContentUnderstandingClient,
+  ContentRange,
+  type DocumentContent,
+} from "@azure/ai-content-understanding";
 
 function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
@@ -84,6 +88,100 @@ export async function main(): Promise<void> {
       const totalPages = documentContent.endPageNumber - documentContent.startPageNumber + 1;
       console.log(`  Total pages: ${totalPages}`);
     }
+  }
+
+  // ======================================================================
+  // ContentRange examples: analyze specific pages of a multi-page document
+  // ======================================================================
+  const multiPagePath = path.join("..", "..", "assets", "mixed_financial_invoices.pdf");
+  const multiPageBytes = fs.readFileSync(multiPagePath);
+  console.log(`\nAnalyzing ${multiPagePath} with ContentRange...`);
+  console.log(`  File size: ${multiPageBytes.length.toLocaleString()} bytes`);
+
+  // ---- ContentRange.pagesFrom(3) — from page 3 to end ----
+  console.log("\n--- pagesFrom(3): Page 3 to end ---");
+  const pagesFromPoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    undefined,
+    {
+      contentRange: ContentRange.pagesFrom(3),
+    },
+  );
+  const pagesFromResult = await pagesFromPoller.pollUntilDone();
+  if (pagesFromResult.contents && pagesFromResult.contents.length > 0) {
+    const doc = pagesFromResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- ContentRange.page(2) — single page ----
+  console.log("\n--- page(2): Page 2 only ---");
+  const pagePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: ContentRange.page(2),
+  });
+  const pageResult = await pagePoller.pollUntilDone();
+  if (pageResult.contents && pageResult.contents.length > 0) {
+    const doc = pageResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- ContentRange.pages(1, 3) — pages 1 through 3 ----
+  console.log("\n--- pages(1, 3): Pages 1-3 ---");
+  const pagesPoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: ContentRange.pages(1, 3),
+  });
+  const pagesResult = await pagesPoller.pollUntilDone();
+  if (pagesResult.contents && pagesResult.contents.length > 0) {
+    const doc = pagesResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- ContentRange.combine — combine page(1), pages(3, 4) ----
+  console.log("\n--- combine(page(1), pages(3, 4)): Pages 1 and 3-4 ---");
+  const combinePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: ContentRange.combine(ContentRange.page(1), ContentRange.pages(3, 4)),
+  });
+  const combineResult = await combinePoller.pollUntilDone();
+  if (combineResult.contents && combineResult.contents.length > 0) {
+    const doc = combineResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- ContentRange.combine — complex: pages(1, 3), page(5), pagesFrom(9) ----
+  console.log("\n--- combine(pages(1, 3), page(5), pagesFrom(9)): Pages 1-3, 5, 9+ ---");
+  const multiCombinePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    undefined,
+    {
+      contentRange: ContentRange.combine(
+        ContentRange.pages(1, 3),
+        ContentRange.page(5),
+        ContentRange.pagesFrom(9),
+      ),
+    },
+  );
+  const multiCombineResult = await multiCombinePoller.pollUntilDone();
+  if (multiCombineResult.contents && multiCombineResult.contents.length > 0) {
+    const doc = multiCombineResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- Raw string "1-3,5,9-" — equivalent to the combine above ----
+  console.log('\n--- Raw string "1-3,5,9-" ---');
+  const rawPoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: new ContentRange("1-3,5,9-"),
+  });
+  const rawResult = await rawPoller.pollUntilDone();
+  if (rawResult.contents && rawResult.contents.length > 0) {
+    const doc = rawResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
   }
 }
 

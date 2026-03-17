@@ -23,6 +23,7 @@ export {
 // file was deleted; the generated version is still available in generated/restorePollerHelpers.ts.
 // Re-add when the emitter fixes the type leak.
 export {
+  ContentRange,
   type AnalysisInput,
   type ContentAnalyzerAnalyzeOperationStatus,
   type OperationState,
