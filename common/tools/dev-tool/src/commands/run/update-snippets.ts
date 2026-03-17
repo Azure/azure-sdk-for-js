@@ -610,25 +610,22 @@ async function replaceSnippetsWithNew(
  * @returns true if type-checking succeeds or no tsconfig.snippets.json is found, false otherwise
  */
 function typeCheckSnippets(projectPath: string): boolean {
-  const tsconfigPath = path.join(projectPath, TSCONFIG_SNIPPETS);
-
-  if (!existsSync(tsconfigPath)) {
+  if (!existsSync(path.join(projectPath, TSCONFIG_SNIPPETS))) {
     log.info(`No ${TSCONFIG_SNIPPETS} found in ${projectPath}, skipping type-check.`);
     return true;
   }
 
   log.info(`Type-checking snippets using ${TSCONFIG_SNIPPETS}...`);
 
-  const res = spawnSync("tsc", ["-p", tsconfigPath, "--noEmit"], {
+  const res = spawnSync("tsc", ["-p", TSCONFIG_SNIPPETS, "--noEmit"], {
     stdio: "inherit",
     shell: process.platform === "win32",
     cwd: projectPath,
   });
 
   if (res.status !== 0 || res.signal !== null) {
-    const relativeTsconfigPath = path.relative(projectPath, tsconfigPath);
     log.error(
-      `Type-checking snippets failed. Run \`tsc -p ${relativeTsconfigPath} --noEmit\` to see detailed errors.`,
+      `Type-checking snippets failed. Run \`tsc -p ${TSCONFIG_SNIPPETS} --noEmit\` to see detailed errors.`,
     );
     return false;
   }
