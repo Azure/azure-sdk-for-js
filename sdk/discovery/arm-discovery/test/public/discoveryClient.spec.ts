@@ -49,7 +49,11 @@ describe("Discovery Models - Unit Tests", () => {
   it("should define Workspace type", () => {
     const workspace: Workspace = {
       location: "eastus",
-      properties: {},
+      properties: {
+        workspaceIdentity: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+        },
+      },
     };
     assert.equal(workspace.location, "eastus");
     assert.isDefined(workspace.properties);
@@ -76,7 +80,9 @@ describe("Discovery Models - Unit Tests", () => {
   it("should define StorageAsset type", () => {
     const asset: StorageAsset = {
       location: "eastus",
-      properties: {},
+      properties: {
+        description: "test storage asset",
+      },
     };
     assert.equal(asset.location, "eastus");
     assert.isDefined(asset.properties);
@@ -85,7 +91,13 @@ describe("Discovery Models - Unit Tests", () => {
   it("should define StorageContainer type", () => {
     const container: StorageContainer = {
       location: "eastus",
-      properties: {},
+      properties: {
+        storageStore: {
+          kind: "AzureStorageBlob",
+          storageAccountId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/sa",
+        },
+      },
     };
     assert.isDefined(container.properties);
   });
@@ -93,7 +105,10 @@ describe("Discovery Models - Unit Tests", () => {
   it("should define Tool type", () => {
     const tool: Tool = {
       location: "eastus",
-      properties: {},
+      properties: {
+        version: "1.0.0",
+        definitionContent: { key: "value" },
+      },
     };
     assert.equal(tool.location, "eastus");
     assert.isDefined(tool.properties);
@@ -102,7 +117,18 @@ describe("Discovery Models - Unit Tests", () => {
   it("should define Supercomputer type", () => {
     const supercomputer: Supercomputer = {
       location: "eastus",
-      properties: {},
+      properties: {
+        subnetId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet",
+        identities: {
+          clusterIdentity: {
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cluster",
+          },
+          kubeletIdentity: {
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kubelet",
+          },
+        },
+      },
     };
     assert.equal(supercomputer.location, "eastus");
     assert.isDefined(supercomputer.properties);
@@ -110,14 +136,24 @@ describe("Discovery Models - Unit Tests", () => {
 
   it("should define NodePool type", () => {
     const nodePool: NodePool = {
-      properties: {},
+      location: "eastus",
+      properties: {
+        subnetId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet",
+        vmSize: "Standard_NC96ads_A100_v4",
+        maxNodeCount: 10,
+      },
     };
     assert.isDefined(nodePool.properties);
   });
 
   it("should define ChatModelDeployment type", () => {
     const deployment: ChatModelDeployment = {
-      properties: {},
+      location: "eastus",
+      properties: {
+        modelFormat: "OpenAI",
+        modelName: "gpt-4",
+      },
     };
     assert.isDefined(deployment.properties);
   });
