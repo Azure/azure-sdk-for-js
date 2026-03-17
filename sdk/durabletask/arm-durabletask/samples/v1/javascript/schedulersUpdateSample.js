@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Scheduler
  *
  * @summary update a Scheduler
- * x-ms-original-file: 2025-11-01/Schedulers_Update.json
+ * x-ms-original-file: 2026-02-01/Schedulers_Update.json
  */
 async function schedulersUpdate() {
   const credential = new DefaultAzureCredential();
@@ -16,10 +16,7 @@ async function schedulersUpdate() {
   const client = new DurableTaskClient(credential, subscriptionId);
   const result = await client.schedulers.update("rgopenapi", "testscheduler", {
     tags: { hello: "world" },
-    properties: {
-      ipAllowlist: ["10.0.0.0/8"],
-      sku: { name: "Dedicated", capacity: 3 },
-    },
+    properties: { ipAllowlist: ["10.0.0.0/8"], sku: { name: "Dedicated", capacity: 3 } },
   });
   console.log(result);
 }
