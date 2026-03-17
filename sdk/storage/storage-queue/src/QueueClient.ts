@@ -799,7 +799,7 @@ export class QueueClient extends StorageClient {
       const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>(
         adjustResponse(
-          await this.storageClientContext.queue.setMetadata("", {
+          await this.storageClientContext.queue.setMetadata({
             ...updatedOptions,
             requestOptions: {
               headers: metadataHeaders,
