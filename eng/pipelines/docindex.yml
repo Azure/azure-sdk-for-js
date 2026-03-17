@@ -85,8 +85,15 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
 
-      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/rex-tool/.npmrc
+          registryUrl: $(PublicDevOpsRegistry)
 
+      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+        parameters:
+          NpmConfigUserConfig: $(Agent.TempDirectory)/rex-tool/.npmrc
+          
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:
           WorkingDirectory: $(DocRepoLocation)
