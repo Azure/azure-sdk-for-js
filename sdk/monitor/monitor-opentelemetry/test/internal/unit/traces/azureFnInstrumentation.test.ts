@@ -33,7 +33,7 @@ describe("Library/AzureFunctionsInstrumentation", () => {
     });
   });
 
-  it("AzureFunctionsInstrumentation is always included", () => {
+  it("AzureFunctionsInstrumentation is included by default", () => {
     const config = new InternalConfig({});
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";

@@ -150,6 +150,10 @@ export class TraceHandler {
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
       );
     }
-    this._instrumentations.push(new AzureFunctionsInstrumentation());
+    if (this._config.instrumentationOptions.azureFunctions?.enabled) {
+      this._instrumentations.push(
+        new AzureFunctionsInstrumentation(this._config.instrumentationOptions.azureFunctions),
+      );
+    }
   }
 }
