@@ -375,6 +375,10 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 }
 
 // @public
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -394,10 +398,16 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 export interface BetaEvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getCredentials: (name: string, foundryFeatures: "Evaluations=V1Preview", credentialRequest: EvaluatorCredentialRequest, version: string, options?: BetaEvaluatorsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
     list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    pendingUpload: (name: string, foundryFeatures: "Evaluations=V1Preview", pendingUploadRequest: PendingUploadRequest, version: string, options?: BetaEvaluatorsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+}
+
+// @public
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1261,6 +1271,11 @@ export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxono
 
 // @public
 export type EvaluatorCategory = "quality" | "safety" | "agents";
+
+// @public
+export interface EvaluatorCredentialRequest {
+    blobUri: string;
+}
 
 // @public
 export interface EvaluatorDefinition {
