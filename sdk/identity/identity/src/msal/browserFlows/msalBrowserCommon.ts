@@ -115,7 +115,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
     if (!app) {
       // Prepare the MSAL application
       app = await createStandardPublicClientApplication(msalConfig);
-      
+
       // setting the account right after the app is created.
       if (account) {
         app.setActiveAccount(publicToMsal(account));
@@ -174,7 +174,10 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
-    return handleBrowserResult((await msalApp.handleRedirectPromise(redirectHash ? { hash: redirectHash } : undefined)) || undefined);
+    return handleBrowserResult(
+      (await msalApp.handleRedirectPromise(redirectHash ? { hash: redirectHash } : undefined)) ||
+        undefined,
+    );
   }
 
   /**
