@@ -40,7 +40,7 @@ All public API surfaces are exposed in `review/{package-name}-node.api.md`, and 
 ### Checklist
 #### 1. Breaking changes
 
-Breaking changes are accepted in management SDKs. This usually means any removal or incompatible change to the public surface, plus a `Breaking Changes` section in `CHANGELOG.md` (note that the first changelog entry is fixed content and might not have a `Breaking Changes` section, so do not flag that).
+Breaking changes are acceptable in management SDKs. This usually means any removal or incompatible change to the public surface, plus a `Breaking Changes` section in `CHANGELOG.md` (note that the first changelog entry is fixed content and might not have a `Breaking Changes` section, so do not flag that).
 
 However we should report the following cases:
 
