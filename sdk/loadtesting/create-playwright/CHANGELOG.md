@@ -6,12 +6,6 @@
 
 - Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using the reporting feature.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.1.0 (2026-01-06)
 
 ### Features Added
