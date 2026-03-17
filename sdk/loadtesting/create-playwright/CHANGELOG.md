@@ -1,8 +1,10 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.1.1 (2026-03-18)
 
 ### Features Added
+
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using reporting feature.
 
 ### Breaking Changes
 

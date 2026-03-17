@@ -1,14 +1,14 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.3 (2026-03-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using reporting feature.
 
 ### Other Changes
+
+- Enhanced browser session activity logging with source type tracking.
 
 ## 1.1.2 (2026-02-13)
 
