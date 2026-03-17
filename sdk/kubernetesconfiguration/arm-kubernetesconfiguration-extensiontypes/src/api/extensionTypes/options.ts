@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ExtensionTypesClusterListVersionsOptionalParams extends OperationOptions {
+export interface ExtensionTypesListClusterListVersionsOptionalParams extends OperationOptions {
   /** Filter results by release train (default value is stable) */
   releaseTrain?: string;
   /** Filter results by the major version of an extension type */
@@ -47,7 +47,7 @@ export interface ExtensionTypesListOptionalParams extends OperationOptions {
 export interface ExtensionTypesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ExtensionTypesLocationListOptionalParams extends OperationOptions {
+export interface ExtensionTypesListLocationListOptionalParams extends OperationOptions {
   /** Filter results by Publisher ID of a marketplace extension type */
   publisherId?: string;
   /** Filter results by Offer or Product ID of a marketplace extension type */

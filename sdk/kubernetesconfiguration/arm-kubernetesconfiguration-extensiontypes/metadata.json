@@ -26,13 +26,13 @@
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypeVersionsList:interface": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionsList",
       "@azure/arm-kubernetesconfiguration-extensiontypes!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-kubernetesconfiguration-extensiontypes!KnownVersions:enum": "Microsoft.KubernetesConfiguration.Versions",
-      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#clusterListVersions:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainOperationGroup.clusterListVersions",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#listClusterListVersions:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainOperationGroup.clusterListVersions",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#clusterGetVersion:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrainOperationGroup.clusterGetVersion",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#listVersions:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrains.listVersions",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#getVersion:member": "Microsoft.KubernetesConfiguration.ExtensionTypeVersionForReleaseTrains.getVersion",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#list:member": "Microsoft.KubernetesConfiguration.ExtensionTypeOperationGroup.list",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#get:member": "Microsoft.KubernetesConfiguration.ExtensionTypeOperationGroup.get",
-      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#locationList:member": "Microsoft.KubernetesConfiguration.ExtensionTypes.locationList",
+      "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#listLocationList:member": "Microsoft.KubernetesConfiguration.ExtensionTypes.locationList",
       "@azure/arm-kubernetesconfiguration-extensiontypes!ExtensionTypesOperations#locationGet:member": "Microsoft.KubernetesConfiguration.ExtensionTypes.locationGet"
     }
   }

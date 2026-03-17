@@ -19,26 +19,26 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ExtensionTypesClusterListVersionsOptionalParams,
+  ExtensionTypesListClusterListVersionsOptionalParams,
   ExtensionTypesClusterGetVersionOptionalParams,
   ExtensionTypesListVersionsOptionalParams,
   ExtensionTypesGetVersionOptionalParams,
   ExtensionTypesListOptionalParams,
   ExtensionTypesGetOptionalParams,
-  ExtensionTypesLocationListOptionalParams,
+  ExtensionTypesListLocationListOptionalParams,
   ExtensionTypesLocationGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _clusterListVersionsSend(
+export function _listClusterListVersionsSend(
   context: Client,
   resourceGroupName: string,
   clusterRp: string,
   clusterResourceName: string,
   clusterName: string,
   extensionTypeName: string,
-  options: ExtensionTypesClusterListVersionsOptionalParams = { requestOptions: {} },
+  options: ExtensionTypesListClusterListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensionTypes/{extensionTypeName}/versions{?api%2Dversion,releaseTrain,majorVersion,showLatest}",
@@ -64,7 +64,7 @@ export function _clusterListVersionsSend(
   });
 }
 
-export async function _clusterListVersionsDeserialize(
+export async function _listClusterListVersionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ExtensionTypeVersionsList> {
   const expectedStatuses = ["200"];
@@ -79,19 +79,19 @@ export async function _clusterListVersionsDeserialize(
 }
 
 /** List the version for an Extension Type installable to the cluster. */
-export function clusterListVersions(
+export function listClusterListVersions(
   context: Client,
   resourceGroupName: string,
   clusterRp: string,
   clusterResourceName: string,
   clusterName: string,
   extensionTypeName: string,
-  options: ExtensionTypesClusterListVersionsOptionalParams = { requestOptions: {} },
+  options: ExtensionTypesListClusterListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _clusterListVersionsSend(
+      _listClusterListVersionsSend(
         context,
         resourceGroupName,
         clusterRp,
@@ -100,7 +100,7 @@ export function clusterListVersions(
         extensionTypeName,
         options,
       ),
-    _clusterListVersionsDeserialize,
+    _listClusterListVersionsDeserialize,
     ["200"],
     {
       itemName: "value",
@@ -433,10 +433,10 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _locationListSend(
+export function _listLocationListSend(
   context: Client,
   location: string,
-  options: ExtensionTypesLocationListOptionalParams = { requestOptions: {} },
+  options: ExtensionTypesListLocationListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.KubernetesConfiguration/locations/{location}/extensionTypes{?api%2Dversion,publisherId,offerId,planId,releaseTrain,clusterType}",
@@ -460,7 +460,7 @@ export function _locationListSend(
   });
 }
 
-export async function _locationListDeserialize(
+export async function _listLocationListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ExtensionTypesList> {
   const expectedStatuses = ["200"];
@@ -475,15 +475,15 @@ export async function _locationListDeserialize(
 }
 
 /** List all Extension Types for the location. */
-export function locationList(
+export function listLocationList(
   context: Client,
   location: string,
-  options: ExtensionTypesLocationListOptionalParams = { requestOptions: {} },
+  options: ExtensionTypesListLocationListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ExtensionType> {
   return buildPagedAsyncIterator(
     context,
-    () => _locationListSend(context, location, options),
-    _locationListDeserialize,
+    () => _listLocationListSend(context, location, options),
+    _listLocationListDeserialize,
     ["200"],
     {
       itemName: "value",

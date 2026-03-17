@@ -3,23 +3,23 @@
 
 import type { ExtensionTypesContext } from "../../api/extensionTypesContext.js";
 import {
-  clusterListVersions,
+  listClusterListVersions,
   clusterGetVersion,
   listVersions,
   getVersion,
   list,
   get,
-  locationList,
+  listLocationList,
   locationGet,
 } from "../../api/extensionTypes/operations.js";
 import type {
-  ExtensionTypesClusterListVersionsOptionalParams,
+  ExtensionTypesListClusterListVersionsOptionalParams,
   ExtensionTypesClusterGetVersionOptionalParams,
   ExtensionTypesListVersionsOptionalParams,
   ExtensionTypesGetVersionOptionalParams,
   ExtensionTypesListOptionalParams,
   ExtensionTypesGetOptionalParams,
-  ExtensionTypesLocationListOptionalParams,
+  ExtensionTypesListLocationListOptionalParams,
   ExtensionTypesLocationGetOptionalParams,
 } from "../../api/extensionTypes/options.js";
 import type { ExtensionType, ExtensionTypeVersionForReleaseTrain } from "../../models/models.js";
@@ -28,13 +28,13 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 /** Interface representing a ExtensionTypes operations. */
 export interface ExtensionTypesOperations {
   /** List the version for an Extension Type installable to the cluster. */
-  clusterListVersions: (
+  listClusterListVersions: (
     resourceGroupName: string,
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
     extensionTypeName: string,
-    options?: ExtensionTypesClusterListVersionsOptionalParams,
+    options?: ExtensionTypesListClusterListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
   /** Get details of a version for an Extension Type installable to the cluster. */
   clusterGetVersion: (
@@ -77,9 +77,9 @@ export interface ExtensionTypesOperations {
     options?: ExtensionTypesGetOptionalParams,
   ) => Promise<ExtensionType>;
   /** List all Extension Types for the location. */
-  locationList: (
+  listLocationList: (
     location: string,
-    options?: ExtensionTypesLocationListOptionalParams,
+    options?: ExtensionTypesListLocationListOptionalParams,
   ) => PagedAsyncIterableIterator<ExtensionType>;
   /** Get an extension type for the location. */
   locationGet: (
@@ -91,15 +91,15 @@ export interface ExtensionTypesOperations {
 
 function _getExtensionTypes(context: ExtensionTypesContext) {
   return {
-    clusterListVersions: (
+    listClusterListVersions: (
       resourceGroupName: string,
       clusterRp: string,
       clusterResourceName: string,
       clusterName: string,
       extensionTypeName: string,
-      options?: ExtensionTypesClusterListVersionsOptionalParams,
+      options?: ExtensionTypesListClusterListVersionsOptionalParams,
     ) =>
-      clusterListVersions(
+      listClusterListVersions(
         context,
         resourceGroupName,
         clusterRp,
@@ -162,8 +162,8 @@ function _getExtensionTypes(context: ExtensionTypesContext) {
         extensionTypeName,
         options,
       ),
-    locationList: (location: string, options?: ExtensionTypesLocationListOptionalParams) =>
-      locationList(context, location, options),
+    listLocationList: (location: string, options?: ExtensionTypesListLocationListOptionalParams) =>
+      listLocationList(context, location, options),
     locationGet: (
       location: string,
       extensionTypeName: string,

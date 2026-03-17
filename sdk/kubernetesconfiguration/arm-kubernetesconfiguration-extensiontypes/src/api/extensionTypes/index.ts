@@ -2,22 +2,22 @@
 // Licensed under the MIT License.
 
 export {
-  clusterListVersions,
+  listClusterListVersions,
   clusterGetVersion,
   listVersions,
   getVersion,
   list,
   get,
-  locationList,
+  listLocationList,
   locationGet,
 } from "./operations.js";
 export type {
-  ExtensionTypesClusterListVersionsOptionalParams,
+  ExtensionTypesListClusterListVersionsOptionalParams,
   ExtensionTypesClusterGetVersionOptionalParams,
   ExtensionTypesListVersionsOptionalParams,
   ExtensionTypesGetVersionOptionalParams,
   ExtensionTypesListOptionalParams,
   ExtensionTypesGetOptionalParams,
-  ExtensionTypesLocationListOptionalParams,
+  ExtensionTypesListLocationListOptionalParams,
   ExtensionTypesLocationGetOptionalParams,
 } from "./options.js";

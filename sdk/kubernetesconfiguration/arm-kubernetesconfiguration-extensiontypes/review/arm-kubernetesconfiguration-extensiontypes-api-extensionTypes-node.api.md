@@ -11,17 +11,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 export function clusterGetVersion(context: ExtensionTypesContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesClusterGetVersionOptionalParams): Promise<ExtensionTypeVersionForReleaseTrain>;
 
 // @public
-export function clusterListVersions(context: ExtensionTypesContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesClusterListVersionsOptionalParams): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
-
-// @public
 export interface ExtensionTypesClusterGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExtensionTypesClusterListVersionsOptionalParams extends OperationOptions {
-    majorVersion?: string;
-    releaseTrain?: string;
-    showLatest?: boolean;
 }
 
 // @public
@@ -30,6 +20,22 @@ export interface ExtensionTypesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ExtensionTypesGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExtensionTypesListClusterListVersionsOptionalParams extends OperationOptions {
+    majorVersion?: string;
+    releaseTrain?: string;
+    showLatest?: boolean;
+}
+
+// @public
+export interface ExtensionTypesListLocationListOptionalParams extends OperationOptions {
+    clusterType?: string;
+    offerId?: string;
+    planId?: string;
+    publisherId?: string;
+    releaseTrain?: string;
 }
 
 // @public
@@ -53,15 +59,6 @@ export interface ExtensionTypesLocationGetOptionalParams extends OperationOption
 }
 
 // @public
-export interface ExtensionTypesLocationListOptionalParams extends OperationOptions {
-    clusterType?: string;
-    offerId?: string;
-    planId?: string;
-    publisherId?: string;
-    releaseTrain?: string;
-}
-
-// @public
 export function get(context: ExtensionTypesContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesGetOptionalParams): Promise<ExtensionType>;
 
 // @public
@@ -71,13 +68,16 @@ export function getVersion(context: ExtensionTypesContext, location: string, ext
 export function list(context: ExtensionTypesContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionTypesListOptionalParams): PagedAsyncIterableIterator<ExtensionType>;
 
 // @public
+export function listClusterListVersions(context: ExtensionTypesContext, resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesListClusterListVersionsOptionalParams): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
+
+// @public
+export function listLocationList(context: ExtensionTypesContext, location: string, options?: ExtensionTypesListLocationListOptionalParams): PagedAsyncIterableIterator<ExtensionType>;
+
+// @public
 export function listVersions(context: ExtensionTypesContext, location: string, extensionTypeName: string, options?: ExtensionTypesListVersionsOptionalParams): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
 
 // @public
 export function locationGet(context: ExtensionTypesContext, location: string, extensionTypeName: string, options?: ExtensionTypesLocationGetOptionalParams): Promise<ExtensionType>;
-
-// @public
-export function locationList(context: ExtensionTypesContext, location: string, options?: ExtensionTypesLocationListOptionalParams): PagedAsyncIterableIterator<ExtensionType>;
 
 // (No @packageDocumentation comment for this package)
 

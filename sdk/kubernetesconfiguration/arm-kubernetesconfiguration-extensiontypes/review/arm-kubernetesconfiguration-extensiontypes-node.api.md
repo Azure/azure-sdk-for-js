@@ -107,18 +107,27 @@ export interface ExtensionTypesClusterGetVersionOptionalParams extends Operation
 }
 
 // @public
-export interface ExtensionTypesClusterListVersionsOptionalParams extends OperationOptions {
+export interface ExtensionTypesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExtensionTypesGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExtensionTypesListClusterListVersionsOptionalParams extends OperationOptions {
     majorVersion?: string;
     releaseTrain?: string;
     showLatest?: boolean;
 }
 
 // @public
-export interface ExtensionTypesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExtensionTypesGetVersionOptionalParams extends OperationOptions {
+export interface ExtensionTypesListLocationListOptionalParams extends OperationOptions {
+    clusterType?: string;
+    offerId?: string;
+    planId?: string;
+    publisherId?: string;
+    releaseTrain?: string;
 }
 
 // @public
@@ -142,24 +151,15 @@ export interface ExtensionTypesLocationGetOptionalParams extends OperationOption
 }
 
 // @public
-export interface ExtensionTypesLocationListOptionalParams extends OperationOptions {
-    clusterType?: string;
-    offerId?: string;
-    planId?: string;
-    publisherId?: string;
-    releaseTrain?: string;
-}
-
-// @public
 export interface ExtensionTypesOperations {
     clusterGetVersion: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesClusterGetVersionOptionalParams) => Promise<ExtensionTypeVersionForReleaseTrain>;
-    clusterListVersions: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesClusterListVersionsOptionalParams) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
     get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesGetOptionalParams) => Promise<ExtensionType>;
     getVersion: (location: string, extensionTypeName: string, versionNumber: string, options?: ExtensionTypesGetVersionOptionalParams) => Promise<ExtensionTypeVersionForReleaseTrain>;
     list: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionTypesListOptionalParams) => PagedAsyncIterableIterator<ExtensionType>;
+    listClusterListVersions: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionTypeName: string, options?: ExtensionTypesListClusterListVersionsOptionalParams) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
+    listLocationList: (location: string, options?: ExtensionTypesListLocationListOptionalParams) => PagedAsyncIterableIterator<ExtensionType>;
     listVersions: (location: string, extensionTypeName: string, options?: ExtensionTypesListVersionsOptionalParams) => PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain>;
     locationGet: (location: string, extensionTypeName: string, options?: ExtensionTypesLocationGetOptionalParams) => Promise<ExtensionType>;
-    locationList: (location: string, options?: ExtensionTypesLocationListOptionalParams) => PagedAsyncIterableIterator<ExtensionType>;
 }
 
 // @public

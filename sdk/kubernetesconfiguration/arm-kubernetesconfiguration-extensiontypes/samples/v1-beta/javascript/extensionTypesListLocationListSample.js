@@ -15,7 +15,7 @@ async function listExtensionTypes() {
   const subscriptionId = "subId1";
   const client = new ExtensionTypesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.extensionTypes.locationList("westus2", {
+  for await (const item of client.extensionTypes.listLocationList("westus2", {
     publisherId: "myPublisherId",
     offerId: "myOfferId",
     planId: "myPlanId",

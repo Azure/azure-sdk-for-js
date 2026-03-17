@@ -1,12 +1,12 @@
 # Release History
 
-## 1.0.0-beta.2 (2026-03-13)
+## 1.0.0-beta.2 (2026-03-17)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
-  - Added operation ExtensionTypesOperations.clusterListVersions
-  - Added operation ExtensionTypesOperations.locationList
   - Added Interface ClusterScopeSettingsProperties
+  - Added Interface ExtensionTypesListClusterListVersionsOptionalParams
+  - Added Interface ExtensionTypesListLocationListOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface SystemData
@@ -22,9 +22,9 @@ Compared with version 1.0.0-beta.1
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation ExtensionTypes.listClusterListVersions
-  - Removed operation ExtensionTypes.listLocationList
+  - Removed Interface ExtensionTypesClusterListVersionsOptionalParams
   - Removed Interface ExtensionTypesList
+  - Removed Interface ExtensionTypesLocationListOptionalParams
   - Removed Interface ExtensionTypeVersionsList
 
     

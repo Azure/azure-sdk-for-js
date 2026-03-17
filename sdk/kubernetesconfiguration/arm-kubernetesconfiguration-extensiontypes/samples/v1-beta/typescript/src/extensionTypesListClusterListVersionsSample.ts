@@ -15,7 +15,7 @@ async function listExtensionTypeVersions(): Promise<void> {
   const subscriptionId = "subId1";
   const client = new ExtensionTypesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.extensionTypes.clusterListVersions(
+  for await (const item of client.extensionTypes.listClusterListVersions(
     "rg1",
     "Microsoft.Kubernetes",
     "connectedClusters",

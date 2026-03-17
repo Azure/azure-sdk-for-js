@@ -32,13 +32,13 @@ export type {
 export { KnownCreatedByType, KnownVersions } from "./models/index.js";
 export type { ExtensionTypesClientOptionalParams } from "./api/index.js";
 export type {
-  ExtensionTypesClusterListVersionsOptionalParams,
+  ExtensionTypesListClusterListVersionsOptionalParams,
   ExtensionTypesClusterGetVersionOptionalParams,
   ExtensionTypesListVersionsOptionalParams,
   ExtensionTypesGetVersionOptionalParams,
   ExtensionTypesListOptionalParams,
   ExtensionTypesGetOptionalParams,
-  ExtensionTypesLocationListOptionalParams,
+  ExtensionTypesListLocationListOptionalParams,
   ExtensionTypesLocationGetOptionalParams,
 } from "./api/extensionTypes/index.js";
 export type { ExtensionTypesOperations } from "./classic/index.js";
