@@ -7984,7 +7984,6 @@ export function deleteToolsetResponseDeserializer(item: any): DeleteToolsetRespo
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
 
-
 /** Alias for _CreateAgentRequestFoundryFeatures */
 export type _CreateAgentRequestFoundryFeatures =
   | "HostedAgents=V1Preview"

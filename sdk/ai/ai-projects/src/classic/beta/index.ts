@@ -15,7 +15,7 @@ import { _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaToolsetsOperations } from "./toolsets/index.js";
-import { _getBetaToolsetsOperations  } from "./toolsets/index.js";
+import { _getBetaToolsetsOperations } from "./toolsets/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {

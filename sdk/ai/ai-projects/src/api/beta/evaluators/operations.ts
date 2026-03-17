@@ -51,18 +51,16 @@ export function _getCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: evaluatorCredentialRequestSerializer(credentialRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluatorCredentialRequestSerializer(credentialRequest),
+  });
 }
 
 export async function _getCredentialsDeserialize(
@@ -115,18 +113,16 @@ export function _pendingUploadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: pendingUploadRequestSerializer(pendingUploadRequest),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: pendingUploadRequestSerializer(pendingUploadRequest),
+  });
 }
 
 export async function _pendingUploadDeserialize(
