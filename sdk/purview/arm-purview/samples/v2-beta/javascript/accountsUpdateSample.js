@@ -15,10 +15,12 @@ async function accountsUpdate() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new PurviewManagementClient(credential, subscriptionId);
   const result = await client.accounts.update("SampleResourceGroup", "account1", {
-    cloudConnectors: {},
-    ingestionStorage: { publicNetworkAccess: "Disabled" },
-    managedResourcesPublicNetworkAccess: "Disabled",
-    publicNetworkAccess: "Disabled",
+    properties: {
+      cloudConnectors: {},
+      ingestionStorage: { publicNetworkAccess: "Disabled" },
+      managedResourcesPublicNetworkAccess: "Disabled",
+      publicNetworkAccess: "Disabled",
+    },
     tags: { newTag: "New tag value." },
   });
   console.log(result);

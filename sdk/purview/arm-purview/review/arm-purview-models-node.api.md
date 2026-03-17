@@ -111,26 +111,9 @@ export interface AccountStatusErrorDetails extends ErrorModel {
 
 // @public
 export interface AccountUpdateParameters {
-    readonly accountStatus?: AccountPropertiesAccountStatus;
-    cloudConnectors?: CloudConnectors;
-    readonly createdAt?: Date;
-    readonly createdBy?: string;
-    readonly createdByObjectId?: string;
-    readonly defaultDomain?: string;
-    readonly endpoints?: AccountPropertiesEndpoints;
-    readonly friendlyName?: string;
     identity?: Identity;
-    ingestionStorage?: IngestionStorage;
-    managedEventHubState?: ManagedEventHubState;
-    managedResourceGroupName?: string;
-    readonly managedResources?: AccountPropertiesManagedResources;
-    managedResourcesPublicNetworkAccess?: PublicNetworkAccess;
-    mergeInfo?: AccountMergeInfo;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccess;
+    properties?: AccountProperties;
     tags?: Record<string, string>;
-    tenantEndpointState?: TenantEndpointState;
 }
 
 // @public
@@ -500,9 +483,7 @@ export interface PrivateEndpointConnectionStatusUpdateResponse {
 
 // @public
 export interface PrivateLinkResource extends ProxyResource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    readonly requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
 }
 
 // @public

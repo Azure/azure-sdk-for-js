@@ -1221,61 +1221,18 @@ export type CreatedByType = string;
 export interface AccountUpdateParameters {
   /** The Managed Identity of the resource */
   identity?: Identity;
+  /** The account properties */
+  properties?: AccountProperties;
   /** Tags on the azure resource. */
   tags?: Record<string, string>;
-  /** Gets or sets the status of the account. */
-  readonly accountStatus?: AccountPropertiesAccountStatus;
-  /** External Cloud Service connectors */
-  cloudConnectors?: CloudConnectors;
-  /** Gets the time at which the entity was created. */
-  readonly createdAt?: Date;
-  /** Gets the creator of the entity. */
-  readonly createdBy?: string;
-  /** Gets the creators of the entity's object id. */
-  readonly createdByObjectId?: string;
-  /** Gets the default domain in the account. */
-  readonly defaultDomain?: string;
-  /** The URIs that are the public endpoints of the account. */
-  readonly endpoints?: AccountPropertiesEndpoints;
-  /** Gets or sets the friendly name. */
-  readonly friendlyName?: string;
-  /** Ingestion Storage Account Info */
-  ingestionStorage?: IngestionStorage;
-  /** Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if disabled the managed eventhub will be removed. */
-  managedEventHubState?: ManagedEventHubState;
-  /** Gets or sets the managed resource group name */
-  managedResourceGroupName?: string;
-  /** Gets the resource identifiers of the managed resources. */
-  readonly managedResources?: AccountPropertiesManagedResources;
-  /** Gets or sets the public network access for managed resources. */
-  managedResourcesPublicNetworkAccess?: PublicNetworkAccess;
-  /** Gets or sets the Merge Info. */
-  mergeInfo?: AccountMergeInfo;
-  /** Gets the private endpoint connections information. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Gets or sets the state of the provisioning. */
-  readonly provisioningState?: ProvisioningState;
-  /** Gets or sets the public network access. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** Gets or sets the state of tenant endpoint. */
-  tenantEndpointState?: TenantEndpointState;
 }
 
 export function accountUpdateParametersSerializer(item: AccountUpdateParameters): any {
   return {
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
-    properties: areAllPropsUndefined(item, [
-      "cloudConnectors",
-      "ingestionStorage",
-      "managedEventHubState",
-      "managedResourceGroupName",
-      "managedResourcesPublicNetworkAccess",
-      "mergeInfo",
-      "publicNetworkAccess",
-      "tenantEndpointState",
-    ])
-      ? undefined
-      : _accountUpdateParametersPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : accountPropertiesSerializer(item["properties"]),
     tags: item["tags"],
   };
 }
@@ -1615,12 +1572,8 @@ export function _privateEndpointConnectionListDeserializer(
 
 /** A privately linkable resource. */
 export interface PrivateLinkResource extends ProxyResource {
-  /** The private link resource group identifier. */
-  readonly groupId?: string;
-  /** This translates to how many Private IPs should be created for each privately linkable resource. */
-  readonly requiredMembers?: string[];
-  /** The required zone names for private link resource. */
-  readonly requiredZoneNames?: string[];
+  /** The private link resource properties. */
+  properties?: PrivateLinkResourceProperties;
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -1631,9 +1584,9 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1968,62 +1921,6 @@ export function _accountPropertiesDeserializer(item: any) {
   };
 }
 
-export function _accountUpdateParametersPropertiesSerializer(item: AccountUpdateParameters): any {
-  return {
-    cloudConnectors: !item["cloudConnectors"]
-      ? item["cloudConnectors"]
-      : cloudConnectorsSerializer(item["cloudConnectors"]),
-    ingestionStorage: !item["ingestionStorage"]
-      ? item["ingestionStorage"]
-      : ingestionStorageSerializer(item["ingestionStorage"]),
-    managedEventHubState: item["managedEventHubState"],
-    managedResourceGroupName: item["managedResourceGroupName"],
-    managedResourcesPublicNetworkAccess: item["managedResourcesPublicNetworkAccess"],
-    mergeInfo: !item["mergeInfo"]
-      ? item["mergeInfo"]
-      : accountMergeInfoSerializer(item["mergeInfo"]),
-    publicNetworkAccess: item["publicNetworkAccess"],
-    tenantEndpointState: item["tenantEndpointState"],
-  };
-}
-
-export function _accountUpdateParametersPropertiesDeserializer(item: any) {
-  return {
-    accountStatus: !item["accountStatus"]
-      ? item["accountStatus"]
-      : accountPropertiesAccountStatusDeserializer(item["accountStatus"]),
-    cloudConnectors: !item["cloudConnectors"]
-      ? item["cloudConnectors"]
-      : cloudConnectorsDeserializer(item["cloudConnectors"]),
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    createdBy: item["createdBy"],
-    createdByObjectId: item["createdByObjectId"],
-    defaultDomain: item["defaultDomain"],
-    endpoints: !item["endpoints"]
-      ? item["endpoints"]
-      : accountPropertiesEndpointsDeserializer(item["endpoints"]),
-    friendlyName: item["friendlyName"],
-    ingestionStorage: !item["ingestionStorage"]
-      ? item["ingestionStorage"]
-      : ingestionStorageDeserializer(item["ingestionStorage"]),
-    managedEventHubState: item["managedEventHubState"],
-    managedResourceGroupName: item["managedResourceGroupName"],
-    managedResources: !item["managedResources"]
-      ? item["managedResources"]
-      : accountPropertiesManagedResourcesDeserializer(item["managedResources"]),
-    managedResourcesPublicNetworkAccess: item["managedResourcesPublicNetworkAccess"],
-    mergeInfo: !item["mergeInfo"]
-      ? item["mergeInfo"]
-      : accountMergeInfoDeserializer(item["mergeInfo"]),
-    privateEndpointConnections: !item["privateEndpointConnections"]
-      ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    provisioningState: item["provisioningState"],
-    publicNetworkAccess: item["publicNetworkAccess"],
-    tenantEndpointState: item["tenantEndpointState"],
-  };
-}
-
 export function _kafkaConfigurationPropertiesSerializer(item: KafkaConfiguration): any {
   return {
     consumerGroup: item["consumerGroup"],
@@ -2049,21 +1946,5 @@ export function _kafkaConfigurationPropertiesDeserializer(item: any) {
     eventHubType: item["eventHubType"],
     eventStreamingState: item["eventStreamingState"],
     eventStreamingType: item["eventStreamingType"],
-  };
-}
-
-export function _privateLinkResourcePropertiesDeserializer(item: any) {
-  return {
-    groupId: item["groupId"],
-    requiredMembers: !item["requiredMembers"]
-      ? item["requiredMembers"]
-      : item["requiredMembers"].map((p: any) => {
-          return p;
-        }),
-    requiredZoneNames: !item["requiredZoneNames"]
-      ? item["requiredZoneNames"]
-      : item["requiredZoneNames"].map((p: any) => {
-          return p;
-        }),
   };
 }

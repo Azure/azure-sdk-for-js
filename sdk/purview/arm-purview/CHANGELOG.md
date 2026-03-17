@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-03-12)
+## 2.0.0-beta.1 (2026-03-17)
 Compared with version 1.1.0
 
 ### Features Added
@@ -60,28 +60,7 @@ Compared with version 1.1.0
   - Interface AccountProperties has a new optional parameter managedResourcesPublicNetworkAccess
   - Interface AccountProperties has a new optional parameter mergeInfo
   - Interface AccountProperties has a new optional parameter tenantEndpointState
-  - Interface AccountUpdateParameters has a new optional parameter accountStatus
-  - Interface AccountUpdateParameters has a new optional parameter cloudConnectors
-  - Interface AccountUpdateParameters has a new optional parameter createdAt
-  - Interface AccountUpdateParameters has a new optional parameter createdBy
-  - Interface AccountUpdateParameters has a new optional parameter createdByObjectId
-  - Interface AccountUpdateParameters has a new optional parameter defaultDomain
-  - Interface AccountUpdateParameters has a new optional parameter endpoints
-  - Interface AccountUpdateParameters has a new optional parameter friendlyName
-  - Interface AccountUpdateParameters has a new optional parameter ingestionStorage
-  - Interface AccountUpdateParameters has a new optional parameter managedEventHubState
-  - Interface AccountUpdateParameters has a new optional parameter managedResourceGroupName
-  - Interface AccountUpdateParameters has a new optional parameter managedResources
-  - Interface AccountUpdateParameters has a new optional parameter managedResourcesPublicNetworkAccess
-  - Interface AccountUpdateParameters has a new optional parameter mergeInfo
-  - Interface AccountUpdateParameters has a new optional parameter privateEndpointConnections
-  - Interface AccountUpdateParameters has a new optional parameter provisioningState
-  - Interface AccountUpdateParameters has a new optional parameter publicNetworkAccess
-  - Interface AccountUpdateParameters has a new optional parameter tenantEndpointState
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter groupId
-  - Interface PrivateLinkResource has a new optional parameter requiredMembers
-  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
   - Interface PrivateLinkResource has a new optional parameter systemData
   - Interface ProxyResource has a new optional parameter systemData
   - Added Type Alias AccountProvisioningState
@@ -123,8 +102,6 @@ Compared with version 1.1.0
   - Removed Interface TrackedResourceSystemData
   - Interface AccountEndpoints no longer has parameter guardian
   - Interface AccountPropertiesEndpoints no longer has parameter guardian
-  - Interface AccountUpdateParameters no longer has parameter properties
-  - Interface PrivateLinkResource no longer has parameter properties
   - Removed Type Alias LastModifiedByType
   - Removed Type Alias Name
   - Removed Type Alias Status
