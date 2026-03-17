@@ -418,10 +418,28 @@ export type AnimationOutputType = string;
 export type Voice = OAIVoice | OpenAIVoice | AzureVoiceUnion;
 
 export function voiceSerializer(item: Voice): any {
+  if (typeof item === "string") {
+    return item;
+  }
+  if (typeof item === "object" && item !== null && "type" in item) {
+    if (item.type === "openai") {
+      return openAIVoiceSerializer(item as OpenAIVoice);
+    }
+    return azureVoiceUnionSerializer(item as AzureVoiceUnion);
+  }
   return item;
 }
 
 export function voiceDeserializer(item: any): Voice {
+  if (typeof item === "string") {
+    return item;
+  }
+  if (typeof item === "object" && item !== null && "type" in item) {
+    if (item.type === "openai") {
+      return openAIVoiceDeserializer(item as any);
+    }
+    return azureVoiceUnionDeserializer(item as any);
+  }
   return item;
 }
 
