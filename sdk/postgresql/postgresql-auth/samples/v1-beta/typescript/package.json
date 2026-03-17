@@ -1,0 +1,31 @@
+{
+  "name": "@azure-samples/postgresql-auth-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure PostgreSQL Entra ID authentication client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/postgresql/postgresql-auth"
+  },
+  "dependencies": {
+    "@azure/postgresql-auth": "next",
+    "@azure/identity": "^4.0.1",
+    "dotenv": "latest",
+    "pg": "^8.0.0",
+    "sequelize": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.0.0",
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
+  }
+}
