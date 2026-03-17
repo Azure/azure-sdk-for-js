@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { SearchIndexerClient } from "./searchIndexerClient.js";
-export {
+export type {
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,

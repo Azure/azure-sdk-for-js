@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2026-02-13)
+## 1.0.0 (2026-03-10)
 
 ### Features Added
 
-Initial release of the @azure/arm-disconnectedoperations package
+This is the first stable version with the package of @azure/arm-disconnectedoperations

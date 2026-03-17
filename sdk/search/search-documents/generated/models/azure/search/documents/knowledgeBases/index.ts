@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   KnowledgeRetrievalReasoningEffort,
   KnowledgeRetrievalReasoningEffortUnion,
-  KnownKnowledgeRetrievalReasoningEffortKind,
   KnowledgeRetrievalReasoningEffortKind,
   KnowledgeRetrievalMinimalReasoningEffort,
   KnowledgeRetrievalLowReasoningEffort,
   KnowledgeRetrievalMediumReasoningEffort,
-  KnownKnowledgeRetrievalOutputMode,
   KnowledgeRetrievalOutputMode,
   KnowledgeSourceIngestionParameters,
   KnowledgeSourceVectorizer,
@@ -24,14 +22,12 @@ export {
   KnowledgeBaseMessage,
   KnowledgeBaseMessageContent,
   KnowledgeBaseMessageContentUnion,
-  KnownKnowledgeBaseMessageContentType,
   KnowledgeBaseMessageContentType,
   KnowledgeBaseMessageTextContent,
   KnowledgeBaseMessageImageContent,
   KnowledgeBaseImageContent,
   KnowledgeRetrievalIntent,
   KnowledgeRetrievalIntentUnion,
-  KnownKnowledgeRetrievalIntentType,
   KnowledgeRetrievalIntentType,
   KnowledgeRetrievalSemanticIntent,
   KnowledgeSourceParams,
@@ -45,7 +41,6 @@ export {
   KnowledgeBaseRetrievalResponse,
   KnowledgeBaseActivityRecord,
   KnowledgeBaseActivityRecordUnion,
-  KnownKnowledgeBaseActivityRecordType,
   KnowledgeBaseActivityRecordType,
   KnowledgeBaseErrorDetail,
   KnowledgeBaseErrorAdditionalInfo,
@@ -54,7 +49,6 @@ export {
   KnowledgeBaseAgenticReasoningActivityRecord,
   KnowledgeBaseReference,
   KnowledgeBaseReferenceUnion,
-  KnownKnowledgeBaseReferenceType,
   KnowledgeBaseReferenceType,
   KnowledgeBaseSearchIndexReference,
   KnowledgeBaseAzureBlobReference,
@@ -63,4 +57,12 @@ export {
   KnowledgeBaseWebReference,
   KnowledgeBaseRemoteSharePointReference,
   SharePointSensitivityLabelInfo,
+} from "./models.js";
+export {
+  KnownKnowledgeRetrievalReasoningEffortKind,
+  KnownKnowledgeRetrievalOutputMode,
+  KnownKnowledgeBaseMessageContentType,
+  KnownKnowledgeRetrievalIntentType,
+  KnownKnowledgeBaseActivityRecordType,
+  KnownKnowledgeBaseReferenceType,
 } from "./models.js";

@@ -12,7 +12,7 @@ export {
   searchGet,
   getDocumentCount,
 } from "./operations.js";
-export {
+export type {
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
@@ -23,4 +23,5 @@ export {
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
 } from "./options.js";
-export { createSearch, SearchContext, SearchClientOptionalParams } from "./searchContext.js";
+export type { SearchContext, SearchClientOptionalParams } from "./searchContext.js";
+export { createSearch } from "./searchContext.js";

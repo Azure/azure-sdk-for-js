@@ -12,17 +12,17 @@
  * with inline data, run the evaluation, and retrieve results.
  *
  * Before running the sample:
- * 1. Set AZURE_AI_PROJECT_ENDPOINT - The Azure AI Project endpoint, as found in the overview page
+ * 1. Set FOUNDRY_PROJECT_ENDPOINT - The Azure AI Project endpoint, as found in the overview page
  *    of your Microsoft Foundry project. Format: https://<account_name>.services.ai.azure.com/api/projects/<project_name>
- * 2. Set MODEL_DEPLOYMENT_NAME - The name of the model deployment to use for evaluation.
+ * 2. Set FOUNDRY_MODEL_NAME - The name of the model deployment to use for evaluation.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "gpt-4o-mini";
 
 export async function main(): Promise<void> {
   // Create AI Project client and OpenAI client
