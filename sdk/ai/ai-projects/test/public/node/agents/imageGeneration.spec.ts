@@ -69,9 +69,7 @@ describe("agents - image generation tool", () => {
     console.log(`Response created: ${response.id}`);
 
     // Extract generated image data
-    const imageData = response.output?.filter(
-      (output) => output.type === "image_generation_call",
-    );
+    const imageData = response.output?.filter((output) => output.type === "image_generation_call");
 
     if (imageData && imageData.length > 0 && imageData[0].result) {
       console.log("Image was generated successfully");

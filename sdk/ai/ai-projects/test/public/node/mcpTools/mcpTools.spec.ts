@@ -3,6 +3,7 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../../src/index.js";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
@@ -15,7 +16,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-describe("mcp tools - basic operations", () => {
+describe.runIf(isLiveMode())("mcp tools - basic operations", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
 

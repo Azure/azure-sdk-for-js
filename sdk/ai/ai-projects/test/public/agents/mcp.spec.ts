@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { createRecorder, createProjectsClient, getToolConnectionId } from "../utils/createClient.js";
+import {
+  createRecorder,
+  createProjectsClient,
+  getToolConnectionId,
+} from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
 import type OpenAI from "openai";
