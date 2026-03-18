@@ -25,7 +25,7 @@ describe("RetryPolicy", () => {
   });
 
   afterEach(async () => {
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.fileClient.pipeline;
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await shareClient.delete();
     await recorder.stop();
@@ -44,7 +44,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.fileClient.pipeline;
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -72,7 +72,7 @@ describe("RetryPolicy", () => {
       return;
     });
 
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.fileClient.pipeline;
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {
@@ -104,8 +104,7 @@ describe("RetryPolicy", () => {
 
     const shareServiceClient_internal = getBSU(recorder, { retryOptions: { maxTries: 3 } });
     const shareClient_internal = shareServiceClient_internal.getShareClient(shareName);
-    const pipeline: Pipeline = (shareClient_internal as any).storageClientContext.fileClient
-      .pipeline;
+    const pipeline: Pipeline = (shareClient_internal as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     let hasError = false;
@@ -131,7 +130,7 @@ describe("RetryPolicy", () => {
       }
       return;
     });
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.fileClient.pipeline;
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
     const metadata = {

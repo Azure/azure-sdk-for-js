@@ -25,7 +25,8 @@ export interface CommonOptions {
 }
 
 export class StorageClientContext {
-  fileClient: FileClient;
+  client: FileClient;
+
   service: ServiceOperations;
   share: ShareOperations;
   directory: DirectoryOperations;
@@ -33,18 +34,18 @@ export class StorageClientContext {
 
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
     const cr = {} as TokenCredential;
-    this.fileClient = new FileClient(url, cr, options);
-    this.service = this.fileClient.service;
-    this.share = this.fileClient.share;
-    this.directory = this.fileClient.directory;
-    this.file = this.fileClient.file;
+    this.client = new FileClient(url, cr, options);
+    this.service = this.client.service;
+    this.share = this.client.share;
+    this.directory = this.client.directory;
+    this.file = this.client.file;
 
     const { pipeline: corePipeline } = options;
     if (!corePipeline) {
       throw new Error("Pipeline is required in options");
     }
-    (this.fileClient as any).pipeline = corePipeline;
-    this.fileClient["_client"].pipeline = corePipeline;
+    (this.client as any).pipeline = corePipeline;
+    this.client["_client"].pipeline = corePipeline;
   }
 }
 

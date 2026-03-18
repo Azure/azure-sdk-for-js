@@ -108,7 +108,7 @@ describe("LeaseClient Node.js only - OAuth", () => {
     assert.equal(result.leaseState, "leased");
 
     const res = await leaseClient.breakLease();
-    assert.equal(res.leaseTimeInSeconds, undefined);
+    assert.equal(res.leaseTimeInSeconds, 0);
 
     result = await fileClient.getProperties();
     assert.equal(result.leaseState, "broken");

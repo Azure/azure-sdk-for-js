@@ -4202,17 +4202,11 @@ export class ShareFileClient extends StorageClient {
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
       const { metadata, ...restOptions } = updatedOptions;
       const metadataHeaders = metadataToRawHeaders(metadata);
-      const updatedFileHttpHeaders = {
-        ...updatedOptions.fileHttpHeaders,
-        fileContentMD5: updatedOptions.fileHttpHeaders?.fileContentMD5
-          ? uint8ArrayToString(updatedOptions.fileHttpHeaders.fileContentMD5, "utf-8")
-          : undefined,
-      };
       const rawResponse = adjustResponse(
         await this.context.create(size, {
           ...restOptions,
           ...updatedOptions.leaseAccessConditions,
-          ...updatedFileHttpHeaders,
+          ...updatedOptions.fileHttpHeaders,
           fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
           fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4350,7 +4344,7 @@ export class ShareFileClient extends StorageClient {
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
       };
-      const context = this.storageClientContext.fileClient["_client"];
+      const context = this.storageClientContext.client["_client"];
       const downloadOptions: FileDownloadOptionalParamsInternal = {
         ...updatedOptions,
         requestOptions: {
@@ -4538,17 +4532,11 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setProperties",
       properties,
       async (updatedOptions) => {
-        const updatedFileHttpHeaders = {
-          ...updatedOptions.fileHttpHeaders,
-          fileContentMD5: updatedOptions.fileHttpHeaders?.fileContentMD5
-            ? uint8ArrayToString(updatedOptions.fileHttpHeaders.fileContentMD5, "utf-8")
-            : undefined,
-        };
         const rawResponse = adjustResponse(
           await this.context.setHttpHeaders({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
-            ...updatedFileHttpHeaders,
+            ...updatedOptions.fileHttpHeaders,
             fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4676,17 +4664,11 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setHTTPHeaders",
       options,
       async (updatedOptions) => {
-        const updatedFileHttpHeaders = {
-          ...fileHttpHeaders,
-          fileContentMD5: fileHttpHeaders?.fileContentMD5
-            ? uint8ArrayToString(fileHttpHeaders.fileContentMD5, "utf-8")
-            : undefined,
-        };
         const rawResponse = adjustResponse(
           await this.context.setHttpHeaders({
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
-            ...updatedFileHttpHeaders,
+            ...fileHttpHeaders,
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
             fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
@@ -4696,9 +4678,6 @@ export class ShareFileClient extends StorageClient {
             owner: updatedOptions.posixProperties?.owner,
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
-            fileContentMD5: fileHttpHeaders.fileContentMD5
-              ? uint8ArrayToString(fileHttpHeaders.fileContentMD5, "utf-8")
-              : undefined,
             ...this.shareClientConfig,
           }),
         );

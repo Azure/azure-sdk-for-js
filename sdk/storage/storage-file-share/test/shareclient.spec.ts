@@ -767,13 +767,13 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (shareClient as any).storageClientContext.fileClient.pipeline;
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await shareClient.getProperties();
     } catch (err) {
       assert.isTrue(
-        (err as any).message.startsWith(
+        (err as any).details.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );
