@@ -81,7 +81,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### PrivateLinkScopesClient
 
-`PrivateLinkScopesClient` is the primary interface for developers using the Azure MicrosoftKubernetesConfiguration client library. Explore the methods on this client object to understand the different features of the Azure MicrosoftKubernetesConfiguration service that you can access.
+`PrivateLinkScopesClient` is the primary interface for developers using the Azure PrivateLinkScopes client library. Explore the methods on this client object to understand the different features of the Azure PrivateLinkScopes service that you can access.
 
 ## Troubleshooting
 
