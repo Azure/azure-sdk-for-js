@@ -5,8 +5,8 @@ This package provides Azure Entra ID (formerly Azure Active Directory) authentic
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/postgresql-auth)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/postgresql-auth)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/postgresql-auth)
+- <!---[Package (NPM)](https://www.npmjs.com/package/@azure/postgresql-auth)--->
+- <!---[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/postgresql-auth)--->
 - [Product documentation](https://learn.microsoft.com/azure/postgresql/)
 
 ## Getting started
