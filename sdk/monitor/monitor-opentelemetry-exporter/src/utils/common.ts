@@ -41,7 +41,7 @@ import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
-  CUSTOM_DIMENSIONS_EXEMPT_KEYS,
+  CUSTOM_DIMENSIONS_GENAI_KEYS,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
@@ -322,7 +322,7 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         ? (properties[key] as string)
         : serializeAttribute(properties[key] as AnyValue);
 
-    const maxSize = CUSTOM_DIMENSIONS_EXEMPT_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
+    const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
     if (Buffer.byteLength(value, "utf-8") > maxSize) {
       value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
       truncated = true;
