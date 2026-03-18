@@ -33,7 +33,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { IoTOperationsClientOptionalParams } from "./api/ioTOperationsContext.js";
+export { type IoTOperationsClientOptionalParams } from "./api/ioTOperationsContext.js";
 
 export class IoTOperationsClient {
   private _client: IoTOperationsContext;

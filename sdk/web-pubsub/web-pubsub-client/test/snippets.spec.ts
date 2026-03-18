@@ -49,6 +49,14 @@ describe("snippets", () => {
     await client.sendToGroup(groupName, "hello world", "text");
   });
 
+  it("ReadmeSampleInvokeEvent", async () => {
+    const client = new WebPubSubClient("<client-access-url>");
+    await client.start();
+    // @ts-preserve-whitespace
+    const result = await client.invokeEvent("processOrder", { orderId: 1 }, "json");
+    console.log(`Invocation result: ${JSON.stringify(result.data)}`);
+  });
+
   it("ReadmeSampleNegotiateServer", async () => {
     const app = express();
     const port = 8080;

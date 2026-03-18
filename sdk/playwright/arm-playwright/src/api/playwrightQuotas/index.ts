@@ -3,6 +3,6 @@
 
 export { listBySubscription, get } from "./operations.js";
 export {
-  PlaywrightQuotasListBySubscriptionOptionalParams,
-  PlaywrightQuotasGetOptionalParams,
+  type PlaywrightQuotasListBySubscriptionOptionalParams,
+  type PlaywrightQuotasGetOptionalParams,
 } from "./options.js";

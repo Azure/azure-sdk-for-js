@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  StorageDiscoveryWorkspacesDeleteOptionalParams,
-  StorageDiscoveryWorkspacesUpdateOptionalParams,
-  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  StorageDiscoveryWorkspacesGetOptionalParams,
+  type StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  type StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  type StorageDiscoveryWorkspacesDeleteOptionalParams,
+  type StorageDiscoveryWorkspacesUpdateOptionalParams,
+  type StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  type StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";

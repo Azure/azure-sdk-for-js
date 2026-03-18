@@ -660,7 +660,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
       vi.unstubAllEnvs();
       vi.restoreAllMocks();
 
-      await fs.rm(tempDir, { recursive: true, force: true });
+      await fs.rm(tempDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
     });
 
     it("should use custom token endpoint with CA data configuration", async function () {
@@ -717,7 +717,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.isDefined(token);
           assert.equal(token!.token, "token");
 
-          server.close();
+          await new Promise<void>((_resolve) => server.close(() => _resolve()));
           serverCleanup();
           resolve();
         });
@@ -781,7 +781,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.isDefined(token);
           assert.equal(token!.token, "token");
 
-          server.close();
+          await new Promise<void>((_resolve) => server.close(() => _resolve()));
           serverCleanup();
           resolve();
         });
@@ -845,7 +845,7 @@ describe("WorkloadIdentityCredential - Identity Binding Configuration", function
           assert.isDefined(token);
           assert.equal(token!.token, "tokenTest");
 
-          server.close();
+          await new Promise<void>((_resolve) => server.close(() => _resolve()));
           serverCleanup();
           resolve();
         });

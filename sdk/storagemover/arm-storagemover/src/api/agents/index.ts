@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  AgentsListOptionalParams,
-  AgentsDeleteOptionalParams,
-  AgentsUpdateOptionalParams,
-  AgentsCreateOrUpdateOptionalParams,
-  AgentsGetOptionalParams,
+  type AgentsListOptionalParams,
+  type AgentsDeleteOptionalParams,
+  type AgentsUpdateOptionalParams,
+  type AgentsCreateOrUpdateOptionalParams,
+  type AgentsGetOptionalParams,
 } from "./options.js";

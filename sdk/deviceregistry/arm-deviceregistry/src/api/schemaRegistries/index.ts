@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  SchemaRegistriesListBySubscriptionOptionalParams,
-  SchemaRegistriesListByResourceGroupOptionalParams,
-  SchemaRegistriesDeleteOptionalParams,
-  SchemaRegistriesUpdateOptionalParams,
-  SchemaRegistriesCreateOrReplaceOptionalParams,
-  SchemaRegistriesGetOptionalParams,
+  type SchemaRegistriesListBySubscriptionOptionalParams,
+  type SchemaRegistriesListByResourceGroupOptionalParams,
+  type SchemaRegistriesDeleteOptionalParams,
+  type SchemaRegistriesUpdateOptionalParams,
+  type SchemaRegistriesCreateOrReplaceOptionalParams,
+  type SchemaRegistriesGetOptionalParams,
 } from "./options.js";

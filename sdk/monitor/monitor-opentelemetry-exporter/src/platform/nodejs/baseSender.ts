@@ -26,7 +26,7 @@ import {
   ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
+import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -38,6 +38,7 @@ export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
+  private retryTimerDelayMs: number = 0;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -127,20 +128,14 @@ export abstract class BaseSender {
 
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
-        // Success -- @todo: start retry timer
-        if (!this.retryTimer) {
-          this.retryTimer = setTimeout(() => {
-            this.retryTimer = null;
-            this.sendFirstPersistedFile();
-          }, this.batchSendRetryIntervalMs);
-          this.retryTimer.unref();
-        }
+        // Success -- start retry timer to send persisted files
+        this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -149,14 +144,13 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 || statusCode === 439) {
+        if (statusCode === 429) {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          return {
-            code: ExportResultCode.SUCCESS,
-          };
+          this.scheduleRetryTimer(retryAfterMs);
+          return await this.persist(envelopes);
         }
         if (result) {
           diag.info(result);
@@ -201,6 +195,7 @@ export abstract class BaseSender {
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
+            this.scheduleRetryTimer(retryAfterMs);
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
@@ -222,6 +217,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
+          this.scheduleRetryTimer(retryAfterMs);
           return await this.persist(envelopes);
         }
       } else {
@@ -398,6 +394,23 @@ export abstract class BaseSender {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
       diag.warn(`Failed to fetch persisted file`, err);
+    }
+  }
+
+  private scheduleRetryTimer(retryAfterMs?: number): void {
+    const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+    // Reschedule if a new Retry-After would fire sooner than the existing timer
+    if (this.retryTimer && retryAfterMs !== undefined && delay < this.retryTimerDelayMs) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    if (!this.retryTimer) {
+      this.retryTimerDelayMs = delay;
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.sendFirstPersistedFile();
+      }, delay);
+      this.retryTimer.unref();
     }
   }
 

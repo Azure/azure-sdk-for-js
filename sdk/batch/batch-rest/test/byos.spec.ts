@@ -31,6 +31,7 @@ import {
   deleteVmAccessProfileVersion,
 } from "./utils/arm-resources/compute-gallary.js";
 import { getByosBatchAccountName, getUserObjectId } from "./utils/arm-resources/env-const.js";
+import { wait } from "./utils/wait.js";
 
 const KEY_VAULT_NAME = getResourceName("deskv");
 const DES_NAME = getResourceName("byosdes");
@@ -96,6 +97,7 @@ describe("BYOS Account", () => {
     await deleteVmAccessProfileVersion(GALLERY_NAME, VM_ACCESS_PROFILE_NAME);
     console.log("deleted in-VM access control profile:", VM_ACCESS_PROFILE_NAME);
 
+    await wait(10000); // wait for a few seconds to ensure the gallery version is fully deleted
     await deleteComputeGallery(GALLERY_NAME);
     console.log("deleted compute gallery:", GALLERY_NAME);
   });

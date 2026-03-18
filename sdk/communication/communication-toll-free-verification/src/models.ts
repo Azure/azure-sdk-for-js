@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   AttachmentType,
   ReviewNote,
   OptInDetails,
@@ -18,6 +18,9 @@ export {
   CampaignBriefUseCaseType,
   Address,
   CampaignBrief,
+  BusinessRegistrationDetails,
+  BusinessEntityType,
+  BusinessRegistrationType,
   CampaignBriefs,
   CampaignBriefSummary,
   CampaignBriefSummaries,

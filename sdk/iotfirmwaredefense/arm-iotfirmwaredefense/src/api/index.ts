@@ -3,6 +3,6 @@
 
 export {
   createIoTFirmwareDefense,
-  IoTFirmwareDefenseContext,
-  IoTFirmwareDefenseClientOptionalParams,
+  type IoTFirmwareDefenseContext,
+  type IoTFirmwareDefenseClientOptionalParams,
 } from "./ioTFirmwareDefenseContext.js";

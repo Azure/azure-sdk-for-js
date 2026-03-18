@@ -3,6 +3,6 @@
 
 export {
   createStandbyPoolManagement,
-  StandbyPoolManagementContext,
-  StandbyPoolManagementClientOptionalParams,
+  type StandbyPoolManagementContext,
+  type StandbyPoolManagementClientOptionalParams,
 } from "./standbyPoolManagementContext.js";

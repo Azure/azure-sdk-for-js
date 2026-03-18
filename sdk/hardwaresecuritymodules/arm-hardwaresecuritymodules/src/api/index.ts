@@ -3,6 +3,6 @@
 
 export {
   createAzureDedicatedHSMResourceProvider,
-  AzureDedicatedHSMResourceProviderContext,
-  AzureDedicatedHSMResourceProviderOptionalParams,
+  type AzureDedicatedHSMResourceProviderContext,
+  type AzureDedicatedHSMResourceProviderOptionalParams,
 } from "./azureDedicatedHSMResourceProviderContext.js";

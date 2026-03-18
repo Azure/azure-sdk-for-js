@@ -28,10 +28,21 @@ export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean | null;
     encryption?: AccountEncryption;
+    entraIdConfig?: EntraIdConfig;
     ldapConfiguration?: LdapConfiguration;
     readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string | null;
     readonly provisioningState?: string;
+}
+
+// @public
+export interface AccountPropertiesPatch {
+    activeDirectories?: ActiveDirectory[];
+    encryption?: AccountEncryption;
+    entraIdConfig?: EntraIdConfigPatch;
+    ldapConfiguration?: LdapConfigurationPatch;
+    multiAdStatus?: MultiAdStatus;
+    nfsV4IDDomain?: string | null;
 }
 
 // @public
@@ -227,6 +238,12 @@ export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
     AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export interface AzureKeyVaultDetails {
+    certificateAkvDetails?: CertificateAkvDetails;
+    credentialsAkvDetails?: CredentialsAkvDetails;
 }
 
 // @public
@@ -515,8 +532,8 @@ export type BucketPatchPermissions = string;
 
 // @public
 export interface BucketPatchProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
-    path?: string;
     permissions?: BucketPatchPermissions;
     readonly provisioningState?: NetAppProvisioningState;
     server?: BucketServerPatchProperties;
@@ -527,6 +544,7 @@ export type BucketPermissions = string;
 
 // @public
 export interface BucketProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
     path?: string;
     permissions?: BucketPermissions;
@@ -549,6 +567,7 @@ export interface BucketsDeleteOptionalParams extends OperationOptions {
 export interface BucketServerPatchProperties {
     certificateObject?: string;
     fqdn?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 // @public
@@ -558,6 +577,12 @@ export interface BucketServerProperties {
     certificateObject?: string;
     fqdn?: string;
     readonly ipAddress?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
+}
+
+// @public
+export interface BucketsGenerateAkvCredentialsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -576,10 +601,17 @@ export interface BucketsListOptionalParams extends OperationOptions {
 export interface BucketsOperations {
     createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
     delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateAkvCredentials: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateAkvCredentialsOptionalParams) => PollerLike<OperationState<void>, void>;
     generateCredentials: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateCredentialsOptionalParams) => Promise<BucketGenerateCredentials>;
     get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsGetOptionalParams) => Promise<Bucket>;
     list: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BucketsListOptionalParams) => PagedAsyncIterableIterator<Bucket>;
+    refreshCertificate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsRefreshCertificateOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketPatch, options?: BucketsUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
+}
+
+// @public
+export interface BucketsRefreshCertificateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -613,7 +645,7 @@ export interface CacheProperties {
     readonly encryption?: EncryptionState;
     encryptionKeySource: EncryptionKeySource;
     exportPolicy?: CachePropertiesExportPolicy;
-    filepath: string;
+    filePath: string;
     globalFileLocking?: GlobalFileLockingState;
     kerberos?: KerberosState;
     keyVaultPrivateEndpointResourceId?: string;
@@ -670,11 +702,17 @@ export interface CachesOperations {
     listByCapacityPools: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams) => PagedAsyncIterableIterator<Cache>;
     listPeeringPassphrases: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams) => Promise<PeeringPassphrases>;
     poolChange: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams) => PollerLike<OperationState<void>, void>;
+    resetSmbPassword: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
 }
 
 // @public
 export interface CachesPoolChangeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CachesResetSmbPasswordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -715,6 +753,12 @@ export interface CapacityPoolPatch {
     properties?: PoolPatchProperties;
     tags?: Record<string, string>;
     readonly type?: string;
+}
+
+// @public
+export interface CertificateAkvDetails {
+    certificateKeyVaultUri?: string;
+    certificateName?: string;
 }
 
 // @public
@@ -790,6 +834,12 @@ export type CoolAccessTieringPolicy = string;
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CredentialsAkvDetails {
+    credentialsKeyVaultUri?: string;
+    secretName?: string;
+}
 
 // @public
 export type CredentialsStatus = string;
@@ -1145,6 +1195,7 @@ export interface ElasticEncryptionConfiguration {
 
 // @public
 export interface ElasticEncryptionIdentity {
+    federatedClientId?: string;
     readonly principalId?: string;
     userAssignedIdentity?: string;
 }
@@ -1493,6 +1544,36 @@ export type EncryptionType = string;
 
 // @public
 export type EndpointType = string;
+
+// @public
+export interface EntraIdAkvConfig {
+    azureKeyVaultUri: string;
+    certificateName: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface EntraIdAkvConfigPatch {
+    azureKeyVaultUri?: string;
+    certificateName?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface EntraIdConfig {
+    applicationId: string;
+    domain: string;
+    entraIdAkvConfig?: EntraIdAkvConfig;
+    serverNamePrefix: string;
+}
+
+// @public
+export interface EntraIdConfigPatch {
+    applicationId?: string;
+    domain?: string;
+    entraIdAkvConfig?: EntraIdAkvConfigPatch;
+    serverNamePrefix?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -2035,6 +2116,12 @@ export enum KnownNetworkSiblingSetProvisioningState {
 }
 
 // @public
+export enum KnownOnCertificateConflictAction {
+    Fail = "Fail",
+    Update = "Update"
+}
+
+// @public
 export enum KnownPolicyStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -2051,6 +2138,14 @@ export enum KnownProtocolTypes {
 export enum KnownQosType {
     Auto = "Auto",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownQuotaType {
+    DefaultGroupQuota = "DefaultGroupQuota",
+    DefaultUserQuota = "DefaultUserQuota",
+    IndividualGroupQuota = "IndividualGroupQuota",
+    IndividualUserQuota = "IndividualUserQuota"
 }
 
 // @public
@@ -2151,21 +2246,12 @@ export enum KnownSnapshotUsage {
 }
 
 // @public
-export enum KnownType {
-    DefaultGroupQuota = "DefaultGroupQuota",
-    DefaultUserQuota = "DefaultUserQuota",
-    IndividualGroupQuota = "IndividualGroupQuota",
-    IndividualUserQuota = "IndividualUserQuota"
-}
-
-// @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview",
     V20250801 = "2025-08-01",
-    V20250801Preview = "2025-08-01-preview",
     V20250901 = "2025-09-01",
-    V20250901Preview = "2025-09-01-preview"
+    V20251201 = "2025-12-01",
+    V20251215Preview = "2025-12-15-preview"
 }
 
 // @public
@@ -2290,6 +2376,15 @@ export interface LdapConfiguration {
 }
 
 // @public
+export interface LdapConfigurationPatch {
+    certificateCNHost?: string | null;
+    domain?: string;
+    ldapOverTLS?: boolean;
+    ldapServers?: string[];
+    serverCACertificate?: string;
+}
+
+// @public
 export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
@@ -2304,7 +2399,12 @@ export type LdapState = string;
 
 // @public
 export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+    quotaReportRecords?: QuotaReport[];
+}
+
+// @public
+export interface ListQuotaReportResult {
+    properties?: ListQuotaReportResponse;
 }
 
 // @public
@@ -2388,13 +2488,14 @@ export interface NetAppAccountPatch {
     identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
-    properties?: AccountProperties;
+    properties?: AccountPropertiesPatch;
     tags?: Record<string, string>;
     readonly type?: string;
 }
 
 // @public (undocumented)
 export class NetAppManagementClient {
+    constructor(credential: TokenCredential, options?: NetAppManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: NetAppManagementClientOptionalParams);
     readonly accounts: AccountsOperations;
     readonly activeDirectoryConfigs: ActiveDirectoryConfigsOperations;
@@ -2560,6 +2661,9 @@ export interface NicInfo {
 }
 
 // @public
+export type OnCertificateConflictAction = string;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -2618,6 +2722,7 @@ export interface PeerClusterForVolumeMigrationRequest {
 export interface PeeringPassphrases {
     clusterPeeringCommand: string;
     clusterPeeringPassphrase: string;
+    readonly criticalWarning?: string;
     vserverPeeringCommand: string;
 }
 
@@ -2731,8 +2836,18 @@ export interface QuotaReport {
     quotaLimitTotalInKiBs?: number;
     quotaLimitUsedInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
+
+// @public
+export interface QuotaReportFilterRequest {
+    quotaTarget?: string;
+    quotaType?: QuotaType;
+    usageThresholdPercentage?: number;
+}
+
+// @public
+export type QuotaType = string;
 
 // @public
 export interface RansomwareProtectionPatchSettings {
@@ -2846,7 +2961,7 @@ export interface Replication {
     endpointType?: EndpointType;
     readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
-    remoteVolumeResourceId: string;
+    remoteVolumeResourceId?: string;
     readonly replicationCreationTime?: Date;
     readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
@@ -2962,7 +3077,7 @@ export type SmbNonBrowsable = string;
 
 // @public
 export interface SmbSettings {
-    smbAccessBasedEnumerations?: SmbAccessBasedEnumeration;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbEncryption?: SmbEncryptionState;
     smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -3212,9 +3327,6 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
-
-// @public
-export type Type = string;
 
 // @public
 export interface UpdateNetworkSiblingSetRequest {
@@ -3517,7 +3629,7 @@ export interface VolumeQuotaRulesProperties {
     readonly provisioningState?: NetAppProvisioningState;
     quotaSizeInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
 
 // @public
@@ -3608,6 +3720,7 @@ export interface VolumesListOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
+    body?: QuotaReportFilterRequest;
     updateIntervalInMs?: number;
 }
 
@@ -3635,7 +3748,7 @@ export interface VolumesOperations {
     get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
     list: (resourceGroupName: string, accountName: string, poolName: string, options?: VolumesListOptionalParams) => PagedAsyncIterableIterator<Volume>;
     listGetGroupIdListForLdapUser: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams) => PollerLike<OperationState<GetGroupIdListForLdapUserResponse>, GetGroupIdListForLdapUserResponse>;
-    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
     listReplications: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams) => PagedAsyncIterableIterator<Replication>;
     peerExternalCluster: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerExternalClusterOptionalParams) => PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
     performReplicationTransfer: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams) => PollerLike<OperationState<void>, void>;

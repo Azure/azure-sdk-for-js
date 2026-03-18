@@ -28,8 +28,8 @@ import "dotenv/config";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
 
 async function loadOpenApiSpec(specPath: string): Promise<unknown> {
@@ -61,7 +61,7 @@ export async function main(): Promise<void> {
   const weatherSpec = await loadOpenApiSpec(weatherSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with OpenAPI tool...");
 
@@ -69,7 +69,7 @@ export async function main(): Promise<void> {
     kind: "prompt",
     model: deploymentName,
     instructions:
-      "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+      "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
     tools: [createWeatherTool(weatherSpec)],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

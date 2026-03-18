@@ -3,8 +3,8 @@
 
 export { listByMongoCluster, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  UsersListByMongoClusterOptionalParams,
-  UsersDeleteOptionalParams,
-  UsersCreateOrUpdateOptionalParams,
-  UsersGetOptionalParams,
+  type UsersListByMongoClusterOptionalParams,
+  type UsersDeleteOptionalParams,
+  type UsersCreateOrUpdateOptionalParams,
+  type UsersGetOptionalParams,
 } from "./options.js";

@@ -1,10 +1,22 @@
 # Release History
 
-## 1.0.0-beta.39 ()
+## 1.0.0-beta.40 ()
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+
+### Features Added
+
+- The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
+- Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
+
+## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 
 
 - Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
 
 ### Bugs Fixed
 

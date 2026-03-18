@@ -16,22 +16,22 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME - The deployment name of the AI model to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME - The deployment name of the AI model to use for evaluation.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create a sample evaluation with two eval runs to compare
   const dataSourceConfig = {
@@ -134,7 +134,7 @@ export async function main(): Promise<void> {
 
     // Generate comparison insights
     console.log("\nGenerating comparison insights...");
-    let compareInsight = await project.insights.generate({
+    let compareInsight = await project.beta.insights.generate({
       displayName: "Comparison of Evaluation Runs",
       request: {
         type: "EvaluationComparison",
@@ -151,7 +151,7 @@ export async function main(): Promise<void> {
       compareInsight.state !== "Failed" &&
       compareInsight.state !== "Canceled"
     ) {
-      compareInsight = await project.insights.get(compareInsight.id ?? "");
+      compareInsight = await project.beta.insights.get(compareInsight.id ?? "");
       console.log(`Waiting for insight to be generated...current status: ${compareInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

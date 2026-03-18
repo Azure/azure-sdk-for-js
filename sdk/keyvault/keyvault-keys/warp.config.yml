@@ -1,0 +1,18 @@
+# warp.config.yml — @azure/keyvault-keys build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"
