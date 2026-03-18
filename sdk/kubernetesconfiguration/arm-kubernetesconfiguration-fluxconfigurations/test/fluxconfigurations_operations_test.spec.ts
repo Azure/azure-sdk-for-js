@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { FluxConfigurationClient } from "../src/fluxConfigurationClient.js";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,10 +38,14 @@ describe("fluxconfigurations test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new FluxConfigurationClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new FluxConfigurationClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     resourceGroup = "myjstest";
     resourcename = "resourcetest1";
   });
@@ -58,14 +58,14 @@ describe("fluxconfigurations test", () => {
   // Feel free to ask service team to test this package if the new api version is available.
   it.skip("fluxConfigurations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.fluxConfigurations.list(
+    for await (const item of client.fluxConfigurations.list(
       resourceGroup,
       "Microsoft.Kubernetes",
       "connectedClusters",
-      resourcename
+      resourcename,
     )) {
       resArray.push(item);
     }
     assert.ok(resArray);
   });
-})
+});
