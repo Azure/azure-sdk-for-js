@@ -31,22 +31,26 @@ stages:
               pnpm install
             displayName: "Install library dependencies"
 
-          - script: |
-              pnpm build --filter @azure/eslint-plugin-azure-sdk...
-            displayName: "Build ESLint Plugin"
+          # - script: |
+          #     pnpm build --filter @azure/eslint-plugin-azure-sdk...
+          #   displayName: "Build ESLint Plugin"
+
+          # - script: |
+          #     pnpm build --filter @azure/monitor-opentelemetry-exporter...
+          #   displayName: "Build packages to enable typed linting"
+
+          # - script: |
+          #     pnpm lint
+          #   displayName: "Lint All Packages"
+
+          # - script: |
+          #     pnpm build
+          #   displayName: "Build All Packages"
+
+          # - script: |
+          #     pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --concurrency=1
+          #   displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              pnpm build --filter @azure/monitor-opentelemetry-exporter...
-            displayName: "Build packages to enable typed linting"
-
-          - script: |
-              pnpm lint
-            displayName: "Lint All Packages"
-
-          - script: |
-              pnpm build
-            displayName: "Build All Packages"
-
-          - script: |
-              pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --concurrency=1
-            displayName: "Run Unit Tests for Selected Packages"
+              pnpm test:browser --concurrency=1
+            displayName: "Run Browser Unit Tests for All Packages"

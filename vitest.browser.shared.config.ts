@@ -12,6 +12,7 @@ export default mergeConfig(
   defineConfig({
     optimizeDeps: {
       include: ["@azure-tools/test-recorder"],
+      exclude: ["@azure/core-lro"],
     },
   }),
 );
