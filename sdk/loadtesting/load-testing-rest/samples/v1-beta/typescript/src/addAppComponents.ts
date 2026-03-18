@@ -24,8 +24,6 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const testId = process.env["LOADTESTSERVICE_TESTID"] || ""; // TestId of a test already created.
 
-  const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
-
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, credential);
 

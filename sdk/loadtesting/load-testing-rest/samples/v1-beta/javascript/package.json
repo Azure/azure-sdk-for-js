@@ -28,6 +28,9 @@
   "dependencies": {
     "@azure-rest/load-testing": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

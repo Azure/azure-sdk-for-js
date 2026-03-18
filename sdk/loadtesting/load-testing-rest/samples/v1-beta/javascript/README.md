@@ -12,16 +12,18 @@ urlFragment: load-testing-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Load Testing in some common scenarios.
 
-| **File Name**                                             | **Description**                                             |
-| --------------------------------------------------------- | ----------------------------------------------------------- |
-| [addAppComponents.js][addappcomponents]                   | Demonstrates how to add app components to an existing test. |
-| [createOrUpdateTest.js][createorupdatetest]               | Demonstrates how to create a load test                      |
-| [createTestProfile.js][createtestprofile]                 | Demonstrates how to create a test profile.                  |
-| [startTestProfileRun.js][starttestprofilerun]             | Demonstrates how to start a test profile run.               |
-| [startTestRunAndGetMetrics.js][starttestrunandgetmetrics] | Demonstrates how to start a test run and get metrics.       |
-| [stopTestProfileRun.js][stoptestprofilerun]               | Demonstrates how to stop a running test profile run         |
-| [stopTestRun.js][stoptestrun]                             | Demonstrates how to stop a running load test                |
-| [uploadTestScript.js][uploadtestscript]                   | Demonstrates how to upload a test script file.              |
+| **File Name**                                                         | **Description**                                                                      |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [addAppComponents.js][addappcomponents]                               | Demonstrates how to add app components to an existing test.                          |
+| [cloneTest.js][clonetest]                                             | Demonstrates how to clone an existing load test.                                     |
+| [createOrUpdateTest.js][createorupdatetest]                           | Demonstrates how to create a load test                                               |
+| [generateInsights.js][generateinsights]                               | Demonstrates how to generate insights for a completed test run.                      |
+| [generateTestPlanRecommendations.js][generatetestplanrecommendations] | Demonstrates how to generate test plan recommendations for a load test.              |
+| [notificationRule.js][notificationrule]                               | Demonstrates how to create, get, list, and delete notification rules for load tests. |
+| [scheduleTestTrigger.js][scheduletesttrigger]                         | Demonstrates how to create, get, list, and delete schedule triggers for load tests.  |
+| [startTestRunAndGetMetrics.js][starttestrunandgetmetrics]             | Demonstrates how to start a test run and get metrics.                                |
+| [stopTestRun.js][stoptestrun]                                         | Demonstrates how to stop a running load test                                         |
+| [uploadTestScript.js][uploadtestscript]                               | Demonstrates how to upload a test script file.                                       |
 
 ## Prerequisites
 
@@ -29,7 +31,7 @@ The sample programs are compatible with [LTS versions of Node.js](https://github
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Load Testing Resource][createinstance_azureloadtestingresource]
+- [Azure Load Testing resource][createinstance_azureloadtestingresource]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -53,10 +55,10 @@ npm install
 node addAppComponents.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_TESTID="<loadtestservice testid>" SUBSCRIPTION_ID="<subscription id>" node addAppComponents.js
+npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_TESTID="<loadtestservice testid>" node addAppComponents.js
 ```
 
 ## Next Steps
@@ -64,11 +66,13 @@ cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [addappcomponents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/addAppComponents.js
+[clonetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/cloneTest.js
 [createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/createOrUpdateTest.js
-[createtestprofile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/createTestProfile.js
-[starttestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/startTestProfileRun.js
+[generateinsights]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/generateInsights.js
+[generatetestplanrecommendations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/generateTestPlanRecommendations.js
+[notificationrule]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/notificationRule.js
+[scheduletesttrigger]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/scheduleTestTrigger.js
 [starttestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/startTestRunAndGetMetrics.js
-[stoptestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/stopTestProfileRun.js
 [stoptestrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/stopTestRun.js
 [uploadtestscript]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/javascript/uploadTestScript.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing?view=azure-node-preview

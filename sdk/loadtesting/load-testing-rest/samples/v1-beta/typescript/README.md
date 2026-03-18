@@ -12,16 +12,18 @@ urlFragment: load-testing-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Load Testing in some common scenarios.
 
-| **File Name**                                             | **Description**                                             |
-| --------------------------------------------------------- | ----------------------------------------------------------- |
-| [addAppComponents.ts][addappcomponents]                   | Demonstrates how to add app components to an existing test. |
-| [createOrUpdateTest.ts][createorupdatetest]               | Demonstrates how to create a load test                      |
-| [createTestProfile.ts][createtestprofile]                 | Demonstrates how to create a test profile.                  |
-| [startTestProfileRun.ts][starttestprofilerun]             | Demonstrates how to start a test profile run.               |
-| [startTestRunAndGetMetrics.ts][starttestrunandgetmetrics] | Demonstrates how to start a test run and get metrics.       |
-| [stopTestProfileRun.ts][stoptestprofilerun]               | Demonstrates how to stop a running test profile run         |
-| [stopTestRun.ts][stoptestrun]                             | Demonstrates how to stop a running load test                |
-| [uploadTestScript.ts][uploadtestscript]                   | Demonstrates how to upload a test script file.              |
+| **File Name**                                                         | **Description**                                                                      |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [addAppComponents.ts][addappcomponents]                               | Demonstrates how to add app components to an existing test.                          |
+| [cloneTest.ts][clonetest]                                             | Demonstrates how to clone an existing load test.                                     |
+| [createOrUpdateTest.ts][createorupdatetest]                           | Demonstrates how to create a load test                                               |
+| [generateInsights.ts][generateinsights]                               | Demonstrates how to generate insights for a completed test run.                      |
+| [generateTestPlanRecommendations.ts][generatetestplanrecommendations] | Demonstrates how to generate test plan recommendations for a load test.              |
+| [notificationRule.ts][notificationrule]                               | Demonstrates how to create, get, list, and delete notification rules for load tests. |
+| [scheduleTestTrigger.ts][scheduletesttrigger]                         | Demonstrates how to create, get, list, and delete schedule triggers for load tests.  |
+| [startTestRunAndGetMetrics.ts][starttestrunandgetmetrics]             | Demonstrates how to start a test run and get metrics.                                |
+| [stopTestRun.ts][stoptestrun]                                         | Demonstrates how to stop a running load test                                         |
+| [uploadTestScript.ts][uploadtestscript]                               | Demonstrates how to upload a test script file.                                       |
 
 ## Prerequisites
 
@@ -35,7 +37,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Load Testing Resource][createinstance_azureloadtestingresource]
+- [Azure Load Testing resource][createinstance_azureloadtestingresource]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -65,10 +67,10 @@ npm run build
 node dist/addAppComponents.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_TESTID="<loadtestservice testid>" SUBSCRIPTION_ID="<subscription id>" node dist/addAppComponents.js
+npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_TESTID="<loadtestservice testid>" node dist/addAppComponents.js
 ```
 
 ## Next Steps
@@ -76,11 +78,13 @@ cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" LOADTESTSERVICE_
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [addappcomponents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/addAppComponents.ts
+[clonetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/cloneTest.ts
 [createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/createOrUpdateTest.ts
-[createtestprofile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/createTestProfile.ts
-[starttestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/startTestProfileRun.ts
+[generateinsights]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/generateInsights.ts
+[generatetestplanrecommendations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/generateTestPlanRecommendations.ts
+[notificationrule]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/notificationRule.ts
+[scheduletesttrigger]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/scheduleTestTrigger.ts
 [starttestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/startTestRunAndGetMetrics.ts
-[stoptestprofilerun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/stopTestProfileRun.ts
 [stoptestrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/stopTestRun.ts
 [uploadtestscript]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/uploadTestScript.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing?view=azure-node-preview
