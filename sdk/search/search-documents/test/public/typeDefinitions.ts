@@ -73,6 +73,7 @@ type BlobIndexerParsingMode =
   | "json"
   | "jsonArray"
   | "jsonLines"
+  | "markdown"
   | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
@@ -357,7 +358,8 @@ type SearchIndexerDataSourceType =
   | "azuretable"
   | "cosmosdb"
   | "mysql"
-  | "onelake";
+  | "onelake"
+  | "sharepoint";
 type SemanticErrorMode = "fail" | "partial";
 type SemanticErrorReason = "capacityOverloaded" | "maxWaitExceeded" | "transient";
 type SemanticSearchResultsType = "baseResults" | "rerankedResults";
@@ -469,8 +471,8 @@ type TextTranslationSkillLanguage =
   | "yue"
   | "zh-Hans"
   | "zh-Hant";
-type VectorFilterMode = "postFilter" | "preFilter";
-type VectorQueryKind = "text" | "vector";
+type VectorFilterMode = "postFilter" | "preFilter" | "strictPostFilter";
+type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =

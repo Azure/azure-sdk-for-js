@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential } from "@azure/core-auth";
-import {
+import type { KeyCredential } from "@azure/core-auth";
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -13,8 +13,8 @@ const API_KEY_HEADER_NAME = "api-key";
 const searchApiKeyCredentialPolicy = "SearchApiKeyCredentialPolicy";
 
 /**
- * Create an HTTP pipeline policy to authenticate a request
- * using an `AzureKeyCredential` for Azure Cognitive Search
+ * Create an HTTP pipeline policy to authenticate a request using an `AzureKeyCredential` for Azure
+ * AI Search
  */
 export function createSearchApiKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
