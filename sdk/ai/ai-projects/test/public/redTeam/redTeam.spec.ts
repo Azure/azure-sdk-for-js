@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../src/index.js";
@@ -21,8 +22,8 @@ describe("red team - basic operations", () => {
   });
 
   it("should create and get a red team scan", async function () {
-    const modelEndpoint = process.env["RED_TEAM_MODEL_ENDPOINT"] || "<red team model endpoint>";
-    const modelApiKey = process.env["RED_TEAM_MODEL_API_KEY"] || "<red team model API key>";
+    const modelEndpoint = assertEnvironmentVariable("RED_TEAM_MODEL_ENDPOINT");
+    const modelApiKey = assertEnvironmentVariable("RED_TEAM_MODEL_API_KEY");
     const deploymentName = "gpt-5.2";
 
     const redTeam: RedTeam = {
