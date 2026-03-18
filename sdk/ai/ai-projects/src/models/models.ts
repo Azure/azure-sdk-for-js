@@ -5941,7 +5941,7 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'code_based'. */
+  /** The type discriminator, always 'code'. */
   type: "code";
   /** Inline code text for the evaluator */
   code_text?: string;
