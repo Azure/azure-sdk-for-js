@@ -48,11 +48,14 @@ export class ContentRange {
    * Create a ContentRange for a single document page (1-based).
    * @param pageNumber - The 1-based page number.
    * @returns A ContentRange representing a single page, e.g. `"5"`.
-   * @throws Error if pageNumber is less than 1.
+   * @throws Error if pageNumber is less than 1 or not an integer.
    */
   static page(pageNumber: number): ContentRange {
     if (pageNumber < 1) {
       throw new Error("Page number must be >= 1.");
+    }
+    if (!Number.isInteger(pageNumber)) {
+      throw new Error("Page number must be an integer.");
     }
     return new ContentRange(String(pageNumber));
   }
@@ -62,7 +65,7 @@ export class ContentRange {
    * @param start - The 1-based start page number (inclusive).
    * @param end - The 1-based end page number (inclusive).
    * @returns A ContentRange representing the page range, e.g. `"1-3"`.
-   * @throws Error if start is less than 1, or end is less than start.
+   * @throws Error if start is less than 1, end is less than start, or either is not an integer.
    */
   static pages(start: number, end: number): ContentRange {
     if (start < 1) {
@@ -71,6 +74,12 @@ export class ContentRange {
     if (end < start) {
       throw new Error("End page must be >= start page.");
     }
+    if (!Number.isInteger(start)) {
+      throw new Error("Start page must be an integer.");
+    }
+    if (!Number.isInteger(end)) {
+      throw new Error("End page must be an integer.");
+    }
     return new ContentRange(`${start}-${end}`);
   }
 
@@ -78,11 +87,14 @@ export class ContentRange {
    * Create a ContentRange for all pages from a starting page to the end (1-based).
    * @param startPage - The 1-based start page number (inclusive).
    * @returns A ContentRange representing the open-ended range, e.g. `"9-"`.
-   * @throws Error if startPage is less than 1.
+   * @throws Error if startPage is less than 1 or not an integer.
    */
   static pagesFrom(startPage: number): ContentRange {
     if (startPage < 1) {
       throw new Error("Start page must be >= 1.");
+    }
+    if (!Number.isInteger(startPage)) {
+      throw new Error("Start page must be an integer.");
     }
     return new ContentRange(`${startPage}-`);
   }
@@ -92,7 +104,7 @@ export class ContentRange {
    * @param startMs - The start time in milliseconds (inclusive).
    * @param endMs - The end time in milliseconds (inclusive).
    * @returns A ContentRange representing the time range, e.g. `"0-5000"`.
-   * @throws Error if startMs is negative, or endMs is less than startMs.
+   * @throws Error if startMs is negative, endMs is less than startMs, or either is not an integer.
    */
   static timeRange(startMs: number, endMs: number): ContentRange {
     if (startMs < 0) {
@@ -100,6 +112,12 @@ export class ContentRange {
     }
     if (endMs < startMs) {
       throw new Error("End time must be >= start time.");
+    }
+    if (!Number.isInteger(startMs)) {
+      throw new Error("Start time must be an integer number of milliseconds.");
+    }
+    if (!Number.isInteger(endMs)) {
+      throw new Error("End time must be an integer number of milliseconds.");
     }
     return new ContentRange(`${startMs}-${endMs}`);
   }
@@ -113,6 +131,9 @@ export class ContentRange {
   static timeRangeFrom(startMs: number): ContentRange {
     if (startMs < 0) {
       throw new Error("Start time must be >= 0.");
+    }
+    if (!Number.isInteger(startMs)) {
+      throw new Error("Start time must be an integer number of milliseconds.");
     }
     return new ContentRange(`${startMs}-`);
   }
