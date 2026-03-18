@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to stop a test profile run's execution
+ * This sample demonstrates how to stop a test run's execution
  *
- * @summary Demonstrates how to stop a running test profile run
+ * @summary Demonstrates how to stop a running load test
  */
 
 import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
@@ -22,17 +22,15 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth
    */
   const credential = new DefaultAzureCredential();
-  const testProfileRunId = process.env["LOADTESTSERVICE_TESTPROFILERUNID"] || ""; // TestProfileRunId of an already started test profile run
+  const testRunId = process.env["LOADTESTSERVICE_TESTRUNID"] || ""; // TestRunId of an already started test run
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, credential);
 
-  const stopTestProfileRunResult = await client
-    .path("/test-profile-runs/{testProfileRunId}:stop", testProfileRunId)
-    .post();
+  const stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 
-  if (isUnexpected(stopTestProfileRunResult)) {
-    throw stopTestProfileRunResult.body.error;
+  if (isUnexpected(stopTestRunResult)) {
+    throw stopTestRunResult.body.error;
   }
 }
 main().catch(console.error);
