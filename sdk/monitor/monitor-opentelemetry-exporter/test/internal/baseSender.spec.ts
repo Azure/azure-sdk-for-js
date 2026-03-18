@@ -706,7 +706,7 @@ describe("BaseSender", () => {
       setTimeoutSpy.mockRestore();
     });
 
-    it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
+    it("should reschedule retry timer when new retryAfterMs is longer", async () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
 
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
@@ -714,23 +714,24 @@ describe("BaseSender", () => {
         (statusCode) => statusCode === 429 || statusCode === 200,
       );
 
-      // First call with default timer (no retryAfterMs)
-      sender.sendMock.mockResolvedValue({
-        statusCode: 200,
-        result: "success",
-      });
-      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      // Second call with a shorter retryAfterMs should reschedule
+      // First call with a short retryAfterMs
       sender.sendMock.mockResolvedValue({
         statusCode: 200,
         result: "success",
         retryAfterMs: 5_000,
       });
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Second call with a longer retryAfterMs should reschedule
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 30_000,
+      });
       await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
 
-      // Verify setTimeout was called with the shorter delay
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 5_000);
+      // Verify setTimeout was called with the longer delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
 
       setTimeoutSpy.mockRestore();
     });

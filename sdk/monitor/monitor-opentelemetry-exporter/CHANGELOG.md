@@ -12,6 +12,10 @@
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
 - Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
 
+### Bugs Fixed
+
+- When multiple `Retry-After` headers are received, the exporter now uses the longest delay to ensure envelopes are sent at the latest required time.
+
 ## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 

@@ -399,8 +399,8 @@ export abstract class BaseSender {
 
   private scheduleRetryTimer(retryAfterMs?: number): void {
     const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
-    // Reschedule if a new Retry-After would fire sooner than the existing timer
-    if (this.retryTimer && retryAfterMs !== undefined && delay < this.retryTimerDelayMs) {
+    // Reschedule if a new Retry-After would fire later than the existing timer
+    if (this.retryTimer && retryAfterMs !== undefined && delay > this.retryTimerDelayMs) {
       clearTimeout(this.retryTimer);
       this.retryTimer = null;
     }
