@@ -12,8 +12,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<model endpoint>";
-const modelApiKey = process.env["MODEL_API_KEY"] || "<model api key>";
+const modelEndpoint = process.env["RED_TEAM_MODEL_ENDPOINT"] || "<model endpoint>";
+const modelApiKey = process.env["RED_TEAM_MODEL_API_KEY"] || "<model api key>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "gpt-4o";
 
 async function main() {
