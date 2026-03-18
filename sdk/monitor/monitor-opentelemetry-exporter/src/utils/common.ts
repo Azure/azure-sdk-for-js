@@ -41,7 +41,7 @@ import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
-  CUSTOM_DIMENSIONS_EXEMPT_KEYS,
+  CUSTOM_DIMENSIONS_GENAI_KEYS,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
   isEnvVarTrue,
 } from "../Declarations/Constants.js";
@@ -303,14 +303,16 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 }
 
 /**
- * Truncates each custom dimension value individually to stay within the 64KB size limit.
- * Properties whose keys are in {@link CUSTOM_DIMENSIONS_EXEMPT_KEYS} are excluded from truncation.
+ * Truncates each custom dimension value individually.
+ * Gen AI properties in {@link CUSTOM_DIMENSIONS_GENAI_KEYS} are truncated to 256KB;
+ * all other properties are truncated to 64KB.
  * @internal
  */
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
   [propertyName: string]: string;
 } {
-  const maxSize = MaxPropertyLengths.SIXTEEN_BIT;
+  const defaultMaxSize = MaxPropertyLengths.SIXTEEN_BIT;
+  const genaiMaxSize = MaxPropertyLengths.EIGHTEEN_BIT;
   const result: { [propertyName: string]: string } = {};
   let truncated = false;
 
@@ -320,7 +322,8 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         ? (properties[key] as string)
         : serializeAttribute(properties[key] as AnyValue);
 
-    if (!CUSTOM_DIMENSIONS_EXEMPT_KEYS.has(key) && Buffer.byteLength(value, "utf-8") > maxSize) {
+    const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
+    if (Buffer.byteLength(value, "utf-8") > maxSize) {
       value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
       truncated = true;
     }
@@ -329,7 +332,7 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
   }
 
   if (truncated) {
-    diag.debug("Custom dimension value exceeded 64KB limit. Property value has been truncated.");
+    diag.debug("Custom dimension value exceeded size limit. Property value has been truncated.");
   }
 
   return result;
