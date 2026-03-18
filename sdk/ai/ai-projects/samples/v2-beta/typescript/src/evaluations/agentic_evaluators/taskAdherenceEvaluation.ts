@@ -12,21 +12,21 @@
  * and run it with inline data containing various query/response scenarios.
  *
  * Set these environment variables before running the sample:
- * 1) AZURE_AI_PROJECT_ENDPOINT - The Azure AI Project endpoint
- * 2) MODEL_DEPLOYMENT_NAME - The name of the model deployment to use for evaluation
+ * 1) FOUNDRY_PROJECT_ENDPOINT - The Azure AI Project endpoint
+ * 2) FOUNDRY_MODEL_NAME - The name of the model deployment to use for evaluation
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "gpt-4o-mini";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Define the data source configuration for Task Adherence evaluator
   console.log("Creating data source configuration...");
@@ -82,11 +82,13 @@ export async function main(): Promise<void> {
 
   // Prepare inline data samples
   // Failure example - vague adherence to the task
-  const failureQuery = "What are the best practices for maintaining a healthy rose garden during the summer?";
+  const failureQuery =
+    "What are the best practices for maintaining a healthy rose garden during the summer?";
   const failureResponse = "Make sure to water your roses regularly and trim them occasionally.";
 
   // Success example - full adherence to the task
-  const successQuery = "What are the best practices for maintaining a healthy rose garden during the summer?";
+  const successQuery =
+    "What are the best practices for maintaining a healthy rose garden during the summer?";
   const successResponse =
     "For optimal summer care of your rose garden, start by watering deeply early in the morning to ensure the roots are well-hydrated without encouraging fungal growth. Apply a 2-3 inch layer of organic mulch around the base of the plants to conserve moisture and regulate soil temperature. Fertilize with a balanced rose fertilizer every 46 weeks to support healthy growth. Prune away any dead or diseased wood to promote good air circulation, and inspect regularly for pests such as aphids or spider mites, treating them promptly with an appropriate organic insecticidal soap. Finally, ensure that your roses receive at least 6 hours of direct sunlight daily for robust flowering.";
 

@@ -3,8 +3,8 @@
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  SignalDefinitionsListByHealthModelOptionalParams,
-  SignalDefinitionsDeleteOptionalParams,
-  SignalDefinitionsCreateOrUpdateOptionalParams,
-  SignalDefinitionsGetOptionalParams,
+  type SignalDefinitionsListByHealthModelOptionalParams,
+  type SignalDefinitionsDeleteOptionalParams,
+  type SignalDefinitionsCreateOrUpdateOptionalParams,
+  type SignalDefinitionsGetOptionalParams,
 } from "./options.js";

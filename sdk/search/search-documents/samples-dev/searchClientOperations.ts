@@ -8,9 +8,9 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import type { SelectFields } from "@azure/search-documents";
 import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
+import "dotenv/config";
 import type { Hotel } from "./interfaces.js";
 import { createIndex, delay, WAIT_TIME } from "./setup.js";
-import "dotenv/config";
 
 /**
  * This sample is to demonstrate the use of SearchClient.
@@ -102,4 +102,6 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

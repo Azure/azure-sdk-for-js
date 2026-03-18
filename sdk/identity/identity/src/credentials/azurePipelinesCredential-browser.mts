@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions.js";
 import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
@@ -17,12 +18,18 @@ export class AzurePipelinesCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  constructor() {
+  constructor(
+    _tenantId: string,
+    _clientId: string,
+    _serviceConnectionId: string,
+    _systemAccessToken: string,
+    _options?: AzurePipelinesCredentialOptions,
+  ) {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

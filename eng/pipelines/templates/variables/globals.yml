@@ -14,3 +14,7 @@ variables:
   NODE_VERSION_LTS_ACTIVE: '22.x'
   NODE_VERSION_LTS_MAINTENANCE: '20.x'
   GDN_SUPPRESS_FORKED_BUILD_WARNING: true
+
+  PublicNpmRegistry: https://registry.npmjs.org/
+  PublicDevOpsRegistry: https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/
+  PrivateDevOpsRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/

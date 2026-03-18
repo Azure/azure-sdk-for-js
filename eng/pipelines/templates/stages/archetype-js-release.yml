@@ -3,12 +3,9 @@ parameters:
   TestPipeline: false
   ArtifactName: packages
   DependsOn: Build
-  Registry: https://registry.npmjs.org/
-  PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
-
 
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
@@ -40,6 +37,8 @@ stages:
                   - script: >
                       ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
+                    env:
+                      NPM_CONFIG_REGISTRY: $(PublicNpmRegistry)
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
                       PackageName: ${{artifact.name}}
@@ -61,6 +60,7 @@ stages:
                       ReleaseSha: $(Build.SourceVersion)
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
+                      NpmConfigRegistry: $(PublicNpmRegistry)
 
               - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
                   - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
@@ -69,12 +69,16 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: 'https://registry.npmjs.org/'
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -88,6 +92,8 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+                        parameters:
+                          NpmConfigRegistry: $(PublicNpmRegistry)
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -102,11 +108,17 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
+                          NpmConfigRegistry: $(PublicNpmRegistry)
 
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -204,16 +216,21 @@ stages:
           Tag: 'dev'
           ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
           ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
-            Registry: 'https://registry.npmjs.org/'
+            Registry: '$(PublicDevOpsRegistry)'
           ${{ else }}:
-            Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+            Registry: '$(PrivateDevOpsRegistry)'
           FailOnMissingPackages: false
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
         # Wait for publishing job to complete before running
         dependsOn: 'PublishPackage'
-        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+        condition: >-
+          and(
+            succeeded(),
+            ne(variables['Skip.PublishDocs'], 'true'),
+            ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+          )
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
@@ -228,9 +245,19 @@ stages:
           - pwsh: |
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
+          - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+            parameters:
+              npmrcPath: $(Agent.TempDirectory)/publish-docs/.npmrc
+              ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                registryUrl: '$(PublicDevOpsRegistry)'
+              ${{ else }}:
+                registryUrl: '$(PrivateDevOpsRegistry)'
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+            parameters:
+              NpmConfigUserConfig: $(Agent.TempDirectory)/publish-docs/.npmrc
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
+              NpmConfigUserConfig: $(Agent.TempDirectory)/publish-docs/.npmrc
               PackageInfoLocations:
                 - ${{ each artifact in parameters.Artifacts }}:
                     - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
@@ -246,4 +273,8 @@ stages:
                 - metadata/
                 - ci-configs/packages-latest.json
                 - ci-configs/packages-preview.json
+              ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                PackageSourceOverride: '$(PublicDevOpsRegistry)'
+              ${{ else }}:
+                PackageSourceOverride: '$(PrivateDevOpsRegistry)'
           - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml

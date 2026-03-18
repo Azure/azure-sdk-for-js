@@ -1,18 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-
-/**
- * Options for the byPage method
- */
-export interface PageSettings {
-  /**
-   * A reference to a specific page to start iterating from.
-   */
-  continuationToken?: string;
-}
+import type { KnownApiVersions } from "../models/models.js";
 
 /**
  * An interface that describes a page of results.
@@ -23,28 +16,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
    */
   continuationToken?: string;
 };
-
-/**
- * An interface that allows async iterable iteration both to completion and by page.
- */
-export interface PagedAsyncIterableIterator<
-  TElement,
-  TPage = TElement[],
-  TPageSettings extends PageSettings = PageSettings,
-> {
-  /**
-   * The next method, part of the iteration protocol
-   */
-  next(): Promise<IteratorResult<TElement>>;
-  /**
-   * The connection to the async iterator, part of the iteration protocol
-   */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-  /**
-   * Return an AsyncIterableIterator that works a page at a time
-   */
-  byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-}
 
 /**
  * An interface that describes how to communicate with the service.
@@ -80,6 +51,8 @@ export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
+  apiVersion?: KnownApiVersions;
+  nextPageRequestOptions?: Record<string, unknown>;
 }
 
 /**
@@ -100,14 +73,20 @@ export function buildPagedAsyncIterator<
   const itemName = options.itemName ?? "value";
   const nextLinkName = options.nextLinkName ?? "nextLink";
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
+  const apiVersion = options.apiVersion;
+  const nextPageRequestOptions = options.nextPageRequestOptions;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
-      const result =
-        pageLink === undefined
-          ? await getInitialResponse()
-          : nextLinkMethod === "POST"
-            ? await client.pathUnchecked(pageLink).post()
-            : await client.pathUnchecked(pageLink).get();
+      let result;
+      if (pageLink === undefined) {
+        result = await getInitialResponse();
+      } else {
+        const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        result =
+          nextLinkMethod === "POST"
+            ? await client.pathUnchecked(resolvedPageLink).post(nextPageRequestOptions)
+            : await client.pathUnchecked(resolvedPageLink).get(nextPageRequestOptions);
+      }
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
@@ -242,4 +221,22 @@ function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: s
       response,
     );
   }
+}
+
+/**
+ * Adds the api-version query parameter on a URL if it's not present.
+ * @param url - the URL to modify
+ * @param apiVersion - the API version to set
+ * @returns - the URL with the api-version query parameter set
+ */
+function addApiVersionToUrl(url: string, apiVersion: string): string {
+  // The base URL is only used for parsing and won't appear in the returned URL
+  const urlObj = new URL(url, "https://microsoft.com");
+  if (!urlObj.searchParams.get("api-version")) {
+    // Append one if there is no apiVersion
+    return `${url}${
+      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
+    }api-version=${apiVersion}`;
+  }
+  return url;
 }

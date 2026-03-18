@@ -5,39 +5,39 @@ resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
 * **Enhance Agents with specialized tools**:
-  * Agent Memory Search
-  * Agent-to-Agent (A2A)
+  * Agent Memory Search (Preview)
+  * Agent-to-Agent (A2A) (Preview)
   * Azure AI Search
-  * Bing Custom Search
+  * Bing Custom Search (Preview)
   * Bing Grounding
-  * Browser Automation
+  * Browser Automation (Preview)
   * Code Interpreter
-  * Computer Use
+  * Computer Use (Preview)
   * File Search
   * Function Tool
   * Image Generation
-  * Microsoft Fabric
+  * Microsoft Fabric (Preview)
   * Model Context Protocol (MCP)
   * OpenAPI
-  * SharePoint
-  * Web Search
+  * Microsoft SharePoint (Preview)
+  * Web Search (Preview)
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
-* **Manage memory stores** for Agent conversations, using the `.memoryStores` operations.
-* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.evaluationRules`,
-`.evaluationTaxonomies`, `.evaluators`, `.insights`, and `.schedules` operations.
-* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".redTeams" operations.
+* **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
+* **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
+`.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
+* **Run Red Team scans (preview)** to identify risks associated with your generative AI application, using the `.beta.redTeams` operations.
 * **Fine tune** AI Models on your data.
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 
-The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-2025-11-15-preview).
+The client library uses version `v1` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-v1).
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-latest)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
@@ -48,6 +48,7 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
   - [Install the package](#install-the-package)
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
+  - [Preview operation groups and opt-in feature flags](#preview-operation-groups-and-opt-in-feature-flags)
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
@@ -76,13 +77,13 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
-- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
-- The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value.
+- A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects).
+- The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value.
 
 ### Authorization
 
-- [Entra ID][entra_id] is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
-  - An appropriate role assignment. see [Role-based access control in Microsoft Foundry portal](https://learn.microsoft.com/azure/ai-foundry/concepts/rbac-ai-foundry). Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
+- An Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
+  - An appropriate role assignment. see [Role-based access control in Microsoft Foundry portal](https://learn.microsoft.com/azure/ai-foundry/concepts/rbac-foundry?view=foundry). Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
   - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
@@ -90,7 +91,7 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects @azure/identity dotenv
+npm install @azure/ai-projects dotenv
 ```
 
 ## Key concepts
@@ -99,15 +100,34 @@ npm install @azure/ai-projects @azure/identity dotenv
 
 Entra ID is the only authentication method supported at the moment by the client.
 
-To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value:
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
+project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
+
+### Preview operation groups and opt-in feature flags
+
+Some preview operations require an explicit `foundryFeatures` opt-in flag. For example:
+
+```ts snippet:previewflag
+await project.agents.createVersion(
+  "preview-agent",
+  {
+    kind: "workflow",
+  },
+  { foundryFeatures: "WorkflowAgents=V1Preview" },
+);
+for await (const rule of project.evaluationRules.list()) {
+  console.log(rule.id);
+}
+```
+
+Preview operation groups include `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -121,7 +141,7 @@ See the "responses" folder in the [package samples][samples] for additional samp
 
 
 ```ts snippet:openAI
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const response = await openAIClient.responses.create({
   model: deploymentName,
   input: "What is the size of France in square miles?",
@@ -141,7 +161,7 @@ The `.agents` property on the `AIProjectsClient` gives you access to all Agent o
 OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to do Agent operations, as shown in the example below.
 
 ```ts snippet:agents
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("my-agent-basic", {
   kind: "prompt",
   model: deploymentName,
@@ -203,7 +223,7 @@ These tools work immediately without requiring external connections.
 Write and run Javascript code in a sandboxed environment, process files and work with diverse data formats. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-code-interpreter)
 
 ```ts snippet:agent-code-interpreter
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const response = await openAIClient.responses.create({
   model: deploymentName,
   input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
@@ -219,7 +239,7 @@ See the full sample code in [agentCodeInterpreter.ts](https://github.com/Azure/a
 Built-in RAG (Retrieval-Augmented Generation) tool to process and search through documents using vector stores for knowledge retrieval. [OpenAI Documentation](https://platform.openai.com/docs/assistants/tools/file-search)
 
 ```ts snippet:agent-file-search
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const assetFilePath = path.join(
   __dirname,
   "..",
@@ -282,7 +302,7 @@ After calling `responses.create()`, you can download file using the returned res
 ```ts snippet:agent-image-generation-download
 import { fileURLToPath } from "url";
 
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("agent-image-generation", {
   kind: "prompt",
   model: deploymentName,
@@ -321,12 +341,12 @@ if (imageData && imageData.length > 0 && imageData[0].result) {
 }
 ```
 
-**Web Search**
+**Web Search (Preview)**
 
 Perform general web searches to retrieve current information from the internet. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-web-search)
 
 ```ts snippet:agent-web-search
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 // Create Agent with web search tool
 const agent = await project.agents.createVersion("agent-web-search", {
   kind: "prompt",
@@ -364,7 +384,7 @@ console.log(`Response: ${response.output_text}`);
 
 See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
 
-**Computer Use**
+**Computer Use (Preview)**
 
 Enable agents to interact directly with computer systems for task automation and system operations:
 
@@ -398,7 +418,7 @@ See the full sample code in [agentComputerUse.ts](https://github.com/Azure/azure
 Integrate MCP servers to extend agent capabilities with standardized tools and resources. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-connectors-mcp)
 
 ```ts snippet:agent-mcp
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const agent = await project.agents.createVersion("agent-mcp", {
   kind: "prompt",
   model: deploymentName,
@@ -446,7 +466,7 @@ const agent = await project.agents.createVersion("MyOpenApiAgent", {
   kind: "prompt",
   model: deploymentName,
   instructions:
-    "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+    "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
   tools: [
     {
       type: "openapi",
@@ -504,7 +524,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentFunctionTool.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFunctionTool.ts).
 
-* **Memory Search Tool**
+* **Memory Search Tool (Preview)**
 
 The Memory Store Tool adds Memory to an Agent, allowing the Agent's AI model to search for past information related to the current user prompt.
 
@@ -513,9 +533,9 @@ The `embeddingModelDeployment` is the name of the model used to create vector em
 ```ts snippet:agent-memory-search
 const memoryStoreName = "AgentMemoryStore";
 const embeddingModelDeployment =
-  process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
 const scope = "user_123";
-const memoryStore = await project.memoryStores.create(
+const memoryStore = await project.beta.memoryStores.create(
   memoryStoreName,
   {
     kind: "default",
@@ -541,7 +561,7 @@ const agent = await project.agents.createVersion("MemorySearchAgent", {
     "You are a helpful assistant that remembers user preferences using the memory search tool.",
   tools: [
     {
-      type: "memory_search",
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
@@ -616,7 +636,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingGrounding.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingGrounding.ts).
 
-**Bing Custom Search**
+**Bing Custom Search (Preview)**
 
 Use custom-configured Bing search instances for domain-specific or filtered web search results:
 ```ts snippet:agent-bing-custom-search
@@ -646,7 +666,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingCustomSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingCustomSearch.ts).
 
-**Microsoft Fabric**
+**Microsoft Fabric (Preview)**
 
 Connect to and query Microsoft Fabric:
 
@@ -674,7 +694,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentFabric.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentFabric.ts).
 
-**SharePoint**
+**Microsoft SharePoint (Preview)**
 
 Access and search SharePoint documents, lists, and sites for enterprise knowledge integration:
 
@@ -704,7 +724,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentSharepoint.ts).
 
-**Browser Automation**
+**Browser Automation (Preview)**
 
 Automate browser interactions for web scraping, testing, and interaction with web applications:
 
@@ -758,7 +778,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentMcpConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcpConnectionAuth.ts).
 
-**Agent-to-Agent (A2A)**
+**Agent-to-Agent (A2A) (Preview)**
 
 Enable multi-agent collaboration where agents can communicate and delegate tasks to other specialized agents:
 
@@ -838,7 +858,7 @@ The code below shows some evaluation operations. Full list of sample can be foun
 
 
 ```ts snippet:evaluations
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 const dataSourceConfig = {
   type: "custom" as const,
   item_schema: {
@@ -961,7 +981,9 @@ for await (const azureOpenAIConnection of project.connections.list({
 console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
 
 // Get the details of a default connection
-const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+  includeCredentials: true,
+});
 console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
 ```
 
@@ -1045,7 +1067,7 @@ console.log("All specified Datasets have been deleted.");
 The code below shows some Files operations using the OpenAI client, which allow you to upload, retrieve, list, and delete files. These operations are useful for working with files that can be used for fine-tuning and other AI model operations. Full samples can be found under the "files" folder in the [package samples][samples].
 
 ```ts snippet:files
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 console.log("Uploading file");
 const created = await openAIClient.files.create({
   file: fs.createReadStream(filePath),
@@ -1119,7 +1141,7 @@ import { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 
 const trainingFilePath = "training_data_path.jsonl";
 const validationFilePath = "validation_data_path.jsonl";
-const openAIClient = await project.getOpenAIClient();
+const openAIClient = project.getOpenAIClient();
 // 1) Create the training and validation files
 const trainingFile = await openAIClient.files.create({
   file: fs.createReadStream(trainingFilePath),
@@ -1243,7 +1265,6 @@ additional questions or comments.
 <!-- LINKS -->
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-foundry/foundry-models/how-to/configure-entra-id?tabs=javascript&pivots=ai-foundry-portal
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk

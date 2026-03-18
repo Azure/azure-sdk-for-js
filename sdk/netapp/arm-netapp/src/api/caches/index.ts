@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
   listByCapacityPools,
@@ -10,7 +11,8 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
   CachesListByCapacityPoolsOptionalParams,

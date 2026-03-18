@@ -1,4 +1,4 @@
-# Azure Cognitive Search TypeScript Protocol Layer
+# Azure AI Search TypeScript Protocol Layer
 
 > see https://aka.ms/autorest
 
@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/613315ec5a543cdc0f0b259b23a5ae02f46663dc/specification/search/data-plane/Azure.Search/stable/2025-09-01/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1d3ac611f503e05650fb85520582b06140d2599e/specification/search/data-plane/Azure.Search/preview/2025-11-01-preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.34"
+  "@autorest/typescript": "6.0.46"
 core-http-compat-mode: true
-package-version: 12.2.0
+package-version: 12.3.0-beta.1
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -71,19 +71,13 @@ modelerfour:
       ActionType: $DO_NOT_NORMALIZE$__actionType
 ```
 
-### Change text to _text only in SuggestResult
+### Change text to \_text in SuggestResult
 
 ```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SuggestResult.properties["@search.text"]
-    transform: >
-      $["x-ms-client-name"] = "SuggestResult_text";
-
 modelerfour:
   naming:
     override:
-      SuggestResult_text: $DO_NOT_NORMALIZE$_text
+      Text: $DO_NOT_NORMALIZE$_text
 ```
 
 ### Preserve underscore prefix in some result type properties
@@ -96,6 +90,8 @@ modelerfour:
       Highlights: $DO_NOT_NORMALIZE$_highlights
       RerankerScore: $DO_NOT_NORMALIZE$_rerankerScore
       Captions: $DO_NOT_NORMALIZE$_captions
+      DocumentDebugInfo: $DO_NOT_NORMALIZE$_documentDebugInfo
+      RerankerBoostedScore: $DO_NOT_NORMALIZE$_rerankerBoostedScore
 ```
 
 ### Mark score, key and text fields as required in AnswerResult Object
@@ -174,7 +170,6 @@ directive:
 ```
 
 ### Fix `SearchResult["@search.documentDebugInfo"]`
-
 ```yaml
 directive:
   - from: swagger-document

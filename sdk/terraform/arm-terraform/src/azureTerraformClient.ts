@@ -11,7 +11,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
+export { type AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
 
 export class AzureTerraformClient {
   private _client: AzureTerraformContext;

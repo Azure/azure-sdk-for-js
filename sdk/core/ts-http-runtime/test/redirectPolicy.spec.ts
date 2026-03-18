@@ -343,4 +343,135 @@ describe("RedirectPolicy", () => {
     await policy.sendRequest(request, next);
     assert.isFalse(next.mock.calls[1][0].headers.has("Authorization"));
   });
+
+  it("should not follow cross-origin redirect by default", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "GET",
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://other-host.com/capture",
+      }),
+      request,
+      status: 302,
+    };
+
+    const policy = redirectPolicy();
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(redirectResponse);
+
+    const result = await policy.sendRequest(request, next);
+
+    // The redirect response is returned as-is; no second request is made
+    assert.strictEqual(result.status, 302);
+    expect(next).toHaveBeenCalledTimes(1);
+    assert.strictEqual(request.url, "https://example.com/api");
+  });
+
+  it("should follow cross-origin redirect when allowCrossOriginRedirects is true", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "GET",
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://other-host.com/resource",
+      }),
+      request,
+      status: 302,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = redirectPolicy({ allowCrossOriginRedirects: true });
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
+
+    const result = await policy.sendRequest(request, next);
+    assert.strictEqual(result.status, 200);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
+  it("should follow same-origin redirect even when allowCrossOriginRedirects is false", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "GET",
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://example.com/new-path",
+      }),
+      request,
+      status: 302,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = redirectPolicy({ allowCrossOriginRedirects: false });
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
+
+    const result = await policy.sendRequest(request, next);
+    assert.strictEqual(result.status, 200);
+    expect(next).toHaveBeenCalledTimes(2);
+  });
+
+  it("should block cross-origin redirect for different scheme (https to http)", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "GET",
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "http://example.com/api",
+      }),
+      request,
+      status: 302,
+    };
+
+    const policy = redirectPolicy();
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(redirectResponse);
+
+    const result = await policy.sendRequest(request, next);
+
+    // Different scheme = different origin, so redirect is blocked
+    assert.strictEqual(result.status, 302);
+    expect(next).toHaveBeenCalledTimes(1);
+  });
+
+  it("should block cross-origin redirect for different port", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com/api",
+      method: "GET",
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://example.com:8443/api",
+      }),
+      request,
+      status: 302,
+    };
+
+    const policy = redirectPolicy();
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValueOnce(redirectResponse);
+
+    const result = await policy.sendRequest(request, next);
+
+    // Different port = different origin, so redirect is blocked
+    assert.strictEqual(result.status, 302);
+    expect(next).toHaveBeenCalledTimes(1);
+  });
 });

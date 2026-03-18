@@ -5,14 +5,11 @@ The `azure-search-documents` package provides APIs for operations on the
 
 ## Table of Contents
 
-- [Troubleshooting Azure AI Search SDK Issues](#troubleshooting-azure-ai-search-sdk-issues)
-  - [Table of Contents](#table-of-contents)
-  - [Troubleshooting Issues By Response Code](#troubleshooting-issues-by-response-code)
-    - [207 Multi-Status](#207-multi-status)
-    - [403 Forbidden](#403-forbidden)
-    - [404 Not Found](#404-not-found)
-    - [429 too many requests](#429-too-many-requests)
-  - [Unexpected Search Query Results](#unexpected-search-query-results)
+- [Identifying and Troubleshooting Issues by Response Code](#troubleshooting-issues-by-response-code)
+  - [HTTP 207 Errors](#207-multi-status)
+  - [HTTP 404 Errors](#404-not-found)
+  - [HTTP 429 Errors](#429-too-many-requests)
+- [Unexpected search query results](#unexpected-search-query-results)
 
 ## Troubleshooting Issues By Response Code
 

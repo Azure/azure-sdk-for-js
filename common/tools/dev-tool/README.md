@@ -50,7 +50,6 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `check-api`	ensure API features are compatible with minimum supported TypeScript version
   - `extract-api`	Runs api-extractor multiple times for all exports.
   - `build-test` build a package for testing
-  - `typecheck`	typecheck typescript code files that are not part of tshy build
   - `start-browser-relay`	Start the browser credential relay, used for authenticating browser tests.
   - `update-snippets`	find README and TSDoc snippets throughout the package and update their contents.
   - `build-package`	build a package for production

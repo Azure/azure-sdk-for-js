@@ -3,7 +3,11 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { PlaywrightServiceClient } from "../../src/utils/PlaywrightServiceClient.js";
-import { Constants, InternalEnvironmentVariables } from "../../src/common/constants.js";
+import {
+  Constants,
+  InternalEnvironmentVariables,
+  ArmConstants,
+} from "../../src/common/constants.js";
 import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
 import { TestRunCreatePayload } from "../../src/common/types.js";
 
@@ -211,6 +215,77 @@ describe("PlaywrightServiceClient", () => {
       await expect(apiCall.getWorkspaceMetadata()).rejects.toThrow("Forbidden");
 
       expect(mockState.extractErrorMessage).toHaveBeenCalledWith(mockResponse.bodyAsText);
+    });
+  });
+
+  describe("getTenants", () => {
+    it("should call the ARM tenants API and return parsed tenant list", async () => {
+      const tenantList = [
+        { tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" },
+        { tenantId: "tenant-2", defaultDomain: "fabrikam.onmicrosoft.com" },
+      ];
+      const mockResponse = {
+        status: 200,
+        bodyAsText: JSON.stringify({ value: tenantList }),
+      };
+      mockState.callAPI.mockResolvedValue(mockResponse);
+
+      const result = await apiCall.getTenants();
+
+      expect(mockState.getAccessToken).toHaveBeenCalledTimes(1);
+      expect(mockState.callAPI).toHaveBeenCalledWith(
+        "GET",
+        `${ArmConstants.TenantsApiUrl}?api-version=${ArmConstants.TenantsApiVersion}`,
+        null,
+        "mock-token",
+        "",
+        "mock-uuid",
+      );
+      expect(result).toEqual(tenantList);
+    });
+
+    it("should throw when access token is missing", async () => {
+      mockState.getAccessToken.mockReturnValue(undefined);
+
+      await expect(apiCall.getTenants()).rejects.toThrow(
+        "PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.",
+      );
+
+      expect(mockState.callAPI).not.toHaveBeenCalled();
+    });
+
+    it("should throw with error message when API returns non-200 status", async () => {
+      const mockResponse = {
+        status: 403,
+        bodyAsText: JSON.stringify({ error: { message: "Forbidden" } }),
+      };
+      mockState.callAPI.mockResolvedValue(mockResponse);
+      mockState.extractErrorMessage.mockReturnValue("Forbidden");
+
+      await expect(apiCall.getTenants()).rejects.toThrow("Forbidden");
+      expect(mockState.extractErrorMessage).toHaveBeenCalledWith(mockResponse.bodyAsText);
+    });
+
+    it("should return empty array when response body has no value", async () => {
+      const mockResponse = {
+        status: 200,
+        bodyAsText: JSON.stringify({}),
+      };
+      mockState.callAPI.mockResolvedValue(mockResponse);
+
+      const result = await apiCall.getTenants();
+      expect(result).toEqual([]);
+    });
+
+    it("should return empty array when response body is empty", async () => {
+      const mockResponse = {
+        status: 200,
+        bodyAsText: "",
+      };
+      mockState.callAPI.mockResolvedValue(mockResponse);
+
+      const result = await apiCall.getTenants();
+      expect(result).toEqual([]);
     });
   });
 });

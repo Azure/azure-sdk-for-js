@@ -6,6 +6,7 @@ import {
   getHtmlReporterOutputFolder,
   getPortalTestRunUrl,
   getVersionInfo,
+  resolveTenantDomain,
 } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
@@ -22,6 +23,7 @@ import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 export default class PlaywrightReporter implements Reporter {
   private config: FullConfig | undefined;
   private workspaceMetadata: WorkspaceMetaData | null = null;
+  private tenantDomain: string | undefined;
   private isReportingEnabled = false;
 
   /**
@@ -99,10 +101,26 @@ export default class PlaywrightReporter implements Reporter {
     try {
       const playwrightServiceApiClient = new PlaywrightServiceClient();
       this.workspaceMetadata = await playwrightServiceApiClient.getWorkspaceMetadata();
+      coreLogger.info(
+        `Received workspace details: ${JSON.stringify(this.workspaceMetadata, null, 2)}`,
+      );
 
-      if (!this.workspaceMetadata?.storageUri) {
-        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+      if (!this.isReportingAllowed(this.workspaceMetadata)) {
         return;
+      }
+
+      // Resolve tenant domain for portal URL (if tenantId is available)
+      if (this.workspaceMetadata.tenantId) {
+        try {
+          const tenants = await playwrightServiceApiClient.getTenants();
+          this.tenantDomain = resolveTenantDomain(this.workspaceMetadata.tenantId, tenants);
+        } catch (error) {
+          coreLogger.error(`Failed to resolve tenant domain: ${error}`);
+        }
+      } else {
+        coreLogger.info(
+          "Workspace metadata does not contain tenantId; skipping tenant domain resolution.",
+        );
       }
 
       this.isReportingEnabled = true;
@@ -140,7 +158,7 @@ export default class PlaywrightReporter implements Reporter {
         }
         // Display portal URL for both full and partial success
         if (this.workspaceMetadata) {
-          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
+          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata, this.tenantDomain);
           console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
         }
       } else {
@@ -209,6 +227,59 @@ export default class PlaywrightReporter implements Reporter {
     coreLogger.info(
       "HTML reporter validation passed - HTML reporter is configured and properly ordered",
     );
+    return true;
+  }
+
+  /**
+   * Determines if reporting should be enabled based on workspace metadata.
+   * @param workspaceMetadata - The workspace metadata containing reporting and storageUri information
+   * @returns true if reporting should be enabled, false otherwise
+   */
+  private isReportingAllowed(workspaceMetadata: WorkspaceMetaData | null): boolean {
+    if (!workspaceMetadata) {
+      console.error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
+      return false;
+    }
+
+    const { reporting, storageUri } = workspaceMetadata;
+
+    // If reporting field is present in metadata, check its value
+    if (reporting !== undefined) {
+      const normalizedReporting =
+        typeof reporting === "string" ? reporting.toLowerCase() : reporting;
+
+      if (normalizedReporting === "disabled") {
+        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+        coreLogger.info("Reporting disabled via workspace metadata configuration");
+        return false;
+      }
+
+      if (normalizedReporting === "enabled") {
+        if (!storageUri) {
+          console.error(
+            ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
+          );
+          coreLogger.info("Reporting enabled in metadata but storage URI not configured");
+          return false;
+        }
+        coreLogger.info("Reporting enabled via workspace metadata configuration");
+        return true;
+      }
+
+      // If reporting has an unexpected value, log warning and fall back to storageUri check
+      coreLogger.info(
+        `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
+      );
+    }
+
+    // Fallback to current logic: check only storageUri (when reporting field is not present or has unexpected value)
+    if (!storageUri) {
+      console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+      coreLogger.info("Storage URI not configured in workspace metadata");
+      return false;
+    }
+
+    coreLogger.info("Reporting enabled based on storage URI configuration");
     return true;
   }
 }

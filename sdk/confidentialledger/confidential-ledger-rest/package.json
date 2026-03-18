@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Confidential Ledger service.",
-  "version": "1.1.2-beta.3",
+  "version": "1.1.2-beta.4",
   "keywords": [
     "node",
     "azure",
@@ -89,23 +89,10 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

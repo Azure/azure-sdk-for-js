@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByVault, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   ElasticBackupsListByVaultOptionalParams,
   ElasticBackupsDeleteOptionalParams,
   ElasticBackupsUpdateOptionalParams,

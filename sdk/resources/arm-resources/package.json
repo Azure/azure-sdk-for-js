@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ResourceManagementClient.",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -43,7 +43,6 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -85,22 +84,6 @@
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources",
   "//sampleConfiguration": {
     "productName": "",

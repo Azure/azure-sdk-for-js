@@ -1,0 +1,47 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/virtualNetworkSubnetUsage": "src/api/virtualNetworkSubnetUsage/index.ts"
+  "./api/quotaUsages": "src/api/quotaUsages/index.ts"
+  "./api/privateDnsZoneSuffix": "src/api/privateDnsZoneSuffix/index.ts"
+  "./api/nameAvailability": "src/api/nameAvailability/index.ts"
+  "./api/capabilitiesByLocation": "src/api/capabilitiesByLocation/index.ts"
+  "./api/tuningOptions": "src/api/tuningOptions/index.ts"
+  "./api/backupsAutomaticAndOnDemand": "src/api/backupsAutomaticAndOnDemand/index.ts"
+  "./api/serverThreatProtectionSettings": "src/api/serverThreatProtectionSettings/index.ts"
+  "./api/advancedThreatProtectionSettings": "src/api/advancedThreatProtectionSettings/index.ts"
+  "./api/replicas": "src/api/replicas/index.ts"
+  "./api/backupsLongTermRetention": "src/api/backupsLongTermRetention/index.ts"
+  "./api/capturedLogs": "src/api/capturedLogs/index.ts"
+  "./api/capabilitiesByServer": "src/api/capabilitiesByServer/index.ts"
+  "./api/administratorsMicrosoftEntra": "src/api/administratorsMicrosoftEntra/index.ts"
+  "./api/virtualEndpoints": "src/api/virtualEndpoints/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/firewallRules": "src/api/firewallRules/index.ts"
+  "./api/databases": "src/api/databases/index.ts"
+  "./api/configurations": "src/api/configurations/index.ts"
+  "./api/servers": "src/api/servers/index.ts"
+  "./api/migrations": "src/api/migrations/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

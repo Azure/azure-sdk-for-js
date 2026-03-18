@@ -45,7 +45,6 @@ declare global {
         [k: string]: string[];
       };
     };
-    tshy?: Record<string, object>;
     type?: string;
     module?: string;
     bin?: Record<string, string>;

@@ -38,7 +38,7 @@ export function _listByVaultSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,10 +46,7 @@ export function _listByVaultSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -60,6 +57,7 @@ export async function _listByVaultDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -79,7 +77,11 @@ export function listByVault(
     () => _listByVaultSend(context, resourceGroupName, accountName, backupVaultName, options),
     _listByVaultDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -99,7 +101,7 @@ export function _$deleteSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,10 +111,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -133,12 +136,13 @@ export function $delete(
   backupName: string,
   options: ElasticBackupsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -159,7 +163,7 @@ export function _updateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,10 +172,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticBackupSerializer(body),
   });
 }
@@ -181,6 +182,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -211,6 +213,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -231,7 +234,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,10 +243,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticBackupSerializer(body),
   });
 }
@@ -255,6 +255,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -285,6 +286,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -304,7 +306,7 @@ export function _getSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -312,10 +314,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -324,6 +323,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
