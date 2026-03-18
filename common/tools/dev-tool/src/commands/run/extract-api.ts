@@ -305,7 +305,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
-  version: string | undefined,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
