@@ -1,6 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { AIProjectClient } from "./aiProjectClient.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
 export type {
   Agent,
   AgentVersion,
@@ -69,7 +78,6 @@ export type {
   HybridSearchOptions,
   Filters,
   ComparisonFilter,
-  ComparisonFilterValueItems,
   CompoundFilter,
   ComputerUsePreviewTool,
   ComputerEnvironment,
@@ -105,7 +113,7 @@ export type {
   CustomToolParamFormatType,
   CustomTextFormatParam,
   CustomGrammarFormatParam,
-  GrammarSyntax,
+  GrammarSyntax1,
   WebSearchPreviewTool,
   ApproximateLocation,
   SearchContextSize,
@@ -126,19 +134,19 @@ export type {
   ToolChoiceImageGeneration,
   ToolChoiceCodeInterpreter,
   PromptAgentDefinitionTextOptions,
-  TextResponseFormatConfiguration,
-  TextResponseFormatConfigurationUnion,
+  TextResponseFormat,
+  TextResponseFormatUnion,
   TextResponseFormatConfigurationType,
   TextResponseFormatJsonSchema,
-  TextResponseFormatConfigurationResponseFormatText,
-  TextResponseFormatConfigurationResponseFormatJsonObject,
+  TextResponseFormatText,
+  TextResponseFormatJsonObject,
   StructuredInputDefinition,
   WorkflowAgentDefinition,
   HostedAgentDefinition,
   ProtocolVersionRecord,
   AgentProtocol,
   ApiErrorResponse,
-  ErrorModel,
+  ApiError,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   EvaluationRule,
@@ -157,7 +165,7 @@ export type {
   ApiKeyCredentials,
   EntraIDCredentials,
   CustomCredential,
-  SASTokenCredentials,
+  SASCredentials,
   NoAuthenticationCredentials,
   AgenticIdentityPreviewCredentials,
   DatasetVersion,
@@ -168,7 +176,7 @@ export type {
   PendingUploadRequest,
   PendingUploadResponse,
   BlobReference,
-  SasCredential,
+  BlobReferenceSasCredential,
   DatasetCredential,
   Deployment,
   DeploymentUnion,
@@ -290,12 +298,128 @@ export type {
   ScheduleRun,
   ToolsetObject,
   DeleteToolsetResponse,
-  AgentType,
   AgentDefinitionOptInKeys,
+  AgentObjectType,
   FoundryFeaturesOptInKeys,
   PageOrder,
   PendingUploadType,
+  MemoryStoreObjectType,
   ToolsetObjectType,
-  MemoryStoreType,
-  KnownApiVersions,
-} from "./models.js";
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
+export type { AIProjectClientOptionalParams } from "./api/index.js";
+export type {
+  AgentsListVersionsOptionalParams,
+  AgentsDeleteVersionOptionalParams,
+  AgentsGetVersionOptionalParams,
+  AgentsCreateAgentVersionFromManifestOptionalParams,
+  AgentsCreateVersionOptionalParams,
+  AgentsListOptionalParams,
+  AgentsDeleteOptionalParams,
+  AgentsUpdateAgentFromManifestOptionalParams,
+  AgentsCreateAgentFromManifestOptionalParams,
+  AgentsUpdateAgentOptionalParams,
+  AgentsCreateAgentOptionalParams,
+  AgentsGetOptionalParams,
+} from "./api/agents/index.js";
+export type {
+  ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
+  ConnectionsGetOptionalParams,
+} from "./api/connections/index.js";
+export type {
+  DatasetsGetCredentialsOptionalParams,
+  DatasetsPendingUploadOptionalParams,
+  DatasetsCreateOrUpdateOptionalParams,
+  DatasetsDeleteOptionalParams,
+  DatasetsGetOptionalParams,
+  DatasetsListOptionalParams,
+  DatasetsListVersionsOptionalParams,
+} from "./api/datasets/index.js";
+export type {
+  DeploymentsListOptionalParams,
+  DeploymentsGetOptionalParams,
+} from "./api/deployments/index.js";
+export type {
+  EvaluationRulesListOptionalParams,
+  EvaluationRulesCreateOrUpdateOptionalParams,
+  EvaluationRulesDeleteOptionalParams,
+  EvaluationRulesGetOptionalParams,
+} from "./api/evaluationRules/index.js";
+export type {
+  IndexesCreateOrUpdateOptionalParams,
+  IndexesDeleteOptionalParams,
+  IndexesGetOptionalParams,
+  IndexesListOptionalParams,
+  IndexesListVersionsOptionalParams,
+} from "./api/indexes/index.js";
+export type {
+  BetaEvaluationTaxonomiesUpdateOptionalParams,
+  BetaEvaluationTaxonomiesCreateOptionalParams,
+  BetaEvaluationTaxonomiesDeleteOptionalParams,
+  BetaEvaluationTaxonomiesListOptionalParams,
+  BetaEvaluationTaxonomiesGetOptionalParams,
+} from "./api/beta/evaluationTaxonomies/index.js";
+export type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsUpdateVersionOptionalParams,
+  BetaEvaluatorsCreateVersionOptionalParams,
+  BetaEvaluatorsDeleteVersionOptionalParams,
+  BetaEvaluatorsGetVersionOptionalParams,
+  BetaEvaluatorsListOptionalParams,
+  BetaEvaluatorsListVersionsOptionalParams,
+} from "./api/beta/evaluators/index.js";
+export type {
+  BetaInsightsListOptionalParams,
+  BetaInsightsGetOptionalParams,
+  BetaInsightsGenerateOptionalParams,
+} from "./api/beta/insights/index.js";
+export type {
+  BetaMemoryStoresDeleteScopeOptionalParams,
+  BetaMemoryStoresGetUpdateResultOptionalParams,
+  BetaMemoryStoresUpdateMemoriesOptionalParams,
+  BetaMemoryStoresSearchMemoriesOptionalParams,
+  BetaMemoryStoresDeleteOptionalParams,
+  BetaMemoryStoresListOptionalParams,
+  BetaMemoryStoresGetOptionalParams,
+  BetaMemoryStoresUpdateOptionalParams,
+  BetaMemoryStoresCreateOptionalParams,
+} from "./api/beta/memoryStores/index.js";
+export type {
+  BetaRedTeamsCreateOptionalParams,
+  BetaRedTeamsListOptionalParams,
+  BetaRedTeamsGetOptionalParams,
+} from "./api/beta/redTeams/index.js";
+export type {
+  BetaSchedulesListRunsOptionalParams,
+  BetaSchedulesGetRunOptionalParams,
+  BetaSchedulesCreateOrUpdateOptionalParams,
+  BetaSchedulesListOptionalParams,
+  BetaSchedulesGetOptionalParams,
+  BetaSchedulesDeleteOptionalParams,
+} from "./api/beta/schedules/index.js";
+export type {
+  BetaToolsetsDeleteOptionalParams,
+  BetaToolsetsListOptionalParams,
+  BetaToolsetsGetOptionalParams,
+  BetaToolsetsUpdateOptionalParams,
+  BetaToolsetsCreateOptionalParams,
+} from "./api/beta/toolsets/index.js";
+export type {
+  AgentsOperations,
+  BetaOperations,
+  ConnectionsOperations,
+  DatasetsOperations,
+  DeploymentsOperations,
+  EvaluationRulesOperations,
+  IndexesOperations,
+  BetaEvaluationTaxonomiesOperations,
+  BetaEvaluatorsOperations,
+  BetaInsightsOperations,
+  BetaMemoryStoresOperations,
+  BetaRedTeamsOperations,
+  BetaSchedulesOperations,
+  BetaToolsetsOperations,
+} from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

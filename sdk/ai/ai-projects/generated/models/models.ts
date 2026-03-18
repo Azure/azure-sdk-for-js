@@ -9,8 +9,6 @@ import { serializeRecord } from "../static-helpers/serialization/serialize-recor
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable tsdoc/syntax */
-
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
@@ -30,27 +28,22 @@ export function agentDeserializer(item: any): Agent {
     object: item["object"],
     id: item["id"],
     name: item["name"],
-    versions: _agentVersionsDeserializer(item["versions"]),
+    versions: _agentObjectVersionsDeserializer(item["versions"]),
   };
 }
 
-/**
- * Helper interface for agent version references.
- */
-export interface _AgentVersions {
+/** model interface _AgentObjectVersions */
+export interface _AgentObjectVersions {
   latest: AgentVersion;
 }
 
-export function _agentVersionsDeserializer(item: any): _AgentVersions {
+export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersions {
   return {
     latest: agentVersionDeserializer(item["latest"]),
   };
 }
 
-/**
- * Represents a specific version of an agent.
- * Includes metadata, versioning, creation time, and agent definition.
- */
+/** model interface AgentVersion */
 export interface AgentVersion {
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -60,7 +53,7 @@ export interface AgentVersion {
    * Keys are strings with a maximum length of 64 characters. Values are strings
    * with a maximum length of 512 characters.
    */
-  metadata: Record<string, string>;
+  metadata: Record<string, string> | null;
   /** The object type, which is always 'agent.version'. */
   object: "agent.version";
   /** The unique identifier of the agent version. */
@@ -73,13 +66,16 @@ export interface AgentVersion {
   description?: string;
   /** The Unix timestamp (seconds) when the agent was created. */
   created_at: Date;
-  /** The definition of the agent. */
   definition: AgentDefinitionUnion;
 }
 
 export function agentVersionDeserializer(item: any): AgentVersion {
   return {
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(
+          Object.entries(item["metadata"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     object: item["object"],
     id: item["id"],
     name: item["name"],
@@ -90,12 +86,8 @@ export function agentVersionDeserializer(item: any): AgentVersion {
   };
 }
 
-/**
- * Base definition interface for agents.
- * Contains the agent kind and optional RAI configuration.
- */
+/** model interface AgentDefinition */
 export interface AgentDefinition {
-  /** The kind of agent. */
   kind: AgentKind;
   /** Configuration for Responsible AI (RAI) content filtering and safety features. */
   rai_config?: RaiConfig;
@@ -117,10 +109,7 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
   };
 }
 
-/**
- * Union type for all agent definition types.
- * Supports workflow, hosted, container app, and prompt agents.
- */
+/** Alias for AgentDefinitionUnion */
 export type AgentDefinitionUnion =
   | PromptAgentDefinition
   | WorkflowAgentDefinition
@@ -144,7 +133,7 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
 }
 
 export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "prompt":
       return promptAgentDefinitionDeserializer(item as PromptAgentDefinition);
 
@@ -159,10 +148,7 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
   }
 }
 
-/**
- * Defines the type/kind of agent.
- * Determines which agent definition structure is used.
- */
+/** Type of AgentKind */
 export type AgentKind = "prompt" | "hosted" | "workflow";
 
 /** Configuration for Responsible AI (RAI) content filtering and safety features. */
@@ -183,7 +169,6 @@ export function raiConfigDeserializer(item: any): RaiConfig {
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
-  /** The kind discriminator, always 'prompt'. */
   kind: "prompt";
   /** The model deployment to use for this agent. */
   model: string;
@@ -203,7 +188,6 @@ export interface PromptAgentDefinition extends AgentDefinition {
    * We generally recommend altering this or `temperature` but not both.
    */
   top_p?: number;
-  /** The reasoning configuration for the prompt agent. */
   reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
@@ -269,11 +253,8 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
-  /** The reasoning effort level. */
   effort?: ReasoningEffort;
-  /** The reasoning summary text. */
   summary?: "auto" | "concise" | "detailed";
-  /** Whether to generate a summary of the reasoning process. */
   generate_summary?: "auto" | "concise" | "detailed";
 }
 
@@ -304,7 +285,7 @@ export function reasoningDeserializer(item: any): Reasoning {
  * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
  * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
  */
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
 
 export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
   return result.map((item) => {
@@ -320,7 +301,6 @@ export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
 
 /** A tool that can be used to generate a response. */
 export interface Tool {
-  /** The tool type identifier. */
   type: ToolType;
 }
 
@@ -442,7 +422,7 @@ export function toolUnionSerializer(item: ToolUnion): any {
 }
 
 export function toolUnionDeserializer(item: any): ToolUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "bing_grounding":
       return bingGroundingToolDeserializer(item as BingGroundingTool);
 
@@ -1009,7 +989,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: unknown;
+  spec: Record<string, any>;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -1018,7 +998,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: Record<string, unknown>;
+    parameters: Record<string, any>;
   }[];
 }
 
@@ -1028,7 +1008,11 @@ export function openApiFunctionDefinitionSerializer(item: OpenApiFunctionDefinit
     description: item["description"],
     spec: item["spec"],
     auth: openApiAuthDetailsUnionSerializer(item["auth"]),
-    default_params: item["default_params"],
+    default_params: !item["default_params"]
+      ? item["default_params"]
+      : item["default_params"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1036,7 +1020,7 @@ export function openApiFunctionDefinitionDeserializer(item: any): OpenApiFunctio
   return {
     name: item["name"],
     description: item["description"],
-    spec: item["spec"],
+    spec: Object.fromEntries(Object.entries(item["spec"]).map(([k, p]: [string, any]) => [k, p])),
     auth: openApiAuthDetailsUnionDeserializer(item["auth"]),
     default_params: !item["default_params"]
       ? item["default_params"]
@@ -1092,7 +1076,7 @@ export function openApiAuthDetailsUnionSerializer(item: OpenApiAuthDetailsUnion)
 }
 
 export function openApiAuthDetailsUnionDeserializer(item: any): OpenApiAuthDetailsUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "anonymous":
       return openApiAnonymousAuthDetailsDeserializer(item as OpenApiAnonymousAuthDetails);
 
@@ -1232,7 +1216,7 @@ export interface _OpenApiFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: Record<string, unknown>;
+  parameters: Record<string, any>;
 }
 
 export function _openApiFunctionDefinitionFunctionDeserializer(
@@ -1241,7 +1225,9 @@ export function _openApiFunctionDefinitionFunctionDeserializer(
   return {
     name: item["name"],
     description: item["description"],
-    parameters: item["parameters"],
+    parameters: Object.fromEntries(
+      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1502,7 +1488,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: Record<string, unknown>;
+    parameters: Record<string, any>;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   input_binding: AzureFunctionBinding;
@@ -1533,7 +1519,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: Record<string, unknown>;
+  parameters: Record<string, any>;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -1548,7 +1534,9 @@ export function _azureFunctionDefinitionFunctionDeserializer(
   return {
     name: item["name"],
     description: item["description"],
-    parameters: item["parameters"],
+    parameters: Object.fromEntries(
+      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1619,9 +1607,9 @@ export interface StructuredOutputDefinition {
   /** A description of the output to emit. Used by the model to determine when to emit the output. */
   description: string;
   /** The JSON schema for the structured output. */
-  schema: Record<string, unknown>;
+  schema: Record<string, any>;
   /** Whether to enforce strict validation. Default `true`. */
-  strict: boolean;
+  strict: boolean | null;
 }
 
 export function structuredOutputDefinitionSerializer(item: StructuredOutputDefinition): any {
@@ -1637,7 +1625,9 @@ export function structuredOutputDefinitionDeserializer(item: any): StructuredOut
   return {
     name: item["name"],
     description: item["description"],
-    schema: item["schema"],
+    schema: Object.fromEntries(
+      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     strict: item["strict"],
   };
 }
@@ -1848,9 +1838,7 @@ export interface AutoCodeInterpreterToolParam {
   type: "auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
-  /** The memory limit for the code interpreter container, in bytes. */
   memory_limit?: ContainerMemoryLimit;
-  /** The network access policy for the code interpreter container. */
   network_policy?: ContainerNetworkPolicyParamUnion;
 }
 
@@ -1889,7 +1877,6 @@ export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
 
 /** Network access policy for the container. */
 export interface ContainerNetworkPolicyParam {
-  /** The network policy type. */
   type: ContainerNetworkPolicyParamType;
 }
 
@@ -1985,7 +1972,9 @@ export function containerNetworkPolicyAllowlistParamSerializer(
 ): any {
   return {
     type: item["type"],
-    allowed_domains: item["allowed_domains"],
+    allowed_domains: item["allowed_domains"].map((p: any) => {
+      return p;
+    }),
     domain_secrets: !item["domain_secrets"]
       ? item["domain_secrets"]
       : containerNetworkPolicyDomainSecretParamArraySerializer(item["domain_secrets"]),
@@ -1997,7 +1986,9 @@ export function containerNetworkPolicyAllowlistParamDeserializer(
 ): ContainerNetworkPolicyAllowlistParam {
   return {
     type: item["type"],
-    allowed_domains: item["allowed_domains"],
+    allowed_domains: item["allowed_domains"].map((p: any) => {
+      return p;
+    }),
     domain_secrets: !item["domain_secrets"]
       ? item["domain_secrets"]
       : containerNetworkPolicyDomainSecretParamArrayDeserializer(item["domain_secrets"]),
@@ -2052,12 +2043,9 @@ export interface FunctionTool extends Tool {
   type: "function";
   /** The name of the function to call. */
   name: string;
-  /** A description of the function tool. */
   description?: string;
-  /** The parameters schema for the function. */
-  parameters: Record<string, unknown>;
-  /** Whether the function arguments must strictly match the parameters schema. */
-  strict: boolean;
+  parameters: Record<string, any> | null;
+  strict: boolean | null;
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -2075,7 +2063,11 @@ export function functionToolDeserializer(item: any): FunctionTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
-    parameters: item["parameters"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     strict: item["strict"],
   };
 }
@@ -2090,7 +2082,6 @@ export interface FileSearchTool extends Tool {
   max_num_results?: number;
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
-  /** Filters to apply to the file search. */
   filters?: Filters;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -2101,7 +2092,9 @@ export interface FileSearchTool extends Tool {
 export function fileSearchToolSerializer(item: FileSearchTool): any {
   return {
     type: item["type"],
-    vector_store_ids: item["vector_store_ids"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
     max_num_results: item["max_num_results"],
     ranking_options: !item["ranking_options"]
       ? item["ranking_options"]
@@ -2115,7 +2108,9 @@ export function fileSearchToolSerializer(item: FileSearchTool): any {
 export function fileSearchToolDeserializer(item: any): FileSearchTool {
   return {
     type: item["type"],
-    vector_store_ids: item["vector_store_ids"],
+    vector_store_ids: item["vector_store_ids"].map((p: any) => {
+      return p;
+    }),
     max_num_results: item["max_num_results"],
     ranking_options: !item["ranking_options"]
       ? item["ranking_options"]
@@ -2206,7 +2201,7 @@ export interface ComparisonFilter {
   /** The key to compare against the value. */
   key: string;
   /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | ComparisonFilterValueItems[];
+  value: string | number | boolean | (string | number)[];
 }
 
 export function comparisonFilterSerializer(item: ComparisonFilter): any {
@@ -2226,7 +2221,7 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
 }
 
 /** Alias for _ComparisonFilterValue */
-export type _ComparisonFilterValue = string | number | boolean | ComparisonFilterValueItems[];
+export type _ComparisonFilterValue = string | number | boolean | (string | number)[];
 
 export function _comparisonFilterValueSerializer(item: _ComparisonFilterValue): any {
   return item;
@@ -2236,30 +2231,30 @@ export function _comparisonFilterValueDeserializer(item: any): _ComparisonFilter
   return item;
 }
 
-export function comparisonFilterValueItemsArraySerializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _comparisonFilterValue1ArraySerializer(
+  result: Array<_ComparisonFilterValue1>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsSerializer(item);
+    return _comparisonFilterValue1Serializer(item);
   });
 }
 
-export function comparisonFilterValueItemsArrayDeserializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _comparisonFilterValue1ArrayDeserializer(
+  result: Array<_ComparisonFilterValue1>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsDeserializer(item);
+    return _comparisonFilterValue1Deserializer(item);
   });
 }
 
-/** Alias for ComparisonFilterValueItems */
-export type ComparisonFilterValueItems = string | number;
+/** Alias for _ComparisonFilterValue1 */
+export type _ComparisonFilterValue1 = string | number;
 
-export function comparisonFilterValueItemsSerializer(item: ComparisonFilterValueItems): any {
+export function _comparisonFilterValue1Serializer(item: _ComparisonFilterValue1): any {
   return item;
 }
 
-export function comparisonFilterValueItemsDeserializer(item: any): ComparisonFilterValueItems {
+export function _comparisonFilterValue1Deserializer(item: any): _ComparisonFilterValue1 {
   return item;
 }
 
@@ -2268,7 +2263,7 @@ export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
   /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | CompoundFilter)[];
+  filters: (ComparisonFilter | any)[];
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
@@ -2297,7 +2292,7 @@ export function _compoundFilterFilterArrayDeserializer(
 }
 
 /** Alias for _CompoundFilterFilter */
-export type _CompoundFilterFilter = ComparisonFilter | CompoundFilter;
+export type _CompoundFilterFilter = ComparisonFilter | any;
 
 export function _compoundFilterFilterSerializer(item: _CompoundFilterFilter): any {
   return item;
@@ -2342,14 +2337,12 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "brow
 
 /**
  * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](https://platform.openai.com/docs/guides/tools-web-search).
+ * [web search tool](/docs/guides/tools-web-search).
  */
 export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
   type: "web_search";
-  /** Filters to apply to web search results. */
   filters?: WebSearchToolFilters;
-  /** The approximate location of the user for search relevance. */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -2398,33 +2391,36 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
 
 /** model interface WebSearchToolFilters */
 export interface WebSearchToolFilters {
-  /** The list of allowed domains for web search results. */
   allowed_domains?: string[];
 }
 
 export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
   return {
-    allowed_domains: item["allowed_domains"],
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
 export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
   return {
-    allowed_domains: item["allowed_domains"],
+    allowed_domains: !item["allowed_domains"]
+      ? item["allowed_domains"]
+      : item["allowed_domains"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
 /** The approximate location of the user. */
 export interface WebSearchApproximateLocation {
   /** The type of location approximation. Always `approximate`. */
-  type?: "approximate";
-  /** The two-letter ISO country code. */
+  type: "approximate";
   country?: string;
-  /** The region or state for the approximate location. */
   region?: string;
-  /** The city for the approximate location. */
   city?: string;
-  /** The IANA timezone identifier (e.g. 'America/New_York'). */
   timezone?: string;
 }
 
@@ -2480,7 +2476,7 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
 
 /**
  * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
  */
 export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
@@ -2495,7 +2491,7 @@ export interface MCPTool extends Tool {
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
    *   `server_url` or `connector_id` must be provided. Learn more about service
-   *   connectors [here](https://platform.openai.com/docs/guides/tools-remote-mcp#connectors).
+   *   connectors [here](/docs/guides/tools-remote-mcp#connectors).
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
@@ -2523,11 +2519,8 @@ export interface MCPTool extends Tool {
   authorization?: string;
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
-  /** Custom headers to include in requests to the MCP server. */
   headers?: Record<string, string>;
-  /** The list of allowed tool names for the MCP server. */
   allowed_tools?: string[] | MCPToolFilter;
-  /** The approval requirements for the MCP tool. */
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
@@ -2560,7 +2553,11 @@ export function mcpToolDeserializer(item: any): MCPTool {
     connector_id: item["connector_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
-    headers: item["headers"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
@@ -2596,14 +2593,22 @@ export interface MCPToolFilter {
 
 export function mcpToolFilterSerializer(item: MCPToolFilter): any {
   return {
-    tool_names: item["tool_names"],
+    tool_names: !item["tool_names"]
+      ? item["tool_names"]
+      : item["tool_names"].map((p: any) => {
+          return p;
+        }),
     read_only: item["read_only"],
   };
 }
 
 export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   return {
-    tool_names: item["tool_names"],
+    tool_names: !item["tool_names"]
+      ? item["tool_names"]
+      : item["tool_names"].map((p: any) => {
+          return p;
+        }),
     read_only: item["read_only"],
   };
 }
@@ -2621,9 +2626,7 @@ export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireA
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
-  /** Tools that always require approval before execution. */
   always?: MCPToolFilter;
-  /** Tools that never require approval before execution. */
   never?: MCPToolFilter;
 }
 
@@ -2645,8 +2648,7 @@ export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApp
 export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
-  /** The model to use for image generation. */
-  model?: "gpt-image-1" | "gpt-image-1-mini";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
    *   or `auto`. Default: `auto`.
@@ -2671,7 +2673,6 @@ export interface ImageGenTool extends Tool {
    *   `opaque`, or `auto`. Default: `auto`.
    */
   background?: "transparent" | "opaque" | "auto";
-  /** The fidelity level for input image processing. */
   input_fidelity?: InputFidelity;
   /**
    * Optional mask for inpainting. Contains `image_url`
@@ -2730,14 +2731,12 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   };
 }
 
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
 export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
 export interface ImageGenToolInputImageMask {
-  /** The URL of the mask image. */
   image_url?: string;
-  /** The file identifier for the mask image. */
   file_id?: string;
 }
 
@@ -2781,7 +2780,6 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
 export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
-  /** The environment configuration for the function shell tool. */
   environment?: FunctionShellToolParamEnvironmentUnion;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -2813,7 +2811,6 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
 
 /** model interface FunctionShellToolParamEnvironment */
 export interface FunctionShellToolParamEnvironment {
-  /** The environment type. */
   type: FunctionShellToolParamEnvironmentType;
 }
 
@@ -2977,18 +2974,20 @@ export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
   type: "container_auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
-  /** The memory limit for the container, in bytes. */
   memory_limit?: ContainerMemoryLimit;
   /** An optional list of skills referenced by id or inline data. */
   skills?: ContainerSkillUnion[];
-  /** The network access policy for the container. */
   network_policy?: ContainerNetworkPolicyParamUnion;
 }
 
 export function containerAutoParamSerializer(item: ContainerAutoParam): any {
   return {
     type: item["type"],
-    file_ids: item["file_ids"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
     memory_limit: item["memory_limit"],
     skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
     network_policy: !item["network_policy"]
@@ -3000,7 +2999,11 @@ export function containerAutoParamSerializer(item: ContainerAutoParam): any {
 export function containerAutoParamDeserializer(item: any): ContainerAutoParam {
   return {
     type: item["type"],
-    file_ids: item["file_ids"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
     memory_limit: item["memory_limit"],
     skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
     network_policy: !item["network_policy"]
@@ -3023,7 +3026,6 @@ export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkil
 
 /** model interface ContainerSkill */
 export interface ContainerSkill {
-  /** The type discriminator, always 'container'. */
   type: ContainerSkillType;
 }
 
@@ -3143,7 +3145,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
   };
 }
 
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) */
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](/docs/guides/function-calling#custom-tools) */
 export interface CustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
@@ -3177,7 +3179,6 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
 
 /** The input format for the custom tool. Default is unconstrained text. */
 export interface CustomToolParamFormat {
-  /** The custom tool parameter format type. */
   type: CustomToolParamFormatType;
 }
 
@@ -3211,7 +3212,7 @@ export function customToolParamFormatUnionSerializer(item: CustomToolParamFormat
 }
 
 export function customToolParamFormatUnionDeserializer(item: any): CustomToolParamFormatUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "text":
       return customTextFormatParamDeserializer(item as CustomTextFormatParam);
 
@@ -3247,7 +3248,7 @@ export interface CustomGrammarFormatParam extends CustomToolParamFormat {
   /** Grammar format. Always `grammar`. */
   type: "grammar";
   /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax;
+  syntax: GrammarSyntax1;
   /** The grammar definition. */
   definition: string;
 }
@@ -3264,14 +3265,13 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
   };
 }
 
-/** Type of GrammarSyntax */
-export type GrammarSyntax = "lark" | "regex";
+/** Type of GrammarSyntax1 */
+export type GrammarSyntax1 = "lark" | "regex";
 
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
 export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
-  /** The approximate location of the user for search relevance. */
   user_location?: ApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: SearchContextSize;
@@ -3301,13 +3301,9 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
 export interface ApproximateLocation {
   /** The type of location approximation. Always `approximate`. */
   type: "approximate";
-  /** The two-letter ISO country code. */
   country?: string;
-  /** The region or state for the approximate location. */
   region?: string;
-  /** The city for the approximate location. */
   city?: string;
-  /** The IANA timezone identifier (e.g. 'America/New_York'). */
   timezone?: string;
 }
 
@@ -3371,7 +3367,6 @@ export function _promptAgentDefinitionToolChoiceDeserializer(
  * the model can call.
  */
 export interface ToolChoiceParam {
-  /** The type discriminator for the tool choice. */
   type: ToolChoiceParamType;
 }
 
@@ -3447,7 +3442,7 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 }
 
 export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "allowed_tools":
       return toolChoiceAllowedDeserializer(item as ToolChoiceAllowed);
 
@@ -3528,14 +3523,16 @@ export interface ToolChoiceAllowed extends ToolChoiceParam {
    *   ]
    *   ```
    */
-  tools: Record<string, unknown>[];
+  tools: Record<string, any>[];
 }
 
 export function toolChoiceAllowedSerializer(item: ToolChoiceAllowed): any {
   return {
     type: item["type"],
     mode: item["mode"],
-    tools: item["tools"],
+    tools: item["tools"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -3543,7 +3540,9 @@ export function toolChoiceAllowedDeserializer(item: any): ToolChoiceAllowed {
   return {
     type: item["type"],
     mode: item["mode"],
-    tools: item["tools"],
+    tools: item["tools"].map((p: any) => {
+      return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
+    }),
   };
 }
 
@@ -3572,7 +3571,6 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
   type: "mcp";
   /** The label of the MCP server to use. */
   server_label: string;
-  /** The name of the MCP server to use. */
   name?: string;
 }
 
@@ -3644,7 +3642,6 @@ export function specificFunctionShellParamDeserializer(item: any): SpecificFunct
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceFileSearch extends ToolChoiceParam {
-  /** The type discriminator, always 'file_search'. */
   type: "file_search";
 }
 
@@ -3663,7 +3660,6 @@ export function toolChoiceFileSearchDeserializer(item: any): ToolChoiceFileSearc
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-  /** The type discriminator, always 'web_search_preview'. */
   type: "web_search_preview";
 }
 
@@ -3682,7 +3678,6 @@ export function toolChoiceWebSearchPreviewDeserializer(item: any): ToolChoiceWeb
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-  /** The type discriminator, always 'computer_use_preview'. */
   type: "computer_use_preview";
 }
 
@@ -3701,7 +3696,6 @@ export function toolChoiceComputerUsePreviewDeserializer(item: any): ToolChoiceC
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-  /** The type discriminator, always 'web_search_preview_2025_03_11'. */
   type: "web_search_preview_2025_03_11";
 }
 
@@ -3724,7 +3718,6 @@ export function toolChoiceWebSearchPreview20250311Deserializer(
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceImageGeneration extends ToolChoiceParam {
-  /** The type discriminator, always 'image_generation'. */
   type: "image_generation";
 }
 
@@ -3743,7 +3736,6 @@ export function toolChoiceImageGenerationDeserializer(item: any): ToolChoiceImag
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
-  /** The type discriminator, always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
@@ -3759,17 +3751,14 @@ export function toolChoiceCodeInterpreterDeserializer(item: any): ToolChoiceCode
 
 /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
 export interface PromptAgentDefinitionTextOptions {
-  /** The text format options for the prompt agent. */
-  format?: TextResponseFormatConfigurationUnion;
+  format?: TextResponseFormatUnion;
 }
 
 export function promptAgentDefinitionTextOptionsSerializer(
   item: PromptAgentDefinitionTextOptions,
 ): any {
   return {
-    format: !item["format"]
-      ? item["format"]
-      : textResponseFormatConfigurationUnionSerializer(item["format"]),
+    format: !item["format"] ? item["format"] : textResponseFormatUnionSerializer(item["format"]),
   };
 }
 
@@ -3777,9 +3766,7 @@ export function promptAgentDefinitionTextOptionsDeserializer(
   item: any,
 ): PromptAgentDefinitionTextOptions {
   return {
-    format: !item["format"]
-      ? item["format"]
-      : textResponseFormatConfigurationUnionDeserializer(item["format"]),
+    format: !item["format"] ? item["format"] : textResponseFormatUnionDeserializer(item["format"]),
   };
 }
 
@@ -3787,80 +3774,63 @@ export function promptAgentDefinitionTextOptionsDeserializer(
  * An object specifying the format that the model must output.
  * Configuring `{ "type": "json_schema" }` enables Structured Outputs,
  * which ensures the model will match your supplied JSON schema. Learn more in the
- * [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+ * [Structured Outputs guide](/docs/guides/structured-outputs).
  * The default format is `{ "type": "text" }` with no additional options.
  * *Not recommended for gpt-4o and newer models:**
  * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
  * ensures the message the model generates is valid JSON. Using `json_schema`
  * is preferred for models that support it.
  */
-export interface TextResponseFormatConfiguration {
-  /** The type discriminator, always 'text'. */
+export interface TextResponseFormat {
   type: TextResponseFormatConfigurationType;
 }
 
-export function textResponseFormatConfigurationSerializer(
-  item: TextResponseFormatConfiguration,
-): any {
+export function textResponseFormatSerializer(item: TextResponseFormat): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationDeserializer(
-  item: any,
-): TextResponseFormatConfiguration {
+export function textResponseFormatDeserializer(item: any): TextResponseFormat {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TextResponseFormatConfigurationUnion */
-export type TextResponseFormatConfigurationUnion =
+/** Alias for TextResponseFormatUnion */
+export type TextResponseFormatUnion =
   | TextResponseFormatJsonSchema
-  | TextResponseFormatConfigurationResponseFormatText
-  | TextResponseFormatConfigurationResponseFormatJsonObject
-  | TextResponseFormatConfiguration;
+  | TextResponseFormatText
+  | TextResponseFormatJsonObject
+  | TextResponseFormat;
 
-export function textResponseFormatConfigurationUnionSerializer(
-  item: TextResponseFormatConfigurationUnion,
-): any {
+export function textResponseFormatUnionSerializer(item: TextResponseFormatUnion): any {
   switch (item.type) {
     case "json_schema":
       return textResponseFormatJsonSchemaSerializer(item as TextResponseFormatJsonSchema);
 
     case "text":
-      return textResponseFormatConfigurationResponseFormatTextSerializer(
-        item as TextResponseFormatConfigurationResponseFormatText,
-      );
+      return textResponseFormatTextSerializer(item as TextResponseFormatText);
 
     case "json_object":
-      return textResponseFormatConfigurationResponseFormatJsonObjectSerializer(
-        item as TextResponseFormatConfigurationResponseFormatJsonObject,
-      );
+      return textResponseFormatJsonObjectSerializer(item as TextResponseFormatJsonObject);
 
     default:
-      return textResponseFormatConfigurationSerializer(item);
+      return textResponseFormatSerializer(item);
   }
 }
 
-export function textResponseFormatConfigurationUnionDeserializer(
-  item: any,
-): TextResponseFormatConfigurationUnion {
-  switch (item.type) {
+export function textResponseFormatUnionDeserializer(item: any): TextResponseFormatUnion {
+  switch (item["type"]) {
     case "json_schema":
       return textResponseFormatJsonSchemaDeserializer(item as TextResponseFormatJsonSchema);
 
     case "text":
-      return textResponseFormatConfigurationResponseFormatTextDeserializer(
-        item as TextResponseFormatConfigurationResponseFormatText,
-      );
+      return textResponseFormatTextDeserializer(item as TextResponseFormatText);
 
     case "json_object":
-      return textResponseFormatConfigurationResponseFormatJsonObjectDeserializer(
-        item as TextResponseFormatConfigurationResponseFormatJsonObject,
-      );
+      return textResponseFormatJsonObjectDeserializer(item as TextResponseFormatJsonObject);
 
     default:
-      return textResponseFormatConfigurationDeserializer(item);
+      return textResponseFormatDeserializer(item);
   }
 }
 
@@ -3869,9 +3839,9 @@ export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json
 
 /**
  * JSON Schema response format. Used to generate structured JSON responses.
- * Learn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs).
+ * Learn more about [Structured Outputs](/docs/guides/structured-outputs).
  */
-export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
+export interface TextResponseFormatJsonSchema extends TextResponseFormat {
   /** The type of response format being defined. Always `json_schema`. */
   type: "json_schema";
   /**
@@ -3884,9 +3854,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
-  /** The JSON schema that the response must conform to. */
-  schema: Record<string, unknown>;
-  /** Whether the response must strictly conform to the schema. */
+  schema: Record<string, any>;
   strict?: boolean;
 }
 
@@ -3905,26 +3873,24 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: item["schema"],
+    schema: Object.fromEntries(
+      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     strict: item["strict"],
   };
 }
 
 /** Default response format. Used to generate text responses. */
-export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
+export interface TextResponseFormatText extends TextResponseFormat {
   /** The type of response format being defined. Always `text`. */
   type: "text";
 }
 
-export function textResponseFormatConfigurationResponseFormatTextSerializer(
-  item: TextResponseFormatConfigurationResponseFormatText,
-): any {
+export function textResponseFormatTextSerializer(item: TextResponseFormatText): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationResponseFormatTextDeserializer(
-  item: any,
-): TextResponseFormatConfigurationResponseFormatText {
+export function textResponseFormatTextDeserializer(item: any): TextResponseFormatText {
   return {
     type: item["type"],
   };
@@ -3936,20 +3902,16 @@ export function textResponseFormatConfigurationResponseFormatTextDeserializer(
  * model will not generate JSON without a system or user message instructing it
  * to do so.
  */
-export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
+export interface TextResponseFormatJsonObject extends TextResponseFormat {
   /** The type of response format being defined. Always `json_object`. */
   type: "json_object";
 }
 
-export function textResponseFormatConfigurationResponseFormatJsonObjectSerializer(
-  item: TextResponseFormatConfigurationResponseFormatJsonObject,
-): any {
+export function textResponseFormatJsonObjectSerializer(item: TextResponseFormatJsonObject): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationResponseFormatJsonObjectDeserializer(
-  item: any,
-): TextResponseFormatConfigurationResponseFormatJsonObject {
+export function textResponseFormatJsonObjectDeserializer(item: any): TextResponseFormatJsonObject {
   return {
     type: item["type"],
   };
@@ -3980,9 +3942,9 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  default_value?: unknown;
+  default_value?: any;
   /** The JSON schema for the structured input (optional). */
-  schema?: Record<string, unknown>;
+  schema?: Record<string, any>;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -4000,14 +3962,15 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
   return {
     description: item["description"],
     default_value: item["default_value"],
-    schema: item["schema"],
+    schema: !item["schema"]
+      ? item["schema"]
+      : Object.fromEntries(Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p])),
     required: item["required"],
   };
 }
 
 /** The workflow agent definition. */
 export interface WorkflowAgentDefinition extends AgentDefinition {
-  /** The kind discriminator, always 'workflow'. */
   kind: "workflow";
   /** The CSDL YAML definition of the workflow. */
   workflow?: string;
@@ -4033,7 +3996,6 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
-  /** The kind discriminator, always 'hosted'. */
   kind: "hosted";
   /**
    * An array of tools the hosted agent's model may call while generating a response. You
@@ -4079,7 +4041,11 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     ),
     cpu: item["cpu"],
     memory: item["memory"],
-    environment_variables: item["environment_variables"],
+    environment_variables: !item["environment_variables"]
+      ? item["environment_variables"]
+      : Object.fromEntries(
+          Object.entries(item["environment_variables"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     image: item["image"],
   };
 }
@@ -4122,49 +4088,49 @@ export type AgentProtocol = "activity_protocol" | "responses";
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
-  /** The error details. */
-  error: ErrorModel;
+  error: ApiError;
 }
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: errorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item["error"]),
   };
 }
 
-/** model interface ErrorModel */
-export interface ErrorModel {
-  /** The error code. */
-  code: string;
-  /** The error message. */
+/** model interface ApiError */
+export interface ApiError {
+  code: string | null;
   message: string;
-  /** The parameter that caused the error. */
   param?: string;
-  /** The error type. */
   type?: string;
-  /** The error details. */
-  details?: ErrorModel[];
-  /** Additional information about the error. */
-  additionalInfo?: Record<string, unknown>;
-  /** Debug information for the error. */
-  debugInfo?: Record<string, unknown>;
+  details?: ApiError[];
+  additionalInfo?: Record<string, any>;
+  debugInfo?: Record<string, any>;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function apiErrorDeserializer(item: any): ApiError {
   return {
     code: item["code"],
     message: item["message"],
     param: item["param"],
     type: item["type"],
-    details: !item["details"] ? item["details"] : errorArrayDeserializer(item["details"]),
-    additionalInfo: item["additionalInfo"],
-    debugInfo: item["debugInfo"],
+    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : Object.fromEntries(
+          Object.entries(item["additionalInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    debugInfo: !item["debugInfo"]
+      ? item["debugInfo"]
+      : Object.fromEntries(
+          Object.entries(item["debugInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
-export function errorArrayDeserializer(result: Array<ErrorModel>): any[] {
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
   return result.map((item) => {
-    return errorDeserializer(item);
+    return apiErrorDeserializer(item);
   });
 }
 
@@ -4305,7 +4271,9 @@ export function evaluationRuleDeserializer(item: any): EvaluationRule {
     filter: !item["filter"] ? item["filter"] : evaluationRuleFilterDeserializer(item["filter"]),
     eventType: item["eventType"],
     enabled: item["enabled"],
-    systemData: item["systemData"],
+    systemData: Object.fromEntries(
+      Object.entries(item["systemData"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -4346,7 +4314,7 @@ export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUn
 }
 
 export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRuleActionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "continuousEvaluation":
       return continuousEvaluationRuleActionDeserializer(item as ContinuousEvaluationRuleAction);
 
@@ -4363,7 +4331,6 @@ export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
-  /** The type discriminator, always 'continuous_evaluation'. */
   type: "continuousEvaluation";
   /** Eval Id to add continuous evaluation runs to. */
   evalId: string;
@@ -4389,7 +4356,6 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
-  /** The type discriminator, always 'human_evaluation_preview'. */
   type: "humanEvaluationPreview";
   /** Human evaluation template Id. */
   templateId: string;
@@ -4482,7 +4448,9 @@ export function connectionDeserializer(item: any): Connection {
     target: item["target"],
     isDefault: item["isDefault"],
     credentials: baseCredentialsUnionDeserializer(item["credentials"]),
-    metadata: item["metadata"],
+    metadata: Object.fromEntries(
+      Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -4517,13 +4485,13 @@ export type BaseCredentialsUnion =
   | ApiKeyCredentials
   | EntraIDCredentials
   | CustomCredential
-  | SASTokenCredentials
+  | SASCredentials
   | NoAuthenticationCredentials
   | AgenticIdentityPreviewCredentials
   | BaseCredentials;
 
 export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "ApiKey":
       return apiKeyCredentialsDeserializer(item as ApiKeyCredentials);
 
@@ -4534,7 +4502,7 @@ export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnio
       return customCredentialDeserializer(item as CustomCredential);
 
     case "SAS":
-      return sasCredentialsDeserializer(item as SASTokenCredentials);
+      return sasCredentialsDeserializer(item as SASCredentials);
 
     case "None":
       return noAuthenticationCredentialsDeserializer(item as NoAuthenticationCredentials);
@@ -4601,14 +4569,14 @@ export function customCredentialDeserializer(item: any): CustomCredential {
 }
 
 /** Shared Access Signature (SAS) credential definition */
-export interface SASTokenCredentials extends BaseCredentials {
+export interface SASCredentials extends BaseCredentials {
   /** The credential type */
   readonly type: "SAS";
   /** SAS token */
   readonly sasToken?: string;
 }
 
-export function sasCredentialsDeserializer(item: any): SASTokenCredentials {
+export function sasCredentialsDeserializer(item: any): SASCredentials {
   return {
     type: item["type"],
     sasToken: item["SAS"],
@@ -4732,7 +4700,9 @@ export function datasetVersionDeserializer(item: any): DatasetVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -4753,7 +4723,7 @@ export function datasetVersionUnionSerializer(item: DatasetVersionUnion): any {
 }
 
 export function datasetVersionUnionDeserializer(item: any): DatasetVersionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "uri_file":
       return fileDatasetVersionDeserializer(item as FileDatasetVersion);
 
@@ -4794,7 +4764,9 @@ export function fileDatasetVersionDeserializer(item: any): FileDatasetVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -4824,7 +4796,9 @@ export function folderDatasetVersionDeserializer(item: any): FolderDatasetVersio
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -4874,7 +4848,7 @@ export interface BlobReference {
   /** ARM ID of the storage account to use. */
   storageAccountArmId: string;
   /** Credential info to access the storage account. */
-  credential: SasCredential;
+  credential: BlobReferenceSasCredential;
 }
 
 export function blobReferenceDeserializer(item: any): BlobReference {
@@ -4886,14 +4860,14 @@ export function blobReferenceDeserializer(item: any): BlobReference {
 }
 
 /** SAS Credential definition */
-export interface SasCredential {
+export interface BlobReferenceSasCredential {
   /** SAS uri */
   readonly sasUri: string;
   /** Type of credential */
   readonly type: "SAS";
 }
 
-export function blobReferenceSasCredentialDeserializer(item: any): SasCredential {
+export function blobReferenceSasCredentialDeserializer(item: any): BlobReferenceSasCredential {
   return {
     sasUri: item["sasUri"],
     type: item["type"],
@@ -4932,7 +4906,7 @@ export function deploymentDeserializer(item: any): Deployment {
 export type DeploymentUnion = ModelDeployment | Deployment;
 
 export function deploymentUnionDeserializer(item: any): DeploymentUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "ModelDeployment":
       return modelDeploymentDeserializer(item as ModelDeployment);
 
@@ -4969,7 +4943,9 @@ export function modelDeploymentDeserializer(item: any): ModelDeployment {
     modelName: item["modelName"],
     modelVersion: item["modelVersion"],
     modelPublisher: item["modelPublisher"],
-    capabilities: item["capabilities"],
+    capabilities: Object.fromEntries(
+      Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     sku: modelDeploymentSkuDeserializer(item["sku"]),
     connectionName: item["connectionName"],
   };
@@ -5075,7 +5051,9 @@ export function indexDeserializer(item: any): Index {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -5099,7 +5077,7 @@ export function indexUnionSerializer(item: IndexUnion): any {
 }
 
 export function indexUnionDeserializer(item: any): IndexUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "AzureSearch":
       return azureAISearchIndexDeserializer(item as AzureAISearchIndex);
 
@@ -5149,7 +5127,9 @@ export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     connectionName: item["connectionName"],
     indexName: item["indexName"],
     fieldMapping: !item["fieldMapping"]
@@ -5176,23 +5156,43 @@ export interface FieldMapping {
 
 export function fieldMappingSerializer(item: FieldMapping): any {
   return {
-    contentFields: item["contentFields"],
+    contentFields: item["contentFields"].map((p: any) => {
+      return p;
+    }),
     filepathField: item["filepathField"],
     titleField: item["titleField"],
     urlField: item["urlField"],
-    vectorFields: item["vectorFields"],
-    metadataFields: item["metadataFields"],
+    vectorFields: !item["vectorFields"]
+      ? item["vectorFields"]
+      : item["vectorFields"].map((p: any) => {
+          return p;
+        }),
+    metadataFields: !item["metadataFields"]
+      ? item["metadataFields"]
+      : item["metadataFields"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
 export function fieldMappingDeserializer(item: any): FieldMapping {
   return {
-    contentFields: item["contentFields"],
+    contentFields: item["contentFields"].map((p: any) => {
+      return p;
+    }),
     filepathField: item["filepathField"],
     titleField: item["titleField"],
     urlField: item["urlField"],
-    vectorFields: item["vectorFields"],
-    metadataFields: item["metadataFields"],
+    vectorFields: !item["vectorFields"]
+      ? item["vectorFields"]
+      : item["vectorFields"].map((p: any) => {
+          return p;
+        }),
+    metadataFields: !item["metadataFields"]
+      ? item["metadataFields"]
+      : item["metadataFields"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5220,7 +5220,9 @@ export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAI
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     vectorStoreId: item["vectorStoreId"],
   };
 }
@@ -5261,7 +5263,9 @@ export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     connectionName: item["connectionName"],
     databaseName: item["databaseName"],
     containerName: item["containerName"],
@@ -5330,12 +5334,18 @@ export function evaluationTaxonomyDeserializer(item: any): EvaluationTaxonomy {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     taxonomyInput: evaluationTaxonomyInputUnionDeserializer(item["taxonomyInput"]),
     taxonomyCategories: !item["taxonomyCategories"]
       ? item["taxonomyCategories"]
       : taxonomyCategoryArrayDeserializer(item["taxonomyCategories"]),
-    properties: item["properties"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5370,7 +5380,7 @@ export function evaluationTaxonomyInputUnionSerializer(item: EvaluationTaxonomyI
 }
 
 export function evaluationTaxonomyInputUnionDeserializer(item: any): EvaluationTaxonomyInputUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "agent":
       return agentTaxonomyInputDeserializer(item as AgentTaxonomyInput);
 
@@ -5396,7 +5406,9 @@ export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
   return {
     type: item["type"],
     target: targetUnionSerializer(item["target"]),
-    riskCategories: item["riskCategories"],
+    riskCategories: item["riskCategories"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -5404,7 +5416,9 @@ export function agentTaxonomyInputDeserializer(item: any): AgentTaxonomyInput {
   return {
     type: item["type"],
     target: targetUnionDeserializer(item["target"]),
-    riskCategories: item["riskCategories"],
+    riskCategories: item["riskCategories"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -5442,7 +5456,7 @@ export function targetUnionSerializer(item: TargetUnion): any {
 }
 
 export function targetUnionDeserializer(item: any): TargetUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "azure_ai_model":
       return azureAIModelTargetDeserializer(item as AzureAIModelTarget);
 
@@ -5638,7 +5652,11 @@ export function taxonomyCategoryDeserializer(item: any): TaxonomyCategory {
     description: item["description"],
     riskCategory: item["riskCategory"],
     subCategories: taxonomySubCategoryArrayDeserializer(item["subCategories"]),
-    properties: item["properties"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5684,7 +5702,11 @@ export function taxonomySubCategoryDeserializer(item: any): TaxonomySubCategory 
     name: item["name"],
     description: item["description"],
     enabled: item["enabled"],
-    properties: item["properties"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -5755,17 +5777,17 @@ export interface EvaluatorVersion {
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
   /** Creator of the evaluator */
-  readonly created_by?: string;
+  readonly created_by: string;
   /** Creation date/time of the evaluator */
-  readonly created_at?: string;
+  readonly created_at: string;
   /** Last modified date/time of the evaluator */
-  readonly modified_at?: string;
+  readonly modified_at: string;
   /** Asset ID, a unique identifier for the asset */
   readonly id?: string;
   /** The name of the resource */
   readonly name: string;
   /** The version of the resource */
-  readonly version?: string;
+  readonly version: string;
   /** The asset description text. */
   description?: string;
   /** Tag dictionary. Tags can be added, removed, and updated. */
@@ -5777,7 +5799,9 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
     display_name: item["display_name"],
     metadata: item["metadata"],
     evaluator_type: item["evaluator_type"],
-    categories: item["categories"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
     definition: evaluatorDefinitionUnionSerializer(item["definition"]),
     description: item["description"],
     tags: item["tags"],
@@ -5787,9 +5811,13 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
 export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
   return {
     display_name: item["display_name"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     evaluator_type: item["evaluator_type"],
-    categories: item["categories"],
+    categories: item["categories"].map((p: any) => {
+      return p;
+    }),
     definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
     created_by: item["created_by"],
     created_at: item["created_at"],
@@ -5798,7 +5826,9 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -5813,9 +5843,9 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  init_parameters?: Record<string, unknown>;
+  init_parameters?: Record<string, any>;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  data_schema?: Record<string, unknown>;
+  data_schema?: Record<string, any>;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
 }
@@ -5832,8 +5862,16 @@ export function evaluatorDefinitionSerializer(item: EvaluatorDefinition): any {
 export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -5860,7 +5898,7 @@ export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnio
 }
 
 export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefinitionUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "code":
       return codeBasedEvaluatorDefinitionDeserializer(item as CodeBasedEvaluatorDefinition);
 
@@ -5941,7 +5979,6 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'code_based'. */
   type: "code";
   /** Inline code text for the evaluator */
   code_text?: string;
@@ -5969,8 +6006,16 @@ export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorD
 export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -5983,7 +6028,6 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'prompt_based'. */
   type: "prompt";
   /** The prompt text used for evaluation */
   prompt_text: string;
@@ -6006,8 +6050,16 @@ export function promptBasedEvaluatorDefinitionDeserializer(
 ): PromptBasedEvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: item["init_parameters"],
-    data_schema: item["data_schema"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -6028,11 +6080,11 @@ export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRe
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id?: string;
+  readonly insight_id: string;
   /** Metadata about the insights report. */
-  readonly metadata?: InsightsMetadata;
+  readonly metadata: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state?: OperationState;
+  readonly state: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -6050,7 +6102,7 @@ export function insightSerializer(item: Insight): any {
 
 export function insightDeserializer(item: any): Insight {
   return {
-    id: item["id"],
+    insight_id: item["id"],
     metadata: insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
@@ -6122,7 +6174,7 @@ export function insightRequestUnionSerializer(item: InsightRequestUnion): any {
 }
 
 export function insightRequestUnionDeserializer(item: any): InsightRequestUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationRunClusterInsight":
       return evaluationRunClusterInsightRequestDeserializer(
         item as EvaluationRunClusterInsightRequest,
@@ -6165,7 +6217,9 @@ export function evaluationRunClusterInsightRequestSerializer(
   return {
     type: item["type"],
     evalId: item["evalId"],
-    runIds: item["runIds"],
+    runIds: item["runIds"].map((p: any) => {
+      return p;
+    }),
     modelConfiguration: !item["modelConfiguration"]
       ? item["modelConfiguration"]
       : insightModelConfigurationSerializer(item["modelConfiguration"]),
@@ -6178,7 +6232,9 @@ export function evaluationRunClusterInsightRequestDeserializer(
   return {
     type: item["type"],
     evalId: item["evalId"],
-    runIds: item["runIds"],
+    runIds: item["runIds"].map((p: any) => {
+      return p;
+    }),
     modelConfiguration: !item["modelConfiguration"]
       ? item["modelConfiguration"]
       : insightModelConfigurationDeserializer(item["modelConfiguration"]),
@@ -6250,7 +6306,9 @@ export function evaluationComparisonInsightRequestSerializer(
     type: item["type"],
     evalId: item["evalId"],
     baselineRunId: item["baselineRunId"],
-    treatmentRunIds: item["treatmentRunIds"],
+    treatmentRunIds: item["treatmentRunIds"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -6261,7 +6319,9 @@ export function evaluationComparisonInsightRequestDeserializer(
     type: item["type"],
     evalId: item["evalId"],
     baselineRunId: item["baselineRunId"],
-    treatmentRunIds: item["treatmentRunIds"],
+    treatmentRunIds: item["treatmentRunIds"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -6286,7 +6346,7 @@ export type InsightResultUnion =
   | InsightResult;
 
 export function insightResultUnionDeserializer(item: any): InsightResultUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationComparison":
       return evaluationComparisonInsightResultDeserializer(
         item as EvaluationComparisonInsightResult,
@@ -6422,7 +6482,6 @@ export type TreatmentEffectType =
 export interface EvaluationRunClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "EvaluationRunClusterInsight";
-  /** The cluster insight details. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -6573,17 +6632,21 @@ export interface InsightSample {
   /** The discriminator possible values: EvaluationResultSample */
   type: SampleType;
   /** Features to help with additional filtering of data in UX. */
-  features: Record<string, unknown>;
+  features: Record<string, any>;
   /** Info about the correlation for the analysis sample. */
-  correlationInfo: Record<string, unknown>;
+  correlationInfo: Record<string, any>;
 }
 
 export function insightSampleDeserializer(item: any): InsightSample {
   return {
     id: item["id"],
     type: item["type"],
-    features: item["features"],
-    correlationInfo: item["correlationInfo"],
+    features: Object.fromEntries(
+      Object.entries(item["features"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    correlationInfo: Object.fromEntries(
+      Object.entries(item["correlationInfo"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -6591,7 +6654,7 @@ export function insightSampleDeserializer(item: any): InsightSample {
 export type InsightSampleUnion = EvaluationResultSample | InsightSample;
 
 export function insightSampleUnionDeserializer(item: any): InsightSampleUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationResultSample":
       return evaluationResultSampleDeserializer(item as EvaluationResultSample);
 
@@ -6615,8 +6678,12 @@ export function evaluationResultSampleDeserializer(item: any): EvaluationResultS
   return {
     id: item["id"],
     type: item["type"],
-    features: item["features"],
-    correlationInfo: item["correlationInfo"],
+    features: Object.fromEntries(
+      Object.entries(item["features"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    correlationInfo: Object.fromEntries(
+      Object.entries(item["correlationInfo"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     evaluationResult: evalResultDeserializer(item["evaluationResult"]),
   };
 }
@@ -6646,7 +6713,7 @@ export function chartCoordinateRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ChartCoordinate> {
   const result: Record<string, any> = {};
-  Object.keys(item).forEach((key) => {
+  Object.keys(item).map((key) => {
     result[key] = !item[key] ? item[key] : chartCoordinateDeserializer(item[key]);
   });
   return result;
@@ -6674,7 +6741,6 @@ export function chartCoordinateDeserializer(item: any): ChartCoordinate {
 export interface AgentClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "AgentClusterInsight";
-  /** The cluster insight details. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -6743,7 +6809,7 @@ export function memoryStoreDefinitionUnionSerializer(item: MemoryStoreDefinition
 }
 
 export function memoryStoreDefinitionUnionDeserializer(item: any): MemoryStoreDefinitionUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "default":
       return memoryStoreDefaultDefinitionDeserializer(item as MemoryStoreDefaultDefinition);
 
@@ -6843,7 +6909,9 @@ export function memoryStoreDeserializer(item: any): MemoryStore {
     updated_at: new Date(item["updated_at"] * 1000),
     name: item["name"],
     description: item["description"],
-    metadata: item["metadata"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     definition: memoryStoreDefinitionUnionDeserializer(item["definition"]),
   };
 }
@@ -6960,7 +7028,7 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
 
 export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "user_profile":
       return userProfileMemoryItemDeserializer(item as UserProfileMemoryItem);
 
@@ -7038,7 +7106,6 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
-  /** The number of cached input tokens used. */
   cached_tokens: number;
 }
 
@@ -7052,7 +7119,6 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
-  /** The number of output tokens used for reasoning. */
   reasoning_tokens: number;
 }
 
@@ -7075,7 +7141,7 @@ export interface MemoryStoreUpdateResponse {
   /** The result of memory store update operation when status is "completed". */
   result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
-  error?: ErrorModel;
+  error?: ApiError;
 }
 
 export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpdateResponse {
@@ -7086,7 +7152,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
 
@@ -7185,20 +7251,28 @@ export interface RedTeam {
   /** Status of the red-team. It is set by service and is read-only. */
   readonly status?: string;
   /** Target configuration for the red-team run. */
-  target?: TargetConfigUnion;
+  target: TargetConfigUnion;
 }
 
 export function redTeamSerializer(item: RedTeam): any {
   return {
     displayName: item["displayName"],
     numTurns: item["numTurns"],
-    attackStrategies: item["attackStrategies"],
+    attackStrategies: !item["attackStrategies"]
+      ? item["attackStrategies"]
+      : item["attackStrategies"].map((p: any) => {
+          return p;
+        }),
     simulationOnly: item["simulationOnly"],
-    riskCategories: item["riskCategories"],
+    riskCategories: !item["riskCategories"]
+      ? item["riskCategories"]
+      : item["riskCategories"].map((p: any) => {
+          return p;
+        }),
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
-    target: item["target"] ? targetConfigUnionSerializer(item["target"]) : undefined,
+    target: targetConfigUnionSerializer(item["target"]),
   };
 }
 
@@ -7207,14 +7281,28 @@ export function redTeamDeserializer(item: any): RedTeam {
     name: item["id"],
     displayName: item["displayName"],
     numTurns: item["numTurns"],
-    attackStrategies: item["attackStrategies"],
+    attackStrategies: !item["attackStrategies"]
+      ? item["attackStrategies"]
+      : item["attackStrategies"].map((p: any) => {
+          return p;
+        }),
     simulationOnly: item["simulationOnly"],
-    riskCategories: item["riskCategories"],
+    riskCategories: !item["riskCategories"]
+      ? item["riskCategories"]
+      : item["riskCategories"].map((p: any) => {
+          return p;
+        }),
     applicationScenario: item["applicationScenario"],
-    tags: item["tags"],
-    properties: item["properties"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     status: item["status"],
-    target: item["target"] ? targetConfigUnionDeserializer(item["target"]) : undefined,
+    target: targetConfigUnionDeserializer(item["target"]),
   };
 }
 
@@ -7280,7 +7368,7 @@ export function targetConfigUnionSerializer(item: TargetConfigUnion): any {
 }
 
 export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationDeserializer(item as AzureOpenAIModelConfiguration);
 
@@ -7291,7 +7379,6 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
-  /** The type discriminator, always 'azure_openai'. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -7340,7 +7427,7 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
-  readonly id?: string;
+  readonly schedule_id: string;
   /** Name of the schedule. */
   displayName?: string;
   /** Description of the schedule. */
@@ -7358,7 +7445,7 @@ export interface Schedule {
   /** Schedule's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
   properties?: Record<string, string>;
   /** System metadata for the resource. */
-  readonly systemData?: Record<string, string>;
+  readonly systemData: Record<string, string>;
 }
 
 export function scheduleSerializer(item: Schedule): any {
@@ -7375,16 +7462,24 @@ export function scheduleSerializer(item: Schedule): any {
 
 export function scheduleDeserializer(item: any): Schedule {
   return {
-    id: item["id"],
+    schedule_id: item["id"],
     displayName: item["displayName"],
     description: item["description"],
     enabled: item["enabled"],
     provisioningStatus: item["provisioningStatus"],
     trigger: triggerUnionDeserializer(item["trigger"]),
     task: scheduleTaskUnionDeserializer(item["task"]),
-    tags: item["tags"],
-    properties: item["properties"],
-    systemData: item["systemData"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    systemData: Object.fromEntries(
+      Object.entries(item["systemData"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -7433,7 +7528,7 @@ export function triggerUnionSerializer(item: TriggerUnion): any {
 }
 
 export function triggerUnionDeserializer(item: any): TriggerUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Cron":
       return cronTriggerDeserializer(item as CronTrigger);
 
@@ -7453,7 +7548,6 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 /** Cron based trigger. */
 export interface CronTrigger extends Trigger {
-  /** The type discriminator, always 'Cron'. */
   type: "Cron";
   /** Cron expression that defines the schedule frequency. */
   expression: string;
@@ -7568,7 +7662,7 @@ export function recurrenceScheduleUnionSerializer(item: RecurrenceScheduleUnion)
 }
 
 export function recurrenceScheduleUnionDeserializer(item: any): RecurrenceScheduleUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Hourly":
       return hourlyRecurrenceScheduleDeserializer(item as HourlyRecurrenceSchedule);
 
@@ -7591,7 +7685,6 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-  /** The type discriminator, always 'HourlyRecurrence'. */
   type: "Hourly";
 }
 
@@ -7616,14 +7709,18 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 export function dailyRecurrenceScheduleSerializer(item: DailyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    hours: item["hours"],
+    hours: item["hours"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
 export function dailyRecurrenceScheduleDeserializer(item: any): DailyRecurrenceSchedule {
   return {
     type: item["type"],
-    hours: item["hours"],
+    hours: item["hours"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -7638,14 +7735,18 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 export function weeklyRecurrenceScheduleSerializer(item: WeeklyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    daysOfWeek: item["daysOfWeek"],
+    daysOfWeek: item["daysOfWeek"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
 export function weeklyRecurrenceScheduleDeserializer(item: any): WeeklyRecurrenceSchedule {
   return {
     type: item["type"],
-    daysOfWeek: item["daysOfWeek"],
+    daysOfWeek: item["daysOfWeek"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -7670,20 +7771,23 @@ export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
 export function monthlyRecurrenceScheduleSerializer(item: MonthlyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    daysOfMonth: item["daysOfMonth"],
+    daysOfMonth: item["daysOfMonth"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
 export function monthlyRecurrenceScheduleDeserializer(item: any): MonthlyRecurrenceSchedule {
   return {
     type: item["type"],
-    daysOfMonth: item["daysOfMonth"],
+    daysOfMonth: item["daysOfMonth"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
 /** One-time trigger. */
 export interface OneTimeTrigger extends Trigger {
-  /** The type discriminator, always 'OneTime'. */
   type: "OneTime";
   /** Date and time for the one-time trigger in ISO 8601 format. */
   triggerAt: string;
@@ -7719,7 +7823,11 @@ export function scheduleTaskSerializer(item: ScheduleTask): any {
 export function scheduleTaskDeserializer(item: any): ScheduleTask {
   return {
     type: item["type"],
-    configuration: item["configuration"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : Object.fromEntries(
+          Object.entries(item["configuration"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -7740,7 +7848,7 @@ export function scheduleTaskUnionSerializer(item: ScheduleTaskUnion): any {
 }
 
 export function scheduleTaskUnionDeserializer(item: any): ScheduleTaskUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Evaluation":
       return evaluationScheduleTaskDeserializer(item as EvaluationScheduleTask);
 
@@ -7757,12 +7865,11 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 
 /** Evaluation task for the schedule. */
 export interface EvaluationScheduleTask extends ScheduleTask {
-  /** Type of the task, which is always 'Evaluation'. */
   type: "Evaluation";
   /** Identifier of the evaluation group. */
   evalId: string;
   /** The evaluation run payload. */
-  evalRun: Record<string, unknown>;
+  evalRun: Record<string, any>;
 }
 
 export function evaluationScheduleTaskSerializer(item: EvaluationScheduleTask): any {
@@ -7777,16 +7884,18 @@ export function evaluationScheduleTaskSerializer(item: EvaluationScheduleTask): 
 export function evaluationScheduleTaskDeserializer(item: any): EvaluationScheduleTask {
   return {
     type: item["type"],
-    configuration: item["configuration"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : Object.fromEntries(
+          Object.entries(item["configuration"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     evalId: item["evalId"],
     evalRun: _evaluationScheduleTaskEvalRunDeserializer(item["evalRun"]),
   };
 }
 
 /** model interface _EvaluationScheduleTaskEvalRun */
-export interface _EvaluationScheduleTaskEvalRun {
-  [key: string]: unknown;
-}
+export interface _EvaluationScheduleTaskEvalRun {}
 
 export function _evaluationScheduleTaskEvalRunSerializer(
   item: _EvaluationScheduleTaskEvalRun,
@@ -7802,7 +7911,6 @@ export function _evaluationScheduleTaskEvalRunDeserializer(
 
 /** Insight task for the schedule. */
 export interface InsightScheduleTask extends ScheduleTask {
-  /** Type of the task, which is always 'Insight'. */
   type: "Insight";
   /** The insight payload. */
   insight: Insight;
@@ -7819,7 +7927,11 @@ export function insightScheduleTaskSerializer(item: InsightScheduleTask): any {
 export function insightScheduleTaskDeserializer(item: any): InsightScheduleTask {
   return {
     type: item["type"],
-    configuration: item["configuration"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : Object.fromEntries(
+          Object.entries(item["configuration"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     insight: insightDeserializer(item["insight"]),
   };
 }
@@ -7874,7 +7986,9 @@ export function scheduleRunDeserializer(item: any): ScheduleRun {
     success: item["success"],
     triggerTime: item["triggerTime"],
     error: item["error"],
-    properties: item["properties"],
+    properties: Object.fromEntries(
+      Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -7981,13 +8095,10 @@ export function deleteToolsetResponseDeserializer(item: any): DeleteToolsetRespo
   };
 }
 
-/** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
-
 /** Alias for _CreateAgentRequestFoundryFeatures */
 export type _CreateAgentRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
+  | AgentDefinitionOptInKeys
+  | "AgentEndpoints=V1Preview";
 
 export function _createAgentRequestFoundryFeaturesSerializer(
   item: _CreateAgentRequestFoundryFeatures,
@@ -7995,21 +8106,12 @@ export function _createAgentRequestFoundryFeaturesSerializer(
   return item;
 }
 
-/** Alias for _UpdateAgentRequestFoundryFeatures */
-export type _UpdateAgentRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _updateAgentRequestFoundryFeaturesSerializer(
-  item: _UpdateAgentRequestFoundryFeatures,
-): any {
-  return item;
-}
-
+/** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
+export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
 /** Alias for _CreateAgentVersionRequestFoundryFeatures */
 export type _CreateAgentVersionRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
+  | AgentDefinitionOptInKeys
+  | "AgentEndpoints=V1Preview";
 
 export function _createAgentVersionRequestFoundryFeaturesSerializer(
   item: _CreateAgentVersionRequestFoundryFeatures,
@@ -8024,29 +8126,28 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
   return item;
 }
 
-/** Type of AgentType */
-export type AgentType =
+/** Type of AgentObjectType */
+export type AgentObjectType =
   | "agent"
   | "agent.version"
   | "agent.deleted"
   | "agent.version.deleted"
   | "agent.container";
-
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
   | "Evaluations=V1Preview"
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
+  | "MemoryStores=V1Preview"
   | "Toolsets=V1Preview"
-  | "AgentEndpoints=V1Preview"
-  | "MemoryStores=V1Preview";
+  | "AgentEndpoints=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference";
-/** Type of MemoryStoreType */
-export type MemoryStoreType =
+/** Type of MemoryStoreObjectType */
+export type MemoryStoreObjectType =
   | "memory_store"
   | "memory_store.deleted"
   | "memory_store.scope.deleted";
@@ -8054,7 +8155,7 @@ export type MemoryStoreType =
 export type ToolsetObjectType = "toolset" | "toolset.deleted";
 
 /** Microsoft Foundry API versions */
-export enum KnownApiVersions {
+export enum KnownVersions {
   /** Microsoft Foundry API version v1. */
   v1 = "v1",
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentKind, AgentDefinitionOptInKeys, PageOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { AgentKind, AgentDefinitionOptInKeys, PageOrder } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
@@ -130,7 +130,7 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface AgentsUpdateOptionalParams extends OperationOptions {
+export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
@@ -147,7 +147,7 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsCreateOptionalParams extends OperationOptions {
+export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys | "AgentEndpoints=V1Preview";
   /**
