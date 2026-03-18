@@ -706,34 +706,41 @@ describe("BaseSender", () => {
       setTimeoutSpy.mockRestore();
     });
 
-    it("should reschedule retry timer when new retryAfterMs is longer", async () => {
+    it("should reschedule retry timer when new retryAfterMs results in a later absolute deadline", async () => {
+      vi.useFakeTimers();
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
 
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
         (statusCode) => statusCode === 429 || statusCode === 200,
       );
 
-      // First call with a short retryAfterMs
-      sender.sendMock.mockResolvedValue({
-        statusCode: 200,
-        result: "success",
-        retryAfterMs: 5_000,
-      });
-      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      // Second call with a longer retryAfterMs should reschedule
+      // First call with a 30s retryAfterMs at T=0 → deadline = T+30s
       sender.sendMock.mockResolvedValue({
         statusCode: 200,
         result: "success",
         retryAfterMs: 30_000,
       });
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Advance 20s, then second call with 15s retryAfterMs → deadline = T+35s (later)
+      vi.advanceTimersByTime(20_000);
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 15_000,
+      });
       await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
 
-      // Verify setTimeout was called with the longer delay
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+      // clearTimeout should have been called to reschedule
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+      // The rescheduled timer should use the adjusted delay (~15s)
+      expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), 15_000);
 
+      clearTimeoutSpy.mockRestore();
       setTimeoutSpy.mockRestore();
+      vi.useRealTimers();
     });
   });
 

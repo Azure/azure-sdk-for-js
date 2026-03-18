@@ -14,7 +14,7 @@
 
 ### Bugs Fixed
 
-- When multiple `Retry-After` headers are received, the exporter now uses the longest delay to ensure envelopes are sent at the latest required time.
+- When multiple `Retry-After` headers are received, the exporter now compares absolute deadlines to ensure envelopes are sent at the latest required time.
 
 ## 1.0.0-beta.39 (2026-02-20)
 
