@@ -292,7 +292,7 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
 
 async function injectVersionIntoApiJson(
   filePath: string,
-  version: string | undefined,
+  version: string,
 ): Promise<void> {
   if (!version || !existsSync(filePath)) return;
   const apiJson = JSON.parse(await readFile(filePath, "utf-8"));
