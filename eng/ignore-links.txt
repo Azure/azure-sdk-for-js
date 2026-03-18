@@ -66,7 +66,6 @@ https://learn.microsoft.com/javascript/api/@azure/arm-computebulkactions?view=az
 https://learn.microsoft.com/javascript/api/@azure/container-registry
 https://www.npmjs.com/package/@azure/arm-computebulkactions
 https://www.npmjs.com/package/@azure/arm-edgeactions
-https://www.npmjs.com/package/@azure/arm-containerregistrytasks
 https://www.npmjs.com/package/@azure/arm-artifactsigning
 https://learn.microsoft.com/javascript/api/@azure/arm-disconnectedoperations
 https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1
