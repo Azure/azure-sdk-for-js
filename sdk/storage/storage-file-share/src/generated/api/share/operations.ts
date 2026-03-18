@@ -102,10 +102,10 @@ export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   quota?: number;
-  shareProvisionedIops?: number;
-  shareProvisionedBandwidthMibps?: number;
-  shareIncludedBurstIops?: number;
-  shareMaxBurstCreditsForIops?: number;
+  provisionedIops?: number;
+  provisionedBandwidthMibps?: number;
+  includedBurstIops?: number;
+  maxBurstCreditsForIops?: number;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -119,22 +119,22 @@ export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-share-quota"] === null
         ? result.headers["x-ms-share-quota"]
         : Number(result.headers["x-ms-share-quota"]),
-    shareProvisionedIops:
+    provisionedIops:
       result.headers["x-ms-share-provisioned-iops"] === undefined ||
       result.headers["x-ms-share-provisioned-iops"] === null
         ? result.headers["x-ms-share-provisioned-iops"]
         : Number(result.headers["x-ms-share-provisioned-iops"]),
-    shareProvisionedBandwidthMibps:
+    provisionedBandwidthMibps:
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === undefined ||
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === null
         ? result.headers["x-ms-share-provisioned-bandwidth-mibps"]
         : Number(result.headers["x-ms-share-provisioned-bandwidth-mibps"]),
-    shareIncludedBurstIops:
+    includedBurstIops:
       result.headers["x-ms-share-included-burst-iops"] === undefined ||
       result.headers["x-ms-share-included-burst-iops"] === null
         ? result.headers["x-ms-share-included-burst-iops"]
         : Number(result.headers["x-ms-share-included-burst-iops"]),
-    shareMaxBurstCreditsForIops:
+    maxBurstCreditsForIops:
       result.headers["x-ms-share-max-burst-credits-for-iops"] === undefined ||
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
@@ -182,10 +182,10 @@ export async function restore(
     etag: string;
     lastModified: Date;
     quota?: number;
-    shareProvisionedIops?: number;
-    shareProvisionedBandwidthMibps?: number;
-    shareIncludedBurstIops?: number;
-    shareMaxBurstCreditsForIops?: number;
+    provisionedIops?: number;
+    provisionedBandwidthMibps?: number;
+    includedBurstIops?: number;
+    maxBurstCreditsForIops?: number;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -196,10 +196,10 @@ export async function restore(
       etag: string;
       lastModified: Date;
       quota?: number;
-      shareProvisionedIops?: number;
-      shareProvisionedBandwidthMibps?: number;
-      shareIncludedBurstIops?: number;
-      shareMaxBurstCreditsForIops?: number;
+      provisionedIops?: number;
+      provisionedBandwidthMibps?: number;
+      includedBurstIops?: number;
+      maxBurstCreditsForIops?: number;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -839,13 +839,13 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   etag: string;
   lastModified: Date;
   quota?: number;
-  shareProvisionedIops?: number;
-  shareProvisionedBandwidthMibps?: number;
-  shareIncludedBurstIops?: number;
-  shareMaxBurstCreditsForIops?: number;
-  shareNextAllowedQuotaDowngradeTime?: string;
-  shareNextAllowedProvisionedIopsDowngradeTime?: string;
-  shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+  provisionedIops?: number;
+  provisionedBandwidthMibps?: number;
+  includedBurstIops?: number;
+  maxBurstCreditsForIops?: number;
+  nextAllowedQuotaDowngradeTime?: Date;
+  nextAllowedProvisionedIopsDowngradeTime?: Date;
+  nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -859,42 +859,42 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-share-quota"] === null
         ? result.headers["x-ms-share-quota"]
         : Number(result.headers["x-ms-share-quota"]),
-    shareProvisionedIops:
+    provisionedIops:
       result.headers["x-ms-share-provisioned-iops"] === undefined ||
       result.headers["x-ms-share-provisioned-iops"] === null
         ? result.headers["x-ms-share-provisioned-iops"]
         : Number(result.headers["x-ms-share-provisioned-iops"]),
-    shareProvisionedBandwidthMibps:
+    provisionedBandwidthMibps:
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === undefined ||
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === null
         ? result.headers["x-ms-share-provisioned-bandwidth-mibps"]
         : Number(result.headers["x-ms-share-provisioned-bandwidth-mibps"]),
-    shareIncludedBurstIops:
+    includedBurstIops:
       result.headers["x-ms-share-included-burst-iops"] === undefined ||
       result.headers["x-ms-share-included-burst-iops"] === null
         ? result.headers["x-ms-share-included-burst-iops"]
         : Number(result.headers["x-ms-share-included-burst-iops"]),
-    shareMaxBurstCreditsForIops:
+    maxBurstCreditsForIops:
       result.headers["x-ms-share-max-burst-credits-for-iops"] === undefined ||
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
         : Number(result.headers["x-ms-share-max-burst-credits-for-iops"]),
-    shareNextAllowedQuotaDowngradeTime:
+    nextAllowedQuotaDowngradeTime:
       result.headers["x-ms-share-next-allowed-quota-downgrade-time"] === undefined ||
       result.headers["x-ms-share-next-allowed-quota-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-quota-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-quota-downgrade-time"],
-    shareNextAllowedProvisionedIopsDowngradeTime:
+        : new Date(result.headers["x-ms-share-next-allowed-quota-downgrade-time"]),
+    nextAllowedProvisionedIopsDowngradeTime:
       result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"] === undefined ||
       result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"],
-    shareNextAllowedProvisionedBandwidthDowngradeTime:
+        : new Date(result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"]),
+    nextAllowedProvisionedBandwidthDowngradeTime:
       result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"] ===
         undefined ||
       result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"],
+        : new Date(result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"]),
     version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -938,13 +938,13 @@ export async function setProperties(
     etag: string;
     lastModified: Date;
     quota?: number;
-    shareProvisionedIops?: number;
-    shareProvisionedBandwidthMibps?: number;
-    shareIncludedBurstIops?: number;
-    shareMaxBurstCreditsForIops?: number;
-    shareNextAllowedQuotaDowngradeTime?: string;
-    shareNextAllowedProvisionedIopsDowngradeTime?: string;
-    shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+    provisionedIops?: number;
+    provisionedBandwidthMibps?: number;
+    includedBurstIops?: number;
+    maxBurstCreditsForIops?: number;
+    nextAllowedQuotaDowngradeTime?: Date;
+    nextAllowedProvisionedIopsDowngradeTime?: Date;
+    nextAllowedProvisionedBandwidthDowngradeTime?: Date;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -955,13 +955,13 @@ export async function setProperties(
       etag: string;
       lastModified: Date;
       quota?: number;
-      shareProvisionedIops?: number;
-      shareProvisionedBandwidthMibps?: number;
-      shareIncludedBurstIops?: number;
-      shareMaxBurstCreditsForIops?: number;
-      shareNextAllowedQuotaDowngradeTime?: string;
-      shareNextAllowedProvisionedIopsDowngradeTime?: string;
-      shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+      provisionedIops?: number;
+      provisionedBandwidthMibps?: number;
+      includedBurstIops?: number;
+      maxBurstCreditsForIops?: number;
+      nextAllowedQuotaDowngradeTime?: Date;
+      nextAllowedProvisionedIopsDowngradeTime?: Date;
+      nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -2285,11 +2285,11 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   etag: string;
   lastModified: Date;
   quota: number;
-  shareProvisionedIops?: number;
-  shareProvisionedIngressMbps?: number;
-  shareProvisionedEgressMbps?: number;
-  shareNextAllowedQuotaDowngradeTime?: string;
-  shareProvisionedBandwidthMibps?: number;
+  provisionedIops?: number;
+  provisionedIngressMBps?: number;
+  provisionedEgressMBps?: number;
+  nextAllowedQuotaDowngradeTime?: Date;
+  provisionedBandwidthMibps?: number;
   leaseDuration?: string;
   leaseState?: string;
   leaseStatus?: string;
@@ -2304,8 +2304,8 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   paidBurstingMaxBandwidthMibps?: number;
   includedBurstIops?: number;
   maxBurstCreditsForIops?: number;
-  shareNextAllowedProvisionedIopsDowngradeTime?: string;
-  shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+  nextAllowedProvisionedIopsDowngradeTime?: Date;
+  nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   enableSmbDirectoryLease?: boolean;
   version: string;
   requestId: string;
@@ -2316,27 +2316,27 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     quota: Number(result.headers["x-ms-share-quota"]),
-    shareProvisionedIops:
+    provisionedIops:
       result.headers["x-ms-share-provisioned-iops"] === undefined ||
       result.headers["x-ms-share-provisioned-iops"] === null
         ? result.headers["x-ms-share-provisioned-iops"]
         : Number(result.headers["x-ms-share-provisioned-iops"]),
-    shareProvisionedIngressMbps:
+    provisionedIngressMBps:
       result.headers["x-ms-share-provisioned-ingress-mbps"] === undefined ||
       result.headers["x-ms-share-provisioned-ingress-mbps"] === null
         ? result.headers["x-ms-share-provisioned-ingress-mbps"]
         : Number(result.headers["x-ms-share-provisioned-ingress-mbps"]),
-    shareProvisionedEgressMbps:
+    provisionedEgressMBps:
       result.headers["x-ms-share-provisioned-egress-mbps"] === undefined ||
       result.headers["x-ms-share-provisioned-egress-mbps"] === null
         ? result.headers["x-ms-share-provisioned-egress-mbps"]
         : Number(result.headers["x-ms-share-provisioned-egress-mbps"]),
-    shareNextAllowedQuotaDowngradeTime:
+    nextAllowedQuotaDowngradeTime:
       result.headers["x-ms-share-next-allowed-quota-downgrade-time"] === undefined ||
       result.headers["x-ms-share-next-allowed-quota-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-quota-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-quota-downgrade-time"],
-    shareProvisionedBandwidthMibps:
+        : new Date(result.headers["x-ms-share-next-allowed-quota-downgrade-time"]),
+    provisionedBandwidthMibps:
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === undefined ||
       result.headers["x-ms-share-provisioned-bandwidth-mibps"] === null
         ? result.headers["x-ms-share-provisioned-bandwidth-mibps"]
@@ -2412,17 +2412,17 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
         : Number(result.headers["x-ms-share-max-burst-credits-for-iops"]),
-    shareNextAllowedProvisionedIopsDowngradeTime:
+    nextAllowedProvisionedIopsDowngradeTime:
       result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"] === undefined ||
       result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"],
-    shareNextAllowedProvisionedBandwidthDowngradeTime:
+        : new Date(result.headers["x-ms-share-next-allowed-provisioned-iops-downgrade-time"]),
+    nextAllowedProvisionedBandwidthDowngradeTime:
       result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"] ===
         undefined ||
       result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"] === null
         ? result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"]
-        : result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"],
+        : new Date(result.headers["x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time"]),
     enableSmbDirectoryLease:
       result.headers["x-ms-enable-smb-directory-lease"] === undefined ||
       result.headers["x-ms-enable-smb-directory-lease"] === null
@@ -2471,11 +2471,11 @@ export async function getProperties(
     etag: string;
     lastModified: Date;
     quota: number;
-    shareProvisionedIops?: number;
-    shareProvisionedIngressMbps?: number;
-    shareProvisionedEgressMbps?: number;
-    shareNextAllowedQuotaDowngradeTime?: string;
-    shareProvisionedBandwidthMibps?: number;
+    provisionedIops?: number;
+    provisionedIngressMBps?: number;
+    provisionedEgressMBps?: number;
+    nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
     leaseDuration?: string;
     leaseState?: string;
     leaseStatus?: string;
@@ -2490,8 +2490,8 @@ export async function getProperties(
     paidBurstingMaxBandwidthMibps?: number;
     includedBurstIops?: number;
     maxBurstCreditsForIops?: number;
-    shareNextAllowedProvisionedIopsDowngradeTime?: string;
-    shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+    nextAllowedProvisionedIopsDowngradeTime?: Date;
+    nextAllowedProvisionedBandwidthDowngradeTime?: Date;
     enableSmbDirectoryLease?: boolean;
     version: string;
     requestId: string;
@@ -2503,11 +2503,11 @@ export async function getProperties(
       etag: string;
       lastModified: Date;
       quota: number;
-      shareProvisionedIops?: number;
-      shareProvisionedIngressMbps?: number;
-      shareProvisionedEgressMbps?: number;
-      shareNextAllowedQuotaDowngradeTime?: string;
-      shareProvisionedBandwidthMibps?: number;
+      provisionedIops?: number;
+      provisionedIngressMBps?: number;
+      provisionedEgressMBps?: number;
+      nextAllowedQuotaDowngradeTime?: Date;
+      provisionedBandwidthMibps?: number;
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
@@ -2522,8 +2522,8 @@ export async function getProperties(
       paidBurstingMaxBandwidthMibps?: number;
       includedBurstIops?: number;
       maxBurstCreditsForIops?: number;
-      shareNextAllowedProvisionedIopsDowngradeTime?: string;
-      shareNextAllowedProvisionedBandwidthDowngradeTime?: string;
+      nextAllowedProvisionedIopsDowngradeTime?: Date;
+      nextAllowedProvisionedBandwidthDowngradeTime?: Date;
       enableSmbDirectoryLease?: boolean;
       version: string;
       requestId: string;
@@ -2629,7 +2629,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   shareProvisionedIops?: number;
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
-  shareMaxBurstCreditsForIops?: number;
+  maxBurstCreditsForIops?: number;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -2658,7 +2658,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-share-included-burst-iops"] === null
         ? result.headers["x-ms-share-included-burst-iops"]
         : Number(result.headers["x-ms-share-included-burst-iops"]),
-    shareMaxBurstCreditsForIops:
+    maxBurstCreditsForIops:
       result.headers["x-ms-share-max-burst-credits-for-iops"] === undefined ||
       result.headers["x-ms-share-max-burst-credits-for-iops"] === null
         ? result.headers["x-ms-share-max-burst-credits-for-iops"]
@@ -2709,7 +2709,7 @@ export async function create(
     shareProvisionedIops?: number;
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
-    shareMaxBurstCreditsForIops?: number;
+    maxBurstCreditsForIops?: number;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -2723,7 +2723,7 @@ export async function create(
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
-      shareMaxBurstCreditsForIops?: number;
+      maxBurstCreditsForIops?: number;
       version: string;
       requestId: string;
       clientRequestId?: string;

@@ -2700,7 +2700,11 @@ export function _setHttpHeadersSend(
           ? { "x-ms-cache-control": options?.fileCacheControl }
           : {}),
         ...(options?.fileContentMD5 !== undefined
-          ? { "x-ms-content-md5": options?.fileContentMD5 }
+          ? {
+              "x-ms-content-md5": !options?.fileContentMD5
+                ? options?.fileContentMD5
+                : uint8ArrayToString(options?.fileContentMD5, "base64"),
+            }
           : {}),
         ...(options?.fileContentDisposition !== undefined
           ? { "x-ms-content-disposition": options?.fileContentDisposition }
@@ -3483,7 +3487,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   copyProgress?: string;
   copySource?: string;
   copyStatus?: CopyStatus;
-  fileContentMD5?: string;
+  fileContentMD5?: Uint8Array;
   serverEncrypted?: boolean;
   filePermissionKey?: string;
   fileAttributes?: string;
@@ -3574,7 +3578,9 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-content-md5"] === undefined ||
       result.headers["x-ms-content-md5"] === null
         ? result.headers["x-ms-content-md5"]
-        : result.headers["x-ms-content-md5"],
+        : typeof result.headers["x-ms-content-md5"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-md5"], "base64")
+          : result.headers["x-ms-content-md5"],
     serverEncrypted:
       result.headers["x-ms-server-encrypted"] === undefined ||
       result.headers["x-ms-server-encrypted"] === null
@@ -3713,7 +3719,7 @@ export async function download(
     copyProgress?: string;
     copySource?: string;
     copyStatus?: CopyStatus;
-    fileContentMD5?: string;
+    fileContentMD5?: Uint8Array;
     serverEncrypted?: boolean;
     filePermissionKey?: string;
     fileAttributes?: string;
@@ -3757,7 +3763,7 @@ export async function download(
         copyProgress?: string;
         copySource?: string;
         copyStatus?: CopyStatus;
-        fileContentMD5?: string;
+        fileContentMD5?: Uint8Array;
         serverEncrypted?: boolean;
         filePermissionKey?: string;
         fileAttributes?: string;
@@ -3833,7 +3839,11 @@ export function _createSend(
           ? { "x-ms-cache-control": options?.fileCacheControl }
           : {}),
         ...(options?.fileContentMD5 !== undefined
-          ? { "x-ms-content-md5": options?.fileContentMD5 }
+          ? {
+              "x-ms-content-md5": !options?.fileContentMD5
+                ? options?.fileContentMD5
+                : uint8ArrayToString(options?.fileContentMD5, "base64"),
+            }
           : {}),
         ...(options?.fileContentDisposition !== undefined
           ? { "x-ms-content-disposition": options?.fileContentDisposition }

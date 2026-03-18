@@ -1,4 +1,4 @@
 directory: specification/storage/data-plane/FileStorage
-commit: d4bf475f101d91d9143790ff1cfce644755fdc89
+commit: c39055f8d5abf5948266fe668ab339b122e634b0
 repo: Azure/azure-rest-api-specs
 additionalDirectories:

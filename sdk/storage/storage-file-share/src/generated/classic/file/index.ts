@@ -699,7 +699,7 @@ export interface FileOperations {
       copyProgress?: string;
       copySource?: string;
       copyStatus?: CopyStatus;
-      fileContentMD5?: string;
+      fileContentMD5?: Uint8Array;
       serverEncrypted?: boolean;
       filePermissionKey?: string;
       fileAttributes?: string;
@@ -743,7 +743,7 @@ export interface FileOperations {
           copyProgress?: string;
           copySource?: string;
           copyStatus?: CopyStatus;
-          fileContentMD5?: string;
+          fileContentMD5?: Uint8Array;
           serverEncrypted?: boolean;
           filePermissionKey?: string;
           fileAttributes?: string;

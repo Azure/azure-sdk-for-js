@@ -3104,18 +3104,18 @@ export function shareFileRangeListXmlDeserializer(xmlString: string): ShareFileR
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "ranges",
-      xmlOptions: { name: "Ranges", unwrapped: true, itemsName: "Ranges" },
+      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
       type: "array",
       deserializer: fileRangeXmlObjectDeserializer,
     },
     {
       propertyName: "clearRanges",
-      xmlOptions: { name: "ClearRanges", unwrapped: true, itemsName: "ClearRanges" },
+      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
       type: "array",
       deserializer: clearRangeXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<ShareFileRangeList>(xmlString, properties, "ShareFileRangeList");
+  return deserializeFromXml<ShareFileRangeList>(xmlString, properties, "Ranges");
 }
 
 export function fileRangeArrayDeserializer(result: Array<FileRange>): any[] {

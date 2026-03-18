@@ -358,7 +358,7 @@ export interface FileSetHttpHeadersOptionalParams extends OperationOptions {
   /** Sets the file's cache control. The File service stores this value but does not use or modify it. */
   fileCacheControl?: string;
   /** An MD5 hash of the file content. This hash is used to verify the integrity of the file during transport. */
-  fileContentMD5?: string;
+  fileContentMD5?: Uint8Array;
   /** Sets the file's Content-Disposition header. */
   fileContentDisposition?: string;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -454,7 +454,7 @@ export interface FileCreateOptionalParams extends OperationOptions {
   /** Sets the file's cache control. The File service stores this value but does not use or modify it. */
   fileCacheControl?: string;
   /** An MD5 hash of the file content. This hash is used to verify the integrity of the file during transport. */
-  fileContentMD5?: string;
+  fileContentMD5?: Uint8Array;
   /** Sets the file's Content-Disposition header. */
   fileContentDisposition?: string;
   /** Optional. User-defined metadata for the resource. */
