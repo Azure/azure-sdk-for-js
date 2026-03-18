@@ -127,7 +127,7 @@ describe("agents - bing custom search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it(// REENABLE POST GA
+  it(
   "should handle Bing Custom Search query with streaming response", async function () {
     // Create agent with Bing Custom Search tool
     const agent = await agents.createVersion(agentName, {
