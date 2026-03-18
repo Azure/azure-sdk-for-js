@@ -104,9 +104,16 @@ export class ContentRange {
    * @param startMs - The start time in milliseconds (inclusive).
    * @param endMs - The end time in milliseconds (inclusive).
    * @returns A ContentRange representing the time range, e.g. `"0-5000"`.
-   * @throws Error if startMs is negative, endMs is less than startMs, or either is not an integer.
+   * @throws Error if startMs is negative, endMs is less than startMs,
+   * or either value is not an integer number of milliseconds.
    */
   static timeRange(startMs: number, endMs: number): ContentRange {
+    if (!Number.isInteger(startMs)) {
+      throw new Error("Start time must be an integer number of milliseconds.");
+    }
+    if (!Number.isInteger(endMs)) {
+      throw new Error("End time must be an integer number of milliseconds.");
+    }
     if (startMs < 0) {
       throw new Error("Start time must be >= 0.");
     }
@@ -126,9 +133,12 @@ export class ContentRange {
    * Create a ContentRange from a starting time to the end in milliseconds (for audio/video content).
    * @param startMs - The start time in milliseconds (inclusive).
    * @returns A ContentRange representing the open-ended time range, e.g. `"5000-"`.
-   * @throws Error if startMs is negative.
+   * @throws Error if startMs is negative or is not an integer number of milliseconds.
    */
   static timeRangeFrom(startMs: number): ContentRange {
+    if (!Number.isInteger(startMs)) {
+      throw new Error("Start time must be an integer number of milliseconds.");
+    }
     if (startMs < 0) {
       throw new Error("Start time must be >= 0.");
     }

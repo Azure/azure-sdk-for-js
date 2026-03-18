@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { ContentRange } from "../../../src/models/contentRange.js";
+import { ContentRange } from "../../../src/index.js";
 
 describe("ContentRange", () => {
   describe("constructor", () => {
@@ -84,6 +84,18 @@ describe("ContentRange", () => {
     it("should throw for end < start", () => {
       assert.throws(() => ContentRange.timeRange(5000, 1000), /End time must be >= start time/);
     });
+
+    it("should throw for non-integer startMs", () => {
+      assert.throws(() => ContentRange.timeRange(1.5, 5000), /integer number of milliseconds/);
+    });
+
+    it("should throw for non-integer endMs", () => {
+      assert.throws(() => ContentRange.timeRange(0, 5000.7), /integer number of milliseconds/);
+    });
+
+    it("should throw for NaN", () => {
+      assert.throws(() => ContentRange.timeRange(NaN, 5000), /integer number of milliseconds/);
+    });
   });
 
   describe("timeRangeFrom", () => {
@@ -95,6 +107,10 @@ describe("ContentRange", () => {
 
     it("should throw for negative start", () => {
       assert.throws(() => ContentRange.timeRangeFrom(-1), /Start time must be >= 0/);
+    });
+
+    it("should throw for non-integer startMs", () => {
+      assert.throws(() => ContentRange.timeRangeFrom(1.5), /integer number of milliseconds/);
     });
   });
 
