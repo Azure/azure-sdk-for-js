@@ -31,7 +31,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     (Create the `perf-tests` folder if that doesn't exist)
 
-3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
+3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/src`
 4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
@@ -122,7 +122,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 ### [Entry Point](#entry-point)
 
-Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
+Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/src/`.
 
 ```js
 import { createPerfProgram } from "@azure/test-utils-perf";
@@ -144,7 +144,7 @@ perfProgram.run();
 
 Base class would have all the common code that would be repeated for each of the tests - common code such as creating the client, creating a base resource, etc.
 
-Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
+Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/src/`.
 
 ```js
 import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
