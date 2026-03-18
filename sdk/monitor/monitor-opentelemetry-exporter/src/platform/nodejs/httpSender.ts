@@ -14,6 +14,7 @@ import type {
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
+import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -73,7 +74,11 @@ export class HttpSender extends BaseSender {
       onResponse,
     });
 
-    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
+    return {
+      statusCode: response?.status,
+      result: response?.bodyAsText ?? "",
+      retryAfterMs: parseRetryAfterHeader(response?.headers?.get("retry-after")),
+    };
   }
 
   /**
