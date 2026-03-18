@@ -3,8 +3,11 @@
 
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicyName,
+  redirectPolicyName,
+} from "@azure/core-rest-pipeline";
+import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
@@ -41,7 +44,15 @@ export class HttpSender extends BaseSender {
     if (this.appInsightsClientOptions.credential) {
       const scopes = options.aadAudience ? [options.aadAudience] : [applicationInsightsResource];
       this.appInsightsClientOptions.credentials = { scopes };
-      this.appInsightsClientOptions.credentialScopes = scopes;
+    } else if (
+      !this.appInsightsClientOptions.credentials?.scopes &&
+      (this.appInsightsClientOptions as any).credentialScopes
+    ) {
+      // Backward compat: map ServiceClientOptions.credentialScopes to ClientOptions.credentials.scopes
+      const legacy = (this.appInsightsClientOptions as any).credentialScopes;
+      this.appInsightsClientOptions.credentials = {
+        scopes: Array.isArray(legacy) ? legacy : [legacy],
+      };
     }
 
     const { credential, ...clientOptions } = this.appInsightsClientOptions;
@@ -53,10 +64,24 @@ export class HttpSender extends BaseSender {
   private createClient(
     clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
   ): ApplicationInsightsClient {
+    // Extract pipeline from options — ServiceClientOptions allowed passing a pre-built pipeline,
+    // but the TypeSpec-generated REST client always creates its own. If a user passed one,
+    // we adopt its policies onto the generated client's pipeline for backward compatibility.
+    const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
+
     const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
 
     // Expose host for tests and redirect handling
     (client as any).host = clientOptions.host;
+
+    // If user provided a pre-built pipeline, copy its policies onto the generated client's pipeline
+    if (userPipeline) {
+      for (const policy of userPipeline.getOrderedPolicies()) {
+        if (!client.pipeline.getOrderedPolicies().some((p) => p.name === policy.name)) {
+          client.pipeline.addPolicy(policy);
+        }
+      }
+    }
 
     // Handle redirects in HTTP Sender
     if (!this.appInsightsClientOptions.credential) {

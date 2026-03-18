@@ -11,7 +11,8 @@ import {
 } from "../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, it, assert, afterAll } from "vitest";
 import { delay } from "@azure/core-util";
@@ -619,7 +620,9 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentialScopes, ["testAudience"]);
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
     });
   });
 
@@ -661,6 +664,154 @@ describe("HttpSender", () => {
         policies.find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
         }),
+      );
+    });
+  });
+
+  describe("#backward compatibility with ServiceClientOptions", () => {
+    it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: ["https://custom.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should map legacy credentialScopes (string) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: "https://custom.scope/.default",
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should prefer credentials.scopes over legacy credentialScopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentials: { scopes: ["https://new.scope/.default"] },
+          credentialScopes: ["https://old.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://new.scope/.default"],
+      });
+    });
+
+    it("should adopt policies from a user-provided pipeline", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "myCustomPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myCustomPolicy"),
+        "Custom policy from user pipeline should be adopted",
+      );
+    });
+
+    it("should not duplicate policies when user pipeline has overlapping names", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      // Add a policy that already exists on the generated client
+      const duplicatePolicy: PipelinePolicy = {
+        name: "userAgentPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(duplicatePolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      const userAgentPolicies = clientPolicies.filter(
+        (p: PipelinePolicy) => p.name === "userAgentPolicy",
+      );
+      assert.strictEqual(
+        userAgentPolicies.length,
+        1,
+        "Should not have duplicated the userAgentPolicy",
+      );
+    });
+
+    it("should set credentials.scopes via aadAudience with credential (new pattern)", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        aadAudience: "testAudience",
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
+    });
+
+    it("should set default credentials.scopes when credential present but no aadAudience", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://monitor.azure.com/.default"],
+      });
+    });
+
+    it("should pass through additionalPolicies", () => {
+      const customPolicy: PipelinePolicy = {
+        name: "myAdditionalPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          additionalPolicies: [{ policy: customPolicy, position: "perCall" }],
+        },
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myAdditionalPolicy"),
+        "additionalPolicies should be added to the client pipeline",
       );
     });
   });
