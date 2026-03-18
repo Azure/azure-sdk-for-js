@@ -37,4 +37,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [pgconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/javascript/pgConnection.js
 [sequelizeconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/javascript/sequelizeConnection.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/postgresql-auth
+<!---[apiref]: https://learn.microsoft.com/javascript/api/@azure/postgresql-auth--->
