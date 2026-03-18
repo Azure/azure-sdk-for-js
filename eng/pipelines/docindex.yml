@@ -85,6 +85,10 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
 
+      - task: UseNode@1
+        inputs:
+          version: '24.x'
+
       - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
         parameters:
           npmrcPath: $(Agent.TempDirectory)/rex-tool/.npmrc
