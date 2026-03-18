@@ -1,3 +1,5 @@
+# Additional Policy for Debug Logging
+
 | :boom: | **This is meant to be used by Azure SDK developers investigating bugs. The request policy on this page ***WILL*** log sensitive information to the Node.js console.** |
 |-----------|-------|
 

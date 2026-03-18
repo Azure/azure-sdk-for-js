@@ -1,3 +1,5 @@
+# Migrating to TypeSpec
+
 This guide helps service teams migrate their JavaScript SDK generation from OpenAPI specifications and AutoRest to TypeSpec. The migration process involves updating how your SDK is generated, but should not result in breaking changes to the public API surface of your SDK.
 
 ## Target Audience

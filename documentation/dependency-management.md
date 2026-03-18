@@ -1,3 +1,5 @@
+# Dependency Management
+
 The Azure SDK for JS client libraries include a host of dependencies, both internal and external. In general, our policy allows for some flexibility in dependencies and we generally pin to a [caret] version - allowing for patches, security fixes, and any non-breaking changes in our dependency ranges.
 
 There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our SemVer policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix.

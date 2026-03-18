@@ -1,4 +1,4 @@
-
+# Case Study: Investigating a Pipeline that Hangs
 
 ## Problem
 
