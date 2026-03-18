@@ -298,6 +298,12 @@
 # ServiceLabel: %Service Bus
 # ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
 
+# PRLabel: %Speech Transcription
+/sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
+# ServiceLabel: %Speech Transcription
+# ServiceOwners: @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
 # ServiceLabel: %Storage
 # PRLabel: %Storage
 /sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
@@ -623,9 +629,6 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/neonpostgres/arm-neonpostgres/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao @JialinHuang803

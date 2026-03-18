@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { truncateCustomDimensions } from "../../src/utils/common.js";
-import { CUSTOM_DIMENSIONS_EXEMPT_KEYS } from "../../src/Declarations/Constants.js";
+import { CUSTOM_DIMENSIONS_GENAI_KEYS } from "../../src/Declarations/Constants.js";
 import { MaxPropertyLengths } from "../../src/types.js";
 import { describe, it, assert } from "vitest";
 
@@ -76,24 +76,29 @@ describe("Custom Dimensions Size Limits", () => {
       assert.strictEqual(result["key2"].length, halfSize);
     });
 
-    it("should not truncate exempt gen_ai keys that exceed 64KB", () => {
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
+    it("should truncate gen_ai keys at 256KB instead of 64KB", () => {
+      const over64KBValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
+      const over256KBValue = "x".repeat(MaxPropertyLengths.EIGHTEEN_BIT + 1000);
 
-      for (const exemptKey of CUSTOM_DIMENSIONS_EXEMPT_KEYS) {
-        const properties: { [key: string]: string } = {
-          [exemptKey]: largeValue,
-        };
-
-        const result = truncateCustomDimensions(properties);
+      for (const genAiKey of CUSTOM_DIMENSIONS_GENAI_KEYS) {
+        // Value over 64KB but under 256KB should NOT be truncated
+        const smallResult = truncateCustomDimensions({ [genAiKey]: over64KBValue });
         assert.strictEqual(
-          result[exemptKey],
-          largeValue,
-          `Exempt key '${exemptKey}' should not be truncated`,
+          smallResult[genAiKey],
+          over64KBValue,
+          `Gen AI key '${genAiKey}' under 256KB should not be truncated`,
+        );
+
+        // Value over 256KB SHOULD be truncated
+        const largeResult = truncateCustomDimensions({ [genAiKey]: over256KBValue });
+        assert.isTrue(
+          Buffer.byteLength(largeResult[genAiKey], "utf-8") <= MaxPropertyLengths.EIGHTEEN_BIT,
+          `Gen AI key '${genAiKey}' over 256KB should be truncated to 256KB`,
         );
       }
     });
 
-    it("should truncate non-exempt keys while preserving exempt keys in the same call", () => {
+    it("should truncate non-gen_ai keys at 64KB while gen_ai keys use 256KB limit", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
         "gen_ai.input.messages": largeValue,
@@ -102,17 +107,17 @@ describe("Custom Dimensions Size Limits", () => {
 
       const result = truncateCustomDimensions(properties);
 
-      // Exempt key should be preserved
+      // Gen AI key should be preserved (under 256KB)
       assert.strictEqual(result["gen_ai.input.messages"], largeValue);
 
-      // Non-exempt key should be truncated
+      // Non-gen_ai key should be truncated to 64KB
       assert.isTrue(
         Buffer.byteLength(result["regularKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Non-exempt key should be truncated to 64KB",
+        "Non-gen_ai key should be truncated to 64KB",
       );
     });
 
-    it("should truncate keys not in the exempt list even if they start with gen_ai", () => {
+    it("should truncate keys not in the gen_ai list even if they start with gen_ai", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
         "gen_ai.other_attribute": largeValue,
@@ -122,7 +127,7 @@ describe("Custom Dimensions Size Limits", () => {
       assert.isTrue(
         Buffer.byteLength(result["gen_ai.other_attribute"], "utf-8") <=
           MaxPropertyLengths.SIXTEEN_BIT,
-        "Non-exempt gen_ai key should still be truncated",
+        "Non-listed gen_ai key should still be truncated",
       );
     });
 
@@ -168,6 +173,10 @@ describe("Custom Dimensions Size Limits", () => {
 
     it("should verify default limit is 64KB", () => {
       assert.strictEqual(MaxPropertyLengths.SIXTEEN_BIT, 64 * 1024);
+    });
+
+    it("should verify gen_ai limit is 256KB", () => {
+      assert.strictEqual(MaxPropertyLengths.EIGHTEEN_BIT, 256 * 1024);
     });
 
     it("should stringify non-string values (number, boolean, object, array)", () => {

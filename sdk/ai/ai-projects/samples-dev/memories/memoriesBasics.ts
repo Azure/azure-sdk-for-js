@@ -13,11 +13,12 @@ import type { MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@a
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const chatModelDeployment =
-  process.env["AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
+  process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model deployment name>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  "<embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store";
 const scope = "user_123"; // You can also use {{$userId}} to scope memories per authenticated user
@@ -78,7 +79,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.beta.memoryStores.updateMemories(memoryStoreName, scope, {
     items: [userMessage],
     updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
@@ -89,6 +90,12 @@ export async function main(): Promise<void> {
     console.log(
       `  - Operation: ${operation.kind}, Memory ID: ${operation.memory_item.memory_id}, Content: ${operation.memory_item.content}`,
     );
+  }
+
+  const storeList = project.beta.memoryStores.list();
+  console.log("Listing all memory stores...");
+  for await (const store of storeList) {
+    console.log(`  - Memory Store: ${store.name} (${store.id})`);
   }
 
   // Search for stored memories

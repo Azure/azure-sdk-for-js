@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -22,9 +22,8 @@ function getAiSearchTool() {
     azure_ai_search: {
       indexes: [
         {
-          project_connection_id:
-            process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>",
-          index_name: process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>",
+          project_connection_id: assertEnvironmentVariable("AI_SEARCH_CONNECTION_ID"),
+          index_name: assertEnvironmentVariable("AI_SEARCH_INDEX_NAME"),
           query_type: "simple",
         },
       ],
@@ -47,10 +46,10 @@ describe("agents - ai search - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with Azure AI Search tool", async () => {
+  it("should create agent with Azure AI Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5.2",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
       tools: [getAiSearchTool()],
     });
@@ -83,11 +82,11 @@ describe("agents - ai search - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skip("should execute AI Search query and return result", async function () {
+  it("should execute AI Search query and return result", async function () {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5.2",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
       tools: [getAiSearchTool()],
     });
@@ -125,11 +124,11 @@ describe("agents - ai search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skip("should handle AI Search query with streaming response", async function () {
+  it("should handle AI Search query with streaming response", async function () {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5.2",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
       tools: [getAiSearchTool()],
     });
@@ -177,11 +176,11 @@ describe("agents - ai search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skip("should handle AI Search query in conversation context", async function () {
+  it("should handle AI Search query in conversation context", async function () {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5.2",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
       tools: [getAiSearchTool()],
     });
