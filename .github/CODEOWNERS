@@ -1647,6 +1647,9 @@ sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang
 # PRLabel: %Mgmt
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
