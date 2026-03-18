@@ -35,11 +35,11 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _getCredentialsSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   credentialRequest: EvaluatorCredentialRequest,
   version: string,
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}/credentials{?api-version}",
     {
@@ -78,30 +78,22 @@ export async function _getCredentialsDeserialize(
 export async function getCredentials(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   credentialRequest: EvaluatorCredentialRequest,
   version: string,
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<DatasetCredential> {
-  const result = await _getCredentialsSend(
-    context,
-    name,
-    foundryFeatures,
-    credentialRequest,
-    version,
-    options,
-  );
+  const result = await _getCredentialsSend(context, name, credentialRequest, version, options);
   return _getCredentialsDeserialize(result);
 }
 
 export function _pendingUploadSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   pendingUploadRequest: PendingUploadRequest,
   version: string,
   options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
@@ -140,19 +132,11 @@ export async function _pendingUploadDeserialize(
 export async function pendingUpload(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   pendingUploadRequest: PendingUploadRequest,
   version: string,
   options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(
-    context,
-    name,
-    foundryFeatures,
-    pendingUploadRequest,
-    version,
-    options,
-  );
+  const result = await _pendingUploadSend(context, name, pendingUploadRequest, version, options);
   return _pendingUploadDeserialize(result);
 }
 

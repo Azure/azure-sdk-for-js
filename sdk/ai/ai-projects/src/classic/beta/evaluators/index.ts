@@ -36,7 +36,6 @@ export interface BetaEvaluatorsOperations {
   /** Get the SAS credential to access the storage account associated with an Evaluator version. */
   getCredentials: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     credentialRequest: EvaluatorCredentialRequest,
     version: string,
     options?: BetaEvaluatorsGetCredentialsOptionalParams,
@@ -44,7 +43,6 @@ export interface BetaEvaluatorsOperations {
   /** Start a new or get an existing pending upload of an evaluator for a specific version. */
   pendingUpload: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     pendingUploadRequest: PendingUploadRequest,
     version: string,
     options?: BetaEvaluatorsPendingUploadOptionalParams,
@@ -89,18 +87,16 @@ function _getBetaEvaluators(context: AIProjectContext) {
   return {
     getCredentials: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       credentialRequest: EvaluatorCredentialRequest,
       version: string,
       options?: BetaEvaluatorsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, foundryFeatures, credentialRequest, version, options),
+    ) => getCredentials(context, name, credentialRequest, version, options),
     pendingUpload: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       pendingUploadRequest: PendingUploadRequest,
       version: string,
       options?: BetaEvaluatorsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, foundryFeatures, pendingUploadRequest, version, options),
+    ) => pendingUpload(context, name, pendingUploadRequest, version, options),
     updateVersion: (
       name: string,
       version: string,
