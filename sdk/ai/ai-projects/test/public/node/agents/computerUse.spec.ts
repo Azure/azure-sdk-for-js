@@ -3,7 +3,6 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
-// import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../../src/index.js";
 import type OpenAI from "openai";
