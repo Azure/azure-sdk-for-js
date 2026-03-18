@@ -9,7 +9,7 @@
  * Multiple ranges can be combined with commas (e.g., `"1-3,5,9-"`).
  *
  * @example
- * ```ts
+ * ```
  * // Document pages
  * const range1 = ContentRange.page(5);                     // "5"
  * const range2 = ContentRange.pages(1, 3);                 // "1-3"
