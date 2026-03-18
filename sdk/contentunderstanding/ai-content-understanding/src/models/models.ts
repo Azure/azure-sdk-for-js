@@ -4,7 +4,7 @@
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import type { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
-import { ContentRange } from "./contentRange.js";
+import type { ContentRange } from "./contentRange.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
