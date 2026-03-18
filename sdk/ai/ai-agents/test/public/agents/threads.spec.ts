@@ -16,7 +16,9 @@ describe("projectsClient - threads", () => {
   });
 
   afterEach(async function () {
-    await recorder.stop();
+    if (recorder) {
+      await recorder.stop();
+    }
   });
 
   it("client and agents operations are accessible", async function () {

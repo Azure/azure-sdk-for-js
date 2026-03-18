@@ -16,7 +16,9 @@ describe("Agents - run steps", () => {
   });
 
   afterEach(async function () {
-    await recorder.stop();
+    if (recorder) {
+      await recorder.stop();
+    }
   });
 
   it("should list run steps", async function () {
