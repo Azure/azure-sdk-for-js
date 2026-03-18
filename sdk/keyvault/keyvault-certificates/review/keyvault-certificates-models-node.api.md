@@ -320,6 +320,8 @@ export interface SecretProperties {
 export interface SubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
+    ipAddresses?: string[];
+    uniformResourceIdentifiers?: string[];
     upns?: string[];
 }
 
