@@ -1,4 +1,4 @@
-The Azure SDK for JavaScript is migrating from [Rush](https://rushjs.io/) to [pnpm](https:/pnpm.io) as part of the Azure SDK for JavaScript modernization efforts.  This is a guide to show how to migrate from Rush commands to pnpm commands for common scenarios.
+The Azure SDK for JavaScript is migrating from [Rush](https://rushjs.io/) to [pnpm](https://pnpm.io) as part of the Azure SDK for JavaScript modernization efforts.  This is a guide to show how to migrate from Rush commands to pnpm commands for common scenarios.
 
 # Scenarios
 

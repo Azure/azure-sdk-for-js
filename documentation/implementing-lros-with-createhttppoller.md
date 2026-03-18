@@ -50,7 +50,7 @@ Please see [`@azure/ai-language-text`](https://github.com/Azure/azure-sdk-for-js
 - it is plug-in and forget it setup, with zero maintenance cost on the client author side
 - it provides a good logging experience
 - it is feature-complete
-- it is battle-tested with a [comprehensive test suite](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/test/lro.spec.ts) that has many customer-reported cases and no major gh issue currently open against it
+- it is battle-tested with a [comprehensive test suite](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/test/public/lro.spec.ts) that has many customer-reported cases and no major gh issue currently open against it
 - it is being used in all types of clients, REST-level, management-plane, data-plane, etc
 
 ## Migrating existing LROs

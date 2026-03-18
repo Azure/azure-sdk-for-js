@@ -19,7 +19,7 @@
 
 ## [Template perf test project](#template-perf-test-project)
 
-A [template project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/perf-tests/template) is available under the `sdk/template/perf-tests` directory, which demonstrates how perf test projects should be structured. It includes a basic perf test against the `@azure/template` package.
+A [template project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests) is available under the `sdk/template/template-perf-tests` directory, which demonstrates how perf test projects should be structured. It includes a basic perf test against the `@azure/template` package.
 
 ## [Setting up the project](#setting-up-the-project)
 
@@ -32,7 +32,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     (Create the `perf-tests` folder if that doesn't exist)
 
 3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
-4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
@@ -104,7 +104,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     "private": true,
    ```
 
-   _Note: Track-1 packages will not be managed by `pnpm`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-track-1-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-blob-track-1/README.md) for instructions._
+   _Note: Track-1 packages will not be managed by `pnpm`, instead `npm` will be used to manage/run the track-1 tests, you can copy the readme such as the [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) for instructions._
 
    Make sure to add the "setup" step in package.json.
 
