@@ -7,7 +7,11 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
-import { type DocumentContent, type AudioVisualContent, ContentRange } from "../../../../src/index.js";
+import {
+  type DocumentContent,
+  type AudioVisualContent,
+  ContentRange,
+} from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
@@ -223,13 +227,15 @@ describe("Sample: analyzeUrl", () => {
   it("should analyze video URL with combined ContentRange", async () => {
     const poller = client.analyze(
       "prebuilt-videoSearch",
-      [{
-        url: TEST_VIDEO_URL,
-        contentRange: ContentRange.combine(
-          ContentRange.timeRange(0, 3000),
-          ContentRange.timeRangeFrom(30000),
-        ),
-      }],
+      [
+        {
+          url: TEST_VIDEO_URL,
+          contentRange: ContentRange.combine(
+            ContentRange.timeRange(0, 3000),
+            ContentRange.timeRangeFrom(30000),
+          ),
+        },
+      ],
       testPollingOptions,
     );
     const result = await poller.pollUntilDone();
