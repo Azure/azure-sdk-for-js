@@ -1,6 +1,6 @@
-# Azure MicrosoftKubernetesConfiguration client library for JavaScript
+# Azure PrivateLinkScopes client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MicrosoftKubernetesConfiguration client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PrivateLinkScopes client.
 
 Azure Arc K8s Clusters API reference for Private Link's Scopes management.
 
@@ -26,7 +26,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-kubernetesconfiguration-privatelinkscopes` package
 
-Install the Azure MicrosoftKubernetesConfiguration client library for JavaScript with `npm`:
+Install the Azure PrivateLinkScopes client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-kubernetesconfiguration-privatelinkscopes
@@ -34,8 +34,8 @@ npm install @azure/arm-kubernetesconfiguration-privatelinkscopes
 
 ### Create and authenticate a `PrivateLinkScopesClient`
 
-To create a client object to access the Azure MicrosoftKubernetesConfiguration API, you will need the `endpoint` of your Azure MicrosoftKubernetesConfiguration resource and a `credential`. The Azure MicrosoftKubernetesConfiguration client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure MicrosoftKubernetesConfiguration resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure PrivateLinkScopes API, you will need the `endpoint` of your Azure PrivateLinkScopes resource and a `credential`. The Azure PrivateLinkScopes client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure PrivateLinkScopes resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,7 +45,7 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure MicrosoftKubernetesConfiguration** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure PrivateLinkScopes** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
