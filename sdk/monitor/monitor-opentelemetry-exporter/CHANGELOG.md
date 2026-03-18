@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.40 ()
+## 1.0.0-beta.40 (Unreleased)
 
 ### Breaking Changes
 
@@ -10,6 +10,7 @@
 
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
+- Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
 
 ## 1.0.0-beta.39 (2026-02-20)
 
