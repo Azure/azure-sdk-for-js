@@ -606,11 +606,11 @@ export interface BetaToolsetsListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaToolsetsOperations {
-    create: (name: string, tools: ToolUnion[], foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsCreateOptionalParams) => Promise<ToolsetObject>;
-    delete: (toolSetName: string, foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsDeleteOptionalParams) => Promise<DeleteToolsetResponse>;
-    get: (toolSetName: string, foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsGetOptionalParams) => Promise<ToolsetObject>;
-    list: (foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsListOptionalParams) => PagedAsyncIterableIterator<ToolsetObject>;
-    update: (toolSetName: string, tools: ToolUnion[], foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsUpdateOptionalParams) => Promise<ToolsetObject>;
+    create: (name: string, tools: ToolUnion[], options?: BetaToolsetsCreateOptionalParams) => Promise<ToolsetObject>;
+    delete: (toolSetName: string, options?: BetaToolsetsDeleteOptionalParams) => Promise<DeleteToolsetResponse>;
+    get: (toolSetName: string, options?: BetaToolsetsGetOptionalParams) => Promise<ToolsetObject>;
+    list: (options?: BetaToolsetsListOptionalParams) => PagedAsyncIterableIterator<ToolsetObject>;
+    update: (toolSetName: string, tools: ToolUnion[], options?: BetaToolsetsUpdateOptionalParams) => Promise<ToolsetObject>;
 }
 
 // @public

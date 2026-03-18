@@ -33,9 +33,9 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 export function _$deleteSend(
   context: Client,
   toolSetName: string,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Toolsets=V1Preview";
   const path = expandUrlTemplate(
     "/toolsets/{tool_set_name}{?api%2Dversion}",
     {
@@ -74,18 +74,17 @@ export async function _$deleteDeserialize(
 export async function $delete(
   context: Client,
   toolSetName: string,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteToolsetResponse> {
-  const result = await _$deleteSend(context, toolSetName, foundryFeatures, options);
+  const result = await _$deleteSend(context, toolSetName, options);
   return _$deleteDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Toolsets=V1Preview";
   const path = expandUrlTemplate(
     "/toolsets{?limit,order,after,before,api%2Dversion}",
     {
@@ -126,12 +125,11 @@ export async function _listDeserialize(
 /** List all toolsets. */
 export function list(
   context: Client,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ToolsetObject> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, foundryFeatures, options),
+    () => _listSend(context, options),
     _listDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -141,9 +139,9 @@ export function list(
 export function _getSend(
   context: Client,
   toolSetName: string,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Toolsets=V1Preview";
   const path = expandUrlTemplate(
     "/toolsets/{tool_set_name}{?api%2Dversion}",
     {
@@ -180,10 +178,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
 export async function get(
   context: Client,
   toolSetName: string,
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsGetOptionalParams = { requestOptions: {} },
 ): Promise<ToolsetObject> {
-  const result = await _getSend(context, toolSetName, foundryFeatures, options);
+  const result = await _getSend(context, toolSetName, options);
   return _getDeserialize(result);
 }
 
@@ -191,9 +188,9 @@ export function _updateSend(
   context: Client,
   toolSetName: string,
   tools: ToolUnion[],
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Toolsets=V1Preview";
   const path = expandUrlTemplate(
     "/toolsets/{tool_set_name}{?api%2Dversion}",
     {
@@ -237,10 +234,9 @@ export async function update(
   context: Client,
   toolSetName: string,
   tools: ToolUnion[],
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ToolsetObject> {
-  const result = await _updateSend(context, toolSetName, tools, foundryFeatures, options);
+  const result = await _updateSend(context, toolSetName, tools, options);
   return _updateDeserialize(result);
 }
 
@@ -248,9 +244,9 @@ export function _createSend(
   context: Client,
   name: string,
   tools: ToolUnion[],
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Toolsets=V1Preview";
   const path = expandUrlTemplate(
     "/toolsets{?api%2Dversion}",
     {
@@ -294,9 +290,8 @@ export async function create(
   context: Client,
   name: string,
   tools: ToolUnion[],
-  foundryFeatures: "Toolsets=V1Preview",
   options: BetaToolsetsCreateOptionalParams = { requestOptions: {} },
 ): Promise<ToolsetObject> {
-  const result = await _createSend(context, name, tools, foundryFeatures, options);
+  const result = await _createSend(context, name, tools, options);
   return _createDeserialize(result);
 }

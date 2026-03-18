@@ -18,32 +18,27 @@ export interface BetaToolsetsOperations {
   /** Delete a toolset. */
   delete: (
     toolSetName: string,
-    foundryFeatures: "Toolsets=V1Preview",
     options?: BetaToolsetsDeleteOptionalParams,
   ) => Promise<DeleteToolsetResponse>;
   /** List all toolsets. */
   list: (
-    foundryFeatures: "Toolsets=V1Preview",
     options?: BetaToolsetsListOptionalParams,
   ) => PagedAsyncIterableIterator<ToolsetObject>;
   /** Retrieve a toolset. */
   get: (
     toolSetName: string,
-    foundryFeatures: "Toolsets=V1Preview",
     options?: BetaToolsetsGetOptionalParams,
   ) => Promise<ToolsetObject>;
   /** Update a toolset. */
   update: (
     toolSetName: string,
     tools: ToolUnion[],
-    foundryFeatures: "Toolsets=V1Preview",
     options?: BetaToolsetsUpdateOptionalParams,
   ) => Promise<ToolsetObject>;
   /** Create a toolset. */
   create: (
     name: string,
     tools: ToolUnion[],
-    foundryFeatures: "Toolsets=V1Preview",
     options?: BetaToolsetsCreateOptionalParams,
   ) => Promise<ToolsetObject>;
 }
@@ -52,28 +47,24 @@ function _getBetaToolsets(context: AIProjectContext) {
   return {
     delete: (
       toolSetName: string,
-      foundryFeatures: "Toolsets=V1Preview",
       options?: BetaToolsetsDeleteOptionalParams,
-    ) => $delete(context, toolSetName, foundryFeatures, options),
-    list: (foundryFeatures: "Toolsets=V1Preview", options?: BetaToolsetsListOptionalParams) =>
-      list(context, foundryFeatures, options),
+    ) => $delete(context, toolSetName, options),
+    list: (options?: BetaToolsetsListOptionalParams) =>
+      list(context, options),
     get: (
       toolSetName: string,
-      foundryFeatures: "Toolsets=V1Preview",
       options?: BetaToolsetsGetOptionalParams,
-    ) => get(context, toolSetName, foundryFeatures, options),
+    ) => get(context, toolSetName, options),
     update: (
       toolSetName: string,
       tools: ToolUnion[],
-      foundryFeatures: "Toolsets=V1Preview",
       options?: BetaToolsetsUpdateOptionalParams,
-    ) => update(context, toolSetName, tools, foundryFeatures, options),
+    ) => update(context, toolSetName, tools, options),
     create: (
       name: string,
       tools: ToolUnion[],
-      foundryFeatures: "Toolsets=V1Preview",
       options?: BetaToolsetsCreateOptionalParams,
-    ) => create(context, name, tools, foundryFeatures, options),
+    ) => create(context, name, tools, options),
   };
 }
 
