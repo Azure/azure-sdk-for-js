@@ -4,14 +4,28 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type CheckNameAvailabilityReason = string;
@@ -38,37 +52,36 @@ export interface CommunicationServiceKeys {
 }
 
 // @public (undocumented)
-export class CommunicationServiceManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CommunicationServiceManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    communicationServices: CommunicationServices;
-    // (undocumented)
-    domains: Domains;
-    // (undocumented)
-    emailServices: EmailServices;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    senderUsernames: SenderUsernames;
-    // (undocumented)
-    smtpUsernames: SmtpUsernames;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    suppressionListAddresses: SuppressionListAddresses;
-    // (undocumented)
-    suppressionLists: SuppressionLists;
+export class CommunicationServiceManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: CommunicationServiceManagementClientOptionalParams);
+    readonly communicationServices: CommunicationServicesOperations;
+    readonly domains: DomainsOperations;
+    readonly emailServices: EmailServicesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly senderUsernames: SenderUsernamesOperations;
+    readonly smtpUsernames: SmtpUsernamesOperations;
+    readonly suppressionListAddresses: SuppressionListAddressesOperations;
+    readonly suppressionLists: SuppressionListsOperations;
 }
 
 // @public
-export interface CommunicationServiceManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface CommunicationServiceManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface CommunicationServiceProperties {
+    dataLocation: string;
+    disableLocalAuth?: boolean;
+    readonly hostName?: string;
+    readonly immutableResourceId?: string;
+    linkedDomains?: string[];
+    readonly notificationHubId?: string;
+    readonly provisioningState?: CommunicationServicesProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly version?: string;
 }
 
 // @public
@@ -86,12 +99,6 @@ export interface CommunicationServiceResource extends TrackedResource {
 }
 
 // @public
-export interface CommunicationServiceResourceList {
-    nextLink?: string;
-    value?: CommunicationServiceResource[];
-}
-
-// @public
 export interface CommunicationServiceResourceUpdate extends TaggedResource {
     disableLocalAuth?: boolean;
     identity?: ManagedServiceIdentity;
@@ -100,119 +107,84 @@ export interface CommunicationServiceResourceUpdate extends TaggedResource {
 }
 
 // @public
-export interface CommunicationServices {
-    beginCreateOrUpdate(resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResource, options?: CommunicationServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CommunicationServicesCreateOrUpdateResponse>, CommunicationServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResource, options?: CommunicationServicesCreateOrUpdateOptionalParams): Promise<CommunicationServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(nameAvailabilityParameters: NameAvailabilityParameters, options?: CommunicationServicesCheckNameAvailabilityOptionalParams): Promise<CommunicationServicesCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesGetOptionalParams): Promise<CommunicationServicesGetResponse>;
-    linkNotificationHub(resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesLinkNotificationHubOptionalParams): Promise<CommunicationServicesLinkNotificationHubResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CommunicationServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CommunicationServiceResource>;
-    listBySubscription(options?: CommunicationServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CommunicationServiceResource>;
-    listKeys(resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesListKeysOptionalParams): Promise<CommunicationServicesListKeysResponse>;
-    regenerateKey(resourceGroupName: string, communicationServiceName: string, parameters: RegenerateKeyParameters, options?: CommunicationServicesRegenerateKeyOptionalParams): Promise<CommunicationServicesRegenerateKeyResponse>;
-    update(resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResourceUpdate, options?: CommunicationServicesUpdateOptionalParams): Promise<CommunicationServicesUpdateResponse>;
+export interface CommunicationServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CommunicationServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunicationServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface CommunicationServicesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface CommunicationServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CommunicationServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CommunicationServicesCreateOrUpdateResponse = CommunicationServiceResource;
-
-// @public
-export interface CommunicationServicesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface CommunicationServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CommunicationServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CommunicationServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesGetResponse = CommunicationServiceResource;
-
-// @public
-export interface CommunicationServicesLinkNotificationHubOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesLinkNotificationHubOptionalParams extends OperationOptions {
     linkNotificationHubParameters?: LinkNotificationHubParameters;
 }
 
 // @public
-export type CommunicationServicesLinkNotificationHubResponse = LinkedNotificationHub;
-
-// @public
-export interface CommunicationServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesListByResourceGroupNextResponse = CommunicationServiceResourceList;
-
-// @public
-export interface CommunicationServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesListByResourceGroupResponse = CommunicationServiceResourceList;
-
-// @public
-export interface CommunicationServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesListBySubscriptionNextResponse = CommunicationServiceResourceList;
-
-// @public
-export interface CommunicationServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResource, options?: CommunicationServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CommunicationServiceResource>, CommunicationServiceResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResource, options?: CommunicationServicesCreateOrUpdateOptionalParams) => Promise<CommunicationServiceResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesDeleteOptionalParams) => Promise<void>;
+    checkNameAvailability: (nameAvailabilityParameters: NameAvailabilityParameters, options?: CommunicationServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    createOrUpdate: (resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResource, options?: CommunicationServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CommunicationServiceResource>, CommunicationServiceResource>;
+    delete: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesGetOptionalParams) => Promise<CommunicationServiceResource>;
+    linkNotificationHub: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesLinkNotificationHubOptionalParams) => Promise<LinkedNotificationHub>;
+    listByResourceGroup: (resourceGroupName: string, options?: CommunicationServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CommunicationServiceResource>;
+    listBySubscription: (options?: CommunicationServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CommunicationServiceResource>;
+    listKeys: (resourceGroupName: string, communicationServiceName: string, options?: CommunicationServicesListKeysOptionalParams) => Promise<CommunicationServiceKeys>;
+    regenerateKey: (resourceGroupName: string, communicationServiceName: string, parameters: RegenerateKeyParameters, options?: CommunicationServicesRegenerateKeyOptionalParams) => Promise<CommunicationServiceKeys>;
+    update: (resourceGroupName: string, communicationServiceName: string, parameters: CommunicationServiceResourceUpdate, options?: CommunicationServicesUpdateOptionalParams) => Promise<CommunicationServiceResource>;
 }
-
-// @public
-export type CommunicationServicesListBySubscriptionResponse = CommunicationServiceResourceList;
-
-// @public
-export interface CommunicationServicesListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunicationServicesListKeysResponse = CommunicationServiceKeys;
 
 // @public
 export type CommunicationServicesProvisioningState = string;
 
 // @public
-export interface CommunicationServicesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesRegenerateKeyOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesRegenerateKeyResponse = CommunicationServiceKeys;
-
-// @public
-export interface CommunicationServicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CommunicationServicesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CommunicationServicesUpdateResponse = CommunicationServiceResource;
+export interface CommunicationServiceUpdateProperties {
+    disableLocalAuth?: boolean;
+    linkedDomains?: string[];
+    publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -227,6 +199,18 @@ export interface DnsRecord {
 
 // @public
 export type DomainManagement = string;
+
+// @public
+export interface DomainProperties {
+    readonly dataLocation?: string;
+    domainManagement: DomainManagement;
+    readonly fromSenderDomain?: string;
+    readonly mailFromSenderDomain?: string;
+    readonly provisioningState?: DomainsProvisioningState;
+    userEngagementTracking?: UserEngagementTracking;
+    readonly verificationRecords?: DomainPropertiesVerificationRecords;
+    readonly verificationStates?: DomainPropertiesVerificationStates;
+}
 
 // @public
 export interface DomainPropertiesVerificationRecords {
@@ -259,117 +243,77 @@ export interface DomainResource extends TrackedResource {
 }
 
 // @public
-export interface DomainResourceList {
-    nextLink?: string;
-    value?: DomainResource[];
-}
-
-// @public
-export interface Domains {
-    beginCancelVerification(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams): Promise<SimplePollerLike<OperationState<DomainsCancelVerificationResponse>, DomainsCancelVerificationResponse>>;
-    beginCancelVerificationAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams): Promise<DomainsCancelVerificationResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams): Promise<DomainsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<void>;
-    beginInitiateVerification(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsInitiateVerificationOptionalParams): Promise<SimplePollerLike<OperationState<DomainsInitiateVerificationResponse>, DomainsInitiateVerificationResponse>>;
-    beginInitiateVerificationAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsInitiateVerificationOptionalParams): Promise<DomainsInitiateVerificationResponse>;
-    beginUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainsUpdateResponse>, DomainsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams): Promise<DomainsUpdateResponse>;
-    get(resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsGetOptionalParams): Promise<DomainsGetResponse>;
-    listByEmailServiceResource(resourceGroupName: string, emailServiceName: string, options?: DomainsListByEmailServiceResourceOptionalParams): PagedAsyncIterableIterator<DomainResource>;
-}
-
-// @public
-export interface DomainsCancelVerificationHeaders {
-    location?: string;
-}
-
-// @public
-export interface DomainsCancelVerificationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainsCancelVerificationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
-
-// @public
-export interface DomainsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface DomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DomainsCreateOrUpdateResponse = DomainResource;
-
-// @public
-export interface DomainsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface DomainsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DomainsGetOptionalParams extends coreClient.OperationOptions {
+export interface DomainsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DomainsGetResponse = DomainResource;
-
-// @public
-export interface DomainsInitiateVerificationHeaders {
-    location?: string;
-}
-
-// @public
-export interface DomainsInitiateVerificationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainsInitiateVerificationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DomainsInitiateVerificationResponse = DomainsInitiateVerificationHeaders;
-
-// @public
-export interface DomainsListByEmailServiceResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface DomainsListByEmailServiceResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DomainsListByEmailServiceResourceNextResponse = DomainResourceList;
-
-// @public
-export interface DomainsListByEmailServiceResourceOptionalParams extends coreClient.OperationOptions {
+export interface DomainsOperations {
+    // @deprecated (undocumented)
+    beginCancelVerification: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelVerificationAndWait: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DomainResource>, DomainResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams) => Promise<DomainResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginInitiateVerification: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsInitiateVerificationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginInitiateVerificationAndWait: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsInitiateVerificationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DomainResource>, DomainResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams) => Promise<DomainResource>;
+    cancelVerification: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsCancelVerificationOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: DomainResource, options?: DomainsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DomainResource>, DomainResource>;
+    delete: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: DomainsGetOptionalParams) => Promise<DomainResource>;
+    initiateVerification: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: VerificationParameter, options?: DomainsInitiateVerificationOptionalParams) => PollerLike<OperationState<void>, void>;
+    listByEmailServiceResource: (resourceGroupName: string, emailServiceName: string, options?: DomainsListByEmailServiceResourceOptionalParams) => PagedAsyncIterableIterator<DomainResource>;
+    update: (resourceGroupName: string, emailServiceName: string, domainName: string, parameters: UpdateDomainRequestParameters, options?: DomainsUpdateOptionalParams) => PollerLike<OperationState<DomainResource>, DomainResource>;
 }
-
-// @public
-export type DomainsListByEmailServiceResourceResponse = DomainResourceList;
 
 // @public
 export type DomainsProvisioningState = string;
 
 // @public
-export interface DomainsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DomainsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DomainsUpdateResponse = DomainResource;
+export interface EmailServiceProperties {
+    dataLocation: string;
+    readonly provisioningState?: EmailServicesProvisioningState;
+}
 
 // @public
 export interface EmailServiceResource extends TrackedResource {
@@ -378,118 +322,69 @@ export interface EmailServiceResource extends TrackedResource {
 }
 
 // @public
-export interface EmailServiceResourceList {
-    nextLink?: string;
-    value?: EmailServiceResource[];
-}
-
-// @public
 export interface EmailServiceResourceUpdate extends TaggedResource {
 }
 
 // @public
-export interface EmailServices {
-    beginCreateOrUpdate(resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResource, options?: EmailServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EmailServicesCreateOrUpdateResponse>, EmailServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResource, options?: EmailServicesCreateOrUpdateOptionalParams): Promise<EmailServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, emailServiceName: string, options?: EmailServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, emailServiceName: string, options?: EmailServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResourceUpdate, options?: EmailServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EmailServicesUpdateResponse>, EmailServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResourceUpdate, options?: EmailServicesUpdateOptionalParams): Promise<EmailServicesUpdateResponse>;
-    get(resourceGroupName: string, emailServiceName: string, options?: EmailServicesGetOptionalParams): Promise<EmailServicesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: EmailServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EmailServiceResource>;
-    listBySubscription(options?: EmailServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<EmailServiceResource>;
-    listVerifiedExchangeOnlineDomains(options?: EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams): Promise<EmailServicesListVerifiedExchangeOnlineDomainsResponse>;
-}
-
-// @public
-export interface EmailServicesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface EmailServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface EmailServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type EmailServicesCreateOrUpdateResponse = EmailServiceResource;
-
-// @public
-export interface EmailServicesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface EmailServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface EmailServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface EmailServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface EmailServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EmailServicesGetResponse = EmailServiceResource;
-
-// @public
-export interface EmailServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface EmailServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EmailServicesListByResourceGroupNextResponse = EmailServiceResourceList;
-
-// @public
-export interface EmailServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface EmailServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EmailServicesListByResourceGroupResponse = EmailServiceResourceList;
-
-// @public
-export interface EmailServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EmailServicesListBySubscriptionNextResponse = EmailServiceResourceList;
-
-// @public
-export interface EmailServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface EmailServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResource, options?: EmailServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EmailServiceResource>, EmailServiceResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResource, options?: EmailServicesCreateOrUpdateOptionalParams) => Promise<EmailServiceResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, emailServiceName: string, options?: EmailServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, emailServiceName: string, options?: EmailServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResourceUpdate, options?: EmailServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EmailServiceResource>, EmailServiceResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResourceUpdate, options?: EmailServicesUpdateOptionalParams) => Promise<EmailServiceResource>;
+    createOrUpdate: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResource, options?: EmailServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<EmailServiceResource>, EmailServiceResource>;
+    delete: (resourceGroupName: string, emailServiceName: string, options?: EmailServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, emailServiceName: string, options?: EmailServicesGetOptionalParams) => Promise<EmailServiceResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: EmailServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<EmailServiceResource>;
+    listBySubscription: (options?: EmailServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<EmailServiceResource>;
+    listVerifiedExchangeOnlineDomains: (options?: EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams) => Promise<string[]>;
+    update: (resourceGroupName: string, emailServiceName: string, parameters: EmailServiceResourceUpdate, options?: EmailServicesUpdateOptionalParams) => PollerLike<OperationState<EmailServiceResource>, EmailServiceResource>;
 }
-
-// @public
-export type EmailServicesListBySubscriptionResponse = EmailServiceResourceList;
-
-// @public
-export interface EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EmailServicesListVerifiedExchangeOnlineDomainsResponse = {
-    body: string[];
-};
 
 // @public
 export type EmailServicesProvisioningState = string;
 
 // @public
-export interface EmailServicesUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface EmailServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface EmailServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type EmailServicesUpdateResponse = EmailServiceResource;
-
-// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -503,26 +398,9 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorDetailAutoGenerated {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetailAutoGenerated[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export interface ErrorResponseAutoGenerated {
-    error?: ErrorDetailAutoGenerated;
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type KeyType = "Primary" | "Secondary";
@@ -653,6 +531,12 @@ export enum KnownVerificationType {
 }
 
 // @public
+export enum KnownVersions {
+    V20250901 = "2025-09-01",
+    V20260318 = "2026-03-18"
+}
+
+// @public
 export interface LinkedNotificationHub {
     resourceId?: string;
 }
@@ -668,9 +552,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -698,32 +580,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -749,6 +627,24 @@ export interface Resource {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CommunicationServiceManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SenderUsernameProperties {
+    readonly dataLocation?: string;
+    displayName?: string;
+    readonly provisioningState?: ProvisioningState;
+    username: string;
+}
+
+// @public
 export interface SenderUsernameResource extends ProxyResource {
     readonly dataLocation?: string;
     displayName?: string;
@@ -757,50 +653,57 @@ export interface SenderUsernameResource extends ProxyResource {
 }
 
 // @public
-export interface SenderUsernameResourceCollection {
-    nextLink?: string;
-    value?: SenderUsernameResource[];
+export interface SenderUsernamesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SenderUsernames {
-    createOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, parameters: SenderUsernameResource, options?: SenderUsernamesCreateOrUpdateOptionalParams): Promise<SenderUsernamesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, options?: SenderUsernamesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, options?: SenderUsernamesGetOptionalParams): Promise<SenderUsernamesGetResponse>;
-    listByDomains(resourceGroupName: string, emailServiceName: string, domainName: string, options?: SenderUsernamesListByDomainsOptionalParams): PagedAsyncIterableIterator<SenderUsernameResource>;
+export interface SenderUsernamesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SenderUsernamesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SenderUsernamesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SenderUsernamesCreateOrUpdateResponse = SenderUsernameResource;
-
-// @public
-export interface SenderUsernamesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SenderUsernamesListByDomainsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SenderUsernamesGetOptionalParams extends coreClient.OperationOptions {
+export interface SenderUsernamesOperations {
+    createOrUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, parameters: SenderUsernameResource, options?: SenderUsernamesCreateOrUpdateOptionalParams) => Promise<SenderUsernameResource>;
+    delete: (resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, options?: SenderUsernamesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, emailServiceName: string, domainName: string, senderUsername: string, options?: SenderUsernamesGetOptionalParams) => Promise<SenderUsernameResource>;
+    listByDomains: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: SenderUsernamesListByDomainsOptionalParams) => PagedAsyncIterableIterator<SenderUsernameResource>;
 }
 
 // @public
-export type SenderUsernamesGetResponse = SenderUsernameResource;
-
-// @public
-export interface SenderUsernamesListByDomainsNextOptionalParams extends coreClient.OperationOptions {
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
-export type SenderUsernamesListByDomainsNextResponse = SenderUsernameResourceCollection;
-
-// @public
-export interface SenderUsernamesListByDomainsOptionalParams extends coreClient.OperationOptions {
+export interface SmtpUsernameProperties {
+    entraApplicationId: string;
+    tenantId: string;
+    username: string;
 }
-
-// @public
-export type SenderUsernamesListByDomainsResponse = SenderUsernameResourceCollection;
 
 // @public
 export interface SmtpUsernameResource extends ProxyResource {
@@ -810,90 +713,62 @@ export interface SmtpUsernameResource extends ProxyResource {
 }
 
 // @public
-export interface SmtpUsernameResourceCollection {
-    nextLink?: string;
-    value?: SmtpUsernameResource[];
+export interface SmtpUsernamesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SmtpUsernames {
-    createOrUpdate(resourceGroupName: string, communicationServiceName: string, smtpUsername: string, parameters: SmtpUsernameResource, options?: SmtpUsernamesCreateOrUpdateOptionalParams): Promise<SmtpUsernamesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, communicationServiceName: string, smtpUsername: string, options?: SmtpUsernamesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, communicationServiceName: string, smtpUsername: string, options?: SmtpUsernamesGetOptionalParams): Promise<SmtpUsernamesGetResponse>;
-    list(resourceGroupName: string, communicationServiceName: string, options?: SmtpUsernamesListOptionalParams): PagedAsyncIterableIterator<SmtpUsernameResource>;
+export interface SmtpUsernamesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SmtpUsernamesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SmtpUsernamesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SmtpUsernamesCreateOrUpdateResponse = SmtpUsernameResource;
-
-// @public
-export interface SmtpUsernamesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SmtpUsernamesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SmtpUsernamesGetOptionalParams extends coreClient.OperationOptions {
+export interface SmtpUsernamesOperations {
+    createOrUpdate: (resourceGroupName: string, communicationServiceName: string, smtpUsername: string, parameters: SmtpUsernameResource, options?: SmtpUsernamesCreateOrUpdateOptionalParams) => Promise<SmtpUsernameResource>;
+    delete: (resourceGroupName: string, communicationServiceName: string, smtpUsername: string, options?: SmtpUsernamesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, communicationServiceName: string, smtpUsername: string, options?: SmtpUsernamesGetOptionalParams) => Promise<SmtpUsernameResource>;
+    list: (resourceGroupName: string, communicationServiceName: string, options?: SmtpUsernamesListOptionalParams) => PagedAsyncIterableIterator<SmtpUsernameResource>;
 }
 
 // @public
-export type SmtpUsernamesGetResponse = SmtpUsernameResource;
-
-// @public
-export interface SmtpUsernamesListNextOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListAddressesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SmtpUsernamesListNextResponse = SmtpUsernameResourceCollection;
-
-// @public
-export interface SmtpUsernamesListOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListAddressesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SmtpUsernamesListResponse = SmtpUsernameResourceCollection;
-
-// @public
-export interface SuppressionListAddresses {
-    createOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, parameters: SuppressionListAddressResource, options?: SuppressionListAddressesCreateOrUpdateOptionalParams): Promise<SuppressionListAddressesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesGetOptionalParams): Promise<SuppressionListAddressesGetResponse>;
-    list(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListAddressesListOptionalParams): PagedAsyncIterableIterator<SuppressionListAddressResource>;
+export interface SuppressionListAddressesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionListAddressesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListAddressesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SuppressionListAddressesCreateOrUpdateResponse = SuppressionListAddressResource;
-
-// @public
-export interface SuppressionListAddressesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListAddressesOperations {
+    createOrUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, parameters: SuppressionListAddressResource, options?: SuppressionListAddressesCreateOrUpdateOptionalParams) => Promise<SuppressionListAddressResource>;
+    delete: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesGetOptionalParams) => Promise<SuppressionListAddressResource>;
+    list: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListAddressesListOptionalParams) => PagedAsyncIterableIterator<SuppressionListAddressResource>;
 }
 
 // @public
-export interface SuppressionListAddressesGetOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListAddressProperties {
+    readonly dataLocation?: string;
+    email: string;
+    firstName?: string;
+    readonly lastModified?: Date;
+    lastName?: string;
+    notes?: string;
 }
-
-// @public
-export type SuppressionListAddressesGetResponse = SuppressionListAddressResource;
-
-// @public
-export interface SuppressionListAddressesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionListAddressesListNextResponse = SuppressionListAddressResourceCollection;
-
-// @public
-export interface SuppressionListAddressesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionListAddressesListResponse = SuppressionListAddressResourceCollection;
 
 // @public
 export interface SuppressionListAddressResource extends ProxyResource {
@@ -906,9 +781,11 @@ export interface SuppressionListAddressResource extends ProxyResource {
 }
 
 // @public
-export interface SuppressionListAddressResourceCollection {
-    nextLink?: string;
-    value?: SuppressionListAddressResource[];
+export interface SuppressionListProperties {
+    readonly createdTimeStamp?: string;
+    readonly dataLocation?: string;
+    readonly lastUpdatedTimeStamp?: string;
+    listName?: string;
 }
 
 // @public
@@ -920,50 +797,28 @@ export interface SuppressionListResource extends ProxyResource {
 }
 
 // @public
-export interface SuppressionListResourceCollection {
-    nextLink?: string;
-    value?: SuppressionListResource[];
+export interface SuppressionListsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionLists {
-    createOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, parameters: SuppressionListResource, options?: SuppressionListsCreateOrUpdateOptionalParams): Promise<SuppressionListsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsGetOptionalParams): Promise<SuppressionListsGetResponse>;
-    listByDomain(resourceGroupName: string, emailServiceName: string, domainName: string, options?: SuppressionListsListByDomainOptionalParams): PagedAsyncIterableIterator<SuppressionListResource>;
+export interface SuppressionListsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionListsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SuppressionListsCreateOrUpdateResponse = SuppressionListResource;
-
-// @public
-export interface SuppressionListsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListsListByDomainOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SuppressionListsGetOptionalParams extends coreClient.OperationOptions {
+export interface SuppressionListsOperations {
+    createOrUpdate: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, parameters: SuppressionListResource, options?: SuppressionListsCreateOrUpdateOptionalParams) => Promise<SuppressionListResource>;
+    delete: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsGetOptionalParams) => Promise<SuppressionListResource>;
+    listByDomain: (resourceGroupName: string, emailServiceName: string, domainName: string, options?: SuppressionListsListByDomainOptionalParams) => PagedAsyncIterableIterator<SuppressionListResource>;
 }
-
-// @public
-export type SuppressionListsGetResponse = SuppressionListResource;
-
-// @public
-export interface SuppressionListsListByDomainNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionListsListByDomainNextResponse = SuppressionListResourceCollection;
-
-// @public
-export interface SuppressionListsListByDomainOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SuppressionListsListByDomainResponse = SuppressionListResourceCollection;
 
 // @public
 export interface SystemData {
@@ -977,17 +832,18 @@ export interface SystemData {
 
 // @public
 export interface TaggedResource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface UpdateDomainProperties {
+    userEngagementTracking?: UserEngagementTracking;
 }
 
 // @public
