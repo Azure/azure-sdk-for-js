@@ -20,17 +20,17 @@ export interface GetEntraTokenPasswordOptions {
  */
 export interface ConfigureEntraIdAuthOptions {
   /**
-    * Fallback username to use when the access token does not contain a usable `upn` or `appid` claim.
-    *
-    * The database username is resolved in the following order:
-    * 1. `upn` claim from the access token (if present).
-    * 2. `appid` claim from the access token (if present).
-    * 3. This `fallbackUsername` option (if provided).
-    * 4. The `PGUSER` environment variable (`process.env.PGUSER`), if set.
-    *
-    * If none of these values are available, an error is thrown because the username
-    * cannot be determined.
-    */ 
+   * Fallback username to use when the access token does not contain a usable `upn` or `appid` claim.
+   *
+   * The database username is resolved in the following order:
+   * 1. `upn` claim from the access token (if present).
+   * 2. `appid` claim from the access token (if present).
+   * 3. This `fallbackUsername` option (if provided).
+   * 4. The `PGUSER` environment variable (`process.env.PGUSER`), if set.
+   *
+   * If none of these values are available, an error is thrown because the username
+   * cannot be determined.
+   */
   fallbackUsername?: string;
 }
 
