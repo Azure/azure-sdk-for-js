@@ -63,7 +63,7 @@ const pool = new pg.Pool({
   database: process.env.PGDATABASE,
   user: process.env.PGUSER,
   password: () => getEntraTokenPassword(credential),
-  ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: true },
 });
 ```
 
