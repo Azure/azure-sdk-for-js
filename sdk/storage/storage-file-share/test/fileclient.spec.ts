@@ -2704,7 +2704,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
       );
     } catch (err: any) {
       assert.isTrue(
-        err.response.statusCode === 409 && err.code === "NoPendingCopyOperation",
+        err.statusCode === 409 && err.code === "NoPendingCopyOperation",
         "Should got expected error",
       );
     }

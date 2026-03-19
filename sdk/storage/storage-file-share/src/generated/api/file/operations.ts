@@ -1113,7 +1113,7 @@ export function _abortCopySend(
   options: FileAbortCopyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=copy&copyid{?copyid,timeout}",
+    "?comp=copy{?copyid,timeout}",
     {
       copyid: copyid,
       timeout: options?.timeoutInSeconds,
