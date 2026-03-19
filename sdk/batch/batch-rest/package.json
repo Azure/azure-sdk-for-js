@@ -39,9 +39,10 @@
     ]
   },
   "//sampleConfiguration": {
-    "productName": "",
+    "productName": "Azure Batch",
     "productSlugs": [
-      "azure"
+      "azure",
+      "azure-batch"
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/batch"

@@ -2,7 +2,7 @@
   "name": "@azure-samples/batch-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "Azure Batch client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
