@@ -117,8 +117,8 @@
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test --node-config test/tsconfig.node.json --browser-config test/tsconfig.browser.json && dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run build-test --no-browser-test --node-config test/tsconfig.node.json && dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {
@@ -159,5 +159,12 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

@@ -1,0 +1,19 @@
+{
+  "extends": "../../../../tsconfig.src.cjs.json",
+  "compilerOptions": {
+    "outDir": "../dist/commonjs",
+    "rootDir": ".",
+    "lib": ["ES2023"],
+    "paths": {
+      "#platform/*": ["./*.ts"]
+    }
+  },
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "./**/*.mts",
+    "./xhrHttpClient.ts",
+    "./util/typeGuardsWeb.ts",
+    "./restErrorWeb.ts",
+    "./restErrorReactNative.ts"
+  ]
+}

@@ -14,9 +14,9 @@ import type {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces.js";
+} from "#platform/interfaces";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
+import { RestError } from "#platform/restError";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 import { Sanitizer } from "./util/sanitizer.js";

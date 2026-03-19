@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import * as Logger from "../../src/logger/logger.js";
+import * as Logger from "@typespec/ts-http-runtime";
 
 const testLogger = Logger.createClientLogger("test");
 

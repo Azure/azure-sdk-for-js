@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+import type {
+  BodyPart,
+  HttpHeaders,
+  PipelineRequest,
+  PipelineResponse,
+  RequestBodyType,
+} from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
-import { isBlob } from "../util/typeGuards.js";
-import { randomUUID } from "../util/uuidUtils.js";
-import { concat } from "../util/concat.js";
+import { stringToUint8Array } from "#platform/util/bytesEncoding";
+import { isBlob } from "#platform/util/typeGuards";
+import { randomUUID } from "#platform/util/uuidUtils";
+import { concat } from "#platform/util/concat";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -78,12 +84,12 @@ async function buildRequestBody(
     stringToUint8Array("--\r\n\r\n", "utf-8"),
   ];
 
-  const contentLength = getTotalLength(sources);
+  const contentLength = getTotalLength(sources as Parameters<typeof getTotalLength>[0]);
   if (contentLength) {
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = await concat(sources);
+  request.body = (await concat(sources as Parameters<typeof concat>[0])) as RequestBodyType;
 }
 
 /**

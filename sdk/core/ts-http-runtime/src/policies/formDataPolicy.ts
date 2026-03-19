@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { stringToUint8Array } from "#platform/util/bytesEncoding";
 import { isNodeLike } from "../util/checkEnvironment.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import type {
@@ -11,7 +11,7 @@ import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces.js";
+} from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 
 /**
@@ -21,10 +21,10 @@ export const formDataPolicyName = "formDataPolicy";
 
 function formDataToFormDataMap(formData: FormData): FormDataMap {
   const formDataMap: FormDataMap = {};
-  for (const [key, value] of formData.entries()) {
+  formData.forEach((value, key) => {
     formDataMap[key] ??= [];
-    (formDataMap[key] as FormDataValue[]).push(value);
-  }
+    (formDataMap[key] as FormDataValue[]).push(value as FormDataValue);
+  });
   return formDataMap;
 }
 
@@ -97,7 +97,8 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
-        const fileName = (value as File).name || "blob";
+        const fileName =
+          ("name" in value && typeof value.name === "string" ? value.name : "") || "blob";
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",

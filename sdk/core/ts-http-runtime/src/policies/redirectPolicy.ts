@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  RedirectPolicyOptions,
+  SendRequest,
+} from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger } from "../log.js";
 
@@ -14,24 +19,6 @@ export const redirectPolicyName = "redirectPolicy";
  * Methods that are allowed to follow redirects 301 and 302
  */
 const allowedRedirect = ["GET", "HEAD"];
-
-/**
- * Options for how redirect responses are handled.
- */
-export interface RedirectPolicyOptions {
-  /**
-   * The maximum number of times the redirect URL will be tried before
-   * failing.  Defaults to 20.
-   */
-  maxRetries?: number;
-  /**
-   * Whether to follow redirects to a different origin (scheme + host + port).
-   * When false (the default), cross-origin redirects are not followed and the
-   * redirect response is returned directly to the caller.
-   * Defaults to false.
-   */
-  allowCrossOriginRedirects?: boolean;
-}
 
 /**
  * A policy to follow Location headers from the server in order

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRetryOptions } from "../interfaces.js";
+import type { PipelineRetryOptions } from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";

@@ -3,18 +3,54 @@
 
 import type {
   HttpClient,
+  PipelineOptions,
   PipelineRequest,
   PipelineResponse,
   RawHttpHeaders,
   RequestBodyType,
   TransferProgressEvent,
   RawHttpHeadersInput,
-} from "../interfaces.js";
+} from "#platform/interfaces";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 import type { AuthScheme } from "../auth/schemes.js";
 import type { ClientCredential } from "../auth/credentials.js";
+
+/**
+ * Http Response which body is a NodeJS stream object
+ */
+export type HttpNodeStreamResponse = HttpResponse & {
+  /**
+   * Streamable body
+   */
+  body?: NodeJS.ReadableStream;
+};
+
+/**
+ * Http Response which body is a browser ReadableStream
+ */
+export type HttpBrowserStreamResponse = HttpResponse & {
+  /**
+   * Streamable body
+   */
+  body?: ReadableStream<Uint8Array>;
+};
+
+/**
+ * Defines the type for a method that supports getting the response body as
+ * a raw stream
+ */
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+  /**
+   * Returns the response body as a NodeJS stream. Only available in Node-like environments.
+   */
+  asNodeStream: () => Promise<HttpNodeStreamResponse>;
+  /**
+   * Returns the response body as a browser (Web) stream. Only available in the browser. If you require a Web Stream of the response in Node, consider using the
+   * `Readable.toWeb` Node API on the result of `asNodeStream`.
+   */
+  asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
+};
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -167,7 +203,8 @@ export interface OperationRequestOptions {
 }
 
 /**
- * Type to use with pathUnchecked, overrides the body type to any to allow flexibility
+ * Type to use with pathUnchecked, overrides the body type to any to allow
+ * callers maximum flexibility when working with untyped response payloads.
  */
 export type PathUncheckedResponse = HttpResponse & { body: any };
 
@@ -198,42 +235,6 @@ export interface Client {
    */
   pathUnchecked: PathUnchecked;
 }
-
-/**
- * Http Response which body is a NodeJS stream object
- */
-export type HttpNodeStreamResponse = HttpResponse & {
-  /**
-   * Streamable body
-   */
-  body?: NodeJS.ReadableStream;
-};
-
-/**
- * Http Response which body is a NodeJS stream object
- */
-export type HttpBrowserStreamResponse = HttpResponse & {
-  /**
-   * Streamable body
-   */
-  body?: ReadableStream<Uint8Array>;
-};
-
-/**
- * Defines the type for a method that supports getting the response body as
- * a raw stream
- */
-export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
-  /**
-   * Returns the response body as a NodeJS stream. Only available in Node-like environments.
-   */
-  asNodeStream: () => Promise<HttpNodeStreamResponse>;
-  /**
-   * Returns the response body as a browser (Web) stream. Only available in the browser. If you require a Web Stream of the response in Node, consider using the
-   * `Readable.toWeb` Node API on the result of `asNodeStream`.
-   */
-  asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
-};
 
 /**
  * Defines the signature for pathUnchecked.

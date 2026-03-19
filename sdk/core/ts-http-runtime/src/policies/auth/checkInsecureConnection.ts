@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest } from "../../interfaces.js";
+import type { PipelineRequest } from "#platform/interfaces";
+import { emitWarning } from "#platform/policies/auth/emitWarning";
 import { logger } from "../../log.js";
 
 // Ensure the warining is only emitted once
@@ -39,9 +40,9 @@ function emitInsecureConnectionWarning(): void {
 
   logger.warning(warning);
 
-  if (typeof process?.emitWarning === "function" && !insecureConnectionWarningEmmitted) {
+  if (!insecureConnectionWarningEmmitted) {
     insecureConnectionWarningEmmitted = true;
-    process.emitWarning(warning);
+    emitWarning(warning);
   }
 }
 

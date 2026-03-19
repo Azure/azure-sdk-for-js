@@ -6,15 +6,17 @@ import type {
   HttpMethods,
   MultipartRequestBody,
   PipelineRequest,
+  PipelineRequestOptions,
   PipelineResponse,
   RequestBodyType,
-} from "../interfaces.js";
-import { isRestError, RestError } from "../restError.js";
+} from "#platform/interfaces";
+import { getStreamBody, enableBrowserStreams } from "#platform/client/sendRequestHelpers";
+import { isRestError, RestError } from "#platform/restError";
 import type { Pipeline } from "../pipeline.js";
 import { createHttpHeaders } from "../httpHeaders.js";
-import { createPipelineRequest } from "../pipelineRequest.js";
+import { createPipelineRequest } from "#platform/pipelineRequest";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
-import { isBlob, isReadableStream } from "../util/typeGuards.js";
+import { isBlob, isReadableStream } from "#platform/util/typeGuards";
 import type { HttpResponse, RequestParameters } from "./common.js";
 import type { PartDescriptor } from "./multipart.js";
 import { buildMultipartBody } from "./multipart.js";
@@ -41,7 +43,7 @@ export async function sendRequest(
   try {
     const response = await pipeline.sendRequest(httpClient, request);
     const headers = response.headers.toJSON();
-    const stream = response.readableStreamBody ?? response.browserStreamBody;
+    const stream = getStreamBody(response);
     const parsedBody =
       options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
     const body = stream ?? parsedBody;
@@ -87,7 +89,7 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
  * @param body - body in the request
  * @returns returns the content-type
  */
-function getContentType(body: any): string | undefined {
+function getContentType(body: unknown): string | undefined {
   if (body === undefined) {
     return undefined;
   }
@@ -144,11 +146,11 @@ function buildPipelineRequest(
     onUploadProgress: options.onUploadProgress,
     onDownloadProgress: options.onDownloadProgress,
     timeout: options.timeout,
-    enableBrowserStreams: true,
+    enableBrowserStreams,
     streamResponseStatusCodes: options.responseAsStream
       ? new Set([Number.POSITIVE_INFINITY])
       : undefined,
-  });
+  } as PipelineRequestOptions);
 }
 
 interface RequestBody {

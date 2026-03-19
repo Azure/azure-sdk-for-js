@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import debug from "./debug.js";
+import { getEnvVariable } from "#platform/logger/env";
 
 import type { Debugger } from "./debug.js";
 export type { Debugger };
@@ -98,7 +99,7 @@ export interface CreateLoggerContextOptions {
   namespace: string;
 }
 
-const TYPESPEC_RUNTIME_LOG_LEVELS = ["verbose", "info", "warning", "error"];
+const TYPESPEC_RUNTIME_LOG_LEVELS: readonly string[] = ["verbose", "info", "warning", "error"];
 
 type DebuggerWithLogLevel = Debugger & { level: TypeSpecRuntimeLogLevel };
 
@@ -119,7 +120,7 @@ function patchLogMethod(
 }
 
 function isTypeSpecRuntimeLogLevel(level: string): level is TypeSpecRuntimeLogLevel {
-  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(level as any);
+  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(level);
 }
 
 /**
@@ -129,9 +130,7 @@ function isTypeSpecRuntimeLogLevel(level: string): level is TypeSpecRuntimeLogLe
  */
 export function createLoggerContext(options: CreateLoggerContextOptions): LoggerContext {
   const registeredLoggers = new Set<DebuggerWithLogLevel>();
-  const logLevelFromEnv =
-    (typeof process !== "undefined" && process.env && process.env[options.logLevelEnvVarName]) ||
-    undefined;
+  const logLevelFromEnv = getEnvVariable(options.logLevelEnvVarName);
 
   let logLevel: TypeSpecRuntimeLogLevel | undefined;
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelinePolicy } from "../pipeline.js";
-import type { TlsSettings } from "../interfaces.js";
+import type { TlsSettings } from "#platform/interfaces";
 
 /**
  * Name of the TLS Policy

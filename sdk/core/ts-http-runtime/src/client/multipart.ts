@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
-import { RestError } from "../restError.js";
+import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "#platform/interfaces";
+import { RestError } from "#platform/restError";
 import { createHttpHeaders } from "../httpHeaders.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
-import { isBinaryBody } from "../util/typeGuards.js";
+import { stringToUint8Array } from "#platform/util/bytesEncoding";
+import { isBinaryBody } from "#platform/util/typeGuards";
 
 /**
  * Describes a single part in a multipart body.
@@ -139,10 +139,10 @@ function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefi
   let filename: string | undefined = undefined;
   if (descriptor.filename) {
     filename = descriptor.filename;
-  } else if (typeof File !== "undefined" && descriptor.body instanceof File) {
-    const filenameFromFile = (descriptor.body as File).name;
-    if (filenameFromFile !== "") {
-      filename = filenameFromFile;
+  } else if (descriptor.body && typeof descriptor.body === "object" && "name" in descriptor.body) {
+    const filenameFromBody = descriptor.body.name;
+    if (typeof filenameFromBody === "string" && filenameFromBody !== "") {
+      filename = filenameFromBody;
     }
   }
 

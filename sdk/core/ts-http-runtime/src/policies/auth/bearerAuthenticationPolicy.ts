@@ -3,7 +3,7 @@
 
 import type { BearerTokenCredential } from "../../auth/credentials.js";
 import type { AuthScheme } from "../../auth/schemes.js";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../../interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "#platform/interfaces";
 import type { PipelinePolicy } from "../../pipeline.js";
 import { ensureSecureConnection } from "./checkInsecureConnection.js";
 

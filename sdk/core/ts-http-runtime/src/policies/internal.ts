@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { agentPolicy, agentPolicyName } from "./agentPolicy.js";
+export { agentPolicy, agentPolicyName } from "#platform/policies/agentPolicy";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
-} from "./decompressResponsePolicy.js";
+} from "#platform/policies/decompressResponsePolicy";
 export {
   defaultRetryPolicy,
   defaultRetryPolicyName,
@@ -27,15 +27,12 @@ export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./throttlingRe
 export { formDataPolicy, formDataPolicyName } from "./formDataPolicy.js";
 export { logPolicy, logPolicyName, type LogPolicyOptions } from "./logPolicy.js";
 export { multipartPolicy, multipartPolicyName } from "./multipartPolicy.js";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./proxyPolicy.js";
 export {
-  redirectPolicy,
-  redirectPolicyName,
-  type RedirectPolicyOptions,
-} from "./redirectPolicy.js";
-export { tlsPolicy, tlsPolicyName } from "./tlsPolicy.js";
-export {
-  userAgentPolicy,
-  userAgentPolicyName,
-  type UserAgentPolicyOptions,
-} from "./userAgentPolicy.js";
+  proxyPolicy,
+  proxyPolicyName,
+  getDefaultProxySettings,
+} from "#platform/policies/proxyPolicy";
+export { redirectPolicy, redirectPolicyName } from "./redirectPolicy.js";
+export { tlsPolicy, tlsPolicyName } from "#platform/policies/tlsPolicy";
+export { userAgentPolicy, userAgentPolicyName } from "./userAgentPolicy.js";
+export type { UserAgentPolicyOptions, RedirectPolicyOptions } from "#platform/interfaces";

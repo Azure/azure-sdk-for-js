@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { getRequestBody } from "../../src/client/sendRequest.js";
+import { getRequestBody } from "$internal/client/sendRequest.js";
 
 describe("getRequestBody (browser)", () => {
   it("should handle FormData", () => {

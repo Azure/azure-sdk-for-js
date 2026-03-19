@@ -3,7 +3,7 @@
 
 import { Readable } from "stream";
 import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
-import { isBlob } from "./typeGuards.js";
+import { isBlob } from "#platform/util/typeGuards";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>,

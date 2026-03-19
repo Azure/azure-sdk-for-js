@@ -37,10 +37,11 @@ interface QueryParameterWithOptions {
 }
 
 function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
-  const value = (x as QueryParameterWithOptions).value as any;
-  return (
-    value !== undefined && value.toString !== undefined && typeof value.toString === "function"
-  );
+  if (x === null || x === undefined || typeof x !== "object") {
+    return false;
+  }
+  const value = (x as QueryParameterWithOptions).value;
+  return value !== undefined && value !== null && typeof value.toString === "function";
 }
 
 /**
@@ -85,7 +86,7 @@ function appendPath(endpoint: string, pathToAppend: string): string {
       ? [pathToAppend.substring(0, pathSearchStart), pathToAppend.substring(pathSearchStart + 1)]
       : [pathToAppend, ""];
 
-  const combinedSearch = [endpointParts[1], pathParts[1].replaceAll("?", "&")]
+  const combinedSearch = [endpointParts[1], pathParts[1].split("?").join("&")]
     .filter(Boolean)
     .join("&");
   // Replace consecutive forward slashes with a single forward slash, but only for the part right after the host in the endpoint.
@@ -201,7 +202,7 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
 
   const newParamStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
-    const param = queryParams[key] as any;
+    const param: unknown = queryParams[key];
     if (param === undefined || param === null) {
       continue;
     }
@@ -218,9 +219,9 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
             getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item),
           );
         }
-      } else if (typeof rawValue === "object") {
+      } else if (rawValue !== null && typeof rawValue === "object") {
         // For object explode, the name of the query parameter is ignored and we use the object key instead
-        for (const [actualKey, value] of Object.entries(rawValue)) {
+        for (const [actualKey, value] of Object.entries(rawValue as Record<string, unknown>)) {
           newParamStrings.push(
             getQueryParamValue(actualKey, options.skipUrlEncoding ?? false, style, value),
           );

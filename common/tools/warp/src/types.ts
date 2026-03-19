@@ -64,6 +64,22 @@ export interface WarpTarget {
    * everything else → "module".
    */
   moduleType?: ModuleType;
+  /**
+   * Controls post-processing of `#`-prefixed import specifiers (Node.js
+   * subpath imports) in emitted JS and `.d.ts` files.
+   *
+   * Each `#`-prefixed specifier is resolved against the package's `imports`
+   * map using the target's condition, then replaced with a target-appropriate
+   * relative path in the output.
+   *
+   * **Default behavior:** When the package has an `"imports"` field in
+   * package.json, `resolveImports` defaults to `true` for all targets.
+   * Set to `false` to opt out for a specific target.
+   *
+   * When no `"imports"` field exists, resolveImports is off unless explicitly
+   * set to `true` (which triggers a build error).
+   */
+  resolveImports?: boolean;
 }
 
 /**

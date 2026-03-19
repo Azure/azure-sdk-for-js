@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { log } from "./log.js";
+import { log } from "#platform/logger/log";
+import { getEnvVariable } from "#platform/logger/env";
 
 /**
  * A simple mechanism for enabling logging.
@@ -65,8 +66,7 @@ export interface Debugger {
   extend: (namespace: string) => Debugger;
 }
 
-const debugEnvVariable =
-  (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
+const debugEnvVariable = getEnvVariable("DEBUG");
 
 let enabledString: string | undefined;
 let enabledNamespaces: string[] = [];

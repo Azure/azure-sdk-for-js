@@ -7,45 +7,70 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,9 +12,9 @@
+@@ -4,20 +4,8 @@
+ 
+ ```ts
  
  // @public
- export function decompressResponsePolicy(): PipelinePolicy;
- 
+-export function agentPolicy(agent?: Agent): PipelinePolicy;
+-
 -// @public
-+// @public (undocumented)
- export const decompressResponsePolicyName = "decompressResponsePolicy";
+-export const agentPolicyName = "agentPolicy";
+-
+-// @public
+-export function decompressResponsePolicy(): PipelinePolicy;
+-
+-// @public
+-export const decompressResponsePolicyName = "decompressResponsePolicy";
+-
+-// @public
+ export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
  
  // @public
- export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
-@@ -44,10 +44,10 @@
+ export const defaultRetryPolicyName = "defaultRetryPolicy";
+@@ -44,11 +32,8 @@
  
  // @public
  export const formDataPolicyName = "formDataPolicy";
  
 -// @public @deprecated
 -export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
-+// @public (undocumented)
-+export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined;
- 
+-
  // @public
  export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
  
-@@ -67,13 +67,13 @@
+ // @public
+@@ -67,16 +52,8 @@
  // @public
  export const multipartPolicyName = "multipartPolicy";
  
  // @public
 -export function proxyPolicy(proxySettings?: ProxySettings, options?: {
-+export function proxyPolicy(_proxySettings?: ProxySettings, _options?: {
-     customNoProxyList?: string[];
- }): PipelinePolicy;
- 
+-    customNoProxyList?: string[];
+-}): PipelinePolicy;
+-
 -// @public
-+// @public (undocumented)
- export const proxyPolicyName = "proxyPolicy";
+-export const proxyPolicyName = "proxyPolicy";
+-
+-// @public
+ export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
  
  // @public
- export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
+ export const redirectPolicyName = "redirectPolicy";
+@@ -130,14 +107,8 @@
+ // @public
+ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+ 
+ // @public
+-export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy;
+-
+-// @public
+-export const tlsPolicyName = "tlsPolicy";
+-
+-// @public
+ export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
+ 
+ // @public
+ export const userAgentPolicyName = "userAgentPolicy";
 
 ```

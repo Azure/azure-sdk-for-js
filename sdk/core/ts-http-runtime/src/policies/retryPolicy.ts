@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 import { delay } from "../util/helpers.js";
 import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
-import type { RestError } from "../restError.js";
+import type { RestError } from "#platform/restError";
 import { AbortError } from "../abort-controller/AbortError.js";
 import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { createClientLogger } from "../logger/logger.js";

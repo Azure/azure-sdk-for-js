@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { getClient } from "../../src/client/getClient.js";
+import { getClient } from "@typespec/ts-http-runtime";
 
 function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({
@@ -87,20 +87,16 @@ describe("[Browser] Streams", () => {
     }
   });
 
-  it("should throw when attempting to use node streams", async () => {
+  it("should throw when calling asNodeStream in the browser build", async () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockResolvedValue(createResponse(200, "test"));
 
     const client = getClient(mockBaseUrl);
-
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();
-      assert.fail("Expected error was not thrown");
+      assert.fail("Expected asNodeStream to throw");
     } catch (e: any) {
-      assert.equal(
-        e.message,
-        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
-      );
+      assert.match(e.message, /asNodeStream is not supported in browser environments/);
     }
   });
 });

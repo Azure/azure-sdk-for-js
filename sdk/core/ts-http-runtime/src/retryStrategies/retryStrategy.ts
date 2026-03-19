@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
-import type { PipelineResponse } from "../interfaces.js";
-import type { RestError } from "../restError.js";
+import type { PipelineResponse } from "#platform/interfaces";
+import type { RestError } from "#platform/restError";
 
 /**
  * Information provided to the retry strategy about the current progress of the retry policy.

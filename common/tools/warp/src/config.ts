@@ -288,6 +288,12 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: targets[${i}].moduleType must be "module" or "commonjs"`,
       );
     }
+    if (entry.resolveImports !== undefined && typeof entry.resolveImports !== "boolean") {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Invalid config in ${source}: targets[${i}].resolveImports must be a boolean`,
+      );
+    }
 
     // Build typed target — casts are safe: all fields validated above
     const name = entry.name as string;
@@ -303,6 +309,7 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
       tsconfig: entry.tsconfig as string,
       ...(resolvedPolyfillSuffix !== undefined && { polyfillSuffix: resolvedPolyfillSuffix }),
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
+      ...(typeof entry.resolveImports === "boolean" && { resolveImports: entry.resolveImports }),
     };
 
     if (seenNames.has(target.name)) {

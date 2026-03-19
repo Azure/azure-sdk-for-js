@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Debugger } from "../logger/logger.js";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger as coreLogger } from "../log.js";
 import { Sanitizer } from "../util/sanitizer.js";

@@ -1,0 +1,16 @@
+{
+  "extends": "../../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "outDir": "../dist/esm",
+    "rootDir": ".",
+    "lib": ["ES2023"]
+  },
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "./**/*.mts",
+    "./xhrHttpClient.ts",
+    "./util/typeGuardsWeb.ts",
+    "./restErrorWeb.ts",
+    "./restErrorReactNative.ts"
+  ]
+}

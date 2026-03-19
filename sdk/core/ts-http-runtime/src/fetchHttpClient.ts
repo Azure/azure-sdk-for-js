@@ -8,22 +8,16 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { RestError } from "./restError.js";
+} from "#platform/interfaces";
+import { RestError } from "#platform/restError";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
+import { isBlob, isWebReadableStream } from "./util/typeGuardsCommon.js";
+import { setStreamingResponse } from "#platform/fetchHttpClientHelpers";
 
 /**
- * Checks if the body is a Blob or Blob-like
- */
-function isBlob(body: unknown): body is Blob {
-  // File objects count as a type of Blob, so we want to use instanceof explicitly
-  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
-}
-
-/**
- * A HttpClient implementation that uses window.fetch to send HTTP requests.
+ * A HttpClient implementation that uses the Fetch API to send HTTP requests.
+ * Works on both Node.js (20+) and browser environments.
  * @internal
  */
 class FetchHttpClient implements HttpClient {
@@ -37,10 +31,6 @@ class FetchHttpClient implements HttpClient {
 
     if (isInsecure && !request.allowInsecureConnection) {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
-    }
-
-    if (request.proxySettings) {
-      throw new Error("HTTP proxy is not supported in browser environment");
     }
 
     try {
@@ -77,7 +67,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     // init.duplex must be set when body is a ReadableStream object.
     // currently "half" is the only valid value.
     if (streaming) {
-      (requestInit as any).duplex = "half";
+      (requestInit as RequestInit & { duplex: string }).duplex = "half";
     }
     /**
      * Developers of the future:
@@ -115,25 +105,20 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isWebReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, {
-        onProgress: request.onDownloadProgress,
-        onEnd: abortControllerCleanup,
-      })
-    : httpResponse.body;
+  const bodyStream =
+    httpResponse.body !== null
+      ? buildBodyStream(httpResponse.body, {
+          onProgress: request.onDownloadProgress,
+          onEnd: abortControllerCleanup,
+        })
+      : httpResponse.body;
 
   if (
     // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
     request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
     request.streamResponseStatusCodes?.has(response.status)
   ) {
-    if (request.enableBrowserStreams) {
-      response.browserStreamBody = bodyStream ?? undefined;
-    } else {
-      const responseStream = new Response(bodyStream);
-      response.blobBody = responseStream.blob();
-      abortControllerCleanup?.();
-    }
+    setStreamingResponse(response, bodyStream, request, abortControllerCleanup);
   } else {
     const responseStream = new Response(bodyStream);
 
@@ -214,37 +199,39 @@ function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
 
 function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   const responseHeaders = createHttpHeaders();
-  for (const [name, value] of httpResponse.headers) {
+  httpResponse.headers.forEach((value, name) => {
     responseHeaders.set(name, value);
-  }
+  });
 
   return responseHeaders;
 }
 
 interface BuildRequestBodyResponse {
-  body?: BodyInit | null;
+  body?: RequestInit["body"];
   streaming: boolean;
 }
 
 function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   const body = typeof request.body === "function" ? request.body() : request.body;
-  if (isNodeReadableStream(body)) {
-    throw new Error("Node streams are not supported in browser environment.");
-  }
-
   if (isWebReadableStream(body)) {
     return {
       streaming: true,
       body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
     };
-  } else if (typeof body === "object" && body && "buffer" in body) {
-    // ArrayBufferView
-    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
-  } else if (body === undefined) {
-    return { streaming: false };
-  } else {
-    return { streaming: false, body };
   }
+
+  if (ArrayBuffer.isView(body)) {
+    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
+  }
+
+  if (body === undefined) {
+    return { streaming: false };
+  }
+
+  // Remaining types (string, FormData, Blob, null) are all valid BodyInit.
+  // NodeJS.ReadableStream is in RequestBodyType but should use the web ReadableStream
+  // path above when passed to a fetch-based client.
+  return { streaming: false, body: body as RequestInit["body"] };
 }
 
 /**
@@ -324,5 +311,5 @@ export function createFetchHttpClient(): HttpClient {
 }
 
 function isTransformStreamSupported(readableStream: ReadableStream): boolean {
-  return readableStream.pipeThrough !== undefined && self.TransformStream !== undefined;
+  return readableStream.pipeThrough !== undefined && globalThis.TransformStream !== undefined;
 }

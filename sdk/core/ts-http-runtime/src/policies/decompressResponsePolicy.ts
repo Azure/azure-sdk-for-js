@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 
 /**

@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProxySettings } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
+
+interface ProxySettings {
+  host: string;
+  port: number;
+  username?: string;
+  password?: string;
+}
 
 export const proxyPolicyName = "proxyPolicy";
 const errorMessage = "proxyPolicy is not supported in browser environment";

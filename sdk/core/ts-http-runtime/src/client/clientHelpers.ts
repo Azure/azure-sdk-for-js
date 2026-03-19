@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpClient } from "../interfaces.js";
+import type { HttpClient } from "#platform/interfaces";
 import type { Pipeline } from "../pipeline.js";
-import { createDefaultHttpClient } from "../defaultHttpClient.js";
-import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
+import { createDefaultHttpClient } from "#platform/defaultHttpClient";
+import { createPipelineFromOptions } from "#platform/createPipelineFromOptions";
 import type { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
 import {

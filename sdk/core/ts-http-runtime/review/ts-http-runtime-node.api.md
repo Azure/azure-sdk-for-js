@@ -477,16 +477,11 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
     trace: (options?: RequestParameters) => TResponse;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RestError_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export class RestError extends Error {
+export class RestError extends RestError_2 {
     constructor(message: string, options?: RestErrorOptions);
-    code?: string;
-    details?: unknown;
-    static readonly PARSE_ERROR: string;
-    request?: PipelineRequest;
-    static readonly REQUEST_SEND_ERROR: string;
-    response?: PipelineResponse;
-    statusCode?: number;
 }
 
 // @public

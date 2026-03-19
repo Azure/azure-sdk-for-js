@@ -1,0 +1,16 @@
+{
+  "extends": "../../../../tsconfig.src.react-native.json",
+  "compilerOptions": {
+    "outDir": "../dist/react-native",
+    "rootDir": ".",
+    "customConditions": ["react-native"],
+    "composite": false
+  },
+  "include": [
+    "./index.ts",
+    "./util/internal.ts",
+    "./logger/internal.ts",
+    "./policies/internal.ts"
+  ],
+  "files": ["./util/react-native.d.ts"]
+}

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelinePolicy } from "../pipeline.js";
-import type { Agent } from "../interfaces.js";
+import type { Agent } from "#platform/interfaces";
 
 /**
  * Name of the Agent Policy

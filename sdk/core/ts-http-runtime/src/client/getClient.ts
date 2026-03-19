@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HttpClient, HttpMethods } from "../interfaces.js";
+import type { HttpClient, HttpMethods } from "#platform/interfaces";
 import type { Pipeline } from "../pipeline.js";
 import { createDefaultPipeline } from "./clientHelpers.js";
 import type {

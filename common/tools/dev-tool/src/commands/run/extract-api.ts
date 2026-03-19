@@ -43,13 +43,22 @@ interface RuntimeApiFiles {
 }
 
 async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
-  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
-  try {
-    await stat(tsconfigPath);
-    return tsconfigPath;
-  } catch {
-    return path.join(projectPath, `tsconfig.src.json`);
+  const candidates = [
+    path.join(projectPath, `tsconfig.src.${runtime}.json`),
+    path.join(projectPath, `src/tsconfig.${runtime}.json`),
+    path.join(projectPath, `tsconfig.src.json`),
+    path.join(projectPath, `src/tsconfig.esm.json`),
+    path.join(projectPath, `src/tsconfig.json`),
+  ];
+  for (const candidate of candidates) {
+    try {
+      await stat(candidate);
+      return candidate;
+    } catch {
+      // try next
+    }
   }
+  return candidates[2]; // fallback to tsconfig.src.json (original default)
 }
 
 interface ApiJson {
@@ -67,7 +76,6 @@ interface ApiJson {
     }[];
   }[];
 }
-
 async function buildExportConfiguration(
   packageJson: { exports: Record<string, Record<string, { types: string }>> },
   projectRoot: string,

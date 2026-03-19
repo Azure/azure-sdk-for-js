@@ -1,0 +1,17 @@
+{
+  "extends": "../../../../tsconfig.src.browser.json",
+  "compilerOptions": {
+    "outDir": "../dist/browser",
+    "rootDir": ".",
+    "customConditions": ["browser"],
+    "composite": false
+  },
+  "include": [
+    "./index.ts",
+    "./util/internal.ts",
+    "./logger/internal.ts",
+    "./policies/internal.ts",
+    "./policies/decompressResponsePolicy-browser.mts",
+    "./policies/proxyPolicy-browser.mts"
+  ]
+}

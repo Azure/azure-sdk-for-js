@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "../abort-controller/AbortError.js";
-import type { PipelineResponse } from "../interfaces.js";
+import type { PipelineResponse } from "#platform/interfaces";
 
 const StandardAbortMessage = "The operation was aborted.";
 

@@ -10,7 +10,7 @@ import type {
   PipelineResponse,
   ProxySettings,
   SendRequest,
-} from "../interfaces.js";
+} from "#platform/interfaces";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger } from "../log.js";
 

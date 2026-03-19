@@ -9,17 +9,19 @@ exports:
 
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
+    tsconfig: "./src/tsconfig.browser.json"
+    resolveImports: true
 
   - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
+    tsconfig: "./src/tsconfig.react-native.json"
+    resolveImports: true
 
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
+    tsconfig: "./src/tsconfig.esm.json"
+    resolveImports: true
 
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: "./src/tsconfig.cjs.json"
+    resolveImports: true

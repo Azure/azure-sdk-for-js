@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -13,7 +15,9 @@ interface BrowserBrand {
   version: string;
 }
 
-interface NavigatorEx extends Navigator {
+interface NavigatorEx {
+  platform?: string;
+  userAgent: string;
   userAgentData?: {
     brands: BrowserBrand[];
     mobile: boolean;
