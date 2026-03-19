@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-eventgrid",
-  "version": "15.0.0-beta.2",
+  "version": "15.0.0-beta.3",
   "description": "A generated SDK for EventGridManagementClient.",
   "engines": {
     "node": ">=20.0.0"
