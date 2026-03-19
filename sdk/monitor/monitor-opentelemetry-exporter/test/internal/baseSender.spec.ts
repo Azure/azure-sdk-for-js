@@ -1191,9 +1191,7 @@ describe("BaseSender", () => {
         .mockResolvedValueOnce({ result: "success", statusCode: 200 })
         .mockRejectedValueOnce(new Error("Network failure"));
 
-      mockPersist.shift
-        .mockResolvedValueOnce(file1Envelopes)
-        .mockResolvedValueOnce(file2Envelopes);
+      mockPersist.shift.mockResolvedValueOnce(file1Envelopes).mockResolvedValueOnce(file2Envelopes);
 
       await sender.callSendAllPersistedFiles();
 
@@ -1358,9 +1356,7 @@ describe("BaseSender", () => {
       const file1 = [{ name: "single", time: new Date() }];
 
       sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
-      mockPersist.shift
-        .mockResolvedValueOnce(file1)
-        .mockResolvedValueOnce(null);
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(null);
 
       await sender.callSendAllPersistedFiles();
 
