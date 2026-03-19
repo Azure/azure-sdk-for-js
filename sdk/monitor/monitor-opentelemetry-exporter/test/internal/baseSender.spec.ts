@@ -1272,8 +1272,6 @@ describe("BaseSender", () => {
 
   describe("sendAllPersistedFiles edge cases", () => {
     it("should still attempt sends even if cleanExpiredFiles throws", async () => {
-      const file1Envelopes = [{ name: "file1", time: new Date() }];
-
       mockPersist.cleanExpiredFiles.mockRejectedValueOnce(new Error("Cleanup failed"));
 
       await sender.callSendAllPersistedFiles();
