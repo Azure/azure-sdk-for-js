@@ -20494,7 +20494,7 @@ importers:
   sdk/monitor/monitor-opentelemetry-exporter:
     dependencies:
       '@azure-rest/core-client':
-        specifier: workspace:^
+        specifier: ^2.5.2
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
