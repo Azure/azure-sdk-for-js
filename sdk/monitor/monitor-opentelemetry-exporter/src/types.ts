@@ -54,7 +54,6 @@ import {
   SEMATTRS_RPC_SYSTEM,
 } from "@opentelemetry/semantic-conventions";
 import type { ContextTagKeys } from "./generated/index.js";
-import type { HttpHeaders } from "@azure/core-rest-pipeline";
 
 /**
  * Azure Monitor envelope tags.
