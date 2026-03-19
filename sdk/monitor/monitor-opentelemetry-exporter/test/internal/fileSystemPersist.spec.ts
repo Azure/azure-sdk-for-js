@@ -280,6 +280,124 @@ describe("FileSystemPersist", () => {
       // Should not throw
       await persister.cleanExpiredFiles();
     });
+
+    it("should only clean expired files and keep non-expired ones", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      const expiredBatch = [{ batch: "expired" }];
+      const freshBatch = [{ batch: "fresh" }];
+
+      // Push the "expired" batch first
+      await persister.push(expiredBatch);
+      await sleep(100);
+
+      // Set a very short retention so the first file is expired
+      persister.fileRetemptionPeriod = 50;
+
+      // Push the "fresh" batch
+      await persister.push(freshBatch);
+
+      // Clean — should only remove the expired file
+      await persister.cleanExpiredFiles();
+
+      // The fresh file should still be present
+      const remaining = await persister.shift();
+      assert.deepStrictEqual(remaining, freshBatch, "Fresh file should still exist");
+
+      // No more files
+      const empty = await persister.shift();
+      assert.strictEqual(empty, null, "No more files should remain");
+    });
+  });
+
+  describe("#shift() and #cleanExpiredFiles() integration", () => {
+    it("should return null after all files are shifted out", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "only" }];
+      await persister.push(batch);
+
+      const value = await persister.shift();
+      assert.deepStrictEqual(value, batch);
+
+      const empty = await persister.shift();
+      assert.strictEqual(empty, null, "Should return null after all files shifted");
+    });
+
+    it("should shift files in FIFO order after cleanup removes expired ones", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      const oldBatch = [{ batch: "old" }];
+      const newBatch1 = [{ batch: "new1" }];
+      const newBatch2 = [{ batch: "new2" }];
+
+      // Push old batch (will become expired)
+      await persister.push(oldBatch);
+      await sleep(200);
+
+      // Push new batches close together so they won't expire
+      await persister.push(newBatch1);
+      await sleep(50);
+      await persister.push(newBatch2);
+
+      // Set retention so only the old file (200ms+ ago) is expired, not the new ones (<100ms ago)
+      persister.fileRetemptionPeriod = 150;
+
+      // Clean expired files
+      await persister.cleanExpiredFiles();
+
+      // Should get new batches in FIFO order
+      const first = await persister.shift();
+      assert.deepStrictEqual(first, newBatch1);
+
+      const second = await persister.shift();
+      assert.deepStrictEqual(second, newBatch2);
+
+      const empty = await persister.shift();
+      assert.strictEqual(empty, null);
+    });
+
+    it("push then shift round-trip preserves data integrity", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const complexBatch = [
+        { name: "trace1", time: new Date(), data: { baseData: { message: "hello" } } },
+        { name: "trace2", time: new Date(), data: { baseData: { message: "world" } } },
+      ];
+
+      const success = await persister.push(complexBatch);
+      assert.strictEqual(success, true);
+
+      const result = await persister.shift();
+      assert.deepStrictEqual(
+        result,
+        JSON.parse(JSON.stringify(complexBatch)),
+        "Data should survive push/shift round-trip",
+      );
+    });
+
+    it("shift should handle empty directory gracefully", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+
+      // No files pushed — shift should return null without error
+      const result = await persister.shift();
+      assert.strictEqual(result, null);
+    });
+
+    it("cleanExpiredFiles followed by shift on empty dir returns null", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "will-expire" }];
+
+      await persister.push(batch);
+      persister.fileRetemptionPeriod = 1;
+      await sleep(100);
+
+      await persister.cleanExpiredFiles();
+
+      const result = await persister.shift();
+      assert.strictEqual(result, null, "Should return null after all files cleaned");
+    });
   });
 
   describe("#CLIENT_READONLY scenarios", () => {
