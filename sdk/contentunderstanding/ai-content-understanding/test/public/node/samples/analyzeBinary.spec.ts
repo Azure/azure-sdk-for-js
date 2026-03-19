@@ -166,7 +166,7 @@ describe("Sample: analyzeBinary", () => {
     assert.ok(result.contents.length > 0);
   });
 
-  it("should analyze with raw ContentRange string", async () => {
+  it("should analyze with raw string content range", async () => {
     const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
     if (!fs.existsSync(filePath)) {
       console.warn(`Sample file not found at ${filePath}, skipping test`);
@@ -174,12 +174,54 @@ describe("Sample: analyzeBinary", () => {
     }
     const pdfBytes = fs.readFileSync(filePath);
 
+    // Pass content range as a plain string "1-3,5,9-"
     const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
-      contentRange: new ContentRange("1-3,5,9-"),
+      contentRange: "1-3,5,9-",
     });
     const result = await poller.pollUntilDone();
 
     assert.ok(result.contents);
     assert.ok(result.contents.length > 0);
+  });
+
+  it("should analyze with raw string page range", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    // Pass content range as a plain string "1-3"
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: "1-3",
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.equal(doc.startPageNumber, 1);
+    assert.equal(doc.endPageNumber, 3);
+  });
+
+  it("should analyze with raw string open-ended page range", async () => {
+    const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Sample file not found at ${filePath}, skipping test`);
+      return;
+    }
+    const pdfBytes = fs.readFileSync(filePath);
+
+    // Pass content range as a plain string "9-"
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions, {
+      contentRange: "9-",
+    });
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.ok(doc.startPageNumber >= 9);
   });
 });

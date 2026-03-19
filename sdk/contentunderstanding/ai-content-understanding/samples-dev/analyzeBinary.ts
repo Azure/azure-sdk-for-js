@@ -172,14 +172,57 @@ export async function main(): Promise<void> {
     console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
   }
 
-  // ---- Raw string "1-3,5,9-" — equivalent to the combine above ----
-  console.log('\n--- Raw string "1-3,5,9-" ---');
-  const rawPoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: new ContentRange("1-3,5,9-"),
-  });
-  const rawResult = await rawPoller.pollUntilDone();
-  if (rawResult.contents && rawResult.contents.length > 0) {
-    const doc = rawResult.contents[0] as DocumentContent;
+  // ======================================================================
+  // Raw string content ranges — pass strings directly without helpers
+  // ======================================================================
+
+  // ---- Raw string "1-3" — document page range ----
+  console.log('\n--- Raw string "1-3": Pages 1 through 3 ---');
+  const rawPageRangePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    undefined,
+    {
+      contentRange: "1-3",
+    },
+  );
+  const rawPageRangeResult = await rawPageRangePoller.pollUntilDone();
+  if (rawPageRangeResult.contents && rawPageRangeResult.contents.length > 0) {
+    const doc = rawPageRangeResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- Raw string "9-" — all pages from page 9 onward ----
+  console.log('\n--- Raw string "9-": Page 9 onward ---');
+  const rawPagesFromPoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    undefined,
+    {
+      contentRange: "9-",
+    },
+  );
+  const rawPagesFromResult = await rawPagesFromPoller.pollUntilDone();
+  if (rawPagesFromResult.contents && rawPagesFromResult.contents.length > 0) {
+    const doc = rawPagesFromResult.contents[0] as DocumentContent;
+    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- Raw string "1-3,5,9-" — combined ranges ----
+  console.log('\n--- Raw string "1-3,5,9-": Combined ranges ---');
+  const rawCombinedPoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    undefined,
+    {
+      contentRange: "1-3,5,9-",
+    },
+  );
+  const rawCombinedResult = await rawCombinedPoller.pollUntilDone();
+  if (rawCombinedResult.contents && rawCombinedResult.contents.length > 0) {
+    const doc = rawCombinedResult.contents[0] as DocumentContent;
     console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
     console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
   }
