@@ -5,6 +5,17 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger.js";
 
 /**
+ * Options for {@link getEntraTokenPassword}.
+ */
+export interface GetEntraTokenPasswordOptions {
+  /**
+   * The OAuth scope to request. Defaults to the Azure Database for
+   * PostgreSQL scope (`https://ossrdbms-aad.database.windows.net/.default`).
+   */
+  scope?: string;
+}
+
+/**
  * Options for configuring Entra ID authentication with Sequelize.
  */
 export interface ConfigureEntraIdAuthOptions {
@@ -104,7 +115,7 @@ export function configureEntraIdAuth(
   // Runs before every new connection is created by Sequelize
   sequelizeInstance.beforeConnect(async (config: { username?: string; password?: string }) => {
     logger.info("Fetching Entra ID access token...");
-    const token = await getEntraTokenPassword(credential, DEFAULT_SCOPE);
+    const token = await getEntraTokenPassword(credential);
 
     // Derive username from token if you want (optional):
     const claims = decodeJwtToken(token);
@@ -130,8 +141,7 @@ export function configureEntraIdAuth(
  *
  * @param credential - An Azure {@link TokenCredential} used to acquire tokens
  *   (e.g., `DefaultAzureCredential`).
- * @param scope - The OAuth scope to request. Defaults to the Azure Database for
- *   PostgreSQL scope (`https://ossrdbms-aad.database.windows.net/.default`).
+ * @param options - Optional settings such as a custom OAuth scope.
  * @returns A promise that resolves to the access token string.
  *
  * @example
@@ -153,11 +163,12 @@ export function configureEntraIdAuth(
  */
 export async function getEntraTokenPassword(
   credential: TokenCredential,
-  scope: string = DEFAULT_SCOPE,
+  options: GetEntraTokenPasswordOptions = {},
 ): Promise<string> {
   if (!credential) {
     throw new Error("credential is required");
   }
+  const { scope = DEFAULT_SCOPE } = options;
   try {
     const t = await credential.getToken(scope);
     if (!t?.token) {
