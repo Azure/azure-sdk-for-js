@@ -11,6 +11,7 @@ import type {
   TransferProgressEvent,
   RawHttpHeadersInput,
 } from "#platform/interfaces";
+import type { NodeReadableStream } from "#platform/nodeTypes";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 import type { AuthScheme } from "../auth/schemes.js";
@@ -23,7 +24,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJS.ReadableStream;
+  body?: NodeReadableStream;
 };
 
 /**

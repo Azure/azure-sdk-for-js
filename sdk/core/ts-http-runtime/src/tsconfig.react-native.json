@@ -4,7 +4,8 @@
     "outDir": "../dist/react-native",
     "rootDir": ".",
     "customConditions": ["react-native"],
-    "composite": false
+    "composite": false,
+    "types": []
   },
   "include": [
     "./index.ts",

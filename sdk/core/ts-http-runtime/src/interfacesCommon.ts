@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AuthScheme } from "./auth/schemes.js";
+import type { NodeBuffer, NodeReadableStream } from "#platform/nodeTypes";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -59,9 +60,9 @@ export interface BodyPart {
    * The body of this part of the multipart request.
    */
   body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeReadableStream))
     | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
+    | NodeReadableStream
     | Uint8Array
     | Blob;
 }
@@ -86,12 +87,12 @@ export interface MultipartRequestBody {
 
 /**
  * Types of bodies supported on the request.
- * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
+ * NodeReadableStream and () =\> NodeReadableStream is Node only.
  * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
-  | NodeJS.ReadableStream
-  | (() => NodeJS.ReadableStream)
+  | NodeReadableStream
+  | (() => NodeReadableStream)
   | ReadableStream<Uint8Array>
   | (() => ReadableStream<Uint8Array>)
   | Blob
@@ -301,7 +302,7 @@ export interface PipelineResponse {
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 }
 
 /**
@@ -414,7 +415,7 @@ export interface CertificateCredential {
    * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
    * replaced when CAs are explicitly specified using this option.
    */
-  ca?: string | Buffer | Array<string | Buffer> | undefined;
+  ca?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
   /**
    *  Cert chains in PEM format. One cert chain should be provided per
    *  private key. Each cert chain should consist of the PEM formatted
@@ -426,7 +427,7 @@ export interface CertificateCredential {
    *  intermediate certificates are not provided, the peer will not be
    *  able to validate the certificate, and the handshake will fail.
    */
-  cert?: string | Buffer | Array<string | Buffer> | undefined;
+  cert?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
   /**
    * Private keys in PEM format. PEM allows the option of private keys
    * being encrypted. Encrypted keys will be decrypted with
@@ -436,7 +437,7 @@ export interface CertificateCredential {
    * The object form can only occur in an array.object.passphrase is optional.
    * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
    */
-  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+  key?: string | NodeBuffer | Array<NodeBuffer | KeyObject> | undefined;
   /**
    * Shared passphrase used for a single private key and/or a PFX.
    */
@@ -450,7 +451,7 @@ export interface CertificateCredential {
    * The object form can only occur in an array.object.passphrase is optional.
    * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
    */
-  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+  pfx?: string | NodeBuffer | Array<string | NodeBuffer | PxfObject> | undefined;
 }
 
 /**
@@ -462,7 +463,7 @@ export interface TlsSettings {
    * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
    * replaced when CAs are explicitly specified using this option.
    */
-  ca?: string | Buffer | Array<string | Buffer> | undefined;
+  ca?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
   /**
    *  Cert chains in PEM format. One cert chain should be provided per
    *  private key. Each cert chain should consist of the PEM formatted
@@ -474,7 +475,7 @@ export interface TlsSettings {
    *  intermediate certificates are not provided, the peer will not be
    *  able to validate the certificate, and the handshake will fail.
    */
-  cert?: string | Buffer | Array<string | Buffer> | undefined;
+  cert?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
   /**
    * Private keys in PEM format. PEM allows the option of private keys
    * being encrypted. Encrypted keys will be decrypted with
@@ -484,7 +485,7 @@ export interface TlsSettings {
    * The object form can only occur in an array.object.passphrase is optional.
    * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
    */
-  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+  key?: string | NodeBuffer | Array<NodeBuffer | KeyObject> | undefined;
   /**
    * Shared passphrase used for a single private key and/or a PFX.
    */
@@ -498,7 +499,7 @@ export interface TlsSettings {
    * The object form can only occur in an array.object.passphrase is optional.
    * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
    */
-  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+  pfx?: string | NodeBuffer | Array<string | NodeBuffer | PxfObject> | undefined;
 }
 
 /**
@@ -510,7 +511,7 @@ export interface KeyObject {
   /**
    * Private keys in PEM format.
    */
-  pem: string | Buffer;
+  pem: string | NodeBuffer;
   /**
    * Optional passphrase.
    */
@@ -526,7 +527,7 @@ export interface PxfObject {
   /**
    * PFX or PKCS12 encoded private key and certificate chain.
    */
-  buf: string | Buffer;
+  buf: string | NodeBuffer;
   /**
    * Optional passphrase.
    */

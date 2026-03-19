@@ -8,6 +8,7 @@ import type {
   PipelineResponse,
   RequestBodyType,
 } from "#platform/interfaces";
+import type { NodeReadableStream } from "#platform/nodeTypes";
 import type { PipelinePolicy } from "../pipeline.js";
 import { stringToUint8Array } from "#platform/util/bytesEncoding";
 import { isBlob } from "#platform/util/typeGuards";
@@ -29,11 +30,11 @@ function encodeHeaders(headers: HttpHeaders): string {
 function getLength(
   source:
     | (() => ReadableStream<Uint8Array>)
-    | (() => NodeJS.ReadableStream)
+    | (() => NodeReadableStream)
     | Uint8Array
     | Blob
     | ReadableStream
-    | NodeJS.ReadableStream,
+    | NodeReadableStream,
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -48,11 +49,11 @@ function getLength(
 function getTotalLength(
   sources: (
     | (() => ReadableStream<Uint8Array>)
-    | (() => NodeJS.ReadableStream)
+    | (() => NodeReadableStream)
     | Uint8Array
     | Blob
     | ReadableStream
-    | NodeJS.ReadableStream
+    | NodeReadableStream
   )[],
 ): number | undefined {
   let total = 0;

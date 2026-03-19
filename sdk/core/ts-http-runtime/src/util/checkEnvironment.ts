@@ -33,6 +33,7 @@ declare const self: DedicatedWorkerGlobalScope;
 declare const Deno: DenoGlobal;
 declare const Bun: BunGlobal;
 declare const navigator: Navigator;
+declare const process: { version?: string; versions?: { node?: string } } | undefined;
 
 /**
  * A constant that indicates whether the environment the code is running is a Web Browser.
@@ -67,9 +68,9 @@ export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undef
  * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
  */
 export const isNodeLike =
-  typeof globalThis.process !== "undefined" &&
-  Boolean(globalThis.process.version) &&
-  Boolean(globalThis.process.versions?.node);
+  typeof process !== "undefined" &&
+  Boolean(process.version) &&
+  Boolean(process.versions?.node);
 
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.

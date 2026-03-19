@@ -2,15 +2,16 @@
 // Licensed under the MIT License.
 
 import { isWebReadableStream } from "./typeGuardsCommon.js";
+import type { NodeReadableStream } from "#platform/nodeTypes";
 export * from "./typeGuardsCommon.js";
 
 export function isBinaryBody(
   body: unknown,
 ): body is
   | Uint8Array
-  | NodeJS.ReadableStream
+  | NodeReadableStream
   | ReadableStream<Uint8Array>
-  | (() => NodeJS.ReadableStream)
+  | (() => NodeReadableStream)
   | (() => ReadableStream<Uint8Array>)
   | Blob {
   return (
@@ -22,6 +23,6 @@ export function isBinaryBody(
   );
 }
 
-export function isReadableStream(x: unknown): x is ReadableStream<Uint8Array> | NodeJS.ReadableStream {
+export function isReadableStream(x: unknown): x is ReadableStream<Uint8Array> | NodeReadableStream {
   return isWebReadableStream(x);
 }

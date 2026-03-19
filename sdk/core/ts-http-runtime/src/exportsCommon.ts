@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { NodeBuffer, NodeReadableStream } from "#platform/nodeTypes";
 export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,

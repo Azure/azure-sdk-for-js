@@ -229,7 +229,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   }
 
   // Remaining types (string, FormData, Blob, null) are all valid BodyInit.
-  // NodeJS.ReadableStream is in RequestBodyType but should use the web ReadableStream
+  // NodeReadableStream is in RequestBodyType but should use the web ReadableStream
   // path above when passed to a fetch-based client.
   return { streaming: false, body: body as RequestInit["body"] };
 }

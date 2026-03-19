@@ -4,7 +4,8 @@
     "outDir": "../dist/browser",
     "rootDir": ".",
     "customConditions": ["browser"],
-    "composite": false
+    "composite": false,
+    "types": []
   },
   "include": [
     "./index.ts",
