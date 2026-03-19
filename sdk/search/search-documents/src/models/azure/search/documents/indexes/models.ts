@@ -4587,7 +4587,6 @@ export function webApiVectorizerParametersDeserializer(item: any): WebApiVectori
   };
 }
 
-
 /** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
 export interface AzureMachineLearningVectorizer extends VectorSearchVectorizer {
   /** Specifies the properties of the AML vectorizer. */
@@ -10021,8 +10020,6 @@ export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmb
     dimensions: item["dimensions"],
   };
 }
-
-
 
 /** A skill that leverages Azure AI Content Understanding to process and extract structured insights from documents, enabling enriched, searchable content for enhanced document indexing and retrieval. */
 export interface ContentUnderstandingSkill extends SearchIndexerSkill {

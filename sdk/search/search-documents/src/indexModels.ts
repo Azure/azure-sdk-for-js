@@ -13,7 +13,6 @@ import type {
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
-
   QueryType,
   ScoringStatistics,
   SearchMode,
