@@ -3,10 +3,7 @@
 
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import {
-  bearerTokenAuthenticationPolicyName,
-  redirectPolicyName,
-} from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
 import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";

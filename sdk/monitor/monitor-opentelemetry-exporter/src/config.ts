@@ -9,7 +9,8 @@ import type { ClientOptions } from "@azure-rest/core-client";
  * Optional parameters for the Application Insights client.
  * Extends both ServiceClientOptions (for backward compatibility) and ClientOptions (REST client).
  */
-export interface ApplicationInsightsClientOptionalParams extends ServiceClientOptions, ClientOptions {
+export interface ApplicationInsightsClientOptionalParams
+  extends ServiceClientOptions, ClientOptions {
   /** Breeze endpoint: https://dc.services.visualstudio.com */
   host?: string;
   /** Overrides client endpoint. */
