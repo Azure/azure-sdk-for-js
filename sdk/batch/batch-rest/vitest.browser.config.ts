@@ -10,6 +10,12 @@ export default mergeConfig(
   defineConfig({
     test: {
       globalSetup: ["test/global-setup.ts"],
+      // Exclude byos.spec from browser tests due to @azure/core-lro version conflict:
+      // @azure/arm-keyvault requires core-lro v3 (has deserializeState), while
+      // @azure/keyvault-keys requires core-lro v2 (no deserializeState).
+      // Vite pre-bundles only one version, causing import failures in browser.
+      // Node tests handle this correctly via pnpm's isolated dependency resolution.
+      exclude: ["**/byos.spec.*"],
     },
     optimizeDeps: {
       // Exclude the bare specifier so Vite doesn't flatten it
