@@ -3,7 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
+import type { CancelOnProgress, OperationState } from "@azure/core-lro";
+import type { SimplePollerLike } from "./pollingHelper.js";
 import type { TestRunCompletionPoller, PolledOperationOptions } from "./models.js";
 import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
@@ -46,7 +47,9 @@ export async function getTestRunCompletionPoller(
     OperationState<LoadTestRunGetTestRun200Response>,
     LoadTestRunGetTestRun200Response
   > = {
-    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+    async poll(options?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<OperationState<LoadTestRunGetTestRun200Response>> {
       if (options?.abortSignal?.aborted) {
         throw new AbortError("The polling was aborted.");
       }
@@ -56,7 +59,7 @@ export async function getTestRunCompletionPoller(
         if (isUnexpected(getTestRunResult)) {
           state.status = "failed";
           state.error = new Error(getTestRunResult.body.error.message);
-          return;
+          return state;
         }
 
         if (getTestRunResult.body.status === "FAILED") {
@@ -78,6 +81,7 @@ export async function getTestRunCompletionPoller(
         state.result = getTestRunResult;
         await processProgressCallbacks();
       }
+      return state;
     },
 
     pollUntilDone(pollOptions?: {
@@ -158,6 +162,14 @@ export async function getTestRunCompletionPoller(
 
     toString() {
       return JSON.stringify({ state });
+    },
+
+    async serialize(): Promise<string> {
+      return JSON.stringify({ state });
+    },
+
+    async submitted(): Promise<void> {
+      // No-op: the test run is a custom poller
     },
   };
 

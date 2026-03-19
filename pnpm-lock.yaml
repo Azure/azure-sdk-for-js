@@ -803,7 +803,7 @@ importers:
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.7
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -906,7 +906,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -8444,8 +8444,8 @@ importers:
   sdk/core/core-xml:
     dependencies:
       fast-xml-parser:
-        specifier: ^5.3.7
-        version: 5.4.2
+        specifier: ^5.5.6
+        version: 5.5.6
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17814,19 +17814,16 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^2.7.2
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -17859,9 +17856,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.0.18(vitest@4.0.18)
-      autorest:
-        specifier: 'catalog:'
-        version: 3.8.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -20347,7 +20341,7 @@ importers:
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.9
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -20669,7 +20663,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -20757,7 +20751,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -20992,85 +20986,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.58.2
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.37)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
-
-  sdk/neonpostgres/arm-neonpostgres:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-lro':
-        specifier: ^3.1.0
-        version: link:../../core/core-lro
-      '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.11.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.37
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.0.18(vitest@4.0.18)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.4
-      playwright:
-        specifier: catalog:testing
-        version: 1.58.2
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32437,6 +32352,10 @@ packages:
     resolution: {integrity: sha1-Cey+hAiSgQAjgn7y2DjyGaUcHDU=}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    resolution: {integrity: sha1-s7A+yKgRlkxXsxdEIsmHqsfouOA=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/msal-browser@4.29.0':
     resolution: {integrity: sha1-bXEazTtGO0a9rgVEW4NUeBb7j1w=}
     engines: {node: '>=0.8.0'}
@@ -35016,11 +34935,11 @@ packages:
   fast-wrap-ansi@0.2.0:
     resolution: {integrity: sha1-wK4/OYLQYcPWV+yScZb7tH4i/mQ=}
 
-  fast-xml-builder@1.0.0:
-    resolution: {integrity: sha1-pIXX6DgfHbmDzwBvhJ0QZuKTUkE=}
+  fast-xml-builder@1.1.4:
+    resolution: {integrity: sha1-DEB6HZ1ZljNsDNdvf/eFysZBMBc=}
 
-  fast-xml-parser@5.4.2:
-    resolution: {integrity: sha1-f8ZkY7WSYLDF/Vft9GFIpBi95os=}
+  fast-xml-parser@5.5.6:
+    resolution: {integrity: sha1-b8YfWuBqVaHwWKvWpPS10+mXLNA=}
     hasBin: true
 
   fastify-plugin@5.1.0:
@@ -35996,6 +35915,10 @@ packages:
   path-exists@5.0.0:
     resolution: {integrity: sha1-pqrZSJIAsh+rMeSc8JJ35RFvuec=}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  path-expression-matcher@1.1.3:
+    resolution: {integrity: sha1-i/fGKdwbEU5CtjPAcfBtFGJbTg0=}
+    engines: {node: '>=14.0.0'}
 
   path-is-absolute@1.0.1:
     resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
@@ -37411,7 +37334,7 @@ snapshots:
 
   '@azure/core-xml@1.5.0':
     dependencies:
-      fast-xml-parser: 5.4.2
+      fast-xml-parser: 5.5.6
       tslib: 2.8.1
 
   '@azure/functions-extensions-base@0.2.0': {}
@@ -37506,6 +37429,23 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': 1.23.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
+      '@opentelemetry/core': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.40.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -40616,11 +40556,14 @@ snapshots:
     dependencies:
       fast-string-width: 3.0.2
 
-  fast-xml-builder@1.0.0: {}
-
-  fast-xml-parser@5.4.2:
+  fast-xml-builder@1.1.4:
     dependencies:
-      fast-xml-builder: 1.0.0
+      path-expression-matcher: 1.1.3
+
+  fast-xml-parser@5.5.6:
+    dependencies:
+      fast-xml-builder: 1.1.4
+      path-expression-matcher: 1.1.3
       strnum: 2.2.0
 
   fastify-plugin@5.1.0: {}
@@ -41601,6 +41544,8 @@ snapshots:
   path-exists@4.0.0: {}
 
   path-exists@5.0.0: {}
+
+  path-expression-matcher@1.1.3: {}
 
   path-is-absolute@1.0.1: {}
 
