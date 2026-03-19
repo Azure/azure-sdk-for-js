@@ -17,9 +17,7 @@ describe("projectsClient - vector stores file batches", () => {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   it("client and agents operations are accessible", async function () {

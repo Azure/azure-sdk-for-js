@@ -17,9 +17,7 @@ describe("Agents - Run", () => {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   it("should create agent and run agent", async function () {

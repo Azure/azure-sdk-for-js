@@ -34,9 +34,7 @@ describe("Agents - function tool", () => {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   function getCurrentDateTime(): {} {

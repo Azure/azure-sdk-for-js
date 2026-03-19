@@ -17,9 +17,7 @@ describe("projectsClient - vector stores files", () => {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   it("client and projectsClient operations are accessible", async function () {

@@ -17,9 +17,7 @@ describe("Agents - streaming", () => {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   it("should run streaming", async function () {
