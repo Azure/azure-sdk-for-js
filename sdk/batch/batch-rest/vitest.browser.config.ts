@@ -14,6 +14,17 @@ export default mergeConfig(
     optimizeDeps: {
       // Exclude the bare specifier so Vite doesn't flatten it
       exclude: ["@azure/core-lro"],
+      // Explicitly include both resolved paths so each gets its own pre-bundle chunk
+      include: [
+        // v2
+        "@azure/arm-authorization > @azure/core-lro",
+        "@azure/arm-batch > @azure/core-lro",
+        "@azure/arm-compute > @azure/core-lro",
+        "@azure/arm-resources > @azure/core-lro",
+        "@azure/keyvault-keys > @azure/core-lro",
+        // v3
+        "@azure/arm-keyvault > @azure/core-lro",
+      ],
     },
   }),
 );
