@@ -244,10 +244,11 @@ describe("Sample: analyzeUrl", () => {
     assert.ok(result.contents.length > 0);
   });
 
-  it("should analyze video URL with raw ContentRange string", async () => {
+  it("should analyze video URL with raw string content range", async () => {
+    // Pass content range as a plain string "0-5000"
     const poller = client.analyze(
       "prebuilt-videoSearch",
-      [{ url: TEST_VIDEO_URL, contentRange: new ContentRange("0-5000") }],
+      [{ url: TEST_VIDEO_URL, contentRange: "0-5000" }],
       testPollingOptions,
     );
     const result = await poller.pollUntilDone();
@@ -256,10 +257,40 @@ describe("Sample: analyzeUrl", () => {
     assert.ok(result.contents.length > 0);
   });
 
-  it("should analyze audio URL with raw ContentRange string", async () => {
+  it("should analyze audio URL with raw string content range", async () => {
+    // Pass content range as a plain string "5000-"
     const poller = client.analyze(
       "prebuilt-audioSearch",
-      [{ url: TEST_AUDIO_URL, contentRange: new ContentRange("5000-") }],
+      [{ url: TEST_AUDIO_URL, contentRange: "5000-" }],
+      testPollingOptions,
+    );
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+  });
+
+  it("should analyze document URL with raw string page range", async () => {
+    // Pass content range as a plain string "1-3"
+    const poller = client.analyze(
+      "prebuilt-documentSearch",
+      [{ url: TEST_MULTI_PAGE_DOCUMENT_URL, contentRange: "1-3" }],
+      testPollingOptions,
+    );
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result.contents);
+    assert.ok(result.contents.length > 0);
+    const doc = result.contents[0] as DocumentContent;
+    assert.equal(doc.startPageNumber, 1);
+    assert.equal(doc.endPageNumber, 3);
+  });
+
+  it("should analyze document URL with raw string combined range", async () => {
+    // Pass content range as a plain string "1-3,5,9-"
+    const poller = client.analyze(
+      "prebuilt-documentSearch",
+      [{ url: TEST_MULTI_PAGE_DOCUMENT_URL, contentRange: "1-3,5,9-" }],
       testPollingOptions,
     );
     const result = await poller.pollUntilDone();

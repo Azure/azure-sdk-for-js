@@ -208,6 +208,53 @@ async function analyzeDocumentWithContentRange(client: ContentUnderstandingClien
     console.log(`    Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
     console.log(`    Markdown length: ${doc.markdown?.length ?? 0} chars`);
   }
+
+  // ---- Raw string examples — pass strings directly without helpers ----
+
+  // Raw string "1-3" for a document page range
+  console.log('\n  Raw string "1-3": Pages 1 through 3');
+  const rawPageRangePoller = client.analyze("prebuilt-documentSearch", [
+    {
+      url: documentUrl,
+      contentRange: "1-3",
+    },
+  ]);
+  const rawPageRangeResult = await rawPageRangePoller.pollUntilDone();
+  if (rawPageRangeResult.contents && rawPageRangeResult.contents.length > 0) {
+    const doc = rawPageRangeResult.contents[0] as DocumentContent;
+    console.log(`    Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`    Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // Raw string "9-" for all pages from page 9 onward
+  console.log('\n  Raw string "9-": Page 9 onward');
+  const rawPagesFromPoller = client.analyze("prebuilt-documentSearch", [
+    {
+      url: documentUrl,
+      contentRange: "9-",
+    },
+  ]);
+  const rawPagesFromResult = await rawPagesFromPoller.pollUntilDone();
+  if (rawPagesFromResult.contents && rawPagesFromResult.contents.length > 0) {
+    const doc = rawPagesFromResult.contents[0] as DocumentContent;
+    console.log(`    Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`    Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
+
+  // Raw string "1-3,5,9-" for combined ranges
+  console.log('\n  Raw string "1-3,5,9-": Combined ranges');
+  const rawCombinedPoller = client.analyze("prebuilt-documentSearch", [
+    {
+      url: documentUrl,
+      contentRange: "1-3,5,9-",
+    },
+  ]);
+  const rawCombinedResult = await rawCombinedPoller.pollUntilDone();
+  if (rawCombinedResult.contents && rawCombinedResult.contents.length > 0) {
+    const doc = rawCombinedResult.contents[0] as DocumentContent;
+    console.log(`    Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
+    console.log(`    Markdown length: ${doc.markdown?.length ?? 0} chars`);
+  }
 }
 
 async function analyzeVideoWithContentRange(client: ContentUnderstandingClient): Promise<void> {
@@ -290,12 +337,12 @@ async function analyzeVideoWithContentRange(client: ContentUnderstandingClient):
     }
   }
 
-  // ---- Raw string "0-5000" ----
-  console.log('\n  Raw string "0-5000": equivalent to timeRange(0, 5000)');
+  // ---- Raw string "0-5000" — equivalent to timeRange(0, 5000) ----
+  console.log('\n  Raw string "0-5000": First 5 seconds');
   const rawPoller = client.analyze("prebuilt-videoSearch", [
     {
       url: videoUrl,
-      contentRange: new ContentRange("0-5000"),
+      contentRange: "0-5000",
     },
   ]);
   const rawResult = await rawPoller.pollUntilDone();
@@ -366,17 +413,32 @@ async function analyzeAudioWithContentRange(client: ContentUnderstandingClient):
     console.log(`    Markdown length: ${av.markdown?.length ?? 0} chars`);
   }
 
-  // ---- Raw string "5000-" ----
-  console.log('\n  Raw string "5000-": equivalent to timeRangeFrom(5000)');
+  // ---- Raw string "5000-" — equivalent to timeRangeFrom(5000) ----
+  console.log('\n  Raw string "5000-": From 5 seconds onward');
   const rawPoller = client.analyze("prebuilt-audioSearch", [
     {
       url: audioUrl,
-      contentRange: new ContentRange("5000-"),
+      contentRange: "5000-",
     },
   ]);
   const rawResult = await rawPoller.pollUntilDone();
   if (rawResult.contents && rawResult.contents.length > 0) {
     const av = rawResult.contents[0] as AudioVisualContent;
+    console.log(`    Duration: ${av.startTimeMs} ms - ${av.endTimeMs} ms`);
+    console.log(`    Markdown length: ${av.markdown?.length ?? 0} chars`);
+  }
+
+  // ---- Raw string "0-5000" — first 5 seconds ----
+  console.log('\n  Raw string "0-5000": First 5 seconds');
+  const rawWindowPoller = client.analyze("prebuilt-audioSearch", [
+    {
+      url: audioUrl,
+      contentRange: "0-5000",
+    },
+  ]);
+  const rawWindowResult = await rawWindowPoller.pollUntilDone();
+  if (rawWindowResult.contents && rawWindowResult.contents.length > 0) {
+    const av = rawWindowResult.contents[0] as AudioVisualContent;
     console.log(`    Duration: ${av.startTimeMs} ms - ${av.endTimeMs} ms`);
     console.log(`    Markdown length: ${av.markdown?.length ?? 0} chars`);
   }
