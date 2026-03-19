@@ -4347,6 +4347,7 @@ export class ShareFileClient extends StorageClient {
       const context = this.storageClientContext.client["_client"];
       const downloadOptions: FileDownloadOptionalParamsInternal = {
         ...updatedOptions,
+        ...updatedOptions.leaseAccessConditions,
         requestOptions: {
           onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress,
         },
@@ -4497,6 +4498,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.getProperties({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
           }),
         );
@@ -5894,11 +5896,16 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-createSymbolicLink",
       options,
       async (updatedOptions) => {
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
         const rawResponse = adjustResponse(
           await this.context.createSymbolicLink(linkText, {
-            ...updatedOptions,
+            ...restOptions,
             ...updatedOptions.leaseAccessConditions,
+            fileCreationTime: fileCreationTimeToString(updatedOptions.creationTime),
+            fileLastWriteTime: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
             ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
           }),
         );
         return assertResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>({
