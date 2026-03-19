@@ -7,12 +7,7 @@
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function configureEntraIdAuth(sequelizeInstance: {
-    beforeConnect: (callback: (config: {
-        username?: string;
-        password?: string;
-    }) => Promise<void>) => void;
-}, credential: TokenCredential, options?: ConfigureEntraIdAuthOptions): typeof sequelizeInstance;
+export function configureEntraIdAuth(sequelizeInstance: SequelizeBeforeConnectHook, credential: TokenCredential, options?: ConfigureEntraIdAuthOptions): typeof sequelizeInstance;
 
 // @public
 export interface ConfigureEntraIdAuthOptions {
@@ -27,6 +22,12 @@ export interface GetEntraTokenPasswordOptions {
     scope?: string;
 }
 
-// (No @packageDocumentation comment for this package)
+// @public
+export interface SequelizeBeforeConnectHook {
+    beforeConnect: (callback: (config: {
+        username?: string;
+        password?: string;
+    }) => Promise<void>) => void;
+}
 
 ```

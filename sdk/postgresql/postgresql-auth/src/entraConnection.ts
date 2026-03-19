@@ -49,6 +49,20 @@ interface DecodedJwtPayload {
 }
 
 /**
+ * A structural type representing a Sequelize-like instance that supports
+ * the `beforeConnect` lifecycle hook. This avoids a hard dependency on the
+ * `sequelize` package while still providing type safety.
+ */
+export interface SequelizeBeforeConnectHook {
+  /**
+   * Registers a callback that runs before each new database connection.
+   */
+  beforeConnect: (
+    callback: (config: { username?: string; password?: string }) => Promise<void>,
+  ) => void;
+}
+
+/**
  * Decodes a JWT token to extract the payload claims.
  *
  * @param token - The JWT access token string.
@@ -108,11 +122,7 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
  * ```
  */
 export function configureEntraIdAuth(
-  sequelizeInstance: {
-    beforeConnect: (
-      callback: (config: { username?: string; password?: string }) => Promise<void>,
-    ) => void;
-  },
+  sequelizeInstance: SequelizeBeforeConnectHook,
   credential: TokenCredential,
   options: ConfigureEntraIdAuthOptions = {},
 ): typeof sequelizeInstance {

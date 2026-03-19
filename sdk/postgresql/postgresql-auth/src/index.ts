@@ -14,4 +14,5 @@ export { configureEntraIdAuth, getEntraTokenPassword } from "./entraConnection.j
 export type {
   ConfigureEntraIdAuthOptions,
   GetEntraTokenPasswordOptions,
+  SequelizeBeforeConnectHook,
 } from "./entraConnection.js";
