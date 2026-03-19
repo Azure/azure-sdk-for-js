@@ -234,103 +234,6 @@ describe("FileSystemPersist", () => {
     });
   });
 
-  describe("#peek()", () => {
-    it("should return null if no files exist", async () => {
-      const persister = new FileSystemPersist(instrumentationKey);
-      const result = await persister.peek();
-      assert.strictEqual(result, null);
-    });
-
-    it("should return data and filePath without deleting the file", async () => {
-      const persister = new FileSystemPersist(instrumentationKey);
-      const batch = [{ batch: "peek-test" }];
-      const success = await persister.push(batch);
-      assert.strictEqual(success, true);
-
-      const result = await persister.peek();
-      assert.ok(result, "peek should return a result");
-      assert.deepStrictEqual(result!.data, batch);
-      assert.ok(result!.filePath, "filePath should be set");
-
-      // File should still exist — peek again should return the same data
-      const result2 = await persister.peek();
-      assert.ok(result2, "second peek should still return data");
-      assert.deepStrictEqual(result2!.data, batch);
-    });
-
-    it("should return null when offline storage is disabled", async () => {
-      const persister = new FileSystemPersist(instrumentationKey, { disableOfflineStorage: true });
-      const result = await persister.peek();
-      assert.strictEqual(result, null);
-    });
-
-    it("should return the first file in FIFO order when multiple exist", async () => {
-      const sleep = promisify(setTimeout);
-      const persister = new FileSystemPersist(instrumentationKey);
-      const firstBatch = [{ batch: "first" }];
-      const secondBatch = [{ batch: "second" }];
-
-      await persister.push(firstBatch);
-      await sleep(100);
-      await persister.push(secondBatch);
-
-      const result = await persister.peek();
-      assert.ok(result, "peek should return a result");
-      assert.deepStrictEqual(result!.data, firstBatch, "should return the first file");
-    });
-  });
-
-  describe("#remove()", () => {
-    it("should delete a persisted file by path", async () => {
-      const persister = new FileSystemPersist(instrumentationKey);
-      const batch = [{ batch: "remove-test" }];
-      await persister.push(batch);
-
-      const peeked = await persister.peek();
-      assert.ok(peeked, "peek should return data");
-      await persister.remove(peeked!.filePath);
-
-      // After removal, peek should return null
-      const result = await persister.peek();
-      assert.strictEqual(result, null);
-    });
-
-    it("should not throw when removing a non-existent file", async () => {
-      const persister = new FileSystemPersist(instrumentationKey);
-      // Should not throw
-      await persister.remove("/tmp/nonexistent-file.ai.json");
-    });
-  });
-
-  describe("#peek() and #remove() round-trip", () => {
-    it("should process multiple files in FIFO order with peek then remove", async () => {
-      const sleep = promisify(setTimeout);
-      const persister = new FileSystemPersist(instrumentationKey);
-      const firstBatch = [{ batch: "first" }];
-      const secondBatch = [{ batch: "second" }];
-
-      await persister.push(firstBatch);
-      await sleep(100);
-      await persister.push(secondBatch);
-
-      // Peek and remove first file
-      const peeked1 = await persister.peek();
-      assert.ok(peeked1);
-      assert.deepStrictEqual(peeked1!.data, firstBatch);
-      await persister.remove(peeked1!.filePath);
-
-      // Peek should now return second file
-      const peeked2 = await persister.peek();
-      assert.ok(peeked2);
-      assert.deepStrictEqual(peeked2!.data, secondBatch);
-      await persister.remove(peeked2!.filePath);
-
-      // No more files
-      const peeked3 = await persister.peek();
-      assert.strictEqual(peeked3, null);
-    });
-  });
-
   describe("#fileCleanupTask()", () => {
     it("must clean old files from temp location", async () => {
       const sleep = promisify(setTimeout);
@@ -345,6 +248,37 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(cleanup, true);
       const fileValue = await persister.shift();
       assert.deepStrictEqual(fileValue, null, "File is still present"); // File doesn't exist anymore
+    });
+  });
+
+  describe("#cleanExpiredFiles()", () => {
+    it("should clean expired files via public interface", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "expired" }];
+      const success = await persister.push(batch);
+      assert.strictEqual(success, true);
+      persister.fileRetemptionPeriod = 1;
+      await sleep(100);
+      await persister.cleanExpiredFiles();
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, null, "Expired file should have been cleaned");
+    });
+
+    it("should not clean non-expired files", async () => {
+      const persister = new FileSystemPersist(instrumentationKey);
+      const batch = [{ batch: "not-expired" }];
+      const success = await persister.push(batch);
+      assert.strictEqual(success, true);
+      await persister.cleanExpiredFiles();
+      const fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, batch, "Non-expired file should still exist");
+    });
+
+    it("should be a no-op when offline storage is disabled", async () => {
+      const persister = new FileSystemPersist(instrumentationKey, { disableOfflineStorage: true });
+      // Should not throw
+      await persister.cleanExpiredFiles();
     });
   });
 

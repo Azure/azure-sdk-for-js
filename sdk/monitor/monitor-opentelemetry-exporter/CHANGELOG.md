@@ -10,7 +10,7 @@
 
 - Persisted telemetry files from previous sessions are now sent immediately on startup instead of waiting for the first successful export plus a 60-second retry interval.
 - All persisted files are now processed at startup, not just one file per retry cycle.
-- Persisted files are now only deleted after a successful send, preventing data loss if the application crashes during a retry attempt.
+- Outdated persisted telemetry is cleaned from disk before sending on startup.
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
 

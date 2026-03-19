@@ -100,8 +100,7 @@ export type SenderResult = {
 export interface PersistentStorage {
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
-  peek(): Promise<{ data: unknown; filePath: string } | null>;
-  remove(filePath: string): Promise<void>;
+  cleanExpiredFiles(): Promise<void>;
 }
 
 /**

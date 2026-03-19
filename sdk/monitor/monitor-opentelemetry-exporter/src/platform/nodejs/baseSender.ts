@@ -378,41 +378,34 @@ export abstract class BaseSender {
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
+    const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      const peeked = await this.persister.peek();
-      if (peeked) {
-        const envelopes = peeked.data as Envelope[];
-        const sendResult = await this.send(envelopes);
-        // Only delete the file after a successful send
-        await this.persister.remove(peeked.filePath);
-        // Re-persist any retriable failures from a 206 partial success
-        await this.persistRetriableFromResponse(envelopes, sendResult);
+      if (envelopes) {
+        await this.send(envelopes);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
-      diag.warn(`Failed to send persisted file`, err);
+      diag.warn(`Failed to fetch persisted file`, err);
     }
   }
 
   private async sendAllPersistedFiles(): Promise<void> {
     try {
-      let peeked = await this.persister.peek();
-      while (peeked) {
-        const envelopes = peeked.data as Envelope[];
+      // Clean outdated telemetry from disk before attempting to send
+      await this.persister.cleanExpiredFiles();
+
+      let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      while (envelopes) {
         try {
-          const sendResult = await this.send(envelopes);
-          // Only delete after successful send
-          await this.persister.remove(peeked.filePath);
-          // Re-persist any retriable failures from a 206 partial success
-          await this.persistRetriableFromResponse(envelopes, sendResult);
+          await this.send(envelopes);
         } catch (err: any) {
           // If send fails, stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`, err);
           break;
         }
-        peeked = await this.persister.peek();
+        envelopes = (await this.persister.shift()) as Envelope[] | null;
       }
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
@@ -439,25 +432,6 @@ export abstract class BaseSender {
       }
     }
     return { breezeResponse, retriableEnvelopes };
-  }
-
-  /**
-   * If the send result is a 206 partial success, re-persist only the retriable failed envelopes.
-   */
-  private async persistRetriableFromResponse(
-    envelopes: Envelope[],
-    sendResult: SenderResult,
-  ): Promise<void> {
-    if (sendResult.statusCode === 206 && sendResult.result) {
-      try {
-        const { retriableEnvelopes } = this.parseRetriableEnvelopes(envelopes, sendResult.result);
-        if (retriableEnvelopes.length > 0) {
-          await this.persister.push(retriableEnvelopes);
-        }
-      } catch (parseError: any) {
-        diag.warn("Failed to parse partial success response for persisted file retry", parseError);
-      }
-    }
   }
 
   private scheduleRetryTimer(retryAfterMs?: number): void {
