@@ -55,8 +55,6 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
 interface ApiJson {
   [key: string]: unknown;
   metadata: Record<string, unknown>;
-  kind: string;
-  name: string;
   members: {
     kind: string;
     name: string;
