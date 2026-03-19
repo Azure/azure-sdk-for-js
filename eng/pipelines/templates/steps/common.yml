@@ -5,7 +5,7 @@ steps:
 
   - template: use-node-version.yml
 
-  - task: npmAuthenticate@0
-    displayName: 'Authenticate .npmrc'
-    inputs:
-      workingFile: $(Build.SourcesDirectory)/.npmrc
+  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+    parameters:
+      npmrcPath: $(CommonNpmrcPath)
+      registryUrl: '$(PublicDevOpsRegistry)'

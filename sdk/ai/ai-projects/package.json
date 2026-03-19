@@ -1,28 +1,12 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.1",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -60,8 +44,6 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/ai-agents": "1.1.0",
-    "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-lro": "^3.1.0",
     "@azure/core-paging": "^1.5.0",
@@ -77,6 +59,7 @@
   },
   "devDependencies": {
     "@azure-rest/ai-inference": "^1.0.0-beta.6",
+    "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
@@ -99,7 +82,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

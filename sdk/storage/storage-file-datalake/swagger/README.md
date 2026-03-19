@@ -21,7 +21,7 @@ core-http-compat-mode: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.30.0
+package-version: 12.30.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -358,17 +358,11 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Remove structured body parameters.
+### Set service version to "2026-04-06"
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut")) && (false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))};
-      
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{filesystem}/{path}?action=append]["patch"]["responses"]["202"]["headers"]    
-    transform: >
-      delete $["x-ms-structured-body"];
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
 ```

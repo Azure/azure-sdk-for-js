@@ -61,16 +61,52 @@ export function buildRequestUrl(
     return routePath;
   }
   endpoint = buildBaseUrl(endpoint, options);
-  routePath = buildRoutePath(routePath, pathParameters, options);
-  const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
+  // the route could be
+  //   1. a path: "container123/blob456"
+  //   2. a component string from template which starts with "?" and may contain more "?" after template is expanded,
+  //      e.g., "?restype=container&comp=blobs?where=key177196556777405927%3D%27val1177196556777407626%27"
+  const updatedRoutePath = buildRoutePath(routePath, pathParameters, options);
+
+  const requestUrl = appendQueryParams(appendPath(endpoint, updatedRoutePath), options);
   const url = new URL(requestUrl);
 
-  return (
-    url
-      .toString()
-      // Remove double forward slashes
-      .replace(/([^:]\/)\/+/g, "$1")
-  );
+  return url.toString();
+}
+
+function appendPath(endpoint: string, pathToAppend: string): string {
+  const endpointSearchStart = endpoint.indexOf("?");
+  const pathSearchStart = pathToAppend.indexOf("?");
+  const endpointParts =
+    endpointSearchStart !== -1
+      ? [endpoint.substring(0, endpointSearchStart), endpoint.substring(endpointSearchStart + 1)]
+      : [endpoint, ""];
+  const pathParts =
+    pathSearchStart !== -1
+      ? [pathToAppend.substring(0, pathSearchStart), pathToAppend.substring(pathSearchStart + 1)]
+      : [pathToAppend, ""];
+
+  const combinedSearch = [endpointParts[1], pathParts[1].replaceAll("?", "&")]
+    .filter(Boolean)
+    .join("&");
+  // Replace consecutive forward slashes with a single forward slash, but only for the part right after the host in the endpoint.
+  // This is to maintain compatibility with old behavior for cases where the endpoint has been provided with extra forward slashes,
+  // while still allowing for intentional consecutive forward slashes in the path to be preserved.
+  const baseEndpoint = endpointParts[0].replace(/(^[^:]+:\/\/[^/]+)\/\/+/, "$1/");
+  const basePathToAppend = pathParts[0];
+  let combinedUrl = baseEndpoint;
+  if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
+    combinedUrl += `/${basePathToAppend}`;
+  } else if (baseEndpoint.endsWith("/") && basePathToAppend.startsWith("/")) {
+    combinedUrl += basePathToAppend.substring(1);
+  } else {
+    combinedUrl += basePathToAppend;
+  }
+
+  if (combinedSearch) {
+    combinedUrl += `?${combinedSearch}`;
+  }
+
+  return combinedUrl;
 }
 
 function getQueryParamValue(
@@ -117,14 +153,53 @@ function getQueryParamValue(
   return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}): string {
+/**
+ * Parses a query string into a map of key/value pairs without decoding the values.
+ * This avoids the issue where `URL.searchParams` would decode values, potentially
+ * corrupting already-encoded values such as SAS signatures.
+ */
+function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
+  const result = new Map<string, string | string[]>();
+  if (!queryString || queryString[0] !== "?") {
+    return result;
+  }
+
+  // remove the leading ?
+  queryString = queryString.slice(1);
+  const pairs = queryString.split("&");
+
+  for (const pair of pairs) {
+    const eqIndex = pair.indexOf("=");
+    const name = eqIndex === -1 ? pair : pair.substring(0, eqIndex);
+    const value = eqIndex === -1 ? "" : pair.substring(eqIndex + 1);
+
+    const existingValue = result.get(name);
+    if (existingValue !== undefined) {
+      if (Array.isArray(existingValue)) {
+        existingValue.push(value);
+      } else {
+        result.set(name, [existingValue, value]);
+      }
+    } else {
+      result.set(name, value);
+    }
+  }
+
+  return result;
+}
+
+/** @internal */
+export function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
   const parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
 
-  const paramStrings: string[] = [];
+  // Parse existing query params from the URL manually to avoid re-encoding issues
+  const existingParams = simpleParseQueryParams(parsedUrl.search);
+
+  const newParamStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
     const param = queryParams[key] as any;
     if (param === undefined || param === null) {
@@ -139,12 +214,14 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
     if (explode) {
       if (Array.isArray(rawValue)) {
         for (const item of rawValue) {
-          paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
+          newParamStrings.push(
+            getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item),
+          );
         }
       } else if (typeof rawValue === "object") {
         // For object explode, the name of the query parameter is ignored and we use the object key instead
         for (const [actualKey, value] of Object.entries(rawValue)) {
-          paramStrings.push(
+          newParamStrings.push(
             getQueryParamValue(actualKey, options.skipUrlEncoding ?? false, style, value),
           );
         }
@@ -153,14 +230,46 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
         throw new Error("explode can only be set to true for objects and arrays");
       }
     } else {
-      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue));
+      newParamStrings.push(
+        getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue),
+      );
     }
   }
 
-  if (parsedUrl.search !== "") {
-    parsedUrl.search += "&";
+  // Merge new params into existing params, deduplicating values for the same key
+  for (const paramString of newParamStrings) {
+    const eqIndex = paramString.indexOf("=");
+    const name = paramString.substring(0, eqIndex);
+    const value = paramString.substring(eqIndex + 1);
+
+    const existingValue = existingParams.get(name);
+    if (existingValue !== undefined) {
+      if (Array.isArray(existingValue)) {
+        if (!existingValue.includes(value)) {
+          existingValue.push(value);
+        }
+      } else if (existingValue !== value) {
+        existingParams.set(name, [existingValue, value]);
+      }
+      // if existingValue === value (single string match), no change needed
+    } else {
+      existingParams.set(name, value);
+    }
   }
-  parsedUrl.search += paramStrings.join("&");
+
+  // Reconstruct the search string manually to avoid URL re-encoding
+  const searchPieces: string[] = [];
+  for (const [name, value] of existingParams) {
+    if (Array.isArray(value)) {
+      for (const subValue of value) {
+        searchPieces.push(`${name}=${subValue}`);
+      }
+    } else {
+      searchPieces.push(`${name}=${value}`);
+    }
+  }
+
+  parsedUrl.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
   return parsedUrl.toString();
 }
 
@@ -182,6 +291,7 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
     }
     endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
   }
+
   return endpoint;
 }
 

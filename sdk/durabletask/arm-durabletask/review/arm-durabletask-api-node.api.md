@@ -19,7 +19,7 @@ export interface DurableTaskClientOptionalParams extends ClientOptions {
 
 // @public (undocumented)
 export interface DurableTaskContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

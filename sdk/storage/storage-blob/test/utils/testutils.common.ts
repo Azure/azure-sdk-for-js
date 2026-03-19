@@ -6,7 +6,13 @@ import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import type { StorageClient } from "../../src/StorageClient.js";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
 import type { ShareServiceClient } from "@azure/storage-file-share";
@@ -267,4 +273,35 @@ export async function createAndStartRecorder(testContext?: TestContext): Promise
   // SAS token may contain sensitive information
   await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
   return recorder;
+}
+
+export type CustomizeRequest = (request: PipelineRequest) => void;
+
+export const customizeRequestPolicyName = "customizeRequestPolicyame";
+
+export function customizeRequestPolicy(customizeRequest: CustomizeRequest): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      customizeRequest(request);
+      return next(request);
+    },
+  };
+}
+
+export type CustomizeResponseBody = (request: PipelineResponse) => Promise<void>;
+
+export const customizeResponseBodyPolicyName = "customizeResponseBodyPolicyame";
+
+export function customizeResponseBodyPolicy(
+  customizeResponseBody: CustomizeResponseBody,
+): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const responseLike = await next(request);
+      await customizeResponseBody(responseLike);
+      return responseLike;
+    },
+  };
 }

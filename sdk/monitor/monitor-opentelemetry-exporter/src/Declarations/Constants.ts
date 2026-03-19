@@ -142,12 +142,19 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
- * Environment variable to disable the default 64KB size limit on custom dimensions.
- * When set to "true", the size limit is not enforced, allowing larger payloads (e.g. for Gen AI scenarios).
+ * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
+ * instead of the standard 64KB limit.
  * @internal
  */
-export const ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT =
-  "AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT";
+export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+  "gen_ai.system_instructions",
+  "gen_ai.tool.definitions",
+  "gen_ai.tool.call.arguments",
+  "gen_ai.tool.call.result",
+  "gen_ai.evaluation.explanation",
+]);
 
 /**
  * QuickPulse metric counter names.

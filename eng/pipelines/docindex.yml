@@ -37,10 +37,17 @@ jobs:
           Paths:
             - eng/
 
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/rex-tool/.npmrc
+          registryUrl: $(PublicDevOpsRegistry)
+
       - task: Powershell@2
         inputs:
           pwsh: true
           filePath: eng/scripts/docs/Update-RexValidationTool.ps1
+        env:
+          NPM_CONFIG_USERCONFIG: $(Agent.TempDirectory)/rex-tool/.npmrc
         displayName: Update JS REX Validation Tool
 
       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
@@ -78,8 +85,15 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
 
-      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/rex-tool/.npmrc
+          registryUrl: $(PublicDevOpsRegistry)
 
+      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+        parameters:
+          NpmConfigUserConfig: $(Agent.TempDirectory)/rex-tool/.npmrc
+          
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:
           WorkingDirectory: $(DocRepoLocation)

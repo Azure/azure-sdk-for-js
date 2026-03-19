@@ -91,7 +91,7 @@ export type Measurements = Record<string, number>;
 export type SenderResult = {
   statusCode: number | undefined;
   result: string;
-  headers?: HttpHeaders;
+  retryAfterMs?: number;
 };
 
 /**
@@ -143,6 +143,7 @@ export enum MaxPropertyLengths {
   THIRTEEN_BIT = 8192,
   FIFTEEN_BIT = 32768,
   SIXTEEN_BIT = 65536,
+  EIGHTEEN_BIT = 262144,
 }
 
 /**

@@ -49,7 +49,7 @@ describe("PerformanceCounterMetricsHandler", () => {
   resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
   const serverSpan: any = {
     kind: SpanKind.SERVER,
-    duration: [654321],
+    duration: [654, 321000000],
     attributes: {
       "http.status_code": 200,
     },

@@ -13,7 +13,7 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
  */
 
@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
   // Create AI Project client
@@ -166,8 +166,8 @@ export async function main(): Promise<void> {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
-    typeParam: "builtin",
+  const builtinEvaluators = project.beta.evaluators.list({
+    evaluatorType: "builtin",
   });
   console.log("List of builtin evaluator versions:");
   for await (const evaluator of builtinEvaluators) {
@@ -176,8 +176,8 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
-    typeParam: "custom",
+  const customEvaluators = project.beta.evaluators.list({
+    evaluatorType: "custom",
   });
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {

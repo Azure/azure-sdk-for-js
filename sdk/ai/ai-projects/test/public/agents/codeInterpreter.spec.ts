@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../src/index.js";
@@ -23,7 +22,7 @@ describe("agents - code interpreter", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create response with code interpreter tool", async function () {
+  it("should create response with code interpreter tool", async function () {
     // Create response with code interpreter tool
     const response = await openAIClient.responses.create({
       model: "gpt-4o",

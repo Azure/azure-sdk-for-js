@@ -639,6 +639,8 @@ export interface FileDownloadHeaders {
     };
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     version?: string;
 }
 
@@ -649,12 +651,14 @@ export interface FileDownloadOptionalParams extends coreClient.OperationOptions 
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
+    structuredBodyType?: string;
     timeoutInSeconds?: number;
 }
 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -668,6 +672,7 @@ export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, Fi
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -850,6 +855,7 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1129,12 +1135,14 @@ export interface FileUploadRangeHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     contentMD5?: Uint8Array;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1147,6 +1155,7 @@ export type FileUploadRangeResponse = WithResponse<FileUploadRangeHeaders, FileU
 // @public
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1614,7 +1623,9 @@ export class ShareClient extends StorageClient {
 export interface ShareClientConfig {
     allowSourceTrailingDot?: boolean;
     allowTrailingDot?: boolean;
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileRequestIntent?: ShareTokenIntent;
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 // @public (undocumented)
@@ -1950,6 +1961,13 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 export type ShareGetStatisticsResponseModel = WithResponse<ShareGetStatisticsHeaders & ShareStats, ShareGetStatisticsHeaders, ShareStats>;
 
 // @public
+export interface ShareGetUserDelegationKeyParameters {
+    delegatedUserTenantId: string;
+    expiresOn: Date;
+    startsOn: Date;
+}
+
+// @public
 export interface ShareItem {
     // (undocumented)
     deleted?: boolean;
@@ -2111,6 +2129,7 @@ export class ShareServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(parameters: ShareGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
@@ -2251,6 +2270,9 @@ export interface SourceModifiedAccessConditions {
 export { StorageBrowserPolicyFactory }
 
 // @public
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+// @public
 export enum StorageFileAudience {
     StorageOAuthScopes = "https://storage.azure.com/.default"
 }
@@ -2296,6 +2318,7 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

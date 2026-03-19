@@ -19,7 +19,7 @@ import {
   pendingUploadResponseDeserializer,
   datasetCredentialDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -521,7 +521,12 @@ export async function uploadFolder(
   const allFiles = await getAllFiles(folderPath);
   let filteredFiles = allFiles;
   if (options?.filePattern) {
-    filteredFiles = allFiles.filter((file) => options.filePattern?.test(file));
+    try {
+      const filePattern = new RegExp(options.filePattern);
+      filteredFiles = allFiles.filter((file) => filePattern.test(file));
+    } catch {
+      // If regex pattern is invalid, ignore the pattern and upload all files
+    }
   }
 
   if (filteredFiles.length === 0) {

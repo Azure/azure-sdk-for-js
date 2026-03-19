@@ -160,4 +160,84 @@ describe("build (integration)", () => {
     const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
     expect(pkg["exports"]).toBeUndefined();
   });
+
+  it("sequential build fails fast on first target error", async () => {
+    // Source with a type error
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const greeting: number = "not a number";\n',
+    );
+
+    // 3 targets with different module formats — all will fail type-checking
+    // due to the type error above. Each forms a distinct group because
+    // groupBySignature includes module/moduleResolution in the signature.
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    const cjsTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/commonjs",
+        rootDir: "./src",
+        module: "CommonJS",
+        moduleResolution: "Node10",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    const browserTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/browser",
+        rootDir: "./src",
+        module: "ESNext",
+        moduleResolution: "Bundler",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
+
+    const warpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [
+        { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        { name: "commonjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+        { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+      ],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+
+    const pkg = { name: "test-failfast", version: "1.0.0" };
+    await fs.writeFile(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(false);
+    expect(result.compileResults).toBeDefined();
+
+    // Fail-fast: only the first target group that type-checks should appear in
+    // results. Each tsconfig has a distinct module/moduleResolution so they form
+    // separate groups (not dedup copies). The sequential path breaks on the
+    // first group failure, skipping the remaining groups.
+    const failedTargets = result.compileResults!.filter((r) => !r.success);
+    expect(failedTargets.length).toBe(1);
+    // Total results should be fewer than the 3 declared targets
+    expect(result.compileResults!.length).toBeLessThan(3);
+  });
 });

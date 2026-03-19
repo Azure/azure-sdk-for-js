@@ -1,5 +1,89 @@
 # Release History
 
+## 25.0.0 (2026-03-18)
+
+### Features Added
+  - Added operation AgentPoolsOperations.abortLatestOperation
+  - Added operation AgentPoolsOperations.createOrUpdate
+  - Added operation AgentPoolsOperations.delete
+  - Added operation AgentPoolsOperations.deleteMachines
+  - Added operation AgentPoolsOperations.upgradeNodeImageVersion
+  - Added operation ManagedClustersOperations.abortLatestOperation
+  - Added operation ManagedClustersOperations.createOrUpdate
+  - Added operation ManagedClustersOperations.delete
+  - Added operation ManagedClustersOperations.resetAADProfile
+  - Added operation ManagedClustersOperations.resetServicePrincipalProfile
+  - Added operation ManagedClustersOperations.rotateClusterCertificates
+  - Added operation ManagedClustersOperations.rotateServiceAccountSigningKeys
+  - Added operation ManagedClustersOperations.runCommand
+  - Added operation ManagedClustersOperations.start
+  - Added operation ManagedClustersOperations.stop
+  - Added operation ManagedClustersOperations.updateTags
+  - Added operation ManagedNamespacesOperations.createOrUpdate
+  - Added operation ManagedNamespacesOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation TrustedAccessRoleBindingsOperations.createOrUpdate
+  - Added operation TrustedAccessRoleBindingsOperations.delete
+  - Added Interface AccessProfile
+  - Added Interface AdvancedNetworkingPerformance
+  - Added Interface AdvancedNetworkingSecurityTransitEncryption
+  - Added Interface AgentPoolAvailableVersionsProperties
+  - Added Interface AgentPoolUpgradeProfileProperties
+  - Added Interface CommandResultProperties
+  - Added Interface MaintenanceConfigurationProperties
+  - Added Interface ManagedClusterProperties
+  - Added Interface ManagedClusterUpgradeProfileProperties
+  - Added Interface OperationValueDisplay
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SnapshotProperties
+  - Added Interface TrustedAccessRoleBindingProperties
+  - Interface AdvancedNetworking has a new optional parameter performance
+  - Interface AdvancedNetworkingSecurity has a new optional parameter transitEncryption
+  - Interface AgentPool has a new optional parameter systemData
+  - Interface AgentPoolUpgradeProfile has a new optional parameter systemData
+  - Interface IstioComponents has a new optional parameter proxyRedirectionMechanism
+  - Interface Machine has a new optional parameter systemData
+  - Interface ManagedClusterHttpProxyConfig has a new optional parameter enabled
+  - Interface ManagedClusterUpgradeProfile has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Added Type Alias AccelerationMode
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ProxyRedirectionMechanism
+  - Added Type Alias TransitEncryptionType
+  - Added Enum AzureClouds
+  - Added Enum KnownAccelerationMode
+  - Added Enum KnownProxyRedirectionMechanism
+  - Added Enum KnownResourceIdentityType
+  - Added Enum KnownTransitEncryptionType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation AgentPools.beginAbortLatestOperationAndWait has a new signature
+  - Operation AgentPools.beginDeleteAndWait has a new signature
+  - Operation AgentPools.beginDeleteMachinesAndWait has a new signature
+  - Operation ManagedClusters.beginAbortLatestOperationAndWait has a new signature
+  - Operation ManagedClusters.beginCreateOrUpdate has a new signature
+  - Operation ManagedClusters.beginCreateOrUpdateAndWait has a new signature
+  - Operation ManagedClusters.beginDeleteAndWait has a new signature
+  - Operation ManagedClusters.beginRotateClusterCertificatesAndWait has a new signature
+  - Operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait has a new signature
+  - Operation ManagedClusters.beginStartAndWait has a new signature
+  - Operation ManagedClusters.beginStopAndWait has a new signature
+  - Operation ManagedClusters.beginUpdateTagsAndWait has a new signature
+  - Operation ManagedClusters.get has a new signature
+  - Operation ManagedNamespaces.beginDeleteAndWait has a new signature
+  - Operation TrustedAccessRoleBindings.beginDeleteAndWait has a new signature
+  - Removed Interface MeshRevisionProfileList
+  - Removed Interface MeshUpgradeProfileList
+  - Removed Interface OutboundEnvironmentEndpointCollection
+  - Removed Interface SubResource
+  - Parameter location of interface ManagedNamespace is now required
+  - Type alias "ResourceIdentityType" has been changed
+
 ## 24.2.0-beta.1 (2025-12-24)
 Compared with version 24.1.0
 

@@ -16,7 +16,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-iotoperations?view=azure-no
 https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-terraform?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
-https://docs.microsoft.com/javascript/api/@azure/arm-neonpostgres?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-durabletask?view=azure-node-preview
@@ -61,10 +60,18 @@ https://learn.microsoft.com/javascript/api/@azure/arm-managedops?view=azure-node
 https://learn.microsoft.com/javascript/api/@azure/arm-containerregistrytasks?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning
-https://learn.microsoft.com/javascript/api/@azure/ai-content-understanding?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-managedops
 https://learn.microsoft.com/javascript/api/@azure/arm-computebulkactions?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/container-registry
 https://www.npmjs.com/package/@azure/arm-computebulkactions
 https://www.npmjs.com/package/@azure/arm-edgeactions
-https://www.npmjs.com/package/@azure/arm-containerregistrytasks
 https://www.npmjs.com/package/@azure/arm-artifactsigning
+https://learn.microsoft.com/javascript/api/@azure/arm-disconnectedoperations
+https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1
+https://learn.microsoft.com/javascript/api/@azure/template?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-marketplace
+# gh-aw template placeholder — Verify-Links.ps1 percent-encodes curly braces in href attributes
+%7Brun_url%7D
+https://www.npmjs.com/package/@azure/ai-speech-transcription
