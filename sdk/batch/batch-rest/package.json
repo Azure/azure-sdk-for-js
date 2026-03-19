@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/batch",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "Batch Service Rest Level Client",
   "engines": {
     "node": ">=20.0.0"
@@ -37,6 +37,14 @@
         "prefix": "userAgentInfo"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/batch"
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
