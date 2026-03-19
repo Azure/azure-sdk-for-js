@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (2026-03-13)
+## 2.0.2 (Unreleased)
 
 ### Features Added
 
@@ -8,6 +8,8 @@
 - Add `EvaluatorCredentialRequest` model type.
 - Add `entry_point`, `blob_uri`, and `image_tag` optional fields to `CodeBasedEvaluatorDefinition`.
 - Add `project.beta.toolsets` route for accessing toolset operations
+
+## 2.0.1 (2026-03-13)
 
 ### Bugs Fixed
 
