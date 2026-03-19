@@ -64,7 +64,6 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 import type { ProcessingLocation } from "./models/models.js";
-import type { ContentRange } from "./models/contentRange.js";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `stringEncoding` from the public API.
 // `stringEncoding` is always 'utf16' internally to ensure span offsets align with JavaScript's UTF-16 string operations.
@@ -86,7 +85,7 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  contentRange?: string | ContentRange;
+  contentRange?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }

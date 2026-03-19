@@ -32,7 +32,7 @@ export type AnalysisContentUnion = DocumentContent | AudioVisualContent | Analys
 
 // @public
 export interface AnalysisInput {
-    contentRange?: string | ContentRange;
+    contentRange?: string;
     data?: Uint8Array;
     mimeType?: string;
     name?: string;
@@ -56,7 +56,7 @@ export interface AnalysisResultPoller extends PollerLike<OperationState_2<Analys
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
-    contentRange?: string | ContentRange;
+    contentRange?: string;
     processingLocation?: ProcessingLocation;
     updateIntervalInMs?: number;
 }
@@ -211,18 +211,6 @@ export type ContentFieldType = "string" | "date" | "time" | "number" | "integer"
 
 // @public
 export type ContentFieldUnion = StringField | DateField | TimeField | NumberField | IntegerField | BooleanField | ArrayField | ObjectField | JsonField | ContentField;
-
-// @public
-export class ContentRange {
-    constructor(value: string);
-    static combine(...ranges: ContentRange[]): ContentRange;
-    static page(pageNumber: number): ContentRange;
-    static pages(start: number, end: number): ContentRange;
-    static pagesFrom(startPage: number): ContentRange;
-    static timeRange(startMs: number, endMs: number): ContentRange;
-    static timeRangeFrom(startMs: number): ContentRange;
-    toString(): string;
-}
 
 // @public
 export interface ContentSpan {

@@ -23,11 +23,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  ContentUnderstandingClient,
-  ContentRange,
-  type DocumentContent,
-} from "@azure/ai-content-understanding";
+import { ContentUnderstandingClient, type DocumentContent } from "@azure/ai-content-understanding";
 
 function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
@@ -58,19 +54,48 @@ export async function main(): Promise<void> {
   const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes);
   const result = await poller.pollUntilDone();
 
+  // ======================================================================
+  // Content range examples: analyze specific pages of a multi-page document
+  // ======================================================================
+  const multiPagePath = path.join("..", "..", "assets", "mixed_financial_invoices.pdf");
+  const multiPageBytes = fs.readFileSync(multiPagePath);
+  console.log(`\nAnalyzing ${multiPagePath} with content ranges...`);
+  console.log(`  File size: ${multiPageBytes.length.toLocaleString()} bytes`);
+
+  // Analyze only pages 3 onward.
+  console.log('\nAnalyzing pages 3 onward with content range "3-"...');
+  const rangePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: "3-",
+  });
+  const rangeResult = await rangePoller.pollUntilDone();
+  if (rangeResult.contents && rangeResult.contents.length > 0) {
+    const doc = rangeResult.contents[0] as DocumentContent;
+    console.log(
+      `  Content range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
+    );
+  }
+
+  // Analyze pages 1-3, page 5, and pages 9 onward.
+  console.log('\nAnalyzing combined pages (1-3, 5, 9-) with content range "1-3,5,9-"...');
+  const combinePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
+    contentRange: "1-3,5,9-",
+  });
+  const combineResult = await combinePoller.pollUntilDone();
+  if (combineResult.contents && combineResult.contents.length > 0) {
+    const doc = combineResult.contents[0] as DocumentContent;
+    console.log(
+      `  Combined content range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
+    );
+  }
+
   // Display markdown content
   console.log("\nMarkdown Content:");
   console.log("=".repeat(50));
 
+  // A PDF file has only one content element even if it contains multiple pages
   if (result.contents && result.contents.length > 0) {
     const content = result.contents[0];
-    if (content.markdown) {
-      console.log(content.markdown);
-    } else {
-      console.log("No markdown content available.");
-    }
-  } else {
-    console.log("No content found in the analysis result.");
+    console.log(content.markdown);
   }
 
   console.log("=".repeat(50));
@@ -82,106 +107,31 @@ export async function main(): Promise<void> {
     // Check if this is document content to access document-specific properties
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
-      console.log("\nDocument Information:");
-      console.log(`  Start page: ${documentContent.startPageNumber}`);
-      console.log(`  End page: ${documentContent.endPageNumber}`);
-      const totalPages = documentContent.endPageNumber - documentContent.startPageNumber + 1;
-      console.log(`  Total pages: ${totalPages}`);
+      console.log(`\nDocument type: ${documentContent.mimeType ?? "(unknown)"}`);
+      console.log(`Start page: ${documentContent.startPageNumber}`);
+      console.log(`End page: ${documentContent.endPageNumber}`);
+
+      // Check for pages
+      if (documentContent.pages && documentContent.pages.length > 0) {
+        console.log(`\nNumber of pages: ${documentContent.pages.length}`);
+        for (const page of documentContent.pages) {
+          const unit = documentContent.unit ?? "units";
+          console.log(`  Page ${page.pageNumber}: ${page.width} x ${page.height} ${unit}`);
+        }
+      }
+
+      // Check for tables
+      if (documentContent.tables && documentContent.tables.length > 0) {
+        console.log(`\nNumber of tables: ${documentContent.tables.length}`);
+        let tableCounter = 1;
+        for (const table of documentContent.tables) {
+          console.log(
+            `  Table ${tableCounter}: ${table.rowCount} rows x ${table.columnCount} columns`,
+          );
+          tableCounter++;
+        }
+      }
     }
-  }
-
-  // ======================================================================
-  // ContentRange examples: analyze specific pages of a multi-page document
-  // ======================================================================
-  const multiPagePath = path.join("..", "..", "assets", "mixed_financial_invoices.pdf");
-  const multiPageBytes = fs.readFileSync(multiPagePath);
-  console.log(`\nAnalyzing ${multiPagePath} with ContentRange...`);
-  console.log(`  File size: ${multiPageBytes.length.toLocaleString()} bytes`);
-
-  // ---- ContentRange.pagesFrom(3) — from page 3 to end ----
-  console.log("\n--- pagesFrom(3): Page 3 to end ---");
-  const pagesFromPoller = client.analyzeBinary(
-    "prebuilt-documentSearch",
-    multiPageBytes,
-    undefined,
-    {
-      contentRange: ContentRange.pagesFrom(3),
-    },
-  );
-  const pagesFromResult = await pagesFromPoller.pollUntilDone();
-  if (pagesFromResult.contents && pagesFromResult.contents.length > 0) {
-    const doc = pagesFromResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
-  }
-
-  // ---- ContentRange.page(2) — single page ----
-  console.log("\n--- page(2): Page 2 only ---");
-  const pagePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: ContentRange.page(2),
-  });
-  const pageResult = await pagePoller.pollUntilDone();
-  if (pageResult.contents && pageResult.contents.length > 0) {
-    const doc = pageResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
-  }
-
-  // ---- ContentRange.pages(1, 3) — pages 1 through 3 ----
-  console.log("\n--- pages(1, 3): Pages 1-3 ---");
-  const pagesPoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: ContentRange.pages(1, 3),
-  });
-  const pagesResult = await pagesPoller.pollUntilDone();
-  if (pagesResult.contents && pagesResult.contents.length > 0) {
-    const doc = pagesResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
-  }
-
-  // ---- ContentRange.combine — combine page(1), pages(3, 4) ----
-  console.log("\n--- combine(page(1), pages(3, 4)): Pages 1 and 3-4 ---");
-  const combinePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: ContentRange.combine(ContentRange.page(1), ContentRange.pages(3, 4)),
-  });
-  const combineResult = await combinePoller.pollUntilDone();
-  if (combineResult.contents && combineResult.contents.length > 0) {
-    const doc = combineResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
-  }
-
-  // ---- ContentRange.combine — complex: pages(1, 3), page(5), pagesFrom(9) ----
-  console.log("\n--- combine(pages(1, 3), page(5), pagesFrom(9)): Pages 1-3, 5, 9+ ---");
-  const multiCombinePoller = client.analyzeBinary(
-    "prebuilt-documentSearch",
-    multiPageBytes,
-    undefined,
-    {
-      contentRange: ContentRange.combine(
-        ContentRange.pages(1, 3),
-        ContentRange.page(5),
-        ContentRange.pagesFrom(9),
-      ),
-    },
-  );
-  const multiCombineResult = await multiCombinePoller.pollUntilDone();
-  if (multiCombineResult.contents && multiCombineResult.contents.length > 0) {
-    const doc = multiCombineResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
-  }
-
-  // ---- Raw string "1-3,5,9-" — equivalent to the combine above ----
-  console.log('\n--- Raw string "1-3,5,9-" ---');
-  const rawPoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: new ContentRange("1-3,5,9-"),
-  });
-  const rawResult = await rawPoller.pollUntilDone();
-  if (rawResult.contents && rawResult.contents.length > 0) {
-    const doc = rawResult.contents[0] as DocumentContent;
-    console.log(`  Pages: ${doc.startPageNumber} - ${doc.endPageNumber}`);
-    console.log(`  Markdown length: ${doc.markdown?.length ?? 0} chars`);
   }
 }
 

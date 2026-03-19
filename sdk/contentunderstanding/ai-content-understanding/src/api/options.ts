@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
-import type { ContentRange } from "../models/contentRange.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -87,7 +86,7 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  contentRange?: string | ContentRange;
+  contentRange?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
   // CUSTOMIZATION: SDK-IMPROVEMENT: Added stringEncoding property to support internal UTF-16 encoding.
