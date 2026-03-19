@@ -38,8 +38,7 @@ const DES_NAME = getResourceName("byosdes");
 const GALLERY_NAME = getResourceName("byosgallery");
 const VM_ACCESS_PROFILE_NAME = getResourceName("accessprofile");
 
-//skip this test cases temporary we have a merge blocker when refreshing @azure/arm-keyvault package. See https://dev.azure.com/azure-sdk/public/public%20Team/_build/results?buildId=6029942&view=logs&j=d81dfa19-13f9-5461-4e01-ed2183deb050&t=e3a49fa3-cd50-5619-6d34-c96912ec108a&l=2203
-describe.skip("BYOS Account", () => {
+describe.skip("BYOS Account", () => { //skip this test cases temporaryly we have a merge blocker when refreshing @azure/arm-keyvault package. See https://dev.azure.com/azure-sdk/public/public%20Team/_build/results?buildId=6029942&view=logs&j=d81dfa19-13f9-5461-4e01-ed2183deb050&t=e3a49fa3-cd50-5619-6d34-c96912ec108a&l=2203
   let accountEndpoint = fakeAzureBatchEndpoint;
   let desResourceId = fakeDesResourceId;
   let vmAccessProfileVersionResourceId = fakeInVmAccessProfileVersionResourceId;
