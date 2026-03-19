@@ -392,13 +392,7 @@ export default leafCommand(commandInfo, async () => {
       for (const e of entries) {
         const runtime = e.runtime;
         if (runtime === "node") continue;
-        const content = await extractApiForEntry(
-          e,
-          baseConfig,
-          configPath,
-          pkgPath,
-          projectInfo,
-        );
+        const content = await extractApiForEntry(e, baseConfig, configPath, pkgPath, projectInfo);
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
         runtimeApiFiles[runtime] ??= {};
