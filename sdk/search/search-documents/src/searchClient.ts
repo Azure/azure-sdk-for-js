@@ -377,7 +377,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           ...restResult,
           facets: utils.convertGeneratedFacetsToPublic(facets),
           answers: utils.convertGeneratedAnswersToPublic(resultAnswers),
-          debugInfo: restResult.debugInfo,
           results: modifiedResults,
           semanticErrorReason,
           semanticSearchResultsType,

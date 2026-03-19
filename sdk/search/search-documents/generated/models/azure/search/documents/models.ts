@@ -87,8 +87,6 @@ export interface SearchDocumentsResult {
   readonly facets?: Record<string, FacetResult[]>;
   /** The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'. */
   readonly answers?: QueryAnswerResult[];
-  /** Debug information that applies to the search results as a whole. */
-  readonly debugInfo?: DebugInfo;
   /** Continuation JSON payload returned when the query can't return all the requested results in a single response. You can use this JSON along with */
   readonly nextPageParameters?: SearchRequest;
   /** The sequence of results returned by the query. */
@@ -115,9 +113,6 @@ export function searchDocumentsResultDeserializer(item: any): SearchDocumentsRes
     answers: !item["@search.answers"]
       ? item["@search.answers"]
       : queryAnswerResultArrayDeserializer(item["@search.answers"]),
-    debugInfo: !item["@search.debug"]
-      ? item["@search.debug"]
-      : debugInfoDeserializer(item["@search.debug"]),
     nextPageParameters: !item["@search.nextPageParameters"]
       ? item["@search.nextPageParameters"]
       : searchRequestDeserializer(item["@search.nextPageParameters"]),
@@ -164,18 +159,6 @@ export function facetResultArrayDeserializer(result: Array<FacetResult>): any[] 
 export interface FacetResult {
   /** The approximate count of documents falling within the bucket described by this facet. */
   readonly count?: number;
-  /** The resulting total avg for the facet when a avg metric is requested. */
-  readonly avg?: number;
-  /** The resulting total min for the facet when a min metric is requested. */
-  readonly min?: number;
-  /** The resulting total max for the facet when a max metric is requested. */
-  readonly max?: number;
-  /** The resulting total sum for the facet when a sum metric is requested. */
-  readonly sum?: number;
-  /** The resulting total cardinality for the facet when a cardinality metric is requested. */
-  readonly cardinality?: number;
-  /** The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets. */
-  readonly facets?: Record<string, FacetResult[]>;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -186,24 +169,8 @@ export function facetResultSerializer(item: FacetResult): any {
 
 export function facetResultDeserializer(item: any): FacetResult {
   return {
-    additionalProperties: serializeRecord(item, [
-      "count",
-      "avg",
-      "min",
-      "max",
-      "sum",
-      "cardinality",
-      "facets",
-    ]),
+    additionalProperties: serializeRecord(item, ["count"]),
     count: item["count"],
-    avg: item["avg"],
-    min: item["min"],
-    max: item["max"],
-    sum: item["sum"],
-    cardinality: item["cardinality"],
-    facets: !item["@search.facets"]
-      ? item["@search.facets"]
-      : facetResultArrayRecordDeserializer(item["@search.facets"]),
   };
 }
 
@@ -245,17 +212,6 @@ export function queryAnswerResultDeserializer(item: any): QueryAnswerResult {
     text: item["text"],
     highlights: item["highlights"],
   };
-}
-
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DebugInfo {}
-
-export function debugInfoSerializer(item: DebugInfo): any {
-  return item;
-}
-
-export function debugInfoDeserializer(item: any): DebugInfo {
-  return item;
 }
 
 /** Parameters for filtering, sorting, faceting, paging, and other search query behaviors. */
@@ -497,12 +453,6 @@ export interface VectorQuery {
   oversampling?: number;
   /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
   weight?: number;
-  /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
-  threshold?: VectorThresholdUnion;
-  /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in the top level filter parameter is used instead. */
-  filterOverride?: string;
-  /** Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0. */
-  perDocumentVectorLimit?: number;
   /** Type of query. */
   /** The discriminator possible values: vector, text, imageUrl, imageBinary */
   kind: VectorQueryKind;
@@ -515,11 +465,6 @@ export function vectorQuerySerializer(item: VectorQuery): any {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
   };
 }
@@ -531,11 +476,6 @@ export function vectorQueryDeserializer(item: any): VectorQuery {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
   };
 }
@@ -586,111 +526,6 @@ export function vectorQueryUnionDeserializer(item: any): VectorQueryUnion {
   }
 }
 
-/** The threshold used for vector queries. */
-export interface VectorThreshold {
-  /** Type of threshold. */
-  /** The discriminator possible values: vectorSimilarity, searchScore */
-  kind: VectorThresholdKind;
-}
-
-export function vectorThresholdSerializer(item: VectorThreshold): any {
-  return { kind: item["kind"] };
-}
-
-export function vectorThresholdDeserializer(item: any): VectorThreshold {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** Alias for VectorThresholdUnion */
-export type VectorThresholdUnion =
-  | VectorSimilarityThreshold
-  | SearchScoreThreshold
-  | VectorThreshold;
-
-export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any {
-  switch (item.kind) {
-    case "vectorSimilarity":
-      return vectorSimilarityThresholdSerializer(item as VectorSimilarityThreshold);
-
-    case "searchScore":
-      return searchScoreThresholdSerializer(item as SearchScoreThreshold);
-
-    default:
-      return vectorThresholdSerializer(item);
-  }
-}
-
-export function vectorThresholdUnionDeserializer(item: any): VectorThresholdUnion {
-  switch (item["kind"]) {
-    case "vectorSimilarity":
-      return vectorSimilarityThresholdDeserializer(item as VectorSimilarityThreshold);
-
-    case "searchScore":
-      return searchScoreThresholdDeserializer(item as SearchScoreThreshold);
-
-    default:
-      return vectorThresholdDeserializer(item);
-  }
-}
-
-/** The kind of threshold used to filter vector queries. */
-export enum KnownVectorThresholdKind {
-  /** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-  VectorSimilarity = "vectorSimilarity",
-  /** The results of the vector query will filter based on the '@search.score' value. Note this is the @search.score returned as part of the search response. The threshold direction will be chosen for higher @search.score. */
-  SearchScore = "searchScore",
-}
-
-/**
- * The kind of threshold used to filter vector queries. \
- * {@link KnownVectorThresholdKind} can be used interchangeably with VectorThresholdKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **vectorSimilarity**: The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. \
- * **searchScore**: The results of the vector query will filter based on the '@search.score' value. Note this is the @search.score returned as part of the search response. The threshold direction will be chosen for higher @search.score.
- */
-export type VectorThresholdKind = string;
-
-/** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-export interface VectorSimilarityThreshold extends VectorThreshold {
-  /** The threshold will filter based on the similarity metric value. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-  value: number;
-  /** The kind of threshold used to filter vector queries */
-  kind: "vectorSimilarity";
-}
-
-export function vectorSimilarityThresholdSerializer(item: VectorSimilarityThreshold): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function vectorSimilarityThresholdDeserializer(item: any): VectorSimilarityThreshold {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
-/** The results of the vector query will filter based on the ' */
-export interface SearchScoreThreshold extends VectorThreshold {
-  /** The threshold will filter based on the ' */
-  value: number;
-  /** The kind of threshold used to filter vector queries */
-  kind: "searchScore";
-}
-
-export function searchScoreThresholdSerializer(item: SearchScoreThreshold): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function searchScoreThresholdDeserializer(item: any): SearchScoreThreshold {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
 /** The kind of vector query being performed. */
 export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
@@ -730,11 +565,6 @@ export function vectorizedQuerySerializer(item: VectorizedQuery): any {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     vector: item["vector"].map((p: any) => {
       return p;
@@ -749,11 +579,6 @@ export function vectorizedQueryDeserializer(item: any): VectorizedQuery {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     vector: item["vector"].map((p: any) => {
       return p;
@@ -776,11 +601,6 @@ export function vectorizableTextQuerySerializer(item: VectorizableTextQuery): an
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     text: item["text"],
   };
@@ -793,11 +613,6 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     text: item["text"],
   };
@@ -818,11 +633,6 @@ export function vectorizableImageUrlQuerySerializer(item: VectorizableImageUrlQu
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     url: item["url"],
   };
@@ -835,11 +645,6 @@ export function vectorizableImageUrlQueryDeserializer(item: any): VectorizableIm
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     url: item["url"],
   };
@@ -860,11 +665,6 @@ export function vectorizableImageBinaryQuerySerializer(item: VectorizableImageBi
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     base64Image: item["base64Image"],
   };
@@ -877,11 +677,6 @@ export function vectorizableImageBinaryQueryDeserializer(item: any): Vectorizabl
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     base64Image: item["base64Image"],
   };
@@ -1002,16 +797,11 @@ export function queryCaptionResultDeserializer(item: any): QueryCaptionResult {
 export interface DocumentDebugInfo {
   /** Contains debugging information specific to vector and hybrid search. */
   readonly vectors?: VectorsDebugInfo;
-  /** Contains debugging information specific to vectors matched within a collection of complex types. */
-  readonly innerHits?: Record<string, QueryResultDocumentInnerHit[]>;
 }
 
 export function documentDebugInfoDeserializer(item: any): DocumentDebugInfo {
   return {
     vectors: !item["vectors"] ? item["vectors"] : vectorsDebugInfoDeserializer(item["vectors"]),
-    innerHits: !item["innerHits"]
-      ? item["innerHits"]
-      : queryResultDocumentInnerHitArrayRecordDeserializer(item["innerHits"]),
   };
 }
 
@@ -1091,41 +881,6 @@ export function singleVectorFieldResultDeserializer(item: any): SingleVectorFiel
   return {
     searchScore: item["searchScore"],
     vectorSimilarity: item["vectorSimilarity"],
-  };
-}
-
-export function queryResultDocumentInnerHitArrayRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, Array<QueryResultDocumentInnerHit>> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : queryResultDocumentInnerHitArrayDeserializer(item[key]);
-  });
-  return result;
-}
-
-export function queryResultDocumentInnerHitArrayDeserializer(
-  result: Array<QueryResultDocumentInnerHit>,
-): any[] {
-  return result.map((item) => {
-    return queryResultDocumentInnerHitDeserializer(item);
-  });
-}
-
-/** Detailed scoring information for an individual element of a complex collection. */
-export interface QueryResultDocumentInnerHit {
-  /** Position of this specific matching element within it's original collection. Position starts at 0. */
-  readonly ordinal?: number;
-  /** Detailed scoring information for an individual element of a complex collection that matched a vector query. */
-  readonly vectors?: Record<string, SingleVectorFieldResult>[];
-}
-
-export function queryResultDocumentInnerHitDeserializer(item: any): QueryResultDocumentInnerHit {
-  return {
-    ordinal: item["ordinal"],
-    vectors: !item["vectors"]
-      ? item["vectors"]
-      : singleVectorFieldResultRecordArrayDeserializer(item["vectors"]),
   };
 }
 
@@ -1357,3 +1112,10 @@ export function autocompleteItemDeserializer(item: any): AutocompleteItem {
 
 /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context in producing autocomplete terms. */
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DebugInfo {}
+
+export function debugInfoSerializer(item: DebugInfo): any {
+  return item;
+}

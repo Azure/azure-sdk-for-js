@@ -419,10 +419,6 @@ export interface SearchField {
   sortable?: boolean;
   /** A value indicating whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This property must be null for complex fields. Fields of type Edm.GeographyPoint or Collection(Edm.GeographyPoint) cannot be facetable. Default is true for all other simple fields. */
   facetable?: boolean;
-  /** A value indicating whether the field should be used as a permission filter. */
-  permissionFilter?: PermissionFilter;
-  /** A value indicating whether the field contains sensitivity label information. */
-  sensitivityLabel?: boolean;
   /** The name of the analyzer to use for the field. This option can be used only with searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   analyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at search time for the field. This option can be used only with searchable fields. It must be set together with indexAnalyzer and it cannot be set together with the analyzer option. This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. This analyzer can be updated on an existing field. Must be null for complex fields. */
@@ -454,8 +450,6 @@ export function searchFieldSerializer(item: SearchField): any {
     filterable: item["filterable"],
     sortable: item["sortable"],
     facetable: item["facetable"],
-    permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
     analyzer: item["analyzerName"],
     searchAnalyzer: item["searchAnalyzerName"],
     indexAnalyzer: item["indexAnalyzerName"],
@@ -483,8 +477,6 @@ export function searchFieldDeserializer(item: any): SearchField {
     filterable: item["filterable"],
     sortable: item["sortable"],
     facetable: item["facetable"],
-    permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
     analyzerName: item["analyzer"],
     searchAnalyzerName: item["searchAnalyzer"],
     indexAnalyzerName: item["indexAnalyzer"],
@@ -551,27 +543,6 @@ export enum KnownSearchFieldDataType {
  * **Edm.Byte**: Indicates that a field contains a 8-bit unsigned integer. This is only valid when used with Collection(Edm.Byte).
  */
 export type SearchFieldDataType = string;
-
-/** A value indicating whether the field should be used as a permission filter. */
-export enum KnownPermissionFilter {
-  /** Field represents user IDs that should be used to filter document access on queries. */
-  UserIds = "userIds",
-  /** Field represents group IDs that should be used to filter document access on queries. */
-  GroupIds = "groupIds",
-  /** Field represents an RBAC scope that should be used to filter document access on queries. */
-  RbacScope = "rbacScope",
-}
-
-/**
- * A value indicating whether the field should be used as a permission filter. \
- * {@link KnownPermissionFilter} can be used interchangeably with PermissionFilter,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userIds**: Field represents user IDs that should be used to filter document access on queries. \
- * **groupIds**: Field represents group IDs that should be used to filter document access on queries. \
- * **rbacScope**: Field represents an RBAC scope that should be used to filter document access on queries.
- */
-export type PermissionFilter = string;
 
 /** Defines the names of all text analyzers supported by the search engine. */
 export enum KnownLexicalAnalyzerName {
@@ -4361,7 +4332,7 @@ export interface VectorSearchVectorizer {
   /** The name to associate with this particular vectorization method. */
   vectorizerName: string;
   /** Type of VectorSearchVectorizer. */
-  /** The discriminator possible values: azureOpenAI, customWebApi, aiServicesVision, aml */
+  /** The discriminator possible values: azureOpenAI, customWebApi, aml */
   kind: VectorSearchVectorizerKind;
 }
 
@@ -4380,7 +4351,6 @@ export function vectorSearchVectorizerDeserializer(item: any): VectorSearchVecto
 export type VectorSearchVectorizerUnion =
   | AzureOpenAIVectorizer
   | WebApiVectorizer
-  | AIServicesVisionVectorizer
   | AzureMachineLearningVectorizer
   | VectorSearchVectorizer;
 
@@ -4391,9 +4361,6 @@ export function vectorSearchVectorizerUnionSerializer(item: VectorSearchVectoriz
 
     case "customWebApi":
       return webApiVectorizerSerializer(item as WebApiVectorizer);
-
-    case "aiServicesVision":
-      return aiServicesVisionVectorizerSerializer(item as AIServicesVisionVectorizer);
 
     case "aml":
       return azureMachineLearningVectorizerSerializer(item as AzureMachineLearningVectorizer);
@@ -4410,9 +4377,6 @@ export function vectorSearchVectorizerUnionDeserializer(item: any): VectorSearch
 
     case "customWebApi":
       return webApiVectorizerDeserializer(item as WebApiVectorizer);
-
-    case "aiServicesVision":
-      return aiServicesVisionVectorizerDeserializer(item as AIServicesVisionVectorizer);
 
     case "aml":
       return azureMachineLearningVectorizerDeserializer(item as AzureMachineLearningVectorizer);
@@ -4524,22 +4488,14 @@ export enum KnownAzureOpenAIModelName {
   TextEmbedding3Large = "text-embedding-3-large",
   /** TextEmbedding3Small model. */
   TextEmbedding3Small = "text-embedding-3-small",
-  /** Gpt4o model. */
-  Gpt4O = "gpt-4o",
-  /** Gpt4oMini model. */
-  Gpt4OMini = "gpt-4o-mini",
-  /** Gpt41 model. */
-  Gpt41 = "gpt-4.1",
-  /** Gpt41Mini model. */
-  Gpt41Mini = "gpt-4.1-mini",
-  /** Gpt41Nano model. */
-  Gpt41Nano = "gpt-4.1-nano",
-  /** Gpt5 model. */
-  Gpt5 = "gpt-5",
   /** Gpt5Mini model. */
   Gpt5Mini = "gpt-5-mini",
   /** Gpt5Nano model. */
   Gpt5Nano = "gpt-5-nano",
+  /** Gpt54Mini model. */
+  Gpt54Mini = "gpt-5.4-mini",
+  /** Gpt54Nano model. */
+  Gpt54Nano = "gpt-5.4-nano",
 }
 
 /**
@@ -4550,14 +4506,10 @@ export enum KnownAzureOpenAIModelName {
  * **text-embedding-ada-002**: TextEmbeddingAda002 model. \
  * **text-embedding-3-large**: TextEmbedding3Large model. \
  * **text-embedding-3-small**: TextEmbedding3Small model. \
- * **gpt-4o**: Gpt4o model. \
- * **gpt-4o-mini**: Gpt4oMini model. \
- * **gpt-4.1**: Gpt41 model. \
- * **gpt-4.1-mini**: Gpt41Mini model. \
- * **gpt-4.1-nano**: Gpt41Nano model. \
- * **gpt-5**: Gpt5 model. \
  * **gpt-5-mini**: Gpt5Mini model. \
- * **gpt-5-nano**: Gpt5Nano model.
+ * **gpt-5-nano**: Gpt5Nano model. \
+ * **gpt-5.4-mini**: Gpt54Mini model. \
+ * **gpt-5.4-nano**: Gpt54Nano model.
  */
 export type AzureOpenAIModelName = string;
 
@@ -4629,68 +4581,6 @@ export function webApiVectorizerParametersDeserializer(item: any): WebApiVectori
     httpMethod: item["httpMethod"],
     timeout: item["timeout"],
     authResourceId: item["authResourceId"],
-    authIdentity: !item["authIdentity"]
-      ? item["authIdentity"]
-      : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
-  };
-}
-
-/** Clears the identity property of a datasource. */
-export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
-  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
-  aiServicesVisionParameters?: AIServicesVisionParameters;
-  /** The name of the kind of vectorization method being configured for use with vector search. */
-  kind: "aiServicesVision";
-}
-
-export function aiServicesVisionVectorizerSerializer(item: AIServicesVisionVectorizer): any {
-  return {
-    name: item["vectorizerName"],
-    kind: item["kind"],
-    aiServicesVisionParameters: !item["aiServicesVisionParameters"]
-      ? item["aiServicesVisionParameters"]
-      : aiServicesVisionParametersSerializer(item["aiServicesVisionParameters"]),
-  };
-}
-
-export function aiServicesVisionVectorizerDeserializer(item: any): AIServicesVisionVectorizer {
-  return {
-    vectorizerName: item["name"],
-    kind: item["kind"],
-    aiServicesVisionParameters: !item["aiServicesVisionParameters"]
-      ? item["aiServicesVisionParameters"]
-      : aiServicesVisionParametersDeserializer(item["aiServicesVisionParameters"]),
-  };
-}
-
-/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
-export interface AIServicesVisionParameters {
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
-  /** The resource URI of the AI Services resource. */
-  resourceUri: string;
-  /** API key of the designated AI Services resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion;
-}
-
-export function aiServicesVisionParametersSerializer(item: AIServicesVisionParameters): any {
-  return {
-    modelVersion: item["modelVersion"],
-    resourceUri: item["resourceUri"],
-    apiKey: item["apiKey"],
-    authIdentity: !item["authIdentity"]
-      ? item["authIdentity"]
-      : searchIndexerDataIdentityUnionSerializer(item["authIdentity"]),
-  };
-}
-
-export function aiServicesVisionParametersDeserializer(item: any): AIServicesVisionParameters {
-  return {
-    modelVersion: item["modelVersion"],
-    resourceUri: item["resourceUri"],
-    apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
@@ -7117,8 +7007,6 @@ export interface SearchIndexerStatus {
   readonly executionHistory: IndexerExecutionResult[];
   /** The execution limits for the indexer. */
   readonly limits: SearchIndexerLimits;
-  /** All of the state that defines and dictates the indexer's current execution. */
-  readonly currentState?: IndexerCurrentState;
 }
 
 export function searchIndexerStatusDeserializer(item: any): SearchIndexerStatus {
@@ -7130,9 +7018,6 @@ export function searchIndexerStatusDeserializer(item: any): SearchIndexerStatus 
       : indexerExecutionResultDeserializer(item["lastResult"]),
     executionHistory: indexerExecutionResultArrayDeserializer(item["executionHistory"]),
     limits: searchIndexerLimitsDeserializer(item["limits"]),
-    currentState: !item["currentState"]
-      ? item["currentState"]
-      : indexerCurrentStateDeserializer(item["currentState"]),
   };
 }
 
@@ -7143,10 +7028,6 @@ export type IndexerStatus = "unknown" | "error" | "running";
 export interface IndexerExecutionResult {
   /** The outcome of this indexer execution. */
   readonly status: IndexerExecutionStatus;
-  /** The outcome of this indexer execution. */
-  readonly statusDetail?: IndexerExecutionStatusDetail;
-  /** The mode the indexer is running in. */
-  readonly mode?: IndexingMode;
   /** The error message indicating the top-level error, if any. */
   readonly errorMessage?: string;
   /** The start time of this indexer execution. */
@@ -7170,8 +7051,6 @@ export interface IndexerExecutionResult {
 export function indexerExecutionResultDeserializer(item: any): IndexerExecutionResult {
   return {
     status: item["status"],
-    statusDetail: item["statusDetail"],
-    mode: item["mode"],
     errorMessage: item["errorMessage"],
     startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
@@ -7186,45 +7065,6 @@ export function indexerExecutionResultDeserializer(item: any): IndexerExecutionR
 
 /** Represents the status of an individual indexer execution. */
 export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
-
-/** Details the status of an individual indexer execution. */
-export enum KnownIndexerExecutionStatusDetail {
-  /** Indicates that the reset that occurred was for a call to ResetDocs. */
-  ResetDocs = "resetDocs",
-  /** Indicates to selectively resync based on option(s) from data source. */
-  Resync = "resync",
-}
-
-/**
- * Details the status of an individual indexer execution. \
- * {@link KnownIndexerExecutionStatusDetail} can be used interchangeably with IndexerExecutionStatusDetail,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **resetDocs**: Indicates that the reset that occurred was for a call to ResetDocs. \
- * **resync**: Indicates to selectively resync based on option(s) from data source.
- */
-export type IndexerExecutionStatusDetail = string;
-
-/** Represents the mode the indexer is executing in. */
-export enum KnownIndexingMode {
-  /** The indexer is indexing all documents in the datasource. */
-  IndexingAllDocs = "indexingAllDocs",
-  /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
-  IndexingResetDocs = "indexingResetDocs",
-  /** The indexer is resyncing and indexing selective option(s) from the datasource. */
-  IndexingResync = "indexingResync",
-}
-
-/**
- * Represents the mode the indexer is executing in. \
- * {@link KnownIndexingMode} can be used interchangeably with IndexingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **indexingAllDocs**: The indexer is indexing all documents in the datasource. \
- * **indexingResetDocs**: The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. \
- * **indexingResync**: The indexer is resyncing and indexing selective option(s) from the datasource.
- */
-export type IndexingMode = string;
 
 export function searchIndexerErrorArrayDeserializer(result: Array<SearchIndexerError>): any[] {
   return result.map((item) => {
@@ -7315,50 +7155,6 @@ export function searchIndexerLimitsDeserializer(item: any): SearchIndexerLimits 
   };
 }
 
-/** Represents all of the state that defines and dictates the indexer's current execution. */
-export interface IndexerCurrentState {
-  /** The mode the indexer is running in. */
-  readonly mode?: IndexingMode;
-  /** Change tracking state used when indexing starts on all documents in the datasource. */
-  readonly allDocsInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on all documents in the datasource. */
-  readonly allDocsFinalTrackingState?: string;
-  /** Change tracking state used when indexing starts on select, reset documents in the datasource. */
-  readonly resetDocsInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on select, reset documents in the datasource. */
-  readonly resetDocsFinalTrackingState?: string;
-  /** Change tracking state used when indexing starts on selective options from the datasource. */
-  readonly resyncInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on selective options from the datasource. */
-  readonly resyncFinalTrackingState?: string;
-  /** The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys. */
-  readonly resetDocumentKeys?: string[];
-  /** The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids. */
-  readonly resetDatasourceDocumentIds?: string[];
-}
-
-export function indexerCurrentStateDeserializer(item: any): IndexerCurrentState {
-  return {
-    mode: item["mode"],
-    allDocsInitialTrackingState: item["allDocsInitialTrackingState"],
-    allDocsFinalTrackingState: item["allDocsFinalTrackingState"],
-    resetDocsInitialTrackingState: item["resetDocsInitialTrackingState"],
-    resetDocsFinalTrackingState: item["resetDocsFinalTrackingState"],
-    resyncInitialTrackingState: item["resyncInitialTrackingState"],
-    resyncFinalTrackingState: item["resyncFinalTrackingState"],
-    resetDocumentKeys: !item["resetDocumentKeys"]
-      ? item["resetDocumentKeys"]
-      : item["resetDocumentKeys"].map((p: any) => {
-          return p;
-        }),
-    resetDatasourceDocumentIds: !item["resetDatasourceDocumentIds"]
-      ? item["resetDatasourceDocumentIds"]
-      : item["resetDatasourceDocumentIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** A list of skills. */
 export interface SearchIndexerSkillset {
   /** The name of the skillset. */
@@ -7440,7 +7236,7 @@ export function searchIndexerSkillUnionArrayDeserializer(
 /** Base type for skills. */
 export interface SearchIndexerSkill {
   /** The discriminator for derived types. */
-  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Custom.AmlSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Vision.VectorizeSkill, #Microsoft.Skills.Util.ContentUnderstandingSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
+  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Util.ContentUnderstandingSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
   odatatype: string;
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
@@ -7495,9 +7291,7 @@ export type SearchIndexerSkillUnion =
   | DocumentExtractionSkill
   | DocumentIntelligenceLayoutSkill
   | WebApiSkill
-  | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
-  | VisionVectorizeSkill
   | ContentUnderstandingSkill
   | ChatCompletionSkill
   | SearchIndexerSkill;
@@ -7555,14 +7349,8 @@ export function searchIndexerSkillUnionSerializer(item: SearchIndexerSkillUnion)
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillSerializer(item as WebApiSkill);
 
-    case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillSerializer(item as AzureMachineLearningSkill);
-
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
       return azureOpenAIEmbeddingSkillSerializer(item as AzureOpenAIEmbeddingSkill);
-
-    case "#Microsoft.Skills.Vision.VectorizeSkill":
-      return visionVectorizeSkillSerializer(item as VisionVectorizeSkill);
 
     case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
       return contentUnderstandingSkillSerializer(item as ContentUnderstandingSkill);
@@ -7628,14 +7416,8 @@ export function searchIndexerSkillUnionDeserializer(item: any): SearchIndexerSki
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillDeserializer(item as WebApiSkill);
 
-    case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillDeserializer(item as AzureMachineLearningSkill);
-
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
       return azureOpenAIEmbeddingSkillDeserializer(item as AzureOpenAIEmbeddingSkill);
-
-    case "#Microsoft.Skills.Vision.VectorizeSkill":
-      return visionVectorizeSkillDeserializer(item as VisionVectorizeSkill);
 
     case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
       return contentUnderstandingSkillDeserializer(item as ContentUnderstandingSkill);
@@ -9219,10 +9001,6 @@ export interface SplitSkill extends SearchIndexerSkill {
   pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
   maximumPagesToTake?: number;
-  /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
-  unit?: SplitSkillUnit;
-  /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
 }
@@ -9240,10 +9018,6 @@ export function splitSkillSerializer(item: SplitSkill): any {
     maximumPageLength: item["maximumPageLength"],
     pageOverlapLength: item["pageOverlapLength"],
     maximumPagesToTake: item["maximumPagesToTake"],
-    unit: item["unit"],
-    azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
-      ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersSerializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -9260,10 +9034,6 @@ export function splitSkillDeserializer(item: any): SplitSkill {
     maximumPageLength: item["maximumPageLength"],
     pageOverlapLength: item["pageOverlapLength"],
     maximumPagesToTake: item["maximumPagesToTake"],
-    unit: item["unit"],
-    azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
-      ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersDeserializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -9395,82 +9165,6 @@ export enum KnownTextSplitMode {
  * **sentences**: Split the text into individual sentences.
  */
 export type TextSplitMode = string;
-
-/** A value indicating which unit to use. */
-export enum KnownSplitSkillUnit {
-  /** The length will be measured by character. */
-  Characters = "characters",
-  /** The length will be measured by an AzureOpenAI tokenizer from the tiktoken library. */
-  AzureOpenAITokens = "azureOpenAITokens",
-}
-
-/**
- * A value indicating which unit to use. \
- * {@link KnownSplitSkillUnit} can be used interchangeably with SplitSkillUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **characters**: The length will be measured by character. \
- * **azureOpenAITokens**: The length will be measured by an AzureOpenAI tokenizer from the tiktoken library.
- */
-export type SplitSkillUnit = string;
-
-/** Azure OpenAI Tokenizer parameters. */
-export interface AzureOpenAITokenizerParameters {
-  /** Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'. */
-  encoderModelName?: SplitSkillEncoderModelName;
-  /** (Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process. */
-  allowedSpecialTokens?: string[];
-}
-
-export function azureOpenAITokenizerParametersSerializer(
-  item: AzureOpenAITokenizerParameters,
-): any {
-  return {
-    encoderModelName: item["encoderModelName"],
-    allowedSpecialTokens: !item["allowedSpecialTokens"]
-      ? item["allowedSpecialTokens"]
-      : item["allowedSpecialTokens"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function azureOpenAITokenizerParametersDeserializer(
-  item: any,
-): AzureOpenAITokenizerParameters {
-  return {
-    encoderModelName: item["encoderModelName"],
-    allowedSpecialTokens: !item["allowedSpecialTokens"]
-      ? item["allowedSpecialTokens"]
-      : item["allowedSpecialTokens"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** A value indicating which tokenizer to use. */
-export enum KnownSplitSkillEncoderModelName {
-  /** Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. */
-  R50KBase = "r50k_base",
-  /** A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. */
-  P50KBase = "p50k_base",
-  /** Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. */
-  P50KEdit = "p50k_edit",
-  /** A base model with a 100,000 token vocabulary. */
-  CL100KBase = "cl100k_base",
-}
-
-/**
- * A value indicating which tokenizer to use. \
- * {@link KnownSplitSkillEncoderModelName} can be used interchangeably with SplitSkillEncoderModelName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **r50k_base**: Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. \
- * **p50k_base**: A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. \
- * **p50k_edit**: Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. \
- * **cl100k_base**: A base model with a 100,000 token vocabulary.
- */
-export type SplitSkillEncoderModelName = string;
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
 export interface CustomEntityLookupSkill extends SearchIndexerSkill {
@@ -10271,58 +9965,6 @@ export function webApiHttpHeadersDeserializer(item: any): WebApiHttpHeaders {
   };
 }
 
-/** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
-export interface AzureMachineLearningSkill extends SearchIndexerSkill {
-  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri?: string;
-  /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string;
-  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string;
-  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string;
-  /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string;
-  /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
-  degreeOfParallelism?: number;
-  /** A URI fragment specifying the type of skill. */
-  odatatype: "#Microsoft.Skills.Custom.AmlSkill";
-}
-
-export function azureMachineLearningSkillSerializer(item: AzureMachineLearningSkill): any {
-  return {
-    "@odata.type": item["odatatype"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
-    uri: item["scoringUri"],
-    key: item["authenticationKey"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-  };
-}
-
-export function azureMachineLearningSkillDeserializer(item: any): AzureMachineLearningSkill {
-  return {
-    odatatype: item["@odata.type"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
-    scoringUri: item["uri"],
-    authenticationKey: item["key"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-  };
-}
-
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
 export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** The resource URI of the Azure OpenAI resource. */
@@ -10376,38 +10018,6 @@ export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmb
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
     modelName: item["modelName"],
     dimensions: item["dimensions"],
-  };
-}
-
-/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
-export interface VisionVectorizeSkill extends SearchIndexerSkill {
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
-  /** A URI fragment specifying the type of skill. */
-  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
-}
-
-export function visionVectorizeSkillSerializer(item: VisionVectorizeSkill): any {
-  return {
-    "@odata.type": item["odatatype"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
-    modelVersion: item["modelVersion"],
-  };
-}
-
-export function visionVectorizeSkillDeserializer(item: any): VisionVectorizeSkill {
-  return {
-    odatatype: item["@odata.type"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
-    modelVersion: item["modelVersion"],
   };
 }
 
@@ -11486,24 +11096,6 @@ export function skillNamesSerializer(item: SkillNames): any {
         }),
   };
 }
-
-/** A value indicating whether permission filtering is enabled for the index. */
-export enum KnownSearchIndexPermissionFilterOption {
-  /** Permission filtering is enabled for the index. */
-  Enabled = "enabled",
-  /** Permission filtering is disabled for the index. */
-  Disabled = "disabled",
-}
-
-/**
- * A value indicating whether permission filtering is enabled for the index. \
- * {@link KnownSearchIndexPermissionFilterOption} can be used interchangeably with SearchIndexPermissionFilterOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled**: Permission filtering is enabled for the index. \
- * **disabled**: Permission filtering is disabled for the index.
- */
-export type SearchIndexPermissionFilterOption = string;
 
 export function _searchResourceEncryptionKeyAccessCredentialsSerializer(
   item: SearchResourceEncryptionKey,

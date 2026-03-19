@@ -19,7 +19,6 @@ import type {
   DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
-  AIServicesVisionVectorizer as GeneratedAIServicesVisionVectorizer,
   AzureMachineLearningParameters as GeneratedAMLParameters,
   AzureMachineLearningVectorizer as GeneratedAMLVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
@@ -73,7 +72,6 @@ import type {
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
-  AIServicesVisionVectorizer,
   AzureBlobKnowledgeSourceParameters,
   AzureMachineLearningVectorizer,
   AzureMachineLearningVectorizerParameters,
@@ -504,25 +502,6 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       return vectorizer;
     },
 
-    aiServicesVision: () => {
-      const generatedVisionVectorizer = generatedVectorizer as GeneratedAIServicesVisionVectorizer;
-      const { aiServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
-      const parameters = generatedParameters
-        ? {
-            ...generatedParameters,
-            modelVersion: generatedParameters.modelVersion,
-            resourceUri: generatedParameters.resourceUri,
-            authIdentity: convertSearchIndexerDataIdentityToPublic(
-              generatedParameters.authIdentity,
-            ),
-          }
-        : undefined;
-      const vectorizer: AIServicesVisionVectorizer = {
-        ...generatedVisionVectorizer,
-        parameters,
-      };
-      return vectorizer;
-    },
     aml: () => {
       const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
 
@@ -1161,12 +1140,10 @@ export function convertPublicActionsToGeneratedActions<
 export function convertGeneratedFacetResultToPublic(
   facetResult: GeneratedFacetResult,
 ): FacetResult {
-  const { additionalProperties, facets, ...rest } = facetResult;
+  const { additionalProperties, ...rest } = facetResult;
   return {
     ...additionalProperties,
     ...rest,
-    // Recursively convert nested facets
-    facets: convertGeneratedFacetsToPublic(facets),
     additionalProperties,
   } as FacetResult;
 }

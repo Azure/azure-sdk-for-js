@@ -25,7 +25,6 @@ export interface DebugInfo {
 
 // @public
 export interface DocumentDebugInfo {
-    readonly innerHits?: Record<string, QueryResultDocumentInnerHit[]>;
     readonly vectors?: VectorsDebugInfo;
 }
 
@@ -52,13 +51,7 @@ export interface ErrorResponse {
 // @public
 export interface FacetResult {
     additionalProperties?: Record<string, any>;
-    readonly avg?: number;
-    readonly cardinality?: number;
     readonly count?: number;
-    readonly facets?: Record<string, FacetResult[]>;
-    readonly max?: number;
-    readonly min?: number;
-    readonly sum?: number;
 }
 
 // @public
@@ -152,12 +145,6 @@ export enum KnownVectorQueryKind {
 }
 
 // @public
-export enum KnownVectorThresholdKind {
-    SearchScore = "searchScore",
-    VectorSimilarity = "vectorSimilarity"
-}
-
-// @public
 export interface LookupDocument {
     additionalProperties?: Record<string, any>;
 }
@@ -188,12 +175,6 @@ export type QueryCaptionType = string;
 export type QueryDebugMode = string;
 
 // @public
-export interface QueryResultDocumentInnerHit {
-    readonly ordinal?: number;
-    readonly vectors?: Record<string, SingleVectorFieldResult>[];
-}
-
-// @public
 export interface QueryResultDocumentSubscores {
     readonly documentBoost?: number;
     readonly text?: TextResult;
@@ -211,7 +192,6 @@ export interface SearchDocumentsResult {
     readonly answers?: QueryAnswerResult[];
     readonly count?: number;
     readonly coverage?: number;
-    readonly debugInfo?: DebugInfo;
     readonly facets?: Record<string, FacetResult[]>;
     readonly nextLink?: string;
     readonly nextPageParameters?: SearchRequest;
@@ -264,12 +244,6 @@ export interface SearchResult {
     readonly rerankerBoostedScore?: number;
     readonly rerankerScore?: number;
     readonly score: number;
-}
-
-// @public
-export interface SearchScoreThreshold extends VectorThreshold {
-    kind: "searchScore";
-    value: number;
 }
 
 // @public
@@ -335,12 +309,9 @@ export interface VectorizedQuery extends VectorQuery {
 export interface VectorQuery {
     exhaustive?: boolean;
     fields?: string;
-    filterOverride?: string;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
     oversampling?: number;
-    perDocumentVectorLimit?: number;
-    threshold?: VectorThresholdUnion;
     weight?: number;
 }
 
@@ -354,23 +325,6 @@ export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | Vectori
 export interface VectorsDebugInfo {
     readonly subscores?: QueryResultDocumentSubscores;
 }
-
-// @public
-export interface VectorSimilarityThreshold extends VectorThreshold {
-    kind: "vectorSimilarity";
-    value: number;
-}
-
-// @public
-export interface VectorThreshold {
-    kind: VectorThresholdKind;
-}
-
-// @public
-export type VectorThresholdKind = string;
-
-// @public
-export type VectorThresholdUnion = VectorSimilarityThreshold | SearchScoreThreshold | VectorThreshold;
 
 // (No @packageDocumentation comment for this package)
 

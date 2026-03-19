@@ -13,7 +13,7 @@ import type {
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
-  QueryResultDocumentInnerHit,
+
   QueryType,
   ScoringStatistics,
   SearchMode,
@@ -226,10 +226,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero.
    */
   weight?: number;
-  /**
-   * The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric.
-   */
-  threshold?: VectorThreshold;
   /**
    * The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in
    * the top level filter parameter is used instead.
@@ -959,13 +955,6 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
-  /**
-   * Contains debugging information specific to vectors matched within a collection of complex types.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerHits?: {
-    [propertyName: string]: QueryResultDocumentInnerHit[];
-  };
 }
 
 /**
@@ -1119,57 +1108,6 @@ export interface VectorSearchOptions<TModel extends object> {
    */
   filterMode?: VectorFilterMode;
 }
-/**
- * The threshold used for vector queries.
- */
-export interface BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "vectorSimilarity" | "searchScore";
-}
-
-/**
- * The results of the vector query will be filtered based on the vector similarity metric. Note this
- * is the canonical definition of similarity metric, not the 'distance' version. The threshold
- * direction (larger or smaller) will be chosen automatically according to the metric used by the
- * field.
- */
-export interface VectorSimilarityThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "vectorSimilarity";
-  /**
-   * The threshold will filter based on the similarity metric value. Note this is the canonical
-   * definition of similarity metric, not the 'distance' version. The threshold direction (larger or
-   * smaller) will be chosen automatically according to the metric used by the field.
-   */
-  value: number;
-}
-
-/**
- * The results of the vector query will filter based on the '\@search.score' value. Note this is the
- * \@search.score returned as part of the search response. The threshold direction will be chosen
- * for higher \@search.score.
- */
-export interface SearchScoreThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "searchScore";
-  /**
-   * The threshold will filter based on the '\@search.score' value. Note this is the \@search.score
-   * returned as part of the search response. The threshold direction will be chosen for higher
-   * \@search.score.
-   */
-  value: number;
-}
-
-/**
- * The threshold used for vector queries.
- */
-export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
