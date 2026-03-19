@@ -1,0 +1,34 @@
+{
+  "apiVersions": {
+    "Microsoft.AlertsManagement": "2023-04-01-preview"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AlertsManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-tenantactivitylogalerts!TenantAlertRuleList:interface": "Microsoft.AlertsManagement.TenantAlertRuleList",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertResource:interface": "Microsoft.AlertsManagement.TenantActivityLogAlertResource",
+      "@azure/arm-tenantactivitylogalerts!AlertRuleProperties:interface": "Microsoft.AlertsManagement.AlertRuleProperties",
+      "@azure/arm-tenantactivitylogalerts!AlertRuleAllOfCondition:interface": "Microsoft.AlertsManagement.AlertRuleAllOfCondition",
+      "@azure/arm-tenantactivitylogalerts!AlertRuleAnyOfOrLeafCondition:interface": "Microsoft.AlertsManagement.AlertRuleAnyOfOrLeafCondition",
+      "@azure/arm-tenantactivitylogalerts!AlertRuleLeafCondition:interface": "Microsoft.AlertsManagement.AlertRuleLeafCondition",
+      "@azure/arm-tenantactivitylogalerts!ActionList:interface": "Microsoft.AlertsManagement.ActionList",
+      "@azure/arm-tenantactivitylogalerts!ActionGroup:interface": "Microsoft.AlertsManagement.ActionGroup",
+      "@azure/arm-tenantactivitylogalerts!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-tenantactivitylogalerts!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-tenantactivitylogalerts!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-tenantactivitylogalerts!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-tenantactivitylogalerts!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-tenantactivitylogalerts!TenantAlertRulePatchObject:interface": "Microsoft.AlertsManagement.TenantAlertRulePatchObject",
+      "@azure/arm-tenantactivitylogalerts!TenantAlertRulePatchProperties:interface": "Microsoft.AlertsManagement.TenantAlertRulePatchProperties",
+      "@azure/arm-tenantactivitylogalerts!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-tenantactivitylogalerts!KnownVersions:enum": "Microsoft.AlertsManagement.Versions",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#listByManagementGroup:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.listByManagementGroup",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#delete:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.delete",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#update:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.update",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#createOrUpdate:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.createOrUpdate",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#get:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.get",
+      "@azure/arm-tenantactivitylogalerts!TenantActivityLogAlertsOperations#listByTenant:member": "Microsoft.AlertsManagement.TenantActivityLogAlertResources.listByTenant"
+    }
+  }
+}

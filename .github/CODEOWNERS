@@ -1650,6 +1650,9 @@ sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
