@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
-  * Provides helpers for configuring Microsoft Entra ID authentication and acquiring
-  * access tokens for Azure Database for PostgreSQL connections.
-  *
-  * This package is intended to be used by higher-level PostgreSQL clients that need
-  * to authenticate using Microsoft Entra ID (formerly Azure Active Directory).
-  *
-  * @packageDocumentation
-  */
+ * Provides helpers for configuring Microsoft Entra ID authentication and acquiring
+ * access tokens for Azure Database for PostgreSQL connections.
+ *
+ * This package is intended to be used by higher-level PostgreSQL clients that need
+ * to authenticate using Microsoft Entra ID (formerly Azure Active Directory).
+ *
+ * @packageDocumentation
+ */
 export { configureEntraIdAuth, getEntraTokenPassword } from "./entraConnection.js";
 export type {
   ConfigureEntraIdAuthOptions,
