@@ -47,7 +47,7 @@ describe("getEntraTokenPassword", () => {
     };
 
     const customScope = "https://custom-scope/.default";
-    await getEntraTokenPassword(credential, customScope);
+    await getEntraTokenPassword(credential, { scope: customScope });
 
     expect(capturedScope).toBe(customScope);
   });

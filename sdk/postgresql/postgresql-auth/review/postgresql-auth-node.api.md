@@ -20,7 +20,12 @@ export interface ConfigureEntraIdAuthOptions {
 }
 
 // @public
-export function getEntraTokenPassword(credential: TokenCredential, scope?: string): Promise<string>;
+export function getEntraTokenPassword(credential: TokenCredential, options?: GetEntraTokenPasswordOptions): Promise<string>;
+
+// @public
+export interface GetEntraTokenPasswordOptions {
+    scope?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 
