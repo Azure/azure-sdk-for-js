@@ -1,6 +1,6 @@
 # Release History
 
-## 8.2.0 (2026-03-13)
+## 8.2.0 (2026-03-19)
 
 ### Features Added
   - Added operation group ExpansionJobs
