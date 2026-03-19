@@ -11,7 +11,7 @@
         }
       },
       "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
-      "AdditionalParameters": "@{deployMIResources = $true}",
+      "ArmTemplateParameters": "@{deployMIResources = $true}",
       "TestType": "node:managed-identity",
       "TestResultsFiles": "**/test-results.xml"
     }
