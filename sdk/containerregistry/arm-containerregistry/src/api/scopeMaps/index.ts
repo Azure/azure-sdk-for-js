@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  ScopeMapsListOptionalParams,
-  ScopeMapsDeleteOptionalParams,
-  ScopeMapsUpdateOptionalParams,
-  ScopeMapsCreateOptionalParams,
-  ScopeMapsGetOptionalParams,
+  type ScopeMapsListOptionalParams,
+  type ScopeMapsDeleteOptionalParams,
+  type ScopeMapsUpdateOptionalParams,
+  type ScopeMapsCreateOptionalParams,
+  type ScopeMapsGetOptionalParams,
 } from "./options.js";

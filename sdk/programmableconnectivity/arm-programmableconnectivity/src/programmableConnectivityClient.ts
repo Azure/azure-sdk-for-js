@@ -19,7 +19,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ProgrammableConnectivityClientOptionalParams } from "./api/programmableConnectivityContext.js";
+export { type ProgrammableConnectivityClientOptionalParams } from "./api/programmableConnectivityContext.js";
 
 export class ProgrammableConnectivityClient {
   private _client: ProgrammableConnectivityContext;

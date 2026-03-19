@@ -3,6 +3,6 @@
 
 export {
   createStorageMover,
-  StorageMoverContext,
-  StorageMoverClientOptionalParams,
+  type StorageMoverContext,
+  type StorageMoverClientOptionalParams,
 } from "./storageMoverContext.js";

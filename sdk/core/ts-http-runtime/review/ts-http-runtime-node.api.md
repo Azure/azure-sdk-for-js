@@ -441,6 +441,7 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
 
 // @public
 export interface RedirectPolicyOptions {
+    allowCrossOriginRedirects?: boolean;
     maxRetries?: number;
 }
 

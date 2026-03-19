@@ -4,13 +4,13 @@ packages:
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
   - common/tools/vite-plugin-browser-test-map
+  - common/tools/warp
   - '!sdk/**/src/**'
   - '!sdk/**/dist/**'
   - '!sdk/**/dist-test/**'
   - '!sdk/**/samples/**'
   - '!sdk/**/samples-*/**'
   - '!sdk/**/sample-*/**'
-  - '!sdk/batch/batch'
   - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
   - '!sdk/identity/identity/integration/**'
   - '!sdk/identity/identity/test/manual*/**'
@@ -24,7 +24,6 @@ catalog:
   eslint: ^9.39.1
   prettier: ^3.6.2
   rimraf: ^6.1.0
-  tshy: ^3.0.3
   tslib: ^2.8.1
   tsx: ^4.20.4
   typescript: ~5.9.3
@@ -54,12 +53,3 @@ catalogs:
     vitest: ^4.0.8
 
 linkWorkspacePackages: true
-
-minimumReleaseAge: 1440
-
-minimumReleaseAgeExclude:
-  - '@azure/*'
-  - '@azure-rest/*'
-  - '@microsoft/*'
-  - '@azure-tools/*'
-  - '@typespec/*'

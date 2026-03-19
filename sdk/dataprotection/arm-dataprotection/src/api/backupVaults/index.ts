@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  BackupVaultsCheckNameAvailabilityOptionalParams,
-  BackupVaultsListInResourceGroupOptionalParams,
-  BackupVaultsListInSubscriptionOptionalParams,
-  BackupVaultsDeleteOptionalParams,
-  BackupVaultsUpdateOptionalParams,
-  BackupVaultsCreateOrUpdateOptionalParams,
-  BackupVaultsGetOptionalParams,
+  type BackupVaultsCheckNameAvailabilityOptionalParams,
+  type BackupVaultsListInResourceGroupOptionalParams,
+  type BackupVaultsListInSubscriptionOptionalParams,
+  type BackupVaultsDeleteOptionalParams,
+  type BackupVaultsUpdateOptionalParams,
+  type BackupVaultsCreateOrUpdateOptionalParams,
+  type BackupVaultsGetOptionalParams,
 } from "./options.js";

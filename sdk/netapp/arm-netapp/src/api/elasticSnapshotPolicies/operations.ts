@@ -38,9 +38,7 @@ export function _listElasticVolumesSend(
   resourceGroupName: string,
   accountName: string,
   snapshotPolicyName: string,
-  options: ElasticSnapshotPoliciesListElasticVolumesOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesListElasticVolumesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies/{snapshotPolicyName}/elasticvolumes{?api%2Dversion}",
@@ -49,7 +47,7 @@ export function _listElasticVolumesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,10 +55,7 @@ export function _listElasticVolumesSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -71,6 +66,7 @@ export async function _listElasticVolumesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -83,9 +79,7 @@ export function listElasticVolumes(
   resourceGroupName: string,
   accountName: string,
   snapshotPolicyName: string,
-  options: ElasticSnapshotPoliciesListElasticVolumesOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesListElasticVolumesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticVolume> {
   return buildPagedAsyncIterator(
     context,
@@ -93,7 +87,11 @@ export function listElasticVolumes(
       _listElasticVolumesSend(context, resourceGroupName, accountName, snapshotPolicyName, options),
     _listElasticVolumesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -101,9 +99,7 @@ export function _listByElasticAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticSnapshotPoliciesListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesListByElasticAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies{?api%2Dversion}",
@@ -111,7 +107,7 @@ export function _listByElasticAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,10 +115,7 @@ export function _listByElasticAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -133,6 +126,7 @@ export async function _listByElasticAccountDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -144,16 +138,18 @@ export function listByElasticAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: ElasticSnapshotPoliciesListByElasticAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesListByElasticAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticSnapshotPolicy> {
   return buildPagedAsyncIterator(
     context,
     () => _listByElasticAccountSend(context, resourceGroupName, accountName, options),
     _listByElasticAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    },
   );
 }
 
@@ -171,7 +167,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,10 +177,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -204,12 +201,13 @@ export function $delete(
   snapshotPolicyName: string,
   options: ElasticSnapshotPoliciesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, snapshotPolicyName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -228,7 +226,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,10 +235,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticSnapshotPolicyUpdateSerializer(body),
   });
 }
@@ -252,6 +247,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -273,6 +269,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, snapshotPolicyName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
 }
 
@@ -282,9 +279,7 @@ export function _createOrUpdateSend(
   accountName: string,
   snapshotPolicyName: string,
   body: ElasticSnapshotPolicy,
-  options: ElasticSnapshotPoliciesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticSnapshotPolicies/{snapshotPolicyName}{?api%2Dversion}",
@@ -293,7 +288,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -302,10 +297,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticSnapshotPolicySerializer(body),
   });
 }
@@ -317,6 +309,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -330,9 +323,7 @@ export function createOrUpdate(
   accountName: string,
   snapshotPolicyName: string,
   body: ElasticSnapshotPolicy,
-  options: ElasticSnapshotPoliciesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -347,6 +338,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-15-preview",
   }) as PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
 }
 
@@ -364,7 +356,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -372,10 +364,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -386,6 +375,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

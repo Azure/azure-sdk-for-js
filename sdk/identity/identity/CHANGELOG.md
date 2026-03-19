@@ -1,8 +1,18 @@
 # Release History
 
-## 4.14.0-beta.2 (Unreleased)
+## 4.14.0-beta.3 (Unreleased)
 
 ### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Reduced bundle size by optimizing imports from `@azure/msal-node`, e.g. achieving a ~61kb reduction (from 851kb to 790kb) when importing `ClientCertificateCredential`. [#36942](https://github.com/Azure/azure-sdk-for-js/pull/36942)
+
+## 4.14.0-beta.2 (2026-02-10)
 
 ### Breaking Changes
 
@@ -10,6 +20,7 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `AzureDeveloperCliCredential` error messages included raw JSON output from `azd auth token` instead of clean, user-friendly messages. The credential now parses the JSON stderr output to extract and display only the error message. [#37268](https://github.com/Azure/azure-sdk-for-js/pull/37268)
 - Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
 
 ### Other Changes

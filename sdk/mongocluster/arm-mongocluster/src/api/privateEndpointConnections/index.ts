@@ -3,8 +3,8 @@
 
 export { $delete, create, get, listByMongoCluster } from "./operations.js";
 export {
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  type PrivateEndpointConnectionsDeleteOptionalParams,
+  type PrivateEndpointConnectionsCreateOptionalParams,
+  type PrivateEndpointConnectionsGetOptionalParams,
+  type PrivateEndpointConnectionsListByMongoClusterOptionalParams,
 } from "./options.js";

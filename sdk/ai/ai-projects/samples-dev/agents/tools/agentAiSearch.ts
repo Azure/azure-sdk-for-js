@@ -17,15 +17,15 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const aiSearchConnectionId =
-  process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
+  process.env["AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Azure AI Search tool...");
 
@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
 
   const userInput = await new Promise<string>((resolve) => {
     rl.question(
-      "Enter your question for the AI Search agent available in the index (e.g., 'Tell me about the mental health services available from Premera'): \n",
+      "Enter your question for the AI Search agent available in the index (Default: 'Tell me about the mental health services available from Premera'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -71,7 +71,7 @@ export async function main(): Promise<void> {
   console.log("\nSending request to AI Search agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me about the mental health services available from Premera",
       stream: true,
     },
     {

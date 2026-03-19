@@ -87,7 +87,11 @@ export type Measurements = { [key: string]: number };
  * Exporter sender result.
  * @internal
  */
-export type SenderResult = { statusCode: number | undefined; result: string };
+export type SenderResult = {
+  statusCode: number | undefined;
+  result: string;
+  retryAfterMs?: number;
+};
 
 /**
  * Exporter persistent storage.
@@ -137,6 +141,8 @@ export enum MaxPropertyLengths {
   TEN_BIT = 1024,
   THIRTEEN_BIT = 8192,
   FIFTEEN_BIT = 32768,
+  SIXTEEN_BIT = 65536,
+  EIGHTEEN_BIT = 262144,
 }
 
 /**

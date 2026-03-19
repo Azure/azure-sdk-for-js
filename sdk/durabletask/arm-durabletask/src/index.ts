@@ -1,62 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DurableTaskClient } from "./durableTaskClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   Scheduler,
   SchedulerProperties,
-  KnownProvisioningState,
   ProvisioningState,
   SchedulerSku,
-  KnownSchedulerSkuName,
   SchedulerSkuName,
-  KnownRedundancyState,
   RedundancyState,
-  TrackedResource,
+  PublicNetworkAccess,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
+  PrivateEndpoint,
+  PrivateLinkServiceConnectionState,
+  PrivateEndpointServiceConnectionStatus,
+  PrivateEndpointConnectionProvisioningState,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
+  TrackedResource,
   SchedulerUpdate,
   SchedulerPropertiesUpdate,
   SchedulerSkuUpdate,
+  SchedulerPrivateLinkResource,
+  PrivateLinkResourceProperties,
+  PrivateEndpointConnectionUpdate,
+  OptionalPropertiesUpdateableProperties,
   TaskHub,
   TaskHubProperties,
   ProxyResource,
   RetentionPolicy,
   RetentionPolicyProperties,
   RetentionPolicyDetails,
-  KnownPurgeableOrchestrationState,
   PurgeableOrchestrationState,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownProvisioningState,
+  KnownSchedulerSkuName,
+  KnownRedundancyState,
+  KnownPublicNetworkAccess,
+  KnownPrivateEndpointServiceConnectionStatus,
+  KnownPrivateEndpointConnectionProvisioningState,
+  KnownCreatedByType,
+  KnownPurgeableOrchestrationState,
   KnownVersions,
 } from "./models/index.js";
-export { DurableTaskClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { DurableTaskClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   RetentionPoliciesListBySchedulerOptionalParams,
   RetentionPoliciesDeleteOptionalParams,
   RetentionPoliciesUpdateOptionalParams,
   RetentionPoliciesCreateOrReplaceOptionalParams,
   RetentionPoliciesGetOptionalParams,
 } from "./api/retentionPolicies/index.js";
-export {
+export type {
+  SchedulersListPrivateEndpointConnectionsOptionalParams,
+  SchedulersDeletePrivateEndpointConnectionOptionalParams,
+  SchedulersUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams,
+  SchedulersGetPrivateEndpointConnectionOptionalParams,
+  SchedulersListPrivateLinksOptionalParams,
+  SchedulersGetPrivateLinkOptionalParams,
   SchedulersListBySubscriptionOptionalParams,
   SchedulersListByResourceGroupOptionalParams,
   SchedulersDeleteOptionalParams,
@@ -64,17 +89,18 @@ export {
   SchedulersCreateOrUpdateOptionalParams,
   SchedulersGetOptionalParams,
 } from "./api/schedulers/index.js";
-export {
+export type {
   TaskHubsListBySchedulerOptionalParams,
   TaskHubsDeleteOptionalParams,
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
-export {
+export type {
   OperationsOperations,
   RetentionPoliciesOperations,
   SchedulersOperations,
   TaskHubsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

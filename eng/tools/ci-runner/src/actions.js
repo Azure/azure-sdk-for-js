@@ -5,6 +5,7 @@
 
 import { getFilteredPackages, getServicePackages, tryGetPkgRelativePath } from "./helpers.js";
 import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./runner.js";
+import { verifyPackages } from "./verifyPackages.js";
 
 /**
  *
@@ -40,7 +41,12 @@ export function executeActions(
 
   let exitCode = 0;
   if (serviceDirs.length === 0) {
-    exitCode = runGlobalAction(action, extraParams);
+    if (action === "check-package-version") {
+      console.error(`Cannot run check-package-version for all packages`);
+      exitCode = 1;
+    } else {
+      exitCode = runGlobalAction(action, extraParams);
+    }
   } else {
     switch (actionComponents[0]) {
       case "build":
@@ -71,6 +77,10 @@ export function executeActions(
             `\nInvoke "npm run format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
           );
         });
+        break;
+
+      case "check-package-version":
+        exitCode = verifyPackages(packageNames, packageDirs);
         break;
 
       default:

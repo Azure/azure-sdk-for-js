@@ -1,8 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { generateCredentials, list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
+  refreshCertificate,
+  generateAkvCredentials,
+  generateCredentials,
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  BucketsRefreshCertificateOptionalParams,
+  BucketsGenerateAkvCredentialsOptionalParams,
   BucketsGenerateCredentialsOptionalParams,
   BucketsListOptionalParams,
   BucketsDeleteOptionalParams,

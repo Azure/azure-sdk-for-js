@@ -55,7 +55,7 @@ import { _getWorkloadNetworksOperations } from "./classic/workloadNetworks/index
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
+export { type AzureVMwareSolutionAPIOptionalParams } from "./api/azureVMwareSolutionAPIContext.js";
 
 export class AzureVMwareSolutionAPI {
   private _client: AzureVMwareSolutionAPIContext;

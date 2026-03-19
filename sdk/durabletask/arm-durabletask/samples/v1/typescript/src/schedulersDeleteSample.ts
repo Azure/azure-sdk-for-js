@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Scheduler
  *
  * @summary delete a Scheduler
- * x-ms-original-file: 2025-11-01/Schedulers_Delete.json
+ * x-ms-original-file: 2026-02-01/Schedulers_Delete.json
  */
 async function schedulersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,36 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/guestAgents": "./src/api/guestAgents/index.ts",
-      "./api/attestationStatuses": "./src/api/attestationStatuses/index.ts",
-      "./api/hybridIdentityMetadata": "./src/api/hybridIdentityMetadata/index.ts",
-      "./api/virtualMachineInstances": "./src/api/virtualMachineInstances/index.ts",
-      "./api/virtualHardDisks": "./src/api/virtualHardDisks/index.ts",
-      "./api/storageContainers": "./src/api/storageContainers/index.ts",
-      "./api/securityRules": "./src/api/securityRules/index.ts",
-      "./api/networkSecurityGroups": "./src/api/networkSecurityGroups/index.ts",
-      "./api/networkInterfaces": "./src/api/networkInterfaces/index.ts",
-      "./api/marketplaceGalleryImages": "./src/api/marketplaceGalleryImages/index.ts",
-      "./api/logicalNetworks": "./src/api/logicalNetworks/index.ts",
-      "./api/galleryImages": "./src/api/galleryImages/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -97,7 +67,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

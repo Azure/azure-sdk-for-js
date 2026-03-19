@@ -27,7 +27,7 @@ import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import {
+import type {
   Pipeline,
   PipelinePolicy,
   PipelineRequest,
