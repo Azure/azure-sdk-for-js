@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Tells a Stopped state cache to transition to Active state.
  *
  * @summary Tells a Stopped state cache to transition to Active state.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Start.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_Start.json
  */
 async function cachesStart(): Promise<void> {
   const subscriptionId =

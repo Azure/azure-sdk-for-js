@@ -19,6 +19,11 @@ stages:
             parameters:
               NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
+          - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+            parameters:
+              npmrcPath: $(CommonNpmrcPath)
+              registryUrl: '$(PublicDevOpsRegistry)'
+
           - template: ./templates/steps/generate-doc.yml
             parameters:
               ServiceDirectory: core
