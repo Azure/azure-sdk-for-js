@@ -667,32 +667,40 @@ describe("BaseSender", () => {
       setTimeoutSpy.mockRestore();
     });
 
-    it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
+    it("should reschedule retry timer when new retryAfterMs results in a later absolute deadline", async () => {
+      vi.useFakeTimers();
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
 
       vi.mocked(isRetriable).mockImplementation(
         (statusCode) => statusCode === 429 || statusCode === 200,
       );
 
-      // First call with default timer (no retryAfterMs)
+      // First call with a 30s retryAfterMs at T=0 → deadline = T+30s
       sender.sendMock.mockResolvedValue({
         statusCode: 200,
         result: "success",
+        retryAfterMs: 30_000,
       });
       await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      // Second call with a shorter retryAfterMs should reschedule
+      // Advance 20s, then second call with 15s retryAfterMs → deadline = T+35s (later)
+      vi.advanceTimersByTime(20_000);
       sender.sendMock.mockResolvedValue({
         statusCode: 200,
         result: "success",
-        retryAfterMs: 5_000,
+        retryAfterMs: 15_000,
       });
       await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
 
-      // Verify setTimeout was called with the shorter delay
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 5_000);
+      // clearTimeout should have been called to reschedule
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+      // The rescheduled timer should use the adjusted delay (~15s)
+      expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), 15_000);
 
+      clearTimeoutSpy.mockRestore();
       setTimeoutSpy.mockRestore();
+      vi.useRealTimers();
     });
   });
 
@@ -718,6 +726,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -757,6 +766,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -796,6 +806,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -825,6 +836,7 @@ describe("BaseSender", () => {
     let originalEnvDisabled: string | undefined;
 
     beforeEach(async () => {
+      // Save and clear the disable flag so Customer SDK Stats metrics initialize
       originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       delete process.env[ENV_DISABLE_SDKSTATS];
 
@@ -904,7 +916,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -931,7 +943,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -958,7 +970,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];

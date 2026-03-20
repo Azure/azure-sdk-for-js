@@ -102,6 +102,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   instrumentationOptions: {
     // Instrumentations generating traces
     azureSdk: { enabled: true },
+    azureFunctions: { enabled: true },
     http: { enabled: true },
     mongoDb: { enabled: true },
     mySql: { enabled: true },
@@ -155,6 +156,7 @@ useAzureMonitor(options);
 {
   http: { enabled: true },
   azureSdk: { enabled: true },
+  azureFunctions: { enabled: true },
   mongoDb: { enabled: true },
   mySql: { enabled: true },
   postgreSql: { enabled: true },
@@ -248,7 +250,7 @@ process.env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = "path/to/customConfig.js
 
 The following OpenTelemetry Instrumentation libraries are included as part of Azure Monitor OpenTelemetry.
 
-**Note:** The Azure SDK, MongoDB, MySQL, PostgreSQL, Redis, and Redis-4 instrumentations are enabled by default for distributed tracing. The HTTP/HTTPS instrumentation is also enabled by default. All other instrumentations are disabled by default and can be enabled by setting `enabled: true` in the instrumentation options.
+**Note:** The Azure SDK, Azure Functions, MongoDB, MySQL, PostgreSQL, Redis, and Redis-4 instrumentations are enabled by default for distributed tracing. The HTTP/HTTPS instrumentation is also enabled by default. All other instrumentations are disabled by default and can be enabled by setting `enabled: true` in the instrumentation options.
 
 > _Warning:_ Instrumentation libraries are based on experimental OpenTelemetry specifications. Microsoft's _preview_ support commitment is to ensure that the following libraries emit data to Azure Monitor Application Insights, but it's possible that breaking changes or experimental mapping will block some data elements.
 
@@ -261,6 +263,7 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 - [Redis](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis)
 - [Redis-4](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis-4)
 - [Azure SDK](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/opentelemetry-instrumentation-azure-sdk)
+- [Azure Functions](https://github.com/Azure/azure-functions-nodejs-opentelemetry)
 
 ### Metrics
 
