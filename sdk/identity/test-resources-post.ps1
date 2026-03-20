@@ -31,7 +31,7 @@ param(
   $RemainingArguments,
 
   [Parameter()]
-  [hashtable] $AdditionalParameters = @{}
+  [hashtable] $AdditionalParameters
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
