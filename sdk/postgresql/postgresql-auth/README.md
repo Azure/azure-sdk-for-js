@@ -52,10 +52,10 @@ Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and ha
 ### Using with node-postgres (`pg`)
 
 ```ts snippet:GetEntraTokenPassword
-import pg from "pg";
 import { DefaultAzureCredential } from "@azure/identity";
-import { getEntraTokenPassword } from "@azure/postgresql-auth";
 
+const { getEntraTokenPassword } = await import("@azure/postgresql-auth");
+const pg = await import("pg");
 const credential = new DefaultAzureCredential();
 const pool = new pg.Pool({
   host: process.env.PGHOST,
@@ -70,17 +70,16 @@ const pool = new pg.Pool({
 ### Using with Sequelize
 
 ```ts snippet:ConfigureEntraIdAuth
-import { Sequelize } from "sequelize";
 import { DefaultAzureCredential } from "@azure/identity";
-import { configureEntraIdAuth } from "@azure/postgresql-auth";
 
+const { configureEntraIdAuth } = await import("@azure/postgresql-auth");
+const { Sequelize } = await import("sequelize");
 const sequelize = new Sequelize({
   dialect: "postgres",
   host: process.env.PGHOST,
   port: Number(process.env.PGPORT || 5432),
   database: process.env.PGDATABASE,
 });
-
 const credential = new DefaultAzureCredential();
 configureEntraIdAuth(sequelize, credential);
 await sequelize.authenticate();
@@ -92,7 +91,7 @@ await sequelize.authenticate();
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:Logging
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
