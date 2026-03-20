@@ -381,7 +381,7 @@ export abstract class BaseSender {
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
       if (envelopes) {
-        await this.send(envelopes);
+        await this.exportEnvelopes(envelopes);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
@@ -398,11 +398,10 @@ export abstract class BaseSender {
 
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
       while (envelopes) {
-        try {
-          await this.send(envelopes);
-        } catch (err: any) {
-          // If send fails, stop processing — remaining files stay on disk for later retry
-          diag.warn(`Failed to send persisted file during startup, will retry later`, err);
+        const result = await this.exportEnvelopes(envelopes);
+        if (result.code === ExportResultCode.FAILED) {
+          // Stop processing — remaining files stay on disk for later retry
+          diag.warn(`Failed to send persisted file during startup, will retry later`);
           break;
         }
         envelopes = (await this.persister.shift()) as Envelope[] | null;
