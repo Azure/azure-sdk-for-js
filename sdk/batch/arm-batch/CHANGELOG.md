@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-03-12)
+## 11.0.0 (2026-03-20)
 
 ### Features Added
   - Added operation group LocationOperations
@@ -61,7 +61,6 @@
 ### Breaking Changes
   - Operation NetworkSecurityPerimeter.beginReconcileConfigurationAndWait has a new signature
   - Operation PrivateEndpointConnection.beginDeleteAndWait has a new signature
-  - Removed Interface AccessRulePropertiesSubscriptionsItem
   - Removed Interface AzureProxyResource
   - Removed Interface AzureResource
   - Removed Interface Certificate

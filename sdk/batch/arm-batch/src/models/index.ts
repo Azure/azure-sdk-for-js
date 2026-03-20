@@ -157,6 +157,7 @@ export type {
   AccessRule,
   AccessRuleProperties,
   AccessRuleDirection,
+  AccessRulePropertiesSubscriptionsItem,
   NetworkSecurityPerimeter,
   ResourceAssociation,
   ResourceAssociationAccessMode,

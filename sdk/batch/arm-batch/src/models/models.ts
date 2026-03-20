@@ -3977,6 +3977,7 @@ export function poolArrayDeserializer(result: Array<Pool>): any[] {
 
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
   properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
@@ -4181,9 +4182,7 @@ export interface AccessRuleProperties {
   /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
   /** Subscriptions for inbound rules */
-  subscriptions?: {
-    id?: string;
-  }[];
+  subscriptions?: AccessRulePropertiesSubscriptionsItem[];
   /** Network security perimeters for inbound rules */
   networkSecurityPerimeters?: NetworkSecurityPerimeter[];
   /** Fully qualified domain names (FQDN) for outbound rules */
@@ -4204,7 +4203,7 @@ export function accessRulePropertiesDeserializer(item: any): AccessRulePropertie
         }),
     subscriptions: !item["subscriptions"]
       ? item["subscriptions"]
-      : _accessRulePropertiesSubscriptionArrayDeserializer(item["subscriptions"]),
+      : accessRulePropertiesSubscriptionsItemArrayDeserializer(item["subscriptions"]),
     networkSecurityPerimeters: !item["networkSecurityPerimeters"]
       ? item["networkSecurityPerimeters"]
       : networkSecurityPerimeterArrayDeserializer(item["networkSecurityPerimeters"]),
@@ -4244,23 +4243,23 @@ export enum KnownAccessRuleDirection {
  */
 export type AccessRuleDirection = string;
 
-export function _accessRulePropertiesSubscriptionArrayDeserializer(
-  result: Array<_AccessRulePropertiesSubscription>,
+export function accessRulePropertiesSubscriptionsItemArrayDeserializer(
+  result: Array<AccessRulePropertiesSubscriptionsItem>,
 ): any[] {
   return result.map((item) => {
-    return _accessRulePropertiesSubscriptionDeserializer(item);
+    return accessRulePropertiesSubscriptionsItemDeserializer(item);
   });
 }
 
-/** model interface _AccessRulePropertiesSubscription */
-export interface _AccessRulePropertiesSubscription {
+/** The subscription resource ID for an access rule. */
+export interface AccessRulePropertiesSubscriptionsItem {
   /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
   id?: string;
 }
 
-export function _accessRulePropertiesSubscriptionDeserializer(
+export function accessRulePropertiesSubscriptionsItemDeserializer(
   item: any,
-): _AccessRulePropertiesSubscription {
+): AccessRulePropertiesSubscriptionsItem {
   return {
     id: item["id"],
   };
@@ -4357,11 +4356,11 @@ export function networkSecurityProfileDeserializer(item: any): NetworkSecurityPr
   };
 }
 
-/** Result of a list NSP (network security perimeter) configurations request. */
+/** The response of a NetworkSecurityPerimeterConfiguration list operation. */
 export interface _NetworkSecurityPerimeterConfigurationListResult {
-  /** Array of network security perimeter results. */
-  value?: NetworkSecurityPerimeterConfiguration[];
-  /** The link used to get the next page of results. */
+  /** The NetworkSecurityPerimeterConfiguration items on this page */
+  value: NetworkSecurityPerimeterConfiguration[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -4369,9 +4368,7 @@ export function _networkSecurityPerimeterConfigurationListResultDeserializer(
   item: any,
 ): _NetworkSecurityPerimeterConfigurationListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
+    value: networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }

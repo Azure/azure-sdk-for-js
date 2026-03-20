@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Batch": "2025-06-01"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Batch",
     "CrossLanguageDefinitionId": {
@@ -120,17 +120,17 @@
       "@azure/arm-batch!RollingUpgradePolicy:interface": "Microsoft.Batch.RollingUpgradePolicy",
       "@azure/arm-batch!BatchPoolIdentity:interface": "Microsoft.Batch.BatchPoolIdentity",
       "@azure/arm-batch!ListPoolsResult:interface": "Microsoft.Batch.ListPoolsResult",
-      "@azure/arm-batch!NetworkSecurityPerimeterConfiguration:interface": "Azure.ResourceManager.CommonTypes.NetworkSecurityPerimeterConfiguration",
+      "@azure/arm-batch!NetworkSecurityPerimeterConfiguration:interface": "Microsoft.Batch.NetworkSecurityPerimeterConfiguration",
       "@azure/arm-batch!NetworkSecurityPerimeterConfigurationProperties:interface": "Azure.ResourceManager.CommonTypes.NetworkSecurityPerimeterConfigurationProperties",
       "@azure/arm-batch!ProvisioningIssue:interface": "Azure.ResourceManager.CommonTypes.ProvisioningIssue",
       "@azure/arm-batch!ProvisioningIssueProperties:interface": "Azure.ResourceManager.CommonTypes.ProvisioningIssueProperties",
       "@azure/arm-batch!AccessRule:interface": "Azure.ResourceManager.CommonTypes.AccessRule",
       "@azure/arm-batch!AccessRuleProperties:interface": "Azure.ResourceManager.CommonTypes.AccessRuleProperties",
-      "@azure/arm-batch!AccessRulePropertiesSubscription:interface": "Azure.ResourceManager.CommonTypes.AccessRuleProperties.subscription.anonymous",
+      "@azure/arm-batch!AccessRulePropertiesSubscriptionsItem:interface": "AccessRulePropertiesSubscriptionsItem",
       "@azure/arm-batch!NetworkSecurityPerimeter:interface": "Azure.ResourceManager.CommonTypes.NetworkSecurityPerimeter",
       "@azure/arm-batch!ResourceAssociation:interface": "Azure.ResourceManager.CommonTypes.ResourceAssociation",
       "@azure/arm-batch!NetworkSecurityProfile:interface": "Azure.ResourceManager.CommonTypes.NetworkSecurityProfile",
-      "@azure/arm-batch!NetworkSecurityPerimeterConfigurationListResult:interface": "Azure.ResourceManager.CommonTypes.NetworkSecurityPerimeterConfigurationListResult",
+      "@azure/arm-batch!NetworkSecurityPerimeterConfigurationListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-batch!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
       "@azure/arm-batch!BatchLocationQuota:interface": "Microsoft.Batch.BatchLocationQuota",
       "@azure/arm-batch!SupportedSkusResult:interface": "Microsoft.Batch.SupportedSkusResult",

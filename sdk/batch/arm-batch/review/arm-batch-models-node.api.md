@@ -23,9 +23,12 @@ export interface AccessRuleProperties {
     fullyQualifiedDomainNames?: string[];
     networkSecurityPerimeters?: NetworkSecurityPerimeter[];
     phoneNumbers?: string[];
-    subscriptions?: {
-        id?: string;
-    }[];
+    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface AccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -717,7 +720,6 @@ export interface NetworkSecurityPerimeter {
 
 // @public
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-    // (undocumented)
     properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
