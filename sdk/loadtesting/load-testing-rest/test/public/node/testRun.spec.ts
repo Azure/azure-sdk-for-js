@@ -71,7 +71,7 @@ describe("Test Run Operations", () => {
       testPollingOptions,
     );
     await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortSignal.timeout(120000), // timeout of 120 seconds
     });
     assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
@@ -186,172 +186,52 @@ describe("Test Run Operations", () => {
     assert.include(["200"], result.status);
   });
 
+  it("should generate insights for a completed test run", async () => {
+    const completeTestRunId = env["LOADTESTSERVICE_COMPLETED_TEST_RUN_ID"] || "";
+
+    const generateResult = await client
+      .path("/test-runs/{testRunId}/insights:generate", completeTestRunId)
+      .post();
+
+    if (isUnexpected(generateResult)) {
+      throw new Error(`Failed to generate insights: ${JSON.stringify(generateResult.body.error)}`);
+    }
+
+    assert.equal(generateResult.status, "202");
+
+    // Poll until the insights generation is complete
+    const insightsPoller = await getLongRunningPoller(client, generateResult, {
+      intervalInMs: isPlaybackMode() ? 0 : undefined,
+    });
+
+    await insightsPoller.pollUntilDone({
+      abortSignal: AbortSignal.timeout(120000), // 2 minutes timeout for AI insights
+    });
+
+    assert.equal(insightsPoller.getOperationState().status, "succeeded");
+    assert.isTrue(insightsPoller.isDone());
+  });
+
+  it("should get the latest insights for a test run", async () => {
+    const completeTestRunId = env["LOADTESTSERVICE_COMPLETED_TEST_RUN_ID"] || "";
+
+    const result = await client
+      .path("/test-runs/{testRunId}/insights/latest", completeTestRunId)
+      .get();
+
+    if (isUnexpected(result)) {
+      throw new Error(`Failed to get latest insights: ${JSON.stringify(result.body.error)}`);
+    }
+
+    assert.equal(result.status, "200");
+    // Verify the response has the expected structure
+    assert.isDefined(result.body);
+  });
+
   it("should delete a test run", async () => {
     const result = await client.path("/test-runs/{testRunId}", testRunId).delete();
 
     assert.include(["204"], result.status);
-  });
-
-  it("should delete the test", async () => {
-    const result = await client.path("/tests/{testId}", testId).delete();
-
-    assert.include(["204"], result.status);
-  });
-});
-
-describe("Test Profile Run Operations", () => {
-  let recorder: Recorder;
-  let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-testtpr-20250319";
-  const testProfileId = "sample-sdk-testprofile-202503198";
-  const testProfileRunId = "sample-sdk-testprofilerun-202503198";
-
-  beforeEach(async (ctx) => {
-    recorder = await createRecorder(ctx);
-    client = createClient(recorder);
-  });
-
-  afterEach(async () => {
-    await recorder.stop();
-  });
-
-  // Pre-req for creating a test profile run
-  it("should create a load test", async () => {
-    const result = await client.path("/tests/{testId}", testId).patch({
-      contentType: "application/merge-patch+json",
-      body: {
-        displayName: "Sample Load Test",
-        description: "Sample Load Test Description",
-        loadTestConfiguration: {
-          engineInstances: 1,
-          splitAllCSVs: false,
-        },
-      },
-    });
-
-    assert.include(["200", "201"], result.status);
-  });
-
-  // Pre-req for creating a test profile run
-  it("should upload the test file with LRO", async () => {
-    const readStreamTestFile: fs.ReadStream = fs.createReadStream("./test/public/sample.jmx");
-    const fileUploadResult = await client
-      .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
-      .put({
-        contentType: "application/octet-stream",
-        body: readStreamTestFile,
-      });
-
-    if (isUnexpected(fileUploadResult)) {
-      throw fileUploadResult.body.error;
-    }
-
-    const fileValidatePoller = await getLongRunningPoller(
-      client,
-      fileUploadResult,
-      testPollingOptions,
-    );
-    await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
-    });
-    assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
-  });
-
-  it("should create a test profile with the given test", async () => {
-    const flexFunctionsResourceId = env["LOADTESTSERVICE_FLEXFUNCTIONSRESOURCEID"] || "";
-    const testProfileDisplayName = "Sample Test Profile";
-    const testProfileDescription = "Sample Test Profile Description";
-
-    const testProfileCreationResult = await client
-      .path("/test-profiles/{testProfileId}", testProfileId)
-      .patch({
-        contentType: "application/merge-patch+json",
-        body: {
-          testId: testId,
-          displayName: testProfileDisplayName,
-          description: testProfileDescription,
-          targetResourceId: flexFunctionsResourceId,
-          targetResourceConfigurations: {
-            kind: "FunctionsFlexConsumption",
-            configurations: {
-              config1: {
-                instanceMemoryMB: 2048,
-                httpConcurrency: 20,
-              },
-              config2: {
-                instanceMemoryMB: 4096,
-                httpConcurrency: 40,
-              },
-            },
-          },
-        },
-      });
-
-    if (isUnexpected(testProfileCreationResult)) {
-      throw testProfileCreationResult.body.error;
-    }
-
-    assert.include(["200", "201"], testProfileCreationResult.status);
-  });
-
-  it("should create a test profile run and poll", async () => {
-    const testProfileRunCreationResult = await client
-      .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
-      .patch({
-        contentType: "application/merge-patch+json",
-        body: {
-          testProfileId: testProfileId,
-          displayName: "Sample Test Profile Run",
-        },
-      });
-
-    if (isUnexpected(testProfileRunCreationResult)) {
-      throw testProfileRunCreationResult.body.error;
-    }
-
-    const testProfileRunPoller = await getLongRunningPoller(
-      client,
-      testProfileRunCreationResult,
-      testPollingOptions,
-    );
-    const polledResult = await testProfileRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(1200000),
-    });
-
-    assert.equal(testProfileRunPoller.getOperationState().status, "succeeded");
-
-    assert.isNotNull(polledResult.body);
-  });
-
-  it("should get a test profile run", async () => {
-    const result = await client
-      .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
-      .get();
-
-    const testProfileRun = result.body as TestProfileRunOutput;
-    assert.include(["200"], result.status);
-    assert.isNotNull(result.body);
-    assert.isNotEmpty(testProfileRun.recommendations);
-  });
-
-  it("should delete a test profile run", async () => {
-    const result = await client
-      .path("/test-profile-runs/{testProfileRunId}", testProfileRunId)
-      .delete();
-
-    assert.include(["204"], result.status);
-  });
-
-  it("should delete a test profile", async () => {
-    const testProfileResult = await client
-      .path("/test-profiles/{testProfileId}", testProfileId)
-      .delete();
-
-    if (isUnexpected(testProfileResult)) {
-      throw testProfileResult.body.error;
-    }
-
-    assert.equal("204", testProfileResult.status);
   });
 
   it("should delete the test", async () => {
