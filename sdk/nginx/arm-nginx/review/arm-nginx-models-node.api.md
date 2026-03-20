@@ -194,7 +194,7 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250301Preview = "2025-03-01-preview"
+    V20251101 = "2025-11-01"
 }
 
 // @public
@@ -428,6 +428,23 @@ export interface NginxDeploymentWafPolicy extends ProxyResource {
 }
 
 // @public
+export interface NginxDeploymentWafPolicyAnalysisCreateRequest {
+    content?: Uint8Array;
+    filepath?: string;
+}
+
+// @public
+export interface NginxDeploymentWafPolicyAnalysisData {
+    errors?: NginxDeploymentWafPolicyError[];
+}
+
+// @public
+export interface NginxDeploymentWafPolicyAnalysisResponse {
+    data?: NginxDeploymentWafPolicyAnalysisData;
+    status?: string;
+}
+
+// @public
 export interface NginxDeploymentWafPolicyApplyingStatus {
     readonly code?: NginxDeploymentWafPolicyApplyingStatusCode;
     readonly displayStatus?: string;
@@ -446,6 +463,13 @@ export interface NginxDeploymentWafPolicyCompilingStatus {
 
 // @public
 export type NginxDeploymentWafPolicyCompilingStatusCode = string;
+
+// @public
+export interface NginxDeploymentWafPolicyError {
+    code?: string;
+    field?: string;
+    message?: string;
+}
 
 // @public
 export interface NginxDeploymentWafPolicyMetadata {

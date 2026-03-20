@@ -11,7 +11,6 @@ export * from "./isUnexpected.js";
 export type * from "./models.js";
 export type * from "./outputModels.js";
 export * from "./paginateHelper.js";
-export { getLongRunningPoller } from "./pollingHelper.js";
+export * from "./pollingHelper.js";
 
-// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default AzureLoadTesting;

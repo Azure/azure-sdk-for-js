@@ -70,6 +70,14 @@ stages:
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
 
+                  - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
+                    parameters:
+                      DependsOn: TagRepository
+                      DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
+                      ArtifactName: ${{ parameters.ArtifactName }}
+                      ArtifactSubPath: '${{ artifact.name }}'
+                      Registry: $(PublicDevOpsRegistry)
+
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release

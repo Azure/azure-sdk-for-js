@@ -28,7 +28,7 @@ import {
   type ComputerAction,
 } from "./computerUseUtil.js";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName =
   process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 

@@ -1,4 +1,10 @@
 # Release History
+## 4.9.2 (2026-03-16)
+
+### Bugs Fixed
+
+- [#36765](https://github.com/Azure/azure-sdk-for-js/pull/36765) Fixed inflated continuation token size in streaming queries (`SELECT * FROM c`) by properly removing exhausted partition ranges from the continuation token.
+
 ## 4.9.1 (2026-01-29)
 
 ### Bugs Fixed

@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetAppManagementClient } = require("@azure/arm-netapp");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
+ *
+ * @summary gets a list of quota limits for all quotas that are under account. Currently PoolsPerAccount is the only one.
+ * x-ms-original-file: 2025-12-15-preview/NetAppResourceQuotaLimitsAccount_List.json
+ */
+async function quotaLimits() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetAppManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.netAppResourceQuotaLimitsAccount.list("myRG", "myAccount")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await quotaLimits();
+}
+
+main().catch(console.error);
