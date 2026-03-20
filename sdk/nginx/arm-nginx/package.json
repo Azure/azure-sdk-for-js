@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-nginx",
-  "version": "4.0.0-beta.3",
+  "version": "4.0.0",
   "description": "A generated SDK for NginxManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -240,6 +240,24 @@
       "require": {
         "types": "./dist/commonjs/api/apiKeys/index.d.ts",
         "default": "./dist/commonjs/api/apiKeys/index.js"
+      }
+    },
+    "./api/nginxDeploymentWafPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/nginxDeploymentWafPolicies/index.d.ts",
+        "default": "./dist/browser/api/nginxDeploymentWafPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/nginxDeploymentWafPolicies/index.d.ts",
+        "default": "./dist/react-native/api/nginxDeploymentWafPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/nginxDeploymentWafPolicies/index.d.ts",
+        "default": "./dist/esm/api/nginxDeploymentWafPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/nginxDeploymentWafPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/nginxDeploymentWafPolicies/index.js"
       }
     },
     "./api/operations": {
