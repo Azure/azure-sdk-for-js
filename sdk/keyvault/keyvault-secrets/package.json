@@ -96,8 +96,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "generated/api/keyVaultContext.ts",
-        "prefix": "userAgentInfo"
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
@@ -139,16 +139,32 @@
     "pack": "pnpm pack 2>&1",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "build:samples": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "execute:samples": "echo skipped",
+    "execute:samples": "dev-tool samples run samples-dev",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "generate:client": "echo skipped",
+    "generate:client": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && npm run format",
     "test:browser": "echo skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Keys",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "skip": [
+      "backupAndRestore.js"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    }
   }
 }
