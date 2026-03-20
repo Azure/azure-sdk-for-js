@@ -6,6 +6,7 @@
 
 - Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
 - Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+- Added `diagnosticLogger` option to `AzureMonitorOpenTelemetryOptions`, allowing consumers to provide a custom `DiagLogger` for OpenTelemetry diagnostics and Azure SDK logging instead of the default file/console logger.
 
 ### Bugs Fixed
 

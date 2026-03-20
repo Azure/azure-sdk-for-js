@@ -69,6 +69,9 @@ function sendAttachWarning(): void {
  * @param options - Azure Monitor OpenTelemetry Options
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
+  // Initialize the Logger singleton early with the custom diagnostic logger (if provided)
+  // so that any logging during InternalConfig creation also uses the custom logger.
+  Logger.getInstance(options?.diagnosticLogger);
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {

@@ -15,14 +15,14 @@ export class Logger {
   private logToAzureLogger: boolean;
   private logToOpenTelemetry: boolean;
 
-  static getInstance(): Logger {
+  static getInstance(customDiagLogger?: DiagLogger): Logger {
     if (!Logger.instance) {
-      Logger.instance = new Logger();
+      Logger.instance = new Logger(customDiagLogger);
     }
     return Logger.instance;
   }
 
-  constructor() {
+  constructor(customDiagLogger?: DiagLogger) {
     this.azureLogger = createClientLogger("@azure/monitor-opentelemetry");
     this.openTelemetryLogger = diag.createComponentLogger({
       namespace: "@azure/monitor-opentelemetry",
@@ -55,9 +55,10 @@ export class Logger {
         this.diagLevel = DiagLogLevel.WARN;
         break;
     }
+    // Use custom logger if provided, otherwise use the default file/console logger
+    const diagLogger: DiagLogger = customDiagLogger ?? new DiagFileConsoleLogger();
     // Set OpenTelemetry Logger
-    const fileConsoleLogger = new DiagFileConsoleLogger();
-    diag.setLogger(fileConsoleLogger, {
+    diag.setLogger(diagLogger, {
       logLevel: this.diagLevel,
       suppressOverrideMessage: true,
     });
@@ -83,7 +84,12 @@ export class Logger {
     }
     // Override Azure logger
     AzureLogger.log = (...args) => {
-      fileConsoleLogger.logMessage(...args);
+      if (customDiagLogger) {
+        const [message, ...rest] = args;
+        customDiagLogger.info(message, ...rest);
+      } else {
+        (diagLogger as DiagFileConsoleLogger).logMessage(...args);
+      }
     };
   }
 

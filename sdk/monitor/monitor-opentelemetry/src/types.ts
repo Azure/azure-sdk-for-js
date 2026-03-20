@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import type { DiagLogger } from "@opentelemetry/api";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
@@ -39,6 +40,13 @@ export interface AzureMonitorOpenTelemetryOptions {
   metricReaders?: MetricReader[];
   /** An array of metric views to register to the meter provider.*/
   views?: ViewOptions[];
+  /**
+   * A custom diagnostic logger to use for OpenTelemetry diagnostics and Azure SDK logging.
+   * When provided, this logger is used instead of the default DiagFileConsoleLogger,
+   * allowing consumers to route diagnostic output through their own logging framework.
+   * The logger must implement the OpenTelemetry DiagLogger interface.
+   */
+  diagnosticLogger?: DiagLogger;
 }
 
 /**
