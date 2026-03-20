@@ -109,7 +109,7 @@ importers:
         version: 6.1.3
       turbo:
         specifier: ^2.8.9
-        version: 2.8.19
+        version: 2.8.20
 
   common/tools/dev-tool:
     dependencies:
@@ -175,7 +175,7 @@ importers:
         version: 5.0.3
       tar:
         specifier: ^7.4.3
-        version: 7.5.11
+        version: 7.5.12
       ts-morph:
         specifier: ^27.0.0
         version: 27.0.2
@@ -7792,7 +7792,7 @@ importers:
         version: 5.0.5(rollup@4.59.0)
       '@types/debug':
         specifier: ^4.1.12
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -8237,7 +8237,7 @@ importers:
         version: 2.8.1
       undici:
         specifier: ^7.1.0
-        version: 7.24.4
+        version: 7.24.5
     devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
@@ -8448,7 +8448,7 @@ importers:
     dependencies:
       fast-xml-parser:
         specifier: ^5.5.6
-        version: 5.5.6
+        version: 5.5.7
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8723,7 +8723,7 @@ importers:
         version: 4.13.0
       '@types/debug':
         specifier: ^4.1.4
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -11263,10 +11263,10 @@ importers:
         version: 20.19.37
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
+        version: 4.1.0(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.1.0)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.18(vitest@4.0.18)
+        version: 4.1.0(vitest@4.1.0)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -11290,7 +11290,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.37)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
+        version: 4.1.0(@opentelemetry/api@1.9.0)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.0)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.2))
 
   sdk/dns/arm-dns:
     dependencies:
@@ -13021,7 +13021,7 @@ importers:
         version: 8.0.2
       '@types/debug':
         specifier: ^4.1.12
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -13188,7 +13188,7 @@ importers:
         version: 8.0.2
       '@types/debug':
         specifier: ^4.1.12
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -13285,7 +13285,7 @@ importers:
         version: 8.0.2
       '@types/debug':
         specifier: ^4.1.4
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -18028,7 +18028,7 @@ importers:
         version: 1.58.2
       '@types/debug':
         specifier: ^4.1.12
-        version: 4.1.12
+        version: 4.1.13
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -20578,6 +20578,9 @@ importers:
 
   sdk/monitor/monitor-opentelemetry-exporter:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.5.2
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -26752,7 +26755,7 @@ importers:
         version: 8.0.2
       '@types/debug':
         specifier: ^4.1.4
-        version: 4.1.12
+        version: 4.1.13
       '@types/is-buffer':
         specifier: ^2.0.0
         version: 2.0.2
@@ -34228,33 +34231,33 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha1-EOxSGC1cMQgytmmvd4SjT8PaPKE=}
 
-  '@turbo/darwin-64@2.8.19':
-    resolution: {integrity: sha1-aBaLAq2A+R2/uFROks3Cx5ZO7lo=}
+  '@turbo/darwin-64@2.8.20':
+    resolution: {integrity: sha1-bryQP7/jHbhfZ7hK9p6Egidly/Q=}
     cpu: [x64]
     os: [darwin]
 
-  '@turbo/darwin-arm64@2.8.19':
-    resolution: {integrity: sha1-bcS3bQwnY8HTR8l7+cfnl5jB7es=}
+  '@turbo/darwin-arm64@2.8.20':
+    resolution: {integrity: sha1-8C/dgYv+YQJAwaYIZe65yjOBYPU=}
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/linux-64@2.8.19':
-    resolution: {integrity: sha1-NQYBgHAj1Iy4sStnMfVcgVbmTc8=}
+  '@turbo/linux-64@2.8.20':
+    resolution: {integrity: sha1-Ufq6lbJCcxsL6umBFySz7u5qoKE=}
     cpu: [x64]
     os: [linux]
 
-  '@turbo/linux-arm64@2.8.19':
-    resolution: {integrity: sha1-kllvOmaYXoDLdO4YcSkKkOJnaA0=}
+  '@turbo/linux-arm64@2.8.20':
+    resolution: {integrity: sha1-TEZuwJosLmUT35TXA2YLtu+mFhQ=}
     cpu: [arm64]
     os: [linux]
 
-  '@turbo/windows-64@2.8.19':
-    resolution: {integrity: sha1-NIuqwse1mjSenT5CG8B4eLBe2Ew=}
+  '@turbo/windows-64@2.8.20':
+    resolution: {integrity: sha1-uPI/8dXd+bGr5B2yscs1sTBmwGM=}
     cpu: [x64]
     os: [win32]
 
-  '@turbo/windows-arm64@2.8.19':
-    resolution: {integrity: sha1-tAuJSIp30c/Z6ca7EamiglUBiAM=}
+  '@turbo/windows-arm64@2.8.20':
+    resolution: {integrity: sha1-gDLULGz9lU08OBcg1aZdw+fqMBQ=}
     cpu: [arm64]
     os: [win32]
 
@@ -34276,8 +34279,8 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha1-W6fzvE+73q/43e2VLl/yzFP42Fg=}
 
-  '@types/debug@4.1.12':
-    resolution: {integrity: sha1-oVXyFpCHGVNBDfS2tvUxh/BQCRc=}
+  '@types/debug@4.1.13':
+    resolution: {integrity: sha1-ItHMnVQtNZPK6nZPl0MGqzYobuc=}
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha1-M0MRlx06BxIefrkbaEpgXn7qnL0=}
@@ -34686,8 +34689,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=}
 
-  baseline-browser-mapping@2.10.8:
-    resolution: {integrity: sha1-I9HOoahbGBwrhmC2z+Ym3C+xVjA=}
+  baseline-browser-mapping@2.10.9:
+    resolution: {integrity: sha1-hhQimt1jMGHAAaC3x8hdS3xE5so=}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -35350,8 +35353,8 @@ packages:
   fast-xml-builder@1.1.4:
     resolution: {integrity: sha1-DEB6HZ1ZljNsDNdvf/eFysZBMBc=}
 
-  fast-xml-parser@5.5.6:
-    resolution: {integrity: sha1-b8YfWuBqVaHwWKvWpPS10+mXLNA=}
+  fast-xml-parser@5.5.7:
+    resolution: {integrity: sha1-4d3IZmLYCEUKGc8vtszJw8mTPF0=}
     hasBin: true
 
   fastify-plugin@5.1.0:
@@ -36324,8 +36327,8 @@ packages:
     resolution: {integrity: sha1-pqrZSJIAsh+rMeSc8JJ35RFvuec=}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  path-expression-matcher@1.1.3:
-    resolution: {integrity: sha1-i/fGKdwbEU5CtjPAcfBtFGJbTg0=}
+  path-expression-matcher@1.2.0:
+    resolution: {integrity: sha1-m9rjeH9DsIV7AmnpyqpYbBLIq+4=}
     engines: {node: '>=14.0.0'}
 
   path-is-absolute@1.0.1:
@@ -36875,8 +36878,8 @@ packages:
     resolution: {integrity: sha1-tzBCSd1ALuZ/1RitqZOrNZNFi88=}
     engines: {node: '>=14.16'}
 
-  strnum@2.2.0:
-    resolution: {integrity: sha1-i1grY35GIfYv9xRJPgzjCEb5A6Y=}
+  strnum@2.2.1:
+    resolution: {integrity: sha1-0o+Ja075mFISSUzovPfKME+tg2g=}
 
   supports-color@7.2.0:
     resolution: {integrity: sha1-G33NyzK4E4gBs+R4umpRyqiWSNo=}
@@ -36905,8 +36908,8 @@ packages:
     resolution: {integrity: sha1-rK2EwoQTawYNw/qmRHSqmuvXcoc=}
     engines: {node: '>=6'}
 
-  tar@7.5.11:
-    resolution: {integrity: sha1-ElD65F2YgGs21wOzCXP6jgptiGg=}
+  tar@7.5.12:
+    resolution: {integrity: sha1-+HBcAMoQAbi2C8RNsasmVzc2uHE=}
     engines: {node: '>=18'}
 
   tersify@3.12.1:
@@ -37010,8 +37013,8 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=}
 
-  turbo@2.8.19:
-    resolution: {integrity: sha1-DoYAa2HIiCwKSUDcDdINf5h8APU=}
+  turbo@2.8.20:
+    resolution: {integrity: sha1-FjKv9UUyQPXpZZe2Q5zH5wzYceg=}
     hasBin: true
 
   type-check@0.3.2:
@@ -37079,8 +37082,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha1-aR0ArzkJvpOn+qE75hs6W1DvEss=}
 
-  undici@7.24.4:
-    resolution: {integrity: sha1-hzvOaA18Y1TJQTmf1OjqRWPeTqc=}
+  undici@7.24.5:
+    resolution: {integrity: sha1-fevPViPfLRy0abb6zgFkXZyFKuI=}
     engines: {node: '>=20.18.1'}
 
   unicode-emoji-modifier-base@1.0.0:
@@ -37720,7 +37723,7 @@ snapshots:
 
   '@azure/core-xml@1.5.0':
     dependencies:
-      fast-xml-parser: 5.5.6
+      fast-xml-parser: 5.5.7
       tslib: 2.8.1
 
   '@azure/functions-extensions-base@0.2.0': {}
@@ -39762,22 +39765,22 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.15
 
-  '@turbo/darwin-64@2.8.19':
+  '@turbo/darwin-64@2.8.20':
     optional: true
 
-  '@turbo/darwin-arm64@2.8.19':
+  '@turbo/darwin-arm64@2.8.20':
     optional: true
 
-  '@turbo/linux-64@2.8.19':
+  '@turbo/linux-64@2.8.20':
     optional: true
 
-  '@turbo/linux-arm64@2.8.19':
+  '@turbo/linux-arm64@2.8.20':
     optional: true
 
-  '@turbo/windows-64@2.8.19':
+  '@turbo/windows-64@2.8.20':
     optional: true
 
-  '@turbo/windows-arm64@2.8.19':
+  '@turbo/windows-arm64@2.8.20':
     optional: true
 
   '@types/argparse@1.0.38': {}
@@ -39804,7 +39807,7 @@ snapshots:
     dependencies:
       '@types/node': 20.19.37
 
-  '@types/debug@4.1.12':
+  '@types/debug@4.1.13':
     dependencies:
       '@types/ms': 2.1.0
 
@@ -40379,7 +40382,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.10.8: {}
+  baseline-browser-mapping@2.10.9: {}
 
   bent@7.3.12:
     dependencies:
@@ -40428,7 +40431,7 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.10.8
+      baseline-browser-mapping: 2.10.9
       caniuse-lite: 1.0.30001780
       electron-to-chromium: 1.5.321
       node-releases: 2.0.36
@@ -41139,13 +41142,13 @@ snapshots:
 
   fast-xml-builder@1.1.4:
     dependencies:
-      path-expression-matcher: 1.1.3
+      path-expression-matcher: 1.2.0
 
-  fast-xml-parser@5.5.6:
+  fast-xml-parser@5.5.7:
     dependencies:
       fast-xml-builder: 1.1.4
-      path-expression-matcher: 1.1.3
-      strnum: 2.2.0
+      path-expression-matcher: 1.2.0
+      strnum: 2.2.1
 
   fastify-plugin@5.1.0: {}
 
@@ -42116,7 +42119,7 @@ snapshots:
 
   path-exists@5.0.0: {}
 
-  path-expression-matcher@1.1.3: {}
+  path-expression-matcher@1.2.0: {}
 
   path-is-absolute@1.0.1: {}
 
@@ -42721,7 +42724,7 @@ snapshots:
 
   strip-json-comments@5.0.3: {}
 
-  strnum@2.2.0: {}
+  strnum@2.2.1: {}
 
   supports-color@7.2.0:
     dependencies:
@@ -42755,7 +42758,7 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  tar@7.5.11:
+  tar@7.5.12:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -42854,14 +42857,14 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  turbo@2.8.19:
+  turbo@2.8.20:
     optionalDependencies:
-      '@turbo/darwin-64': 2.8.19
-      '@turbo/darwin-arm64': 2.8.19
-      '@turbo/linux-64': 2.8.19
-      '@turbo/linux-arm64': 2.8.19
-      '@turbo/windows-64': 2.8.19
-      '@turbo/windows-arm64': 2.8.19
+      '@turbo/darwin-64': 2.8.20
+      '@turbo/darwin-arm64': 2.8.20
+      '@turbo/linux-64': 2.8.20
+      '@turbo/linux-arm64': 2.8.20
+      '@turbo/windows-64': 2.8.20
+      '@turbo/windows-arm64': 2.8.20
 
   type-check@0.3.2:
     dependencies:
@@ -42924,7 +42927,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.24.4: {}
+  undici@7.24.5: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 

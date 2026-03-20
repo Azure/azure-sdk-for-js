@@ -766,6 +766,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -805,6 +806,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -844,6 +846,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -873,6 +876,7 @@ describe("BaseSender", () => {
     let originalEnvDisabled: string | undefined;
 
     beforeEach(async () => {
+      // Save and clear the disable flag so Customer SDK Stats metrics initialize
       originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       delete process.env[ENV_DISABLE_SDKSTATS];
 
@@ -952,7 +956,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -979,7 +983,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -1006,7 +1010,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
