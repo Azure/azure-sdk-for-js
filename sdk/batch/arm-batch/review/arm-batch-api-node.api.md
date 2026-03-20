@@ -14,13 +14,13 @@ export interface BatchManagementClientOptionalParams extends ClientOptions {
     cloudSetting?: AzureSupportedClouds;
 }
 
-// @public (undocumented)
+// @public
 export interface BatchManagementContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }
 
-// @public (undocumented)
+// @public
 export function createBatchManagement(credential: TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams): BatchManagementContext;
 
 // (No @packageDocumentation comment for this package)
