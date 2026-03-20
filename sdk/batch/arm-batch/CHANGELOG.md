@@ -77,7 +77,6 @@
   - Removed Interface CertificateReference
   - Removed Interface CertificateUpdateOptionalParams
   - Removed Interface DeleteCertificateError
-  - Removed Interface Location_2Operations
   - Removed Interface OutboundEnvironmentEndpointCollection
   - Interface DataDisk no longer has parameter storageAccountType
   - Interface Pool no longer has parameter applicationLicenses
