@@ -222,6 +222,11 @@ useAzureMonitor(options);
     <td>Enable performance counters.</td>
     <td><code>true</code></td>
   </tr>
+  <tr>
+    <td><code>diagnosticLogger</code></td>
+    <td>A custom <code>DiagLogger</code> for OpenTelemetry diagnostics and Azure SDK logging. When provided, this logger replaces the default file/console logger, allowing you to route diagnostic output through your own logging framework. Note: setting this overrides the global OpenTelemetry <code>diag</code> logger and <code>AzureLogger.log</code>.</td>
+    <td></td>
+  </tr>
 </table>
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances.
@@ -591,6 +596,29 @@ useAzureMonitor();
 `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable could be used to set desired log level, supporting the following values: `NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE` and `ALL`.
 
 Logs could be put into local file using `APPLICATIONINSIGHTS_LOG_DESTINATION` environment variable, supported values are `file` and `file+console`, a file named `applicationinsights.log` will be generated on tmp folder by default, including all logs, `/tmp` for \*nix and `USERDIR/AppData/Local/Temp` for Windows. Log directory could be configured using `APPLICATIONINSIGHTS_LOGDIR` environment variable.
+
+#### Custom diagnostic logger
+
+You can provide a custom `DiagLogger` to route diagnostic output through your own logging framework instead of the default file/console logger:
+
+```ts snippet:ReadmeSampleCustomDiagnosticLogger
+import { DiagLogger } from "@opentelemetry/api";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+
+const myLogger: DiagLogger = {
+  error: (message, ...args) => console.error(`[MyApp] ${message}`, ...args),
+  warn: (message, ...args) => console.warn(`[MyApp] ${message}`, ...args),
+  info: (message, ...args) => console.info(`[MyApp] ${message}`, ...args),
+  debug: (message, ...args) => console.debug(`[MyApp] ${message}`, ...args),
+  verbose: (message, ...args) => console.trace(`[MyApp] ${message}`, ...args),
+};
+
+useAzureMonitor({
+  diagnosticLogger: myLogger,
+});
+```
+
+When a custom logger is provided, both OpenTelemetry diagnostics and Azure SDK log output are routed through it. The `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable still controls the log level.
 
 ## Examples
 
