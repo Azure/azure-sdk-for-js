@@ -12,7 +12,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update an import job.
  *
  * @summary Create or update an import job.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/importJobs_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/importJobs_CreateOrUpdate.json
  */
 async function importJobsCreateOrUpdate(): Promise<void> {
   const subscriptionId =

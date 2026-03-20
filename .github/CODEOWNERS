@@ -1647,6 +1647,9 @@ sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang
 # PRLabel: %Mgmt
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1698,6 +1701,8 @@ sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
 /.github/workflows/                      @Azure/azure-sdk-eng
+/.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
