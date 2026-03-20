@@ -105,17 +105,16 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
  *
  * @example
  * ```ts snippet:ConfigureEntraIdAuth
- * import { Sequelize } from "sequelize";
  * import { DefaultAzureCredential } from "@azure/identity";
- * import { configureEntraIdAuth } from "@azure/postgresql-auth";
  *
+ * const { configureEntraIdAuth } = await import("@azure/postgresql-auth");
+ * const { Sequelize } = await import("sequelize");
  * const sequelize = new Sequelize({
  *   dialect: "postgres",
  *   host: process.env.PGHOST,
  *   port: Number(process.env.PGPORT || 5432),
  *   database: process.env.PGDATABASE,
  * });
- *
  * const credential = new DefaultAzureCredential();
  * configureEntraIdAuth(sequelize, credential);
  * await sequelize.authenticate();
@@ -165,10 +164,10 @@ export function configureEntraIdAuth(
  *
  * @example
  * ```ts snippet:GetEntraTokenPassword
- * import pg from "pg";
  * import { DefaultAzureCredential } from "@azure/identity";
- * import { getEntraTokenPassword } from "@azure/postgresql-auth";
  *
+ * const { getEntraTokenPassword } = await import("@azure/postgresql-auth");
+ * const pg = await import("pg");
  * const credential = new DefaultAzureCredential();
  * const pool = new pg.Pool({
  *   host: process.env.PGHOST,
@@ -176,7 +175,7 @@ export function configureEntraIdAuth(
  *   database: process.env.PGDATABASE,
  *   user: process.env.PGUSER,
  *   password: () => getEntraTokenPassword(credential),
- *   ssl: { rejectUnauthorized: false },
+ *   ssl: { rejectUnauthorized: true },
  * });
  * ```
  */
