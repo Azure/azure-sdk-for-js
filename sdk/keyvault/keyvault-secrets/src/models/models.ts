@@ -113,6 +113,8 @@ export interface SecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** The version of the previous secret. */
+  readonly previousVersion?: string;
 }
 
 export function secretBundleDeserializer(item: any): SecretBundle {
@@ -126,6 +128,7 @@ export function secretBundleDeserializer(item: any): SecretBundle {
     tags: item["tags"],
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
   };
 }
 
@@ -184,6 +187,8 @@ export interface DeletedSecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** The version of the previous secret. */
+  readonly previousVersion?: string;
   /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
   /** The time when the secret is scheduled to be purged, in UTC */
@@ -203,6 +208,7 @@ export function deletedSecretBundleDeserializer(item: any): DeletedSecretBundle 
     tags: item["tags"],
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]

@@ -42,6 +42,7 @@ export function getSecretFromSecretBundle(
       version: parsedId.version,
       name: parsedId.name,
       certificateKeyId: secretBundle.kid,
+      previousVersion: secretBundle.previousVersion,
     },
   };
 

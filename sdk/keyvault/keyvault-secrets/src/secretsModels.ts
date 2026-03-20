@@ -140,6 +140,12 @@ export interface SecretProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+  /**
+   * The version of the previous secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly previousVersion?: string;
 }
 
 /**
