@@ -8,6 +8,7 @@ import {
   evaluationTaxonomyDeserializer,
   _pagedEvaluationTaxonomyDeserializer,
 } from "../../../models/models.js";
+import { throwIfNotExpected } from "../../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
@@ -19,7 +20,7 @@ import type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _updateSend(
   context: Client,
@@ -54,9 +55,7 @@ export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EvaluationTaxonomy> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return evaluationTaxonomyDeserializer(result.body);
 }
@@ -105,9 +104,7 @@ export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EvaluationTaxonomy> {
   const expectedStatuses = ["201", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return evaluationTaxonomyDeserializer(result.body);
 }
@@ -153,9 +150,7 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return;
 }
@@ -203,9 +198,7 @@ export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedEvaluationTaxonomy> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedEvaluationTaxonomyDeserializer(result.body);
 }
@@ -264,9 +257,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<EvaluationTaxonomy> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return evaluationTaxonomyDeserializer(result.body);
 }

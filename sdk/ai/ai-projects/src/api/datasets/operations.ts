@@ -19,6 +19,7 @@ import {
   pendingUploadResponseDeserializer,
   datasetCredentialDeserializer,
 } from "../../models/models.js";
+import { throwIfNotExpected } from "../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -32,7 +33,7 @@ import type {
   DatasetsListVersionsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
 export function _getCredentialsSend(
   context: Client,
@@ -64,9 +65,7 @@ export async function _getCredentialsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DatasetCredential> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return datasetCredentialDeserializer(result.body);
 }
@@ -115,9 +114,7 @@ export async function _pendingUploadDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PendingUploadResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return pendingUploadResponseDeserializer(result.body);
 }
@@ -167,9 +164,7 @@ export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DatasetVersionUnion> {
   const expectedStatuses = ["201", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return datasetVersionUnionDeserializer(result.body);
 }
@@ -208,9 +203,7 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return;
 }
@@ -254,9 +247,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DatasetVersionUnion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return datasetVersionUnionDeserializer(result.body);
 }
@@ -298,9 +289,7 @@ export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedDatasetVersion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedDatasetVersionDeserializer(result.body);
 }
@@ -347,9 +336,7 @@ export async function _listVersionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedDatasetVersion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedDatasetVersionDeserializer(result.body);
 }

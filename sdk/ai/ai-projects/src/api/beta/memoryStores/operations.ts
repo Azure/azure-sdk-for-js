@@ -15,7 +15,6 @@ import type {
 } from "../../../models/models.js";
 import {
   memorySearchOptionsSerializer,
-  apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
   memoryStoreDeserializer,
   _agentsPagedResultMemoryStoreObjectDeserializer,
@@ -25,6 +24,7 @@ import {
   memoryStoreUpdateCompletedResultDeserializer,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../../models/models.js";
+import { throwIfNotExpected } from "../../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
@@ -77,11 +77,7 @@ export async function _deleteScopeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MemoryStoreDeleteScopeResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreDeleteScopeResponseDeserializer(result.body);
 }
@@ -129,11 +125,7 @@ export async function _getUpdateResultDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MemoryStoreUpdateResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreUpdateResponseDeserializer(result.body);
 }
@@ -187,11 +179,7 @@ export async function _updateMemoriesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MemoryStoreUpdateCompletedResult> {
   const expectedStatuses = ["202", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   if (result?.body?.result === undefined) {
     throw createRestError(
@@ -276,11 +264,7 @@ export async function _searchMemoriesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MemoryStoreSearchResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreSearchResponseDeserializer(result.body);
 }
@@ -326,11 +310,7 @@ export async function _deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteMemoryStoreResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return deleteMemoryStoreResponseDeserializer(result.body);
 }
@@ -377,11 +357,7 @@ export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultMemoryStoreObject> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _agentsPagedResultMemoryStoreObjectDeserializer(result.body);
 }
@@ -436,11 +412,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreDeserializer(result.body);
 }
@@ -485,11 +457,7 @@ export function _updateSend(
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreDeserializer(result.body);
 }
@@ -539,11 +507,7 @@ export function _createSend(
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<MemoryStore> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return memoryStoreDeserializer(result.body);
 }

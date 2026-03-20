@@ -15,12 +15,12 @@ import {
   agentDeserializer,
   agentVersionDeserializer,
   agentDefinitionUnionSerializer,
-  apiErrorResponseDeserializer,
   deleteAgentResponseDeserializer,
   _agentsPagedResultAgentObjectDeserializer,
   deleteAgentVersionResponseDeserializer,
   _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
+import { throwIfNotExpected } from "../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -39,7 +39,7 @@ import type {
   AgentsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listVersionsSend(
   context: Client,
@@ -70,11 +70,7 @@ export async function _listVersionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultAgentVersionObject> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _agentsPagedResultAgentVersionObjectDeserializer(result.body);
 }
@@ -121,11 +117,7 @@ export async function _deleteVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentVersionResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return deleteAgentVersionResponseDeserializer(result.body);
 }
@@ -166,11 +158,7 @@ export function _getVersionSend(
 
 export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentVersionDeserializer(result.body);
 }
@@ -220,11 +208,7 @@ export async function _createAgentVersionFromManifestDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentVersionDeserializer(result.body);
 }
@@ -285,11 +269,7 @@ export async function _createVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentVersionDeserializer(result.body);
 }
@@ -333,11 +313,7 @@ export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _agentsPagedResultAgentObjectDeserializer(result.body);
 }
@@ -381,11 +357,7 @@ export async function _deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentResponse> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return deleteAgentResponseDeserializer(result.body);
 }
@@ -434,11 +406,7 @@ export async function _updateAgentFromManifestDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Agent> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentDeserializer(result.body);
 }
@@ -498,11 +466,7 @@ export async function _createAgentFromManifestDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Agent> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentDeserializer(result.body);
 }
@@ -561,11 +525,7 @@ export function _updateSend(
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentDeserializer(result.body);
 }
@@ -620,11 +580,7 @@ export function _createSend(
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentDeserializer(result.body);
 }
@@ -663,11 +619,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return agentDeserializer(result.body);
 }

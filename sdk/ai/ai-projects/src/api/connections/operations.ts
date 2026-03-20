@@ -4,6 +4,7 @@
 import type { AIProjectContext as Client } from "../index.js";
 import type { Connection, _PagedConnection, ConnectionType } from "../../models/models.js";
 import { connectionDeserializer, _pagedConnectionDeserializer } from "../../models/models.js";
+import { throwIfNotExpected } from "../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -14,7 +15,7 @@ import type {
   ConnectionsGetDefaultOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -45,9 +46,7 @@ export function _listSend(
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedConnection> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedConnectionDeserializer(result.body);
 }
@@ -97,9 +96,7 @@ export async function _getWithCredentialsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Connection> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return connectionDeserializer(result.body);
 }
@@ -143,9 +140,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Connection> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return connectionDeserializer(result.body);
 }

@@ -8,6 +8,7 @@ import {
   insightDeserializer,
   _pagedInsightDeserializer,
 } from "../../../models/models.js";
+import { throwIfNotExpected } from "../../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
@@ -17,7 +18,7 @@ import type {
   BetaInsightsGenerateOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -53,9 +54,7 @@ export function _listSend(
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedInsight> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedInsightDeserializer(result.body);
 }
@@ -115,9 +114,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return insightDeserializer(result.body);
 }
@@ -171,9 +168,7 @@ export function _generateSend(
 
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["201"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return insightDeserializer(result.body);
 }

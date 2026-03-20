@@ -9,13 +9,13 @@ import type {
   _PagedScheduleRun,
 } from "../../../models/models.js";
 import {
-  apiErrorResponseDeserializer,
   scheduleSerializer,
   scheduleDeserializer,
   _pagedScheduleDeserializer,
   scheduleRunDeserializer,
   _pagedScheduleRunDeserializer,
 } from "../../../models/models.js";
+import { throwIfNotExpected } from "../../apiUtils.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
@@ -28,7 +28,7 @@ import type {
   BetaSchedulesDeleteOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listRunsSend(
   context: Client,
@@ -63,9 +63,7 @@ export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedScheduleRun> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedScheduleRunDeserializer(result.body);
 }
@@ -124,11 +122,7 @@ export function _getRunSend(
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ScheduleRun> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return scheduleRunDeserializer(result.body);
 }
@@ -178,9 +172,7 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Schedule> {
   const expectedStatuses = ["201", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return scheduleDeserializer(result.body);
 }
@@ -227,9 +219,7 @@ export function _listSend(
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedSchedule> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return _pagedScheduleDeserializer(result.body);
 }
@@ -288,9 +278,7 @@ export function _getSend(
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Schedule> {
   const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return scheduleDeserializer(result.body);
 }
@@ -335,9 +323,7 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
+  throwIfNotExpected(result, expectedStatuses);
 
   return;
 }
