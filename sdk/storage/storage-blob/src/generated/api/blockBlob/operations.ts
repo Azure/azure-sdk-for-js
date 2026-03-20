@@ -17,7 +17,6 @@ import {
   queryRequestXmlSerializer,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
-import { BlockBlobQueryResponse } from "../../models/models.js";
 import { getBinaryStream } from "../../static-helpers/serialization/get-binary-stream.js";
 import {
   StorageCompatResponseInfo,
@@ -39,8 +38,10 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  HttpResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+import { BlockBlobQueryResponse } from "../../models/models.js";
 
 export function _querySend(
   context: Client,
@@ -101,14 +102,11 @@ export function _querySend(
     });
 }
 
-export async function _queryDeserialize(
-  _streamableResult: StreamableMethod,
-): Promise<BlockBlobQueryResponse> {
-  const result = await getBinaryStream(_streamableResult);
+export async function _queryDeserialize(result: HttpResponse & BlockBlobQueryResponse): Promise<BlockBlobQueryResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body as any);
     error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -313,9 +311,9 @@ export async function query(
     requestId?: string;
     clientRequestId?: string;
     contentType: "application/octet-stream";
-  } & Uint8Array &
+  } & BlockBlobQueryResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlockBlobQueryResponse,
       {
         lastModified: Date;
         contentLength: number;
@@ -352,8 +350,15 @@ export async function query(
       }
     >
 > {
-  const streamableMethod = _querySend(context, queryRequest, options);
-  return _queryDeserialize(streamableMethod);
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _querySend(context, queryRequest, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const result = await getBinaryStream(streamableMethod);
+  const parsedBody = await _queryDeserialize(result);
+  const parsedHeaders = _queryDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _getBlockListSend(

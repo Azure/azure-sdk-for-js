@@ -235,8 +235,6 @@ import {
   _downloadDeserializeHeaders,
   _downloadSend,
 } from "./generated/api/blob/operations.js";
-import { type FullOperationResponse, type HttpResponse } from "@azure-rest/core-client";
-import { toCompatResponse } from "@azure/core-http-compat";
 import {
   _queryDeserialize,
   _queryDeserializeHeaders,
@@ -1322,63 +1320,35 @@ export class BlobClient extends StorageClient {
         await StorageCRC64Calculator.init();
       }
 
-      let rawResponse: FullOperationResponse | undefined;
-      const onResponse = (response: FullOperationResponse) => {
-        rawResponse = response;
-      };
-      const context = this.storageClientContext.blobClient["_client"];
-      const streamableMethod = _downloadSend(context, {
-        abortSignal: options.abortSignal,
-        ...options.conditions,
-        ifTags: options.conditions?.tagConditions,
-        requestOptions: {
-          onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-        },
-        range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-        rangeGetContentMD5: options.rangeGetContentMD5,
-        rangeGetContentCrc64: options.rangeGetContentCrc64,
-        snapshot: options.snapshot,
-        encryptionKey: options.customerProvidedKey?.encryptionKey,
-        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-        encryptionAlgorithm: options.customerProvidedKey
-          ?.encryptionAlgorithm as EncryptionAlgorithmType,
-        structuredBodyType:
-          contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
-        onResponse,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-
-      const response = isNodeLike
-        ? await streamableMethod.asNodeStream()
-        : await streamableMethod.asBrowserStream();
-      await _downloadDeserialize(response);
-
-      const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
-      if (rawResponse) {
-        const compatResponse = toCompatResponse(rawResponse);
-        compatResponse.parsedHeaders = headerResult;
-        Object.defineProperty(response, "_response", {
-          value: compatResponse,
-          enumerable: false,
-        });
-      }
-
-      if (isNodeLike) {
-        (response as BlobDownloadResponseInternal).readableStreamBody =
-          response.body as NodeJSReadableStream;
-      } else {
-        const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
-        (response as BlobDownloadResponseInternal).blobBody = browserResponse.blob();
-      }
+      const response = adjustResponse(
+        await this.blobContext.download({
+          abortSignal: options.abortSignal,
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+          requestOptions: {
+            onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          },
+          range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+          rangeGetContentMD5: options.rangeGetContentMD5,
+          rangeGetContentCrc64: options.rangeGetContentCrc64,
+          snapshot: options.snapshot,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey
+            ?.encryptionAlgorithm as EncryptionAlgorithmType,
+          structuredBodyType:
+            contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
 
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
         response as any,
       ); // headerResult will be added next
 
       const wrappedRes: BlobDownloadResponseParsed = {
-        ...response,
-        ...headerResult,
-        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(headerResult.immutabilityPolicyMode),
+        ...(response as any),
+        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(response.immutabilityPolicyMode),
         _response: res._response, // _response is made non-enumerable
         metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
@@ -1434,7 +1404,7 @@ export class BlobClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          const sm = _downloadSend(context, {
+          const response2 = await this.blobContext.download({
             abortSignal: options.abortSignal,
             leaseId: options.conditions?.leaseId,
             ifMatch: options.conditions!.ifMatch || wrappedRes.etag,
@@ -1456,9 +1426,7 @@ export class BlobClient extends StorageClient {
             structuredBodyType:
               contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
           });
-          const response2 = await sm.asNodeStream();
-          await _downloadDeserialize(response2);
-          const resBody = response2.body! as NodeJSReadableStream;
+          const resBody = (response2 as any).readableStreamBody! as NodeJSReadableStream;
 
           if (contentChecksumAlgorithm === "StorageCrc64") {
             return structuredMessageDecodingStream(resBody, {});
@@ -4121,49 +4089,23 @@ export class BlockBlobClient extends BlobClient {
         inputSerialization: toQuerySerialization(options.inputTextConfiguration),
         outputSerialization: toQuerySerialization(options.outputTextConfiguration),
       };
-      let rawResponse: FullOperationResponse | undefined;
-      const onResponse = (response: FullOperationResponse) => {
-        rawResponse = response;
-      };
-      const context = this.storageClientContext.blobClient["_client"];
-      const streamableMethod = _querySend(context, queryRequest, {
-        abortSignal: options.abortSignal,
-        ...options.conditions,
-        ifTags: options.conditions?.tagConditions,
-        encryptionKey: options.customerProvidedKey?.encryptionKey,
-        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-        encryptionAlgorithm: options.customerProvidedKey
-          ?.encryptionAlgorithm as EncryptionAlgorithmType,
-        onResponse,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      const response = isNodeLike
-        ? await streamableMethod.asNodeStream()
-        : await streamableMethod.asBrowserStream();
-      await _queryDeserialize(response);
-      const headerResult = _queryDeserializeHeaders(response as HttpResponse);
-      if (rawResponse) {
-        const compatResponse = toCompatResponse(rawResponse);
-        compatResponse.parsedHeaders = headerResult;
-        Object.defineProperty(response, "_response", {
-          value: compatResponse,
-          enumerable: false,
-        });
-      }
 
-      if (isNodeLike) {
-        (response as BlobQueryResponseInternal).readableStreamBody =
-          response.body as NodeJSReadableStream;
-      } else {
-        const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
-        (response as BlobQueryResponseInternal).blobBody = browserResponse.blob();
-      }
-
+      const response = adjustResponse(
+        await this.blockBlobContext.query(queryRequest, {
+          abortSignal: options.abortSignal,
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey
+            ?.encryptionAlgorithm as EncryptionAlgorithmType,
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
       const res = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(response as any); // headerResult will be added next
 
       const wrappedResponse: WithResponse<BlobQueryResponseInternal, BlobQueryHeaders> = {
         ...res,
-        ...headerResult,
         metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         _response: res._response,
       };

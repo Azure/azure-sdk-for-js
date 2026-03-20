@@ -68,6 +68,7 @@ import {
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
+import { BlobDownloadResponse } from "../../models/models.js";
 
 /** Interface representing a Blob operations. */
 export interface BlobOperations {
@@ -715,9 +716,9 @@ export interface BlobOperations {
       version: string;
       contentType: "application/octet-stream";
       contentCrc64?: Uint8Array;
-    } & Uint8Array &
+    } & BlobDownloadResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        BlobDownloadResponse,
         {
           requestId?: string;
           clientRequestId?: string;

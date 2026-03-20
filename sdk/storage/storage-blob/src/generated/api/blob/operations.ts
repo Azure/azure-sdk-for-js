@@ -58,6 +58,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  HttpResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -3804,13 +3805,12 @@ export function _downloadSend(
 }
 
 export async function _downloadDeserialize(
-  _streamableResult: StreamableMethod,
+  result: HttpResponse & BlobDownloadResponse,
 ): Promise<BlobDownloadResponse> {
-  const result = await getBinaryStream(_streamableResult);
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body as any);
     error.details = { ...(error.details as any), ..._downloadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -4092,9 +4092,9 @@ export async function download(
     version: string;
     contentType: "application/octet-stream";
     contentCrc64?: Uint8Array;
-  } & Uint8Array &
+  } & BlobDownloadResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlobDownloadResponse,
       {
         requestId?: string;
         clientRequestId?: string;
@@ -4144,6 +4144,13 @@ export async function download(
       }
     >
 > {
-  const streamableMethod = _downloadSend(context, options);
-  return _downloadDeserialize(streamableMethod);
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _downloadSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const result = await getBinaryStream(streamableMethod);
+  const parsedBody = await _downloadDeserialize(result);
+  const parsedHeaders = _downloadDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
