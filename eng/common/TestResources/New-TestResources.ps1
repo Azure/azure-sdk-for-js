@@ -114,11 +114,6 @@ param (
     [Parameter()]
     [switch] $ServicePrincipalAuth,
 
-    # Emits detailed snapshots of parameter state while this script executes.
-    # Warning: output may include secrets and should only be used for local debugging.
-    [Parameter()]
-    [switch] $TraceParameterFlow = $true,
-
     # Captures any arguments not declared here (no parameter errors)
     # This enables backwards compatibility with old script versions in
     # hotfix branches if and when the dynamic subscription configuration
@@ -146,23 +141,15 @@ function SerializeForTrace($value) {
 }
 
 function TraceParameterSnapshot($step) {
-    if (!$TraceParameterFlow) {
-        return
-    }
-
-    LogWarning "[TraceParameterFlow] Step: $step"
-    LogWarning "[TraceParameterFlow] ArmTemplateParameters: $(SerializeForTrace $ArmTemplateParameters)"
-    LogWarning "[TraceParameterFlow] AdditionalParameters: $(SerializeForTrace $AdditionalParameters)"
-    LogWarning "[TraceParameterFlow] PSBoundParameters: $(SerializeForTrace $PSBoundParameters)"
+    Write-Verbose "[TraceParameterFlow] Step: $step"
+    Write-Verbose "[TraceParameterFlow] ArmTemplateParameters: $(SerializeForTrace $ArmTemplateParameters)"
+    Write-Verbose "[TraceParameterFlow] AdditionalParameters: $(SerializeForTrace $AdditionalParameters)"
+    Write-Verbose "[TraceParameterFlow] PSBoundParameters: $(SerializeForTrace $PSBoundParameters)"
 }
 
 function TraceTemplateParameters($step, $templateParametersSnapshot) {
-    if (!$TraceParameterFlow) {
-        return
-    }
-
-    LogWarning "[TraceParameterFlow] Step: $step"
-    LogWarning "[TraceParameterFlow] templateParameters: $(SerializeForTrace $templateParametersSnapshot)"
+    Write-Verbose "[TraceParameterFlow] Step: $step"
+    Write-Verbose "[TraceParameterFlow] templateParameters: $(SerializeForTrace $templateParametersSnapshot)"
 }
 
 $wellKnownTMETenants = @('70a036f6-8e4d-4615-bad6-149c02e7720d')
@@ -660,10 +647,8 @@ try {
         $templateParameterNames = $templateJson.parameters.PSObject.Properties.Name
 
         $templateFileParameters = $templateParameters.Clone()
-        if ($TraceParameterFlow) {
-            LogWarning "[TraceParameterFlow] Step: Template parameter filtering start for '$($templateFile.jsonFilePath)'"
-            LogWarning "[TraceParameterFlow] templateFileParameters (pre-filter): $(SerializeForTrace $templateFileParameters)"
-        }
+        Write-Verbose "[TraceParameterFlow] Step: Template parameter filtering start for '$($templateFile.jsonFilePath)'"
+        Write-Verbose "[TraceParameterFlow] templateFileParameters (pre-filter): $(SerializeForTrace $templateFileParameters)"
 
         foreach ($key in $templateParameters.Keys) {
             if ($templateParameterNames -notcontains $key) {
@@ -671,10 +656,8 @@ try {
                 $templateFileParameters.Remove($key)
             }
         }
-        if ($TraceParameterFlow) {
-            LogWarning "[TraceParameterFlow] Step: Template parameter filtering end for '$($templateFile.jsonFilePath)'"
-            LogWarning "[TraceParameterFlow] templateFileParameters (post-filter): $(SerializeForTrace $templateFileParameters)"
-        }
+        Write-Verbose "[TraceParameterFlow] Step: Template parameter filtering end for '$($templateFile.jsonFilePath)'"
+        Write-Verbose "[TraceParameterFlow] templateFileParameters (post-filter): $(SerializeForTrace $templateFileParameters)"
 
         $preDeploymentScript = $templateFile.originalFilePath | Split-Path | Join-Path -ChildPath "$ResourceType-resources-pre.ps1"
         if (Test-Path $preDeploymentScript) {
@@ -766,15 +749,12 @@ try {
                 }
                 $deserialized['ResourceGroupName'] = $ResourceGroupName
                 $deserialized['DeploymentOutputs'] = $deploymentOutputs
-                if ($TraceParameterFlow) {
-                    LogWarning "[TraceParameterFlow] Step: Built deserialized hashtable for '$SelfContainedPostScript'"
-                    LogWarning "[TraceParameterFlow] deserialized: $(SerializeForTrace $deserialized)"
-                }
+                Write-Verbose "[TraceParameterFlow] Step: Built deserialized hashtable for '$SelfContainedPostScript'"
+                Write-Verbose "[TraceParameterFlow] deserialized: $(SerializeForTrace $deserialized)"
+
                 $serialized = $deserialized | ConvertTo-Json
-                if ($TraceParameterFlow) {
-                    LogWarning "[TraceParameterFlow] Step: Serialized payload for '$SelfContainedPostScript'"
-                    LogWarning "[TraceParameterFlow] serialized: $serialized"
-                }
+                Write-Verbose "[TraceParameterFlow] Step: Serialized payload for '$SelfContainedPostScript'"
+                Write-Verbose "[TraceParameterFlow] serialized: $serialized"
 
                 $outScript = @"
 `$parameters = `@'
@@ -786,10 +766,9 @@ $serialized
 `$DeploymentOutputs = `$parameters.DeploymentOutputs
 $postDeploymentScript `@parameters
 "@
-                if ($TraceParameterFlow) {
-                    LogWarning "[TraceParameterFlow] Step: Out script content before writing '$SelfContainedPostScript'"
-                    LogWarning "[TraceParameterFlow] outScript: $outScript"
-                }
+                Write-Verbose "[TraceParameterFlow] Step: Out script content before writing '$SelfContainedPostScript'"
+                Write-Verbose "[TraceParameterFlow] outScript: $outScript"
+
                 $outScript | Out-File $SelfContainedPostScript
             } else {
                 Log "Invoking post-deployment script '$postDeploymentScript'"
