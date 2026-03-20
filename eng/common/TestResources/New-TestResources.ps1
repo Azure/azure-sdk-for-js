@@ -114,6 +114,11 @@ param (
     [Parameter()]
     [switch] $ServicePrincipalAuth,
 
+    # Emits detailed snapshots of parameter state while this script executes.
+    # Warning: output may include secrets and should only be used for local debugging.
+    [Parameter()]
+    [switch] $TraceParameterFlow = $true,
+
     # Captures any arguments not declared here (no parameter errors)
     # This enables backwards compatibility with old script versions in
     # hotfix branches if and when the dynamic subscription configuration
@@ -127,7 +132,42 @@ param (
 . $PSScriptRoot/TestResources-Helpers.ps1
 . $PSScriptRoot/SubConfig-Helpers.ps1
 
+function SerializeForTrace($value) {
+    if ($null -eq $value) {
+        return '<null>'
+    }
+
+    try {
+        return ($value | ConvertTo-Json -Depth 20 -Compress)
+    }
+    catch {
+        return "<serialization failed: $($_.Exception.Message)>"
+    }
+}
+
+function TraceParameterSnapshot($step) {
+    if (!$TraceParameterFlow) {
+        return
+    }
+
+    LogWarning "[TraceParameterFlow] Step: $step"
+    LogWarning "[TraceParameterFlow] ArmTemplateParameters: $(SerializeForTrace $ArmTemplateParameters)"
+    LogWarning "[TraceParameterFlow] AdditionalParameters: $(SerializeForTrace $AdditionalParameters)"
+    LogWarning "[TraceParameterFlow] PSBoundParameters: $(SerializeForTrace $PSBoundParameters)"
+}
+
+function TraceTemplateParameters($step, $templateParametersSnapshot) {
+    if (!$TraceParameterFlow) {
+        return
+    }
+
+    LogWarning "[TraceParameterFlow] Step: $step"
+    LogWarning "[TraceParameterFlow] templateParameters: $(SerializeForTrace $templateParametersSnapshot)"
+}
+
 $wellKnownTMETenants = @('70a036f6-8e4d-4615-bad6-149c02e7720d')
+
+TraceParameterSnapshot 'After script initialization'
 
 # People keep passing this legacy parameter. Throw an error to save them future keystrokes
 if ($NewTestResourcesRemainingArguments -like '*UserAuth*') {
@@ -139,6 +179,7 @@ if (!$ServicePrincipalAuth) {
     # from being passed to pre- and post-scripts.
     $PSBoundParameters['TestApplicationSecret'] = $TestApplicationSecret = ''
     $PSBoundParameters['ProvisionerApplicationSecret'] = $ProvisionerApplicationSecret = ''
+    TraceParameterSnapshot 'After clearing service principal secrets because ServicePrincipalAuth is false'
 }
 
 # By default stop for any error.
@@ -216,6 +257,7 @@ try {
 
     # Make sure pre- and post-scripts are passed formerly required arguments.
     $PSBoundParameters['BaseName'] = $BaseName
+    TraceParameterSnapshot 'After updating PSBoundParameters with BaseName'
 
     # Try detecting repos that support OutFile and defaulting to it
     if (!$CI -and !$PSBoundParameters.ContainsKey('OutFile')) {
@@ -285,6 +327,7 @@ try {
 
             $SubscriptionId = $context.Subscription.Id
             $PSBoundParameters['SubscriptionId'] = $SubscriptionId
+            TraceParameterSnapshot 'After updating PSBoundParameters with SubscriptionId'
         }
 
         # Use cache of well-known team subs without having to be authenticated.
@@ -522,6 +565,7 @@ try {
     if ($ServicePrincipalAuth) {
         $PSBoundParameters['TestApplicationSecret'] = $TestApplicationSecret
     }
+    TraceParameterSnapshot 'After updating PSBoundParameters with test application values'
 
     # If the role hasn't been explicitly assigned to the resource group and a cached service principal or user authentication is in use,
     # query to see if the grant is needed.
@@ -581,13 +625,22 @@ try {
     # naming convention instead.
     $templateParameters.Add('supportsSafeSecretStandard', (!$wellKnownTMETenants.Contains($TenantId)))
     $defaultCloudParameters = LoadCloudConfig $Environment
+    TraceTemplateParameters 'Before MergeHashes operations (initial templateParameters)' $templateParameters
+
     MergeHashes $defaultCloudParameters $(Get-Variable templateParameters)
+    TraceTemplateParameters 'After MergeHashes from default cloud parameters' $templateParameters
+
     MergeHashes $ArmTemplateParameters $(Get-Variable templateParameters)
+    TraceTemplateParameters 'After MergeHashes from ArmTemplateParameters' $templateParameters
+
     MergeHashes $AdditionalParameters $(Get-Variable templateParameters)
+    TraceTemplateParameters 'After MergeHashes from AdditionalParameters' $templateParameters
+    TraceParameterSnapshot 'After all MergeHashes operations'
 
     # Include environment-specific parameters only if not already provided as part of the "ArmTemplateParameters"
     if (($context.Environment.StorageEndpointSuffix) -and (-not ($templateParameters.ContainsKey('storageEndpointSuffix')))) {
         $templateParameters.Add('storageEndpointSuffix', $context.Environment.StorageEndpointSuffix)
+        TraceTemplateParameters 'After adding storageEndpointSuffix to templateParameters' $templateParameters
     }
 
     # Try to detect the shell based on the parent process name (e.g. launch via shebang).
@@ -607,17 +660,28 @@ try {
         $templateParameterNames = $templateJson.parameters.PSObject.Properties.Name
 
         $templateFileParameters = $templateParameters.Clone()
+        if ($TraceParameterFlow) {
+            LogWarning "[TraceParameterFlow] Step: Template parameter filtering start for '$($templateFile.jsonFilePath)'"
+            LogWarning "[TraceParameterFlow] templateFileParameters (pre-filter): $(SerializeForTrace $templateFileParameters)"
+        }
+
         foreach ($key in $templateParameters.Keys) {
             if ($templateParameterNames -notcontains $key) {
                 Write-Verbose "Removing unnecessary parameter '$key'"
                 $templateFileParameters.Remove($key)
             }
         }
+        if ($TraceParameterFlow) {
+            LogWarning "[TraceParameterFlow] Step: Template parameter filtering end for '$($templateFile.jsonFilePath)'"
+            LogWarning "[TraceParameterFlow] templateFileParameters (post-filter): $(SerializeForTrace $templateFileParameters)"
+        }
 
         $preDeploymentScript = $templateFile.originalFilePath | Split-Path | Join-Path -ChildPath "$ResourceType-resources-pre.ps1"
         if (Test-Path $preDeploymentScript) {
             Log "Invoking pre-deployment script '$preDeploymentScript'"
+            TraceParameterSnapshot "Before invoking pre-deployment script '$preDeploymentScript'"
             &$preDeploymentScript -ResourceGroupName $ResourceGroupName @PSBoundParameters
+            TraceParameterSnapshot "After invoking pre-deployment script '$preDeploymentScript'"
         }
 
         $msg = if ($templateFile.jsonFilePath -ne $templateFile.originalFilePath) {
@@ -687,8 +751,10 @@ try {
         }
 
         if (Test-Path $postDeploymentScript) {
+            TraceParameterSnapshot "Entered post-deployment script branch for '$postDeploymentScript'"
             if ($SelfContainedPostScript) {
                 Log "Creating invokable post-deployment script '$SelfContainedPostScript' from '$postDeploymentScript'"
+                TraceParameterSnapshot "Inside SelfContainedPostScript branch before deserializing PSBoundParameters for '$SelfContainedPostScript'"
 
                 $deserialized = @{}
                 foreach ($parameter in $PSBoundParameters.GetEnumerator()) {
@@ -700,7 +766,15 @@ try {
                 }
                 $deserialized['ResourceGroupName'] = $ResourceGroupName
                 $deserialized['DeploymentOutputs'] = $deploymentOutputs
+                if ($TraceParameterFlow) {
+                    LogWarning "[TraceParameterFlow] Step: Built deserialized hashtable for '$SelfContainedPostScript'"
+                    LogWarning "[TraceParameterFlow] deserialized: $(SerializeForTrace $deserialized)"
+                }
                 $serialized = $deserialized | ConvertTo-Json
+                if ($TraceParameterFlow) {
+                    LogWarning "[TraceParameterFlow] Step: Serialized payload for '$SelfContainedPostScript'"
+                    LogWarning "[TraceParameterFlow] serialized: $serialized"
+                }
 
                 $outScript = @"
 `$parameters = `@'
@@ -712,10 +786,16 @@ $serialized
 `$DeploymentOutputs = `$parameters.DeploymentOutputs
 $postDeploymentScript `@parameters
 "@
+                if ($TraceParameterFlow) {
+                    LogWarning "[TraceParameterFlow] Step: Out script content before writing '$SelfContainedPostScript'"
+                    LogWarning "[TraceParameterFlow] outScript: $outScript"
+                }
                 $outScript | Out-File $SelfContainedPostScript
             } else {
                 Log "Invoking post-deployment script '$postDeploymentScript'"
+                TraceParameterSnapshot "Before invoking post-deployment script '$postDeploymentScript'"
                 &$postDeploymentScript -ResourceGroupName $ResourceGroupName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
+                TraceParameterSnapshot "After invoking post-deployment script '$postDeploymentScript'"
             }
         }
 
