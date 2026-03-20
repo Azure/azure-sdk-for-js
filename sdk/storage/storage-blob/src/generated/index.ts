@@ -4,6 +4,7 @@
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";
+export type { BlockBlobQueryResponse, BlobDownloadResponse } from "./models/index.js";
 export type {
   BlobServiceProperties,
   Logging,

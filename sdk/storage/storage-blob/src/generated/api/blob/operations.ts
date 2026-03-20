@@ -20,7 +20,8 @@ import {
   AccountKind,
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { BlobDownloadResponse } from "../../models/models.js";
+import { getBinaryStream } from "../../static-helpers/serialization/get-binary-stream.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -3802,7 +3803,10 @@ export function _downloadSend(
     });
 }
 
-export async function _downloadDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _downloadDeserialize(
+  _streamableResult: StreamableMethod,
+): Promise<BlobDownloadResponse> {
+  const result = await getBinaryStream(_streamableResult);
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -3816,7 +3820,7 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
@@ -4140,13 +4144,6 @@ export async function download(
       }
     >
 > {
-  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const streamableMethod = _downloadSend(context, {
-    ...options,
-    onResponse: _storageCompat.onResponse,
-  });
-  const result = await getBinaryResponse(streamableMethod);
-  const parsedBody = await _downloadDeserialize(result);
-  const parsedHeaders = _downloadDeserializeHeaders(result);
-  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+  const streamableMethod = _downloadSend(context, options);
+  return _downloadDeserialize(streamableMethod);
 }
