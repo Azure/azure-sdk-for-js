@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-keyvault",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A generated SDK for KeyVaultManagementClient.",
   "engines": {
     "node": ">=20.0.0"
