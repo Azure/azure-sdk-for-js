@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0 (2026-02-05)
+## 7.0.0 (2026-03-20)
 
 ### Features Added
   - Added operation group PolicyTokensOperations
