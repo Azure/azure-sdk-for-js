@@ -44,6 +44,7 @@ export function _getSdkInstance(): NodeSDK | undefined;
 
 // @public
 export interface InstrumentationOptions {
+    azureFunctions?: InstrumentationConfig;
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
     http?: InstrumentationConfig;
