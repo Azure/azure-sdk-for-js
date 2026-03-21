@@ -6,6 +6,10 @@
 
 - Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
 
+### Other Changes
+
+- Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
+
 ### Features Added
 
 - Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
