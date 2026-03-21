@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets information about the specified private link resource.
- *
- * @summary Gets information about the specified private link resource.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateLinkResourceGet.json
- */
-
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets information about the specified private link resource.
+ *
+ * @summary gets information about the specified private link resource.
+ * x-ms-original-file: 2025-06-01/PrivateLinkResourceGet.json
+ */
 async function getPrivateLinkResource(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
-  const accountName = "sampleacct";
-  const privateLinkResourceName = "batchAccount";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResourceOperations.get(
-    resourceGroupName,
-    accountName,
-    privateLinkResourceName,
+  const result = await client.privateLinkResource.get(
+    "default-azurebatch-japaneast",
+    "sampleacct",
+    "batchAccount",
   );
   console.log(result);
 }

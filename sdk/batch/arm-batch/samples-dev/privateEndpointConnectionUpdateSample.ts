@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates the properties of an existing private endpoint connection.
- *
- * @summary Updates the properties of an existing private endpoint connection.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateEndpointConnectionUpdate.json
- */
-
-import type { PrivateEndpointConnection } from "@azure/arm-batch";
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates the properties of an existing private endpoint connection.
+ *
+ * @summary updates the properties of an existing private endpoint connection.
+ * x-ms-original-file: 2025-06-01/PrivateEndpointConnectionUpdate.json
+ */
 async function updatePrivateEndpointConnection(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
-  const accountName = "sampleacct";
-  const privateEndpointConnectionName =
-    "testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0";
-  const parameters: PrivateEndpointConnection = {
-    privateLinkServiceConnectionState: {
-      description: "Approved by xyz.abc@company.com",
-      status: "Approved",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnectionOperations.beginUpdateAndWait(
-    resourceGroupName,
-    accountName,
-    privateEndpointConnectionName,
-    parameters,
+  const result = await client.privateEndpointConnection.update(
+    "default-azurebatch-japaneast",
+    "sampleacct",
+    "testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0",
+    {
+      privateLinkServiceConnectionState: {
+        description: "Approved by xyz.abc@company.com",
+        status: "Approved",
+      },
+    },
   );
   console.log(result);
 }
