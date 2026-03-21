@@ -69,7 +69,7 @@ export type PropertyType = string | number | boolean | object | Array<PropertyTy
  * Azure Monitor envelope properties.
  * @internal
  */
-export type Properties = { [key: string]: Properties | PropertyType };
+export type Properties = Record<string, string>;
 /**
  * Azure Monitor envelope links.
  * @internal
@@ -82,7 +82,7 @@ export interface MSLink {
  * Azure Monitor envelope measurements.
  * @internal
  */
-export type Measurements = { [key: string]: number };
+export type Measurements = Record<string, number>;
 /**
  * Exporter sender result.
  * @internal
