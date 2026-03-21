@@ -14,10 +14,6 @@ function doWork(parent: Span): void {
   const span = trace.getTracer("testTracer").startSpan("doWork", undefined, ctx);
 
   try {
-    // Simulate some random work
-    for (let i = 0; i <= Math.floor(Math.random() * 40000000); i += 1) {
-      // empty
-    }
     span.setAttribute("key", "value");
     span.addEvent("invoking doWork");
   } finally {
@@ -46,11 +42,9 @@ async function main(): Promise<void> {
     parentSpan.end();
   }
 
-  // Wait for traces to be sent
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  await shutdownAzureMonitor();
-
   console.log("Custom traces sent to Azure Monitor");
+
+  await shutdownAzureMonitor();
 }
 
 main().catch(console.error);

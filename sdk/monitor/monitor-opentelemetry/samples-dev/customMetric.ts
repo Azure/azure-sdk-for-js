@@ -5,7 +5,7 @@
  * @summary Demonstrates how to generate custom metrics that will be sent to Azure Monitor.
  */
 
-import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { useAzureMonitor, shutdownAzureMonitor } from "@azure/monitor-opentelemetry";
 import { metrics } from "@opentelemetry/api";
 import "dotenv/config";
 
@@ -26,6 +26,8 @@ async function main(): Promise<void> {
   customCounter.add(3);
 
   console.log("Custom metrics sent to Azure Monitor");
+
+  await shutdownAzureMonitor();
 }
 
 main().catch(console.error);

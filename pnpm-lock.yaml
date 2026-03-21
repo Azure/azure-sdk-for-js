@@ -803,7 +803,7 @@ importers:
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.7
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -906,7 +906,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -20268,7 +20268,7 @@ importers:
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.9
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -20355,6 +20355,9 @@ importers:
         specifier: npm:@azure/functions@3.5.1
         version: '@azure/functions@3.5.1'
       '@opentelemetry/exporter-metrics-otlp-http':
+        specifier: ^0.204.0
+        version: 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http':
         specifier: ^0.204.0
         version: 0.204.0(@opentelemetry/api@1.9.0)
       '@types/node':
@@ -20590,7 +20593,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -20678,7 +20681,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -32279,6 +32282,10 @@ packages:
     resolution: {integrity: sha1-Cey+hAiSgQAjgn7y2DjyGaUcHDU=}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    resolution: {integrity: sha1-s7A+yKgRlkxXsxdEIsmHqsfouOA=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/msal-browser@4.29.0':
     resolution: {integrity: sha1-bXEazTtGO0a9rgVEW4NUeBb7j1w=}
     engines: {node: '>=0.8.0'}
@@ -33273,6 +33280,12 @@ packages:
 
   '@opentelemetry/exporter-trace-otlp-grpc@0.208.0':
     resolution: {integrity: sha1-xoe1DsjdbwZhKP7GyvDFjjyHcWw=}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
+  '@opentelemetry/exporter-trace-otlp-http@0.204.0':
+    resolution: {integrity: sha1-McYpWQF0a/mH723eRPz4RvmLQLY=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -37355,6 +37368,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
+      '@opentelemetry/core': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.6.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.40.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@4.29.0':
     dependencies:
       '@azure/msal-common': 15.15.0
@@ -38554,6 +38584,15 @@ snapshots:
       '@opentelemetry/otlp-transformer': 0.208.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
+
+  '@opentelemetry/exporter-trace-otlp-http@0.204.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-exporter-base': 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-transformer': 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.1.0(@opentelemetry/api@1.9.0)
 
   '@opentelemetry/exporter-trace-otlp-http@0.208.0(@opentelemetry/api@1.9.0)':
     dependencies:
