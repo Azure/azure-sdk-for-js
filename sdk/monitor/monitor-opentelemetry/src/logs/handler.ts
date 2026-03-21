@@ -34,6 +34,7 @@ export class LogHandler {
     this._azureExporter = new AzureMonitorLogExporter(config.azureMonitorExporterOptions);
     this._azureBatchLogRecordProcessor = new AzureBatchLogRecordProcessor(this._azureExporter, {
       enableTraceBasedSamplingForLogs: this._config.enableTraceBasedSamplingForLogs,
+      logRecordFilter: this._config.logRecordFilter,
     });
     this._azureLogRecordProcessor = new AzureLogRecordProcessor(this._metricHandler);
     this._instrumentations = [];

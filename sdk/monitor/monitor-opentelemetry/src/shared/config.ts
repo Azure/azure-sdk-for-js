@@ -13,6 +13,7 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
@@ -45,6 +46,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
+  /** Custom filter function for log records */
+  logRecordFilter?: (logRecord: SdkLogRecord) => boolean;
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
   /** Metric export interval in milliseconds */
@@ -130,6 +133,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.enablePerformanceCounters !== undefined
           ? options.enablePerformanceCounters
           : this.enablePerformanceCounters;
+      this.logRecordFilter = options.logRecordFilter;
     }
     // JSON configuration will take precedence over options provided
     this._mergeJsonConfig();

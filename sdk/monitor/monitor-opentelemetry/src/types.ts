@@ -3,7 +3,7 @@
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import type { Resource } from "@opentelemetry/resources";
-import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
@@ -25,6 +25,13 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
+  /**
+   * An optional filter function to control which log records are exported to Azure Monitor.
+   * Return `true` to export the log record, or `false` to drop it.
+   * This filter is applied before trace-based sampling.
+   * @param logRecord - The log record to evaluate.
+   */
+  logRecordFilter?: (logRecord: SdkLogRecord) => boolean;
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
