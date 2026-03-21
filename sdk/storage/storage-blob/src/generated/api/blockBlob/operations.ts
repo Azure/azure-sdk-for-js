@@ -17,7 +17,8 @@ import {
   queryRequestXmlSerializer,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { BlockBlobQueryResponse } from "../../models/models.js";
+import { getBinaryStream } from "../../static-helpers/serialization/get-binary-stream.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -100,7 +101,9 @@ export function _querySend(
     });
 }
 
-export async function _queryDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _queryDeserialize(
+  result: PathUncheckedResponse & BlockBlobQueryResponse,
+): Promise<BlockBlobQueryResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -114,7 +117,7 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
@@ -309,9 +312,9 @@ export async function query(
     requestId?: string;
     clientRequestId?: string;
     contentType: "application/octet-stream";
-  } & Uint8Array &
+  } & BlockBlobQueryResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlockBlobQueryResponse,
       {
         lastModified: Date;
         contentLength: number;
@@ -353,7 +356,7 @@ export async function query(
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStream(streamableMethod);
   const parsedBody = await _queryDeserialize(result);
   const parsedHeaders = _queryDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);

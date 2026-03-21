@@ -103,7 +103,7 @@ const defaultParserOptions = {
   parseTagValue: false,
   parseAttributeValue: false,
   trimValues: false, // Preserve whitespace in text content
-  isArray: (_name: string, _jpath: string, isLeafNode: boolean, isAttribute: boolean) => {
+  isArray: (_name: string, _jpath: string | unknown, isLeafNode: boolean, isAttribute: boolean) => {
     // Don't auto-detect arrays for attributes or leaf nodes by default
     // Let the metadata drive array detection
     return !isAttribute && !isLeafNode;

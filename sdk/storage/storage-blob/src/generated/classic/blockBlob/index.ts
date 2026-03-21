@@ -31,6 +31,7 @@ import {
   QueryRequest,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
+import { BlockBlobQueryResponse } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a BlockBlob operations. */
@@ -73,9 +74,9 @@ export interface BlockBlobOperations {
       requestId?: string;
       clientRequestId?: string;
       contentType: "application/octet-stream";
-    } & Uint8Array &
+    } & BlockBlobQueryResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        BlockBlobQueryResponse,
         {
           lastModified: Date;
           contentLength: number;
