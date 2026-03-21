@@ -44,7 +44,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature */
   enableStandardMetrics?: boolean;
-  /** Enable log sampling based on trace (Default true) */
+  /** Enable log sampling based on trace (Default false) */
   enableTraceBasedSamplingForLogs?: boolean;
   /** Custom filter function for log records */
   logRecordFilter?: (logRecord: SdkLogRecord) => boolean;

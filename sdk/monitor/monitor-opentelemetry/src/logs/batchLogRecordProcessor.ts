@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TraceFlags } from "@opentelemetry/api";
+import { TraceFlags, diag } from "@opentelemetry/api";
 import type { LogRecordExporter, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
@@ -29,8 +29,12 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
   public onEmit(logRecord: SdkLogRecord): void {
     // Custom log record filter
     if (this._options.logRecordFilter) {
-      if (!this._options.logRecordFilter(logRecord)) {
-        return;
+      try {
+        if (!this._options.logRecordFilter(logRecord)) {
+          return;
+        }
+      } catch (error) {
+        diag.error("Error in logRecordFilter, exporting log record by default:", error);
       }
     }
     // Trace based sampling for logs

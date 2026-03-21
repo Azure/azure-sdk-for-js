@@ -23,7 +23,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature (Default true)*/
   enableStandardMetrics?: boolean;
-  /** Enable log sampling based on trace (Default true) */
+  /** Enable log sampling based on trace (Default false) */
   enableTraceBasedSamplingForLogs?: boolean;
   /**
    * An optional filter function to control which log records are exported to Azure Monitor.
