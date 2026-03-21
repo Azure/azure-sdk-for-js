@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Added `logRecordFilter` option to `AzureMonitorOpenTelemetryOptions`, allowing users to provide a custom filter function that controls which log records are exported to Azure Monitor. This enables verbosity-based filtering (e.g., by severity level) and attribute-based filtering without requiring a `spanContext`.
 - Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
 - Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
 
