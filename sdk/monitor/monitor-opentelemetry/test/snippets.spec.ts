@@ -6,6 +6,7 @@ import type { AzureMonitorOpenTelemetryOptions } from "../src";
 import { useAzureMonitor } from "../src";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
+import type { DiagLogger } from "@opentelemetry/api";
 import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
 // @ts-ignore
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
@@ -79,6 +80,7 @@ describe("snippets", () => {
       logRecordProcessors: [],
       spanProcessors: [],
       views: [],
+      diagnosticLogger: undefined as DiagLogger,
     };
 
     useAzureMonitor(options);
@@ -269,5 +271,19 @@ describe("snippets", () => {
     process.env["APPLICATIONINSIGHTS_LOGDIR"] = "path/to/logs";
     // @ts-preserve-whitespace
     useAzureMonitor();
+  });
+
+  it("ReadmeSampleCustomDiagnosticLogger", () => {
+    const myLogger: DiagLogger = {
+      error: (message, ...args) => console.error(`[MyApp] ${message}`, ...args),
+      warn: (message, ...args) => console.warn(`[MyApp] ${message}`, ...args),
+      info: (message, ...args) => console.info(`[MyApp] ${message}`, ...args),
+      debug: (message, ...args) => console.debug(`[MyApp] ${message}`, ...args),
+      verbose: (message, ...args) => console.trace(`[MyApp] ${message}`, ...args),
+    };
+    // @ts-preserve-whitespace
+    useAzureMonitor({
+      diagnosticLogger: myLogger,
+    });
   });
 });

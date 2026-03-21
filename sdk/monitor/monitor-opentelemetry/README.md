@@ -86,7 +86,7 @@ For CommonJS applications, no additional flags are needed - the loader is automa
 ```ts snippet:ReadmeSampleConfiguration
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
-import type { DiagLogger } from "@opentelemetry/api";
+import { DiagLogger } from "@opentelemetry/api";
 
 const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
