@@ -1,0 +1,4 @@
+directory: specification/purview/resource-manager/Microsoft.Purview/Purview
+commit: 7d2a84d2de8779139d401b41816604b59391a37e
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

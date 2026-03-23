@@ -1,15 +1,33 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/usages": "src/api/usages/index.ts"
+  "./api/defaultAccounts": "src/api/defaultAccounts/index.ts"
+  "./api/ingestionPrivateEndpointConnections": "src/api/ingestionPrivateEndpointConnections/index.ts"
+  "./api/features": "src/api/features/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/kafkaConfigurations": "src/api/kafkaConfigurations/index.ts"
+  "./api/accounts": "src/api/accounts/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
