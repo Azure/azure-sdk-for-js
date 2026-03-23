@@ -1,10 +1,8 @@
 # PR Review History
 
-## PR #5 - MaryGao/azure-sdk-for-js (2026-03-12)
-- **Package**: `@azure/arm-commerce`
-- **Version**: `4.0.0-beta.4`
-- **Type**: Full migration from legacy `@azure/core-client` to new modular `@azure-rest/core-client` generation
-- **Outcome**: 3 design concerns flagged (all tool issues)
-  1. `UsageAggregation.infoFields?: any` — type regression from `InfoField`
-  2. `UsageSample.infoFields?: any` — new model with `any` field
-  3. CHANGELOG missing `### Breaking Changes` section
+## PR #37742 (2026-03-23) @azure/arm-containerregistry 12.1.0-beta.1
+- API: 2026-01-01-preview; adds Archives, ExportPipelines, ImportPipelines, PipelineRuns, resync
+- Issue: `KnownVersions.VLatestPreview` should be `V20260101Preview` (tool issue, non-standard name)
+
+## PR #5 (2026-03-12) @azure/arm-commerce 4.0.0-beta.4
+- Migration to modular generation; 3 tool issues: `any` fields, missing Breaking Changes in CHANGELOG
