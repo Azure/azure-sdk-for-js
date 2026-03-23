@@ -1,0 +1,178 @@
+# Workflow: TypeSpec Sync
+#
+# Monitors the TypeSpec spec repo for new commits and regenerates the
+# library client if the spec has changed. Changes are committed to a
+# configurable target branch.
+#
+# Runs daily at midnight UTC and can be triggered manually.
+
+name: TypeSpec Sync
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+  workflow_dispatch:
+    inputs:
+      package_path:
+        description: "Target folder (library) for synced changes"
+        required: false
+        default: "sdk/ai/ai-projects"
+        type: string
+      target_branch:
+        description: "Target branch for synced changes"
+        required: false
+        default: "feature/ai-projects-next"
+        type: string
+      source_branch:
+        description: "Source branch in the TypeSpec spec repo"
+        required: false
+        default: "feature/foundry-staging"
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  TARGET_BRANCH: ${{ inputs.target_branch || 'feature/ai-projects-next' }}
+  SOURCE_BRANCH: ${{ inputs.source_branch || 'feature/foundry-staging' }}
+  PACKAGE_PATH: ${{ inputs.package_path || 'sdk/ai/ai-projects' }}
+
+jobs:
+  sync-and-generate:
+    name: Check for spec updates and regenerate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.x"
+
+      # ── Step 1: Ensure target branch exists ──────────────────────
+      - name: Ensure target branch exists
+        run: |
+          set -euo pipefail
+          git fetch origin
+
+          if git ls-remote --heads origin "refs/heads/$TARGET_BRANCH" | grep -q .; then
+            echo "Branch '$TARGET_BRANCH' already exists."
+            git checkout "$TARGET_BRANCH"
+            git pull origin "$TARGET_BRANCH"
+          else
+            echo "Branch '$TARGET_BRANCH' does not exist. Creating from main."
+            git checkout main
+            git pull origin main
+            git checkout -b "$TARGET_BRANCH"
+            git push origin "$TARGET_BRANCH"
+          fi
+
+      # ── Step 2: Parse tsp-location.yaml ──────────────────────────
+      - name: Parse tsp-location.yaml
+        id: parse
+        run: |
+          set -euo pipefail
+          cd "$PACKAGE_PATH"
+
+          SPEC_REPO=$(grep '^repo:' tsp-location.yaml | awk '{print $2}')
+          SPEC_DIR=$(grep '^directory:' tsp-location.yaml | awk '{print $2}')
+          CURRENT_COMMIT=$(grep '^commit:' tsp-location.yaml | awk '{print $2}')
+
+          echo "Spec repo:       $SPEC_REPO"
+          echo "Spec directory:   $SPEC_DIR"
+          echo "Current commit:   $CURRENT_COMMIT"
+
+          echo "spec_repo=$SPEC_REPO" >> "$GITHUB_OUTPUT"
+          echo "spec_dir=$SPEC_DIR" >> "$GITHUB_OUTPUT"
+          echo "current_commit=$CURRENT_COMMIT" >> "$GITHUB_OUTPUT"
+
+      # ── Step 3: Check latest commit in the spec repo ─────────────
+      - name: Check for new commits in spec repo
+        id: check
+        env:
+          SPEC_REPO: ${{ steps.parse.outputs.spec_repo }}
+          SPEC_DIR: ${{ steps.parse.outputs.spec_dir }}
+          CURRENT_COMMIT: ${{ steps.parse.outputs.current_commit }}
+        run: |
+          set -euo pipefail
+
+          API_URL="https://api.github.com/repos/${SPEC_REPO}/commits"
+          API_URL+="?sha=${SOURCE_BRANCH}"
+          API_URL+="&path=${SPEC_DIR}"
+          API_URL+="&per_page=1"
+
+          echo "Querying: $API_URL"
+          RESPONSE=$(curl -sf "$API_URL")
+          LATEST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].sha')
+
+          echo "Latest commit in spec repo: $LATEST_COMMIT"
+          echo "Current commit in tsp-location.yaml: $CURRENT_COMMIT"
+
+          if [ -z "$LATEST_COMMIT" ] || [ "$LATEST_COMMIT" = "null" ]; then
+            echo "::error::Failed to fetch latest commit from the spec repo."
+            exit 1
+          fi
+
+          if [ "$LATEST_COMMIT" = "$CURRENT_COMMIT" ]; then
+            echo "Commits match — no regeneration needed."
+            echo "needs_regeneration=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New commit detected — regeneration required."
+            echo "needs_regeneration=true" >> "$GITHUB_OUTPUT"
+            echo "latest_commit=$LATEST_COMMIT" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Step 4a: Update tsp-location.yaml ────────────────────────
+      - name: Update tsp-location.yaml with new commit
+        if: steps.check.outputs.needs_regeneration == 'true'
+        env:
+          LATEST_COMMIT: ${{ steps.check.outputs.latest_commit }}
+        run: |
+          set -euo pipefail
+          cd "$PACKAGE_PATH"
+
+          sed -i "s/^commit: .*/commit: $LATEST_COMMIT/" tsp-location.yaml
+
+          echo "Updated tsp-location.yaml:"
+          cat tsp-location.yaml
+
+      # ── Step 4b: Install dependencies and regenerate client ──────
+      - name: Install dependencies and regenerate client
+        if: steps.check.outputs.needs_regeneration == 'true'
+        run: |
+          set -euo pipefail
+
+          npm install -g pnpm@latest-10
+          pnpm install --no-frozen-lockfile
+
+          cd "$PACKAGE_PATH"
+          npm run generate:client
+
+      # ── Step 5: Commit and push changes ──────────────────────────
+      - name: Commit and push changes
+        if: steps.check.outputs.needs_regeneration == 'true'
+        env:
+          LATEST_COMMIT: ${{ steps.check.outputs.latest_commit }}
+        run: |
+          set -euo pipefail
+
+          git config user.email "AzureSDKPipelineBot@microsoft.com"
+          git config user.name "Azure SDK Pipeline Bot"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "Regeneration produced no changes — nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "Regenerate ai-projects client from spec commit $LATEST_COMMIT"
+          git push origin "$TARGET_BRANCH"
+
+          echo "Changes committed and pushed to '$TARGET_BRANCH'."
