@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [performance-review-needed]
+labels: [performance-review-needed]
+if: github.event.label.name == 'performance-review-needed'
 description: "Dash: Review a pull request for performance regressions"
 permissions:
   contents: read

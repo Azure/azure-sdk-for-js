@@ -23,13 +23,11 @@
 #
 # Dash: Review a pull request for performance regressions
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"7d89bb706bbb89b7688183bf7fda68c871bd298aa79343e8d2dce10152502163","compiler_version":"v0.56.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"9951adb272f363e4e07eaee1204b065efb3d548fbadbb3a904d67b8fd439897e","compiler_version":"v0.56.2","strict":true}
 
 name: "Performance Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - performance-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Performance Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'performance-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'performance-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1195,9 +1191,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'performance-review-needed')))
+    if: github.event.label.name == 'performance-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
