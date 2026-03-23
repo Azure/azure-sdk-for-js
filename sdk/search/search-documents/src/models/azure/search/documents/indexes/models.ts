@@ -207,8 +207,6 @@ export function searchIndexerDataNoneIdentityDeserializer(
 export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerDataIdentity {
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
   resourceId: string;
-  /** Multi-tenant User-Assigned Managed Identity Support: The client id of the multi-tenant App that has been configured to federate with the user-assigned managed identity. */
-  federatedIdentityClientId?: string;
   /** A URI fragment specifying the type of identity. */
   odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
 }
@@ -216,11 +214,7 @@ export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerData
 export function searchIndexerDataUserAssignedIdentitySerializer(
   item: SearchIndexerDataUserAssignedIdentity,
 ): any {
-  return {
-    "@odata.type": item["odatatype"],
-    userAssignedIdentity: item["resourceId"],
-    federatedIdentityClientId: item["federatedIdentityClientId"],
-  };
+  return { "@odata.type": item["odatatype"], userAssignedIdentity: item["resourceId"] };
 }
 
 export function searchIndexerDataUserAssignedIdentityDeserializer(
@@ -229,7 +223,6 @@ export function searchIndexerDataUserAssignedIdentityDeserializer(
   return {
     odatatype: item["@odata.type"],
     resourceId: item["userAssignedIdentity"],
-    federatedIdentityClientId: item["federatedIdentityClientId"],
   };
 }
 

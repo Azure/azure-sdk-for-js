@@ -2088,7 +2088,6 @@ export type SearchIndexerDataSourceType = string;
 
 // @public
 export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerDataIdentity {
-    federatedIdentityClientId?: string;
     odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
     resourceId: string;
 }
