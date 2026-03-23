@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [mgmt-review-needed]
+labels: [mgmt-review-needed]
+if: github.event.label.name == 'mgmt-review-needed'
 description: "Review a pull request for management-plane SDKs"
 permissions:
   contents: read
