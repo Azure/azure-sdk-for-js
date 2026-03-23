@@ -23,13 +23,11 @@
 #
 # Dexter: Audit dependency changes in a pull request
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"51c2920e903bd65ff945391cae87dc6b20193be275088649c600e3080ddeb85c","compiler_version":"v0.56.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"d0f067d380ebbec6d6b38aeb082c2379a31edab6bc53f9a66460fbd5ea4adf9b","compiler_version":"v0.56.2","strict":true}
 
 name: "Dependency Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - dependency-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Dependency Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'dependency-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'dependency-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1196,9 +1192,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'dependency-review-needed')))
+    if: github.event.label.name == 'dependency-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}

@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [dependency-review-needed]
+labels: [dependency-review-needed]
+if: github.event.label.name == 'dependency-review-needed'
 description: "Dexter: Audit dependency changes in a pull request"
 permissions:
   contents: read
