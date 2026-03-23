@@ -3016,10 +3016,8 @@ export interface BaseKnowledgeSource {
   kind:
     | "searchIndex"
     | "azureBlob"
-    | "indexedSharePoint"
     | "indexedOneLake"
     | "web"
-    | "remoteSharePoint";
   /**
    * The name of the knowledge source.
    */

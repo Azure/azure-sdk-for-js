@@ -3,7 +3,10 @@
 
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { KnowledgeRetrievalReasoningEffort } from "./models/azure/search/documents/knowledgeBases/index.js";
-import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
+import type {
+  KnowledgeSourceReference,
+  KnowledgeRetrievalOutputMode,
+} from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveKnowledgeOptions extends OperationOptions {
@@ -22,9 +25,13 @@ export interface KnowledgeBase {
   /**
    * Contains configuration options on how to connect to AI models.
    */
-  models: KnowledgeBaseModel[];
+  models?: KnowledgeBaseModel[];
   knowledgeSources: KnowledgeSourceReference[];
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffort;
+  /**
+   * The output mode for the knowledge base.
+   */
+  outputMode?: KnowledgeRetrievalOutputMode;
   /**
    * Instructions considered by the knowledge base when developing query plan.
    */

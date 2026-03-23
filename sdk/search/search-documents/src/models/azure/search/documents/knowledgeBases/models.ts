@@ -426,6 +426,10 @@ export interface KnowledgeBaseRetrievalRequest {
   includeActivity?: boolean;
   /** A list of runtime parameters for the knowledge sources. */
   knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
+  /** The retrieval reasoning effort configuration. */
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  /** The output mode for this retrieval request. */
+  outputMode?: string;
 }
 
 export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetrievalRequest): any {
