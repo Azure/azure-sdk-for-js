@@ -12,7 +12,7 @@ import {
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
@@ -24,7 +24,7 @@ export class AIProjectClient {
 
   constructor(
     endpointParam: string,
-    credential: TokenCredential,
+    credential: KeyCredential | TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;

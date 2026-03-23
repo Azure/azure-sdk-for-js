@@ -2,6 +2,39 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+<<<<<<< /tmp/azsdk-dev-toollwiWH1/result/src/aiProjectClient.ts
+import { AIProjectContext, AIProjectClientOptionalParams, createAIProject } from "./api/index.js";
+import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
+import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
+import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
+import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  EvaluationRulesOperations,
+  _getEvaluationRulesOperations,
+} from "./classic/evaluationRules/index.js";
+import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
+
+export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+||||||| /tmp/azsdk-dev-toollwiWH1/base/sdk/ai/ai-projects/generated/aiProjectClient.ts
+import { AIProjectContext, AIProjectClientOptionalParams, createAIProject } from "./api/index.js";
+import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
+import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
+import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
+import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  EvaluationRulesOperations,
+  _getEvaluationRulesOperations,
+} from "./classic/evaluationRules/index.js";
+import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
+
+export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+=======
 import OpenAI from "openai";
 import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
@@ -27,6 +60,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
+>>>>>>> /tmp/azsdk-dev-toollwiWH1/custom/sdk/ai/ai-projects/src/aiProjectClient.ts
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -64,8 +98,16 @@ export class AIProjectClient {
   private _options: AIProjectClientOptionalParams;
 
   constructor(
+<<<<<<< /tmp/azsdk-dev-toollwiWH1/result/src/aiProjectClient.ts
+    endpointParam: string,
+    credential: KeyCredential | TokenCredential,
+||||||| /tmp/azsdk-dev-toollwiWH1/base/sdk/ai/ai-projects/generated/aiProjectClient.ts
+    endpointParam: string,
+    credential: TokenCredential,
+=======
     endpoint: string,
     credential: TokenCredential,
+>>>>>>> /tmp/azsdk-dev-toollwiWH1/custom/sdk/ai/ai-projects/src/aiProjectClient.ts
     options: AIProjectClientOptionalParams = {},
   ) {
     this._endpoint = endpoint;

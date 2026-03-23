@@ -14,38 +14,19 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 /** Interface representing a BetaInsights operations. */
 export interface BetaInsightsOperations {
   /** List all insights in reverse chronological order (newest first). */
-  list: (
-    foundryFeatures: "Insights=V1Preview",
-    options?: BetaInsightsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Insight>;
+  list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
   /** Get a specific insight by Id. */
-  get: (
-    insightId: string,
-    foundryFeatures: "Insights=V1Preview",
-    options?: BetaInsightsGetOptionalParams,
-  ) => Promise<Insight>;
+  get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
-  generate: (
-    foundryFeatures: "Insights=V1Preview",
-    insight: Insight,
-    options?: BetaInsightsGenerateOptionalParams,
-  ) => Promise<Insight>;
+  generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
 }
 
 function _getBetaInsights(context: AIProjectContext) {
   return {
-    list: (foundryFeatures: "Insights=V1Preview", options?: BetaInsightsListOptionalParams) =>
-      list(context, foundryFeatures, options),
-    get: (
-      insightId: string,
-      foundryFeatures: "Insights=V1Preview",
-      options?: BetaInsightsGetOptionalParams,
-    ) => get(context, insightId, foundryFeatures, options),
-    generate: (
-      foundryFeatures: "Insights=V1Preview",
-      insight: Insight,
-      options?: BetaInsightsGenerateOptionalParams,
-    ) => generate(context, foundryFeatures, insight, options),
+    list: (options?: BetaInsightsListOptionalParams) => list(context, options),
+    get: (id: string, options?: BetaInsightsGetOptionalParams) => get(context, id, options),
+    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) =>
+      generate(context, insight, options),
   };
 }
 
