@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { list, get } from "./operations.js";
-export {
-  type NetAppResourceQuotaLimitsAccountListOptionalParams,
-  type NetAppResourceQuotaLimitsAccountGetOptionalParams,
+export type {
+  NetAppResourceQuotaLimitsAccountListOptionalParams,
+  NetAppResourceQuotaLimitsAccountGetOptionalParams,
 } from "./options.js";

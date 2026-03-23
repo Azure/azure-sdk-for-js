@@ -290,6 +290,7 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -309,7 +310,7 @@ async function buildMergedApiJson(
 
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
-
+  apiJson.metadata.version = version;
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -406,6 +407,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
+        pkgJson["version"],
         true,
       );
     }

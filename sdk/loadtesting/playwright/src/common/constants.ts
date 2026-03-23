@@ -115,3 +115,7 @@ export const UploadConstants = {
   MAX_RETRY_ATTEMPTS: 3,
   RETRY_BASE_DELAY: 1000,
 };
+
+export const BrowserSessionSourceType = {
+  PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
+};
