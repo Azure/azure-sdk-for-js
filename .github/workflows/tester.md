@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [test-review-needed]
+labels: [test-review-needed]
+if: github.event.label.name == 'test-review-needed'
 description: "Tester: Review a pull request for test coverage and quality"
 permissions:
   contents: read
