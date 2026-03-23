@@ -1,24 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Get all Creator instances for an Azure Maps Account
+ *
+ * @summary Get all Creator instances for an Azure Maps Account
+ * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/ListMapsCreatorsByAccount.json
+ */
+
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-/**
- * This sample demonstrates how to get all Creator instances for an Azure Maps Account
- *
- * @summary get all Creator instances for an Azure Maps Account
- * x-ms-original-file: 2025-10-01-preview/ListMapsCreatorsByAccount.json
- */
 async function listCreatorResourcesByAccount(): Promise<void> {
+  const subscriptionId =
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+  const accountName = "myMapsAccount";
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.creators.listByAccount("myResourceGroup", "myMapsAccount")) {
+  for await (const item of client.creators.listByAccount(resourceGroupName, accountName)) {
     resArray.push(item);
   }
-
   console.log(resArray);
 }
 

@@ -4,15 +4,22 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+
+// @public
+export interface Accounts {
+    createOrUpdate(resourceGroupName: string, accountName: string, mapsAccount: MapsAccount, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
+    listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
+    listKeys(resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams): Promise<AccountsListKeysResponse>;
+    listSas(resourceGroupName: string, accountName: string, mapsAccountSasParameters: AccountSasParameters, options?: AccountsListSasOptionalParams): Promise<AccountsListSasResponse>;
+    regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: MapsKeySpecification, options?: AccountsRegenerateKeysOptionalParams): Promise<AccountsRegenerateKeysResponse>;
+    update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: MapsAccountUpdateParameters, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
+}
 
 // @public
 export interface AccountSasParameters {
@@ -25,90 +32,103 @@ export interface AccountSasParameters {
 }
 
 // @public
-export interface AccountsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsDeleteOptionalParams extends OperationOptions {
+export type AccountsCreateOrUpdateResponse = MapsAccount;
+
+// @public
+export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsGetOptionalParams extends OperationOptions {
+export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {
+export type AccountsGetResponse = MapsAccount;
+
+// @public
+export interface AccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {
+export type AccountsListByResourceGroupNextResponse = MapsAccounts;
+
+// @public
+export interface AccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsListKeysOptionalParams extends OperationOptions {
+export type AccountsListByResourceGroupResponse = MapsAccounts;
+
+// @public
+export interface AccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsListSasOptionalParams extends OperationOptions {
+export type AccountsListBySubscriptionNextResponse = MapsAccounts;
+
+// @public
+export interface AccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, mapsAccount: MapsAccount, options?: AccountsCreateOrUpdateOptionalParams) => Promise<MapsAccount>;
-    delete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) => Promise<MapsAccount>;
-    listByResourceGroup: (resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MapsAccount>;
-    listBySubscription: (options?: AccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MapsAccount>;
-    listKeys: (resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams) => Promise<MapsAccountKeys>;
-    listSas: (resourceGroupName: string, accountName: string, mapsAccountSasParameters: AccountSasParameters, options?: AccountsListSasOptionalParams) => Promise<MapsAccountSasToken>;
-    regenerateKeys: (resourceGroupName: string, accountName: string, keySpecification: MapsKeySpecification, options?: AccountsRegenerateKeysOptionalParams) => Promise<MapsAccountKeys>;
-    update: (resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: MapsAccountUpdateParameters, options?: AccountsUpdateOptionalParams) => Promise<MapsAccount>;
+export type AccountsListBySubscriptionResponse = MapsAccounts;
+
+// @public
+export interface AccountsListKeysOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsRegenerateKeysOptionalParams extends OperationOptions {
+export type AccountsListKeysResponse = MapsAccountKeys;
+
+// @public
+export interface AccountsListSasOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountsUpdateOptionalParams extends OperationOptions {
+export type AccountsListSasResponse = MapsAccountSasToken;
+
+// @public
+export interface AccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ActionType = string;
+export type AccountsRegenerateKeysResponse = MapsAccountKeys;
 
 // @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type AccountsUpdateResponse = MapsAccount;
 
 // @public (undocumented)
-export class AzureMapsManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureMapsManagementClientOptionalParams);
-    readonly accounts: AccountsOperations;
-    readonly creators: CreatorsOperations;
-    readonly maps: MapsOperations;
-    readonly operationResult: OperationResultOperations;
-    readonly operationStatus: OperationStatusOperations;
-    readonly pipeline: Pipeline;
-    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinkResources: PrivateLinkResourcesOperations;
+export class AzureMapsManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMapsManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AzureMapsManagementClientOptionalParams);
+    // (undocumented)
+    accounts: Accounts;
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    creators: Creators;
+    // (undocumented)
+    maps: Maps;
+    // (undocumented)
+    subscriptionId?: string;
 }
 
 // @public
-export interface AzureMapsManagementClientOptionalParams extends ClientOptions {
+export interface AzureMapsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
     apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
+    endpoint?: string;
 }
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export interface CorsRule {
@@ -126,52 +146,76 @@ export type CreatedByType = string;
 // @public
 export interface Creator extends TrackedResource {
     properties: CreatorProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface CreatorList {
+    nextLink?: string;
+    readonly value?: Creator[];
 }
 
 // @public
 export interface CreatorProperties {
-    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits: number;
-    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
-export interface CreatorsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface Creators {
+    createOrUpdate(resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Creator, options?: CreatorsCreateOrUpdateOptionalParams): Promise<CreatorsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, accountName: string, creatorName: string, options?: CreatorsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, creatorName: string, options?: CreatorsGetOptionalParams): Promise<CreatorsGetResponse>;
+    listByAccount(resourceGroupName: string, accountName: string, options?: CreatorsListByAccountOptionalParams): PagedAsyncIterableIterator<Creator>;
+    update(resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: CreatorUpdateParameters, options?: CreatorsUpdateOptionalParams): Promise<CreatorsUpdateResponse>;
 }
 
 // @public
-export interface CreatorsDeleteOptionalParams extends OperationOptions {
+export interface CreatorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CreatorsGetOptionalParams extends OperationOptions {
+export type CreatorsCreateOrUpdateResponse = Creator;
+
+// @public
+export interface CreatorsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CreatorsListByAccountOptionalParams extends OperationOptions {
+export interface CreatorsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CreatorsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Creator, options?: CreatorsCreateOrUpdateOptionalParams) => Promise<Creator>;
-    delete: (resourceGroupName: string, accountName: string, creatorName: string, options?: CreatorsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, accountName: string, creatorName: string, options?: CreatorsGetOptionalParams) => Promise<Creator>;
-    listByAccount: (resourceGroupName: string, accountName: string, options?: CreatorsListByAccountOptionalParams) => PagedAsyncIterableIterator<Creator>;
-    update: (resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: CreatorUpdateParameters, options?: CreatorsUpdateOptionalParams) => Promise<Creator>;
+export type CreatorsGetResponse = Creator;
+
+// @public
+export interface CreatorsListByAccountNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CreatorsUpdateOptionalParams extends OperationOptions {
+export type CreatorsListByAccountNextResponse = CreatorList;
+
+// @public
+export interface CreatorsListByAccountOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type CreatorsListByAccountResponse = CreatorList;
+
+// @public
+export interface CreatorsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreatorsUpdateResponse = Creator;
 
 // @public
 export interface CreatorUpdateParameters {
-    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits?: number;
-    tags?: Record<string, string>;
-    totalStorageUnitSizeInBytes?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -183,9 +227,18 @@ export interface CustomerManagedKeyEncryption {
 // @public
 export interface CustomerManagedKeyEncryptionKeyIdentity {
     delegatedIdentityClientId?: string;
-    federatedClientId?: string;
     identityType?: IdentityType;
     userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export interface Dimension {
+    displayName?: string;
+    internalMetricName?: string;
+    internalName?: string;
+    name?: string;
+    sourceMdmNamespace?: string;
+    toBeExportedToShoebox?: boolean;
 }
 
 // @public
@@ -196,7 +249,7 @@ export interface Encryption {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -215,6 +268,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public
@@ -225,11 +281,6 @@ export type KeyType = string;
 
 // @public
 export type Kind = string;
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
 
 // @public
 export enum KnownCreatedByType {
@@ -260,6 +311,7 @@ export enum KnownKeyType {
 
 // @public
 export enum KnownKind {
+    Gen1 = "Gen1",
     Gen2 = "Gen2"
 }
 
@@ -267,41 +319,15 @@ export enum KnownKind {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownName {
-    G2 = "G2"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
-}
-
-// @public
-export enum KnownPrivateEndpointConnectionProvisioningState {
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
-export enum KnownPublicNetworkAccess {
-    Disabled = "disabled",
-    Enabled = "enabled"
+    G2 = "G2",
+    S0 = "S0",
+    S1 = "S1"
 }
 
 // @public
@@ -312,19 +338,9 @@ export enum KnownSigningKey {
 }
 
 // @public
-export enum KnownVersions {
-    V20251001Preview = "2025-10-01-preview"
-}
-
-// @public
 export interface LinkedResource {
     id: string;
     uniqueName: string;
-}
-
-// @public
-export interface LocationsItem {
-    locationName: string;
 }
 
 // @public
@@ -332,11 +348,19 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface Maps {
+    listOperations(options?: MapsListOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+    listSubscriptionOperations(options?: MapsListSubscriptionOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+}
 
 // @public
 export interface MapsAccount extends TrackedResource {
@@ -344,6 +368,7 @@ export interface MapsAccount extends TrackedResource {
     kind?: Kind;
     properties?: MapsAccountProperties;
     sku: Sku;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -360,11 +385,14 @@ export interface MapsAccountProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     linkedResources?: LinkedResource[];
-    locations?: LocationsItem[];
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
     readonly uniqueId?: string;
+}
+
+// @public
+export interface MapsAccounts {
+    nextLink?: string;
+    readonly value?: MapsAccount[];
 }
 
 // @public
@@ -380,12 +408,11 @@ export interface MapsAccountUpdateParameters {
     identity?: ManagedServiceIdentity;
     kind?: Kind;
     linkedResources?: LinkedResource[];
-    locations?: LocationsItem[];
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
     sku?: Sku;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
     readonly uniqueId?: string;
 }
 
@@ -395,230 +422,91 @@ export interface MapsKeySpecification {
 }
 
 // @public
-export interface MapsListOperationsOptionalParams extends OperationOptions {
+export interface MapsListOperationsNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export type MapsListOperationsNextResponse = MapsOperations;
+
+// @public
+export interface MapsListOperationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MapsListOperationsResponse = MapsOperations;
+
+// @public
+export interface MapsListSubscriptionOperationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MapsListSubscriptionOperationsNextResponse = MapsOperations;
+
+// @public
+export interface MapsListSubscriptionOperationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MapsListSubscriptionOperationsResponse = MapsOperations;
+
+// @public
 export interface MapsOperations {
-    listOperations: (options?: MapsListOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    nextLink?: string;
+    readonly value?: OperationDetail[];
+}
+
+// @public
+export interface MetricSpecification {
+    aggregationType?: string;
+    category?: string;
+    dimensions?: Dimension[];
+    displayDescription?: string;
+    displayName?: string;
+    fillGapWithZero?: boolean;
+    internalMetricName?: string;
+    lockAggregationType?: string;
+    name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
+    sourceMdmNamespace?: string;
+    supportedAggregationTypes?: string;
+    unit?: string;
 }
 
 // @public
 export type Name = string;
 
 // @public
-export interface Operation {
-    readonly actionType?: ActionType;
+export interface OperationDetail {
     display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
+    isDataAction?: boolean;
+    name?: string;
+    origin?: string;
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
 export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationResultGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OperationResultOperations {
-    // @deprecated (undocumented)
-    beginGet: (location: string, operationId: string, options?: OperationResultGetOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginGetAndWait: (location: string, operationId: string, options?: OperationResultGetOptionalParams) => Promise<void>;
-    get: (location: string, operationId: string, options?: OperationResultGetOptionalParams) => PollerLike<OperationState<void>, void>;
-}
-
-// @public
-export interface OperationStatusGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationStatusOperations {
-    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
-}
-
-// @public
-export interface OperationStatusResult {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
-    readonly resourceId?: string;
-    startTime?: Date;
-    status: string;
-}
-
-// @public
-export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends Resource {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export type PrivateEndpointConnectionProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    delete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
-    listByAccount: (resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListByAccountOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export interface PrivateLinkResource extends ProxyResource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateLinkResourcesListByAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, accountName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
-    listByAccount: (resourceGroupName: string, accountName: string, options?: PrivateLinkResourcesListByAccountOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
-}
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
     description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
+    operation?: string;
+    provider?: string;
+    resource?: string;
 }
-
-// @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export type PublicNetworkAccess = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureMapsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
+export interface ServiceSpecification {
+    metricSpecifications?: MetricSpecification[];
 }
 
 // @public
 export type SigningKey = string;
-
-// @public
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
-    getOperationState(): TState;
-    getResult(): TResult | undefined;
-    isDone(): boolean;
-    // @deprecated
-    isStopped(): boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TState>;
-    pollUntilDone(pollOptions?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
-    serialize(): Promise<string>;
-    // @deprecated
-    stopPolling(): void;
-    submitted(): Promise<void>;
-    // @deprecated
-    toString(): string;
-}
 
 // @public
 export interface Sku {
@@ -639,7 +527,9 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

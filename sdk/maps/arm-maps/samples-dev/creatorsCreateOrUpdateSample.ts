@@ -1,24 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
+ *
+ * @summary Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
+ * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateMapsCreator.json
+ */
+
+import type { Creator } from "@azure/arm-maps";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-/**
- * This sample demonstrates how to create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
- *
- * @summary create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
- * x-ms-original-file: 2025-10-01-preview/CreateMapsCreator.json
- */
 async function createCreatorResource(): Promise<void> {
+  const subscriptionId =
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+  const accountName = "myMapsAccount";
+  const creatorName = "myCreator";
+  const creatorResource: Creator = {
+    location: "eastus2",
+    properties: { storageUnits: 5 },
+    tags: { test: "true" },
+  };
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const result = await client.creators.createOrUpdate(
-    "myResourceGroup",
-    "myMapsAccount",
-    "myCreator",
-    { location: "eastus2", properties: { storageUnits: 5 }, tags: { test: "true" } },
+    resourceGroupName,
+    accountName,
+    creatorName,
+    creatorResource,
   );
   console.log(result);
 }
