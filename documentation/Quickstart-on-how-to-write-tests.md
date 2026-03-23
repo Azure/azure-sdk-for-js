@@ -370,9 +370,9 @@ This simple test creates a resource and checks that the service handles it corre
 
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { PurviewDataMapClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { assert, beforeEach, afterEach, describe, it } from "vitest";
+import type { PurviewDataMapClient } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("My test", () => {
   let recorder: Recorder;
@@ -380,14 +380,14 @@ describe("My test", () => {
   let client: PurviewDataMapClient;
   let glossaryName: string;
 
-  beforeEach(async function () {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     // Step 3: Create your client
     client = await createClient(recorder);
     glossaryName = "js-testing";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -415,11 +415,11 @@ describe("My test", () => {
 ### `utils/recordedClient.ts`
 
 ```typescript
-import { Context } from "mocha";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
+import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -484,9 +484,8 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
 
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { MonitorClient } from "../src/monitorClient";
+import { assert, beforeEach, afterEach, describe, it } from "vitest";
+import { MonitorClient } from "../src/monitorClient.js";
 
 // Step 4: Add environment variables you'd like to mask the values in recordings
 const replaceableVariables: Record<string, string> = {
@@ -508,8 +507,8 @@ describe("Monitor client", () => {
   let client: MonitorClient;
   let diagnosticName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     // Step 3: create clients
     subscriptionId = env.SUBSCRIPTION_ID || "";
@@ -518,11 +517,11 @@ describe("Monitor client", () => {
     diagnosticName = "my-test-diagnostic-name";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should create diagnosticSettings", async function () {
+  it("should create diagnosticSettings", async () => {
     // Step 3: call createOrUpdate to prepare resource
     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
       storageAccountId: "storageId",
