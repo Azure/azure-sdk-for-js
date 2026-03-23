@@ -127,6 +127,19 @@ param (
 . $PSScriptRoot/TestResources-Helpers.ps1
 . $PSScriptRoot/SubConfig-Helpers.ps1
 
+function SerializeForTrace($value) {
+    if ($null -eq $value) {
+        return '<null>'
+    }
+
+    try {
+        return ($value | ConvertTo-Json -Depth 20 -Compress)
+    }
+    catch {
+        return "<serialization failed: $($_.Exception.Message)>"
+    }
+}
+
 function TraceParameterSnapshot($step) {
     Write-Verbose "[TraceParameterFlow] Step: $step"
     Write-Verbose "[TraceParameterFlow] ArmTemplateParameters: $(SerializeForTrace $ArmTemplateParameters)"
