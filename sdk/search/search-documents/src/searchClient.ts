@@ -239,7 +239,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       options,
       async (updatedOptions) => {
         const response = await this.client.getDocumentCount(updatedOptions);
-        return Number(response); // Service responds with `text/plain` content-type, which core will not deserialize as number
+        return Number(response.body);
       },
     );
   }
