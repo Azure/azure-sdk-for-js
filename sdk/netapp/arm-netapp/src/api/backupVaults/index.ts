@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByNetAppAccount, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type BackupVaultsListByNetAppAccountOptionalParams,
-  type BackupVaultsDeleteOptionalParams,
-  type BackupVaultsUpdateOptionalParams,
-  type BackupVaultsCreateOrUpdateOptionalParams,
-  type BackupVaultsGetOptionalParams,
+export type {
+  BackupVaultsListByNetAppAccountOptionalParams,
+  BackupVaultsDeleteOptionalParams,
+  BackupVaultsUpdateOptionalParams,
+  BackupVaultsCreateOrUpdateOptionalParams,
+  BackupVaultsGetOptionalParams,
 } from "./options.js";
