@@ -1588,7 +1588,7 @@ export function _uploadRangeFromUrlSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-range": range,
+        range: range,
         "x-ms-copy-source": copySource,
         ...(options?.sourceRange !== undefined
           ? { "x-ms-source-range": options?.sourceRange }
@@ -1782,7 +1782,7 @@ export function _uploadRangeSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-range": range,
+        range: range,
         "x-ms-write": fileRangeWrite,
         "content-length": contentLength,
         ...(options?.contentMD5 !== undefined
