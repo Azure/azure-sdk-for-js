@@ -119,6 +119,13 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   await recorder.start(recorderEnvSetup);
   await recorder.addSanitizers(
     {
+      generalSanitizers: [
+        {
+          regex: true,
+          target: "<Latest>[^<]*</Latest>",
+          value: "<Latest>sanitized_blockid</Latest>",
+        },
+      ],
       uriSanitizers: [
         {
           regex: true,
