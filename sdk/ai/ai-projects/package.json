@@ -96,6 +96,7 @@
     "extract-api": "rimraf review && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate": "rimraf ./src/generated && mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && rimraf ./src/generated/test && rimraf ./src/generated/tsp-location.yaml",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply",
     "generate-samples": "dev-tool samples publish -f",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
