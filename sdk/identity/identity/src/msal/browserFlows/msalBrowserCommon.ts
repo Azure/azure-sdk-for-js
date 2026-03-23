@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { createStandardPublicClientApplication } from "@azure/msal-browser";
 
 import type { MsalBrowserFlowOptions } from "./msalBrowserOptions.js";
 import {
@@ -53,6 +52,7 @@ function generateMsalBrowserConfiguration(
     },
     cache: {
       cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: true, // Set to true to improve the experience on IE11 and Edge.
     },
     system: {
       loggerOptions: {
@@ -114,7 +114,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function getApp(): Promise<msalBrowser.IPublicClientApplication> {
     if (!app) {
       // Prepare the MSAL application
-      app = await createStandardPublicClientApplication(msalConfig);
+      app = await msalBrowser.PublicClientApplication.createPublicClientApplication(msalConfig);
 
       // setting the account right after the app is created.
       if (account) {
@@ -174,7 +174,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
-    return handleBrowserResult((await msalApp.handleRedirectPromise({ hash: redirectHash })) || undefined);
+    return handleBrowserResult((await msalApp.handleRedirectPromise(redirectHash)) || undefined);
   }
 
   /**
