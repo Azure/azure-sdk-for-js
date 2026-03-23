@@ -150,13 +150,8 @@ jobs:
           set -euo pipefail
 
           npm install -g pnpm@latest-10
+          npm install -g @azure-tools/typespec-client-generator-cli
           pnpm install --no-frozen-lockfile
-
-          # Install the TypeSpec emitter dependencies (includes tsp-client)
-          cd eng
-          npm install --package-lock-only
-          npm ci
-          cd ..
 
           cd "$PACKAGE_PATH"
 
