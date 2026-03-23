@@ -152,6 +152,12 @@ jobs:
           npm install -g pnpm@latest-10
           pnpm install --no-frozen-lockfile
 
+          # Install the TypeSpec emitter dependencies (includes tsp-client)
+          cd eng
+          npm install --package-lock-only
+          npm ci
+          cd ..
+
           cd "$PACKAGE_PATH"
 
           # Inline the generate:client steps so the workflow does not depend on
