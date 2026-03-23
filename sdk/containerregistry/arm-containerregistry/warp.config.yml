@@ -1,27 +1,39 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/webhooks": "./src/api/webhooks/index.ts"
-  "./api/tokens": "./src/api/tokens/index.ts"
-  "./api/scopeMaps": "./src/api/scopeMaps/index.ts"
-  "./api/replications": "./src/api/replications/index.ts"
-  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
-  "./api/connectedRegistries": "./src/api/connectedRegistries/index.ts"
-  "./api/credentialSets": "./src/api/credentialSets/index.ts"
-  "./api/cacheRules": "./src/api/cacheRules/index.ts"
-  "./api/registries": "./src/api/registries/index.ts"
-  "./api/operations": "./src/api/operations/index.ts"
+  "./api/webhooks": "src/api/webhooks/index.ts"
+  "./api/pipelineRuns": "src/api/pipelineRuns/index.ts"
+  "./api/importPipelines": "src/api/importPipelines/index.ts"
+  "./api/exportPipelines": "src/api/exportPipelines/index.ts"
+  "./api/tokens": "src/api/tokens/index.ts"
+  "./api/scopeMaps": "src/api/scopeMaps/index.ts"
+  "./api/replications": "src/api/replications/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/connectedRegistries": "src/api/connectedRegistries/index.ts"
+  "./api/credentialSets": "src/api/credentialSets/index.ts"
+  "./api/cacheRules": "src/api/cacheRules/index.ts"
+  "./api/archiveVersions": "src/api/archiveVersions/index.ts"
+  "./api/archives": "src/api/archives/index.ts"
+  "./api/registries": "src/api/registries/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"

@@ -31,6 +31,8 @@ const replaceableVariables = {
   BING_GROUNDING_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   AI_SEARCH_INDEX_NAME: "sample_index",
+  MODEL_ENDPOINT: "https://Sanitized.azure.com",
+  MODEL_API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
   BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-5.2",
   MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
@@ -119,6 +121,13 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   await recorder.start(recorderEnvSetup);
   await recorder.addSanitizers(
     {
+      generalSanitizers: [
+        {
+          regex: true,
+          target: "<Latest>[^<]*</Latest>",
+          value: "<Latest>sanitized_blockid</Latest>",
+        },
+      ],
       uriSanitizers: [
         {
           regex: true,
