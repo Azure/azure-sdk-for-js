@@ -1,37 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Asynchronously updates a partner topic with the specified parameters.
- *
- * @summary Asynchronously updates a partner topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerTopics_Update.json
- */
-
-import {
-  PartnerTopicUpdateParameters,
-  EventGridManagementClient,
-} from "@azure/arm-eventgrid";
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to asynchronously updates a partner topic with the specified parameters.
+ *
+ * @summary asynchronously updates a partner topic with the specified parameters.
+ * x-ms-original-file: 2025-07-15-preview/PartnerTopics_Update.json
+ */
 async function partnerTopicsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const resourceGroupName =
-    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
-  const partnerTopicName = "examplePartnerTopicName1";
-  const partnerTopicUpdateParameters: PartnerTopicUpdateParameters = {
-    tags: { tag1: "value1", tag2: "value2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.partnerTopics.update(
-    resourceGroupName,
-    partnerTopicName,
-    partnerTopicUpdateParameters,
-  );
+  const result = await client.partnerTopics.update("examplerg", "examplePartnerTopicName1", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

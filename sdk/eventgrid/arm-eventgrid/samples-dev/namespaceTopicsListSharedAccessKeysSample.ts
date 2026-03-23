@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List the two keys used to publish to a namespace topic.
- *
- * @summary List the two keys used to publish to a namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/NamespaceTopics_ListSharedAccessKeys.json
- */
-
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list the two keys used to publish to a namespace topic.
+ *
+ * @summary list the two keys used to publish to a namespace topic.
+ * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_ListSharedAccessKeys.json
+ */
 async function namespaceTopicsListSharedAccessKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const resourceGroupName =
-    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
-  const namespaceName = "examplenamespace2";
-  const topicName = "examplenamespacetopic2";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.namespaceTopics.listSharedAccessKeys(
-    resourceGroupName,
-    namespaceName,
-    topicName,
+    "examplerg",
+    "examplenamespace2",
+    "examplenamespacetopic2",
   );
   console.log(result);
 }

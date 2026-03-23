@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Suspends client access to a storage target.
  *
  * @summary Suspends client access to a storage target.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/StorageTargets_Suspend.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/StorageTargets_Suspend.json
  */
 async function storageTargetsSuspend(): Promise<void> {
   const subscriptionId =

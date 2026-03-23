@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Schedules an AML file system for deletion.
  *
  * @summary Schedules an AML file system for deletion.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/amlFilesystems_Delete.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/amlFilesystems_Delete.json
  */
 async function amlFilesystemsDelete(): Promise<void> {
   const subscriptionId =
