@@ -4,6 +4,7 @@
 
 ### Bugs Fixed
 
+- Fixed workflow
 - Fix polling for memory store update operations that cannot complete.
 
 ## 2.0.0 (2026-03-06)
