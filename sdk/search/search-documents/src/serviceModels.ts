@@ -3013,11 +3013,7 @@ export interface BaseKnowledgeSource {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  kind:
-    | "searchIndex"
-    | "azureBlob"
-    | "indexedOneLake"
-    | "web"
+  kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
   /**
    * The name of the knowledge source.
    */

@@ -130,7 +130,7 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2025-11-01-Preview";
+export const defaultServiceVersion = "2026-04-01";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,

@@ -233,7 +233,7 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "web" | "remoteSharePoint";
+    kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
     name: string;
 }
 
@@ -1219,8 +1219,10 @@ export interface KnowledgeBase {
     etag?: string;
     // (undocumented)
     knowledgeSources: KnowledgeSourceReference[];
-    models: KnowledgeBaseModel[];
+    models?: KnowledgeBaseModel[];
     name: string;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeRetrievalOutputMode" needs to be exported by the entry point index.d.ts
+    outputMode?: KnowledgeRetrievalOutputMode;
     retrievalInstructions?: string;
     // (undocumented)
     retrievalReasoningEffort?: BaseKnowledgeRetrievalReasoningEffort;
@@ -1324,6 +1326,8 @@ export interface KnowledgeBaseRetrievalRequest {
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
     messages?: KnowledgeBaseMessage[];
+    outputMode?: string;
+    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
