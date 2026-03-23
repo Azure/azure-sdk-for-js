@@ -88,7 +88,9 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<
+    RequestData | RemoteDependencyData | TelemetryExceptionData | MessageData
+  >,
   expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
@@ -124,8 +126,10 @@ function assertEnvelope(
     expectedMeasurements,
   );
   // Not posibble to get specific time + duration in these tests
-  if (envelope.data?.baseData) {
-    delete envelope.data.baseData.duration;
+  const baseData = envelope.data?.baseData as any;
+  if (baseData) {
+    delete baseData.duration;
+    delete baseData.kind;
   }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
@@ -526,7 +530,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "az.namespace": "Microsoft.EventHub",
         };
-        const expectedBaseData: Partial<RequestData> = {
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `${span.spanContext().spanId}`,
           name: "span",
           success: true,
@@ -1020,7 +1024,11 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(span);
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, false);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
         const spanOptions: SpanOptions = {
@@ -1035,7 +1043,11 @@ describe("spanUtils.ts", () => {
         span.end();
         const readableSpan = spanToReadableSpan(span);
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, true);
+        const requestData = (envelope as any).data?.baseData;
+        if (!requestData || !("responseCode" in requestData)) {
+          assert.fail("Expected RequestData");
+        }
+        assert.strictEqual(requestData.success, true);
       });
     });
 
@@ -1579,12 +1591,12 @@ describe("spanUtils.ts", () => {
 
     // Verify the property value is NOT truncated
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"],
+      (envelope as any).data?.baseData?.properties?.["custom.longProperty"],
       longPropertyValue,
       "Custom properties should not be truncated at 13-bit limit",
     );
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"]?.length,
+      (envelope as any).data?.baseData?.properties?.["custom.longProperty"]?.length,
       MaxPropertyLengths.THIRTEEN_BIT + 1000,
       "Custom property length should exceed the old 13-bit limit",
     );
@@ -1663,7 +1675,9 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope as any).data?.baseData?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+      ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -1716,7 +1730,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[
+      !(envelope as any).data?.baseData?.properties?.[
         experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
       ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

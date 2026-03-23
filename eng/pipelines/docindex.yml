@@ -30,6 +30,8 @@ jobs:
     pool:
       name: $(LINUXPOOL)
       demands: ImageOverride -equals $(LINUXVMIMAGE)
+    variables:
+      NPM_CONFIG_USERCONFIG: $(CommonNpmrcPath)
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -37,7 +39,10 @@ jobs:
           Paths:
             - eng/
 
-      - template: /eng/common/pipelines/templates/steps/authenticate-temp-npmrc.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(NPM_CONFIG_USERCONFIG)
+          registryUrl: $(PublicDevOpsRegistry)
 
       - task: Powershell@2
         inputs:
@@ -80,8 +85,13 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
 
-      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(NPM_CONFIG_USERCONFIG)
+          registryUrl: $(PublicDevOpsRegistry)
 
+      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+          
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:
           WorkingDirectory: $(DocRepoLocation)

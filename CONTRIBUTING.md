@@ -180,7 +180,7 @@ Regenerating the recordings has the same requirements as running the live tests.
 
 For more information about the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
-Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) that can be handy while testing your SDKs.
+Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) that can be handy while testing your SDKs.
 
 ### Other NPM scripts
 
@@ -331,7 +331,9 @@ Our packages depends on a set of [Azure Core Client libraries](https://github.co
 
 ### Dev Packages
 
-The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
+The daily dev build for JS are published directly to [DevOps Feed](https://dev.azure.com/azure-sdk/public/_artifacts/feed/azure-sdk-for-js) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
+
+Before consuming packages from the DevOps feed, make sure your environment is authenticated. See [Authenticating to the Azure DevOps npm feed](#authenticating-to-the-azure-devops-npm-feed).
 
 The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.
 
