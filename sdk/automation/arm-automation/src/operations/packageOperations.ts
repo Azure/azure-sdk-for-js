@@ -6,35 +6,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { VariableOperations } from "../operationsInterfaces/index.js";
+import { PackageOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
 import {
-  Variable,
-  VariableListByAutomationAccountNextOptionalParams,
-  VariableListByAutomationAccountOptionalParams,
-  VariableListByAutomationAccountResponse,
-  VariableGetOptionalParams,
-  VariableGetResponse,
-  VariableCreateOrUpdateParameters,
-  VariableCreateOrUpdateOptionalParams,
-  VariableCreateOrUpdateResponse,
-  VariableUpdateParameters,
-  VariableUpdateOptionalParams,
-  VariableUpdateResponse,
-  VariableDeleteOptionalParams,
-  VariableListByAutomationAccountNextResponse,
+  Package,
+  PackageListByRuntimeEnvironmentNextOptionalParams,
+  PackageListByRuntimeEnvironmentOptionalParams,
+  PackageListByRuntimeEnvironmentResponse,
+  PackageGetOptionalParams,
+  PackageGetResponse,
+  PackageCreateOrUpdateParameters,
+  PackageCreateOrUpdateOptionalParams,
+  PackageCreateOrUpdateResponse,
+  PackageUpdateParameters,
+  PackageUpdateOptionalParams,
+  PackageUpdateResponse,
+  PackageDeleteOptionalParams,
+  PackageListByRuntimeEnvironmentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing VariableOperations operations. */
-export class VariableOperationsImpl implements VariableOperations {
+/** Class containing PackageOperations operations. */
+export class PackageOperationsImpl implements PackageOperations {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class VariableOperations class.
+   * Initialize a new instance of the class PackageOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -42,19 +42,22 @@ export class VariableOperationsImpl implements VariableOperations {
   }
 
   /**
-   * Retrieve a list of variables.
+   * Retrieve the a list of Packages
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
-  public listByAutomationAccount(
+  public listByRuntimeEnvironment(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: VariableListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Variable> {
-    const iter = this.listByAutomationAccountPagingAll(
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): PagedAsyncIterableIterator<Package> {
+    const iter = this.listByRuntimeEnvironmentPagingAll(
       resourceGroupName,
       automationAccountName,
+      runtimeEnvironmentName,
       options,
     );
     return {
@@ -68,9 +71,10 @@ export class VariableOperationsImpl implements VariableOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByAutomationAccountPagingPage(
+        return this.listByRuntimeEnvironmentPagingPage(
           resourceGroupName,
           automationAccountName,
+          runtimeEnvironmentName,
           options,
           settings,
         );
@@ -78,18 +82,20 @@ export class VariableOperationsImpl implements VariableOperations {
     };
   }
 
-  private async *listByAutomationAccountPagingPage(
+  private async *listByRuntimeEnvironmentPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: VariableListByAutomationAccountOptionalParams,
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Variable[]> {
-    let result: VariableListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Package[]> {
+    let result: PackageListByRuntimeEnvironmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAutomationAccount(
+      result = await this._listByRuntimeEnvironment(
         resourceGroupName,
         automationAccountName,
+        runtimeEnvironmentName,
         options,
       );
       let page = result.value || [];
@@ -98,9 +104,10 @@ export class VariableOperationsImpl implements VariableOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByAutomationAccountNext(
+      result = await this._listByRuntimeEnvironmentNext(
         resourceGroupName,
         automationAccountName,
+        runtimeEnvironmentName,
         continuationToken,
         options,
       );
@@ -111,14 +118,16 @@ export class VariableOperationsImpl implements VariableOperations {
     }
   }
 
-  private async *listByAutomationAccountPagingAll(
+  private async *listByRuntimeEnvironmentPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: VariableListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Variable> {
-    for await (const page of this.listByAutomationAccountPagingPage(
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): AsyncIterableIterator<Package> {
+    for await (const page of this.listByRuntimeEnvironmentPagingPage(
       resourceGroupName,
       automationAccountName,
+      runtimeEnvironmentName,
       options,
     )) {
       yield* page;
@@ -126,61 +135,79 @@ export class VariableOperationsImpl implements VariableOperations {
   }
 
   /**
-   * Retrieve a list of variables.
+   * Retrieve the a list of Packages
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
-  private _listByAutomationAccount(
+  private _listByRuntimeEnvironment(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: VariableListByAutomationAccountOptionalParams,
-  ): Promise<VariableListByAutomationAccountResponse> {
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): Promise<PackageListByRuntimeEnvironmentResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec,
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options,
+      },
+      listByRuntimeEnvironmentOperationSpec,
     );
   }
 
   /**
-   * Retrieve the variable identified by variable name.
+   * Retrieve the Package identified by Package name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param variableName The name of variable.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    variableName: string,
-    options?: VariableGetOptionalParams,
-  ): Promise<VariableGetResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    options?: PackageGetOptionalParams,
+  ): Promise<PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, variableName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        packageName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a variable.
+   * Create or update the package identified by package name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param variableName The name of variable.
-   * @param parameters The parameters supplied to the create or update variable operation.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
+   * @param parameters The create or update parameters for Package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    variableName: string,
-    parameters: VariableCreateOrUpdateParameters,
-    options?: VariableCreateOrUpdateOptionalParams,
-  ): Promise<VariableCreateOrUpdateResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    parameters: PackageCreateOrUpdateParameters,
+    options?: PackageCreateOrUpdateOptionalParams,
+  ): Promise<PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        variableName,
+        runtimeEnvironmentName,
+        packageName,
         parameters,
         options,
       },
@@ -189,25 +216,28 @@ export class VariableOperationsImpl implements VariableOperations {
   }
 
   /**
-   * Update a variable.
+   * Update the Package identified by Package name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param variableName The name of variable.
-   * @param parameters The parameters supplied to the update variable operation.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
+   * @param parameters The update parameters for Package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    variableName: string,
-    parameters: VariableUpdateParameters,
-    options?: VariableUpdateOptionalParams,
-  ): Promise<VariableUpdateResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    parameters: PackageUpdateParameters,
+    options?: PackageUpdateOptionalParams,
+  ): Promise<PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        variableName,
+        runtimeEnvironmentName,
+        packageName,
         parameters,
         options,
       },
@@ -216,53 +246,69 @@ export class VariableOperationsImpl implements VariableOperations {
   }
 
   /**
-   * Delete the variable.
+   * Delete the package by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param variableName The name of variable.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    variableName: string,
-    options?: VariableDeleteOptionalParams,
+    runtimeEnvironmentName: string,
+    packageName: string,
+    options?: PackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, variableName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        packageName,
+        options,
+      },
       deleteOperationSpec,
     );
   }
 
   /**
-   * ListByAutomationAccountNext
+   * ListByRuntimeEnvironmentNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param nextLink The nextLink from the previous successful call to the ListByAutomationAccount
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param nextLink The nextLink from the previous successful call to the ListByRuntimeEnvironment
    *                 method.
    * @param options The options parameters.
    */
-  private _listByAutomationAccountNext(
+  private _listByRuntimeEnvironmentNext(
     resourceGroupName: string,
     automationAccountName: string,
+    runtimeEnvironmentName: string,
     nextLink: string,
-    options?: VariableListByAutomationAccountNextOptionalParams,
-  ): Promise<VariableListByAutomationAccountNextResponse> {
+    options?: PackageListByRuntimeEnvironmentNextOptionalParams,
+  ): Promise<PackageListByRuntimeEnvironmentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec,
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        nextLink,
+        options,
+      },
+      listByRuntimeEnvironmentNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables",
+const listByRuntimeEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VariableListResult,
+      bodyMapper: Mappers.PackageListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -274,16 +320,17 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Variable,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -295,67 +342,71 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.variableName,
+    Parameters.packageName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Variable,
+      bodyMapper: Mappers.Package,
     },
     201: {
-      bodyMapper: Mappers.Variable,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.variableName,
+    Parameters.packageName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Variable,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.variableName,
+    Parameters.packageName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -366,17 +417,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.variableName,
+    Parameters.packageName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
+const listByRuntimeEnvironmentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VariableListResult,
+      bodyMapper: Mappers.PackageListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -388,6 +440,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
