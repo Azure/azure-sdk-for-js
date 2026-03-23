@@ -28,13 +28,10 @@ param(
 
   # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
   [Parameter(ValueFromRemainingArguments = $true)]
-  $RemainingArguments,
-
-  [Parameter()]
-  [hashtable] $AdditionalParameters
+  $RemainingArguments
 )
 
-if (!$AdditionalParameters['deployMIResources']) {
+if (!$ArmTemplateParameters['deployMIResources']) {
     Write-Host "Skipping post-provisioning script because resources weren't deployed"
     return
 }
