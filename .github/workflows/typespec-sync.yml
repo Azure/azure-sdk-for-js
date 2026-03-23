@@ -153,7 +153,13 @@ jobs:
           pnpm install --no-frozen-lockfile
 
           cd "$PACKAGE_PATH"
-          npm run generate:client
+
+          # Inline the generate:client steps so the workflow does not depend on
+          # the target branch already having the script in package.json.
+          npx tsp-client update -d
+          npx prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \
+            "src/**/*.{ts,cts,mts}" "test/**/*.{ts,cts,mts}" "samples-dev/**/*.{ts,cts,mts}" "*.{js,cjs,mjs,json}"
+          npx dev-tool customization apply
 
       # ── Step 5: Commit and push changes ──────────────────────────
       - name: Commit and push changes
