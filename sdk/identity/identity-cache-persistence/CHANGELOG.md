@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated `@azure/msal-node` to `^5.1.0` and `@azure/msal-node-extensions` to `^5.1.0`.
+
 ## 1.2.0 (2025-02-18)
 
 ### Other Changes

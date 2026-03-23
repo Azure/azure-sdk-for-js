@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated `@azure/msal-node` to `^5.1.0` and `@azure/msal-browser` to `^5.5.0`.
+
 - Reduced bundle size by optimizing imports from `@azure/msal-node`, e.g. achieving a ~61kb reduction (from 851kb to 790kb) when importing `ClientCertificateCredential`. [#36942](https://github.com/Azure/azure-sdk-for-js/pull/36942)
 
 ## 4.14.0-beta.2 (2026-02-10)
