@@ -10,7 +10,7 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
-import type { RestError } from "@azure/core-rest-pipeline";
+import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   RetryCode,
@@ -38,6 +38,7 @@ export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
+  private retryTimerDeadlineMs: number = 0;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -127,20 +128,14 @@ export abstract class BaseSender {
 
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
-        // Success -- @todo: start retry timer
-        if (!this.retryTimer) {
-          this.retryTimer = setTimeout(() => {
-            this.retryTimer = null;
-            this.sendFirstPersistedFile();
-          }, this.batchSendRetryIntervalMs);
-          this.retryTimer.unref();
-        }
+        // Success -- start retry timer to send persisted files
+        this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -149,14 +144,13 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 || statusCode === 439) {
+        if (statusCode === 429) {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          return {
-            code: ExportResultCode.SUCCESS,
-          };
+          this.scheduleRetryTimer(retryAfterMs);
+          return await this.persist(envelopes);
         }
         if (result) {
           diag.info(result);
@@ -201,6 +195,7 @@ export abstract class BaseSender {
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
+            this.scheduleRetryTimer(retryAfterMs);
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
@@ -222,6 +217,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
+          this.scheduleRetryTimer(retryAfterMs);
           return await this.persist(envelopes);
         }
       } else {
@@ -251,14 +247,12 @@ export abstract class BaseSender {
         this.numConsecutiveRedirects++;
         // To prevent circular redirects
         if (this.numConsecutiveRedirects < 10) {
-          if (restError.response && restError.response.headers) {
-            const location = restError.response.headers.get("location");
-            if (location) {
-              // Update sender URL
-              this.handlePermanentRedirect(location);
-              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
-            }
+          const location = this.getLocationFromHeaders(restError.response?.headers);
+          if (location) {
+            // Update sender URL
+            this.handlePermanentRedirect(location);
+            // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+            return this.exportEnvelopes(envelopes);
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -401,12 +395,36 @@ export abstract class BaseSender {
     }
   }
 
+  private scheduleRetryTimer(retryAfterMs?: number): void {
+    const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+    const newDeadline = Date.now() + delay;
+    // Reschedule if a new Retry-After results in a later absolute deadline
+    if (this.retryTimer && retryAfterMs !== undefined && newDeadline > this.retryTimerDeadlineMs) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    if (!this.retryTimer) {
+      const adjustedDelay = Math.max(newDeadline - Date.now(), 0);
+      this.retryTimerDeadlineMs = newDeadline;
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.sendFirstPersistedFile();
+      }, adjustedDelay);
+      this.retryTimer.unref();
+    }
+  }
+
   private isRetriableRestError(error: RestError): boolean {
     const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
     if (error && error.code && restErrorTypes.includes(error.code)) {
       return true;
     }
     return false;
+  }
+
+  // Normalize location extraction for redirects; mirrors core HttpHeaders behavior
+  private getLocationFromHeaders(headers?: HttpHeaders): string | undefined {
+    return headers?.get("location") ?? headers?.toJSON?.().location;
   }
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled

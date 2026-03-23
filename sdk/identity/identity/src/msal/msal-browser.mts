@@ -1,6 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalCommon from "@azure/msal-browser";
-
-export { msalCommon };
+export { type AccountInfo, AuthError, LogLevel } from "@azure/msal-browser";
