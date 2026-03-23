@@ -53,6 +53,8 @@ export type {
   CaptureStructuredOutputsTool,
   StructuredOutputDefinition,
   A2APreviewTool,
+  WorkIQPreviewTool,
+  WorkIQPreviewToolParameters,
   MemorySearchPreviewTool,
   MemorySearchOptions,
   CodeInterpreterTool,
@@ -210,6 +212,7 @@ export type {
   EvaluatorMetricDirection,
   CodeBasedEvaluatorDefinition,
   PromptBasedEvaluatorDefinition,
+  EvaluatorCredentialRequest,
   Insight,
   InsightsMetadata,
   OperationState,
@@ -289,11 +292,14 @@ export type {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
+  ToolsetObject,
+  DeleteToolsetResponse,
   AgentType,
   AgentDefinitionOptInKeys,
   FoundryFeaturesOptInKeys,
   PageOrder,
   PendingUploadType,
+  ToolsetObjectType,
   MemoryStoreType,
   KnownApiVersions,
 } from "./models/index.js";
@@ -352,6 +358,8 @@ export type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./api/beta/evaluationTaxonomies/index.js";
 export type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -389,6 +397,13 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
+  BetaToolsetsDeleteOptionalParams,
+  BetaToolsetsListOptionalParams,
+  BetaToolsetsGetOptionalParams,
+  BetaToolsetsUpdateOptionalParams,
+  BetaToolsetsCreateOptionalParams,
+} from "./api/beta/toolsets/index.js";
+export type {
   AgentsOperations,
   BetaOperations,
   ConnectionsOperations,
@@ -403,5 +418,6 @@ export type {
   BetaMemoryStoresOperations,
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
+  BetaToolsetsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
