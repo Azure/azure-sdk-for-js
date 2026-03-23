@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [architecture-review-needed]
+labels: [architecture-review-needed]
+if: github.event.label.name == 'architecture-review-needed'
 description: "Archie: Review a pull request for public API design issues"
 permissions:
   contents: read

@@ -23,13 +23,11 @@
 #
 # Archie: Review a pull request for public API design issues
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"53931c97cd0a93321bfac4570effcc3fd4e2761fce339c2b5b7a26c8dab6fd55","compiler_version":"v0.56.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"65015ce1fe5efa065c196ce9a78ada391838deff239c6dffb8c69bddc2c66814","compiler_version":"v0.56.2","strict":true}
 
 name: "Architecture Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - architecture-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Architecture Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'architecture-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'architecture-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1195,9 +1191,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'architecture-review-needed')))
+    if: github.event.label.name == 'architecture-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
