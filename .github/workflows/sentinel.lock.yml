@@ -23,13 +23,11 @@
 #
 # Sentinel: Review a pull request for security vulnerabilities
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"82fe6e5072551ae84c9e6ce4953edeb7fffb1bd0f49aa13f2573cb4a42be98fb","compiler_version":"v0.56.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"9741bc6b8e1bfaf102cf853e92746071d84fbd5896cd3f910179d32860e118d5","compiler_version":"v0.56.2","strict":true}
 
 name: "Security Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - security-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Security Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'security-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'security-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1196,9 +1192,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'security-review-needed')))
+    if: github.event.label.name == 'security-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}

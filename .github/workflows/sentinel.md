@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [security-review-needed]
+labels: [security-review-needed]
+if: github.event.label.name == 'security-review-needed'
 description: "Sentinel: Review a pull request for security vulnerabilities"
 permissions:
   contents: read
