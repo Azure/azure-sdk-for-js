@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  getCredentials,
+  pendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -10,6 +12,8 @@ export {
   listVersions,
 } from "./operations.js";
 export type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
