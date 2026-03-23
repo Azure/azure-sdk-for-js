@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Schedule a priming job to be paused.
  *
  * @summary Schedule a priming job to be paused.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/PausePrimingJob.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/PausePrimingJob.json
  */
 async function pausePrimingJob(): Promise<void> {
   const subscriptionId =

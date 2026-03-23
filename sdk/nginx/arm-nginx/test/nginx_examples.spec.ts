@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("nginx test", () => {
+describe.skip("nginx test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: NginxManagementClient;

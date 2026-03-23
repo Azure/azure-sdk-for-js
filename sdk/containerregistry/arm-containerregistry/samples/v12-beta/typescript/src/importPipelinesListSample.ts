@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to lists all import pipelines for the specified container registry.
+ *
+ * @summary lists all import pipelines for the specified container registry.
+ * x-ms-original-file: 2026-01-01-preview/ImportPipelineList.json
+ */
+async function importPipelineList(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.importPipelines.list("myResourceGroup", "myRegistry")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await importPipelineList();
+}
+
+main().catch(console.error);

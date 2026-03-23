@@ -35,7 +35,7 @@ export function _listBySchedulerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,10 +43,7 @@ export function _listBySchedulerSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -57,6 +54,7 @@ export async function _listBySchedulerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -75,7 +73,7 @@ export function listByScheduler(
     () => _listBySchedulerSend(context, resourceGroupName, schedulerName, options),
     _listBySchedulerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -93,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
       taskHubName: taskHubName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,6 +105,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -132,6 +131,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, schedulerName, taskHubName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +150,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
       taskHubName: taskHubName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,10 +159,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: taskHubSerializer(resource),
   });
 }
@@ -172,6 +169,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -200,6 +198,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<TaskHub>, TaskHub>;
 }
 
@@ -217,7 +216,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
       taskHubName: taskHubName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,10 +224,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -237,6 +233,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
