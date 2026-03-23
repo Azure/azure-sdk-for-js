@@ -23,13 +23,11 @@
 #
 # Scribe: Review a pull request for documentation completeness and consistency
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"090576be1310ff4421b2512d6b50fe03305e9d9792085c4d5cf8357ddb0b2f15","compiler_version":"v0.56.2","strict":true}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"24a705721c1579f4674f7b244723ce37669247c13ec4643c7086208d3b523e49","compiler_version":"v0.56.2","strict":true}
 
 name: "Documentation Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - docs-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Documentation Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'docs-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'docs-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1195,9 +1191,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'docs-review-needed')))
+    if: github.event.label.name == 'docs-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}

@@ -1,8 +1,9 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
-    names: [docs-review-needed]
+labels: [docs-review-needed]
+if: github.event.label.name == 'docs-review-needed'
 description: "Scribe: Review a pull request for documentation completeness and consistency"
 permissions:
   contents: read
