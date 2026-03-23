@@ -23,7 +23,7 @@ import {
 import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms.js";
-import { PathHttpHeaders } from "../generated/src/index.js";
+import { PathHttpHeaders } from "../generated-classic-models.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
 /**
