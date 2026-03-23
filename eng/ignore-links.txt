@@ -72,6 +72,10 @@ https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=re
 https://learn.microsoft.com/javascript/api/@azure/template?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-alertsmanagement?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-alertsmanagement
+https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-marketplace
 # gh-aw template placeholder — Verify-Links.ps1 percent-encodes curly braces in href attributes
 %7Brun_url%7D
 https://www.npmjs.com/package/@azure/ai-speech-transcription
+https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-discovery

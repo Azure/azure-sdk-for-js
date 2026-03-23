@@ -79,7 +79,10 @@ function assertEnvelope(
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
+  // Strip the `kind` discriminator before comparing — it's a TypeScript-only property
+  // used for union dispatch and is not part of the domain data contract.
+  const { kind: _kind, ...baseDataWithoutKind } = (envelope?.data?.baseData ?? {}) as any;
+  assert.deepStrictEqual(baseDataWithoutKind, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};
@@ -133,11 +136,10 @@ describe("logUtils.ts", () => {
 
       assert.isDefined(envelope);
       assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
-      assert.isUndefined(
-        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
-          APPLICATION_ID_RESOURCE_KEY
-        ],
-      );
+      const baseDataProperties = (envelope?.data?.baseData as any)?.properties?.[
+        APPLICATION_ID_RESOURCE_KEY
+      ];
+      assert.isUndefined(baseDataProperties);
     });
 
     it("should create a Message Envelope for Logs", () => {
@@ -284,11 +286,108 @@ describe("logUtils.ts", () => {
         expectedServiceTagsBase,
       );
     });
+
+    it("should create a Message Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Log without severity number",
+        severityNumber: undefined,
+        severityText: "WARN",
+        attributes: {
+          "extra.attribute": "foo",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "Log without severity number",
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: emptyMeasurements,
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as MessageData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
+
+    it("should create an Exception Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Exception without severity number",
+        severityNumber: undefined,
+        attributes: {
+          "extra.attribute": "foo",
+          [SEMATTRS_EXCEPTION_TYPE]: "Error",
+          [SEMATTRS_EXCEPTION_MESSAGE]: "test error",
+          [SEMATTRS_EXCEPTION_STACKTRACE]: "Error: test\n    at test.ts:1",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedException: TelemetryExceptionDetails = {
+        message: "test error",
+        hasFullStack: true,
+        stack: "Error: test\n    at test.ts:1",
+        typeName: "Error",
+      };
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
+        exceptions: [expectedException],
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Exception",
+        100,
+        "ExceptionData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as TelemetryExceptionData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
   });
 
   describe("#legacyApplicationInsights logs", () => {
     it("should create a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "testMessage",
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -360,6 +459,7 @@ describe("logUtils.ts", () => {
 
     it("should truncate properties of a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1),
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -406,7 +506,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Exception Envelope", () => {
       const data: TelemetryExceptionData = {
-        message: "testMessage",
+        kind: "ExceptionData",
         severityLevel: "Error",
         exceptions: [
           {
@@ -431,7 +531,6 @@ describe("logUtils.ts", () => {
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<TelemetryExceptionData> = {
-        message: `testMessage`,
         severityLevel: `Error`,
         exceptions: [
           {
@@ -461,6 +560,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Availability Envelope", () => {
       const data: AvailabilityData = {
+        kind: "AvailabilityData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -510,6 +610,7 @@ describe("logUtils.ts", () => {
 
     it("should create a PageView Envelope", () => {
       const data: PageViewData = {
+        kind: "PageViewData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -539,7 +640,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -557,6 +658,7 @@ describe("logUtils.ts", () => {
 
     it("should create an Event Envelope", () => {
       const data: TelemetryEventData = {
+        kind: "EventData",
         name: "testName",
         version: 2,
       };
@@ -578,7 +680,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -610,7 +712,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -693,7 +795,9 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+        !(envelope as any)?.data?.baseData?.properties?.[
+          experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+        ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -724,7 +828,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[
+        !(envelope as any).data?.baseData?.properties?.[
           experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
         ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",
