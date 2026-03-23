@@ -29,6 +29,7 @@ on:
         required: false
         default: "feature/foundry-staging"
         type: string
+  pull_request: 
 
 permissions:
   contents: write
