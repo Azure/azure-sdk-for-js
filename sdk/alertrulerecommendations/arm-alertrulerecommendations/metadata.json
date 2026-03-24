@@ -1,0 +1,25 @@
+{
+  "apiVersions": {
+    "Microsoft.AlertsManagement": "2023-08-01-preview"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AlertsManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-alertrulerecommendations!AlertRuleRecommendationsListResponse:interface": "Microsoft.AlertsManagement.AlertRuleRecommendationsListResponse",
+      "@azure/arm-alertrulerecommendations!AlertRuleRecommendationResource:interface": "Microsoft.AlertsManagement.AlertRuleRecommendationResource",
+      "@azure/arm-alertrulerecommendations!AlertRuleRecommendationProperties:interface": "Microsoft.AlertsManagement.AlertRuleRecommendationProperties",
+      "@azure/arm-alertrulerecommendations!RuleArmTemplate:interface": "Microsoft.AlertsManagement.RuleArmTemplate",
+      "@azure/arm-alertrulerecommendations!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-alertrulerecommendations!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-alertrulerecommendations!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-alertrulerecommendations!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-alertrulerecommendations!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-alertrulerecommendations!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-alertrulerecommendations!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-alertrulerecommendations!KnownVersions:enum": "Microsoft.AlertsManagement.Versions",
+      "@azure/arm-alertrulerecommendations!AlertRuleRecommendationsOperations#listByTargetType:member": "Microsoft.AlertsManagement.AlertRuleRecommendationsOperationGroup.listByTargetType",
+      "@azure/arm-alertrulerecommendations!AlertRuleRecommendationsOperations#listByResource:member": "Microsoft.AlertsManagement.AlertRuleRecommendationsOperationGroup.listByResource"
+    }
+  }
+}
