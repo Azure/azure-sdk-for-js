@@ -1,15 +1,47 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/getUsagesInLocation": "src/api/getUsagesInLocation/index.ts"
+  "./api/workflowRunActionRepetitionsRequestHistories": "src/api/workflowRunActionRepetitionsRequestHistories/index.ts"
+  "./api/workflowRunActionRepetitions": "src/api/workflowRunActionRepetitions/index.ts"
+  "./api/workflows": "src/api/workflows/index.ts"
+  "./api/resourceHealthMetadata": "src/api/resourceHealthMetadata/index.ts"
+  "./api/deletedWebApps": "src/api/deletedWebApps/index.ts"
+  "./api/provider": "src/api/provider/index.ts"
+  "./api/workflowVersions": "src/api/workflowVersions/index.ts"
+  "./api/workflowTriggerHistories": "src/api/workflowTriggerHistories/index.ts"
+  "./api/workflowTriggers": "src/api/workflowTriggers/index.ts"
+  "./api/workflowRunActionScopeRepetitions": "src/api/workflowRunActionScopeRepetitions/index.ts"
+  "./api/workflowRunActions": "src/api/workflowRunActions/index.ts"
+  "./api/workflowRuns": "src/api/workflowRuns/index.ts"
+  "./api/kubeEnvironments": "src/api/kubeEnvironments/index.ts"
+  "./api/diagnostics": "src/api/diagnostics/index.ts"
+  "./api/global": "src/api/global/index.ts"
+  "./api/siteCertificates": "src/api/siteCertificates/index.ts"
+  "./api/certificates": "src/api/certificates/index.ts"
+  "./api/appServicePlans": "src/api/appServicePlans/index.ts"
+  "./api/webApps": "src/api/webApps/index.ts"
+  "./api/staticSites": "src/api/staticSites/index.ts"
+  "./api/recommendations": "src/api/recommendations/index.ts"
+  "./api/appServiceEnvironments": "src/api/appServiceEnvironments/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
