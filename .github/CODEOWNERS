@@ -1651,6 +1651,9 @@ sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
 sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
