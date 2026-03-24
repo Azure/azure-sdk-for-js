@@ -3,7 +3,13 @@
 
 import { isNodeLike } from "@azure/core-util";
 
-export const baseUri = "https://contoso.api.fake";
+export const baseUri = (() => {
+  const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
+  if (customEnabled?.toLowerCase() === "true") {
+    return process.env.COMMUNICATION_CUSTOM_URL || "https://contoso.api.fake";
+  }
+  return "https://contoso.api.fake";
+})();
 
 export const MOCK_ENDPOINT = "https://REDACTED.communication.azure.com/";
 export const MOCK_CONNECTION_STRING = `endpoint=${MOCK_ENDPOINT};accesskey=eyJhbG`;

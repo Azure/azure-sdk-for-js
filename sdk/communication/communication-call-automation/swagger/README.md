@@ -12,10 +12,10 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 module-kind: esm
-tag: package-2025-06-15
+tag: package-2026-03-12
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/b359b43e76ee17d4f1c5aa83b58577653c0fb51b/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.5.1
+  - https://github.com/Azure/azure-rest-api-specs/blob/aff94f8978ea3a246869b2708d2381eae370902a/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.6.0
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -72,6 +72,15 @@ directive:
   - rename-model:
       from: MediaStreamingOptions
       to: MediaStreamingOptionsInternal
+  - rename-model:
+      from: TeamsPhoneCallDetails
+      to: TeamsPhoneCallDetailsInternal
+  - rename-model:
+      from: TeamsPhoneCallerDetails
+      to: TeamsPhoneCallerDetailsInternal
+  - rename-model:
+      from: TeamsPhoneSourceDetails
+      to: TeamsPhoneSourceDetailsInternal
 ```
 
 ```yaml
