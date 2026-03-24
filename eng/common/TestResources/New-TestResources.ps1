@@ -127,31 +127,6 @@ param (
 . $PSScriptRoot/TestResources-Helpers.ps1
 . $PSScriptRoot/SubConfig-Helpers.ps1
 
-function SerializeForTrace($value) {
-    if ($null -eq $value) {
-        return '<null>'
-    }
-
-    try {
-        return ($value | ConvertTo-Json -Depth 20 -Compress)
-    }
-    catch {
-        return "<serialization failed: $($_.Exception.Message)>"
-    }
-}
-
-function TraceParameterSnapshot($step) {
-    Write-Verbose "[TraceParameterFlow] Step: $step"
-    Write-Verbose "[TraceParameterFlow] ArmTemplateParameters: $(SerializeForTrace $ArmTemplateParameters)"
-    Write-Verbose "[TraceParameterFlow] AdditionalParameters: $(SerializeForTrace $AdditionalParameters)"
-    Write-Verbose "[TraceParameterFlow] PSBoundParameters: $(SerializeForTrace $PSBoundParameters)"
-}
-
-function TraceTemplateParameters($step, $templateParametersSnapshot) {
-    Write-Verbose "[TraceParameterFlow] Step: $step"
-    Write-Verbose "[TraceParameterFlow] templateParameters: $(SerializeForTrace $templateParametersSnapshot)"
-}
-
 $wellKnownTMETenants = @('70a036f6-8e4d-4615-bad6-149c02e7720d')
 
 # People keep passing this legacy parameter. Throw an error to save them future keystrokes
@@ -712,7 +687,6 @@ try {
         }
 
         if (Test-Path $postDeploymentScript) {
-            TraceParameterSnapshot "Entered post-deployment script branch for '$postDeploymentScript'"
             if ($SelfContainedPostScript) {
                 Log "Creating invokable post-deployment script '$SelfContainedPostScript' from '$postDeploymentScript'"
 
@@ -735,13 +709,10 @@ $serialized
 # Set global variables that aren't always passed as parameters
 `$ResourceGroupName = `$parameters.ResourceGroupName
 `$AdditionalParameters = `$parameters.AdditionalParameters
-`$ArmTemplateParameters = `$parameters.ArmTemplateParameters
 `$DeploymentOutputs = `$parameters.DeploymentOutputs
 $postDeploymentScript `@parameters
 "@
                 $outScript | Out-File $SelfContainedPostScript
-                Write-Verbose "[TraceParameterFlow] Step: Out script content before writing '$SelfContainedPostScript'"
-                Write-Verbose "[TraceParameterFlow] outScript: $outScript"
             } else {
                 Log "Invoking post-deployment script '$postDeploymentScript'"
                 &$postDeploymentScript -ResourceGroupName $ResourceGroupName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
