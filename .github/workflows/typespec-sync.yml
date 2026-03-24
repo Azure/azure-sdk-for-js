@@ -29,7 +29,6 @@ on:
         required: false
         default: "feature/foundry-staging"
         type: string
-  pull_request: 
 
 permissions:
   contents: write
@@ -150,9 +149,11 @@ jobs:
           set -euo pipefail
 
           npm install -g pnpm@latest-10
+          npm install -g @azure-tools/typespec-client-generator-cli
           pnpm install --no-frozen-lockfile
 
           cd "$PACKAGE_PATH"
+
           npm run generate:client
 
       # ── Step 5: Commit and push changes ──────────────────────────
