@@ -1,5 +1,126 @@
 # Release History
 
+## 5.0.0-beta.1 (2026-03-24)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group MigrationOperations
+  - Added operation AccessPolicyAssignmentOperations.createUpdate
+  - Added operation AccessPolicyAssignmentOperations.delete
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation DatabasesOperations.export
+  - Added operation DatabasesOperations.flush
+  - Added operation DatabasesOperations.forceLinkToReplicationGroup
+  - Added operation DatabasesOperations.forceUnlink
+  - Added operation DatabasesOperations.import
+  - Added operation DatabasesOperations.regenerateKey
+  - Added operation DatabasesOperations.update
+  - Added operation DatabasesOperations.upgradeDBRedisVersion
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.put
+  - Added operation RedisEnterpriseOperations.create
+  - Added operation RedisEnterpriseOperations.delete
+  - Added operation RedisEnterpriseOperations.update
+  - Added Interface AccessPolicyAssignmentProperties
+  - Added Interface AzureCacheForRedisMigrationProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClusterPropertiesEncryption
+  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
+  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Added Interface DatabaseProperties
+  - Added Interface DatabasePropertiesGeoReplication
+  - Added Interface MaintenanceConfiguration
+  - Added Interface MaintenanceWindow
+  - Added Interface MaintenanceWindowSchedule
+  - Added Interface Migration
+  - Added Interface MigrationCancelOptionalParams
+  - Added Interface MigrationGetOptionalParams
+  - Added Interface MigrationListOptionalParams
+  - Added Interface MigrationProperties
+  - Added Interface MigrationStartOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Interface AccessPolicyAssignment has a new optional parameter systemData
+  - Interface Cluster has a new optional parameter maintenanceConfiguration
+  - Interface Cluster has a new optional parameter systemData
+  - Interface ClusterCreateProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdate has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdateProperties has a new optional parameter maintenanceConfiguration
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias MaintenanceDayOfWeek
+  - Added Type Alias MaintenanceWindowType
+  - Added Type Alias MigrationPropertiesUnion
+  - Added Type Alias MigrationProvisioningState
+  - Added Type Alias SourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownMaintenanceDayOfWeek
+  - Added Enum KnownMaintenanceWindowType
+  - Added Enum KnownMigrationProvisioningState
+  - Added Enum KnownSourceType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation AccessPolicyAssignment.beginCreateUpdate
+  - Removed operation AccessPolicyAssignment.beginCreateUpdateAndWait
+  - Removed operation AccessPolicyAssignment.beginDelete
+  - Removed operation AccessPolicyAssignment.beginDeleteAndWait
+  - Removed operation Databases.beginCreate
+  - Removed operation Databases.beginCreateAndWait
+  - Removed operation Databases.beginDelete
+  - Removed operation Databases.beginDeleteAndWait
+  - Removed operation Databases.beginExport
+  - Removed operation Databases.beginExportAndWait
+  - Removed operation Databases.beginFlush
+  - Removed operation Databases.beginFlushAndWait
+  - Removed operation Databases.beginForceLinkToReplicationGroup
+  - Removed operation Databases.beginForceLinkToReplicationGroupAndWait
+  - Removed operation Databases.beginForceUnlink
+  - Removed operation Databases.beginForceUnlinkAndWait
+  - Removed operation Databases.beginImport
+  - Removed operation Databases.beginImportAndWait
+  - Removed operation Databases.beginRegenerateKey
+  - Removed operation Databases.beginRegenerateKeyAndWait
+  - Removed operation Databases.beginUpdate
+  - Removed operation Databases.beginUpdateAndWait
+  - Removed operation Databases.beginUpgradeDBRedisVersion
+  - Removed operation Databases.beginUpgradeDBRedisVersionAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation PrivateEndpointConnections.beginPut
+  - Removed operation PrivateEndpointConnections.beginPutAndWait
+  - Removed operation RedisEnterprise.beginCreate
+  - Removed operation RedisEnterprise.beginCreateAndWait
+  - Removed operation RedisEnterprise.beginDelete
+  - Removed operation RedisEnterprise.beginDeleteAndWait
+  - Removed operation RedisEnterprise.beginUpdate
+  - Removed operation RedisEnterprise.beginUpdateAndWait
+  - Removed Interface AccessPolicyAssignmentList
+  - Removed Interface ClusterCommonProperties
+  - Removed Interface ClusterCommonPropertiesEncryption
+  - Removed Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption
+  - Removed Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Removed Interface ClusterList
+  - Removed Interface DatabaseCommonProperties
+  - Removed Interface DatabaseCommonPropertiesGeoReplication
+  - Removed Interface DatabaseList
+  - Removed Interface ErrorDetailAutoGenerated
+  - Removed Interface ErrorResponseAutoGenerated
+  - Removed Interface ProxyResourceAutoGenerated
+  - Removed Interface ResourceAutoGenerated
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+
 ## 4.0.0 (2025-10-22)
 
 ### Features Added
