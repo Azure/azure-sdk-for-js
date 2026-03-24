@@ -14,5 +14,4 @@ export type { BetaInsightsOperations } from "./beta/insights/index.js";
 export type { BetaMemoryStoresOperations } from "./beta/memoryStores/index.js";
 export type { BetaRedTeamsOperations } from "./beta/redTeams/index.js";
 export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
-export type { BetaToolsetsOperations } from "./beta/toolsets/index.js";
 export type { TelemetryOperations } from "./telemetry/index.js";
