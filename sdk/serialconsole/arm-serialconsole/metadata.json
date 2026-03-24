@@ -1,0 +1,43 @@
+{
+  "apiVersions": {
+    "Microsoft.SerialConsole": "2024-07-01"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.SerialConsole",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-serialconsole!SerialConsoleStatus:interface": "Microsoft.SerialConsole.SerialConsoleStatus",
+      "@azure/arm-serialconsole!SerialConsoleStatusProperties:interface": "Microsoft.SerialConsole.SerialConsoleStatusProperties",
+      "@azure/arm-serialconsole!GetSerialConsoleSubscriptionNotFound:interface": "Microsoft.SerialConsole.GetSerialConsoleSubscriptionNotFound",
+      "@azure/arm-serialconsole!CloudError:interface": "Microsoft.SerialConsole.CloudError",
+      "@azure/arm-serialconsole!CloudErrorBody:interface": "Microsoft.SerialConsole.CloudErrorBody",
+      "@azure/arm-serialconsole!SerialConsoleOperations:interface": "Microsoft.SerialConsole.SerialConsoleOperations",
+      "@azure/arm-serialconsole!SerialConsoleOperationsValueItem:interface": "Microsoft.SerialConsole.SerialConsoleOperationsValueItem",
+      "@azure/arm-serialconsole!SerialConsoleOperationsValueItemDisplay:interface": "Microsoft.SerialConsole.SerialConsoleOperationsValueItemDisplay",
+      "@azure/arm-serialconsole!SerialPort:interface": "Microsoft.SerialConsole.SerialPort",
+      "@azure/arm-serialconsole!SerialPortProperties:interface": "Microsoft.SerialConsole.SerialPortProperties",
+      "@azure/arm-serialconsole!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-serialconsole!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-serialconsole!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-serialconsole!SerialPortListResult:interface": "Microsoft.SerialConsole.SerialPortListResult",
+      "@azure/arm-serialconsole!SerialPortConnectResult:interface": "Microsoft.SerialConsole.SerialPortConnectResult",
+      "@azure/arm-serialconsole!DisableSerialConsoleResult:interface": "Microsoft.SerialConsole.DisableSerialConsoleResult",
+      "@azure/arm-serialconsole!DisableSerialConsoleResultProperties:interface": "Microsoft.SerialConsole.DisableSerialConsoleResultProperties",
+      "@azure/arm-serialconsole!EnableSerialConsoleResult:interface": "Microsoft.SerialConsole.EnableSerialConsoleResult",
+      "@azure/arm-serialconsole!EnableSerialConsoleResultProperties:interface": "Microsoft.SerialConsole.EnableSerialConsoleResultProperties",
+      "@azure/arm-serialconsole!KnownSerialPortState:enum": "Microsoft.SerialConsole.SerialPortState",
+      "@azure/arm-serialconsole!KnownSerialPortConnectionState:enum": "Microsoft.SerialConsole.SerialPortConnectionState",
+      "@azure/arm-serialconsole!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-serialconsole!KnownVersions:enum": "Microsoft.SerialConsole.Versions",
+      "@azure/arm-serialconsole!MicrosoftSerialConsoleClient#ListOperations:member(1)": "Microsoft.SerialConsole.Operations.list",
+      "@azure/arm-serialconsole!MicrosoftSerialConsoleClient#getConsoleStatus:member(1)": "Microsoft.SerialConsole.getConsoleStatus",
+      "@azure/arm-serialconsole!SerialConsoleOperationGroupOperations#enableConsole:member": "Microsoft.SerialConsole.SerialConsoleOperationGroup.enableConsole",
+      "@azure/arm-serialconsole!SerialConsoleOperationGroupOperations#disableConsole:member": "Microsoft.SerialConsole.SerialConsoleOperationGroup.disableConsole",
+      "@azure/arm-serialconsole!SerialPortsOperations#connect:member": "Microsoft.SerialConsole.SerialPorts.connect",
+      "@azure/arm-serialconsole!SerialPortsOperations#listBySubscriptions:member": "Microsoft.SerialConsole.SerialPorts.listBySubscriptions",
+      "@azure/arm-serialconsole!SerialPortsOperations#list:member": "Microsoft.SerialConsole.SerialPorts.list",
+      "@azure/arm-serialconsole!SerialPortsOperations#create:member": "Microsoft.SerialConsole.SerialPorts.create",
+      "@azure/arm-serialconsole!SerialPortsOperations#get:member": "Microsoft.SerialConsole.SerialPorts.get"
+    }
+  }
+}
