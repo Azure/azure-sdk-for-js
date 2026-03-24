@@ -4,11 +4,15 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AaddsResourceDetails {
@@ -25,10 +29,7 @@ export interface AaddsResourceDetails {
 export interface Application extends ProxyResource {
     etag?: string;
     properties?: ApplicationProperties;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -51,12 +52,6 @@ export interface ApplicationGetHttpsEndpoint {
 }
 
 // @public
-export interface ApplicationListResult {
-    readonly nextLink?: string;
-    value?: Application[];
-}
-
-// @public
 export interface ApplicationProperties {
     readonly applicationState?: string;
     applicationType?: string;
@@ -73,58 +68,43 @@ export interface ApplicationProperties {
 }
 
 // @public
-export interface Applications {
-    beginCreate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateResponse>, ApplicationsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams): Promise<ApplicationsCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
-    getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams): Promise<ApplicationsGetAzureAsyncOperationStatusResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: ApplicationsListByClusterOptionalParams): PagedAsyncIterableIterator<Application>;
-}
-
-// @public
-export interface ApplicationsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsCreateResponse = Application;
-
-// @public
-export interface ApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface ApplicationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationsGetResponse = Application;
-
-// @public
-export interface ApplicationsListByClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsListByClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationsListByClusterNextResponse = ApplicationListResult;
-
-// @public
-export interface ApplicationsListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Application>, Application>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams) => Promise<Application>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams) => PollerLike<OperationState<Application>, Application>;
+    delete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams) => Promise<Application>;
+    getAzureAsyncOperationStatus: (resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: ApplicationsListByClusterOptionalParams) => PagedAsyncIterableIterator<Application>;
 }
-
-// @public
-export type ApplicationsListByClusterResponse = ApplicationListResult;
 
 // @public
 export interface AsyncOperationResult {
@@ -172,6 +152,13 @@ export interface AutoscaleTimeAndCapacity {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureMonitorRequest {
     primaryKey?: string;
     selectedConfigurations?: AzureMonitorSelectedConfigurations;
@@ -188,9 +175,7 @@ export interface AzureMonitorResponse {
 // @public
 export interface AzureMonitorSelectedConfigurations {
     configurationVersion?: string;
-    globalConfigurations?: {
-        [propertyName: string]: string;
-    };
+    globalConfigurations?: Record<string, string>;
     tableList?: AzureMonitorTableConfiguration[];
 }
 
@@ -198,6 +183,9 @@ export interface AzureMonitorSelectedConfigurations {
 export interface AzureMonitorTableConfiguration {
     name?: string;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BillingMeters {
@@ -226,12 +214,8 @@ export interface BillingResponseListResult {
 export interface CapabilitiesResult {
     features?: string[];
     readonly quota?: QuotaCapability;
-    regions?: {
-        [propertyName: string]: RegionsCapability;
-    };
-    versions?: {
-        [propertyName: string]: VersionsCapability;
-    };
+    regions?: Record<string, RegionsCapability>;
+    readonly versions?: Record<string, VersionsCapability>;
 }
 
 // @public
@@ -245,17 +229,12 @@ export interface Cluster extends TrackedResource {
     etag?: string;
     identity?: ClusterIdentity;
     properties?: ClusterGetProperties;
-    readonly systemData?: SystemData;
     zones?: string[];
 }
 
 // @public
 export interface ClusterConfigurations {
-    configurations?: {
-        [propertyName: string]: {
-            [propertyName: string]: string;
-        };
-    };
+    configurations?: Record<string, Record<string, string>>;
 }
 
 // @public
@@ -263,9 +242,7 @@ export interface ClusterCreateParametersExtended {
     identity?: ClusterIdentity;
     location?: string;
     properties?: ClusterCreateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     zones?: string[];
 }
 
@@ -306,10 +283,8 @@ export interface ClusterCreateValidationResult {
 // @public
 export interface ClusterDefinition {
     blueprint?: string;
-    componentVersion?: {
-        [propertyName: string]: string;
-    };
-    configurations?: Record<string, unknown>;
+    componentVersion?: Record<string, string>;
+    configurations?: any;
     kind?: string;
 }
 
@@ -353,21 +328,7 @@ export interface ClusterIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
-}
-
-// @public
-export interface ClusterListPersistedScriptActionsResult {
-    readonly nextLink?: string;
-    value?: RuntimeScriptAction[];
-}
-
-// @public
-export interface ClusterListResult {
-    readonly nextLink?: string;
-    value?: Cluster[];
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -385,9 +346,7 @@ export interface ClusterMonitoringResponse {
 // @public
 export interface ClusterPatchParameters {
     identity?: ClusterIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -396,137 +355,118 @@ export interface ClusterResizeParameters {
 }
 
 // @public
-export interface Clusters {
-    beginCreate(resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateResponse>, ClustersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginExecuteScriptActions(resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginExecuteScriptActionsAndWait(resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams): Promise<void>;
-    beginResize(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginResizeAndWait(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams): Promise<void>;
-    beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRotateDiskEncryptionKeyAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams): Promise<void>;
-    beginUpdateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateAutoScaleConfigurationAndWait(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams): Promise<void>;
-    beginUpdateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateGatewaySettingsAndWait(resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams): Promise<void>;
-    beginUpdateIdentityCertificate(resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateIdentityCertificateAndWait(resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
-    getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: ClustersGetAzureAsyncOperationStatusOptionalParams): Promise<ClustersGetAzureAsyncOperationStatusResponse>;
-    getGatewaySettings(resourceGroupName: string, clusterName: string, options?: ClustersGetGatewaySettingsOptionalParams): Promise<ClustersGetGatewaySettingsResponse>;
-    list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    update(resourceGroupName: string, clusterName: string, parameters: ClusterPatchParameters, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
-}
-
-// @public
-export interface ClustersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersCreateResponse = Cluster;
-
-// @public
-export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersExecuteScriptActionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersExecuteScriptActionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersGetAzureAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetAzureAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface ClustersGetGatewaySettingsOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetGatewaySettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersGetGatewaySettingsResponse = GatewaySettings;
-
-// @public
-export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersGetResponse = Cluster;
-
-// @public
-export interface ClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListByResourceGroupNextResponse = ClusterListResult;
-
-// @public
-export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListByResourceGroupResponse = ClusterListResult;
-
-// @public
-export interface ClustersListNextOptionalParams extends coreClient.OperationOptions {
+export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginExecuteScriptActions: (resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginExecuteScriptActionsAndWait: (resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResize: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResizeAndWait: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRotateDiskEncryptionKey: (resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRotateDiskEncryptionKeyAndWait: (resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdateAutoScaleConfiguration: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateAutoScaleConfigurationAndWait: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdateGatewaySettings: (resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateGatewaySettingsAndWait: (resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdateIdentityCertificate: (resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateIdentityCertificateAndWait: (resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    executeScriptActions: (resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    getAzureAsyncOperationStatus: (resourceGroupName: string, clusterName: string, operationId: string, options?: ClustersGetAzureAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    getGatewaySettings: (resourceGroupName: string, clusterName: string, options?: ClustersGetGatewaySettingsOptionalParams) => Promise<GatewaySettings>;
+    list: (options?: ClustersListOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    resize: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams) => PollerLike<OperationState<void>, void>;
+    rotateDiskEncryptionKey: (resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, clusterName: string, parameters: ClusterPatchParameters, options?: ClustersUpdateOptionalParams) => Promise<Cluster>;
+    updateAutoScaleConfiguration: (resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams) => PollerLike<OperationState<void>, void>;
+    updateGatewaySettings: (resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams) => PollerLike<OperationState<void>, void>;
+    updateIdentityCertificate: (resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type ClustersListNextResponse = ClusterListResult;
-
-// @public
-export interface ClustersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClustersListResponse = ClusterListResult;
-
-// @public
-export interface ClustersResizeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersResizeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersRotateDiskEncryptionKeyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersRotateDiskEncryptionKeyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersUpdateAutoScaleConfigurationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateAutoScaleConfigurationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersUpdateGatewaySettingsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateGatewaySettingsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersUpdateIdentityCertificateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateIdentityCertificateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ClustersUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ClustersUpdateResponse = Cluster;
 
 // @public
 export interface ComputeIsolationProperties {
@@ -540,36 +480,26 @@ export interface ComputeProfile {
 }
 
 // @public
-export interface Configurations {
-    beginUpdate(resourceGroupName: string, clusterName: string, configurationName: string, parameters: {
-        [propertyName: string]: string;
-    }, options?: ConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, configurationName: string, parameters: {
-        [propertyName: string]: string;
-    }, options?: ConfigurationsUpdateOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: ConfigurationsListOptionalParams): Promise<ConfigurationsListResponse>;
+export interface ConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsGetResponse = {
-    [propertyName: string]: string;
-};
-
-// @public
-export interface ConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, configurationName: string, parameters: Record<string, string>, options?: ConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, configurationName: string, parameters: Record<string, string>, options?: ConfigurationsUpdateOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, clusterName: string, configurationName: string, options?: ConfigurationsGetOptionalParams) => Promise<Record<string, string>>;
+    list: (resourceGroupName: string, clusterName: string, options?: ConfigurationsListOptionalParams) => Promise<ClusterConfigurations>;
+    update: (resourceGroupName: string, clusterName: string, configurationName: string, parameters: Record<string, string>, options?: ConfigurationsUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type ConfigurationsListResponse = ClusterConfigurations;
-
-// @public
-export interface ConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConfigurationsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -581,6 +511,11 @@ export interface ConnectivityEndpoint {
     privateIPAddress?: string;
     protocol?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -666,112 +601,113 @@ export interface Extension {
 }
 
 // @public
-export interface Extensions {
-    beginCreate(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateAndWait(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    beginDisableAzureMonitor(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDisableAzureMonitorAgent(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDisableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<void>;
-    beginDisableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<void>;
-    beginDisableMonitoring(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDisableMonitoringAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<void>;
-    beginEnableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginEnableAzureMonitorAgent(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginEnableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<void>;
-    beginEnableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<void>;
-    beginEnableMonitoring(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginEnableMonitoringAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
-    getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams): Promise<ExtensionsGetAzureAsyncOperationStatusResponse>;
-    getAzureMonitorAgentStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorAgentStatusOptionalParams): Promise<ExtensionsGetAzureMonitorAgentStatusResponse>;
-    getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorStatusOptionalParams): Promise<ExtensionsGetAzureMonitorStatusResponse>;
-    getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetMonitoringStatusOptionalParams): Promise<ExtensionsGetMonitoringStatusResponse>;
-}
-
-// @public
-export interface ExtensionsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsDisableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsDisableAzureMonitorAgentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsDisableAzureMonitorOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsDisableAzureMonitorOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsDisableMonitoringOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsDisableMonitoringOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsEnableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsEnableAzureMonitorAgentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsEnableAzureMonitorOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsEnableAzureMonitorOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsEnableMonitoringOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsEnableMonitoringOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface ExtensionsGetAzureMonitorAgentStatusOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetAzureMonitorAgentStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetAzureMonitorAgentStatusResponse = AzureMonitorResponse;
-
-// @public
-export interface ExtensionsGetAzureMonitorStatusOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetAzureMonitorStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetAzureMonitorStatusResponse = AzureMonitorResponse;
-
-// @public
-export interface ExtensionsGetMonitoringStatusOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetMonitoringStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse;
-
-// @public
-export interface ExtensionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetResponse = ClusterMonitoringResponse;
+export interface ExtensionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDisableAzureMonitor: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDisableAzureMonitorAgent: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDisableAzureMonitorAgentAndWait: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDisableAzureMonitorAndWait: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDisableMonitoring: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDisableMonitoringAndWait: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginEnableAzureMonitor: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginEnableAzureMonitorAgent: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginEnableAzureMonitorAgentAndWait: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginEnableAzureMonitorAndWait: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginEnableMonitoring: (resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginEnableMonitoringAndWait: (resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    disableAzureMonitor: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams) => PollerLike<OperationState<void>, void>;
+    disableAzureMonitorAgent: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams) => PollerLike<OperationState<void>, void>;
+    disableMonitoring: (resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams) => PollerLike<OperationState<void>, void>;
+    enableAzureMonitor: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams) => PollerLike<OperationState<void>, void>;
+    enableAzureMonitorAgent: (resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams) => PollerLike<OperationState<void>, void>;
+    enableMonitoring: (resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams) => Promise<ClusterMonitoringResponse>;
+    getAzureAsyncOperationStatus: (resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    getAzureMonitorAgentStatus: (resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorAgentStatusOptionalParams) => Promise<AzureMonitorResponse>;
+    getAzureMonitorStatus: (resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorStatusOptionalParams) => Promise<AzureMonitorResponse>;
+    getMonitoringStatus: (resourceGroupName: string, clusterName: string, options?: ExtensionsGetMonitoringStatusOptionalParams) => Promise<ClusterMonitoringResponse>;
+}
 
 // @public
 export type FilterMode = string;
@@ -785,9 +721,6 @@ export interface GatewaySettings {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface HardwareProfile {
     vmSize?: string;
 }
@@ -796,43 +729,27 @@ export interface HardwareProfile {
 export type HDInsightClusterProvisioningState = string;
 
 // @public (undocumented)
-export class HDInsightManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HDInsightManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    applications: Applications;
-    // (undocumented)
-    clusters: Clusters;
-    // (undocumented)
-    configurations: Configurations;
-    // (undocumented)
-    extensions: Extensions;
-    // (undocumented)
-    locations: Locations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    scriptActions: ScriptActions;
-    // (undocumented)
-    scriptExecutionHistory: ScriptExecutionHistory;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    virtualMachines: VirtualMachines;
+export class HDInsightManagementClient {
+    constructor(credential: TokenCredential, options?: HDInsightManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: HDInsightManagementClientOptionalParams);
+    readonly applications: ApplicationsOperations;
+    readonly clusters: ClustersOperations;
+    readonly configurations: ConfigurationsOperations;
+    readonly extensions: ExtensionsOperations;
+    readonly locations: LocationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly scriptActions: ScriptActionsOperations;
+    readonly scriptExecutionHistory: ScriptExecutionHistoryOperations;
+    readonly virtualMachines: VirtualMachinesOperations;
 }
 
 // @public
-export interface HDInsightManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface HDInsightManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -855,6 +772,15 @@ export interface IPConfiguration {
 }
 
 // @public
+export interface IPConfigurationProperties {
+    primary?: boolean;
+    privateIPAddress?: string;
+    privateIPAllocationMethod?: PrivateIPAllocationMethod;
+    readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+    subnet?: ResourceId;
+}
+
+// @public
 export interface IpTag {
     ipTagType: string;
     tag: string;
@@ -866,9 +792,7 @@ export type JsonWebKeyEncryptionAlgorithm = string;
 // @public
 export interface KafkaRestProperties {
     clientGroupInfo?: ClientGroupInfo;
-    configurationOverride?: {
-        [propertyName: string]: string;
-    };
+    configurationOverride?: Record<string, string>;
 }
 
 // @public
@@ -1003,6 +927,11 @@ export enum KnownTier {
 }
 
 // @public
+export enum KnownVersions {
+    V20250115Preview = "2025-01-15-preview"
+}
+
+// @public
 export interface LinuxOperatingSystemProfile {
     password?: string;
     sshProfile?: SshProfile;
@@ -1016,56 +945,38 @@ export interface LocalizedName {
 }
 
 // @public
-export interface Locations {
-    checkNameAvailability(location: string, parameters: NameAvailabilityCheckRequestParameters, options?: LocationsCheckNameAvailabilityOptionalParams): Promise<LocationsCheckNameAvailabilityResponse>;
-    getAzureAsyncOperationStatus(location: string, operationId: string, options?: LocationsGetAzureAsyncOperationStatusOptionalParams): Promise<LocationsGetAzureAsyncOperationStatusResponse>;
-    getCapabilities(location: string, options?: LocationsGetCapabilitiesOptionalParams): Promise<LocationsGetCapabilitiesResponse>;
-    listBillingSpecs(location: string, options?: LocationsListBillingSpecsOptionalParams): Promise<LocationsListBillingSpecsResponse>;
-    listUsages(location: string, options?: LocationsListUsagesOptionalParams): Promise<LocationsListUsagesResponse>;
-    validateClusterCreateRequest(location: string, parameters: ClusterCreateRequestValidationParameters, options?: LocationsValidateClusterCreateRequestOptionalParams): Promise<LocationsValidateClusterCreateRequestResponse>;
+export interface LocationsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface LocationsGetAzureAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult;
-
-// @public
-export interface LocationsGetAzureAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface LocationsGetCapabilitiesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface LocationsGetCapabilitiesOptionalParams extends coreClient.OperationOptions {
+export interface LocationsListBillingSpecsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationsGetCapabilitiesResponse = CapabilitiesResult;
-
-// @public
-export interface LocationsListBillingSpecsOptionalParams extends coreClient.OperationOptions {
+export interface LocationsListUsagesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationsListBillingSpecsResponse = BillingResponseListResult;
-
-// @public
-export interface LocationsListUsagesOptionalParams extends coreClient.OperationOptions {
+export interface LocationsOperations {
+    checkNameAvailability: (location: string, parameters: NameAvailabilityCheckRequestParameters, options?: LocationsCheckNameAvailabilityOptionalParams) => Promise<NameAvailabilityCheckResult>;
+    getAzureAsyncOperationStatus: (location: string, operationId: string, options?: LocationsGetAzureAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    getCapabilities: (location: string, options?: LocationsGetCapabilitiesOptionalParams) => Promise<CapabilitiesResult>;
+    listBillingSpecs: (location: string, options?: LocationsListBillingSpecsOptionalParams) => Promise<BillingResponseListResult>;
+    listUsages: (location: string, options?: LocationsListUsagesOptionalParams) => Promise<UsagesListResult>;
+    validateClusterCreateRequest: (location: string, parameters: ClusterCreateRequestValidationParameters, options?: LocationsValidateClusterCreateRequestOptionalParams) => Promise<ClusterCreateValidationResult>;
 }
 
 // @public
-export type LocationsListUsagesResponse = UsagesListResult;
-
-// @public
-export interface LocationsValidateClusterCreateRequestOptionalParams extends coreClient.OperationOptions {
+export interface LocationsValidateClusterCreateRequestOptionalParams extends OperationOptions {
 }
-
-// @public
-export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult;
 
 // @public
 export interface MetricSpecifications {
@@ -1125,34 +1036,18 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
-}
-
-// @public
 export interface OperationProperties {
     serviceSpecification?: ServiceSpecification;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OsProfile {
@@ -1166,73 +1061,74 @@ export type OSType = string;
 export type OutboundDependenciesManagedType = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly linkIdentifier?: string;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    readonly linkIdentifier?: string;
+    readonly privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListByClusterOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListByClusterNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListByClusterOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateIPAllocationMethod = string;
@@ -1251,14 +1147,20 @@ export interface PrivateLinkConfiguration {
 }
 
 // @public
+export interface PrivateLinkConfigurationProperties {
+    groupId: string;
+    ipConfigurations: IPConfiguration[];
+    readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+}
+
+// @public
 export type PrivateLinkConfigurationProvisioningState = string;
 
 // @public
-export interface PrivateLinkResource extends ResourceAutoGenerated {
+export interface PrivateLinkResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -1267,24 +1169,25 @@ export interface PrivateLinkResourceListResult {
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, clusterName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateLinkResourcesListByClusterOptionalParams): Promise<PrivateLinkResourcesListByClusterResponse>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, clusterName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: PrivateLinkResourcesListByClusterOptionalParams) => Promise<PrivateLinkResourceListResult>;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -1304,7 +1207,7 @@ export interface ProxyResource extends Resource {
 export interface QuotaCapability {
     coresUsed?: number;
     maxCoresAllowed?: number;
-    regionalQuotas?: RegionalQuotaCapability[];
+    readonly regionalQuotas?: RegionalQuotaCapability[];
 }
 
 // @public
@@ -1328,13 +1231,7 @@ export interface RegionsCapability {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceAutoGenerated {
-    readonly id?: string;
-    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1348,6 +1245,16 @@ export type ResourceIdentityType = string;
 
 // @public
 export type ResourceProviderConnection = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HDInsightManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface Role {
@@ -1395,94 +1302,47 @@ export interface ScriptAction {
 }
 
 // @public
-export interface ScriptActionExecutionHistoryList {
-    readonly nextLink?: string;
-    readonly value?: RuntimeScriptActionDetail[];
-}
-
-// @public
 export interface ScriptActionExecutionSummary {
     readonly instanceCount?: number;
     readonly status?: string;
 }
 
 // @public
-export interface ScriptActionPersistedGetResponseSpec {
-    applicationName?: string;
-    name?: string;
-    parameters?: string;
-    roles?: string[];
-    uri?: string;
+export interface ScriptActionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptActions {
-    delete(resourceGroupName: string, clusterName: string, scriptName: string, options?: ScriptActionsDeleteOptionalParams): Promise<void>;
-    getExecutionAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: ScriptActionsGetExecutionAsyncOperationStatusOptionalParams): Promise<ScriptActionsGetExecutionAsyncOperationStatusResponse>;
-    getExecutionDetail(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: ScriptActionsGetExecutionDetailOptionalParams): Promise<ScriptActionsGetExecutionDetailResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: ScriptActionsListByClusterOptionalParams): PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
+export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptActionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ScriptActionsGetExecutionDetailOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface ScriptActionsListByClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface ScriptActionsGetExecutionDetailOptionalParams extends coreClient.OperationOptions {
+export interface ScriptActionsOperations {
+    delete: (resourceGroupName: string, clusterName: string, scriptName: string, options?: ScriptActionsDeleteOptionalParams) => Promise<void>;
+    getExecutionAsyncOperationStatus: (resourceGroupName: string, clusterName: string, operationId: string, options?: ScriptActionsGetExecutionAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    getExecutionDetail: (resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: ScriptActionsGetExecutionDetailOptionalParams) => Promise<RuntimeScriptActionDetail>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: ScriptActionsListByClusterOptionalParams) => PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
 }
 
 // @public
-export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail;
-
-// @public
-export interface ScriptActionsList {
-    readonly nextLink?: string;
-    value?: RuntimeScriptActionDetail[];
+export interface ScriptExecutionHistoryListByClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptActionsListByClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface ScriptExecutionHistoryOperations {
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: ScriptExecutionHistoryListByClusterOptionalParams) => PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
+    promote: (resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: ScriptExecutionHistoryPromoteOptionalParams) => Promise<void>;
 }
 
 // @public
-export type ScriptActionsListByClusterNextResponse = ScriptActionsList;
-
-// @public
-export interface ScriptActionsListByClusterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptActionsListByClusterResponse = ScriptActionsList;
-
-// @public
-export interface ScriptExecutionHistory {
-    listByCluster(resourceGroupName: string, clusterName: string, options?: ScriptExecutionHistoryListByClusterOptionalParams): PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
-    promote(resourceGroupName: string, clusterName: string, scriptExecutionId: string, options?: ScriptExecutionHistoryPromoteOptionalParams): Promise<void>;
-}
-
-// @public
-export interface ScriptExecutionHistoryListByClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList;
-
-// @public
-export interface ScriptExecutionHistoryListByClusterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList;
-
-// @public
-export interface ScriptExecutionHistoryPromoteOptionalParams extends coreClient.OperationOptions {
+export interface ScriptExecutionHistoryPromoteOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1501,6 +1361,28 @@ export interface SecurityProfile {
 // @public
 export interface ServiceSpecification {
     metricSpecifications?: MetricSpecifications[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -1546,11 +1428,9 @@ export interface SystemData {
 export type Tier = string;
 
 // @public
-export interface TrackedResource extends ResourceAutoGenerated {
+export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1578,7 +1458,7 @@ export interface Usage {
 
 // @public
 export interface UsagesListResult {
-    value?: Usage[];
+    readonly value?: Usage[];
 }
 
 // @public
@@ -1598,44 +1478,43 @@ export interface ValidationErrorInfo {
 
 // @public
 export interface VersionsCapability {
-    available?: VersionSpec[];
+    readonly available?: VersionSpec[];
 }
 
 // @public
 export interface VersionSpec {
-    componentVersions?: {
-        [propertyName: string]: string;
-    };
+    componentVersions?: Record<string, string>;
     displayName?: string;
     friendlyName?: string;
     isDefault?: boolean;
 }
 
 // @public
-export interface VirtualMachines {
-    beginRestartHosts(resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartHostsAndWait(resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams): Promise<void>;
-    getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: VirtualMachinesGetAsyncOperationStatusOptionalParams): Promise<VirtualMachinesGetAsyncOperationStatusResponse>;
-    listHosts(resourceGroupName: string, clusterName: string, options?: VirtualMachinesListHostsOptionalParams): Promise<VirtualMachinesListHostsResponse>;
+export interface VirtualMachinesGetAsyncOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachinesGetAsyncOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListHostsOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type VirtualMachinesListHostsResponse = {
+    body: HostInfo[];
+};
+
+// @public
+export interface VirtualMachinesOperations {
+    // @deprecated (undocumented)
+    beginRestartHosts: (resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestartHostsAndWait: (resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams) => Promise<void>;
+    getAsyncOperationStatus: (resourceGroupName: string, clusterName: string, operationId: string, options?: VirtualMachinesGetAsyncOperationStatusOptionalParams) => Promise<AsyncOperationResult>;
+    listHosts: (resourceGroupName: string, clusterName: string, options?: VirtualMachinesListHostsOptionalParams) => Promise<VirtualMachinesListHostsResponse>;
+    restartHosts: (resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult;
-
-// @public
-export interface VirtualMachinesListHostsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListHostsResponse = HostInfo[];
-
-// @public
-export interface VirtualMachinesRestartHostsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRestartHostsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
