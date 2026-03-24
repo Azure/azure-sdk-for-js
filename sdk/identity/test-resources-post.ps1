@@ -31,7 +31,7 @@ param(
   $RemainingArguments
 )
 
-if (!$ArmTemplateParameters['deployMIResources']) {
+if (!$AdditionalParameters['deployMIResources']) {
     Write-Host "Skipping post-provisioning script because resources weren't deployed"
     return
 }
