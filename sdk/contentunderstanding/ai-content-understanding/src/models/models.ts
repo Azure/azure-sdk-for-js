@@ -31,7 +31,7 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     data: !item["data"] ? item["data"] : uint8ArrayToString(item["data"], "base64"),
     name: item["name"],
     mimeType: item["mimeType"],
-    range: item["contentRange"] !== undefined ? String(item["contentRange"]) : undefined,
+    range: item["contentRange"],
   };
 }
 

@@ -64,9 +64,12 @@ export async function main(): Promise<void> {
 
   // Analyze only pages 3 onward.
   console.log('\nAnalyzing pages 3 onward with content range "3-"...');
-  const rangePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: "3-",
-  });
+  const rangePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    "application/pdf",
+    { contentRange: "3-" },
+  );
   const rangeResult = await rangePoller.pollUntilDone();
   if (rangeResult.contents && rangeResult.contents.length > 0) {
     const doc = rangeResult.contents[0] as DocumentContent;
@@ -77,9 +80,12 @@ export async function main(): Promise<void> {
 
   // Analyze pages 1-3, page 5, and pages 9 onward.
   console.log('\nAnalyzing combined pages (1-3, 5, 9-) with content range "1-3,5,9-"...');
-  const combinePoller = client.analyzeBinary("prebuilt-documentSearch", multiPageBytes, undefined, {
-    contentRange: "1-3,5,9-",
-  });
+  const combinePoller = client.analyzeBinary(
+    "prebuilt-documentSearch",
+    multiPageBytes,
+    "application/pdf",
+    { contentRange: "1-3,5,9-" },
+  );
   const combineResult = await combinePoller.pollUntilDone();
   if (combineResult.contents && combineResult.contents.length > 0) {
     const doc = combineResult.contents[0] as DocumentContent;

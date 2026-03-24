@@ -148,6 +148,28 @@ describe("Sample: analyzeUrl", () => {
       "Full document markdown should exceed range-limited markdown",
     );
     console.log(`'1': ${rangePageCount} page, ${(rangeDoc.markdown || "").length} chars`);
+
+    // "1-3,5,9-" — combined disjoint page ranges
+    // Document has 4 pages, so only pages 1-3 match (no page 5 or 9+)
+    console.log("\nAnalyzing combined pages (1-3, 5, 9-) with content range '1-3,5,9-'...");
+    const combinePoller = client.analyze(
+      "prebuilt-documentSearch",
+      [{ url: TEST_DOCUMENT_URL, contentRange: "1-3,5,9-" }],
+      testPollingOptions,
+    );
+    const combineResult = await combinePoller.pollUntilDone();
+    const combineDoc = combineResult.contents[0] as DocumentContent;
+    const combinePageCount = combineDoc.pages ? combineDoc.pages.length : 0;
+    assert.equal(
+      combinePageCount,
+      3,
+      `'1-3,5,9-' should return 3 pages (1-3), got ${combinePageCount}`,
+    );
+    assert.equal(combineDoc.startPageNumber, 1, "'1-3,5,9-' should start at page 1");
+    assert.equal(combineDoc.endPageNumber, 3, "'1-3,5,9-' should end at page 3");
+    const actualCombinePages = combineDoc.pages!.map((p) => p.pageNumber).sort((a, b) => a - b);
+    assert.deepEqual(actualCombinePages, [1, 2, 3]);
+    console.log(`'1-3,5,9-': ${combinePageCount} pages, page numbers: ${actualCombinePages}`);
   });
 
   it("should analyze video URL with content ranges", async () => {
