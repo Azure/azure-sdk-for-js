@@ -18,8 +18,6 @@ import type { TokenCredential } from '@azure/core-auth';
 export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
-    description?: string;
-    name?: string;
     project_connection_id?: string;
     type: "a2a_preview";
 }
@@ -85,14 +83,14 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 // @public
 export interface AgentsCreateOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: AgentDefinitionOptInKeys | "AgentEndpoints=V1Preview";
+    foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: AgentDefinitionOptInKeys | "AgentEndpoints=V1Preview";
+    foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
 }
 
@@ -202,11 +200,9 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 
 // @public
 export interface AISearchIndexResource {
-    description?: string;
     filter?: string;
     index_asset_id?: string;
     index_name?: string;
-    name?: string;
     project_connection_id?: string;
     query_type?: AzureAISearchQueryType;
     top_k?: number;
@@ -277,16 +273,12 @@ export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_
 // @public
 export interface AzureAISearchTool extends Tool {
     azure_ai_search: AzureAISearchToolResource;
-    description?: string;
-    name?: string;
     type: "azure_ai_search";
 }
 
 // @public
 export interface AzureAISearchToolResource {
-    description?: string;
     indexes: AISearchIndexResource[];
-    name?: string;
 }
 
 // @public
@@ -375,10 +367,6 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 }
 
 // @public
-export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -398,16 +386,10 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 export interface BetaEvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getCredentials: (name: string, credentialRequest: EvaluatorCredentialRequest, version: string, options?: BetaEvaluatorsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
     list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    pendingUpload: (name: string, pendingUploadRequest: PendingUploadRequest, version: string, options?: BetaEvaluatorsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
-}
-
-// @public
-export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -515,7 +497,6 @@ export interface BetaOperations {
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
     schedules: BetaSchedulesOperations;
-    toolsets: BetaToolsetsOperations;
 }
 
 // @public
@@ -583,50 +564,11 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
-export interface BetaToolsetsCreateOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface BetaToolsetsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaToolsetsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaToolsetsListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaToolsetsOperations {
-    create: (name: string, tools: ToolUnion[], options?: BetaToolsetsCreateOptionalParams) => Promise<ToolsetObject>;
-    delete: (toolSetName: string, options?: BetaToolsetsDeleteOptionalParams) => Promise<DeleteToolsetResponse>;
-    get: (toolSetName: string, options?: BetaToolsetsGetOptionalParams) => Promise<ToolsetObject>;
-    list: (options?: BetaToolsetsListOptionalParams) => PagedAsyncIterableIterator<ToolsetObject>;
-    update: (toolSetName: string, tools: ToolUnion[], options?: BetaToolsetsUpdateOptionalParams) => Promise<ToolsetObject>;
-}
-
-// @public
-export interface BetaToolsetsUpdateOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
 export interface BingCustomSearchConfiguration {
     count?: number;
-    description?: string;
     freshness?: string;
     instance_name: string;
     market?: string;
-    name?: string;
     project_connection_id: string;
     set_lang?: string;
 }
@@ -634,41 +576,31 @@ export interface BingCustomSearchConfiguration {
 // @public
 export interface BingCustomSearchPreviewTool extends Tool {
     bing_custom_search_preview: BingCustomSearchToolParameters;
-    description?: string;
-    name?: string;
     type: "bing_custom_search_preview";
 }
 
 // @public
 export interface BingCustomSearchToolParameters {
-    description?: string;
-    name?: string;
     search_configurations: BingCustomSearchConfiguration[];
 }
 
 // @public
 export interface BingGroundingSearchConfiguration {
     count?: number;
-    description?: string;
     freshness?: string;
     market?: string;
-    name?: string;
     project_connection_id: string;
     set_lang?: string;
 }
 
 // @public
 export interface BingGroundingSearchToolParameters {
-    description?: string;
-    name?: string;
     search_configurations: BingGroundingSearchConfiguration[];
 }
 
 // @public
 export interface BingGroundingTool extends Tool {
     bing_grounding: BingGroundingSearchToolParameters;
-    description?: string;
-    name?: string;
     type: "bing_grounding";
 }
 
@@ -682,23 +614,17 @@ export interface BlobReference {
 // @public
 export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
-    description?: string;
-    name?: string;
     type: "browser_automation_preview";
 }
 
 // @public
 export interface BrowserAutomationToolConnectionParameters {
-    description?: string;
-    name?: string;
     project_connection_id: string;
 }
 
 // @public
 export interface BrowserAutomationToolParameters {
     connection: BrowserAutomationToolConnectionParameters;
-    description?: string;
-    name?: string;
 }
 
 // @public
@@ -735,18 +661,13 @@ export interface ClusterTokenUsage {
 
 // @public
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-    blob_uri?: string;
-    code_text?: string;
-    entry_point?: string;
-    image_tag?: string;
+    code_text: string;
     type: "code";
 }
 
 // @public
 export interface CodeInterpreterTool extends Tool {
     container?: string | AutoCodeInterpreterToolParam;
-    description?: string;
-    name?: string;
     type: "code_interpreter";
 }
 
@@ -1049,13 +970,6 @@ export interface DeleteMemoryStoreResponse {
 }
 
 // @public
-export interface DeleteToolsetResponse {
-    deleted: boolean;
-    name: string;
-    object: "toolset.deleted";
-}
-
-// @public
 export interface Deployment {
     readonly name: string;
     type: DeploymentType;
@@ -1273,11 +1187,6 @@ export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxono
 export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
-export interface EvaluatorCredentialRequest {
-    blobUri: string;
-}
-
-// @public
 export interface EvaluatorDefinition {
     data_schema?: Record<string, unknown>;
     init_parameters?: Record<string, unknown>;
@@ -1328,8 +1237,6 @@ export interface EvaluatorVersion {
 
 // @public
 export interface FabricDataAgentToolParameters {
-    description?: string;
-    name?: string;
     project_connections?: ToolProjectConnection[];
 }
 
@@ -1350,10 +1257,8 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    description?: string;
     filters?: Filters;
     max_num_results?: number;
-    name?: string;
     ranking_options?: RankingOptions;
     type: "file_search";
     vector_store_ids: string[];
@@ -1368,13 +1273,11 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "Toolsets=V1Preview" | "AgentEndpoints=V1Preview" | "MemoryStores=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
-    description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
-    name?: string;
     type: "shell";
 }
 
@@ -1448,12 +1351,10 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
-    description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
     model?: "gpt-image-1" | "gpt-image-1-mini";
     moderation?: "auto" | "low";
-    name?: string;
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
     partial_images?: number;
@@ -1616,8 +1517,6 @@ export enum KnownApiVersions {
 
 // @public
 export interface LocalShellToolParam extends Tool {
-    description?: string;
-    name?: string;
     type: "local_shell";
 }
 
@@ -1696,9 +1595,7 @@ export interface MemorySearchOptions {
 
 // @public
 export interface MemorySearchPreviewTool extends Tool {
-    description?: string;
     memory_store_name: string;
-    name?: string;
     scope: string;
     search_options?: MemorySearchOptions;
     type: "memory_search_preview";
@@ -1791,9 +1688,7 @@ export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "
 
 // @public
 export interface MicrosoftFabricPreviewTool extends Tool {
-    description?: string;
     fabric_dataagent_preview: FabricDataAgentToolParameters;
-    name?: string;
     type: "fabric_dataagent_preview";
 }
 
@@ -2093,15 +1988,11 @@ export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
 export interface SharepointGroundingToolParameters {
-    description?: string;
-    name?: string;
     project_connections?: ToolProjectConnection[];
 }
 
 // @public
 export interface SharepointPreviewTool extends Tool {
-    description?: string;
-    name?: string;
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
 }
@@ -2289,31 +2180,14 @@ export interface ToolDescription {
 
 // @public
 export interface ToolProjectConnection {
-    description?: string;
-    name?: string;
     project_connection_id: string;
 }
 
 // @public
-export interface ToolsetObject {
-    created_at: Date;
-    description?: string;
-    id: string;
-    metadata?: Record<string, string>;
-    name: string;
-    object: "toolset";
-    tools: ToolUnion[];
-    updated_at: Date;
-}
+export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolsetObjectType = "toolset" | "toolset.deleted";
-
-// @public
-export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
-
-// @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
 // @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
@@ -2345,9 +2219,7 @@ export interface WebSearchApproximateLocation {
 
 // @public
 export interface WebSearchConfiguration {
-    description?: string;
     instance_name: string;
-    name?: string;
     project_connection_id: string;
 }
 
@@ -2361,9 +2233,7 @@ export interface WebSearchPreviewTool extends Tool {
 // @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
-    description?: string;
     filters?: WebSearchToolFilters;
-    name?: string;
     search_context_size?: "low" | "medium" | "high";
     type: "web_search";
     user_location?: WebSearchApproximateLocation;
@@ -2384,17 +2254,6 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 export interface WorkflowAgentDefinition extends AgentDefinition {
     kind: "workflow";
     workflow?: string;
-}
-
-// @public
-export interface WorkIQPreviewTool extends Tool {
-    type: "work_iq_preview";
-    work_iq_preview: WorkIQPreviewToolParameters;
-}
-
-// @public
-export interface WorkIQPreviewToolParameters {
-    project_connection_id: string;
 }
 
 // (No @packageDocumentation comment for this package)
