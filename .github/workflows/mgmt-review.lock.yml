@@ -23,13 +23,11 @@
 #
 # Review a pull request for management-plane SDKs
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"d63f706132ebe7061391afd14c695c5002975b011d8e90186b316f238865ffd7","compiler_version":"v0.57.2"}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"5cb1d3ff549272f6bea527d1b8a1c4f4767130355f1f6124e9f520a00168fc44","compiler_version":"v0.57.2"}
 
 name: "Management SDK PR Review"
 "on":
-  pull_request:
-    # names: # Label filtering applied via job conditions
-    # - mgmt-review-needed # Label filtering applied via job conditions
+  pull_request_target:
     types:
     - labeled
 
@@ -44,9 +42,7 @@ run-name: "Management SDK PR Review"
 jobs:
   activation:
     needs: pre_activation
-    if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed'))))
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'mgmt-review-needed')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1212,9 +1208,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed')))
+    if: github.event.label.name == 'mgmt-review-needed'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
