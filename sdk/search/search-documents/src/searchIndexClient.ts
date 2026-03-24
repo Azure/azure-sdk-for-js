@@ -642,7 +642,7 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateKnowledgeBase",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
+        const etag = options.onlyIfUnchanged ? knowledgeBase.eTag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
           utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           knowledgeBaseName,
@@ -716,7 +716,7 @@ export class SearchIndexClient {
           typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
         const etag =
           typeof knowledgeBase !== "string" && options.onlyIfUnchanged
-            ? knowledgeBase.etag
+            ? knowledgeBase.eTag
             : undefined;
 
         const result = await this.client.deleteKnowledgeBase(knowledgeBaseName, {

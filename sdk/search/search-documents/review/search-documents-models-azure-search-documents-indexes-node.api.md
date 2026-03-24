@@ -698,16 +698,12 @@ export interface KeywordTokenizerV2 extends LexicalTokenizer {
 
 // @public
 export interface KnowledgeBase {
-    answerInstructions?: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     eTag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModelUnion[];
     name: string;
-    outputMode?: KnowledgeRetrievalOutputMode;
-    retrievalInstructions?: string;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -727,9 +723,6 @@ export type KnowledgeBaseModelKind = string;
 
 // @public
 export type KnowledgeBaseModelUnion = KnowledgeBaseAzureOpenAIModel | KnowledgeBaseModel;
-
-// @public
-export type KnowledgeRetrievalOutputMode = string;
 
 // @public
 export interface KnowledgeSource {
@@ -1028,12 +1021,6 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 // @public
 export enum KnownKnowledgeBaseModelKind {
     AzureOpenAI = "azureOpenAI"
-}
-
-// @public
-export enum KnownKnowledgeRetrievalOutputMode {
-    AnswerSynthesis = "answerSynthesis",
-    References = "references"
 }
 
 // @public

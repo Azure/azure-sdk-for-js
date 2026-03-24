@@ -1213,19 +1213,12 @@ export interface KeywordTokenizer {
 
 // @public (undocumented)
 export interface KnowledgeBase {
-    answerInstructions?: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    etag?: string;
-    // (undocumented)
+    eTag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModel[];
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeRetrievalOutputMode" needs to be exported by the entry point index.d.ts
-    outputMode?: KnowledgeRetrievalOutputMode;
-    retrievalInstructions?: string;
-    // (undocumented)
-    retrievalReasoningEffort?: BaseKnowledgeRetrievalReasoningEffort;
 }
 
 // @public

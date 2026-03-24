@@ -340,6 +340,4 @@ export {
   KnownIndexerResyncOption,
   type DocumentKeysOrIds,
   type SkillNames,
-  type KnowledgeRetrievalOutputMode,
-  KnownKnowledgeRetrievalOutputMode,
 } from "./models.js";

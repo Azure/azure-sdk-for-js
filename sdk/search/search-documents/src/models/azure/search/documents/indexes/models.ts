@@ -7,14 +7,10 @@ import { areAllPropsUndefined } from "../../../../../static-helpers/serializatio
 import { parseNewlineCollection } from "../../../../../static-helpers/serialization/parse-newline-collection.js";
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
-import type {
-  KnowledgeSourceIngestionParameters,
-  KnowledgeRetrievalReasoningEffortUnion,
-} from "../knowledgeBases/models.js";
+import type { KnowledgeSourceIngestionParameters } from "../knowledgeBases/models.js";
 import {
   knowledgeSourceIngestionParametersSerializer,
   knowledgeSourceIngestionParametersDeserializer,
-  knowledgeRetrievalReasoningEffortUnionDeserializer,
 } from "../knowledgeBases/models.js";
 
 /**
@@ -5219,14 +5215,6 @@ export interface KnowledgeBase {
   knowledgeSources: KnowledgeSourceReference[];
   /** Contains configuration options on how to connect to AI models. */
   models?: KnowledgeBaseModelUnion[];
-  /** The retrieval reasoning effort configuration. */
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
-  /** The output mode for the knowledge base. */
-  outputMode?: KnowledgeRetrievalOutputMode;
-  /** Instructions considered by the knowledge base when developing query plan. */
-  retrievalInstructions?: string;
-  /** Instructions considered by the knowledge base when generating answers. */
-  answerInstructions?: string;
   /** The ETag of the knowledge base. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. */
@@ -5242,10 +5230,6 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArraySerializer(item["models"]),
-    retrievalReasoningEffort: item["retrievalReasoningEffort"],
-    outputMode: item["outputMode"],
-    retrievalInstructions: item["retrievalInstructions"],
-    answerInstructions: item["answerInstructions"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5261,12 +5245,6 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArrayDeserializer(item["models"]),
-    retrievalReasoningEffort: !item["retrievalReasoningEffort"]
-      ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
-    outputMode: item["outputMode"],
-    retrievalInstructions: item["retrievalInstructions"],
-    answerInstructions: item["answerInstructions"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5377,24 +5355,6 @@ export enum KnownKnowledgeBaseModelKind {
  * **azureOpenAI**: Use Azure Open AI models for query planning.
  */
 export type KnowledgeBaseModelKind = string;
-
-/** The output mode for knowledge retrieval. */
-export enum KnownKnowledgeRetrievalOutputMode {
-  /** Synthesize an answer from retrieved knowledge. */
-  AnswerSynthesis = "answerSynthesis",
-  /** Return only references without synthesis. */
-  References = "references",
-}
-
-/**
- * The output mode for knowledge retrieval. \
- * {@link KnownKnowledgeRetrievalOutputMode} can be used interchangeably with KnowledgeRetrievalOutputMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **answerSynthesis**: Synthesize an answer from retrieved knowledge.
- * **references**: Return only references without synthesis.
- */
-export type KnowledgeRetrievalOutputMode = string;
 
 /** Specifies the Azure OpenAI resource used to do query planning. */
 export interface KnowledgeBaseAzureOpenAIModel extends KnowledgeBaseModel {
