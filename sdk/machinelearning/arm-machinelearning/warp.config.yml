@@ -1,15 +1,73 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/quotas": "src/api/quotas/index.ts"
+  "./api/virtualMachineSizes": "src/api/virtualMachineSizes/index.ts"
+  "./api/usages": "src/api/usages/index.ts"
+  "./api/managedNetworkSettingsRule": "src/api/managedNetworkSettingsRule/index.ts"
+  "./api/workspaceConnections": "src/api/workspaceConnections/index.ts"
+  "./api/jobs": "src/api/jobs/index.ts"
+  "./api/registryModelVersions": "src/api/registryModelVersions/index.ts"
+  "./api/registryModelContainers": "src/api/registryModelContainers/index.ts"
+  "./api/registryEnvironmentVersions": "src/api/registryEnvironmentVersions/index.ts"
+  "./api/registryEnvironmentContainers": "src/api/registryEnvironmentContainers/index.ts"
+  "./api/registryDataVersions": "src/api/registryDataVersions/index.ts"
+  "./api/registryDataContainers": "src/api/registryDataContainers/index.ts"
+  "./api/registryComponentVersions": "src/api/registryComponentVersions/index.ts"
+  "./api/registryComponentContainers": "src/api/registryComponentContainers/index.ts"
+  "./api/registryCodeVersions": "src/api/registryCodeVersions/index.ts"
+  "./api/registryDataReferences": "src/api/registryDataReferences/index.ts"
+  "./api/registryCodeContainers": "src/api/registryCodeContainers/index.ts"
+  "./api/managedNetworkProvisions": "src/api/managedNetworkProvisions/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/workspaceFeatures": "src/api/workspaceFeatures/index.ts"
+  "./api/compute": "src/api/compute/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/serverlessEndpoints": "src/api/serverlessEndpoints/index.ts"
+  "./api/schedules": "src/api/schedules/index.ts"
+  "./api/onlineDeployments": "src/api/onlineDeployments/index.ts"
+  "./api/onlineEndpoints": "src/api/onlineEndpoints/index.ts"
+  "./api/marketplaceSubscriptions": "src/api/marketplaceSubscriptions/index.ts"
+  "./api/featurestoreEntityVersions": "src/api/featurestoreEntityVersions/index.ts"
+  "./api/featurestoreEntityContainers": "src/api/featurestoreEntityContainers/index.ts"
+  "./api/featuresetVersions": "src/api/featuresetVersions/index.ts"
+  "./api/features": "src/api/features/index.ts"
+  "./api/featuresetContainers": "src/api/featuresetContainers/index.ts"
+  "./api/datastores": "src/api/datastores/index.ts"
+  "./api/capabilityHosts": "src/api/capabilityHosts/index.ts"
+  "./api/batchDeployments": "src/api/batchDeployments/index.ts"
+  "./api/batchEndpoints": "src/api/batchEndpoints/index.ts"
+  "./api/modelVersions": "src/api/modelVersions/index.ts"
+  "./api/modelContainers": "src/api/modelContainers/index.ts"
+  "./api/environmentVersions": "src/api/environmentVersions/index.ts"
+  "./api/environmentContainers": "src/api/environmentContainers/index.ts"
+  "./api/dataVersions": "src/api/dataVersions/index.ts"
+  "./api/dataContainers": "src/api/dataContainers/index.ts"
+  "./api/componentVersions": "src/api/componentVersions/index.ts"
+  "./api/componentContainers": "src/api/componentContainers/index.ts"
+  "./api/codeVersions": "src/api/codeVersions/index.ts"
+  "./api/registries": "src/api/registries/index.ts"
+  "./api/codeContainers": "src/api/codeContainers/index.ts"
+  "./api/workspaces": "src/api/workspaces/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
