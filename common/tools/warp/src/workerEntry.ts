@@ -14,7 +14,6 @@ import {
   parseTargetTsConfig,
   createCachedHost,
   compileTarget,
-  transpileFiles,
   SharedSourceFileCache,
 } from "./compiler.ts";
 import { formatSingleDiagnostic } from "./diagnostics.ts";
@@ -26,7 +25,7 @@ export interface CompileMessage {
   packageRoot: string;
   target: WarpTarget;
   typeCheck: boolean;
-  skipDeclarations: boolean;
+  skipEmit?: boolean;
 }
 
 /** Message sent from worker to pool. */
@@ -70,17 +69,10 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
 
   const host = createCachedHost(parsed.parsedConfig.options, cache);
 
-  // Fast path: transpileFiles bypasses ts.createProgram entirely for
-  // targets that skip type-checking and declarations (~3-10× faster).
-  let result;
-  if (!msg.typeCheck && msg.skipDeclarations) {
-    result = await transpileFiles(parsed);
-  } else {
-    result = compileTarget(parsed, host, {
-      typeCheck: msg.typeCheck,
-      skipDeclarations: msg.skipDeclarations,
-    });
-  }
+  const result = compileTarget(parsed, host, {
+    typeCheck: msg.typeCheck,
+    skipEmit: msg.skipEmit,
+  });
 
   let diagnosticText = "";
   if (result.diagnostics.length > 0) {

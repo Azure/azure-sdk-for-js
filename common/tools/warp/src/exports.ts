@@ -27,11 +27,8 @@ export function resolveExportsMap(
   const exportsMap: Record<string, unknown> = {};
 
   for (const [subpath, sourceEntry] of Object.entries(config.exports)) {
-    // Determine if this is a target override object or a simple string
-    const isOverride = typeof sourceEntry !== "string";
-
-    // For simple strings, check if it's a pass-through entry
-    if (!isOverride && !/\.(?:ts|mts|cts)$/.test(sourceEntry)) {
+    // Pass-through for non-TS files (e.g. "./package.json")
+    if (!/\.(?:ts|mts|cts)$/.test(sourceEntry)) {
       exportsMap[subpath] = sourceEntry;
       continue;
     }
@@ -39,26 +36,7 @@ export function resolveExportsMap(
     const conditions: Record<string, Record<string, string>> = {};
 
     for (const result of results) {
-      let sourcePath: string;
-
-      if (isOverride) {
-        // Target override: look up by target name, then fall back to "default"
-        const override = sourceEntry as Record<string, string>;
-        sourcePath = override[result.target.name] ?? override["default"];
-        if (!sourcePath) {
-          // No mapping for this target and no default — skip it
-          continue;
-        }
-        // Pass-through for non-TS files in overrides
-        if (!/\.(?:ts|mts|cts)$/.test(sourcePath)) {
-          conditions[result.target.condition] = { default: sourcePath };
-          continue;
-        }
-      } else {
-        sourcePath = sourceEntry;
-      }
-
-      const distPath = sourceToDistPath(sourcePath, result.rootDir, result.outDir, packageRoot);
+      const distPath = sourceToDistPath(sourceEntry, result.rootDir, result.outDir, packageRoot);
       const distJsPath = distPath
         .replace(/\.mts$/, ".mjs")
         .replace(/\.cts$/, ".cjs")

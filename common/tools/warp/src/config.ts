@@ -179,22 +179,11 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
   const exports: Record<string, unknown> = raw.exports;
   const seenExportKeys = new Set<string>();
   for (const [key, value] of Object.entries(exports)) {
-    if (typeof value !== "string" && !isRecord(value)) {
+    if (typeof value !== "string") {
       throw new WarpError(
         "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: exports["${key}"] must be a string or target override object, got ${typeof value}`,
+        `[warp] Invalid config in ${source}: exports["${key}"] must be a string, got ${typeof value}`,
       );
-    }
-    // Validate target override objects: all values must be strings
-    if (isRecord(value)) {
-      for (const [overrideKey, overrideValue] of Object.entries(value)) {
-        if (typeof overrideValue !== "string") {
-          throw new WarpError(
-            "CONFIG_INVALID",
-            `[warp] Invalid config in ${source}: exports["${key}"]["${overrideKey}"] must be a string, got ${typeof overrideValue}`,
-          );
-        }
-      }
     }
     if (key === "") {
       throw new WarpError(
@@ -318,7 +307,7 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
   }
 
   return {
-    exports: exports as Record<string, string | Record<string, string>>,
+    exports: exports as Record<string, string>,
     targets: validatedTargets,
   };
 }

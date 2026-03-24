@@ -61,13 +61,10 @@ export interface WarpConfig {
   /**
    * Exports map expressed in terms of source files.
    * Keys are subpath patterns (e.g. ".", "./models").
-   * Values are either:
-   * - A source file path string (e.g. "./src/index.ts") — same file for all targets
-   * - A literal pass-through string (e.g. "./package.json")
-   * - A target override object mapping target names (or "default") to source file paths,
-   *   for exports that resolve to different files per platform.
+   * Values are source file paths (e.g. "./src/index.ts") or literal pass-through
+   * strings (e.g. "./package.json").
    */
-  exports: Record<string, string | Record<string, string>>;
+  exports: Record<string, string>;
   /** Ordered list of build targets. Declaration order determines condition key order. */
   targets: WarpTarget[];
 }

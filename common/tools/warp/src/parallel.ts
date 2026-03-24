@@ -21,11 +21,10 @@ import * as path from "node:path";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import {
   validateOutDirs,
-  groupBySignature,
+  optionsSignature,
   programIdentity,
   cleanOutDir,
   copyDir,
-  copyDtsFiles,
 } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
 import { WarpError } from "./types.ts";
@@ -401,11 +400,9 @@ export async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Ma
 /**
  * Compile all targets in parallel using a worker pool.
  *
- * The task graph is:
- * - Primary targets from different source groups run in parallel.
- * - Secondary targets (skip-typecheck, skip-dts) depend on their
- *   source group's primary for .d.ts files.
- * - Dedup copy targets depend on their group's primary.
+ * Task graph: each target becomes one task. Targets that can reuse output
+ * depend on the emitting target. Pure copies are deferred to after the
+ * emitter completes (no worker needed).
  */
 export async function compileAllTargetsParallel(
   parsedConfigs: ParsedTargetConfig[],
@@ -423,121 +420,116 @@ export async function compileAllTargetsParallel(
     await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
-  const groups = groupBySignature(parsedConfigs);
-  const dedupCount = parsedConfigs.length - groups.length;
-  if (dedupCount > 0) {
-    log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
+  // Two-dimensional deduplication (same as sequential path).
+  const emittedPrograms = new Map<string, { outDir: string; taskId: string }>();
+  const typeCheckedIds = new Set<string>();
+
+  const tasks: ScheduledTask<CompileResult>[] = [];
+  const deferredCopies: Array<{
+    parsed: ParsedTargetConfig;
+    sourceOutDir: string;
+    afterTask: string;
+  }> = [];
+
+  // Size pool to actual compilation count (targets that need a worker).
+  let compilationCount = 0;
+  // Pre-scan to count compilations
+  for (const parsed of parsedConfigs) {
+    const typeCheckId = optionsSignature(parsed.parsedConfig.options, parsed.parsedConfig.fileNames);
+    const emitId = programIdentity(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      parsed.resolvedImports,
+    );
+    const canReuse = emittedPrograms.has(emitId);
+    const needsTC = !typeCheckedIds.has(typeCheckId);
+    if (!(canReuse && !needsTC)) compilationCount++;
+    if (needsTC) typeCheckedIds.add(typeCheckId);
+    if (!canReuse) emittedPrograms.set(emitId, { outDir: parsed.outDir, taskId: `compile:${parsed.target.name}` });
   }
 
-  const typeCheckedSources = new Map<string, { outDir: string; taskId: string }>();
-  const tasks: ScheduledTask<CompileResult[]>[] = [];
+  // Reset for the real pass
+  emittedPrograms.clear();
+  typeCheckedIds.clear();
 
-  // Size the worker pool to the actual number of compilation tasks (after
-  // dedup), not the raw target count.  This avoids spawning idle workers
-  // that each spend ~300-600ms loading TypeScript for nothing.
-  const compilationCount = groups.length;
   const poolCreating = pool ? undefined : createWorkerPool(compilationCount);
   const activePool = pool ?? (await poolCreating!);
   const ownsPool = !pool;
 
-  // Track deferred .d.ts copy operations. When a secondary group uses the
-  // transpileFiles fast path (skip-typecheck + skip-dts), its compilation
-  // is independent of the primary. The .d.ts copy is deferred to after all
-  // compilations complete, enabling true parallelism.
-  const deferredDtsCopies: Array<{ sourceOutDir: string; targetOutDir: string }> = [];
-
-  for (const group of groups) {
-    const progId = programIdentity(
-      group.primary.parsedConfig.options,
-      group.primary.parsedConfig.fileNames,
-      group.primary.resolvedImports,
+  for (const parsed of parsedConfigs) {
+    const typeCheckId = optionsSignature(parsed.parsedConfig.options, parsed.parsedConfig.fileNames);
+    const emitId = programIdentity(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      parsed.resolvedImports,
     );
-    const alreadyChecked = typeCheckedSources.get(progId);
-    const needsTypeCheck = !alreadyChecked;
-    const canSkipDeclarations = !!alreadyChecked;
-    const primaryTaskId = `compile:${group.primary.target.name}`;
 
-    if (needsTypeCheck) {
-      typeCheckedSources.set(progId, { outDir: group.primary.outDir, taskId: primaryTaskId });
-    }
+    const alreadyEmitted = emittedPrograms.get(emitId);
+    const canReuseOutput = !!alreadyEmitted;
+    const needsTypeCheck = !typeCheckedIds.has(typeCheckId);
 
-    // Secondary groups (skip-typecheck + skip-dts) use transpileFiles which
-    // is fully independent of the primary — no dependency needed. The .d.ts
-    // copy is deferred to run after all compilations complete.
-    const deps: string[] = [];
-    if (canSkipDeclarations && alreadyChecked) {
-      deferredDtsCopies.push({
-        sourceOutDir: alreadyChecked.outDir,
-        targetOutDir: group.primary.outDir,
+    const taskId = `compile:${parsed.target.name}`;
+
+    if (needsTypeCheck) typeCheckedIds.add(typeCheckId);
+    if (!canReuseOutput) emittedPrograms.set(emitId, { outDir: parsed.outDir, taskId });
+
+    if (canReuseOutput && !needsTypeCheck) {
+      // Pure copy — no worker needed, just copyDir after emitter finishes.
+      deferredCopies.push({
+        parsed,
+        sourceOutDir: alreadyEmitted!.outDir,
+        afterTask: alreadyEmitted!.taskId,
       });
+      continue;
     }
 
-    const primaryConfig = group.primary;
-    const copies = group.copies;
+    const deps: string[] = canReuseOutput ? [alreadyEmitted!.taskId] : [];
 
     tasks.push({
-      id: primaryTaskId,
+      id: taskId,
       deps,
-      execute: async (): Promise<CompileResult[]> => {
+      execute: async (): Promise<CompileResult> => {
         const label: string[] = [];
         if (!needsTypeCheck) label.push("skip-typecheck");
-        if (canSkipDeclarations) label.push("skip-dts");
-
+        if (canReuseOutput) label.push("reuse-output");
         if (label.length > 0) {
-          log.info(`[warp] [${primaryConfig.target.name}] ${label.join(", ")}`);
+          log.info(`[warp] [${parsed.target.name}] ${label.join(", ")}`);
         }
 
         const workerResult = await activePool.compile({
           type: "compile",
           packageRoot,
-          target: primaryConfig.target,
+          target: parsed.target,
           typeCheck: needsTypeCheck,
-          skipDeclarations: canSkipDeclarations,
+          skipEmit: canReuseOutput,
         });
 
         if (workerResult.diagnosticText) {
           log.info(workerResult.diagnosticText);
         }
 
-        const primaryResult: CompileResult = {
-          target: primaryConfig.target,
+        const result: CompileResult = {
+          target: parsed.target,
           diagnostics: [],
           diagnosticText: workerResult.diagnosticText || undefined,
           success: workerResult.success,
-          outDir: primaryConfig.outDir,
-          rootDir: primaryConfig.rootDir,
+          outDir: parsed.outDir,
+          rootDir: parsed.rootDir,
           compileTimeMs: workerResult.timeMs,
           deduped: false,
         };
 
-        const results: CompileResult[] = [primaryResult];
-        if (copies.length > 0) {
-          const copyResults = await Promise.all(
-            copies.map(async (copy) => {
-              const t0 = performance.now();
-              if (primaryResult.success) {
-                await copyDir(primaryConfig.outDir, copy.outDir);
-              }
-              return {
-                target: copy.target,
-                diagnostics: [] as readonly import("typescript").Diagnostic[],
-                success: primaryResult.success,
-                outDir: copy.outDir,
-                rootDir: copy.rootDir,
-                compileTimeMs: performance.now() - t0,
-                deduped: true,
-              } satisfies CompileResult;
-            }),
-          );
-          results.push(...copyResults);
+        // If we reused output (type-check only), copy from the emitter.
+        if (canReuseOutput && alreadyEmitted && result.success) {
+          await copyDir(alreadyEmitted.outDir, parsed.outDir);
         }
 
-        return results;
+        return result;
       },
     });
   }
 
-  let taskResults: Map<string, CompileResult[]>;
+  let taskResults: Map<string, CompileResult>;
   try {
     await activePool.waitReady();
     log.info(`[warp] Parallel: ${activePool.size} worker(s), ${tasks.length} compilation task(s)`);
@@ -548,30 +540,38 @@ export async function compileAllTargetsParallel(
     }
   }
 
-  // Run deferred .d.ts copy operations now that all compilations are done.
-  // This was deferred so that transpileFiles targets could run in parallel
-  // with the primary compilation that produces the .d.ts files.
-  const allSucceeded = [...taskResults.values()].every((batch) => batch.every((r) => r.success));
-  if (allSucceeded && deferredDtsCopies.length > 0) {
+  // Run deferred copies for pure-copy targets.
+  const allSucceeded = [...taskResults.values()].every((r) => r.success);
+  if (allSucceeded && deferredCopies.length > 0) {
     await Promise.all(
-      deferredDtsCopies.map(({ sourceOutDir, targetOutDir }) =>
-        copyDtsFiles(sourceOutDir, targetOutDir),
-      ),
+      deferredCopies.map(({ sourceOutDir, parsed: p }) => copyDir(sourceOutDir, p.outDir)),
     );
   }
 
-  const totalTargets = parsedConfigs.length;
-  let completedCount = 0;
+  // Build result map and log progress.
+  const total = parsedConfigs.length;
+  let count = 0;
   const resultMap = new Map<string, CompileResult>();
-  for (const batch of taskResults.values()) {
-    for (const r of batch) {
-      completedCount++;
-      const label = r.deduped ? "copied" : "done";
-      log.info(
-        `[warp] [${completedCount}/${totalTargets}] ${r.target.name} ${label} (${r.compileTimeMs.toFixed(0)}ms)`,
-      );
-      resultMap.set(r.target.name, r);
-    }
+
+  for (const r of taskResults.values()) {
+    count++;
+    const label = r.deduped ? "copied" : "done";
+    log.info(`[warp] [${count}/${total}] ${r.target.name} ${label} (${r.compileTimeMs.toFixed(0)}ms)`);
+    resultMap.set(r.target.name, r);
+  }
+
+  for (const { parsed: p } of deferredCopies) {
+    count++;
+    log.info(`[warp] [${count}/${total}] ${p.target.name} copied (deferred)`);
+    resultMap.set(p.target.name, {
+      target: p.target,
+      diagnostics: [],
+      success: allSucceeded,
+      outDir: p.outDir,
+      rootDir: p.rootDir,
+      compileTimeMs: 0,
+      deduped: true,
+    });
   }
 
   // Return results in original target declaration order

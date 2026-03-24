@@ -20,11 +20,10 @@ export {
   createCachedHost,
   optionsSignature,
   programIdentity,
-  groupBySignature,
+
   validateOutDirs,
   cleanOutDir,
   copyDir,
-  copyDtsFiles,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";

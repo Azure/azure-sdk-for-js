@@ -2,14 +2,12 @@
 // Licensed under the MIT License.
 
 import * as ts from "typescript";
-import * as esbuild from "esbuild";
 import * as fs from "node:fs";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import * as crypto from "node:crypto";
 import type { WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
-import { inferModuleType } from "./config.ts";
 import { getLogger } from "./logger.ts";
 
 /**
@@ -235,13 +233,30 @@ export function createCachedHost(
 }
 
 // ---------------------------------------------------------------------------
-// Target deduplication
+// Target deduplication — two independent dimensions
+// ---------------------------------------------------------------------------
+//
+// Type-check identity (`optionsSignature`): ALL compiler options + fileNames.
+//   Same identity → type checking produces identical diagnostics → safe to skip.
+//   Controls `typeCheck` in compileTarget.
+//
+// Emit identity (`programIdentity`): emit-affecting options + fileNames + resolvedImports.
+//   Same identity → emitted JS + declarations are identical → safe to copyDir.
+//   Controls whether we compile or copy output.
+//
+// A target can match on emit identity (copy output) without matching on
+// type-check identity (must still type-check) — e.g. workerd and esm share
+// the same module/target/fileNames but differ in `lib`.
 // ---------------------------------------------------------------------------
 
 /**
- * Compute a signature for a target's compiler options + file list.
- * Targets with the same signature produce identical output
- * (modulo outDir) and can be compiled once then copied.
+ * Compute a type-check identity for a target's compiler options + file list.
+ * Targets with the same identity produce identical type-checking results
+ * (same diagnostics) because ALL compiler options — including `lib`, `types`,
+ * `strict`, etc. — are included. Only `outDir` and `configFilePath` are
+ * excluded as they don't affect semantics.
+ *
+ * Used to decide when type checking can be safely skipped.
  */
 export function optionsSignature(
   options: ts.CompilerOptions,
@@ -265,21 +280,23 @@ export function optionsSignature(
 }
 
 /**
- * Compute a program identity hash — the effective compilation identity.
+ * Compute an emit identity hash — determines when two targets produce
+ * byte-identical output (JS + declarations).
  *
- * Two targets with the same program identity produce the same type-checking
- * result AND the same output files (JS + declarations), so the second target
- * can fully reuse the first target's output.
- *
- * The identity includes:
- * - Emit-affecting compiler options (module, target, jsx, etc. — NOT lib,
- *   types, or type-checking-only flags which don't change output)
+ * The identity includes only factors that affect emitted output:
+ * - Emit-affecting compiler options (module, target, jsx, declaration, etc.)
  * - `fileNames` — the root files from tsconfig include
  * - `resolvedImports` — the resolved import map entries for the active
  *   conditions. This captures how `#platform/*` imports resolve: two targets
  *   with different `customConditions` that resolve to the same files (e.g.,
  *   both react-native and browser mapping to `*-web.mts`) will share an
  *   identity, while targets resolving to different files will not.
+ *
+ * NOT included (type-check only, no effect on output):
+ * - `lib`, `types`, `typeRoots` — affect available type definitions
+ * - `strict` and its sub-flags — affect error reporting
+ * - `customConditions` — affects import resolution, already captured by
+ *   resolvedImports
  */
 
 /** Compiler options that affect emitted JS/declarations (not just type-checking). */
@@ -301,7 +318,6 @@ const EMIT_AFFECTING_OPTIONS: readonly (keyof ts.CompilerOptions)[] = [
   "esModuleInterop",
   "verbatimModuleSyntax",
   "isolatedModules",
-  "customConditions",
   "emitDecoratorMetadata",
 ];
 
@@ -324,33 +340,6 @@ export function programIdentity(
     hash.update("\0imports:" + [...resolvedImports].sort().join("\0"));
   }
   return hash.digest("hex").slice(0, 16);
-}
-
-interface DedupGroup {
-  /** The target that will be compiled. */
-  primary: ParsedTargetConfig;
-  /** Targets that share the same options and will receive copies. */
-  copies: ParsedTargetConfig[];
-}
-
-/**
- * Group parsed targets by options signature (including fileNames).
- * The first target in each group is the primary; the rest are copies.
- */
-export function groupBySignature(
-  configs: ParsedTargetConfig[],
-): DedupGroup[] {
-  const map = new Map<string, DedupGroup>();
-  for (const pc of configs) {
-    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames);
-    const existing = map.get(sig);
-    if (existing) {
-      existing.copies.push(pc);
-    } else {
-      map.set(sig, { primary: pc, copies: [] });
-    }
-  }
-  return [...map.values()];
 }
 
 /**
@@ -443,201 +432,9 @@ export async function copyDir(src: string, dest: string): Promise<void> {
 /**
  * Copy only .d.ts and .d.ts.map files from src to dest, preserving directory structure (#14).
  */
-export async function copyDtsFiles(src: string, dest: string): Promise<void> {
-  // Single recursive readdir replaces O(depth) nested readdir calls.
-  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
-
-  const copies: { srcPath: string; destPath: string }[] = [];
-  const dirs = new Set<string>([dest]);
-
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith(".d.ts") && !entry.name.endsWith(".d.ts.map")) continue;
-    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
-    const srcPath = path.join(parentPath, entry.name);
-    const relPath = path.relative(src, srcPath);
-    const destPath = path.join(dest, relPath);
-    dirs.add(path.dirname(destPath));
-    copies.push({ srcPath, destPath });
-  }
-
-  if (copies.length === 0) return;
-
-  // Create all destination directories, then copy files with bounded concurrency
-  await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
-    fsp.mkdir(d, { recursive: true }),
-  );
-  await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
-    fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
-  );
-}
-
 // ---------------------------------------------------------------------------
 // Compilation
 // ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Fast transpilation (esbuild)
-// ---------------------------------------------------------------------------
-
-/** Map TypeScript ScriptTarget to an esbuild target string. */
-function tsTargetToEsbuild(target: ts.ScriptTarget | undefined): string {
-  switch (target) {
-    case ts.ScriptTarget.ES5:
-      return "es5";
-    case ts.ScriptTarget.ES2015:
-      return "es2015";
-    case ts.ScriptTarget.ES2016:
-      return "es2016";
-    case ts.ScriptTarget.ES2017:
-      return "es2017";
-    case ts.ScriptTarget.ES2018:
-      return "es2018";
-    case ts.ScriptTarget.ES2019:
-      return "es2019";
-    case ts.ScriptTarget.ES2020:
-      return "es2020";
-    case ts.ScriptTarget.ES2021:
-      return "es2021";
-    case ts.ScriptTarget.ES2022:
-      return "es2022";
-    case ts.ScriptTarget.ES2023:
-      return "es2023";
-    case ts.ScriptTarget.ES2024:
-      return "es2024";
-    default:
-      return "esnext";
-  }
-}
-
-/**
- * Transpile all source files using esbuild.
- * All transforms run concurrently via Promise.all.
- */
-async function transpileWithEsbuild(
-  sources: Array<{ fileName: string; content: string }>,
-  options: ts.CompilerOptions,
-  outDir: string,
-  rootDir: string,
-): Promise<Array<{ outPath: string; js: string; map?: string }>> {
-  const format: esbuild.Format =
-    options.module === ts.ModuleKind.CommonJS || options.module === ts.ModuleKind.None
-      ? "cjs"
-      : "esm";
-  const target = tsTargetToEsbuild(options.target);
-  const sourcemap = options.sourceMap !== false;
-
-  // platform:"node" makes esbuild annotate CJS output with
-  // `0 && (module.exports = {...})` so that Node's cjs-module-lexer
-  // can statically detect named exports for ESM→CJS interop.
-  const platform: esbuild.Platform | undefined = format === "cjs" ? "node" : undefined;
-
-  return Promise.all(
-    sources.map(async ({ fileName, content }) => {
-      const result = await esbuild.transform(content, {
-        loader: "ts",
-        format,
-        target,
-        platform,
-        sourcemap: sourcemap ? "external" : false,
-        sourcefile: fileName,
-      });
-
-      const relPath = path.relative(rootDir, fileName);
-      const ext = path.extname(fileName);
-      const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
-      const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
-
-      return {
-        outPath,
-        js: result.code,
-        map: result.map || undefined,
-      };
-    }),
-  );
-}
-
-// ---------------------------------------------------------------------------
-// transpileFiles fast path
-// ---------------------------------------------------------------------------
-
-/**
- * Fast-path compilation using esbuild for targets that skip type-checking
- * and declaration emit.
- *
- * ~3-10× faster than createProgram for format-only conversions because
- * it bypasses module resolution, program graph construction, and the type
- * system entirely.  All files are transpiled concurrently via esbuild.
- *
- * Used automatically for targets with typeCheck=false + skipDeclarations=true
- * (e.g. CommonJS re-emit of already-validated source files).
- */
-export async function transpileFiles(
-  parsed: ParsedTargetConfig,
-): Promise<CompileResult> {
-  const t0 = performance.now();
-  const options: ts.CompilerOptions = {
-    ...parsed.parsedConfig.options,
-    declaration: false,
-    declarationMap: false,
-  };
-
-  // esbuild cannot read package.json "type" to determine the module format
-  // for .ts files under module: NodeNext/Node16. Resolve the ambiguity by
-  // setting an unambiguous module kind derived from the target's moduleType
-  // (or inferModuleType from compiler options).
-  const moduleKind = options.module;
-  if (moduleKind === ts.ModuleKind.NodeNext || moduleKind === ts.ModuleKind.Node16) {
-    const effectiveType = parsed.target.moduleType ?? inferModuleType(moduleKind);
-    if (effectiveType === "commonjs") {
-      options.module = ts.ModuleKind.CommonJS;
-      options.moduleResolution = ts.ModuleResolutionKind.Node10;
-    } else {
-      options.module = ts.ModuleKind.ESNext;
-      options.moduleResolution = ts.ModuleResolutionKind.Bundler;
-    }
-  }
-
-  const fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
-
-  const { outDir, rootDir } = parsed;
-
-  // Read all source files concurrently
-  const sources = await Promise.all(
-    fileNames.map(async (fileName) => {
-      const content = await fsp.readFile(fileName, "utf-8");
-      return { fileName, content };
-    }),
-  );
-
-  const outputs = await transpileWithEsbuild(sources, options, outDir, rootDir);
-
-  // Write output files
-  const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
-  await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
-    fsp.mkdir(d, { recursive: true }),
-  );
-
-  const writeOps = outputs.flatMap(({ outPath, js, map }) => {
-    const ops: Array<{ p: string; content: string }> = [{ p: outPath, content: js }];
-    if (map) ops.push({ p: `${outPath}.map`, content: map });
-    return ops;
-  });
-
-  await runWithConcurrency(writeOps, MAX_COPY_CONCURRENCY, ({ p, content }) =>
-    fsp.writeFile(p, content, "utf-8"),
-  );
-
-  return {
-    target: parsed.target,
-    diagnostics: [],
-    success: true,
-    outDir,
-    rootDir,
-    compileTimeMs: performance.now() - t0,
-    deduped: false,
-  };
-}
 
 /**
  * Options controlling how a single target is compiled.
@@ -646,10 +443,11 @@ interface CompileTargetOptions {
   /** When false, skip getPreEmitDiagnostics (type checking). Default: true. */
   typeCheck?: boolean;
   /**
-   * When true, skip declaration emit (set declaration:false in effective options).
-   * Declarations will be copied from another target's outDir instead.
+   * When true, run type-checking only — skip emit entirely (noEmit: true).
+   * Used when output will be copied from another target with the same emit identity.
    */
-  skipDeclarations?: boolean;
+  skipEmit?: boolean;
+
 }
 
 /**
@@ -657,7 +455,14 @@ interface CompileTargetOptions {
  *
  * Performance optimizations controlled by options:
  * - `typeCheck: false` — skip getPreEmitDiagnostics (~30% faster)
- * - `skipDeclarations: true` — emit JS only (~17% faster)
+ * - `skipEmit: true` — type-check only, no output files
+ *
+ * CJS→Node16 upgrade: when the tsconfig specifies `module: CommonJS`,
+ * the effective options are upgraded to `module: Node16` +
+ * `moduleResolution: Node16` so TypeScript can resolve package.json
+ * `exports` and `imports` fields. A fresh host is created with these
+ * options and patched to return `{"type":"commonjs"}` for the source
+ * root's package.json, ensuring Node16 still emits CommonJS output.
  */
 export function compileTarget(
   parsed: ParsedTargetConfig,
@@ -666,7 +471,7 @@ export function compileTarget(
 ): CompileResult {
   const t0 = performance.now();
   const doTypeCheck = compileOptions?.typeCheck ?? true;
-  const skipDecl = compileOptions?.skipDeclarations ?? false;
+  const skipEmit = compileOptions?.skipEmit ?? false;
 
   const rootNames: readonly string[] = parsed.parsedConfig.fileNames;
 
@@ -675,20 +480,68 @@ export function compileTarget(
     ...parsed.parsedConfig.options,
   };
 
-  if (skipDecl) {
+  if (skipEmit) {
     effectiveOptions.declaration = false;
     effectiveOptions.declarationMap = false;
+    effectiveOptions.noEmit = true;
+  }
+
+  // Upgrade CommonJS to Node16 for modern module resolution.
+  // CommonJS forces moduleResolution to Node10, which cannot resolve
+  // package.json `exports`/`imports` fields. Node16 resolves them correctly
+  // while still emitting CJS when the source root has {"type":"commonjs"}.
+  let effectiveHost = host;
+  if (effectiveOptions.module === ts.ModuleKind.CommonJS) {
+    effectiveOptions.module = ts.ModuleKind.Node16;
+    effectiveOptions.moduleResolution = ts.ModuleResolutionKind.Node16;
+
+    // Build package.json override: inject {"type":"commonjs"} for the
+    // source root directory (and its ancestors up to the real package.json).
+    const overridePaths = new Map<string, string>();
+    const cjsPackageJson = '{"type":"commonjs"}';
+    const rootDir = parsed.rootDir ?? path.dirname(rootNames[0] ?? "");
+    const absRoot = path.resolve(rootDir);
+
+    let dir = absRoot;
+    while (dir) {
+      overridePaths.set(path.resolve(dir, "package.json"), cjsPackageJson);
+      if (fs.existsSync(path.join(dir, "package.json"))) break;
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+
+    // Create a fresh host with the upgraded options so TypeScript's internal
+    // resolution algorithms match the Node16 module kind.
+    //
+    // IMPORTANT: We do NOT use the shared SourceFile cache here. Under Node16,
+    // TypeScript embeds `impliedNodeFormat` (CJS vs ESM) in each SourceFile
+    // based on the nearest package.json. Our virtual {"type":"commonjs"}
+    // override changes that format, so cached SourceFiles from ESM targets
+    // would poison CJS output (and vice versa).
+    const baseHost = ts.createCompilerHost(effectiveOptions);
+
+    effectiveHost = {
+      ...baseHost,
+      readFile(fileName: string) {
+        const override = overridePaths.get(path.resolve(fileName));
+        if (override !== undefined) return override;
+        return baseHost.readFile(fileName);
+      },
+    };
   }
 
   // Standard compilation path with shared SourceFile cache
   const program = ts.createProgram({
     rootNames: [...rootNames],
     options: effectiveOptions,
-    host,
+    host: effectiveHost,
   });
   const preEmit = doTypeCheck ? ts.getPreEmitDiagnostics(program) : [];
 
-  const emitResult = program.emit();
+  const emitResult = skipEmit
+    ? { diagnostics: [] as readonly ts.Diagnostic[], emitSkipped: true }
+    : program.emit();
   const allDiagnostics: readonly ts.Diagnostic[] = [...preEmit, ...emitResult.diagnostics];
 
   const compileTimeMs = performance.now() - t0;
@@ -705,20 +558,23 @@ export function compileTarget(
 }
 
 /**
- * Compile all targets with deduplication, shared source caching.
+ * Compile all targets with two-dimensional optimization:
  *
- * Performance strategy:
- * - **Type check once per source set**: targets sharing the same source
- *   files are grouped into "source groups".
- *   Only the first target in each source group runs type checking. Subsequent
- *   targets skip getPreEmitDiagnostics.
- * - **Declaration sharing**: when multiple targets differ only in module format
- *   (same source identity), declarations are emitted once by the first target
- *   and .d.ts files are copied to subsequent targets' outDirs.
- * - **Deduplication**: targets with fully identical options + files are compiled
- *   once and the entire outDir is copied.
+ * 1. **Type-check identity** (`optionsSignature` — ALL options + fileNames):
+ *    Targets with identical type-check identity produce the same diagnostics.
+ *    Only the first is type-checked; subsequent ones skip `getPreEmitDiagnostics`.
  *
- * Accepts pre-parsed configs to avoid redundant tsconfig parsing.
+ * 2. **Emit identity** (`programIdentity` — emit options + fileNames + resolvedImports):
+ *    Targets with identical emit identity produce byte-identical output.
+ *    Only the first emits; subsequent ones get `copyDir`.
+ *
+ * These are independent: a target may share emit identity (copy output) but
+ * differ in type-check identity (must still type-check). For example, workerd
+ * and esm share module/target/fileNames but differ in `lib` — esm must be
+ * type-checked but can reuse workerd's output.
+ *
+ * Within a dedup group (same optionsSignature), secondary targets are
+ * fully identical and get copyDir without any compilation.
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
@@ -729,145 +585,84 @@ export async function compileAllTargets(
   validateOutDirs(parsedConfigs);
 
   const log = getLogger();
-
-  const groups = groupBySignature(parsedConfigs);
   const cache = new SharedSourceFileCache();
-
-  const dedupCount = parsedConfigs.length - groups.length;
-  if (dedupCount > 0) {
-    log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
-  }
 
   // Clean outDirs before compilation (async / parallel) (#13)
   if (clean) {
     await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
-  // Track which program graphs have been fully compiled.
-  // Key: programIdentity hash (fileNames + resolved imports). Value: outDir.
-  const compiledPrograms = new Map<string, string>();
+  // Two-dimensional deduplication:
+  //   emittedPrograms  → tracks emit identity (controls output reuse via copyDir)
+  //   typeCheckedIds   → tracks type-check identity (controls whether we can skip tsc)
+  const emittedPrograms = new Map<string, string>(); // emitId → outDir
+  const typeCheckedIds = new Set<string>();
 
-  const resultMap = new Map<string, CompileResult>();
+  const results: CompileResult[] = [];
+  const total = parsedConfigs.length;
 
-  let completedCount = 0;
-  const totalTargets = parsedConfigs.length;
+  for (let i = 0; i < total; i++) {
+    const parsed = parsedConfigs[i];
+    const host = createCachedHost(parsed.parsedConfig.options, cache);
 
-  for (const group of groups) {
-    const host = createCachedHost(group.primary.parsedConfig.options, cache);
-
-    // Program identity: same fileNames + same resolved imports → same program
-    // graph → same output. Targets with different customConditions that resolve
-    // to the same files (e.g., browser and react-native both mapping to
-    // *-browser.mts) will share an identity and benefit from reuse.
-    const progId = programIdentity(
-      group.primary.parsedConfig.options,
-      group.primary.parsedConfig.fileNames,
-      group.primary.resolvedImports,
+    const typeCheckId = optionsSignature(parsed.parsedConfig.options, parsed.parsedConfig.fileNames);
+    const emitId = programIdentity(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      parsed.resolvedImports,
     );
-    const alreadyCompiledOutDir = compiledPrograms.get(progId);
-    const needsTypeCheck = !alreadyCompiledOutDir;
-    const canReuseOutput = !!alreadyCompiledOutDir;
 
-    if (!alreadyCompiledOutDir) {
-      compiledPrograms.set(progId, group.primary.outDir);
-    }
+    const alreadyEmittedOutDir = emittedPrograms.get(emitId);
+    const canReuseOutput = !!alreadyEmittedOutDir;
+    const needsTypeCheck = !typeCheckedIds.has(typeCheckId);
+
+    if (needsTypeCheck) typeCheckedIds.add(typeCheckId);
+    if (!canReuseOutput) emittedPrograms.set(emitId, parsed.outDir);
 
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
-    if (canReuseOutput) label.push("skip-dts");
+    if (canReuseOutput) label.push("reuse-output");
 
-    // Progress indicator
     log.info(
-      `[warp] [${completedCount + 1}/${totalTargets}] ${group.primary.target.name}${label.length > 0 ? ` (${label.join(", ")})` : ""}...`,
+      `[warp] [${i + 1}/${total}] ${parsed.target.name}${label.length ? ` (${label.join(", ")})` : ""}...`,
     );
 
-    // Fast path: when type-checking and declarations are both skipped,
-    // use transpileFiles (esbuild per-file transpilation) to bypass program
-    // creation entirely — ~3-10× faster for format-only re-emit.
-    //
-    // Exception: when customConditions is set, fileNames only lists the
-    // tsconfig include entries (e.g., [index.ts]); the full program graph
-    // is discovered through import resolution. transpileFiles (which only
-    // processes fileNames) would miss those discovered files. In that case,
-    // copy the entire output directory from the matching program instead.
-    let primaryResult: CompileResult;
-    const hasCustomConditions =
-      !!group.primary.parsedConfig.options.customConditions?.length;
-    if (!needsTypeCheck && canReuseOutput && hasCustomConditions && alreadyCompiledOutDir) {
-      // Full directory copy — both JS and .d.ts from the matching program
+    let result: CompileResult;
+
+    if (canReuseOutput && !needsTypeCheck) {
+      // Both already done — pure copy
       const t0 = performance.now();
-      await copyDir(alreadyCompiledOutDir, group.primary.outDir);
-      primaryResult = {
-        target: group.primary.target,
+      await copyDir(alreadyEmittedOutDir, parsed.outDir);
+      result = {
+        target: parsed.target,
         diagnostics: [],
         success: true,
-        outDir: group.primary.outDir,
-        rootDir: group.primary.rootDir,
+        outDir: parsed.outDir,
+        rootDir: parsed.rootDir,
         compileTimeMs: performance.now() - t0,
         deduped: true,
       };
-    } else if (!needsTypeCheck && canReuseOutput) {
-      primaryResult = await transpileFiles(group.primary);
+    } else if (canReuseOutput) {
+      // Need type-check but can reuse output — skipEmit + copy
+      result = compileTarget(parsed, host, { typeCheck: true, skipEmit: true });
+      if (result.success) {
+        await copyDir(alreadyEmittedOutDir, parsed.outDir);
+      }
     } else {
-      primaryResult = compileTarget(group.primary, host, {
-        typeCheck: needsTypeCheck,
-        skipDeclarations: canReuseOutput,
-      });
+      // First time seeing this emit identity — full or typecheck-less compile
+      result = compileTarget(parsed, host, { typeCheck: needsTypeCheck });
     }
 
-    completedCount++;
+    const timeLabel = canReuseOutput && !needsTypeCheck ? "copied" : "done";
     log.info(
-      `[warp] [${completedCount}/${totalTargets}] ${group.primary.target.name} done (${primaryResult.compileTimeMs.toFixed(0)}ms)`,
+      `[warp] [${i + 1}/${total}] ${parsed.target.name} ${timeLabel} (${result.compileTimeMs.toFixed(0)}ms)`,
     );
 
-    // If we reused output, copy .d.ts from the matching program's outDir
-    // (not needed when we already did a full directory copy above)
-    if (canReuseOutput && alreadyCompiledOutDir && primaryResult.success && !hasCustomConditions) {
-      await copyDtsFiles(alreadyCompiledOutDir, group.primary.outDir);
-    }
+    results.push(result);
 
-    resultMap.set(group.primary.target.name, primaryResult);
-
-    // Fail-fast: stop building remaining targets on first error
-    if (!primaryResult.success) {
-      break;
-    }
-
-    // Copy output to secondary targets (full dedup) — run copies in parallel
-    // since they write to independent outDirs.
-    if (group.copies.length > 0) {
-      const copyResults = await Promise.all(
-        group.copies.map(async (copy) => {
-          const t0 = performance.now();
-          if (primaryResult.success) {
-            await copyDir(group.primary.outDir, copy.outDir);
-          }
-          const copyTimeMs = performance.now() - t0;
-          return { copy, copyTimeMs };
-        }),
-      );
-
-      for (const { copy, copyTimeMs } of copyResults) {
-        completedCount++;
-        log.info(
-          `[warp] [${completedCount}/${totalTargets}] ${copy.target.name} copied (${copyTimeMs.toFixed(0)}ms)`,
-        );
-
-        resultMap.set(copy.target.name, {
-          target: copy.target,
-          diagnostics: primaryResult.diagnostics,
-          success: primaryResult.success,
-          outDir: copy.outDir,
-          rootDir: copy.rootDir,
-          compileTimeMs: copyTimeMs,
-          deduped: true,
-        });
-      }
-    }
+    // Fail-fast on first error
+    if (!result.success) break;
   }
 
-  // Return results in original target declaration order (skip targets not compiled due to fail-fast)
-  return parsedConfigs
-    .map((pc) => resultMap.get(pc.target.name))
-    .filter((r): r is CompileResult => r !== undefined);
+  return results;
 }

@@ -24,6 +24,10 @@ async function cleanup(dir: string): Promise<void> {
   await fs.rm(dir, { recursive: true, force: true });
 }
 
+// ---------------------------------------------------------------------------
+// programIdentity — emit identity (controls output reuse)
+// ---------------------------------------------------------------------------
+
 describe("programIdentity", () => {
   const defaultOpts = { module: 199 } as ts.CompilerOptions;
 
@@ -64,7 +68,7 @@ describe("programIdentity", () => {
     );
   });
 
-  it("different compiler options → different identity", () => {
+  it("different module format → different identity", () => {
     const files = ["/a.ts", "/b.ts"];
     const esmOpts = { module: 199 } as ts.CompilerOptions;
     const cjsOpts = { module: 1 } as ts.CompilerOptions;
@@ -78,15 +82,76 @@ describe("programIdentity", () => {
     expect(programIdentity(opts1, files)).toBe(programIdentity(opts2, files));
   });
 
-  it("different lib (type-check only) → same identity", () => {
+  it("different lib (type-check only) → same emit identity", () => {
     const files = ["/a.ts"];
     const opts1 = { module: 199, lib: ["lib.es2023.d.ts"] } as ts.CompilerOptions;
     const opts2 = { module: 199, lib: ["lib.es2023.d.ts", "lib.dom.d.ts"] } as ts.CompilerOptions;
     expect(programIdentity(opts1, files)).toBe(programIdentity(opts2, files));
   });
+
+  it("different customConditions but same resolvedImports → same identity", () => {
+    const files = ["/index.ts"];
+    const resolved = ["#platform/*=./src/*-web.mts"];
+    const browserOpts = { module: 199, customConditions: ["browser"] } as ts.CompilerOptions;
+    const rnOpts = { module: 199, customConditions: ["react-native"] } as ts.CompilerOptions;
+    expect(programIdentity(browserOpts, files, resolved)).toBe(
+      programIdentity(rnOpts, files, resolved),
+    );
+  });
+
+  it("different strict (type-check only) → same emit identity", () => {
+    const files = ["/a.ts"];
+    const opts1 = { module: 199, strict: true } as ts.CompilerOptions;
+    const opts2 = { module: 199, strict: false } as ts.CompilerOptions;
+    expect(programIdentity(opts1, files)).toBe(programIdentity(opts2, files));
+  });
+
+  it("different sourceMap → different identity", () => {
+    const files = ["/a.ts"];
+    const opts1 = { module: 199, sourceMap: true } as ts.CompilerOptions;
+    const opts2 = { module: 199, sourceMap: false } as ts.CompilerOptions;
+    expect(programIdentity(opts1, files)).not.toBe(programIdentity(opts2, files));
+  });
 });
 
-describe("skip-typecheck optimization", () => {
+// ---------------------------------------------------------------------------
+// optionsSignature — type-check identity (controls type-check skipping)
+// ---------------------------------------------------------------------------
+
+describe("optionsSignature", () => {
+  it("same options + same files → same signature", () => {
+    const opts: ts.CompilerOptions = { module: 99, target: 99, strict: true };
+    const files = ["/a/b.ts", "/a/c.ts"];
+    expect(optionsSignature(opts, files)).toBe(optionsSignature(opts, files));
+  });
+
+  it("different options → different signature", () => {
+    const files = ["/a/b.ts"];
+    const optsA: ts.CompilerOptions = { module: 99, strict: true };
+    const optsB: ts.CompilerOptions = { module: 99, strict: false };
+    expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
+  });
+
+  it("different lib sets → different signature", () => {
+    const files = ["/a/b.ts"];
+    const optsA: ts.CompilerOptions = { module: 99, lib: ["lib.dom.d.ts"] };
+    const optsB: ts.CompilerOptions = { module: 99, lib: ["lib.webworker.d.ts"] };
+    expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
+  });
+
+  it("outDir is ignored in signature", () => {
+    const files = ["/a/b.ts"];
+    const optsA: ts.CompilerOptions = { module: 99, outDir: "/dist/esm" };
+    const optsB: ts.CompilerOptions = { module: 99, outDir: "/dist/browser" };
+    expect(optionsSignature(optsA, files)).toBe(optionsSignature(optsB, files));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Two-dimensional optimization: type-check identity × emit identity
+// ---------------------------------------------------------------------------
+
+describe("two-dimensional optimization", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
@@ -97,9 +162,206 @@ describe("skip-typecheck optimization", () => {
     await cleanup(tmpDir);
   });
 
-  it("skips type checking on secondary targets sharing same sources", async () => {
-    // ESM and CJS share same source files but different module format.
-    // CJS should skip type checking (already done by ESM).
+  it("same emit identity, same type-check identity → full copy (no compilation)", async () => {
+    // browser and react-native with identical tsconfig options
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const greeting: string = "hello";\n',
+    );
+
+    const browserTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/browser",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        customConditions: ["browser"],
+      },
+      include: ["src/**/index.ts"],
+    };
+
+    const rnTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/react-native",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        customConditions: ["react-native"],
+      },
+      include: ["src/**/index.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.rn.json"), JSON.stringify(rnTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+          { name: "react-native", condition: "react-native", tsconfig: "./tsconfig.rn.json" },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-full-copy", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // Both targets should produce correct output
+    const browserJs = await fs.readFile(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
+    const rnJs = await fs.readFile(path.join(tmpDir, "dist/react-native/index.js"), "utf-8");
+    expect(browserJs).toBe(rnJs);
+
+    // Both should have declarations
+    expect(await exists(path.join(tmpDir, "dist/browser/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/react-native/index.d.ts"))).toBe(true);
+  });
+
+  it("same emit identity, different type-check identity → type-checks both, copies output", async () => {
+    // workerd (lib: WebWorker) and esm (lib: DOM) — same module, different lib
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const value: string = "ok";\n',
+    );
+
+    const workerdTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/workerd",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023", "DOM"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "workerd", condition: "workerd", tsconfig: "./tsconfig.workerd.json" },
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-typecheck-both", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // Both targets should produce identical output (same emit identity)
+    const workerdJs = await fs.readFile(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
+    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    expect(workerdJs).toBe(esmJs);
+
+    // Both should have declarations
+    expect(await exists(path.join(tmpDir, "dist/workerd/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
+  });
+
+  it("type error caught in secondary target with different lib", async () => {
+    // primary uses lib: ["ES2023", "DOM"] which has 'document'
+    // secondary uses lib: ["ES2023"] which does NOT have 'document'
+    // The secondary should catch the type error even though output is reusable.
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const el = document.createElement("div");\n',
+    );
+
+    const domTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/dom",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023", "DOM"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    const noDomTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/no-dom",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.dom.json"), JSON.stringify(domTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.no-dom.json"), JSON.stringify(noDomTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "dom", condition: "browser", tsconfig: "./tsconfig.dom.json" },
+          { name: "no-dom", condition: "import", tsconfig: "./tsconfig.no-dom.json" },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-cross-lib-error", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+
+    const result = await build({ cwd: tmpDir });
+    // Should fail because no-dom target can't find 'document'
+    expect(result.success).toBe(false);
+  });
+
+  it("different emit identity → separate compilation with correct output", async () => {
+    // ESM and CJS have different module formats → different emit identity
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
@@ -148,48 +410,44 @@ describe("skip-typecheck optimization", () => {
 
     await fs.writeFile(
       path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test-skip-typecheck", version: "1.0.0", type: "module" }, null, 2)}\n`,
+      `${JSON.stringify({ name: "test-different-emit", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
-    // Both targets should produce correct output
-    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
-    expect(await exists(path.join(tmpDir, "dist/cjs/index.js"))).toBe(true);
+    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const cjsJs = await fs.readFile(path.join(tmpDir, "dist/cjs/index.js"), "utf-8");
 
-    // CJS should have .d.ts files (copied from ESM)
-    expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
+    // Different module formats
+    expect(esmJs).toContain("export");
+    expect(cjsJs).toMatch(/exports[.,]/);
 
-    // .d.ts files should be identical (copied)
+    // Both should have declarations (identical content)
     const esmDts = await fs.readFile(path.join(tmpDir, "dist/esm/index.d.ts"), "utf-8");
     const cjsDts = await fs.readFile(path.join(tmpDir, "dist/cjs/index.d.ts"), "utf-8");
     expect(esmDts).toBe(cjsDts);
-
-    // JS content should differ (different module format)
-    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-    const cjsJs = await fs.readFile(path.join(tmpDir, "dist/cjs/index.js"), "utf-8");
-    expect(esmJs).not.toBe(cjsJs);
-
-    // ESM should be module syntax, CJS should be CommonJS
-    expect(esmJs).toContain("export");
-    expect(cjsJs).toMatch(/exports[.,]/);
   });
 
-  it("keeps NodeNext secondary target output as ESM on transpile fast path", async () => {
+  it("three targets: compile, typecheck+copy, full copy", async () => {
+    // Target A: workerd (lib: WebWorker) → compile (first with this emit identity)
+    // Target B: esm (lib: DOM) → type-check + copy output (same emit, different type-check)
+    // Target C: esm-strict (lib: DOM, strict) → type-check + copy (same emit, different type-check)
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const marker = 1;\n");
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const value: string = "ok";\n',
+    );
 
-    const browserTsconfig = {
+    const workerdTsconfig = {
       compilerOptions: {
-        outDir: "./dist/browser",
+        outDir: "./dist/workerd",
         rootDir: "./src",
         module: "NodeNext",
         moduleResolution: "NodeNext",
         target: "ES2023",
         declaration: true,
-        strict: true,
-        sourceMap: false,
+        lib: ["ES2023"],
       },
       include: ["src/**/*.ts"],
     };
@@ -202,82 +460,14 @@ describe("skip-typecheck optimization", () => {
         moduleResolution: "NodeNext",
         target: "ES2023",
         declaration: true,
-        strict: true,
-        sourceMap: true,
+        lib: ["ES2023", "DOM"],
       },
       include: ["src/**/*.ts"],
     };
 
-    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
-    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-
-    await fs.writeFile(
-      path.join(tmpDir, "warp.config.yml"),
-      stringify({
-        exports: { ".": "./src/index.ts" },
-        targets: [
-          { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
-          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-        ],
-      }),
-    );
-
-    await fs.writeFile(
-      path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test-nodenext-fast-path", version: "1.0.0", type: "module" }, null, 2)}\n`,
-    );
-
-    const result = await build({ cwd: tmpDir });
-    expect(result.success).toBe(true);
-
-    const browserJs = await fs.readFile(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
-    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-
-    expect(browserJs).toContain("export const marker = 1");
-    // esbuild splits "export const x = 1" into "const x = 1; export { x }"
-    expect(esmJs).toMatch(/export\b/);
-    expect(esmJs).toContain("marker");
-    expect(esmJs).not.toContain("Object.defineProperty(exports");
-    expect(esmJs).not.toContain("exports.");
-  });
-
-  it("keeps NodeNext secondary targets in the expected module format on transpile fast path", async () => {
-    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const value: string = "ok";\n');
-
-    const primaryTsconfig = {
+    const esmStrictTsconfig = {
       compilerOptions: {
-        outDir: "./dist/primary",
-        rootDir: "./src",
-        module: "NodeNext",
-        moduleResolution: "NodeNext",
-        target: "ES2023",
-        declaration: true,
-        strict: true,
-      },
-      include: ["src/**/*.ts"],
-    };
-
-    // Keep module=NodeNext but alter a non-semantic option so this target
-    // is not dedup-copied and must use transpileFiles fast path.
-    const esmFastTsconfig = {
-      compilerOptions: {
-        outDir: "./dist/esm-fast",
-        rootDir: "./src",
-        module: "NodeNext",
-        moduleResolution: "NodeNext",
-        target: "ES2023",
-        declaration: true,
-        strict: true,
-        lib: ["ES2023"],
-      },
-      include: ["src/**/*.ts"],
-    };
-
-    // Also NodeNext, but explicitly tagged as commonjs via warp target metadata.
-    const cjsFastTsconfig = {
-      compilerOptions: {
-        outDir: "./dist/cjs-fast",
+        outDir: "./dist/esm-strict",
         rootDir: "./src",
         module: "NodeNext",
         moduleResolution: "NodeNext",
@@ -289,53 +479,47 @@ describe("skip-typecheck optimization", () => {
       include: ["src/**/*.ts"],
     };
 
-    await fs.writeFile(path.join(tmpDir, "tsconfig.primary.json"), JSON.stringify(primaryTsconfig));
-    await fs.writeFile(
-      path.join(tmpDir, "tsconfig.esm-fast.json"),
-      JSON.stringify(esmFastTsconfig),
-    );
-    await fs.writeFile(
-      path.join(tmpDir, "tsconfig.cjs-fast.json"),
-      JSON.stringify(cjsFastTsconfig),
-    );
+    await fs.writeFile(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm-strict.json"), JSON.stringify(esmStrictTsconfig));
 
     await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
         targets: [
-          { name: "primary", condition: "import", tsconfig: "./tsconfig.primary.json" },
-          { name: "esm-fast", condition: "module", tsconfig: "./tsconfig.esm-fast.json" },
-          {
-            name: "cjs-fast",
-            condition: "require",
-            tsconfig: "./tsconfig.cjs-fast.json",
-            moduleType: "commonjs",
-          },
+          { name: "workerd", tsconfig: "./tsconfig.workerd.json" },
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          { name: "esm-strict", tsconfig: "./tsconfig.esm-strict.json" },
         ],
       }),
     );
 
     await fs.writeFile(
       path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test-nodenext-fast-path", version: "1.0.0", type: "module" }, null, 2)}\n`,
+      `${JSON.stringify({ name: "test-three-targets", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
-    const esmFastJs = await fs.readFile(path.join(tmpDir, "dist/esm-fast/index.js"), "utf-8");
-    const cjsFastJs = await fs.readFile(path.join(tmpDir, "dist/cjs-fast/index.js"), "utf-8");
+    // All three should produce identical output (same emit identity)
+    const workerdJs = await fs.readFile(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
+    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const esmStrictJs = await fs.readFile(path.join(tmpDir, "dist/esm-strict/index.js"), "utf-8");
+    expect(workerdJs).toBe(esmJs);
+    expect(esmJs).toBe(esmStrictJs);
 
-    expect(esmFastJs).toContain("export");
-    expect(esmFastJs).not.toMatch(/exports[.,]/);
-    expect(cjsFastJs).toMatch(/exports[.,]/);
-
-    // Declarations are copied from the source group's primary output.
-    expect(await exists(path.join(tmpDir, "dist/esm-fast/index.d.ts"))).toBe(true);
-    expect(await exists(path.join(tmpDir, "dist/cjs-fast/index.d.ts"))).toBe(true);
+    // All three should have declarations
+    expect(await exists(path.join(tmpDir, "dist/workerd/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm-strict/index.d.ts"))).toBe(true);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Parallel compilation
+// ---------------------------------------------------------------------------
 
 describe("parallel compilation", () => {
   let tmpDir: string;
@@ -450,34 +634,5 @@ describe("parallel compilation", () => {
     expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/browser/index.d.ts"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
-  });
-});
-
-describe("optionsSignature", () => {
-  it("same options + same files → same signature", () => {
-    const opts: ts.CompilerOptions = { module: 99, target: 99, strict: true };
-    const files = ["/a/b.ts", "/a/c.ts"];
-    expect(optionsSignature(opts, files)).toBe(optionsSignature(opts, files));
-  });
-
-  it("different options → different signature", () => {
-    const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, strict: true };
-    const optsB: ts.CompilerOptions = { module: 99, strict: false };
-    expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
-  });
-
-  it("different lib sets → different signature", () => {
-    const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, lib: ["lib.dom.d.ts"] };
-    const optsB: ts.CompilerOptions = { module: 99, lib: ["lib.webworker.d.ts"] };
-    expect(optionsSignature(optsA, files)).not.toBe(optionsSignature(optsB, files));
-  });
-
-  it("outDir is ignored in signature", () => {
-    const files = ["/a/b.ts"];
-    const optsA: ts.CompilerOptions = { module: 99, outDir: "/dist/esm" };
-    const optsB: ts.CompilerOptions = { module: 99, outDir: "/dist/browser" };
-    expect(optionsSignature(optsA, files)).toBe(optionsSignature(optsB, files));
   });
 });
