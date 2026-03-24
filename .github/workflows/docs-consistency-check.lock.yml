@@ -23,7 +23,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"56b9fd1b6d2446e719f9df96079604f30cff72d1a628ac8fedad1bcd80a4f3f3","compiler_version":"v0.47.3"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"50d14069ed11d1da32367a158ec2ac5ec28b5be789bf0794d5bf8684bb092bad","compiler_version":"v0.47.3"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -225,7 +225,9 @@ jobs:
           retention-days: 1
 
   agent:
-    needs: activation
+    needs:
+      - activation
+      - get_github_token
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -1006,6 +1008,25 @@ jobs:
           name: threat-detection.log
           path: /tmp/gh-aw/threat-detection/detection.log
           if-no-files-found: ignore
+
+  get_github_token:
+    needs: activation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure
+        uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
+        with:
+          allow-no-subscriptions: true
+          client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
+          enable-AzPSSession: true
+          tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+      - name: Obtain GitHub token
+        uses: azure/powershell@6101bc5f8a23168669e44f7e68db621ec5ecbc6e # v2
+        with:
+          azPSVersion: latest
+          inlineScript: |
+            . eng/common/scripts/login-to-github.ps1
+            echo "GH_AW_GITHUB_TOKEN=$env:GH_TOKEN" >> $env:GITHUB_ENV
 
   safe_outputs:
     needs:
