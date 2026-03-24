@@ -70,7 +70,7 @@ export class FileImpl implements File {
   }
 
   /**
-   * Creates a new file or replaces a file. Note it only initializes the file with no content.
+   * Creates a new file or replaces a file. Can also initialize the file with content.
    * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param options The options parameters.
    */
@@ -441,6 +441,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.nfsFileType,
     Parameters.contentMD5,
     Parameters.contentLength,
+    Parameters.structuredBodyType,
+    Parameters.structuredContentLength,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
@@ -478,9 +480,9 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.allowTrailingDot,
+    Parameters.structuredBodyType,
     Parameters.range,
     Parameters.rangeGetContentMD5,
-    Parameters.structuredBodyType,
   ],
   isXML: true,
   serializer: xmlSerializer,
@@ -729,11 +731,11 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
     Parameters.accept3,
     Parameters.contentMD5,
     Parameters.structuredBodyType,
+    Parameters.structuredContentLength,
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength1,
     Parameters.fileLastWrittenMode,
-    Parameters.structuredContentLength,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",

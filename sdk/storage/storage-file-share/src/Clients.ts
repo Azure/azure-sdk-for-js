@@ -3096,6 +3096,15 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  
+  /** 
+   * Initial data. 
+   */
+  content?: HttpRequestBody;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {

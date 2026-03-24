@@ -137,6 +137,8 @@ export interface BlobSASSignatureValues {
    * Request query parameters used in generating a SAS token
    */
   requestQueryParameters?: RequestQueryParameters;
+
+  isDirectory?: boolean;
 }
 
 /**
