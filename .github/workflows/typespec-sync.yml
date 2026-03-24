@@ -29,7 +29,6 @@ on:
         required: false
         default: "feature/foundry-staging"
         type: string
-  pull_request: 
 
 permissions:
   contents: write
@@ -155,8 +154,6 @@ jobs:
 
           cd "$PACKAGE_PATH"
 
-          # Inline the generate:client steps so the workflow does not depend on
-          # the target branch already having the script in package.json.
           npm run generate:client
 
       # ── Step 5: Commit and push changes ──────────────────────────
