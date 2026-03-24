@@ -18,7 +18,7 @@ import {
   testPollingOptions,
   isLiveMode,
   TEST_INVOICE_URL,
-  TEST_DOCUMENT_URL,
+  TEST_MULTI_PAGE_DOCUMENT_URL,
   TEST_VIDEO_URL,
   TEST_AUDIO_URL,
   TEST_IMAGE_URL,
@@ -116,20 +116,24 @@ describe("Sample: analyzeUrl", () => {
     // Full analysis for comparison
     const fullPoller = client.analyze(
       "prebuilt-documentSearch",
-      [{ url: TEST_DOCUMENT_URL }],
+      [{ url: TEST_MULTI_PAGE_DOCUMENT_URL }],
       testPollingOptions,
     );
     const fullResult = await fullPoller.pollUntilDone();
     const fullDoc = fullResult.contents[0] as DocumentContent;
     const fullPageCount = fullDoc.pages ? fullDoc.pages.length : 0;
-    assert.equal(fullPageCount, 4, `Full document should return all 4 pages, got ${fullPageCount}`);
+    assert.equal(
+      fullPageCount,
+      10,
+      `Full document should return all 10 pages, got ${fullPageCount}`,
+    );
     console.log(`Full document: ${fullPageCount} pages, ${(fullDoc.markdown || "").length} chars`);
 
     // "1" — single page
     console.log("\nAnalyzing page 1 only with content range '1'...");
     const rangePoller = client.analyze(
       "prebuilt-documentSearch",
-      [{ url: TEST_DOCUMENT_URL, contentRange: "1" }],
+      [{ url: TEST_MULTI_PAGE_DOCUMENT_URL, contentRange: "1" }],
       testPollingOptions,
     );
     const rangeResult = await rangePoller.pollUntilDone();
@@ -151,11 +155,11 @@ describe("Sample: analyzeUrl", () => {
     console.log(`'1': ${rangePageCount} page, ${(rangeDoc.markdown || "").length} chars`);
 
     // "1-3,5,9-" — combined disjoint page ranges
-    // Document has 4 pages, so only pages 1-3 match (no page 5 or 9+)
+    // Document has 10 pages, so pages 1-3, 5, 9-10 match (6 pages total)
     console.log("\nAnalyzing combined pages (1-3, 5, 9-) with content range '1-3,5,9-'...");
     const combinePoller = client.analyze(
       "prebuilt-documentSearch",
-      [{ url: TEST_DOCUMENT_URL, contentRange: "1-3,5,9-" }],
+      [{ url: TEST_MULTI_PAGE_DOCUMENT_URL, contentRange: "1-3,5,9-" }],
       testPollingOptions,
     );
     const combineResult = await combinePoller.pollUntilDone();
@@ -163,13 +167,13 @@ describe("Sample: analyzeUrl", () => {
     const combinePageCount = combineDoc.pages ? combineDoc.pages.length : 0;
     assert.equal(
       combinePageCount,
-      3,
-      `'1-3,5,9-' should return 3 pages (1-3), got ${combinePageCount}`,
+      6,
+      `'1-3,5,9-' should return 6 pages (1-3, 5, 9-10), got ${combinePageCount}`,
     );
     assert.equal(combineDoc.startPageNumber, 1, "'1-3,5,9-' should start at page 1");
-    assert.equal(combineDoc.endPageNumber, 3, "'1-3,5,9-' should end at page 3");
+    assert.equal(combineDoc.endPageNumber, 10, "'1-3,5,9-' should end at page 10");
     const actualCombinePages = combineDoc.pages!.map((p) => p.pageNumber).sort((a, b) => a - b);
-    assert.deepEqual(actualCombinePages, [1, 2, 3]);
+    assert.deepEqual(actualCombinePages, [1, 2, 3, 5, 9, 10]);
     console.log(`'1-3,5,9-': ${combinePageCount} pages, page numbers: ${actualCombinePages}`);
   });
 

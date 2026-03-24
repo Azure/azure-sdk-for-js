@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
   // DOCUMENT ANALYSIS FROM URL
   // ========================================================================
   const documentUrl =
-    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_invoices.pdf";
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_docs.pdf";
 
   console.log("=".repeat(60));
   console.log("DOCUMENT ANALYSIS FROM URL");
@@ -82,11 +82,15 @@ export async function main(): Promise<void> {
   }
 
   // Restrict to specific pages with a content range string.
+  // Use a multi-page document to demonstrate content range filtering.
+  const multiPageDocumentUrl =
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_invoices.pdf";
+
   // Extract only page 1 of the document.
   console.log('\nAnalyzing page 1 only with content range "1"...');
   const rangeDocPoller = client.analyze("prebuilt-documentSearch", [
     {
-      url: documentUrl,
+      url: multiPageDocumentUrl,
       contentRange: "1",
     },
   ]);
@@ -102,7 +106,7 @@ export async function main(): Promise<void> {
   console.log('\nAnalyzing combined page ranges with content range "1-3,5,9-"...');
   const combineDocPoller = client.analyze("prebuilt-documentSearch", [
     {
-      url: documentUrl,
+      url: multiPageDocumentUrl,
       contentRange: "1-3,5,9-",
     },
   ]);
