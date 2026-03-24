@@ -1,96 +1,16 @@
 {
   "name": "@azure/arm-billing",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "6.0.0-beta.1",
   "description": "A generated SDK for BillingManagementClient.",
-  "version": "5.0.2",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.7.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.1",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/billingManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview"
-  },
-  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "exports": {
@@ -112,6 +32,668 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/address": {
+      "browser": {
+        "types": "./dist/browser/api/address/index.d.ts",
+        "default": "./dist/browser/api/address/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/address/index.d.ts",
+        "default": "./dist/react-native/api/address/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/address/index.d.ts",
+        "default": "./dist/esm/api/address/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/address/index.d.ts",
+        "default": "./dist/commonjs/api/address/index.js"
+      }
+    },
+    "./api/billingSubscriptionsAliases": {
+      "browser": {
+        "types": "./dist/browser/api/billingSubscriptionsAliases/index.d.ts",
+        "default": "./dist/browser/api/billingSubscriptionsAliases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingSubscriptionsAliases/index.d.ts",
+        "default": "./dist/react-native/api/billingSubscriptionsAliases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingSubscriptionsAliases/index.d.ts",
+        "default": "./dist/esm/api/billingSubscriptionsAliases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingSubscriptionsAliases/index.d.ts",
+        "default": "./dist/commonjs/api/billingSubscriptionsAliases/index.js"
+      }
+    },
+    "./api/savingsPlanOrders": {
+      "browser": {
+        "types": "./dist/browser/api/savingsPlanOrders/index.d.ts",
+        "default": "./dist/browser/api/savingsPlanOrders/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/savingsPlanOrders/index.d.ts",
+        "default": "./dist/react-native/api/savingsPlanOrders/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/savingsPlanOrders/index.d.ts",
+        "default": "./dist/esm/api/savingsPlanOrders/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/savingsPlanOrders/index.d.ts",
+        "default": "./dist/commonjs/api/savingsPlanOrders/index.js"
+      }
+    },
+    "./api/billingRoleDefinition": {
+      "browser": {
+        "types": "./dist/browser/api/billingRoleDefinition/index.d.ts",
+        "default": "./dist/browser/api/billingRoleDefinition/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingRoleDefinition/index.d.ts",
+        "default": "./dist/react-native/api/billingRoleDefinition/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingRoleDefinition/index.d.ts",
+        "default": "./dist/esm/api/billingRoleDefinition/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingRoleDefinition/index.d.ts",
+        "default": "./dist/commonjs/api/billingRoleDefinition/index.js"
+      }
+    },
+    "./api/billingProperty": {
+      "browser": {
+        "types": "./dist/browser/api/billingProperty/index.d.ts",
+        "default": "./dist/browser/api/billingProperty/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingProperty/index.d.ts",
+        "default": "./dist/react-native/api/billingProperty/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingProperty/index.d.ts",
+        "default": "./dist/esm/api/billingProperty/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingProperty/index.d.ts",
+        "default": "./dist/commonjs/api/billingProperty/index.js"
+      }
+    },
+    "./api/savingsPlans": {
+      "browser": {
+        "types": "./dist/browser/api/savingsPlans/index.d.ts",
+        "default": "./dist/browser/api/savingsPlans/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/savingsPlans/index.d.ts",
+        "default": "./dist/react-native/api/savingsPlans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/savingsPlans/index.d.ts",
+        "default": "./dist/esm/api/savingsPlans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/savingsPlans/index.d.ts",
+        "default": "./dist/commonjs/api/savingsPlans/index.js"
+      }
+    },
+    "./api/billingPermissions": {
+      "browser": {
+        "types": "./dist/browser/api/billingPermissions/index.d.ts",
+        "default": "./dist/browser/api/billingPermissions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingPermissions/index.d.ts",
+        "default": "./dist/react-native/api/billingPermissions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingPermissions/index.d.ts",
+        "default": "./dist/esm/api/billingPermissions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingPermissions/index.d.ts",
+        "default": "./dist/commonjs/api/billingPermissions/index.js"
+      }
+    },
+    "./api/transactions": {
+      "browser": {
+        "types": "./dist/browser/api/transactions/index.d.ts",
+        "default": "./dist/browser/api/transactions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/transactions/index.d.ts",
+        "default": "./dist/react-native/api/transactions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/transactions/index.d.ts",
+        "default": "./dist/esm/api/transactions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/transactions/index.d.ts",
+        "default": "./dist/commonjs/api/transactions/index.js"
+      }
+    },
+    "./api/recipientTransfers": {
+      "browser": {
+        "types": "./dist/browser/api/recipientTransfers/index.d.ts",
+        "default": "./dist/browser/api/recipientTransfers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/recipientTransfers/index.d.ts",
+        "default": "./dist/react-native/api/recipientTransfers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recipientTransfers/index.d.ts",
+        "default": "./dist/esm/api/recipientTransfers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recipientTransfers/index.d.ts",
+        "default": "./dist/commonjs/api/recipientTransfers/index.js"
+      }
+    },
+    "./api/partnerTransfers": {
+      "browser": {
+        "types": "./dist/browser/api/partnerTransfers/index.d.ts",
+        "default": "./dist/browser/api/partnerTransfers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/partnerTransfers/index.d.ts",
+        "default": "./dist/react-native/api/partnerTransfers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/partnerTransfers/index.d.ts",
+        "default": "./dist/esm/api/partnerTransfers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/partnerTransfers/index.d.ts",
+        "default": "./dist/commonjs/api/partnerTransfers/index.js"
+      }
+    },
+    "./api/transfers": {
+      "browser": {
+        "types": "./dist/browser/api/transfers/index.d.ts",
+        "default": "./dist/browser/api/transfers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/transfers/index.d.ts",
+        "default": "./dist/react-native/api/transfers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/transfers/index.d.ts",
+        "default": "./dist/esm/api/transfers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/transfers/index.d.ts",
+        "default": "./dist/commonjs/api/transfers/index.js"
+      }
+    },
+    "./api/reservationOrders": {
+      "browser": {
+        "types": "./dist/browser/api/reservationOrders/index.d.ts",
+        "default": "./dist/browser/api/reservationOrders/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/reservationOrders/index.d.ts",
+        "default": "./dist/react-native/api/reservationOrders/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/reservationOrders/index.d.ts",
+        "default": "./dist/esm/api/reservationOrders/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/reservationOrders/index.d.ts",
+        "default": "./dist/commonjs/api/reservationOrders/index.js"
+      }
+    },
+    "./api/paymentMethods": {
+      "browser": {
+        "types": "./dist/browser/api/paymentMethods/index.d.ts",
+        "default": "./dist/browser/api/paymentMethods/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/paymentMethods/index.d.ts",
+        "default": "./dist/react-native/api/paymentMethods/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/paymentMethods/index.d.ts",
+        "default": "./dist/esm/api/paymentMethods/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/paymentMethods/index.d.ts",
+        "default": "./dist/commonjs/api/paymentMethods/index.js"
+      }
+    },
+    "./api/invoiceSections": {
+      "browser": {
+        "types": "./dist/browser/api/invoiceSections/index.d.ts",
+        "default": "./dist/browser/api/invoiceSections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/invoiceSections/index.d.ts",
+        "default": "./dist/react-native/api/invoiceSections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/invoiceSections/index.d.ts",
+        "default": "./dist/esm/api/invoiceSections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/invoiceSections/index.d.ts",
+        "default": "./dist/commonjs/api/invoiceSections/index.js"
+      }
+    },
+    "./api/enrollmentAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/enrollmentAccounts/index.d.ts",
+        "default": "./dist/browser/api/enrollmentAccounts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/enrollmentAccounts/index.d.ts",
+        "default": "./dist/react-native/api/enrollmentAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/enrollmentAccounts/index.d.ts",
+        "default": "./dist/esm/api/enrollmentAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/enrollmentAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/enrollmentAccounts/index.js"
+      }
+    },
+    "./api/departments": {
+      "browser": {
+        "types": "./dist/browser/api/departments/index.d.ts",
+        "default": "./dist/browser/api/departments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/departments/index.d.ts",
+        "default": "./dist/react-native/api/departments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/departments/index.d.ts",
+        "default": "./dist/esm/api/departments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/departments/index.d.ts",
+        "default": "./dist/commonjs/api/departments/index.js"
+      }
+    },
+    "./api/customers": {
+      "browser": {
+        "types": "./dist/browser/api/customers/index.d.ts",
+        "default": "./dist/browser/api/customers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/customers/index.d.ts",
+        "default": "./dist/react-native/api/customers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/customers/index.d.ts",
+        "default": "./dist/esm/api/customers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/customers/index.d.ts",
+        "default": "./dist/commonjs/api/customers/index.js"
+      }
+    },
+    "./api/policies": {
+      "browser": {
+        "types": "./dist/browser/api/policies/index.d.ts",
+        "default": "./dist/browser/api/policies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/policies/index.d.ts",
+        "default": "./dist/react-native/api/policies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policies/index.d.ts",
+        "default": "./dist/esm/api/policies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policies/index.d.ts",
+        "default": "./dist/commonjs/api/policies/index.js"
+      }
+    },
+    "./api/billingSubscriptions": {
+      "browser": {
+        "types": "./dist/browser/api/billingSubscriptions/index.d.ts",
+        "default": "./dist/browser/api/billingSubscriptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingSubscriptions/index.d.ts",
+        "default": "./dist/react-native/api/billingSubscriptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingSubscriptions/index.d.ts",
+        "default": "./dist/esm/api/billingSubscriptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingSubscriptions/index.d.ts",
+        "default": "./dist/commonjs/api/billingSubscriptions/index.js"
+      }
+    },
+    "./api/billingProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/billingProfiles/index.d.ts",
+        "default": "./dist/browser/api/billingProfiles/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingProfiles/index.d.ts",
+        "default": "./dist/react-native/api/billingProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingProfiles/index.d.ts",
+        "default": "./dist/esm/api/billingProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/billingProfiles/index.js"
+      }
+    },
+    "./api/products": {
+      "browser": {
+        "types": "./dist/browser/api/products/index.d.ts",
+        "default": "./dist/browser/api/products/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/products/index.d.ts",
+        "default": "./dist/react-native/api/products/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/products/index.d.ts",
+        "default": "./dist/esm/api/products/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/products/index.d.ts",
+        "default": "./dist/commonjs/api/products/index.js"
+      }
+    },
+    "./api/availableBalances": {
+      "browser": {
+        "types": "./dist/browser/api/availableBalances/index.d.ts",
+        "default": "./dist/browser/api/availableBalances/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/availableBalances/index.d.ts",
+        "default": "./dist/react-native/api/availableBalances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableBalances/index.d.ts",
+        "default": "./dist/esm/api/availableBalances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableBalances/index.d.ts",
+        "default": "./dist/commonjs/api/availableBalances/index.js"
+      }
+    },
+    "./api/associatedTenants": {
+      "browser": {
+        "types": "./dist/browser/api/associatedTenants/index.d.ts",
+        "default": "./dist/browser/api/associatedTenants/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/associatedTenants/index.d.ts",
+        "default": "./dist/react-native/api/associatedTenants/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/associatedTenants/index.d.ts",
+        "default": "./dist/esm/api/associatedTenants/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/associatedTenants/index.d.ts",
+        "default": "./dist/commonjs/api/associatedTenants/index.js"
+      }
+    },
+    "./api/billingAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/billingAccounts/index.d.ts",
+        "default": "./dist/browser/api/billingAccounts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingAccounts/index.d.ts",
+        "default": "./dist/react-native/api/billingAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingAccounts/index.d.ts",
+        "default": "./dist/esm/api/billingAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/billingAccounts/index.js"
+      }
+    },
+    "./api/reservations": {
+      "browser": {
+        "types": "./dist/browser/api/reservations/index.d.ts",
+        "default": "./dist/browser/api/reservations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/reservations/index.d.ts",
+        "default": "./dist/react-native/api/reservations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/reservations/index.d.ts",
+        "default": "./dist/esm/api/reservations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/reservations/index.d.ts",
+        "default": "./dist/commonjs/api/reservations/index.js"
+      }
+    },
+    "./api/invoices": {
+      "browser": {
+        "types": "./dist/browser/api/invoices/index.d.ts",
+        "default": "./dist/browser/api/invoices/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/invoices/index.d.ts",
+        "default": "./dist/react-native/api/invoices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/invoices/index.d.ts",
+        "default": "./dist/esm/api/invoices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/invoices/index.d.ts",
+        "default": "./dist/commonjs/api/invoices/index.js"
+      }
+    },
+    "./api/billingRoleAssignments": {
+      "browser": {
+        "types": "./dist/browser/api/billingRoleAssignments/index.d.ts",
+        "default": "./dist/browser/api/billingRoleAssignments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingRoleAssignments/index.d.ts",
+        "default": "./dist/react-native/api/billingRoleAssignments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingRoleAssignments/index.d.ts",
+        "default": "./dist/esm/api/billingRoleAssignments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingRoleAssignments/index.d.ts",
+        "default": "./dist/commonjs/api/billingRoleAssignments/index.js"
+      }
+    },
+    "./api/billingRequests": {
+      "browser": {
+        "types": "./dist/browser/api/billingRequests/index.d.ts",
+        "default": "./dist/browser/api/billingRequests/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/billingRequests/index.d.ts",
+        "default": "./dist/react-native/api/billingRequests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/billingRequests/index.d.ts",
+        "default": "./dist/esm/api/billingRequests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/billingRequests/index.d.ts",
+        "default": "./dist/commonjs/api/billingRequests/index.js"
+      }
+    },
+    "./api/agreements": {
+      "browser": {
+        "types": "./dist/browser/api/agreements/index.d.ts",
+        "default": "./dist/browser/api/agreements/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/agreements/index.d.ts",
+        "default": "./dist/react-native/api/agreements/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/agreements/index.d.ts",
+        "default": "./dist/esm/api/agreements/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/agreements/index.d.ts",
+        "default": "./dist/commonjs/api/agreements/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/billingManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-billing",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview"
   }
 }

@@ -1,21 +1,124 @@
 # Release History
 
-## 5.0.2 (Unreleased)
+## 6.0.0-beta.1 (2026-03-24)
+Compared with version 5.0.0
 
 ### Features Added
+  - Added operation AssociatedTenantsOperations.createOrUpdate
+  - Added operation AssociatedTenantsOperations.delete
+  - Added operation BillingAccountsOperations.addPaymentTerms
+  - Added operation BillingAccountsOperations.cancelPaymentTerms
+  - Added operation BillingAccountsOperations.update
+  - Added operation BillingProfilesOperations.createOrUpdate
+  - Added operation BillingProfilesOperations.delete
+  - Added operation BillingRequestsOperations.createOrUpdate
+  - Added operation BillingRoleAssignmentsOperations.createByBillingAccount
+  - Added operation BillingRoleAssignmentsOperations.createByBillingProfile
+  - Added operation BillingRoleAssignmentsOperations.createByCustomer
+  - Added operation BillingRoleAssignmentsOperations.createByInvoiceSection
+  - Added operation BillingRoleAssignmentsOperations.createOrUpdateByBillingAccount
+  - Added operation BillingRoleAssignmentsOperations.createOrUpdateByDepartment
+  - Added operation BillingRoleAssignmentsOperations.createOrUpdateByEnrollmentAccount
+  - Added operation BillingRoleAssignmentsOperations.resolveByBillingAccount
+  - Added operation BillingRoleAssignmentsOperations.resolveByBillingProfile
+  - Added operation BillingRoleAssignmentsOperations.resolveByCustomer
+  - Added operation BillingRoleAssignmentsOperations.resolveByInvoiceSection
+  - Added operation BillingSubscriptionsOperations.cancel
+  - Added operation BillingSubscriptionsOperations.delete
+  - Added operation BillingSubscriptionsOperations.merge
+  - Added operation BillingSubscriptionsOperations.move
+  - Added operation BillingSubscriptionsOperations.split
+  - Added operation BillingSubscriptionsOperations.update
+  - Added operation BillingSubscriptionsAliasesOperations.createOrUpdate
+  - Added operation InvoicesOperations.amend
+  - Added operation InvoicesOperations.downloadByBillingAccount
+  - Added operation InvoicesOperations.downloadByBillingSubscription
+  - Added operation InvoicesOperations.downloadDocumentsByBillingAccount
+  - Added operation InvoicesOperations.downloadDocumentsByBillingSubscription
+  - Added operation InvoicesOperations.downloadSummaryByBillingAccount
+  - Added operation InvoiceSectionsOperations.createOrUpdate
+  - Added operation InvoiceSectionsOperations.delete
+  - Added operation PoliciesOperations.createOrUpdateByBillingAccount
+  - Added operation PoliciesOperations.createOrUpdateByBillingProfile
+  - Added operation PoliciesOperations.createOrUpdateByCustomer
+  - Added operation PoliciesOperations.createOrUpdateByCustomerAtBillingAccount
+  - Added operation ProductsOperations.move
+  - Added operation ReservationsOperations.updateByBillingAccount
+  - Added operation SavingsPlansOperations.updateByBillingAccount
+  - Added operation TransactionsOperations.transactionsDownloadByInvoice
+  - Added Interface AcceptTransferProperties
+  - Added Interface EnrollmentAccountSubscriptionDetails
+  - Added Interface ExtendedStatusInfoProperties
+  - Added Interface InitiateTransferProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PartnerInitiateTransferProperties
+  - Added Interface PartnerTransferProperties
+  - Added Interface PatchProperties
+  - Added Interface PatchPropertiesRenewProperties
+  - Added Interface PaymentMethodLinkProperties
+  - Added Interface PurchaseRequestProperties
+  - Added Interface RecipientTransferProperties
+  - Added Interface ReservationOrderProperty
+  - Added Interface ReservationProperty
+  - Added Interface ReservationPropertyUtilization
+  - Added Interface ReservationPurchaseRequestProperties
+  - Added Interface ReservationPurchaseRequestPropertiesReservedResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SavingsPlanModelProperties
+  - Added Interface SavingsPlanOrderModelProperties
+  - Added Interface SimplePollerLike
+  - Added Interface TransferProperties
+  - Added Interface ValidateTransferResponseProperties
+  - Interface BillingSubscription has a new optional parameter enrollmentAccountSubscriptionDetails
+  - Interface BillingSubscriptionAlias has a new optional parameter enrollmentAccountSubscriptionDetails
+  - Interface BillingSubscriptionPatch has a new optional parameter enrollmentAccountSubscriptionDetails
+  - Interface Patch has a new optional parameter renewProperties
+  - Interface Reservation has a new optional parameter utilization
+  - Interface ReservationPurchaseRequest has a new optional parameter instanceFlexibility
+  - Interface ReservationPurchaseRequest has a new optional parameter reservedResourceProperties
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Operation AssociatedTenants.beginDeleteAndWait has a new signature
+  - Operation BillingPermissions.checkAccessByBillingAccount has a new signature
+  - Operation BillingPermissions.checkAccessByBillingProfile has a new signature
+  - Operation BillingPermissions.checkAccessByCustomer has a new signature
+  - Operation BillingPermissions.checkAccessByDepartment has a new signature
+  - Operation BillingPermissions.checkAccessByEnrollmentAccount has a new signature
+  - Operation BillingPermissions.checkAccessByInvoiceSection has a new signature
+  - Operation BillingProfiles.beginDeleteAndWait has a new signature
+  - Operation BillingSubscriptions.beginCancelAndWait has a new signature
+  - Operation BillingSubscriptions.beginDeleteAndWait has a new signature
+  - Operation Invoices.beginAmendAndWait has a new signature
+  - Operation InvoiceSections.beginDeleteAndWait has a new signature
+  - Removed Interface ExternalReference
+  - Removed Interface ReservationList
+  - Removed Interface ReservationOrderList
+  - Removed Interface SavingsPlanModelList
+  - Removed Interface SavingsPlanOrderModelList
+  - Removed Interface TransferItemQueryParameter
+  - Interface BillingSubscription no longer has parameter enrollmentAccountStartDate
+  - Interface BillingSubscription no longer has parameter subscriptionEnrollmentAccountStatus
+  - Interface BillingSubscriptionAlias no longer has parameter enrollmentAccountStartDate
+  - Interface BillingSubscriptionAlias no longer has parameter subscriptionEnrollmentAccountStatus
+  - Interface BillingSubscriptionPatch no longer has parameter enrollmentAccountStartDate
+  - Interface BillingSubscriptionPatch no longer has parameter subscriptionEnrollmentAccountStatus
+  - Interface Patch no longer has parameter purchaseProperties
+  - Interface Reservation no longer has parameter aggregates
+  - Interface Reservation no longer has parameter trend
+  - Interface ReservationPurchaseRequest no longer has parameter instanceFlexibilityPropertiesInstanceFlexibility
+  - Interface ReservationPurchaseRequest no longer has parameter instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility
+  - Type alias "BillingPermissionsCheckAccessByBillingAccountResponse" has been changed
+  - Type alias "BillingPermissionsCheckAccessByBillingProfileResponse" has been changed
+  - Type alias "BillingPermissionsCheckAccessByCustomerResponse" has been changed
+  - Type alias "BillingPermissionsCheckAccessByDepartmentResponse" has been changed
+  - Type alias "BillingPermissionsCheckAccessByEnrollmentAccountResponse" has been changed
+  - Type alias "BillingPermissionsCheckAccessByInvoiceSectionResponse" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
-## 5.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 5.0.0 (2024-09-04)
     
 ### Features Added
