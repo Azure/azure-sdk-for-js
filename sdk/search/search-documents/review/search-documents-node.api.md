@@ -1319,8 +1319,6 @@ export interface KnowledgeBaseRetrievalRequest {
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
     messages?: KnowledgeBaseMessage[];
-    outputMode?: string;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -1441,6 +1439,16 @@ export interface KnowledgeSourceStatus {
     statistics?: KnowledgeSourceStatistics;
     synchronizationInterval?: string;
     synchronizationStatus: KnowledgeSourceSynchronizationStatus;
+}
+
+// @public
+export interface KnowledgeSourceSynchronizationError {
+    details?: string;
+    docId?: string;
+    documentationLink?: string;
+    errorMessage: string;
+    name?: string;
+    statusCode?: number;
 }
 
 // @public
@@ -3627,7 +3635,6 @@ export type SuggestResult<TModel extends object, TFields extends SelectFields<TM
 
 // @public
 export interface SynchronizationState {
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceSynchronizationError" needs to be exported by the entry point index.d.ts
     errors?: KnowledgeSourceSynchronizationError[];
     itemsSkipped: number;
     itemsUpdatesFailed: number;

@@ -134,8 +134,6 @@ export interface KnowledgeBaseRetrievalRequest {
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
     messages?: KnowledgeBaseMessage[];
-    outputMode?: string;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public

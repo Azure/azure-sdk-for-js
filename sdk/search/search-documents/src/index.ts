@@ -60,6 +60,7 @@ export {
   type KnowledgeBaseRetrievalResponse,
   type KnowledgeSourceStatus,
   type SynchronizationState,
+  type KnowledgeSourceSynchronizationError,
   type CompletedSynchronizationState,
   type KnowledgeSourceStatistics,
   type KnowledgeBaseSearchIndexReference,
