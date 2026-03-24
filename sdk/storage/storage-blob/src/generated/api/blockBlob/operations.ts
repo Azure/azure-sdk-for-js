@@ -18,7 +18,7 @@ import {
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
 import { BlockBlobQueryResponse } from "../../models/models.js";
-import { getBinaryStream } from "../../static-helpers/serialization/get-binary-stream.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -356,7 +356,7 @@ export async function query(
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryStream(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _queryDeserialize(result);
   const parsedHeaders = _queryDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);

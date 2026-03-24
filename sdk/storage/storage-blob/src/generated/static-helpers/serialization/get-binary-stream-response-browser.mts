@@ -6,7 +6,7 @@ import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
  * Error handling is left to the caller so that generated deserializers can apply
  * operation-specific error deserialization (per-status-code details, exception headers, etc.).
  */
-export async function getBinaryStream(
+export async function getBinaryStreamResponse(
   streamableMethod: StreamableMethod
 ): Promise<
   HttpResponse & {
