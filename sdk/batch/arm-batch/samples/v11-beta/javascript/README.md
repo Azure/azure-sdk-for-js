@@ -1,4 +1,4 @@
-# @azure/arm-batch client library samples for JavaScript
+# @azure/arm-batch client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-batch in some common scenarios.
 
@@ -85,48 +85,48 @@ node applicationCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[applicationcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationCreateSample.js
-[applicationdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationDeleteSample.js
-[applicationgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationGetSample.js
-[applicationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationListSample.js
-[applicationpackageactivatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationPackageActivateSample.js
-[applicationpackagecreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationPackageCreateSample.js
-[applicationpackagedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationPackageDeleteSample.js
-[applicationpackagegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationPackageGetSample.js
-[applicationpackagelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationPackageListSample.js
-[applicationupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/applicationUpdateSample.js
-[batchaccountcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountCreateSample.js
-[batchaccountdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountDeleteSample.js
-[batchaccountgetdetectorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountGetDetectorSample.js
-[batchaccountgetkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountGetKeysSample.js
-[batchaccountgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountGetSample.js
-[batchaccountlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountListByResourceGroupSample.js
-[batchaccountlistdetectorssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountListDetectorsSample.js
-[batchaccountlistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountListOutboundNetworkDependenciesEndpointsSample.js
-[batchaccountlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountListSample.js
-[batchaccountregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountRegenerateKeySample.js
-[batchaccountsynchronizeautostoragekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountSynchronizeAutoStorageKeysSample.js
-[batchaccountupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/batchAccountUpdateSample.js
-[locationchecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/locationCheckNameAvailabilitySample.js
-[locationgetquotassample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/locationGetQuotasSample.js
-[locationlistsupportedvirtualmachineskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/locationListSupportedVirtualMachineSkusSample.js
-[networksecurityperimetergetconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/networkSecurityPerimeterGetConfigurationSample.js
-[networksecurityperimeterlistconfigurationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/networkSecurityPerimeterListConfigurationsSample.js
-[networksecurityperimeterreconcileconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/networkSecurityPerimeterReconcileConfigurationSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/operationsListSample.js
-[poolcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolCreateSample.js
-[pooldeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolDeleteSample.js
-[pooldisableautoscalesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolDisableAutoScaleSample.js
-[poolgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolGetSample.js
-[poollistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolListByBatchAccountSample.js
-[poolstopresizesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolStopResizeSample.js
-[poolupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/poolUpdateSample.js
-[privateendpointconnectiondeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateEndpointConnectionDeleteSample.js
-[privateendpointconnectiongetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateEndpointConnectionGetSample.js
-[privateendpointconnectionlistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateEndpointConnectionListByBatchAccountSample.js
-[privateendpointconnectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateEndpointConnectionUpdateSample.js
-[privatelinkresourcegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateLinkResourceGetSample.js
-[privatelinkresourcelistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/javascript/privateLinkResourceListByBatchAccountSample.js
+[applicationcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationCreateSample.js
+[applicationdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationDeleteSample.js
+[applicationgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationGetSample.js
+[applicationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationListSample.js
+[applicationpackageactivatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationPackageActivateSample.js
+[applicationpackagecreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationPackageCreateSample.js
+[applicationpackagedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationPackageDeleteSample.js
+[applicationpackagegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationPackageGetSample.js
+[applicationpackagelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationPackageListSample.js
+[applicationupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/applicationUpdateSample.js
+[batchaccountcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountCreateSample.js
+[batchaccountdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountDeleteSample.js
+[batchaccountgetdetectorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountGetDetectorSample.js
+[batchaccountgetkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountGetKeysSample.js
+[batchaccountgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountGetSample.js
+[batchaccountlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountListByResourceGroupSample.js
+[batchaccountlistdetectorssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountListDetectorsSample.js
+[batchaccountlistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountListOutboundNetworkDependenciesEndpointsSample.js
+[batchaccountlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountListSample.js
+[batchaccountregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountRegenerateKeySample.js
+[batchaccountsynchronizeautostoragekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountSynchronizeAutoStorageKeysSample.js
+[batchaccountupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/batchAccountUpdateSample.js
+[locationchecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/locationCheckNameAvailabilitySample.js
+[locationgetquotassample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/locationGetQuotasSample.js
+[locationlistsupportedvirtualmachineskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/locationListSupportedVirtualMachineSkusSample.js
+[networksecurityperimetergetconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/networkSecurityPerimeterGetConfigurationSample.js
+[networksecurityperimeterlistconfigurationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/networkSecurityPerimeterListConfigurationsSample.js
+[networksecurityperimeterreconcileconfigurationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/networkSecurityPerimeterReconcileConfigurationSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/operationsListSample.js
+[poolcreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolCreateSample.js
+[pooldeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolDeleteSample.js
+[pooldisableautoscalesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolDisableAutoScaleSample.js
+[poolgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolGetSample.js
+[poollistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolListByBatchAccountSample.js
+[poolstopresizesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolStopResizeSample.js
+[poolupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/poolUpdateSample.js
+[privateendpointconnectiondeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateEndpointConnectionDeleteSample.js
+[privateendpointconnectiongetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateEndpointConnectionGetSample.js
+[privateendpointconnectionlistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateEndpointConnectionListByBatchAccountSample.js
+[privateendpointconnectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateEndpointConnectionUpdateSample.js
+[privatelinkresourcegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateLinkResourceGetSample.js
+[privatelinkresourcelistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11-beta/javascript/privateLinkResourceListByBatchAccountSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-batch?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/arm-batch/README.md

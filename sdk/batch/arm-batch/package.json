@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-batch",
-  "version": "11.0.0",
+  "version": "11.0.0-beta.1",
   "description": "A generated SDK for BatchManagementClient.",
   "engines": {
     "node": ">=20.0.0"

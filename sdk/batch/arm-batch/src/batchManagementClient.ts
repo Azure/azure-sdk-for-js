@@ -37,7 +37,6 @@ export class BatchManagementClient {
     subscriptionId: string,
     options?: BatchManagementClientOptionalParams,
   );
-  /** The Batch Management Client. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | BatchManagementClientOptionalParams,

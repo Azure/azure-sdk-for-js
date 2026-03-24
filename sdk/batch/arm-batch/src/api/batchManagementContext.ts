@@ -9,7 +9,6 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** The Batch Management Client. */
 export interface BatchManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +26,6 @@ export interface BatchManagementClientOptionalParams extends ClientOptions {
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** The Batch Management Client. */
 export function createBatchManagement(
   credential: TokenCredential,
   subscriptionId: string,
@@ -36,7 +34,7 @@ export function createBatchManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-batch/11.0.0`;
+  const userAgentInfo = `azsdk-js-arm-batch/11.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
