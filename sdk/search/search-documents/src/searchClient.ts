@@ -154,7 +154,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *     anotherField?: string | null;
    *   } | null;
    * };
-   *
    * const searchClient = new SearchClient<TModel>(
    *   "<endpoint>",
    *   "<indexName>",
@@ -261,15 +260,12 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *     sdk: string | null;
    *   } | null;
    * };
-   *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key"),
    * );
-   *
    * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
-   *
    * const autocompleteResult = await client.autocomplete("searchText", "suggesterName", {
    *   searchFields,
    * });
@@ -465,16 +461,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *     sdk: string | null;
    *   } | null;
    * };
-   *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key"),
    * );
-   *
    * const select = ["azure/sdk"] as const;
    * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
-   *
    * const searchResult = await client.search("searchText", {
    *   select,
    *   searchFields,
@@ -511,16 +504,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *     sdk: string | null;
    *   } | null;
    * };
-   *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key"),
    * );
-   *
    * const select = ["azure/sdk"] as const;
    * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
-   *
    * const suggestResult = await client.suggest("searchText", "suggesterName", {
    *   select,
    *   searchFields,
