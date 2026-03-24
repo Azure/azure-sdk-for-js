@@ -16,6 +16,7 @@ import {
   createRecorder,
   createClient,
   testPollingOptions,
+  isLiveMode,
   TEST_INVOICE_URL,
   TEST_DOCUMENT_URL,
   TEST_VIDEO_URL,
@@ -173,6 +174,12 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze video URL with content ranges", async () => {
+    // Video content range analysis requires live mode (long processing time)
+    if (!isLiveMode()) {
+      console.log("Skipping video content range test in playback mode");
+      return;
+    }
+
     // Full analysis for comparison
     const fullPoller = client.analyze(
       "prebuilt-videoSearch",
@@ -281,6 +288,12 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze audio URL with content ranges", async () => {
+    // Audio content range analysis requires live mode (long processing time)
+    if (!isLiveMode()) {
+      console.log("Skipping audio content range test in playback mode");
+      return;
+    }
+
     // Full analysis for comparison
     const fullPoller = client.analyze(
       "prebuilt-audioSearch",
