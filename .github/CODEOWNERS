@@ -1331,7 +1331,7 @@
 # ServiceOwners:          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-# ServiceOwners:          @chen-karen @Azure/azure-sdk-write-keyvault
+# ServiceOwners:          @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 # ServiceOwners:          @NarayanThiru
@@ -1648,6 +1648,7 @@ sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
 sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

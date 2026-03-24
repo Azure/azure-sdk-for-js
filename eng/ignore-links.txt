@@ -77,3 +77,5 @@ https://www.npmjs.com/package/@azure/arm-marketplace
 https://www.npmjs.com/package/@azure/ai-speech-transcription
 https://learn.microsoft.com/javascript/api/@azure/arm-tenantactivitylogalerts?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-tenantactivitylogalerts
+https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-discovery
