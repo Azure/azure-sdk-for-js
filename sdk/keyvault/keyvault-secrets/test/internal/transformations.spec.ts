@@ -51,6 +51,7 @@ describe("Transformations", () => {
         version: "1",
         name: "abc123",
         certificateKeyId: "test_kid",
+        previousVersion: undefined,
       },
     };
 
@@ -58,8 +59,18 @@ describe("Transformations", () => {
     assert.deepEqual(secret, expectedResult);
   });
 
-  it("correctly assigns all properties for a deleted secret", () => {
-    const date = new Date();
+  it("correctly assigns previousVersion when present in the bundle", () => {
+    const bundle: SecretBundle = {
+      id: "https://azure_keyvault.vault.azure.net/keys/abc123/2",
+      value: "new value",
+      previousVersion: "1",
+    };
+
+    const secret: KeyVaultSecret = getSecretFromSecretBundle(bundle);
+    assert.equal(secret.properties.previousVersion, "1");
+  });
+
+  it("correctly assigns all properties for a deleted secret", () => {    const date = new Date();
     const bundle: DeletedSecretBundle = {
       id: "https://azure_keyvault.vault.azure.net/keys/abc123/1",
       recoveryId: "recovery_id",
