@@ -1,15 +1,41 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/peeringServiceProviders": "src/api/peeringServiceProviders/index.ts"
+  "./api/peeringServiceLocations": "src/api/peeringServiceLocations/index.ts"
+  "./api/peeringServiceCountries": "src/api/peeringServiceCountries/index.ts"
+  "./api/peeringLocations": "src/api/peeringLocations/index.ts"
+  "./api/lookingGlass": "src/api/lookingGlass/index.ts"
+  "./api/legacyPeerings": "src/api/legacyPeerings/index.ts"
+  "./api/cdnPeeringPrefixes": "src/api/cdnPeeringPrefixes/index.ts"
+  "./api/prefixes": "src/api/prefixes/index.ts"
+  "./api/registeredPrefixes": "src/api/registeredPrefixes/index.ts"
+  "./api/rpUnbilledPrefixes": "src/api/rpUnbilledPrefixes/index.ts"
+  "./api/receivedRoutes": "src/api/receivedRoutes/index.ts"
+  "./api/registeredAsns": "src/api/registeredAsns/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./api/peeringServices": "src/api/peeringServices/index.ts"
+  "./api/connectionMonitorTests": "src/api/connectionMonitorTests/index.ts"
+  "./api/peerings": "src/api/peerings/index.ts"
+  "./api/peerAsns": "src/api/peerAsns/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
