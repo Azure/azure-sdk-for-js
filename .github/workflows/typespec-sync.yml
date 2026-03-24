@@ -4,6 +4,9 @@
 # library client if the spec has changed. Changes are committed to a
 # configurable target branch.
 #
+# Required: "generate:client" script in target lib's package.json (and "generated" folder
+# if "generate:client" script invokes "tsp-client update")
+#
 # Runs daily at midnight UTC and can be triggered manually.
 
 name: TypeSpec Sync
