@@ -1,41 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create Sentinel onboarding state
- *
- * @summary Create Sentinel onboarding state
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/onboardingStates/CreateSentinelOnboardingState.json
- */
-
-import type {
-  SentinelOnboardingState,
-  SentinelOnboardingStatesCreateOptionalParams,
-} from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create Sentinel onboarding state
+ *
+ * @summary create Sentinel onboarding state
+ * x-ms-original-file: 2025-07-01-preview/onboardingStates/CreateSentinelOnboardingState.json
+ */
 async function createSentinelOnboardingState(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const sentinelOnboardingStateName = "default";
-  const sentinelOnboardingStateParameter: SentinelOnboardingState = {
-    customerManagedKey: false,
-  };
-  const options: SentinelOnboardingStatesCreateOptionalParams = {
-    sentinelOnboardingStateParameter,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.sentinelOnboardingStates.create(
-    resourceGroupName,
-    workspaceName,
-    sentinelOnboardingStateName,
-    options,
-  );
+  const result = await client.sentinelOnboardingStates.create("myRg", "myWorkspace", "default", {
+    sentinelOnboardingStateParameter: { customerManagedKey: false },
+  });
   console.log(result);
 }
 

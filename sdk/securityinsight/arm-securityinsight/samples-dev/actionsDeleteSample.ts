@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the action of alert rule.
- *
- * @summary Delete the action of alert rule.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/actions/DeleteActionOfAlertRule.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete the action of alert rule.
+ *
+ * @summary delete the action of alert rule.
+ * x-ms-original-file: 2025-07-01-preview/actions/DeleteActionOfAlertRule.json
+ */
 async function deleteAnActionOfAlertRule(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
-  const actionId = "912bec42-cb66-4c03-ac63-1761b6898c3e";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.actions.delete(resourceGroupName, workspaceName, ruleId, actionId);
-  console.log(result);
+  await client.actions.delete(
+    "myRg",
+    "myWorkspace",
+    "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+    "912bec42-cb66-4c03-ac63-1761b6898c3e",
+  );
 }
 
 async function main(): Promise<void> {

@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get Sentinel onboarding state
- *
- * @summary Get Sentinel onboarding state
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/onboardingStates/GetSentinelOnboardingState.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get Sentinel onboarding state
+ *
+ * @summary get Sentinel onboarding state
+ * x-ms-original-file: 2025-07-01-preview/onboardingStates/GetSentinelOnboardingState.json
+ */
 async function getSentinelOnboardingState(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const sentinelOnboardingStateName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.sentinelOnboardingStates.get(
-    resourceGroupName,
-    workspaceName,
-    sentinelOnboardingStateName,
-  );
+  const result = await client.sentinelOnboardingStates.get("myRg", "myWorkspace", "default");
   console.log(result);
 }
 

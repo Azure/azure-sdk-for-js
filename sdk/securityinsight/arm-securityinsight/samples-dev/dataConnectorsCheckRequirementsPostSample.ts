@@ -1,443 +1,334 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get requirements state for a data connector type.
- *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
- */
-
-import type {
-  AADCheckRequirements,
-  ASCCheckRequirements,
-  Dynamics365CheckRequirements,
-  IoTCheckRequirements,
-  McasCheckRequirements,
-  MstiCheckRequirements,
-  MtpCheckRequirements,
-  Office365ProjectCheckRequirements,
-  OfficeATPCheckRequirements,
-  OfficeIRMCheckRequirements,
-  OfficePowerBICheckRequirements,
-  TiTaxiiCheckRequirements,
-  TICheckRequirements,
-} from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function checkRequirementsForAadNoAuthorization(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: AADCheckRequirements = {
+/**
+ * This sample demonstrates how to get requirements state for a data connector type.
+ *
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectory.json
+ */
+async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtection(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "AzureActiveDirectory",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
  */
-async function checkRequirementsForAadNoLicense(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: AADCheckRequirements = {
+async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoAuthorization(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "AzureActiveDirectory",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectory.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
  */
-async function checkRequirementsForAad(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: AADCheckRequirements = {
+async function checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoLicense(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "AzureActiveDirectory",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureSecurityCenter.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsAzureSecurityCenter.json
  */
-async function checkRequirementsForAsc(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: ASCCheckRequirements = {
+async function checkRequirementsForASC(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "AzureSecurityCenter",
     subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsDynamics365.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsDynamics365.json
  */
 async function checkRequirementsForDynamics365(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: Dynamics365CheckRequirements = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "Dynamics365",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsIoT.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsIoT.json
  */
 async function checkRequirementsForIoT(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: IoTCheckRequirements = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "IOT",
     subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
- */
-async function checkRequirementsForMcas(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: McasCheckRequirements = {
-    kind: "MicrosoftCloudAppSecurity",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Get requirements state for a data connector type.
- *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMdatp.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMdatp.json
  */
 async function checkRequirementsForMdatp(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: McasCheckRequirements = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "MicrosoftCloudAppSecurity",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
+ */
+async function checkRequirementsForMcas(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
+    kind: "MicrosoftCloudAppSecurity",
+    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get requirements state for a data connector type.
+ *
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftPurviewInformationProtection.json
+ */
+async function checkRequirementsForMicrosoftPurviewInformationProtection(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
+    kind: "MicrosoftPurviewInformationProtection",
+    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get requirements state for a data connector type.
+ *
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
  */
 async function checkRequirementsForMicrosoftThreatIntelligence(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: MstiCheckRequirements = {
-    kind: "MicrosoftThreatIntelligence",
-    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
+    kind: "MicrosoftThreatIntelligence",
+    tenantId: "06b3ccb8-1384-4bcc-aec7-852f6d57161b",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
  */
 async function checkRequirementsForMicrosoftThreatProtection(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: MtpCheckRequirements = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "MicrosoftThreatProtection",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOffice365Project.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOffice365Project.json
  */
 async function checkRequirementsForOffice365Project(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: Office365ProjectCheckRequirements = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "Office365Project",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeATP.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficeATP.json
  */
-async function checkRequirementsForOfficeAtp(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: OfficeATPCheckRequirements = {
+async function checkRequirementsForOfficeATP(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "OfficeATP",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeIRM.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficeIRM.json
  */
-async function checkRequirementsForOfficeIrm(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: OfficeIRMCheckRequirements = {
+async function checkRequirementsForOfficeIRM(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "OfficeIRM",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficePowerBI.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsOfficePowerBI.json
  */
-async function checkRequirementsForOfficePowerBi(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: OfficePowerBICheckRequirements = {
+async function checkRequirementsForOfficePowerBI(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "OfficePowerBI",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsPurviewAudit.json
  */
-async function checkRequirementsForTiTaxii(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: TiTaxiiCheckRequirements = {
-    kind: "ThreatIntelligenceTaxii",
+async function checkRequirementsForPurviewAudit(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
+    kind: "PurviewAudit",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Get requirements state for a data connector type.
+ * This sample demonstrates how to get requirements state for a data connector type.
  *
- * @summary Get requirements state for a data connector type.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligence.json
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsThreatIntelligence.json
  */
-async function checkRequirementsForTi(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const dataConnectorsCheckRequirements: TICheckRequirements = {
+async function checkRequirementsForTI(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
     kind: "ThreatIntelligence",
     tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get requirements state for a data connector type.
+ *
+ * @summary get requirements state for a data connector type.
+ * x-ms-original-file: 2025-07-01-preview/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
+ */
+async function checkRequirementsForTITaxii(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.dataConnectorsCheckRequirementsOperations.post(
-    resourceGroupName,
-    workspaceName,
-    dataConnectorsCheckRequirements,
-  );
+  const result = await client.dataConnectorsCheckRequirements.post("myRg", "myWorkspace", {
+    kind: "ThreatIntelligenceTaxii",
+    tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await checkRequirementsForAadNoAuthorization();
-  await checkRequirementsForAadNoLicense();
-  await checkRequirementsForAad();
-  await checkRequirementsForAsc();
+  await checkRequirementsForAadipAzureActiveDirectoryIdentityProtection();
+  await checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoAuthorization();
+  await checkRequirementsForAadipAzureActiveDirectoryIdentityProtectionNoLicense();
+  await checkRequirementsForASC();
   await checkRequirementsForDynamics365();
   await checkRequirementsForIoT();
-  await checkRequirementsForMcas();
   await checkRequirementsForMdatp();
+  await checkRequirementsForMcas();
+  await checkRequirementsForMicrosoftPurviewInformationProtection();
   await checkRequirementsForMicrosoftThreatIntelligence();
   await checkRequirementsForMicrosoftThreatProtection();
   await checkRequirementsForOffice365Project();
-  await checkRequirementsForOfficeAtp();
-  await checkRequirementsForOfficeIrm();
-  await checkRequirementsForOfficePowerBi();
-  await checkRequirementsForTiTaxii();
-  await checkRequirementsForTi();
+  await checkRequirementsForOfficeATP();
+  await checkRequirementsForOfficeIRM();
+  await checkRequirementsForOfficePowerBI();
+  await checkRequirementsForPurviewAudit();
+  await checkRequirementsForTI();
+  await checkRequirementsForTITaxii();
 }
 
 main().catch(console.error);
