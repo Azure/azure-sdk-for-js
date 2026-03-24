@@ -4,40 +4,35 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export class AttestationManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AttestationManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    attestationProviders: AttestationProviders;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    subscriptionId: string;
+export class AttestationManagementClient {
+    constructor(credential: TokenCredential, options?: AttestationManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AttestationManagementClientOptionalParams);
+    readonly attestationProviders: AttestationProvidersOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
 }
 
 // @public
-export interface AttestationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AttestationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface AttestationProvider extends TrackedResource {
     attestUri?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccessType;
     status?: AttestationServiceStatus;
-    readonly systemData?: SystemData;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
     trustModel?: string;
 }
 
@@ -48,93 +43,87 @@ export interface AttestationProviderListResult {
 }
 
 // @public
-export interface AttestationProviders {
-    create(resourceGroupName: string, providerName: string, creationParams: AttestationServiceCreationParams, options?: AttestationProvidersCreateOptionalParams): Promise<AttestationProvidersCreateResponse>;
-    delete(resourceGroupName: string, providerName: string, options?: AttestationProvidersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, providerName: string, options?: AttestationProvidersGetOptionalParams): Promise<AttestationProvidersGetResponse>;
-    getDefaultByLocation(location: string, options?: AttestationProvidersGetDefaultByLocationOptionalParams): Promise<AttestationProvidersGetDefaultByLocationResponse>;
-    list(options?: AttestationProvidersListOptionalParams): Promise<AttestationProvidersListResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AttestationProvidersListByResourceGroupOptionalParams): Promise<AttestationProvidersListByResourceGroupResponse>;
-    listDefault(options?: AttestationProvidersListDefaultOptionalParams): Promise<AttestationProvidersListDefaultResponse>;
-    update(resourceGroupName: string, providerName: string, updateParams: AttestationServicePatchParams, options?: AttestationProvidersUpdateOptionalParams): Promise<AttestationProvidersUpdateResponse>;
+export interface AttestationProvidersCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AttestationProvidersCreateOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationProvidersCreateResponse = AttestationProvider;
-
-// @public
-export interface AttestationProvidersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersGetDefaultByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AttestationProvidersGetDefaultByLocationOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationProvidersGetDefaultByLocationResponse = AttestationProvider;
-
-// @public
-export interface AttestationProvidersGetOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationProvidersGetResponse = AttestationProvider;
-
-// @public
-export interface AttestationProvidersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersListDefaultOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationProvidersListByResourceGroupResponse = AttestationProviderListResult;
-
-// @public
-export interface AttestationProvidersListDefaultOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AttestationProvidersListDefaultResponse = AttestationProviderListResult;
-
-// @public
-export interface AttestationProvidersListOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersOperations {
+    create: (resourceGroupName: string, providerName: string, creationParams: AttestationServiceCreationParams, options?: AttestationProvidersCreateOptionalParams) => Promise<AttestationProvider>;
+    delete: (resourceGroupName: string, providerName: string, options?: AttestationProvidersDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, providerName: string, options?: AttestationProvidersGetOptionalParams) => Promise<AttestationProvider>;
+    getDefaultByLocation: (location: string, options?: AttestationProvidersGetDefaultByLocationOptionalParams) => Promise<AttestationProvider>;
+    list: (options?: AttestationProvidersListOptionalParams) => Promise<AttestationProviderListResult>;
+    listByResourceGroup: (resourceGroupName: string, options?: AttestationProvidersListByResourceGroupOptionalParams) => Promise<AttestationProviderListResult>;
+    listDefault: (options?: AttestationProvidersListDefaultOptionalParams) => Promise<AttestationProviderListResult>;
+    update: (resourceGroupName: string, providerName: string, updateParams: AttestationServicePatchParams, options?: AttestationProvidersUpdateOptionalParams) => Promise<AttestationProvider>;
 }
 
 // @public
-export type AttestationProvidersListResponse = AttestationProviderListResult;
-
-// @public
-export interface AttestationProvidersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AttestationProvidersUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type AttestationProvidersUpdateResponse = AttestationProvider;
 
 // @public
 export interface AttestationServiceCreationParams {
     location: string;
     properties: AttestationServiceCreationSpecificParams;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface AttestationServiceCreationSpecificParams {
     policySigningCertificates?: JsonWebKeySet;
+    publicNetworkAccess?: PublicNetworkAccessType;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 // @public
 export interface AttestationServicePatchParams {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    properties?: AttestationServicePatchSpecificParams;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AttestationServicePatchSpecificParams {
+    publicNetworkAccess?: PublicNetworkAccessType;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 // @public
 export type AttestationServiceStatus = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CloudError {
@@ -148,12 +137,14 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public (undocumented)
 export interface JsonWebKey {
     alg?: string;
     crv?: string;
@@ -174,7 +165,7 @@ export interface JsonWebKey {
     y?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface JsonWebKeySet {
     keys?: JsonWebKey[];
 }
@@ -210,20 +201,38 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export interface OperationList {
-    readonly systemData?: SystemData;
-    value?: OperationsDefinition[];
+export enum KnownPublicNetworkAccessType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
+export enum KnownTpmAttestationAuthenticationType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownVersions {
+    V20210601 = "2021-06-01"
+}
+
+// @public
+export interface LogSpecification {
+    displayName?: string;
+    name?: string;
+}
+
+// @public
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
 export interface OperationsDefinition {
     display?: OperationsDisplayDefinition;
     name?: string;
+    properties?: OperationProperties;
 }
 
 // @public
@@ -235,11 +244,25 @@ export interface OperationsDisplayDefinition {
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDefinition>;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -254,48 +277,68 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    create(resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    delete(resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, providerName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    create: (resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, providerName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, providerName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcesListByProviderOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    listByProvider: (resourceGroupName: string, providerName: string, options?: PrivateLinkResourcesListByProviderOptionalParams) => Promise<PrivateLinkResourceListResult>;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -305,10 +348,29 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export type PublicNetworkAccessType = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+}
+
+// @public
+export interface StatusResult {
+    attestUri?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccessType;
+    status?: AttestationServiceStatus;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
+    trustModel?: string;
 }
 
 // @public
@@ -322,11 +384,12 @@ export interface SystemData {
 }
 
 // @public
+export type TpmAttestationAuthenticationType = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)
