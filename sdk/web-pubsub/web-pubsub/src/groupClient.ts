@@ -8,7 +8,7 @@ import type {
 } from "@azure/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import type { GeneratedClient } from "./generated/generatedClient.js";
+import type { GeneratedClient } from "../generated/generatedClient.js";
 import { tracingClient } from "./tracing.js";
 import { getPayloadForMessage } from "./utils.js";
 import type { JSONTypes } from "./hubClient.js";

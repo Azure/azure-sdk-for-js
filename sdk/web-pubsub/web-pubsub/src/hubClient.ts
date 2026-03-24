@@ -8,7 +8,7 @@ import type {
 } from "@azure/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import { GeneratedClient } from "./generated/generatedClient.js";
+import { GeneratedClient } from "../generated/generatedClient.js";
 import type {
   WebPubSubGroup,
   GroupAddConnectionOptions,
@@ -27,7 +27,7 @@ import type {
   GeneratedClientOptionalParams,
   AddToGroupsRequest,
   RemoveFromGroupsRequest,
-} from "./generated/index.js";
+} from "../generated/index.js";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 
 /**

@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -23,11 +23,7 @@
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "README.md", "LICENSE"],
   "//metadata": {
     "constantPaths": [
       {
@@ -37,14 +33,15 @@
       {
         "path": "swagger/README.md",
         "prefix": "package-version"
+      },
+      {
+        "path": "src\\generated/api/webPubSubContext.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud"
-  ],
+  "keywords": ["azure", "cloud"],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
@@ -57,7 +54,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
+    "@azure-rest/core-client": "^2.3.2",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
@@ -90,17 +87,21 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub",
-    "productSlugs": [
-      "azure"
-    ],
-    "skip": [
-      "managingGroups.js"
-    ]
+    "productSlugs": ["azure"],
+    "skip": ["managingGroups.js"]
   },
   "type": "module",
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -108,6 +109,42 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
       }
     }
   }
