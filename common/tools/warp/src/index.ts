@@ -35,6 +35,20 @@ export {
   formatSingleDiagnostic,
   diagnosticCategoryLabel,
 } from "./diagnostics.ts";
+export {
+  resolveSubpathImport,
+  resolveImportsInContent,
+  resolveImportsInDir,
+  readPackageImports,
+  buildConditionsSet,
+  sourcePathToOutputPath,
+} from "./resolveImports.ts";
+export type {
+  ImportsMap,
+  ResolveImportsResult,
+  UnresolvedSpecifier,
+  MissingResolvedTarget,
+} from "./resolveImports.ts";
 export { Logger, getLogger, setLogLevel, setJsonMode, isJsonMode } from "./logger.ts";
 export type { LogLevel } from "./logger.ts";
 export { watch } from "./watch.ts";
