@@ -41,8 +41,15 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
+    channel?: UpgradeChannel;
+    disabled?: boolean;
     readonly eTag?: string;
-    properties?: AutoUpgradeProfileProperties;
+    longTermSupport?: boolean;
+    nodeImageSelection?: AutoUpgradeNodeImageSelection;
+    readonly provisioningState?: AutoUpgradeProfileProvisioningState;
+    targetKubernetesVersion?: string;
+    updateStrategyId?: string;
 }
 
 // @public
@@ -118,8 +125,10 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
+    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
-    properties?: FleetProperties;
+    readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
@@ -145,8 +154,14 @@ export interface FleetHubProfile {
 
 // @public
 export interface FleetManagedNamespace extends TrackedResource {
+    adoptionPolicy?: AdoptionPolicy;
+    deletePolicy?: DeletePolicy;
     readonly eTag?: string;
-    properties?: FleetManagedNamespaceProperties;
+    managedNamespaceProperties?: ManagedNamespaceProperties;
+    readonly portalFqdn?: string;
+    propagationPolicy?: PropagationPolicy;
+    readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+    readonly status?: FleetManagedNamespaceStatus;
 }
 
 // @public
@@ -176,8 +191,12 @@ export interface FleetManagedNamespaceStatus {
 
 // @public
 export interface FleetMember extends ProxyResource {
+    clusterResourceId?: string;
     readonly eTag?: string;
-    properties?: FleetMemberProperties;
+    group?: string;
+    labels?: Record<string, string>;
+    readonly provisioningState?: FleetMemberProvisioningState;
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
@@ -200,7 +219,8 @@ export interface FleetMemberStatus {
 
 // @public
 export interface FleetMemberUpdate {
-    properties?: FleetMemberUpdateProperties;
+    group?: string;
+    labels?: Record<string, string>;
 }
 
 // @public
@@ -234,7 +254,8 @@ export interface FleetStatus {
 // @public
 export interface FleetUpdateStrategy extends ProxyResource {
     readonly eTag?: string;
-    properties?: FleetUpdateStrategyProperties;
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy?: UpdateRunStrategy;
 }
 
 // @public
@@ -248,8 +269,12 @@ export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
 export interface Gate extends ProxyResource {
+    displayName?: string;
     readonly eTag?: string;
-    properties?: GateProperties;
+    gateType?: GateType;
+    readonly provisioningState?: GateProvisioningState;
+    state?: GateState;
+    target?: GateTarget;
 }
 
 // @public
@@ -527,7 +552,8 @@ export enum KnownVersions {
     V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
     V20250401Preview = "2025-04-01-preview",
-    V20250801Preview = "2025-08-01-preview"
+    V20250801Preview = "2025-08-01-preview",
+    V20260201Preview = "2026-02-01-preview"
 }
 
 // @public
@@ -748,6 +774,7 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
+    maxConcurrency?: string;
     name: string;
 }
 
@@ -755,6 +782,7 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
+    readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
@@ -762,8 +790,13 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
-    properties?: UpdateRunProperties;
+    managedClusterUpdate?: ManagedClusterUpdate;
+    readonly provisioningState?: UpdateRunProvisioningState;
+    readonly status?: UpdateRunStatus;
+    strategy?: UpdateRunStrategy;
+    updateStrategyId?: string;
 }
 
 // @public
@@ -812,6 +845,7 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
+    maxConcurrency?: string;
     name: string;
 }
 
@@ -821,6 +855,7 @@ export interface UpdateStageStatus {
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
     readonly groups?: UpdateGroupStatus[];
+    readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;
 }
