@@ -11,6 +11,7 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-blob';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import type { BlobTags } from '@azure/storage-blob';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
 import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
@@ -57,6 +58,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-blob';
 import { StorageRetryPolicyType } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
+import { Tags } from '@azure/storage-blob';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -405,6 +407,9 @@ export class DataLakePathClient extends StorageClient {
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
+    getSystemProperties(options?: PathGetSystemPropertiesOptions): Promise<PathGetSystemPropertiesResponse>;
+    // (undocumented)
+    getTags(options?: PathGetTagsOptions): Promise<PathGetTagsResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     get name(): string;
@@ -414,6 +419,8 @@ export class DataLakePathClient extends StorageClient {
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetPermissionsResponse>;
+    // (undocumented)
+    setTags(tags: Tags, options?: PathSetTagsOptions): Promise<PathSetTagsResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
     updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
@@ -434,6 +441,7 @@ export class DataLakeSASPermissions {
     move: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -1041,6 +1049,7 @@ export class FileSystemSASPermissions {
     move: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -1609,6 +1618,39 @@ export interface PathGetPropertiesOptions extends CommonOptions {
 export type PathGetPropertiesResponse = WithResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>;
 
 // @public (undocumented)
+export interface PathGetSystemPropertiesOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    userPrincipalName?: boolean;
+}
+
+// @public (undocumented)
+export type PathGetSystemPropertiesResponse = WithResponse<PathSystemProperties & PathGetPropertiesHeadersModel, PathGetPropertiesHeadersModel>;
+
+// @public
+export interface PathGetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathGetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public
+export type PathGetTagsResponse = WithResponse<{
+    tags: Tags;
+} & PathGetTagsHeaders, PathGetTagsHeaders, BlobTags>;
+
+// @public (undocumented)
 export interface PathHttpHeaders {
     // (undocumented)
     cacheControl?: string;
@@ -1827,6 +1869,44 @@ export interface PathSetPermissionsOptions extends CommonOptions {
 
 // @public (undocumented)
 export type PathSetPermissionsResponse = WithResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>;
+
+// @public
+export interface PathSetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathSetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public (undocumented)
+export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
+
+// @public (undocumented)
+export interface PathSystemProperties {
+    contentLength?: number;
+    creationTime?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    etag?: string;
+    expiresOn?: Date;
+    // (undocumented)
+    group?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    pathPermissions?: PathPermissions;
+    resourceType?: string;
+}
 
 // @public
 export interface PathUndeleteHeaders {
@@ -2091,6 +2171,11 @@ export { StorageRetryPolicyType }
 export { StorageSharedKeyCredential }
 
 export { StorageSharedKeyCredentialPolicy }
+
+// @public
+export interface TagConditions {
+    tagConditions?: string;
+}
 
 // @public (undocumented)
 export const ToBlobEndpointHostMappings: string[][];

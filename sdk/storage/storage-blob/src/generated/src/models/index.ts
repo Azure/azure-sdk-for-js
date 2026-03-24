@@ -296,6 +296,7 @@ export interface BlobPropertiesInternal {
   accessTier?: AccessTier;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
+  smartAccessTier?: AccessTier;
   customerProvidedKeySha256?: string;
   /** The name of the encryption scope under which the blob is encrypted. */
   encryptionScope?: string;
@@ -1167,6 +1168,8 @@ export interface BlobGetPropertiesHeaders {
   archiveStatus?: string;
   /** The time the tier was changed on the object. This is only returned if the tier on the block blob was ever set. */
   accessTierChangedOn?: Date;
+  /** The underlying tier of a smart tier blob. Only returned if the blob is in Smart tier. */
+  smartAccessTier?: string;
   /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
   versionId?: string;
   /** The value of this header indicates whether version of this blob is a current version, see also x-ms-version-id header. */
@@ -2919,12 +2922,14 @@ export type AccessTier =
   | "Hot"
   | "Cool"
   | "Archive"
-  | "Cold";
+  | "Cold"
+  | "Smart";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
-  | "rehydrate-pending-to-cold";
+  | "rehydrate-pending-to-cold"
+  | "rehydrate-pending-to-smart";
 /** Defines values for RehydratePriority. */
 export type RehydratePriority = "High" | "Standard";
 /** Defines values for BlobImmutabilityPolicyMode. */

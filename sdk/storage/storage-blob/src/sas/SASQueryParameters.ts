@@ -124,6 +124,7 @@ export interface SASQueryParametersOptions {
    * Keys for query parameters required in generating the SAS token
    */
   requestQueryParameterKeys?: string;
+  directoryDepth?: number;
 }
 
 /**
@@ -300,6 +301,7 @@ export class SASQueryParameters {
    * Keys for request query parameters required in the SAS token
    */
   public readonly requestQueryParameterKeys?: string;
+  public readonly directoryDepth?: number;
 
   /**
    * Optional. IP range allowed for this SAS.
@@ -365,6 +367,7 @@ export class SASQueryParameters {
     delegatedUserObjectId?: string,
     requestHeaderKeys?: string,
     requestQueryParameterKeys?: string,
+    directoryDepth?: number,
   );
 
   /**
@@ -400,6 +403,7 @@ export class SASQueryParameters {
     delegatedUserObjectId?: string,
     requestHeaderKeys?: string,
     requestQueryParameterKeys?: string,
+    directoryDepth?: number,
   ) {
     this.version = version;
     this.signature = signature;
@@ -424,6 +428,7 @@ export class SASQueryParameters {
       this.contentType = permissionsOrOptions.contentType;
       this.requestHeaderKeys = permissionsOrOptions.requestHeaderKeys;
       this.requestQueryParameterKeys = permissionsOrOptions.requestQueryParameterKeys;
+      this.directoryDepth = permissionsOrOptions.directoryDepth;
 
       if (permissionsOrOptions.userDelegationKey) {
         this.signedOid = permissionsOrOptions.userDelegationKey.signedObjectId;
@@ -457,6 +462,7 @@ export class SASQueryParameters {
       this.contentType = contentType;
       this.requestHeaderKeys = requestHeaderKeys;
       this.requestQueryParameterKeys = requestQueryParameterKeys;
+      this.directoryDepth = directoryDepth;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;

@@ -893,6 +893,10 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: BlobSASPermissions;
+  /**
+   * 
+   */
+  isDirectory?: boolean;
 }
 
 /**

@@ -540,6 +540,8 @@ export interface FileCreateHeaders {
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    content?: HttpRequestBody;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;

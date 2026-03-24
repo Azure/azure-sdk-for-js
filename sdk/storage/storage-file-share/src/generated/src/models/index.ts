@@ -1143,6 +1143,8 @@ export interface FileCreateHeaders {
   contentMD5?: Uint8Array;
   /** The number of bytes present in the response body. */
   contentLength?: number;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2839,6 +2841,10 @@ export interface FileCreateOptionalParams extends coreClient.OperationOptions {
   contentMD5?: Uint8Array;
   /** Specifies the number of bytes being transmitted in the request body. When the x-ms-write header is set to clear, the value of this header must be set to zero. */
   contentLength?: number;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the create operation. */
@@ -2855,12 +2861,12 @@ export interface FileDownloadOptionalParams
   fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Return file data only from the specified byte range. */
   range?: string;
   /** When this header is set to true and specified together with the Range header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
   rangeGetContentMD5?: boolean;
-  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
-  structuredBodyType?: string;
 }
 
 /** Contains response data for the download operation. */
@@ -3061,10 +3067,10 @@ export interface FileUploadRangeOptionalParams
   contentMD5?: Uint8Array;
   /** Required if the request body is a structured message. Specifies the message schema version and properties. */
   structuredBodyType?: string;
-  /** If the file last write time should be preserved or overwritten */
-  fileLastWrittenMode?: FileLastWrittenMode;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
+  /** If the file last write time should be preserved or overwritten */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /** Contains response data for the uploadRange operation. */
