@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiManagementClient } = require("@azure/arm-apimanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates the subscription of specified user to the specified product.
+ *
+ * @summary creates or updates the subscription of specified user to the specified product.
+ * x-ms-original-file: 2025-03-01-preview/ApiManagementCreateSubscription.json
+ */
+async function apiManagementCreateSubscription() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.subscription.createOrUpdate("rg1", "apimService1", "testsub", {
+    displayName: "testsub",
+    ownerId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/users/57127d485157a511ace86ae7",
+    scope:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/products/5600b59475ff190048060002",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await apiManagementCreateSubscription();
+}
+
+main().catch(console.error);

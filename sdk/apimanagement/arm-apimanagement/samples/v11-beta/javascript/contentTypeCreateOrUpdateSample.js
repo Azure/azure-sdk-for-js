@@ -1,0 +1,70 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiManagementClient } = require("@azure/arm-apimanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
+ *
+ * @summary creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
+ * x-ms-original-file: 2025-03-01-preview/ApiManagementCreateContentType.json
+ */
+async function apiManagementCreateContentType() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.contentType.createOrUpdate("rg1", "apimService1", "page", {
+    namePropertiesName: "Page",
+    schema: {
+      additionalProperties: false,
+      properties: {
+        en_us: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            description: {
+              type: "string",
+              description: "Page description. This property gets included in SEO attributes.",
+              indexed: true,
+              title: "Description",
+            },
+            documentId: {
+              type: "string",
+              description: "Reference to page content document.",
+              title: "Document ID",
+            },
+            keywords: {
+              type: "string",
+              description: "Page keywords. This property gets included in SEO attributes.",
+              indexed: true,
+              title: "Keywords",
+            },
+            permalink: {
+              type: "string",
+              description: "Page permalink, e.g. '/about'.",
+              indexed: true,
+              title: "Permalink",
+            },
+            title: {
+              type: "string",
+              description: "Page title. This property gets included in SEO attributes.",
+              indexed: true,
+              title: "Title",
+            },
+          },
+          required: ["title", "permalink", "documentId"],
+        },
+      },
+    },
+    description: "A regular page",
+    version: "1.0.0",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await apiManagementCreateContentType();
+}
+
+main().catch(console.error);

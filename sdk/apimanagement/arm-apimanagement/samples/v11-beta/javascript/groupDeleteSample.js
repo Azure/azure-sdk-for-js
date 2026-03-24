@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiManagementClient } = require("@azure/arm-apimanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to deletes specific group of the API Management service instance.
+ *
+ * @summary deletes specific group of the API Management service instance.
+ * x-ms-original-file: 2025-03-01-preview/ApiManagementDeleteGroup.json
+ */
+async function apiManagementDeleteGroup() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  await client.group.delete("rg1", "apimService1", "aadGroup", "*");
+}
+
+async function main() {
+  await apiManagementDeleteGroup();
+}
+
+main().catch(console.error);

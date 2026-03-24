@@ -1,0 +1,399 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { ApiManagementContext as Client } from "../index.js";
+import type {
+  PolicyRestrictionContract,
+  PolicyRestrictionUpdateContract,
+  _PolicyRestrictionCollection,
+} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  policyRestrictionContractSerializer,
+  policyRestrictionContractDeserializer,
+  policyRestrictionUpdateContractSerializer,
+  _policyRestrictionCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PolicyRestrictionListByServiceOptionalParams,
+  PolicyRestrictionDeleteOptionalParams,
+  PolicyRestrictionUpdateOptionalParams,
+  PolicyRestrictionCreateOrUpdateOptionalParams,
+  PolicyRestrictionGetEntityTagOptionalParams,
+  PolicyRestrictionGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _listByServiceSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  options: PolicyRestrictionListByServiceOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listByServiceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PolicyRestrictionCollection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _policyRestrictionCollectionDeserializer(result.body);
+}
+
+/** Gets all policy restrictions of API Management services. */
+export function listByService(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  options: PolicyRestrictionListByServiceOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<PolicyRestrictionContract> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByServiceSend(context, resourceGroupName, serviceName, options),
+    _listByServiceDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-03-01-preview",
+    },
+  );
+}
+
+export function _$deleteSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions/{policyRestrictionId}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      policyRestrictionId: policyRestrictionId,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200", "204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes the policy restriction configuration of the Api Management Service. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export async function $delete(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionDeleteOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _$deleteSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    policyRestrictionId,
+    options,
+  );
+  return _$deleteDeserialize(result);
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  ifMatch: string,
+  parameters: PolicyRestrictionUpdateContract,
+  options: PolicyRestrictionUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions/{policyRestrictionId}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      policyRestrictionId: policyRestrictionId,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "if-match": ifMatch,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: policyRestrictionUpdateContractSerializer(parameters),
+  });
+}
+
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PolicyRestrictionContract> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return policyRestrictionContractDeserializer(result.body);
+}
+
+/** Updates the policy restriction configuration of the Api Management service. */
+export async function update(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  ifMatch: string,
+  parameters: PolicyRestrictionUpdateContract,
+  options: PolicyRestrictionUpdateOptionalParams = { requestOptions: {} },
+): Promise<PolicyRestrictionContract> {
+  const result = await _updateSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    policyRestrictionId,
+    ifMatch,
+    parameters,
+    options,
+  );
+  return _updateDeserialize(result);
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  parameters: PolicyRestrictionContract,
+  options: PolicyRestrictionCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions/{policyRestrictionId}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      policyRestrictionId: policyRestrictionId,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: policyRestrictionContractSerializer(parameters),
+  });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PolicyRestrictionContract> {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return policyRestrictionContractDeserializer(result.body);
+}
+
+/** Creates or updates the policy restriction configuration of the Api Management service. */
+export async function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  parameters: PolicyRestrictionContract,
+  options: PolicyRestrictionCreateOrUpdateOptionalParams = { requestOptions: {} },
+): Promise<PolicyRestrictionContract> {
+  const result = await _createOrUpdateSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    policyRestrictionId,
+    parameters,
+    options,
+  );
+  return _createOrUpdateDeserialize(result);
+}
+
+export function _getEntityTagSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionGetEntityTagOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions/{policyRestrictionId}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      policyRestrictionId: policyRestrictionId,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getEntityTagDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Gets the entity state (Etag) version of the policy restriction in the Api Management service. */
+export async function getEntityTag(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionGetEntityTagOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _getEntityTagSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    policyRestrictionId,
+    options,
+  );
+  return _getEntityTagDeserialize(result);
+}
+
+export function _getSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyRestrictions/{policyRestrictionId}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      policyRestrictionId: policyRestrictionId,
+      "api%2Dversion": context.apiVersion ?? "2025-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PolicyRestrictionContract> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return policyRestrictionContractDeserializer(result.body);
+}
+
+/** Get the policy restriction of the Api Management service. */
+export async function get(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  policyRestrictionId: string,
+  options: PolicyRestrictionGetOptionalParams = { requestOptions: {} },
+): Promise<PolicyRestrictionContract> {
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    serviceName,
+    policyRestrictionId,
+    options,
+  );
+  return _getDeserialize(result);
+}
