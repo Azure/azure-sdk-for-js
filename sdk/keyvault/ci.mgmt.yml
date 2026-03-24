@@ -13,6 +13,7 @@ trigger:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
       - sdk/keyvault/arm-keyvault
+      - sdk/keyvault/keyvault-certificates
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
       - sdk/keyvault/arm-keyvault
+      - sdk/keyvault/keyvault-certificates
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -36,3 +38,5 @@ extends:
         safeName: azurearmkeyvault
       - name: azure-arm-keyvault-profile-2020-09-01-hybrid
         safeName: azurearmkeyvaultprofile20200901hybrid
+      - name: azure-keyvault-certificates
+        safeName: azurekeyvaultcertificates
