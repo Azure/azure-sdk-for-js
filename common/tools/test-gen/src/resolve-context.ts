@@ -12,9 +12,13 @@
 import { resolve } from "node:path";
 import { z } from "zod";
 import { send } from "./llm.ts";
-import type { SendOptions } from "./llm.ts";
+import type { SendAttachment, SendOptions } from "./llm.ts";
 import { tryReadFile } from "./utils.ts";
 import type { LlmCallStats } from "./types.ts";
+import { renderPromptTemplate } from "./prompt-templates.ts";
+import type { PromptCache } from "./prompt-cache.ts";
+import { hashText } from "./prompt-cache.ts";
+import { parseJsonResponse } from "./parse-json-response.ts";
 
 export interface ContextFile {
   /** Relative path to the file. */
@@ -32,18 +36,26 @@ export interface ResolveContextOptions {
   sourceFile: string;
   /** Annotated source code (with ⚠️ markers). */
   annotatedSource: string;
+  /** Original source code (without markers). */
+  sourceCode: string;
+  /** Source line numbers to focus on for selection attachments. */
+  focusLines: number[];
   /** All source file paths in the project (relative). */
   allSourceFiles: string[];
   /** Code fence language tag. */
   codeFence: string;
   /** LLM model name. */
   model: string;
+  /** Stable hash of the source file content under test. */
+  sourceHash: string;
   /** Max lines per context file to include. */
   maxLinesPerFile?: number;
   /** Max number of context files to return. */
   maxFiles?: number;
   /** LLM call stats accumulator. */
   llmStats: LlmCallStats[];
+  /** Optional persistent cache for resolved context selections. */
+  cache?: PromptCache;
   signal?: AbortSignal;
   onProgress?: (tokens: number) => void;
 }
@@ -67,13 +79,15 @@ export async function resolveContext(options: ResolveContextOptions): Promise<Co
   const {
     packageDir,
     sourceFile,
-    annotatedSource,
+    sourceCode,
     allSourceFiles,
     codeFence,
     model,
+    sourceHash,
     maxLinesPerFile = 200,
     maxFiles = 8,
     llmStats,
+    cache,
     signal,
     onProgress,
   } = options;
@@ -82,53 +96,80 @@ export async function resolveContext(options: ResolveContextOptions): Promise<Co
     .filter((f) => f !== sourceFile)
     .map((f) => `- \`${f}\``)
     .join("\n");
+  const fileListHash = hashText(fileList);
+
+  const cachedSelection = cache?.getContextResolution({
+    sourceFile,
+    sourceHash,
+    fileListHash,
+    model,
+    maxFiles,
+  });
+  if (cachedSelection) {
+    return loadContextFiles(packageDir, cachedSelection, maxLinesPerFile);
+  }
 
   const jsonSchema = JSON.stringify(ContextResolutionResponse.toJSONSchema(), null, 2);
 
-  const prompt = `You are preparing to write tests for a source file. Before generating tests, you need to
-identify which OTHER source files contain information necessary to construct correct test inputs.
+  const attachments: SendAttachment[] = [
+    // Full source file so the LLM can see all imports and symbols
+    {
+      type: "virtual-file",
+      path: `resolve-context/${sourceFile}.full.${codeFence}`,
+      displayName: `${sourceFile} (full source)`,
+      content: sourceCode,
+    },
+    {
+      type: "virtual-file",
+      path: "resolve-context/source-file-inventory.txt",
+      displayName: "source-file-inventory.txt",
+      content: fileList,
+    },
+  ];
 
-## Source File: \`${sourceFile}\`
+  const prompt = await renderPromptTemplate("resolve-context.md", {
+    sourceFile,
+    sourceSection: `Attached as \`${sourceFile} (full source)\`.`,
+    fileInventorySection: "Attached as `source-file-inventory.txt`.",
+    maxFiles,
+    jsonSchema,
+  });
 
-\`\`\`${codeFence}
-${annotatedSource}
-\`\`\`
-
-Lines marked with ⚠️ UNCOVERED are the branches that need test coverage.
-
-## All Source Files in Project
-
-${fileList}
-
-## Task
-
-Identify which files from the list above I should include as context when generating tests
-for the ⚠️ UNCOVERED branches. Consider:
-
-1. **Imported modules** — files this source directly imports from (types, helpers, constants)
-2. **Type definitions** — files containing classes/types used as parameters or return values in uncovered branches
-3. **Factory functions / constructors** — files that show how to create instances needed as test inputs
-4. **Callers** — files that call the functions containing uncovered branches (shows realistic usage patterns)
-
-Do NOT include:
-- Test files (those are provided separately)
-- Unrelated source files that share no dependency with the uncovered code
-- The source file itself
-
-Return at most ${maxFiles} files. Fewer is better — only include files that are genuinely necessary.
-
-Respond with ONLY valid JSON matching this schema — no markdown fences, no explanation, just the raw JSON object:
-${jsonSchema}`;
-
-  const sendOpts: SendOptions = { model, signal, onProgress };
+  const sendOpts: SendOptions = {
+    model,
+    signal,
+    onProgress,
+    phase: "resolve",
+    workingDirectory: packageDir,
+    attachments,
+  };
   const { content, inputTokens, outputTokens, durationMs } = await send(prompt, sendOpts);
   llmStats.push({ inputTokens, outputTokens, durationMs });
 
-  const parsed = ContextResolutionResponse.parse(JSON.parse(content));
+  const parsed = ContextResolutionResponse.parse(parseJsonResponse(content));
+  const selectedFiles = parsed.files.slice(0, maxFiles);
+  cache?.setContextResolution(
+    {
+      sourceFile,
+      sourceHash,
+      fileListHash,
+      model,
+      maxFiles,
+    },
+    selectedFiles,
+  );
 
+  return loadContextFiles(packageDir, selectedFiles, maxLinesPerFile);
+}
+
+async function loadContextFiles(
+  packageDir: string,
+  entries: Array<{ path: string; reason: string }>,
+  maxLinesPerFile: number,
+): Promise<ContextFile[]> {
   // Read requested files, validate they exist, truncate
   const results: ContextFile[] = [];
-  for (const entry of parsed.files.slice(0, maxFiles)) {
+  for (const entry of entries) {
     const absPath = resolve(packageDir, entry.path);
     const fileContent = await tryReadFile(absPath);
     if (!fileContent) continue;

@@ -26,6 +26,9 @@ export interface RunnerConfig {
   tailLines: number;
   /** Path to .coverage SQLite DB for test→source mapping (relative to packageDir). */
   coverageDbPath: string;
+  /** Optional command to run after tests to ensure coverage report is generated.
+   *  Useful when pytest-cov doesn't write JSON on failure. Runs regardless of test exit code. */
+  postTestCommand?: string;
 }
 
 /** Directory and file naming conventions. */
@@ -50,18 +53,24 @@ export interface LlmConfig {
   model: string;
   /** Model for fix-loop prompts (stronger reasoning preferred). Falls back to `model`. */
   fixModel?: string;
+  /** Maximum number of concurrent LLM requests (default 1). */
+  concurrency: number;
 }
 
 /** Coverage loop parameters. */
 export interface LoopConfig {
   /** Maximum fix attempts per generated test file (run tests → fix → repeat). */
   fixMaxIterations: number;
-  /** Number of uncovered branches per LLM call in single-pass mode (default 5). */
+  /** Number of uncovered branches per LLM call in single-pass mode (default 12). */
   gapBatchSize: number;
+  /** Maximum batches per source file (default 15). Caps LLM calls for large files. */
+  maxBatchesPerFile: number;
   /** Maximum number of source files to target in single-pass mode. */
   maxGapFiles: number;
   /** Number of source files to process in parallel (default 1 = sequential). */
   concurrency: number;
+  /** Number of generated files to send per isolation-fix prompt. */
+  isolationBatchSize: number;
 }
 
 /** Example test file selection for prompt building. */
@@ -127,12 +136,15 @@ export const defaults: Config = {
   },
   llm: {
     model: "gpt-5.3-codex",
+    concurrency: 1,
   },
   loop: {
     fixMaxIterations: 3,
-    gapBatchSize: 5,
+    gapBatchSize: 12,
+    maxBatchesPerFile: 15,
     maxGapFiles: 20,
     concurrency: 1,
+    isolationBatchSize: 3,
   },
   examples: {
     maxLines: 80,

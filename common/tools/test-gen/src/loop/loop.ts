@@ -26,7 +26,14 @@ export async function loop<T>(
       if (signal?.aborted) return i - 1;
       if (await config.isTerminal(ctx, i)) return i;
       if (signal?.aborted) return i;
-      await config.act(ctx, i);
+      try {
+        await config.act(ctx, i);
+      } catch (err) {
+        // If act() fails (e.g. JSON parse error), skip this iteration
+        // and let isTerminal re-run the test on the next iteration
+        if (i < maxIterations) continue;
+        throw err;
+      }
     }
     return maxIterations;
   } finally {

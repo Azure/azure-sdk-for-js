@@ -7,20 +7,35 @@ export {
   filterGapsForFile,
   formatGaps,
 } from "./extract-gaps.ts";
-export { extractConventions } from "./extract-conventions.ts";
-export { extractTestContext } from "./extract-context.ts";
-export type { TestContextOptions } from "./extract-context.ts";
 export { annotateSource, commentPrefixFor, mergeAdjacentGaps } from "./annotate-source.ts";
 export { extractTestMap } from "./extract-test-map.ts";
 export type { TestMapEntry } from "./extract-test-map.ts";
 export { resolveContext } from "./resolve-context.ts";
 export type { ContextFile, ResolveContextOptions } from "./resolve-context.ts";
-export { send, stopClient } from "./llm.ts";
-export type { SendOptions, SendResult } from "./llm.ts";
-export { buildPrompt } from "./build-prompt.ts";
+export {
+  send,
+  seedSession,
+  stopClient,
+  getLlmTelemetry,
+  checkQuota,
+  compactSessionIfNeeded,
+  startFleet,
+  setSessionMode,
+} from "./llm.ts";
+export type {
+  LlmPhase,
+  ReasoningEffort,
+  SendAttachment,
+  SendOptions,
+  SendResult,
+  SeedSessionOptions,
+  QuotaSnapshot,
+  QuotaInfo,
+  FleetResult,
+} from "./llm.ts";
 export { runSinglePass } from "./runner.ts";
 export { loop } from "./loop/index.ts";
-export { fileExists, tryReadFile, numberLines } from "./utils.ts";
+export { fileExists, tryReadFile } from "./utils.ts";
 export { defaults, resolveConfig, codeFenceFor } from "./config.ts";
 export type {
   Pos,
@@ -32,8 +47,7 @@ export type {
   LlmCallStats,
   RunReport,
 } from "./types.ts";
-export type { PromptContext } from "./build-prompt.ts";
-export type { ConventionOptions } from "./extract-conventions.ts";
+export type { PreparedPrompt, PromptSeedContext } from "./build-prompt.ts";
 export type { ExtractGapsOptions } from "./extract-gaps.ts";
 export type { Loop } from "./loop/index.ts";
 export type {

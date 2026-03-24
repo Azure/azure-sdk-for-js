@@ -21,11 +21,3 @@ export async function tryReadFile(path: string): Promise<string | undefined> {
     return undefined;
   }
 }
-
-/** Add line numbers to source code. */
-export function numberLines(source: string): string {
-  return source
-    .split("\n")
-    .map((line, i) => `${String(i + 1).padStart(4)} | ${line}`)
-    .join("\n");
-}
