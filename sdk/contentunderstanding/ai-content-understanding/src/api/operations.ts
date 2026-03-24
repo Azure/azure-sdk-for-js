@@ -27,7 +27,7 @@ import {
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
-import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
+import { getBinaryResponse } from "#platform/static-helpers/serialization/get-binary-response";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type {
   UpdateDefaultsOptionalParams,

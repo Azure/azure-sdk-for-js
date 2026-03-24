@@ -10,7 +10,7 @@ import {
   type CreateSenderOptions,
   generate_uuid,
 } from "rhea-promise";
-import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo.js";
+import { getFrameworkInfo, getPlatformInfo } from "#platform/util/runtimeInfo";
 import { getGlobalProperty } from "./util/utils.js";
 import { CbsClient } from "./cbs.js";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig.js";

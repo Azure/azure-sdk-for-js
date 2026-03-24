@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.src.react-native.json",
+  "include": [
+    "${configDir}/src/**/index.ts",
+    "${configDir}/src/**/*-react-native.mts"
+  ],
+  "files": ["${configDir}/src/util/react-native.d.ts"]
+}

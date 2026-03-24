@@ -27,11 +27,11 @@ import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { bytesToString, stringToBytes } from "./utils/utf8.js";
+import { bytesToString, stringToBytes } from "#platform/utils/utf8";
 import { _attestationResultFromGenerated } from "./models/attestationResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
 import { AttestationTokenImpl } from "./models/attestationToken.js";
-import { Uint8ArrayFromInput } from "./utils/buffer.js";
+import { Uint8ArrayFromInput } from "#platform/utils/buffer";
 import { tracingClient } from "./generated/tracing.js";
 
 /**

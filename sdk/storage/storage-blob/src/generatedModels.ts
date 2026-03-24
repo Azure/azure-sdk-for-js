@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Tags } from "./index.js";
+import type { Tags } from "#platform/index";
 import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models/index.js";
 import type { NodeJSReadableStream } from "@azure/storage-common";
 import type {

@@ -8,7 +8,7 @@ import {
   displayNameToName,
   widgetFolderName,
 } from "./scaffolding.js";
-import { sourceDir } from "./sourceDir.js";
+import { sourceDir } from "#platform/sourceDir";
 import { join as joinPath, parse as parsePath } from "node:path";
 import fs from "node:fs/promises";
 import { getTemplates } from "./getTemplates.js";

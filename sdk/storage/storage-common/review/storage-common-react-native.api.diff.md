@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -36,12 +36,10 @@
+@@ -36,11 +36,12 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -16,24 +16,13 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
  export class BufferScheduler {
 -    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
--    do(): Promise<void>;
++    constructor(_readable: NodeJS.ReadableStream, _bufferSize: number, _maxBuffers: number, _outgoingHandler: OutgoingHandler, _concurrency: number, _encoding?: BufferEncoding);
++    // (undocumented)
+     do(): Promise<void>;
  }
  
  // @public
- abstract class Credential_2 implements RequestPolicyFactory {
-@@ -69,11 +67,8 @@
-     destroy(error?: Error): this;
- }
- 
- // @public
--export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
--
--// @public
- export class StorageBrowserPolicy extends BaseRequestPolicy {
-     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
- }
-@@ -146,12 +141,12 @@
+@@ -146,12 +147,12 @@
  }
  
  // @public
@@ -49,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-@@ -159,9 +154,9 @@
+@@ -159,9 +160,9 @@
      protected signRequest(request: WebResourceLike): WebResourceLike;
  }
  
@@ -60,12 +49,39 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
-@@ -196,23 +191,32 @@
- }
+@@ -175,44 +176,51 @@
  
  // @public
+ export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+ 
+-// @public
+-export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
++// @public (undocumented)
++export function structuredMessageDecodingStream(_source: NodeJS.ReadableStream, _options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
+ 
+-// @public
++// @public (undocumented)
+ export interface StructuredMessageDecodingStreamOptions {
++    // (undocumented)
+     highWaterMark?: number;
+ }
+ 
+-// @public
++// @public (undocumented)
+ export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
+     body: RequestBodyType;
+     encodedContentLength: number;
+ }>;
+ 
+ // @public
+-export interface StructuredMessageEncodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
  export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
++    // (undocumented)
+     signedDelegatedUserTenantId: string | undefined;
 +    // (undocumented)
      signedExpiresOn: Date;
 +    // (undocumented)

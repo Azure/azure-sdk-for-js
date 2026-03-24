@@ -12,8 +12,6 @@ import { parentPort } from "node:worker_threads";
 import * as ts from "typescript";
 import {
   parseTargetTsConfig,
-  discoverPolyfills,
-  createPolyfillHost,
   createCachedHost,
   compileTarget,
   transpileFiles,
@@ -29,11 +27,6 @@ export interface CompileMessage {
   target: WarpTarget;
   typeCheck: boolean;
   skipDeclarations: boolean;
-  /**
-   * Pre-discovered polyfill map entries (original → polyfill path pairs).
-   * When provided, the worker skips filesystem-based polyfill discovery.
-   */
-  polyfillEntries?: [string, string][];
 }
 
 /** Message sent from worker to pool. */
@@ -74,43 +67,14 @@ port.on("message", (msg: CompileMessage) => {
 async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
   const parsed = parseTargetTsConfig(msg.target, msg.packageRoot);
   const cache = workerCache;
-  const suffix = msg.target.polyfillSuffix;
 
-  let host: ts.CompilerHost;
-  let hasPolyfills = false;
-  if (suffix) {
-    // Use pre-discovered polyfill map from main thread when available,
-    // avoiding redundant readdir I/O in each worker.
-    let polyfillMap: Map<string, string>;
-    if (msg.polyfillEntries && msg.polyfillEntries.length > 0) {
-      polyfillMap = new Map(msg.polyfillEntries);
-    } else if (msg.polyfillEntries) {
-      // Explicitly empty — main thread found no polyfills
-      polyfillMap = new Map();
-    } else {
-      // Fallback: discover polyfills (backwards compat)
-      polyfillMap = await discoverPolyfills(parsed.parsedConfig.fileNames, suffix);
-    }
-    if (polyfillMap.size > 0) {
-      hasPolyfills = true;
-      ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, cache));
-    } else {
-      host = createCachedHost(parsed.parsedConfig.options, cache);
-    }
-  } else {
-    host = createCachedHost(parsed.parsedConfig.options, cache);
-  }
+  const host = createCachedHost(parsed.parsedConfig.options, cache);
 
   // Fast path: transpileFiles bypasses ts.createProgram entirely for
   // targets that skip type-checking and declarations (~3-10× faster).
   let result;
   if (!msg.typeCheck && msg.skipDeclarations) {
-    const polyfillMapForTranspile = hasPolyfills
-      ? msg.polyfillEntries
-        ? new Map(msg.polyfillEntries)
-        : undefined
-      : undefined;
-    result = await transpileFiles(parsed, polyfillMapForTranspile);
+    result = await transpileFiles(parsed);
   } else {
     result = compileTarget(parsed, host, {
       typeCheck: msg.typeCheck,

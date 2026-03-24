@@ -12,7 +12,7 @@ import type {
   PolicyCertificatesResult,
 } from "./generated/models/index.js";
 
-import { bytesToString } from "./utils/utf8.js";
+import { bytesToString } from "#platform/utils/utf8";
 
 import type {
   AttestationResponse,

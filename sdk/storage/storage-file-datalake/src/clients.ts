@@ -9,7 +9,7 @@ import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import type { Readable } from "node:stream";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { BufferScheduler } from "@azure/storage-common";
@@ -111,7 +111,7 @@ import {
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common.js";
-import { fsCreateReadStream, fsStat } from "./utils/utils.js";
+import { fsCreateReadStream, fsStat } from "#platform/utils/utils";
 import type {
   PathAppendDataHeaders,
   PathAppendDataOptionalParams,

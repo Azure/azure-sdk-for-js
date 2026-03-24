@@ -343,5 +343,11 @@
         "default": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }

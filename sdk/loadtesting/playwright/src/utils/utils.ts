@@ -31,7 +31,7 @@ import type { FullConfig } from "@playwright/test";
 import type { CIInfo } from "./cIInfoProvider.js";
 import { CI_PROVIDERS } from "./cIInfoProvider.js";
 import { exec } from "child_process";
-import { getPackageVersionFromFolder } from "./getPackageVersion.js";
+import { getPackageVersionFromFolder } from "#platform/utils/getPackageVersion";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
 

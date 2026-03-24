@@ -614,4 +614,4 @@ export {
   type WebApiVectorizer,
   type WebKnowledgeSource,
 } from "./serviceModels.js";
-export { createSynonymMapFromFile } from "./synonymMapHelper.js";
+export { createSynonymMapFromFile } from "#platform/synonymMapHelper";

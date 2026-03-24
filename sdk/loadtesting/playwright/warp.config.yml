@@ -13,5 +13,4 @@ targets:
     tsconfig: "../../../tsconfig.src.esm.json"
   - name: commonjs
     condition: require
-    polyfillSuffix: "-cjs"
     tsconfig: "../../../tsconfig.src.cjs.json"

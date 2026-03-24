@@ -80,7 +80,7 @@ import {
 import type { AtomXmlSerializer } from "./util/atomXmlHelper.js";
 import { executeAtomXmlOperation } from "./util/atomXmlHelper.js";
 import * as Constants from "./util/constants.js";
-import { parseURL } from "./util/parseUrl.js";
+import { parseURL } from "#platform/util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials.js";
 import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";

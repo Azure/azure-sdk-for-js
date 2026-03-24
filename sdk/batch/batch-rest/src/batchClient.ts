@@ -7,7 +7,7 @@ import { logger } from "./logger.js";
 import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { BatchClient } from "./clientDefinitions.js";
-import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials.js";
+import { createBatchSharedKeyCredentialsPolicy } from "#platform/credentials/batchSharedKeyCredentials";
 
 /** The optional parameters for the client */
 export interface BatchClientOptions extends ClientOptions {

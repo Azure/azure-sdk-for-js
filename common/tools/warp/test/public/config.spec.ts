@@ -189,45 +189,6 @@ describe("findWarpConfig", () => {
     expect(result!.config.targets[0].condition).toBe("import");
   });
 
-  it("resolves polyfillSuffix: true to -name", async () => {
-    const { stringify } = await import("yaml");
-    const cfg = {
-      exports: { ".": "./src/index.ts" },
-      targets: [{ name: "browser", tsconfig: "./tsconfig.browser.json", polyfillSuffix: true }],
-    };
-    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
-
-    const result = await findWarpConfig(tmpDir);
-    expect(result).toBeDefined();
-    expect(result!.config.targets[0].polyfillSuffix).toBe("-browser");
-  });
-
-  it("does not polyfill when polyfillSuffix is omitted", async () => {
-    const { stringify } = await import("yaml");
-    const cfg = {
-      exports: { ".": "./src/index.ts" },
-      targets: [{ name: "browser", tsconfig: "./tsconfig.browser.json" }],
-    };
-    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
-
-    const result = await findWarpConfig(tmpDir);
-    expect(result).toBeDefined();
-    expect(result!.config.targets[0].polyfillSuffix).toBeUndefined();
-  });
-
-  it("disables polyfillSuffix when set to false", async () => {
-    const { stringify } = await import("yaml");
-    const cfg = {
-      exports: { ".": "./src/index.ts" },
-      targets: [{ name: "esm", tsconfig: "./tsconfig.esm.json", polyfillSuffix: false }],
-    };
-    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
-
-    const result = await findWarpConfig(tmpDir);
-    expect(result).toBeDefined();
-    expect(result!.config.targets[0].polyfillSuffix).toBeUndefined();
-  });
-
   it("throws WarpError with CONFIG_INVALID on malformed YAML", async () => {
     // Unterminated flow sequence causes a YAML parse error
     await fs.writeFile(path.join(tmpDir, "warp.config.yml"), "exports: [");

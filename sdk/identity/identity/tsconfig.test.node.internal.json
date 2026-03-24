@@ -2,8 +2,12 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/identity": ["./src/index.ts"],
-      "$internal/*": ["./src/*"]
+      "@azure/identity": [
+        "./src/index.ts"
+      ],
+      "$internal/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
@@ -15,6 +19,7 @@
   ],
   "exclude": [
     "./src/**/*-browser.mts",
+    "./src/**/*-web.mts",
     "./src/**/*-react-native.mts",
     "./src/msal/browserFlows",
     "./test/**/browser",

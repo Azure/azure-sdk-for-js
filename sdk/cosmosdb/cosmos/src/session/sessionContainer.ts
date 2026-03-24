@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import atob from "../utils/atob.js";
+import atob from "#platform/utils/atob";
 import type { ResourceType } from "../common/index.js";
 import { Constants, getContainerLink, OperationType, trimSlashes } from "../common/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/index.js";

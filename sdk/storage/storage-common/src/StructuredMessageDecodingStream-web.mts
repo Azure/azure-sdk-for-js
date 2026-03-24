@@ -3,7 +3,16 @@
 
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
-export const structuredMessageDecodingStream = 1;
+export interface StructuredMessageDecodingStreamOptions {
+  highWaterMark?: number;
+}
+
+export function structuredMessageDecodingStream(
+  _source: NodeJS.ReadableStream,
+  _options: StructuredMessageDecodingStreamOptions,
+): NodeJS.ReadableStream {
+  throw new Error("structuredMessageDecodingStream is not supported in browser environment");
+}
 
 async function pump(
   reader: ReadableStreamDefaultReader, 

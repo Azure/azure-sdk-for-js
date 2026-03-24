@@ -6,7 +6,7 @@ import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import type { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions.js";
-import { ClientAssertionCredential } from "./clientAssertionCredential.js";
+import { ClientAssertionCredential } from "#platform/credentials/clientAssertionCredential";
 import { IdentityClient } from "../client/identityClient.js";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { checkTenantId } from "../util/tenantIdUtils.js";
@@ -117,7 +117,13 @@ export class AzurePipelinesCredential implements TokenCredential {
       throw new CredentialUnavailableError(errorMessage);
     }
     logger.info("Invoking getToken() of Client Assertion Credential");
-    return this.clientAssertionCredential.getToken(scopes, options);
+    const result = await this.clientAssertionCredential.getToken(scopes, options);
+    if (result === null) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: received null token from client assertion credential.`,
+      );
+    }
+    return result;
   }
 
   /**

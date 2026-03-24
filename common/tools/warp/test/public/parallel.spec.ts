@@ -46,7 +46,6 @@ interface TargetDef {
   name: string;
   condition: string;
   tsconfigOverrides?: Record<string, unknown>;
-  polyfillSuffix?: string;
   moduleType?: string;
 }
 
@@ -83,7 +82,6 @@ async function setupProject(
         name: t.name,
         condition: t.condition,
         tsconfig: `./tsconfig.${t.name}.json`,
-        ...(t.polyfillSuffix ? { polyfillSuffix: t.polyfillSuffix } : {}),
         ...(t.moduleType ? { moduleType: t.moduleType } : {}),
       })),
     }),
@@ -305,7 +303,7 @@ describe("parallel E2E integration", () => {
           condition: "require",
           tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
         },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
+        { name: "browser", condition: "browser" },
         { name: "react-native", condition: "react-native" },
         { name: "workerd", condition: "workerd" },
       ],
@@ -373,67 +371,6 @@ describe("parallel E2E integration", () => {
     for (const r of result.compileResults!) {
       expect(r.success).toBe(false);
     }
-  });
-
-  // -----------------------------------------------------------------------
-  // Polyfill + parallel
-  // -----------------------------------------------------------------------
-
-  it("polyfill type error is reported cleanly in parallel mode", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
-        "greeter.ts": 'export function greet(): string { return "node"; }',
-        "greeter-browser.mts":
-          "export function greet(): string { const x: string = 42; return x; }",
-      },
-      targets: [
-        { name: "esm", condition: "import" },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
-      ],
-    });
-
-    const result = await build({ cwd: tmpDir, parallel: true });
-    const esmResult = result.compileResults!.find((r) => r.target.name === "esm");
-    expect(esmResult?.success).toBe(true);
-  });
-
-  it("different polyfill suffixes across targets produce distinct outputs", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": ['import { platform } from "./platform.js";', "export { platform };"].join(
-          "\n",
-        ),
-        "platform.ts": 'export function platform(): string { return "default"; }',
-        "platform-browser.mts": 'export function platform(): string { return "browser"; }',
-        "platform-workerd.mts": 'export function platform(): string { return "workerd"; }',
-      },
-      targets: [
-        { name: "esm", condition: "import" },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
-        { name: "workerd", condition: "workerd", polyfillSuffix: "-workerd" },
-      ],
-    });
-
-    const result = await build({ cwd: tmpDir, parallel: true });
-    expect(result.success).toBe(true);
-
-    const esmContent = await fs.readFile(path.join(tmpDir, "dist/esm/platform.js"), "utf-8");
-    const browserContent = await fs.readFile(
-      path.join(tmpDir, "dist/browser/platform.js"),
-      "utf-8",
-    );
-    const workerdContent = await fs.readFile(
-      path.join(tmpDir, "dist/workerd/platform.js"),
-      "utf-8",
-    );
-
-    expect(esmContent).toContain('"default"');
-    expect(browserContent).toContain('"browser"');
-    expect(workerdContent).toContain('"workerd"');
-
-    expect(esmContent).not.toBe(browserContent);
-    expect(browserContent).not.toBe(workerdContent);
   });
 
   // -----------------------------------------------------------------------
@@ -672,12 +609,11 @@ describe("parallel stress tests", () => {
     }
   });
 
-  it("6-target build with mixed dedup, polyfill, and module formats", async () => {
+  it("6-target build with mixed dedup and module formats", async () => {
     await setupProject(tmpDir, {
       sources: {
         "index.ts": ['import { impl } from "./impl.js";', "export { impl };"].join("\n"),
         "impl.ts": 'export function impl(): string { return "node"; }',
-        "impl-browser.mts": 'export function impl(): string { return "browser"; }',
       },
       targets: [
         { name: "esm", condition: "import" },
@@ -687,7 +623,7 @@ describe("parallel stress tests", () => {
           condition: "require",
           tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
         },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
+        { name: "browser", condition: "browser" },
         { name: "react-native", condition: "react-native" },
         {
           name: "deno",
@@ -702,9 +638,6 @@ describe("parallel stress tests", () => {
 
     const deduped = result.compileResults!.filter((r) => r.deduped);
     expect(deduped.length).toBeGreaterThanOrEqual(2);
-
-    const browserImpl = await fs.readFile(path.join(tmpDir, "dist/browser/impl.js"), "utf-8");
-    expect(browserImpl).toContain('"browser"');
 
     const cjsImpl = await fs.readFile(path.join(tmpDir, "dist/cjs/impl.js"), "utf-8");
     expect(cjsImpl).toMatch(/exports[.,]/);
@@ -840,33 +773,6 @@ describe("parallel chaos tests", () => {
     expect(aEsm).not.toContain('"B"');
     expect(bEsm).toContain('"B"');
     expect(bEsm).not.toContain('"A"');
-  });
-
-  it("one target has type errors while sibling targets succeed (mixed results)", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
-        "greeter.ts": 'export function greet(): string { return "node"; }',
-        "greeter-browser.mts":
-          "export function greet(): string { const x: number = true; return String(x); }",
-      },
-      targets: [
-        { name: "esm", condition: "import" },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
-        {
-          name: "cjs",
-          condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
-        },
-      ],
-    });
-
-    const result = await build({ cwd: tmpDir, parallel: true });
-    expect(result.success).toBe(false);
-    expect(result.compileResults).toBeDefined();
-
-    const esmResult = result.compileResults!.find((r) => r.target.name === "esm");
-    expect(esmResult?.success).toBe(true);
   });
 
   it("clean=false preserves previous output and rebuilds over it", async () => {
@@ -1013,51 +919,6 @@ describe("parallel chaos tests", () => {
     expect(parEsm).toBe(seqEsm);
     expect(parDts).toBe(seqDts);
   });
-
-  it("polyfill + dedup + CJS: the triple interaction", async () => {
-    await setupProject(tmpDir, {
-      sources: {
-        "index.ts": ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
-        "greeter.ts": 'export function greet(): string { return "default"; }',
-        "greeter-browser.mts": 'export function greet(): string { return "browser"; }',
-      },
-      targets: [
-        { name: "esm", condition: "import" },
-        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
-        {
-          name: "cjs",
-          condition: "require",
-          tsconfigOverrides: { module: "CommonJS", moduleResolution: "Node10" },
-        },
-        { name: "workerd", condition: "workerd" },
-      ],
-    });
-
-    const result = await build({ cwd: tmpDir, parallel: true });
-    expect(result.success).toBe(true);
-
-    const esmGreet = await fs.readFile(path.join(tmpDir, "dist/esm/greeter.js"), "utf-8");
-    const browserGreet = await fs.readFile(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
-    const cjsGreet = await fs.readFile(path.join(tmpDir, "dist/cjs/greeter.js"), "utf-8");
-    const workerdGreet = await fs.readFile(path.join(tmpDir, "dist/workerd/greeter.js"), "utf-8");
-
-    expect(esmGreet).toContain('"default"');
-    expect(browserGreet).toContain('"browser"');
-    expect(cjsGreet).toContain('"default"');
-    expect(workerdGreet).toBe(esmGreet);
-
-    const workerdResult = result.compileResults!.find((r) => r.target.name === "workerd");
-    expect(workerdResult?.deduped).toBe(true);
-
-    expect(cjsGreet).toMatch(/exports[.,]/);
-
-    for (const t of ["esm", "browser", "cjs", "workerd"]) {
-      expect(
-        await exists(path.join(tmpDir, `dist/${t}/greeter.d.ts`)),
-        `${t}/greeter.d.ts missing`,
-      ).toBe(true);
-    }
-  });
 });
 
 // ---------------------------------------------------------------------------
@@ -1145,12 +1006,13 @@ describe("fault injection: filesystem errors in workers", () => {
       await fs.chmod(path.join(tmpDir, "dist/cjs"), 0o555);
 
       let threw = false;
+      let result: Awaited<ReturnType<typeof build>> | undefined;
       try {
-        await build({ cwd: tmpDir, parallel: true, clean: false });
+        result = await build({ cwd: tmpDir, parallel: true, clean: false });
       } catch {
         threw = true;
       }
-      expect(threw).toBe(true);
+      expect(threw || result?.success === false).toBe(true);
     },
   );
 

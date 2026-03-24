@@ -4,7 +4,7 @@
 import type { ScaffoldTech } from "./scaffolding.js";
 import { glob } from "glob";
 import { join as pathJoin } from "node:path";
-import { sourceDir } from "./sourceDir.js";
+import { sourceDir } from "#platform/sourceDir";
 
 export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
   const sharedFiles = await getFiles(

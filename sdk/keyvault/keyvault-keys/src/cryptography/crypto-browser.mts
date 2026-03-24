@@ -17,7 +17,7 @@ export async function createHash(_algorithm: string, _data: Uint8Array): Promise
  * @internal
  * Use the platform-local verify functionality
  */
-export function createVerify(_algorithm: string, _data: Uint8Array): never {
+export function createVerify(_algorithm: string, _data: Uint8Array): { verify(key: string, signature: Uint8Array): boolean } {
   throw new LocalCryptographyUnsupportedError(
     "Our libraries don't currently support browser hashing",
   );

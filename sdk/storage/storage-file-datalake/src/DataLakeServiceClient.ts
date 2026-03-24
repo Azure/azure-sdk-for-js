@@ -15,7 +15,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
   FileSystemItem,
@@ -47,7 +47,7 @@ import {
   generateAccountSASQueryParametersInternal,
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
-import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
+import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "#platform/index";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure

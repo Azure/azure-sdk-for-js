@@ -127,5 +127,11 @@
       "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
-  "sdk-type": "client"
+  "sdk-type": "client",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

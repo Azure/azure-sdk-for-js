@@ -6,8 +6,8 @@
 import * as jsrsasign from "jsrsasign";
 
 import type { JsonWebKey } from "../generated/models/index.js";
-import { base64UrlDecodeString } from "../utils/base64.js";
-import { bytesToString } from "../utils/utf8.js";
+import { base64UrlDecodeString } from "#platform/utils/base64";
+import { bytesToString } from "#platform/utils/utf8";
 import type { AttestationSigner } from "./attestationSigner.js";
 import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 

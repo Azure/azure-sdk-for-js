@@ -145,5 +145,22 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/FileDownloadResponse": {
+      "browser": "./src/FileDownloadResponse-browser.mts",
+      "react-native": "./src/FileDownloadResponse-react-native.mts",
+      "default": "./src/FileDownloadResponse.ts"
+    },
+    "#platform/utils/utils": {
+      "browser": "./src/utils/utils-browser.mts",
+      "react-native": "./src/utils/utils-react-native.mts",
+      "default": "./src/utils/utils.ts"
+    }
   }
 }

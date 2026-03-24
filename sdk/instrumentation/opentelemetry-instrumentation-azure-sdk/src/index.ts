@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export * from "./logger.js";
-export * from "./instrumentation.js";
+export * from "#platform/instrumentation";

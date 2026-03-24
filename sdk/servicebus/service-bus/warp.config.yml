@@ -1,23 +1,15 @@
-# warp.config.yml — @azure/service-bus build configuration
-
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
-  "./experimental": "./src/experimental/index.ts"
-
+  ./package.json: ./package.json
+  .: ./src/index.ts
+  ./experimental: ./src/experimental/index.ts
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
+    tsconfig: ../../../tsconfig.src.browser.json
   - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
-
+    tsconfig: ../../../tsconfig.src.react-native.json
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-
+    tsconfig: ../../../tsconfig.src.esm.json
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: ../../../tsconfig.src.cjs.json

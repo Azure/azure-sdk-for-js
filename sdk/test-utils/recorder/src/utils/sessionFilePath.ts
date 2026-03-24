@@ -3,7 +3,7 @@
 
 import { isNode } from "@azure/core-util";
 import { generateTestRecordingFilePath } from "./filePathGenerator.js";
-import { relativeRecordingsPath } from "./relativePathCalculator.js";
+import { relativeRecordingsPath } from "#platform/utils/relativePathCalculator";
 
 export interface TestContext {
   suiteTitle: string; // describe(suiteTitle, () => {})

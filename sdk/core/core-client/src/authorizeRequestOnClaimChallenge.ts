@@ -3,7 +3,7 @@
 
 import type { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { logger as coreClientLogger } from "./log.js";
-import { decodeStringToString } from "./base64.js";
+import { decodeStringToString } from "#platform/base64";
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.

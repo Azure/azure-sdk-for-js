@@ -10,7 +10,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { LogsUploadFailure } from "./models/models.js";
 import { AggregateLogsUploadError } from "./models/models.js";
 import { isError } from "@azure/core-util";
-import { GZippingPolicy } from "./gZippingPolicy.js";
+import { GZippingPolicy } from "#platform/gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper.js";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
 export type { LogsIngestionClientOptions } from "./api/logsIngestionContext.js";

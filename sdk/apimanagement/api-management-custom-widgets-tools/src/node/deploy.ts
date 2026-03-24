@@ -6,7 +6,7 @@ import CustomWidgetBlobService from "./CustomWidgetBlobService.js";
 import { APIM_CONFIG_FILE_NAME } from "../paths.js";
 import fs from "node:fs";
 import getStorageSasUrl from "./getStorageSasUrl.js";
-import readdir from "./readdir.js";
+import readdir from "#platform/node/readdir";
 import type { DeployConfig, ServiceInformation } from "./types.js";
 
 /**

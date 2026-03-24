@@ -6,7 +6,7 @@ import type { MessagingError } from "./errors.js";
 import { translate } from "./errors.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants.js";
-import { checkNetworkConnection } from "./util/checkNetworkConnection.js";
+import { checkNetworkConnection } from "#platform/util/checkNetworkConnection";
 import { delay } from "@azure/core-util";
 import { logger } from "./log.js";
 

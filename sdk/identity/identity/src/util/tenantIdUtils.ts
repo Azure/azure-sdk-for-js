@@ -4,7 +4,7 @@
 import { ALL_TENANTS, DeveloperSignOnClientId } from "../constants.js";
 import type { CredentialLogger } from "./logging.js";
 import { formatError } from "./logging.js";
-export { processMultiTenantRequest } from "./processMultiTenantRequest.js";
+export { processMultiTenantRequest } from "#platform/util/processMultiTenantRequest";
 
 /**
  * @internal

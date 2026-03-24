@@ -179,11 +179,22 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
   const exports: Record<string, unknown> = raw.exports;
   const seenExportKeys = new Set<string>();
   for (const [key, value] of Object.entries(exports)) {
-    if (typeof value !== "string") {
+    if (typeof value !== "string" && !isRecord(value)) {
       throw new WarpError(
         "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: exports["${key}"] must be a string, got ${typeof value}`,
+        `[warp] Invalid config in ${source}: exports["${key}"] must be a string or target override object, got ${typeof value}`,
       );
+    }
+    // Validate target override objects: all values must be strings
+    if (isRecord(value)) {
+      for (const [overrideKey, overrideValue] of Object.entries(value)) {
+        if (typeof overrideValue !== "string") {
+          throw new WarpError(
+            "CONFIG_INVALID",
+            `[warp] Invalid config in ${source}: exports["${key}"]["${overrideKey}"] must be a string, got ${typeof overrideValue}`,
+          );
+        }
+      }
     }
     if (key === "") {
       throw new WarpError(
@@ -267,17 +278,6 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: targets[${i}].condition must be a non-empty string`,
       );
     }
-    // polyfillSuffix: omitted/true → "-<name>", string → used as-is, false → disabled
-    if (
-      entry.polyfillSuffix !== undefined &&
-      typeof entry.polyfillSuffix !== "string" &&
-      typeof entry.polyfillSuffix !== "boolean"
-    ) {
-      throw new WarpError(
-        "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: targets[${i}].polyfillSuffix must be a string, true, or false`,
-      );
-    }
     if (
       entry.moduleType !== undefined &&
       entry.moduleType !== "module" &&
@@ -291,17 +291,10 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
 
     // Build typed target — casts are safe: all fields validated above
     const name = entry.name as string;
-    const resolvedPolyfillSuffix =
-      entry.polyfillSuffix === true
-        ? `-${name}`
-        : typeof entry.polyfillSuffix === "string"
-          ? entry.polyfillSuffix
-          : undefined;
     const target: WarpTarget = {
       name,
       condition: typeof entry.condition === "string" ? entry.condition : name,
       tsconfig: entry.tsconfig as string,
-      ...(resolvedPolyfillSuffix !== undefined && { polyfillSuffix: resolvedPolyfillSuffix }),
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
     };
 
@@ -325,7 +318,7 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
   }
 
   return {
-    exports: exports as Record<string, string>,
+    exports: exports as Record<string, string | Record<string, string>>,
     targets: validatedTargets,
   };
 }

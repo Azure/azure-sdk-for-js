@@ -22,8 +22,7 @@ import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import {
   validateOutDirs,
   groupBySignature,
-  sourceIdentity,
-  discoverPolyfills,
+  programIdentity,
   cleanOutDir,
   copyDir,
   copyDtsFiles,
@@ -419,37 +418,12 @@ export async function compileAllTargetsParallel(
 
   const log = getLogger();
 
-  const polyfillResults = new Map<string, Map<string, string>>();
-
-  // Discover polyfills and clean outDirs first — we need polyfill results
-  // to compute dedup groups, which determines worker pool size.
-  const initTasks: Promise<void>[] = [];
-
-  initTasks.push(
-    Promise.all(
-      parsedConfigs.map(async (pc) => {
-        const suffix = pc.target.polyfillSuffix;
-        if (suffix) {
-          const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
-          polyfillResults.set(pc.target.name, map);
-        }
-      }),
-    ).then(() => {}),
-  );
-
+  // Clean outDirs before compilation.
   if (clean) {
-    const cleanOps = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
-    initTasks.push(Promise.all(cleanOps).then(() => {}));
+    await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
-  await Promise.all(initTasks);
-
-  const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
-    const map = polyfillResults.get(pc.target.name);
-    return map && map.size > 0 ? pc.target.polyfillSuffix : undefined;
-  };
-
-  const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
+  const groups = groupBySignature(parsedConfigs);
   const dedupCount = parsedConfigs.length - groups.length;
   if (dedupCount > 0) {
     log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
@@ -473,16 +447,18 @@ export async function compileAllTargetsParallel(
   const deferredDtsCopies: Array<{ sourceOutDir: string; targetOutDir: string }> = [];
 
   for (const group of groups) {
-    const suffix = group.primary.target.polyfillSuffix;
-    const effSuffix = getEffectiveSuffix(group.primary);
-    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
-    const alreadyChecked = typeCheckedSources.get(srcId);
+    const progId = programIdentity(
+      group.primary.parsedConfig.options,
+      group.primary.parsedConfig.fileNames,
+      group.primary.resolvedImports,
+    );
+    const alreadyChecked = typeCheckedSources.get(progId);
     const needsTypeCheck = !alreadyChecked;
     const canSkipDeclarations = !!alreadyChecked;
     const primaryTaskId = `compile:${group.primary.target.name}`;
 
     if (needsTypeCheck) {
-      typeCheckedSources.set(srcId, { outDir: group.primary.outDir, taskId: primaryTaskId });
+      typeCheckedSources.set(progId, { outDir: group.primary.outDir, taskId: primaryTaskId });
     }
 
     // Secondary groups (skip-typecheck + skip-dts) use transpileFiles which
@@ -507,23 +483,16 @@ export async function compileAllTargetsParallel(
         if (!needsTypeCheck) label.push("skip-typecheck");
         if (canSkipDeclarations) label.push("skip-dts");
 
-        const polyfillMap = polyfillResults.get(primaryConfig.target.name);
-        const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
-        if (hasPolyfills) {
-          label.push(`${polyfillMap.size} polyfill(s) via "${suffix}"`);
-        }
         if (label.length > 0) {
           log.info(`[warp] [${primaryConfig.target.name}] ${label.join(", ")}`);
         }
 
-        const polyfillEntries = polyfillMap ? [...polyfillMap.entries()] : undefined;
         const workerResult = await activePool.compile({
           type: "compile",
           packageRoot,
           target: primaryConfig.target,
           typeCheck: needsTypeCheck,
           skipDeclarations: canSkipDeclarations,
-          polyfillEntries,
         });
 
         if (workerResult.diagnosticText) {

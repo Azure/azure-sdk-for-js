@@ -11,6 +11,7 @@ export interface UserDelegationKey {
   signedExpiresOn: Date;
   signedService: string;
   signedVersion: string;
+  signedDelegatedUserTenantId: string | undefined;
   value: string;
 }
 

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../tsconfig.src.browser.json",
+  "compilerOptions": {
+    "outDir": "../dist/browser",
+    "rootDir": ".",
+    "customConditions": ["browser"],
+    "composite": false
+  },
+  "include": ["./index.ts", "./**/*-web.mts", "./**/*-browser.mts"]
+}

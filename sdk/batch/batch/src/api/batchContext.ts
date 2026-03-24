@@ -7,7 +7,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { createBatchSharedKeyCredentialsPolicy } from "../credentials/batchSharedKeyCredentials.js";
+import { createBatchSharedKeyCredentialsPolicy } from "#platform/credentials/batchSharedKeyCredentials";
 
 export interface BatchContext extends Client {
   /** The API version to use for this operation. */

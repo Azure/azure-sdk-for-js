@@ -347,13 +347,6 @@ describe("optionsSignature includes fileNames", () => {
     const sig2 = optionsSignature(baseOpts, ["/a.ts", "/z.ts"]);
     expect(sig1).toBe(sig2);
   });
-
-  it("polyfillSuffix changes signature", () => {
-    const files = ["/a.ts"];
-    const sig1 = optionsSignature(baseOpts, files);
-    const sig2 = optionsSignature(baseOpts, files, "-browser");
-    expect(sig1).not.toBe(sig2);
-  });
 });
 
 // ---------------------------------------------------------------------------
@@ -676,75 +669,6 @@ describe("module type shim from compiler options", () => {
 
     const shim = await readJsonObject(path.join(tmpDir, "dist/esm/package.json"));
     expect(shim["type"]).toBe("module");
-  });
-});
-
-// ---------------------------------------------------------------------------
-// rootNames filter: basename-aware
-// ---------------------------------------------------------------------------
-
-describe("rootNames polyfill filter (basename-aware)", () => {
-  let tmpDir: string;
-
-  beforeEach(async () => {
-    tmpDir = await createTmpDir();
-  });
-
-  afterEach(async () => {
-    await cleanup(tmpDir);
-  });
-
-  it("does not false-match files that end with suffix in a different context", async () => {
-    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-    // A file named "not-a-browser.ts" should NOT be filtered out by suffix "-browser"
-    await fs.writeFile(
-      path.join(tmpDir, "src/not-a-browser.ts"),
-      'export const x: string = "not a polyfill";\n',
-    );
-    await fs.writeFile(
-      path.join(tmpDir, "src/index.ts"),
-      'export { x } from "./not-a-browser.js";\n',
-    );
-
-    const tsconfig = {
-      compilerOptions: {
-        outDir: "./dist/esm",
-        rootDir: "./src",
-        module: "NodeNext",
-        moduleResolution: "NodeNext",
-        target: "ES2023",
-        declaration: true,
-        strict: true,
-      },
-      include: ["src/**/*.ts"],
-    };
-    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-
-    await fs.writeFile(
-      path.join(tmpDir, "warp.config.yml"),
-      stringify({
-        exports: { ".": "./src/index.ts" },
-        targets: [
-          {
-            name: "browser",
-            condition: "browser",
-            tsconfig: "./tsconfig.esm.json",
-            polyfillSuffix: "-browser",
-          },
-        ],
-      }),
-    );
-
-    await fs.writeFile(
-      path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test-filter", version: "1.0.0", type: "module" }, null, 2)}\n`,
-    );
-
-    const result = await build({ cwd: tmpDir });
-    expect(result.success).toBe(true);
-
-    // not-a-browser.ts should still be compiled (not filtered out)
-    expect(await exists(path.join(tmpDir, "dist/esm/not-a-browser.js"))).toBe(true);
   });
 });
 

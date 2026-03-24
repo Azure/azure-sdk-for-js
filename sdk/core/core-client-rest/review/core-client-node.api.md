@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { HttpBrowserStreamResponse as HttpBrowserStreamResponse_2 } from '@typespec/ts-http-runtime';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
@@ -18,6 +19,7 @@ import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RestError } from '@azure/core-rest-pipeline';
+import type { StreamableMethod as StreamableMethod_2 } from '@typespec/ts-http-runtime';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
@@ -92,9 +94,7 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
-export type HttpBrowserStreamResponse = HttpResponse & {
-    body?: ReadableStream<Uint8Array>;
-};
+export type HttpBrowserStreamResponse = HttpBrowserStreamResponse_2;
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
@@ -196,9 +196,6 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 }
 
 // @public
-export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
-    asNodeStream: () => Promise<HttpNodeStreamResponse>;
-    asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
-};
+export type StreamableMethod<TResponse = PathUncheckedResponse> = StreamableMethod_2<TResponse>;
 
 ```

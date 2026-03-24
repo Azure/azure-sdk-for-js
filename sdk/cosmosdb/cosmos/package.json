@@ -160,5 +160,17 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/utils/globalCrypto": {
+      "browser": "./src/utils/globalCrypto-browser.mts",
+      "react-native": "./src/utils/globalCrypto-react-native.mts",
+      "default": "./src/utils/globalCrypto.ts"
+    }
   }
 }

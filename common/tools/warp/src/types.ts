@@ -47,18 +47,6 @@ export interface WarpTarget {
   /** Path to the tsconfig for this target. Must include outDir and rootDir. */
   tsconfig: string;
   /**
-   * Suffix used for per-target file substitution. Warp scans the source
-   * directory for files matching `*<suffix>.mts` (or `*<suffix>.ts`). For each
-   * match where a corresponding `*.ts` original exists, the original is
-   * transparently replaced with the polyfill content during compilation.
-   *
-   * Defaults to `-<name>` when omitted. Set to `false` in config to disable.
-   *
-   * Example: `polyfillSuffix: "-browser"` causes `foo-browser.mts` to replace
-   * `foo.ts` in this target's output, while the output filename stays `foo.js`.
-   */
-  polyfillSuffix?: string;
-  /**
    * Module type for the output directory's package.json shim.
    * Defaults to inferring from compiler options: CommonJS module → "commonjs",
    * everything else → "module".
@@ -73,10 +61,13 @@ export interface WarpConfig {
   /**
    * Exports map expressed in terms of source files.
    * Keys are subpath patterns (e.g. ".", "./models").
-   * Values are source file paths (e.g. "./src/index.ts") or literal pass-through
-   * strings (e.g. "./package.json").
+   * Values are either:
+   * - A source file path string (e.g. "./src/index.ts") — same file for all targets
+   * - A literal pass-through string (e.g. "./package.json")
+   * - A target override object mapping target names (or "default") to source file paths,
+   *   for exports that resolve to different files per platform.
    */
-  exports: Record<string, string>;
+  exports: Record<string, string | Record<string, string>>;
   /** Ordered list of build targets. Declaration order determines condition key order. */
   targets: WarpTarget[];
 }

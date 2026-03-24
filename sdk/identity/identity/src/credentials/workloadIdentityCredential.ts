@@ -4,7 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, processEnvVars } from "../util/logging.js";
 
-import { ClientAssertionCredential } from "./clientAssertionCredential.js";
+import { ClientAssertionCredential } from "#platform/credentials/clientAssertionCredential";
 import { CredentialUnavailableError } from "../errors.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
@@ -357,7 +357,13 @@ export class WorkloadIdentityCredential implements TokenCredential {
       throw new CredentialUnavailableError(errorMessage);
     }
     logger.info("Invoking getToken() of Client Assertion Credential");
-    return this.client.getToken(scopes, options);
+    const result = await this.client.getToken(scopes, options);
+    if (result === null) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: received null token. ${ErrorMessages.MISSING_ENV_VARS}`,
+      );
+    }
+    return result;
   }
 
   private async readFileContents(): Promise<string> {

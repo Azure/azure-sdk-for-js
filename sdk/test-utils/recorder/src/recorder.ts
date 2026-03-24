@@ -31,10 +31,10 @@ import { createRecordingRequest } from "./utils/createRecordingRequest.js";
 import { logger } from "./log.js";
 import { setRecordingOptions } from "./options.js";
 import { isBrowser, isNode } from "@azure/core-util";
-import { decodeBase64 } from "./utils/encoding.js";
+import { decodeBase64 } from "#platform/utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
-import { env } from "./utils/env.js";
+import { env } from "#platform/utils/env";
 
 /**
  * Caculates session file path and JSON assets path from test context

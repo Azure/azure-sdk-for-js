@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./plugins/consumer.js";
+export * from "#platform/plugins/consumer";
 
 export type { IdentityPlugin } from "./plugins/provider.js";
 
 import type { TokenCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "./credentials/defaultAzureCredential.js";
+import { DefaultAzureCredential } from "#platform/credentials/defaultAzureCredential";
 
 export {
   AuthenticationError,
@@ -38,10 +38,10 @@ export type { InteractiveCredentialOptions } from "./credentials/interactiveCred
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential.js";
 
-export { ClientSecretCredential } from "./credentials/clientSecretCredential.js";
+export { ClientSecretCredential } from "#platform/credentials/clientSecretCredential";
 export type { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions.js";
 
-export { DefaultAzureCredential } from "./credentials/defaultAzureCredential.js";
+export { DefaultAzureCredential } from "#platform/credentials/defaultAzureCredential";
 export type {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
@@ -49,46 +49,46 @@ export type {
   DefaultAzureCredentialEnvVars,
 } from "./credentials/defaultAzureCredentialOptions.js";
 
-export { EnvironmentCredential } from "./credentials/environmentCredential.js";
+export { EnvironmentCredential } from "#platform/credentials/environmentCredential";
 export type { EnvironmentCredentialOptions } from "./credentials/environmentCredentialOptions.js";
 
-export { ClientCertificateCredential } from "./credentials/clientCertificateCredential.js";
+export { ClientCertificateCredential } from "#platform/credentials/clientCertificateCredential";
 export type {
   ClientCertificateCredentialPEMConfiguration,
   ClientCertificatePEMCertificatePath,
   ClientCertificatePEMCertificate,
 } from "./credentials/clientCertificateCredentialModels.js";
 export type { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions.js";
-export { ClientAssertionCredential } from "./credentials/clientAssertionCredential.js";
+export { ClientAssertionCredential } from "#platform/credentials/clientAssertionCredential";
 export type { ClientAssertionCredentialOptions } from "./credentials/clientAssertionCredentialOptions.js";
 export type { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions.js";
-export { AzureCliCredential } from "./credentials/azureCliCredential.js";
+export { AzureCliCredential } from "#platform/credentials/azureCliCredential";
 export type { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions.js";
-export { AzureDeveloperCliCredential } from "./credentials/azureDeveloperCliCredential.js";
+export { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
 export type { AzureDeveloperCliCredentialOptions } from "./credentials/azureDeveloperCliCredentialOptions.js";
-export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential.js";
+export { InteractiveBrowserCredential } from "#platform/credentials/interactiveBrowserCredential";
 export type {
   InteractiveBrowserCredentialNodeOptions,
   InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle,
 } from "./credentials/interactiveBrowserCredentialOptions.js";
-export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential/index.js";
+export { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
 export type {
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
   ManagedIdentityCredentialObjectIdOptions,
 } from "./credentials/managedIdentityCredential/options.js";
-export { DeviceCodeCredential } from "./credentials/deviceCodeCredential.js";
+export { DeviceCodeCredential } from "#platform/credentials/deviceCodeCredential";
 export type {
   DeviceCodePromptCallback,
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions.js";
 export type { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions.js";
-export { AzurePipelinesCredential as AzurePipelinesCredential } from "./credentials/azurePipelinesCredential.js";
+export { AzurePipelinesCredential as AzurePipelinesCredential } from "#platform/credentials/azurePipelinesCredential";
 export type { AzurePipelinesCredentialOptions as AzurePipelinesCredentialOptions } from "./credentials/azurePipelinesCredentialOptions.js";
-export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential.js";
+export { AuthorizationCodeCredential } from "#platform/credentials/authorizationCodeCredential";
 export type { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions.js";
-export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential.js";
+export { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
 export type { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions.js";
 export type {
   OnBehalfOfCredentialOptions,
@@ -96,12 +96,12 @@ export type {
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialAssertionOptions,
 } from "./credentials/onBehalfOfCredentialOptions.js";
-export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential.js";
+export { UsernamePasswordCredential } from "#platform/credentials/usernamePasswordCredential";
 export type { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions.js";
-export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCredential.js";
+export { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
 export type { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions.js";
-export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential.js";
-export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential.js";
+export { OnBehalfOfCredential } from "#platform/credentials/onBehalfOfCredential";
+export { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
 export type { WorkloadIdentityCredentialOptions } from "./credentials/workloadIdentityCredentialOptions.js";
 export type { BrowserCustomizationOptions } from "./credentials/browserCustomizationOptions.js";
 export type { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions.js";

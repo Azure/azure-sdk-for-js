@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { signString } from "./hmacSha256.js";
+import { signString } from "#platform/auth/hmacSha256";
 
 /**
  * Represents a named key credential.

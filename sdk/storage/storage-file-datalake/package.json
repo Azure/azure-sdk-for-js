@@ -138,5 +138,22 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/credentials/StorageSharedKeyCredential": {
+      "browser": "./src/credentials/StorageSharedKeyCredential-browser.mts",
+      "react-native": "./src/credentials/StorageSharedKeyCredential-react-native.mts",
+      "default": "./src/credentials/StorageSharedKeyCredential.ts"
+    },
+    "#platform/utils/utils": {
+      "browser": "./src/utils/utils-browser.mts",
+      "react-native": "./src/utils/utils-react-native.mts",
+      "default": "./src/utils/utils.ts"
+    }
   }
 }

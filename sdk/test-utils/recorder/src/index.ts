@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { Recorder } from "./recorder.js";
-export { relativeRecordingsPath } from "./utils/relativePathCalculator.js";
+export { relativeRecordingsPath } from "#platform/utils/relativePathCalculator";
 export {
   type SanitizerOptions,
   type RecorderStartOptions,
@@ -20,6 +20,6 @@ export {
   type RemoveHeaderSanitizer,
 } from "./utils/utils.js";
 export { delay } from "./utils/delay.js";
-export { env } from "./utils/env.js";
+export { env } from "#platform/utils/env";
 export type { CustomMatcherOptions } from "./matcher.js";
 export { type TestInfo, type VitestTestContext, isVitestTestContext } from "./testInfo.js";

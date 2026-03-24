@@ -124,5 +124,15 @@
   },
   "type": "module",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/utils/getPackageVersion": {
+      "require": "./src/utils/getPackageVersion-cjs.cts",
+      "default": "./src/utils/getPackageVersion.ts"
+    },
+    "#platform/core/playwrightServiceUtils": {
+      "require": "./src/core/playwrightServiceUtils-cjs.cts",
+      "default": "./src/core/playwrightServiceUtils.ts"
+    }
+  }
 }

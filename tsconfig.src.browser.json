@@ -5,9 +5,10 @@
     "rootDir": "${configDir}/src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "customConditions": ["browser"],
     "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2023"],
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["${configDir}/src/**/*.ts"]
+  "include": ["${configDir}/src/**/index.ts"]
 }

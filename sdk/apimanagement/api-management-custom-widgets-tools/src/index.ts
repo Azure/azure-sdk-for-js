@@ -34,6 +34,6 @@ export {
   buildBlobConfigPath,
 } from "./paths.js";
 
-import deployNodeJS from "./node/deploy.js";
+import deployNodeJS from "#platform/node/deploy";
 export { deployNodeJS };
 export type { ServiceInformation, DeployConfig } from "./node/types.js";

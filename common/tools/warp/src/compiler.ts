@@ -20,6 +20,13 @@ export interface ParsedTargetConfig {
   parsedConfig: ts.ParsedCommandLine;
   outDir: string;
   rootDir: string;
+  /**
+   * Resolved import map patterns for the target's active conditions.
+   * Used by `programIdentity` to determine when two targets with different
+   * `customConditions` resolve to the same program graph (e.g., both
+   * react-native and browser mapping `#platform/*` to `*-browser.mts`).
+   */
+  resolvedImports?: readonly string[];
 }
 
 /**
@@ -228,151 +235,17 @@ export function createCachedHost(
 }
 
 // ---------------------------------------------------------------------------
-// Polyfill discovery and source substitution
-// ---------------------------------------------------------------------------
-
-/**
- * Discover polyfill files for a set of source files. For each file in
- * `fileNames`, checks whether a polyfill exists at `<stem><suffix>.mts`
- * (preferred) or `<stem><suffix>.ts`. Returns a map from the absolute
- * path of the original file to its polyfill replacement.
- *
- * Because discovery is driven by `fileNames` (from the parsed tsconfig),
- * it inherently respects include/exclude patterns — only files in the
- * compilation can be polyfilled.
- *
- * `.mts` polyfills take priority over `.ts` polyfills when both exist.
- */
-export async function discoverPolyfills(
-  fileNames: readonly string[],
-  suffix: string,
-): Promise<Map<string, string>> {
-  const polyfillMap = new Map<string, string>();
-
-  // Group source files by directory so we can scan each directory once
-  // instead of doing O(files × 2) stat calls that mostly miss.
-  const byDir = new Map<string, string[]>();
-  for (const fileName of fileNames) {
-    if (!fileName.endsWith(".ts") || fileName.endsWith(".d.ts")) continue;
-    const dir = path.dirname(fileName);
-    let list = byDir.get(dir);
-    if (!list) {
-      list = [];
-      byDir.set(dir, list);
-    }
-    list.push(fileName);
-  }
-
-  // For each unique directory, list entries once and match polyfill candidates
-  await Promise.all(
-    [...byDir.entries()].map(async ([dir, sources]) => {
-      let entries: Set<string>;
-      try {
-        const dirEntries = await fsp.readdir(dir);
-        entries = new Set(dirEntries);
-      } catch {
-        return; // directory doesn't exist or unreadable — skip
-      }
-
-      for (const fileName of sources) {
-        const base = path.basename(fileName);
-        const stem = base.slice(0, -3); // strip .ts
-
-        // Prefer .mts polyfill
-        const mtsName = `${stem}${suffix}.mts`;
-        if (entries.has(mtsName)) {
-          polyfillMap.set(path.resolve(fileName), path.join(dir, mtsName));
-          continue;
-        }
-
-        // Check .cts polyfill (e.g. state-cjs.cts for CJS module-local-state)
-        const ctsName = `${stem}${suffix}.cts`;
-        if (entries.has(ctsName)) {
-          polyfillMap.set(path.resolve(fileName), path.join(dir, ctsName));
-          continue;
-        }
-
-        // Fall back to .ts polyfill
-        const tsName = `${stem}${suffix}.ts`;
-        if (entries.has(tsName)) {
-          polyfillMap.set(path.resolve(fileName), path.join(dir, tsName));
-        }
-      }
-    }),
-  );
-
-  return polyfillMap;
-}
-
-/**
- * Create a CompilerHost that transparently substitutes polyfill file
- * content for the original source files. The output filename stays the
- * same as the original (e.g. `foo.js`), but the emitted code comes
- * from the polyfill (e.g. `foo-browser.mts`).
- *
- * Type errors from signature mismatches between polyfill and callers
- * are surfaced intentionally — polyfills must maintain type-compatible
- * signatures with the originals they replace.
- *
- * Polyfilled source files use a separate cache to avoid conflicts with
- * non-polyfill targets sharing the same SharedSourceFileCache.
- */
-export function createPolyfillHost(
-  options: ts.CompilerOptions,
-  polyfillMap: Map<string, string>,
-  cache: SharedSourceFileCache,
-): { host: ts.CompilerHost } {
-  const baseHost = ts.createCompilerHost(options);
-  const polyfillCache = new Map<string, ts.SourceFile>();
-  const scriptTarget = options.target ?? ts.ScriptTarget.Latest;
-
-  const host: ts.CompilerHost = {
-    ...baseHost,
-    getSourceFile(fileName, languageVersionOrOptions, onError, shouldCreate) {
-      const absPath = path.resolve(fileName);
-      const polyfillPath = polyfillMap.get(absPath);
-
-      if (polyfillPath) {
-        // Key by absPath + scriptTarget to avoid cross-target cache collisions (#3)
-        const cacheKey = `${absPath}\0${scriptTarget}`;
-        const cached = polyfillCache.get(cacheKey);
-        if (cached) return cached;
-
-        // Read polyfill content but present it under the original filename
-        // so that outDir-relative output paths are preserved.
-        const content = ts.sys.readFile(polyfillPath);
-        if (content !== undefined) {
-          const sf = ts.createSourceFile(fileName, content, languageVersionOrOptions);
-          polyfillCache.set(cacheKey, sf);
-          return sf;
-        }
-      }
-
-      // Non-polyfilled files use the shared cache (normalized to absolute)
-      const cached = cache.get(absPath, scriptTarget);
-      if (cached) return cached;
-      const sf = baseHost.getSourceFile(fileName, languageVersionOrOptions, onError, shouldCreate);
-      if (sf) cache.set(absPath, scriptTarget, sf);
-      return sf;
-    },
-  };
-
-  return { host };
-}
-
-// ---------------------------------------------------------------------------
 // Target deduplication
 // ---------------------------------------------------------------------------
 
 /**
- * Compute a signature for a target's compiler options + polyfill config
- * + file list. Targets with the same signature produce identical output
+ * Compute a signature for a target's compiler options + file list.
+ * Targets with the same signature produce identical output
  * (modulo outDir) and can be compiled once then copied.
  */
 export function optionsSignature(
   options: ts.CompilerOptions,
   fileNames: readonly string[],
-  polyfillSuffix?: string,
 ): string {
   const clone = { ...options };
   delete clone.outDir;
@@ -388,24 +261,69 @@ export function optionsSignature(
     .digest("hex")
     .slice(0, 16);
 
-  const base = `${optionsStr}\0files:${filesHash}`;
-  return polyfillSuffix ? `${base}\0polyfill:${polyfillSuffix}` : base;
+  return `${optionsStr}\0files:${filesHash}`;
 }
 
 /**
- * Compute a "source identity" hash — the set of source files that will be
- * type-checked. Two targets with the same source identity (same fileNames,
- * same polyfillSuffix) produce the same type-checking result regardless of
- * module format. The first target type-checked in a source group validates
- * types for all subsequent targets in that group.
+ * Compute a program identity hash — the effective compilation identity.
+ *
+ * Two targets with the same program identity produce the same type-checking
+ * result AND the same output files (JS + declarations), so the second target
+ * can fully reuse the first target's output.
+ *
+ * The identity includes:
+ * - Emit-affecting compiler options (module, target, jsx, etc. — NOT lib,
+ *   types, or type-checking-only flags which don't change output)
+ * - `fileNames` — the root files from tsconfig include
+ * - `resolvedImports` — the resolved import map entries for the active
+ *   conditions. This captures how `#platform/*` imports resolve: two targets
+ *   with different `customConditions` that resolve to the same files (e.g.,
+ *   both react-native and browser mapping to `*-web.mts`) will share an
+ *   identity, while targets resolving to different files will not.
  */
-export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
-  const filesHash = crypto
-    .createHash("sha256")
-    .update([...fileNames].sort().join("\0"))
-    .digest("hex")
-    .slice(0, 16);
-  return polyfillSuffix ? `${filesHash}\0polyfill:${polyfillSuffix}` : filesHash;
+
+/** Compiler options that affect emitted JS/declarations (not just type-checking). */
+const EMIT_AFFECTING_OPTIONS: readonly (keyof ts.CompilerOptions)[] = [
+  "module",
+  "moduleResolution",
+  "target",
+  "jsx",
+  "jsxFactory",
+  "jsxFragmentFactory",
+  "jsxImportSource",
+  "declaration",
+  "declarationMap",
+  "sourceMap",
+  "inlineSourceMap",
+  "inlineSources",
+  "importHelpers",
+  "downlevelIteration",
+  "esModuleInterop",
+  "verbatimModuleSyntax",
+  "isolatedModules",
+  "customConditions",
+  "emitDecoratorMetadata",
+];
+
+export function programIdentity(
+  options: ts.CompilerOptions,
+  fileNames: readonly string[],
+  resolvedImports?: readonly string[],
+): string {
+  const hash = crypto.createHash("sha256");
+  // Hash only emit-affecting options (sorted for stability)
+  const emitOpts: Record<string, unknown> = {};
+  for (const key of EMIT_AFFECTING_OPTIONS) {
+    if (options[key] !== undefined) {
+      emitOpts[key] = options[key];
+    }
+  }
+  hash.update(JSON.stringify(emitOpts, Object.keys(emitOpts).sort()));
+  hash.update("\0files:" + [...fileNames].sort().join("\0"));
+  if (resolvedImports && resolvedImports.length > 0) {
+    hash.update("\0imports:" + [...resolvedImports].sort().join("\0"));
+  }
+  return hash.digest("hex").slice(0, 16);
 }
 
 interface DedupGroup {
@@ -416,22 +334,15 @@ interface DedupGroup {
 }
 
 /**
- * Group parsed targets by options signature (including polyfillSuffix and fileNames).
+ * Group parsed targets by options signature (including fileNames).
  * The first target in each group is the primary; the rest are copies.
- *
- * When `getEffectiveSuffix` is provided it overrides `target.polyfillSuffix`
- * for signature computation.  This lets callers exclude the suffix for
- * targets that have a configured polyfillSuffix but no actual polyfill files
- * on disk, enabling output deduplication across such targets.
  */
 export function groupBySignature(
   configs: ParsedTargetConfig[],
-  getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
 ): DedupGroup[] {
   const map = new Map<string, DedupGroup>();
   for (const pc of configs) {
-    const suffix = getEffectiveSuffix ? getEffectiveSuffix(pc) : pc.target.polyfillSuffix;
-    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames, suffix);
+    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames);
     const existing = map.get(sig);
     if (existing) {
       existing.copies.push(pc);
@@ -663,7 +574,6 @@ async function transpileWithEsbuild(
  */
 export async function transpileFiles(
   parsed: ParsedTargetConfig,
-  polyfillMap?: Map<string, string>,
 ): Promise<CompileResult> {
   const t0 = performance.now();
   const options: ts.CompilerOptions = {
@@ -688,22 +598,14 @@ export async function transpileFiles(
     }
   }
 
-  let fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
-
-  // Filter out polyfill source files (injected via content substitution)
-  const suffix = parsed.target.polyfillSuffix;
-  if (suffix) {
-    fileNames = filterPolyfillRootNames(fileNames, suffix);
-  }
+  const fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
 
   const { outDir, rootDir } = parsed;
 
-  // Read all source files concurrently, applying polyfill substitution
+  // Read all source files concurrently
   const sources = await Promise.all(
     fileNames.map(async (fileName) => {
-      const absPath = path.resolve(fileName);
-      const polyfillPath = polyfillMap?.get(absPath);
-      const content = await fsp.readFile(polyfillPath ?? fileName, "utf-8");
+      const content = await fsp.readFile(fileName, "utf-8");
       return { fileName, content };
     }),
   );
@@ -738,21 +640,6 @@ export async function transpileFiles(
 }
 
 /**
- * Filter rootNames to exclude polyfill source files.
- * Uses basename-aware matching: a file is a polyfill if its basename
- * (without extension) ends with the suffix and the extension is .mts, .cts, or .ts.
- */
-function filterPolyfillRootNames(rootNames: readonly string[], suffix: string): string[] {
-  return rootNames.filter((f) => {
-    const base = path.basename(f);
-    const ext = path.extname(base);
-    if (ext !== ".mts" && ext !== ".cts" && ext !== ".ts") return true;
-    const stem = base.slice(0, -ext.length);
-    return !stem.endsWith(suffix);
-  });
-}
-
-/**
  * Options controlling how a single target is compiled.
  */
 interface CompileTargetOptions {
@@ -771,10 +658,6 @@ interface CompileTargetOptions {
  * Performance optimizations controlled by options:
  * - `typeCheck: false` — skip getPreEmitDiagnostics (~30% faster)
  * - `skipDeclarations: true` — emit JS only (~17% faster)
- *
- * When the target has a polyfillSuffix, polyfill source files are
- * filtered from rootNames (they are injected via the host instead)
- * so they don't produce extra `.mjs` output files.
  */
 export function compileTarget(
   parsed: ParsedTargetConfig,
@@ -785,13 +668,7 @@ export function compileTarget(
   const doTypeCheck = compileOptions?.typeCheck ?? true;
   const skipDecl = compileOptions?.skipDeclarations ?? false;
 
-  let rootNames: readonly string[] = parsed.parsedConfig.fileNames;
-
-  // Filter out polyfill source files so they don't produce extra output
-  const suffix = parsed.target.polyfillSuffix;
-  if (suffix) {
-    rootNames = filterPolyfillRootNames(rootNames, suffix);
-  }
+  const rootNames: readonly string[] = parsed.parsedConfig.fileNames;
 
   // Build effective compiler options with performance flags
   const effectiveOptions: ts.CompilerOptions = {
@@ -828,12 +705,11 @@ export function compileTarget(
 }
 
 /**
- * Compile all targets with deduplication, shared source caching,
- * and per-target polyfill substitution via getSourceFile interception.
+ * Compile all targets with deduplication, shared source caching.
  *
  * Performance strategy:
  * - **Type check once per source set**: targets sharing the same source
- *   files (same fileNames + polyfillSuffix) are grouped into "source groups".
+ *   files are grouped into "source groups".
  *   Only the first target in each source group runs type checking. Subsequent
  *   targets skip getPreEmitDiagnostics.
  * - **Declaration sharing**: when multiple targets differ only in module format
@@ -854,30 +730,7 @@ export async function compileAllTargets(
 
   const log = getLogger();
 
-  // Pre-discover polyfills for all targets in parallel.  Targets whose
-  // configured suffix matches zero actual files on disk are treated as
-  // no-polyfill targets during dedup — they can share type-checking and
-  // output with other targets that also have no polyfills.
-  const polyfillResults = new Map<string, Map<string, string>>();
-  await Promise.all(
-    parsedConfigs.map(async (pc) => {
-      const suffix = pc.target.polyfillSuffix;
-      if (suffix) {
-        const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
-        polyfillResults.set(pc.target.name, map);
-      }
-    }),
-  );
-
-  // Effective suffix: only non-empty when polyfill files were actually found.
-  // This lets targets with different configured suffixes but no real polyfills
-  // share the same dedup group and source identity.
-  const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
-    const map = polyfillResults.get(pc.target.name);
-    return map && map.size > 0 ? pc.target.polyfillSuffix : undefined;
-  };
-
-  const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
+  const groups = groupBySignature(parsedConfigs);
   const cache = new SharedSourceFileCache();
 
   const dedupCount = parsedConfigs.length - groups.length;
@@ -890,9 +743,9 @@ export async function compileAllTargets(
     await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
-  // Track which source groups have been type-checked already.
-  // Key: sourceIdentity hash. Value: outDir of the target that first type-checked this source set.
-  const typeCheckedSources = new Map<string, string>();
+  // Track which program graphs have been fully compiled.
+  // Key: programIdentity hash (fileNames + resolved imports). Value: outDir.
+  const compiledPrograms = new Map<string, string>();
 
   const resultMap = new Map<string, CompileResult>();
 
@@ -900,37 +753,28 @@ export async function compileAllTargets(
   const totalTargets = parsedConfigs.length;
 
   for (const group of groups) {
-    const suffix = group.primary.target.polyfillSuffix;
-    const polyfillMap = polyfillResults.get(group.primary.target.name);
-    const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
+    const host = createCachedHost(group.primary.parsedConfig.options, cache);
 
-    let host: ts.CompilerHost;
-    if (hasPolyfills) {
-      const polyfillEntries = polyfillMap;
-      log.info(
-        `[warp] [${group.primary.target.name}] ${polyfillEntries.size} polyfill(s) via "${suffix}"`,
-      );
-      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillEntries, cache));
-    } else {
-      host = createCachedHost(group.primary.parsedConfig.options, cache);
-    }
+    // Program identity: same fileNames + same resolved imports → same program
+    // graph → same output. Targets with different customConditions that resolve
+    // to the same files (e.g., browser and react-native both mapping to
+    // *-browser.mts) will share an identity and benefit from reuse.
+    const progId = programIdentity(
+      group.primary.parsedConfig.options,
+      group.primary.parsedConfig.fileNames,
+      group.primary.resolvedImports,
+    );
+    const alreadyCompiledOutDir = compiledPrograms.get(progId);
+    const needsTypeCheck = !alreadyCompiledOutDir;
+    const canReuseOutput = !!alreadyCompiledOutDir;
 
-    // Use effective suffix for sourceIdentity — targets with a configured
-    // suffix but no actual polyfill files share the same source identity
-    // as unsuffixed targets, enabling type-check dedup across them.
-    const effSuffix = getEffectiveSuffix(group.primary);
-    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
-    const alreadyCheckedOutDir = typeCheckedSources.get(srcId);
-    const needsTypeCheck = !alreadyCheckedOutDir;
-    const canSkipDeclarations = !!alreadyCheckedOutDir;
-
-    if (needsTypeCheck) {
-      typeCheckedSources.set(srcId, group.primary.outDir);
+    if (!alreadyCompiledOutDir) {
+      compiledPrograms.set(progId, group.primary.outDir);
     }
 
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
-    if (canSkipDeclarations) label.push("skip-dts");
+    if (canReuseOutput) label.push("skip-dts");
 
     // Progress indicator
     log.info(
@@ -940,13 +784,34 @@ export async function compileAllTargets(
     // Fast path: when type-checking and declarations are both skipped,
     // use transpileFiles (esbuild per-file transpilation) to bypass program
     // creation entirely — ~3-10× faster for format-only re-emit.
+    //
+    // Exception: when customConditions is set, fileNames only lists the
+    // tsconfig include entries (e.g., [index.ts]); the full program graph
+    // is discovered through import resolution. transpileFiles (which only
+    // processes fileNames) would miss those discovered files. In that case,
+    // copy the entire output directory from the matching program instead.
     let primaryResult: CompileResult;
-    if (!needsTypeCheck && canSkipDeclarations) {
-      primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
+    const hasCustomConditions =
+      !!group.primary.parsedConfig.options.customConditions?.length;
+    if (!needsTypeCheck && canReuseOutput && hasCustomConditions && alreadyCompiledOutDir) {
+      // Full directory copy — both JS and .d.ts from the matching program
+      const t0 = performance.now();
+      await copyDir(alreadyCompiledOutDir, group.primary.outDir);
+      primaryResult = {
+        target: group.primary.target,
+        diagnostics: [],
+        success: true,
+        outDir: group.primary.outDir,
+        rootDir: group.primary.rootDir,
+        compileTimeMs: performance.now() - t0,
+        deduped: true,
+      };
+    } else if (!needsTypeCheck && canReuseOutput) {
+      primaryResult = await transpileFiles(group.primary);
     } else {
       primaryResult = compileTarget(group.primary, host, {
         typeCheck: needsTypeCheck,
-        skipDeclarations: canSkipDeclarations,
+        skipDeclarations: canReuseOutput,
       });
     }
 
@@ -955,9 +820,10 @@ export async function compileAllTargets(
       `[warp] [${completedCount}/${totalTargets}] ${group.primary.target.name} done (${primaryResult.compileTimeMs.toFixed(0)}ms)`,
     );
 
-    // If we skipped declarations, copy .d.ts from the source group's first target
-    if (canSkipDeclarations && alreadyCheckedOutDir && primaryResult.success) {
-      await copyDtsFiles(alreadyCheckedOutDir, group.primary.outDir);
+    // If we reused output, copy .d.ts from the matching program's outDir
+    // (not needed when we already did a full directory copy above)
+    if (canReuseOutput && alreadyCompiledOutDir && primaryResult.success && !hasCustomConditions) {
+      await copyDtsFiles(alreadyCompiledOutDir, group.primary.outDir);
     }
 
     resultMap.set(group.primary.target.name, primaryResult);

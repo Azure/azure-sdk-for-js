@@ -34,10 +34,10 @@ import type {
   WrapResult,
 } from "./cryptographyClientModels.js";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
-import { randomBytes } from "./cryptography/crypto.js";
+import { randomBytes } from "#platform/cryptography/crypto";
 import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
-import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
+import { RsaCryptographyProvider } from "#platform/cryptography/rsaCryptographyProvider";
+import { AesCryptographyProvider } from "#platform/cryptography/aesCryptographyProvider";
 import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { logger } from "./logger.js";

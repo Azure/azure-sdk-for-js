@@ -25,7 +25,7 @@ import type { TelemetryOperations } from "./classic/telemetry/index.js";
 import { _getTelemetryOperations } from "./classic/telemetry/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
-import { getCustomFetch } from "./getCustomFetch.js";
+import { getCustomFetch } from "#platform/getCustomFetch";
 import { getOpenAIDefaultHeaders } from "./util.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";

@@ -15,9 +15,11 @@ import {
 import {
   readPackageImports,
   resolveImportsInDir,
+  resolveSubpathImport,
   buildConditionsSet,
   validateNoDirectImports,
 } from "./resolveImports.ts";
+import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -121,6 +123,42 @@ async function resolveStep(
   }
 
   return { resolved, parsedConfigs };
+}
+
+/**
+ * Pre-resolve all `#`-prefixed imports for each target.
+ *
+ * This produces a "resolution fingerprint" that `programIdentity` uses to
+ * determine when two targets with different `customConditions` actually
+ * resolve to the same program graph (e.g., both browser and react-native
+ * mapping `#platform/*` to `*-browser.mts`).
+ */
+function attachResolvedImports(
+  parsedConfigs: ParsedTargetConfig[],
+  importsMap: ImportsMap | undefined,
+): void {
+  if (!importsMap) return;
+
+  const keys = Object.keys(importsMap);
+  if (keys.length === 0) return;
+
+  for (const pc of parsedConfigs) {
+    const conditions = buildConditionsSet(
+      pc.parsedConfig.options.customConditions,
+      pc.target.moduleType ?? inferModuleType(pc.parsedConfig.options.module),
+    );
+
+    // Resolve each imports key with a representative specifier.
+    // For pattern keys like "#platform/*", use the key itself as specifier
+    // (the * produces a literal "*" in the result, but that's fine — we
+    // only need a stable, comparable value per key+conditions pair).
+    const resolved: string[] = [];
+    for (const key of keys) {
+      const value = resolveSubpathImport(key, importsMap, conditions);
+      resolved.push(`${key}=${value ?? "null"}`);
+    }
+    pc.resolvedImports = resolved;
+  }
 }
 
 /** Step 2: Compile all targets. */
@@ -285,6 +323,11 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     }
   }
 
+  // Step 1c: Resolve package.json imports map for each target's conditions.
+  // This attaches a resolution fingerprint so programIdentity can determine
+  // when targets with different customConditions share the same program graph.
+  attachResolvedImports(parsedConfigs, importsMap);
+
   // Step 2: Compile
   const { results, compileTimeMs } = await compileStep(parsedConfigs, options, packageRoot);
 
@@ -312,6 +355,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   // Step 2b: Resolve #-prefixed imports in output.
   // Automatic: when package.json has an "imports" field, all targets get
   // their #-prefixed specifiers resolved to concrete relative paths.
+  // (importsMap was already read in Step 1b above.)
 
   if (importsMap) {
     let hasResolveErrors = false;

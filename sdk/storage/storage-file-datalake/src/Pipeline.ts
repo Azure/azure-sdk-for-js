@@ -37,7 +37,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-blob";
 import { StorageRetryPolicyFactory } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,

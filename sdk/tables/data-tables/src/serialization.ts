@@ -6,7 +6,7 @@ import type {
   QueryOptions as GeneratedQueryOptions,
   SignedIdentifier as GeneratedSignedIdentifier,
 } from "./generated/models/index.js";
-import { base64Decode, base64Encode } from "./utils/bufferSerializer.js";
+import { base64Decode, base64Encode } from "#platform/utils/bufferSerializer";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date.js";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([

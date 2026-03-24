@@ -10,7 +10,7 @@ import {
   bearerTokenAuthenticationPolicyName,
   type Pipeline,
 } from "@azure/core-rest-pipeline";
-import { decode, encode } from "./base64.js";
+import { decode, encode } from "#platform/base64";
 import type {
   AutocompleteResult,
   IndexDocumentsResult,

@@ -132,5 +132,11 @@
         "default": "./dist/commonjs/loader.js"
       }
     }
+  },
+  "imports": {
+    "#platform/shared/module": {
+      "require": "./src/shared/module-cjs.cts",
+      "default": "./src/shared/module.ts"
+    }
   }
 }

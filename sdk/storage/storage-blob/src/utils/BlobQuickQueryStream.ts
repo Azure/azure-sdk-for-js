@@ -4,7 +4,7 @@
 import { Readable } from "node:stream";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
-import { AvroReadableFromStream, AvroReader } from "../internal-avro/index.js";
+import { AvroReadableFromStream, AvroReader } from "#platform/internal-avro/index";
 import type { BlobQueryError } from "../Clients.js";
 
 export interface BlobQuickQueryStreamOptions {

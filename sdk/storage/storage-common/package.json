@@ -93,5 +93,27 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/credentials/StorageSharedKeyCredential": {
+      "browser": "./src/credentials/StorageSharedKeyCredential-browser.mts",
+      "react-native": "./src/credentials/StorageSharedKeyCredential-react-native.mts",
+      "default": "./src/credentials/StorageSharedKeyCredential.ts"
+    },
+    "#platform/credentials/UserDelegationKeyCredential": {
+      "browser": "./src/credentials/UserDelegationKeyCredential-browser.mts",
+      "react-native": "./src/credentials/UserDelegationKeyCredential-react-native.mts",
+      "default": "./src/credentials/UserDelegationKeyCredential.ts"
+    },
+    "#platform/policies/StorageSharedKeyCredentialPolicyV2": {
+      "browser": "./src/policies/StorageSharedKeyCredentialPolicyV2-browser.mts",
+      "react-native": "./src/policies/StorageSharedKeyCredentialPolicyV2-react-native.mts",
+      "default": "./src/policies/StorageSharedKeyCredentialPolicyV2.ts"
+    }
   }
 }

@@ -2,13 +2,20 @@
 // Licensed under the MIT License.
 
 import type { Instrumenter } from "./interfaces.js";
-// @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
-// See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
-import { state as cjsState } from "../commonjs/state.js";
 
 /**
- * Defines the shared state between CJS and ESM by re-exporting the CJS state.
+ * @internal
+ *
+ * Holds the singleton instrumenter, to be shared across CJS and ESM imports.
+ * Uses a global symbol key so that both module systems reference the same object.
  */
-export const state = cjsState as {
+const stateKey = Symbol.for("@azure/core-tracing.state");
+const globalRef = globalThis as Record<symbol, unknown>;
+if (!globalRef[stateKey]) {
+  globalRef[stateKey] = {
+    instrumenterImplementation: undefined,
+  };
+}
+export const state = globalRef[stateKey] as {
   instrumenterImplementation: Instrumenter | undefined;
 };

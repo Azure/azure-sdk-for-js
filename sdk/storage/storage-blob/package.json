@@ -150,5 +150,22 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/BlobDownloadResponse": {
+      "browser": "./src/BlobDownloadResponse-browser.mts",
+      "react-native": "./src/BlobDownloadResponse-react-native.mts",
+      "default": "./src/BlobDownloadResponse.ts"
+    },
+    "#platform/utils/utils": {
+      "browser": "./src/utils/utils-browser.mts",
+      "react-native": "./src/utils/utils-react-native.mts",
+      "default": "./src/utils/utils.ts"
+    }
   }
 }

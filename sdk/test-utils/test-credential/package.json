@@ -9,6 +9,13 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "imports": {
+    "#platform/liveCredential": {
+      "browser": "./src/liveCredential-web.mts",
+      "react-native": "./src/liveCredential-web.mts",
+      "default": "./src/liveCredential.ts"
+    }
+  },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",

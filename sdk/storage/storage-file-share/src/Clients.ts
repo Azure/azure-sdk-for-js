@@ -147,7 +147,7 @@ import { tracingClient } from "./utils/tracing.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileDownloadResponse } from "./FileDownloadResponse.js";
+import { FileDownloadResponse } from "#platform/FileDownloadResponse";
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
 import {
@@ -181,7 +181,7 @@ import {
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.js";
+} from "#platform/utils/utils";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import { randomUUID } from "@azure/core-util";
 import {

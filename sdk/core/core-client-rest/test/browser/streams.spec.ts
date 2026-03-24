@@ -105,7 +105,7 @@ describe("[Browser] Streams", () => {
     } catch (e: any) {
       assert.equal(
         e.message,
-        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+        "asNodeStream is not supported in browser environments. Use asBrowserStream instead.",
       );
     }
   });

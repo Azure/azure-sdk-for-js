@@ -206,7 +206,7 @@ async function countExports(dtsEntryFiles: string[]): Promise<ApiSurfaceMetrics>
  */
 export async function generateSizeReport(
   results: CompileResult[],
-  config: { exports: Record<string, string> },
+  config: { exports: Record<string, string | Record<string, string>> },
   packageRoot: string,
 ): Promise<SizeReport> {
   // Compute all target metrics in parallel
@@ -222,8 +222,13 @@ export async function generateSizeReport(
   const firstResult = results[0];
   const dtsEntryFiles: string[] = [];
   if (firstResult) {
-    for (const sourcePath of Object.values(config.exports)) {
-      if (!sourcePath.endsWith(".ts")) continue;
+    for (const exportEntry of Object.values(config.exports)) {
+      // Resolve source path: for target overrides, use the first target or default
+      const sourcePath =
+        typeof exportEntry === "string"
+          ? exportEntry
+          : (exportEntry[firstResult.target.name] ?? exportEntry["default"]);
+      if (!sourcePath?.endsWith(".ts")) continue;
       const absSource = path.resolve(packageRoot, sourcePath);
       const absRootDir = path.resolve(packageRoot, firstResult.rootDir);
       const absOutDir = path.resolve(packageRoot, firstResult.outDir);

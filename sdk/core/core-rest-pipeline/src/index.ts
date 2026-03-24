@@ -43,7 +43,7 @@ export {
   type TelemetryOptions,
   type InternalPipelineOptions,
   type PipelineOptions,
-} from "./createPipelineFromOptions.js";
+} from "#platform/createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
@@ -53,10 +53,7 @@ export {
   type RestErrorConstructor,
   isRestError,
 } from "./restError.js";
-export {
-  decompressResponsePolicy,
-  decompressResponsePolicyName,
-} from "./policies/decompressResponsePolicy.js";
+export * from "#platform/policies/decompressResponsePolicy";
 export {
   exponentialRetryPolicy,
   type ExponentialRetryPolicyOptions,
@@ -68,7 +65,7 @@ export {
 } from "./policies/setClientRequestIdPolicy.js";
 export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
 export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
+export * from "#platform/policies/proxyPolicy";
 export {
   redirectPolicy,
   redirectPolicyName,
@@ -105,7 +102,7 @@ export {
   userAgentPolicyName,
   type UserAgentPolicyOptions,
 } from "./policies/userAgentPolicy.js";
-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+export * from "#platform/policies/tlsPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
 export {
   bearerTokenAuthenticationPolicy,
@@ -121,7 +118,7 @@ export {
   type AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
+export * from "#platform/policies/agentPolicy";
 export {
   createFile,
   createFileFromStream,

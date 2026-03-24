@@ -1,34 +1,26 @@
-# warp.config.yml — @azure/search-documents build configuration
-
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
-  "./search": "./src/search/index.ts"
-  "./search/api": "./src/search/api/index.ts"
-  "./searchIndex": "./src/searchIndex/index.ts"
-  "./searchIndex/api": "./src/searchIndex/api/index.ts"
-  "./searchIndexer": "./src/searchIndexer/index.ts"
-  "./searchIndexer/api": "./src/searchIndexer/api/index.ts"
-  "./knowledgeBaseRetrieval": "./src/knowledgeBaseRetrieval/index.ts"
-  "./knowledgeBaseRetrieval/api": "./src/knowledgeBaseRetrieval/api/index.ts"
-  "./models": "./src/models/index.ts"
-  "./models/azure/search/documents": "./src/models/azure/search/documents/index.ts"
-  "./models/azure/search/documents/indexes": "./src/models/azure/search/documents/indexes/index.ts"
-  "./models/azure/search/documents/knowledgeBases": "./src/models/azure/search/documents/knowledgeBases/index.ts"
-
+  ./package.json: ./package.json
+  .: ./src/index.ts
+  ./search: ./src/search/index.ts
+  ./search/api: ./src/search/api/index.ts
+  ./searchIndex: ./src/searchIndex/index.ts
+  ./searchIndex/api: ./src/searchIndex/api/index.ts
+  ./searchIndexer: ./src/searchIndexer/index.ts
+  ./searchIndexer/api: ./src/searchIndexer/api/index.ts
+  ./knowledgeBaseRetrieval: ./src/knowledgeBaseRetrieval/index.ts
+  ./knowledgeBaseRetrieval/api: ./src/knowledgeBaseRetrieval/api/index.ts
+  ./models: ./src/models/index.ts
+  ./models/azure/search/documents: ./src/models/azure/search/documents/index.ts
+  ./models/azure/search/documents/indexes: ./src/models/azure/search/documents/indexes/index.ts
+  ./models/azure/search/documents/knowledgeBases: ./src/models/azure/search/documents/knowledgeBases/index.ts
 targets:
   - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
+    tsconfig: ../../../tsconfig.src.browser.json
   - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
-
+    tsconfig: ../../../tsconfig.src.react-native.json
   - name: esm
     condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-
+    tsconfig: ../../../tsconfig.src.esm.json
   - name: commonjs
     condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
+    tsconfig: ../../../tsconfig.src.cjs.json

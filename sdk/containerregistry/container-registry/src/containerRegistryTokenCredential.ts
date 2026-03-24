@@ -3,7 +3,7 @@
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { GeneratedClient } from "./generated/index.js";
-import { base64decode } from "./utils/base64.js";
+import { base64decode } from "#platform/utils/base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
   service: string;

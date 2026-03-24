@@ -47,7 +47,7 @@ import type {
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
-import { WebSocketClientFactory } from "./websocket/websocketClient.js";
+import { WebSocketClientFactory } from "#platform/websocket/websocketClient";
 import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,

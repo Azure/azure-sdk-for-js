@@ -108,5 +108,17 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/util/userAgentPlatform": {
+      "browser": "./src/util/userAgentPlatform-browser.mts",
+      "react-native": "./src/util/userAgentPlatform-react-native.mts",
+      "default": "./src/util/userAgentPlatform.ts"
+    }
+  }
 }

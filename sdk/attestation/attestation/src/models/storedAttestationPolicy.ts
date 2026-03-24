@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { stringToBytes } from "../utils/utf8.js";
+import { stringToBytes } from "#platform/utils/utf8";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";
 
 import * as Mappers from "../generated/models/mappers.js";

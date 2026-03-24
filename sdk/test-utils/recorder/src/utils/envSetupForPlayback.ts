@@ -10,7 +10,7 @@ import {
   setEnvironmentVariables,
   FindReplaceSanitizer,
 } from "./utils.js";
-import { env } from "./env.js";
+import { env } from "#platform/utils/env";
 
 /**
  * Supposed to be used in record and playback modes.

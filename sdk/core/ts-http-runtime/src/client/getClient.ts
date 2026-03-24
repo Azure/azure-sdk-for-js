@@ -8,11 +8,11 @@ import type {
   Client,
   ClientOptions,
   HttpBrowserStreamResponse,
-  HttpNodeStreamResponse,
   RequestParameters,
   ResourceMethods,
   StreamableMethod,
 } from "./common.js";
+import type { HttpNodeStreamResponse } from "#platform/client/interfaces";
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
 import { isNodeLike } from "../util/checkEnvironment.js";

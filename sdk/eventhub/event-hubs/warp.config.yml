@@ -1,22 +1,14 @@
-# warp.config.yml — @azure/event-hubs build configuration
-
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
-
+  ./package.json: ./package.json
+  .: ./src/index.ts
 targets:
   - name: browser
-    tsconfig: "./tsconfig.warp.browser.json"
-    polyfillSuffix: "-browser"
-
+    tsconfig: ./tsconfig.warp.browser.json
   - name: react-native
-    tsconfig: "./tsconfig.warp.react-native.json"
-    polyfillSuffix: "-react-native"
-
+    tsconfig: ./tsconfig.warp.react-native.json
   - name: esm
     condition: import
-    tsconfig: "./tsconfig.warp.esm.json"
-
+    tsconfig: ./tsconfig.warp.esm.json
   - name: commonjs
     condition: require
-    tsconfig: "./tsconfig.warp.cjs.json"
+    tsconfig: ./tsconfig.warp.cjs.json

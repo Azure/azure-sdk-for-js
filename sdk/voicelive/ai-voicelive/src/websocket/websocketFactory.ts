@@ -6,7 +6,7 @@ import type {
   VoiceLiveWebSocketFactoryLike,
   WebSocketFactoryOptions,
 } from "./websocketLike.js";
-import { VoiceLiveWebSocket } from "./websocket.js";
+import { VoiceLiveWebSocket } from "#platform/websocket/websocket";
 
 /**
  * Factory for creating platform-appropriate WebSocket instances

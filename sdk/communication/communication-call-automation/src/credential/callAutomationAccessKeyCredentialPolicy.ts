@@ -8,7 +8,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential } from "@azure/core-auth";
-import { shaHMAC, shaHash } from "./cryptoUtils.js";
+import { shaHMAC, shaHash } from "#platform/credential/cryptoUtils";
 import { isNode } from "@azure/core-util";
 
 const callAutomationAccessKeyCredentialPolicy = "CallAutomationAccessKeyCredentialPolicy";

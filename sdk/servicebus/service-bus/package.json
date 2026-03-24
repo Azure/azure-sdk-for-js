@@ -169,5 +169,17 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-web.mts",
+      "react-native": "./src/*-web.mts",
+      "default": "./src/*.ts"
+    },
+    "#platform/util/runtimeInfo": {
+      "browser": "./src/util/runtimeInfo-browser.mts",
+      "react-native": "./src/util/runtimeInfo-react-native.mts",
+      "default": "./src/util/runtimeInfo.ts"
+    }
+  }
 }

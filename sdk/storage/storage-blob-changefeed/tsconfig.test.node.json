@@ -2,14 +2,21 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/storage-blob-changefeed": ["./src/index.ts"],
-      "@azure/storage-blob-changefeed/*": ["./src/*"],
-      "$internal/*": ["./src/*"]
+      "@azure/storage-blob-changefeed": [
+        "./src/index.ts"
+      ],
+      "@azure/storage-blob-changefeed/*": [
+        "./src/*"
+      ],
+      "$internal/*": [
+        "./src/*"
+      ]
     }
   },
   "exclude": [
     "./src/utils/utils.browser.ts",
     "./**/*-browser.mts",
+    "./**/*-web.mts",
     "./**/*-react-native.mts",
     "./test/stress",
     "./test/snippets.spec.ts",

@@ -2,14 +2,21 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/core-amqp": ["./src/index.ts"],
-      "@azure/core-amqp/*": ["./src/*"],
-      "$internal/*": ["./src/*"]
+      "@azure/core-amqp": [
+        "./src/index.ts"
+      ],
+      "@azure/core-amqp/*": [
+        "./src/*"
+      ],
+      "$internal/*": [
+        "./src/*"
+      ]
     }
   },
   "exclude": [
     "./src/util/checkNetworkConnection.common.ts",
     "./**/*-browser.mts",
+    "./**/*-web.mts",
     "./**/*-react-native.mts",
     "./test/snippets.spec.ts",
     "./test/**/browser"

@@ -4,7 +4,7 @@
 import type { SasTokenProperties } from "../client/SasToken/SasTokenProperties.js";
 import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common/index.js";
 import { encodeUTF8 } from "./encode.js";
-import { hmac } from "./hmac.js";
+import { hmac } from "#platform/utils/hmac";
 
 /**
  * Experimental internal only

@@ -12,11 +12,9 @@ exports:
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
 
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
 
   - name: esm
     condition: import

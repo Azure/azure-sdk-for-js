@@ -87,5 +87,11 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/sourceDir": {
+      "require": "./src/sourceDir-cjs.cts",
+      "default": "./src/sourceDir.ts"
+    }
+  }
 }

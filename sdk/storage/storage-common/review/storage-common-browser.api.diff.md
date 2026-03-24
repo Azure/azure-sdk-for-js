@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -36,12 +36,10 @@
+@@ -36,11 +36,12 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -16,29 +16,13 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
  export class BufferScheduler {
 -    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
--    do(): Promise<void>;
++    constructor(_readable: NodeJS.ReadableStream, _bufferSize: number, _maxBuffers: number, _outgoingHandler: OutgoingHandler, _concurrency: number, _encoding?: BufferEncoding);
++    // (undocumented)
+     do(): Promise<void>;
  }
  
  // @public
- abstract class Credential_2 implements RequestPolicyFactory {
-@@ -64,16 +62,8 @@
- // @public
- export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
- 
- // @public
--export interface NodeJSReadableStream extends NodeJS.ReadableStream {
--    destroy(error?: Error): this;
--}
--
--// @public
--export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
--
--// @public
- export class StorageBrowserPolicy extends BaseRequestPolicy {
-     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
- }
-@@ -146,73 +136,64 @@
+@@ -146,12 +147,12 @@
  }
  
  // @public
@@ -53,16 +37,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
--export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
--    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
--    protected signRequest(request: WebResourceLike): WebResourceLike;
--}
-+export function storageSharedKeyCredentialPolicy(_options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+@@ -159,60 +160,65 @@
+     protected signRequest(request: WebResourceLike): WebResourceLike;
+ }
  
  // @public
 -export function storageSharedKeyCredentialPolicy(options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
--
--// @public
++export function storageSharedKeyCredentialPolicy(_options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+ 
+ // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
  // @public
@@ -79,13 +63,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
 +// @public (undocumented)
-+export const structuredMessageDecodingStream = 1;
++export function structuredMessageDecodingStream(_source: NodeJS.ReadableStream, _options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
  
 -// @public
--export interface StructuredMessageDecodingStreamOptions {
--    highWaterMark?: number;
--}
--
++// @public (undocumented)
+ export interface StructuredMessageDecodingStreamOptions {
++    // (undocumented)
+     highWaterMark?: number;
+ }
+ 
 -// @public
 +// @public (undocumented)
  export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
@@ -100,7 +86,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
++    // (undocumented)
+     signedDelegatedUserTenantId: string | undefined;
 +    // (undocumented)
      signedExpiresOn: Date;
 +    // (undocumented)
