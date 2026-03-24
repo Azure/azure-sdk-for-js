@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
   // DOCUMENT ANALYSIS FROM URL
   // ========================================================================
   const documentUrl =
-    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_docs.pdf";
+    "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_invoices.pdf";
 
   console.log("=".repeat(60));
   console.log("DOCUMENT ANALYSIS FROM URL");
@@ -95,6 +95,22 @@ export async function main(): Promise<void> {
     const doc = rangeDocResult.contents[0] as DocumentContent;
     console.log(
       `  Content range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
+    );
+  }
+
+  // Combine multiple page ranges: pages 1-3, page 5, and pages 9 onward.
+  console.log('\nAnalyzing combined page ranges with content range "1-3,5,9-"...');
+  const combineDocPoller = client.analyze("prebuilt-documentSearch", [
+    {
+      url: documentUrl,
+      contentRange: "1-3,5,9-",
+    },
+  ]);
+  const combineDocResult = await combineDocPoller.pollUntilDone();
+  if (combineDocResult.contents && combineDocResult.contents.length > 0) {
+    const doc = combineDocResult.contents[0] as DocumentContent;
+    console.log(
+      `  Combined range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
     );
   }
 
