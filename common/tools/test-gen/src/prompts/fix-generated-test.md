@@ -13,6 +13,12 @@ A generated test file has failures. Fix the failing tests.
 <existing_suite_section>
 {{existingSuiteSection}}
 </existing_suite_section>
+<context_section>
+{{contextSection}}
+</context_section>
+<escalation_section>
+{{escalationSection}}
+</escalation_section>
 ## Test Output (errors)
 
 <test_output_errors>
@@ -23,7 +29,7 @@ A generated test file has failures. Fix the failing tests.
 
 Before writing any fix, perform these analysis steps on the attached files:
 
-1. **Scan the source file** attached above. Identify every public symbol (classes, functions, constants, type aliases) and their exact signatures. These are the ONLY names you may import. Do NOT guess at import paths — use only what you see in the source.
+1. **Scan the source file** attached above. Identify every public symbol (classes, functions, constants, type aliases) and their exact signatures. These are the ONLY names you may import. Do NOT guess at import paths — use only what you see in the source. Pay extreme attention to exact spelling: do not combine partial names (e.g. do NOT invent `CategoricalDriftMetricThreshold` if the actual class is `CategoricalDataDriftMetricThreshold`), do not add/remove leading underscores, do not confuse similar suffixes like `Metrics` vs `MetricThreshold`.
 2. **Scan the existing suite example** if attached. Identify all fixtures, helpers, decorators, setup patterns, and assertion style it uses. Your fix must re-use these same patterns.
 3. **Read the error output carefully.** Classify each failure:
    - ImportError / ModuleNotFoundError → wrong module path or non-existent symbol. Cross-reference with the public symbols you found in step 1.

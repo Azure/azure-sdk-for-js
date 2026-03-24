@@ -338,6 +338,8 @@ async function mergeBatchChunk(
   cfg: Config,
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
+  /** Relative path to the source file under test — attached so the LLM can validate imports. */
+  sourceFile?: string,
 ): Promise<string> {
   const { testFramework } = cfg.language;
   const mergeSchema = JSON.stringify(MergeResponse.toJSONSchema(), null, 2);
@@ -357,6 +359,19 @@ async function mergeBatchChunk(
     path: resolve(packageDir, dirname(relPath)),
     displayName: `${dirname(relPath)}/`,
   });
+
+  // Attach source file so the LLM can validate imports and symbol names during merge
+  let sourceSection = "";
+  if (sourceFile) {
+    const sourceCode = await tryReadFile(resolve(packageDir, sourceFile));
+    if (sourceCode) {
+      attachments.push(
+        buildFocusedFileAttachment(resolve(packageDir, sourceFile), sourceCode, [], sourceFile),
+      );
+      sourceSection = `The source file under test is attached as \`${sourceFile}\`. Use it to verify that all imports and symbol names in the merged output are correct.`;
+    }
+  }
+
   const generatedSection = generatedCodes
     .map((code, index) => {
       const displayName = `generated-batch-${index + 1}${cfg.language.outputExtension}`;
@@ -374,6 +389,7 @@ async function mergeBatchChunk(
     testFramework,
     existingSection,
     generatedSection,
+    sourceSection,
     jsonSchema: mergeSchema,
   });
 
@@ -397,6 +413,7 @@ async function mergeBatchChunkWithRetry(
   cfg: Config,
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
+  sourceFile?: string,
 ): Promise<string> {
   try {
     return await mergeBatchChunk(
@@ -407,6 +424,7 @@ async function mergeBatchChunkWithRetry(
       cfg,
       llmStats,
       signal,
+      sourceFile,
     );
   } catch (error) {
     if (isLlmTimeoutError(error) && generatedCodes.length > 1) {
@@ -419,6 +437,7 @@ async function mergeBatchChunkWithRetry(
         cfg,
         llmStats,
         signal,
+        sourceFile,
       );
       return mergeBatchChunkWithRetry(
         packageDir,
@@ -428,6 +447,7 @@ async function mergeBatchChunkWithRetry(
         cfg,
         llmStats,
         signal,
+        sourceFile,
       );
     }
     throw error;
@@ -441,6 +461,7 @@ async function mergeGeneratedBatches(
   cfg: Config,
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
+  sourceFile?: string,
 ): Promise<string> {
   const absPath = resolve(packageDir, relPath);
   const existing = await tryReadFile(absPath);
@@ -462,6 +483,7 @@ async function mergeGeneratedBatches(
       cfg,
       llmStats,
       signal,
+      sourceFile,
     );
     index += chunk.length;
   }
@@ -488,9 +510,15 @@ async function writeAndFix(
   sourceFile?: string,
   existingTestFile?: string,
   existingTestsSnippet?: string,
+  /** Resolved context files (dependencies) for the source under test. */
+  contextFiles?: ContextFile[],
 ): Promise<boolean> {
   const absPath = resolve(packageDir, relPath);
   await mkdir(dirname(absPath), { recursive: true });
+
+  // Snapshot the file before writing, so we can rollback on fix failure
+  const snapshot = await tryReadFile(absPath);
+
   await writeFile(absPath, code, "utf8");
 
   const maxFix = cfg.loop.fixMaxIterations;
@@ -532,6 +560,22 @@ async function writeAndFix(
       content: existingTestsSnippet,
     });
   }
+  // Attach context files (dependencies) so the fix LLM can see imported types/constructors
+  const contextFilesAttached: string[] = [];
+  if (contextFiles && contextFiles.length > 0) {
+    for (const cf of contextFiles) {
+      attachments.push({
+        type: "virtual-file",
+        path: `fix/${cf.path}`,
+        displayName: cf.path,
+        content: cf.content,
+      });
+      contextFilesAttached.push(cf.path);
+    }
+  }
+  const contextSection = contextFilesAttached.length > 0
+    ? `\n## Context Files (Dependencies)\n\nThe following dependency files are attached for reference: ${contextFilesAttached.map(f => `\`${f}\``).join(", ")}. Use these to verify constructor signatures, class hierarchies, and available methods.\n`
+    : "";
 
   interface FixContext {
     currentCode: string;
@@ -560,12 +604,18 @@ async function writeAndFix(
         return false;
       },
 
-      async act(ctx) {
+      async act(ctx, iteration) {
+        // Escalation: on iteration 2+, add stronger guidance to change approach
+        const escalationSection = iteration >= 2
+          ? `\n## ⚠️ ESCALATION (Attempt ${iteration}/${maxFix})\n\nPrevious fix attempt(s) failed with the same errors. You MUST change your approach:\n- If you see ImportError: the symbol does NOT exist. Do not retry the same import — find the correct name in the source file.\n- If you see TypeError about arguments: check the constructor/function signature in the source file and context files. Use ONLY the parameters you see there.\n- If you see AttributeError: the method/attribute does NOT exist on that class. Check the source file for the actual method names.\n- Consider using unittest.mock.patch or MagicMock to bypass complex constructors instead of instantiating real objects.\n`
+          : "";
         const prompt = await renderPromptTemplate("fix-generated-test.md", {
           relPath,
           testFileSection: `Attached as \`${relPath}\`.`,
           sourceSection,
           existingSuiteSection,
+          contextSection,
+          escalationSection,
           errorSection: `Attached as \`${relPath} test errors\`.`,
           jsonSchema: fixSchema,
         });
@@ -610,6 +660,12 @@ async function writeAndFix(
     maxFix,
     signal,
   );
+
+  // Rollback to snapshot if fix loop failed — prevents merge corruption
+  if (!ctx.passed && snapshot) {
+    await writeFile(absPath, snapshot, "utf8");
+    log("    ↩️  Rolled back to pre-batch state");
+  }
 
   return ctx.passed;
 }
@@ -1287,6 +1343,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               cfg,
               llmStats,
               options.signal,
+              file,
             );
             if (!generatedFiles.includes(outputPath)) {
               generatedFiles.push(outputPath);
@@ -1303,6 +1360,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               file,
               testEntries?.[0]?.testFile,
               existingTests,
+              contextFiles,
             );
             return fixPassed;
           } catch (mergeError) {

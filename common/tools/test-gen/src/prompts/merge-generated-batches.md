@@ -3,6 +3,9 @@ You are merging {{generatedCount}} generated {{testFramework}} test batch(es) in
 <existing_section>
 {{existingSection}}
 </existing_section>
+<source_section>
+{{sourceSection}}
+</source_section>
 ## Generated Tests to Merge
 
 <generated_section>
@@ -17,7 +20,8 @@ You are merging {{generatedCount}} generated {{testFramework}} test batch(es) in
 4. Preserve existing imports, helpers, setup/teardown hooks, and structure verbatim when an existing file is present.
 5. Deduplicate imports and helpers across the generated batches.
 6. Add any new imports needed by the merged tests.
-7. Return the complete merged file.
+7. **Verify all imports against the source file.** If a symbol name in the generated batch does not match any public symbol in the source file, fix the import to use the correct name. Do NOT invent or guess symbol names.
+8. Return the complete merged file.
 
 Respond with EXACTLY ONE valid JSON object matching this schema.
 - The first character of your response must be `{`.
