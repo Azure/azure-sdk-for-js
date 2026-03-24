@@ -6,24 +6,24 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Credential,
-  CredentialListByAutomationAccountOptionalParams,
-  CredentialDeleteOptionalParams,
-  CredentialGetOptionalParams,
-  CredentialGetResponse,
-  CredentialCreateOrUpdateParameters,
-  CredentialCreateOrUpdateOptionalParams,
-  CredentialCreateOrUpdateResponse,
-  CredentialUpdateParameters,
-  CredentialUpdateOptionalParams,
-  CredentialUpdateResponse,
+  Module,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a CredentialOperations. */
-export interface CredentialOperations {
+/** Interface representing a Python3Package. */
+export interface Python3Package {
   /**
-   * Retrieve a list of credentials.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -31,62 +31,62 @@ export interface CredentialOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Credential>;
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<Module>;
   /**
-   * Delete the credential.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The name of credential.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    options?: CredentialDeleteOptionalParams,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve the credential identified by credential name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The name of credential.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    options?: CredentialGetOptionalParams,
-  ): Promise<CredentialGetResponse>;
+    packageName: string,
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse>;
   /**
-   * Create a credential.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The parameters supplied to the create or update credential operation.
-   * @param parameters The parameters supplied to the create or update credential operation.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    parameters: CredentialCreateOrUpdateParameters,
-    options?: CredentialCreateOrUpdateOptionalParams,
-  ): Promise<CredentialCreateOrUpdateResponse>;
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse>;
   /**
-   * Update a credential.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param credentialName The parameters supplied to the Update credential operation.
-   * @param parameters The parameters supplied to the Update credential operation.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    credentialName: string,
-    parameters: CredentialUpdateParameters,
-    options?: CredentialUpdateOptionalParams,
-  ): Promise<CredentialUpdateResponse>;
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse>;
 }
