@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-01",
-  "emitterVersion": "0.45.1",
+  "apiVersions": {
+    "Microsoft.Dashboard": "2025-09-01-preview"
+  },
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Dashboard",
     "CrossLanguageDefinitionId": {
@@ -32,6 +34,9 @@
       "@azure/arm-dashboard!ManagedDashboardProperties:interface": "Microsoft.Dashboard.ManagedDashboardProperties",
       "@azure/arm-dashboard!ManagedDashboardUpdateParameters:interface": "Microsoft.Dashboard.ManagedDashboardUpdateParameters",
       "@azure/arm-dashboard!ManagedDashboardListResponse:interface": "Microsoft.Dashboard.ManagedDashboardListResponse",
+      "@azure/arm-dashboard!DashboardDefinition:interface": "Microsoft.Dashboard.DashboardDefinition",
+      "@azure/arm-dashboard!DashboardDefinitionProperties:interface": "Microsoft.Dashboard.DashboardDefinitionProperties",
+      "@azure/arm-dashboard!DashboardDefinitionListResponse:interface": "Microsoft.Dashboard.DashboardDefinitionListResponse",
       "@azure/arm-dashboard!ManagedGrafana:interface": "Microsoft.Dashboard.ManagedGrafana",
       "@azure/arm-dashboard!ManagedGrafanaProperties:interface": "Microsoft.Dashboard.ManagedGrafanaProperties",
       "@azure/arm-dashboard!GrafanaIntegrations:interface": "Microsoft.Dashboard.GrafanaIntegrations",
@@ -95,6 +100,10 @@
       "@azure/arm-dashboard!GrafanaOperations#update:member": "Microsoft.Dashboard.ManagedGrafanas.update",
       "@azure/arm-dashboard!GrafanaOperations#create:member": "Microsoft.Dashboard.ManagedGrafanas.create",
       "@azure/arm-dashboard!GrafanaOperations#get:member": "Microsoft.Dashboard.ManagedGrafanas.get",
+      "@azure/arm-dashboard!DashboardDefinitionsOperations#list:member": "Microsoft.Dashboard.DashboardDefinitions.list",
+      "@azure/arm-dashboard!DashboardDefinitionsOperations#delete:member": "Microsoft.Dashboard.DashboardDefinitions.delete",
+      "@azure/arm-dashboard!DashboardDefinitionsOperations#create:member": "Microsoft.Dashboard.DashboardDefinitions.create",
+      "@azure/arm-dashboard!DashboardDefinitionsOperations#get:member": "Microsoft.Dashboard.DashboardDefinitions.get",
       "@azure/arm-dashboard!ManagedDashboardsOperations#listBySubscription:member": "Microsoft.Dashboard.ManagedDashboards.listBySubscription",
       "@azure/arm-dashboard!ManagedDashboardsOperations#list:member": "Microsoft.Dashboard.ManagedDashboards.list",
       "@azure/arm-dashboard!ManagedDashboardsOperations#delete:member": "Microsoft.Dashboard.ManagedDashboards.delete",

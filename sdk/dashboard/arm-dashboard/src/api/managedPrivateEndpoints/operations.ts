@@ -42,7 +42,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,10 +50,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -64,6 +61,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -82,7 +80,11 @@ export function list(
     () => _listSend(context, resourceGroupName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-09-01-preview",
+    },
   );
 }
 
@@ -100,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedPrivateEndpointName: managedPrivateEndpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,6 +116,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -139,6 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, managedPrivateEndpointName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +161,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedPrivateEndpointName: managedPrivateEndpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,10 +170,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedPrivateEndpointUpdateParametersSerializer(requestBodyParameters),
   });
 }
@@ -177,10 +178,11 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ManagedPrivateEndpointModel> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -196,7 +198,7 @@ export function update(
   requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
   options: ManagedPrivateEndpointsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ManagedPrivateEndpointModel>, ManagedPrivateEndpointModel> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -209,6 +211,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<ManagedPrivateEndpointModel>, ManagedPrivateEndpointModel>;
 }
 
@@ -227,7 +230,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedPrivateEndpointName: managedPrivateEndpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,10 +239,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedPrivateEndpointModelSerializer(requestBodyParameters),
   });
 }
@@ -251,6 +251,7 @@ export async function _createDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -279,6 +280,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<ManagedPrivateEndpointModel>, ManagedPrivateEndpointModel>;
 }
 
@@ -296,7 +298,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedPrivateEndpointName: managedPrivateEndpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,10 +306,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -318,6 +317,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -346,9 +346,7 @@ export function _refreshSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: ManagedPrivateEndpointsRefreshOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedPrivateEndpointsRefreshOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints{?api%2Dversion}",
@@ -356,7 +354,7 @@ export function _refreshSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -366,10 +364,11 @@ export function _refreshSend(
 }
 
 export async function _refreshDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -381,14 +380,13 @@ export function refresh(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: ManagedPrivateEndpointsRefreshOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedPrivateEndpointsRefreshOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _refreshDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _refreshDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _refreshSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

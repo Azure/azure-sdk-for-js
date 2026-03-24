@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,10 +49,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -63,6 +60,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -81,7 +79,11 @@ export function list(
     () => _listSend(context, resourceGroupName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-09-01-preview",
+    },
   );
 }
 
@@ -99,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       integrationFabricName: integrationFabricName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,6 +115,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -138,6 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, integrationFabricName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +160,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       integrationFabricName: integrationFabricName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,10 +169,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: integrationFabricUpdateParametersSerializer(requestBodyParameters),
   });
 }
@@ -176,10 +177,11 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<IntegrationFabric> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -195,7 +197,7 @@ export function update(
   requestBodyParameters: IntegrationFabricUpdateParameters,
   options: IntegrationFabricsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<IntegrationFabric>, IntegrationFabric> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -208,6 +210,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<IntegrationFabric>, IntegrationFabric>;
 }
 
@@ -226,7 +229,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       integrationFabricName: integrationFabricName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,10 +238,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: integrationFabricSerializer(requestBodyParameters),
   });
 }
@@ -250,6 +250,7 @@ export async function _createDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -278,6 +279,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<IntegrationFabric>, IntegrationFabric>;
 }
 
@@ -295,7 +297,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       integrationFabricName: integrationFabricName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -303,10 +305,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -315,6 +314,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

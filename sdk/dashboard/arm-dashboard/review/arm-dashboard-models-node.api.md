@@ -28,6 +28,17 @@ export type CreatedByType = string;
 export type CreatorCanAdmin = string;
 
 // @public
+export interface DashboardDefinition extends ProxyResource {
+    properties?: DashboardDefinitionProperties;
+}
+
+// @public
+export interface DashboardDefinitionProperties {
+    readonly provisioningState?: ProvisioningState;
+    serializedData?: string;
+}
+
+// @public
 export type DeterministicOutboundIP = string;
 
 // @public
@@ -243,7 +254,9 @@ export enum KnownStartTLSPolicy {
 
 // @public
 export enum KnownVersions {
-    V20250801 = "2025-08-01"
+    V20241101Preview = "2024-11-01-preview",
+    V20250801 = "2025-08-01",
+    V20250901Preview = "2025-09-01-preview"
 }
 
 // @public

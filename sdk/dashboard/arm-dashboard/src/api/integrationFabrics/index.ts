@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { list, $delete, update, create, get } from "./operations.js";
-export {
-  type IntegrationFabricsListOptionalParams,
-  type IntegrationFabricsDeleteOptionalParams,
-  type IntegrationFabricsUpdateOptionalParams,
-  type IntegrationFabricsCreateOptionalParams,
-  type IntegrationFabricsGetOptionalParams,
+export type {
+  IntegrationFabricsListOptionalParams,
+  IntegrationFabricsDeleteOptionalParams,
+  IntegrationFabricsUpdateOptionalParams,
+  IntegrationFabricsCreateOptionalParams,
+  IntegrationFabricsGetOptionalParams,
 } from "./options.js";

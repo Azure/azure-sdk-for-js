@@ -32,15 +32,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: ManagedDashboardsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedDashboardsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/dashboards{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,6 +57,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -71,16 +67,18 @@ export async function _listBySubscriptionDeserialize(
 /** List all resources of dashboards under the specified subscription. */
 export function listBySubscription(
   context: Client,
-  options: ManagedDashboardsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedDashboardsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ManagedDashboard> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-09-01-preview",
+    },
   );
 }
 
@@ -94,7 +92,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,10 +100,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -116,6 +111,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -133,7 +129,11 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-09-01-preview",
+    },
   );
 }
 
@@ -149,7 +149,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       dashboardName: dashboardName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,6 +163,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -198,7 +199,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       dashboardName: dashboardName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,10 +208,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedDashboardUpdateParametersSerializer(requestBodyParameters),
   });
 }
@@ -220,6 +218,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -257,7 +256,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       dashboardName: dashboardName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,10 +265,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: managedDashboardSerializer(requestBodyParameters),
   });
 }
@@ -279,6 +275,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -299,6 +296,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, dashboardName, requestBodyParameters, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<ManagedDashboard>, ManagedDashboard>;
 }
 
@@ -314,7 +312,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       dashboardName: dashboardName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,10 +320,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -334,6 +329,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

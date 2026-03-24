@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createDashboardManagement,
-  type DashboardManagementContext,
-  type DashboardManagementClientOptionalParams,
+export type {
+  DashboardManagementContext,
+  DashboardManagementClientOptionalParams,
 } from "./dashboardManagementContext.js";
+export { createDashboardManagement } from "./dashboardManagementContext.js";

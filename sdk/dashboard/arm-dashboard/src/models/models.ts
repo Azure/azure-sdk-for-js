@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -583,7 +589,9 @@ export function integrationFabricSerializer(item: IntegrationFabric): any {
 
 export function integrationFabricDeserializer(item: any): IntegrationFabric {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -654,7 +662,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -743,7 +753,9 @@ export function managedDashboardSerializer(item: ManagedDashboard): any {
 
 export function managedDashboardDeserializer(item: any): ManagedDashboard {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -814,6 +826,84 @@ export function managedDashboardArrayDeserializer(result: Array<ManagedDashboard
   });
 }
 
+/** The dashboard definition resource type. */
+export interface DashboardDefinition extends ProxyResource {
+  /** Properties specific to the dashboard definition resource. */
+  properties?: DashboardDefinitionProperties;
+}
+
+export function dashboardDefinitionSerializer(item: DashboardDefinition): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : dashboardDefinitionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function dashboardDefinitionDeserializer(item: any): DashboardDefinition {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : dashboardDefinitionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties specific to the dashboard definition. */
+export interface DashboardDefinitionProperties {
+  /** The dashboard definition data in JSON format. */
+  serializedData?: string;
+  /** The provisioning state of the dashboard definition resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function dashboardDefinitionPropertiesSerializer(item: DashboardDefinitionProperties): any {
+  return { serializedData: item["serializedData"] };
+}
+
+export function dashboardDefinitionPropertiesDeserializer(
+  item: any,
+): DashboardDefinitionProperties {
+  return {
+    serializedData: item["serializedData"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The list response for dashboard definitions. */
+export interface _DashboardDefinitionListResponse {
+  /** The DashboardDefinition items on this page */
+  value: DashboardDefinition[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dashboardDefinitionListResponseDeserializer(
+  item: any,
+): _DashboardDefinitionListResponse {
+  return {
+    value: dashboardDefinitionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dashboardDefinitionArraySerializer(result: Array<DashboardDefinition>): any[] {
+  return result.map((item) => {
+    return dashboardDefinitionSerializer(item);
+  });
+}
+
+export function dashboardDefinitionArrayDeserializer(result: Array<DashboardDefinition>): any[] {
+  return result.map((item) => {
+    return dashboardDefinitionDeserializer(item);
+  });
+}
+
 /** The grafana resource type. */
 export interface ManagedGrafana extends ProxyResource {
   /** Properties specific to the grafana resource. */
@@ -854,7 +944,9 @@ export function managedGrafanaDeserializer(item: any): ManagedGrafana {
       ? item["properties"]
       : managedGrafanaPropertiesDeserializer(item["properties"]),
     sku: !item["sku"] ? item["sku"] : resourceSkuDeserializer(item["sku"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
@@ -1089,9 +1181,7 @@ export interface AzureMonitorWorkspaceIntegration {
 export function azureMonitorWorkspaceIntegrationSerializer(
   item: AzureMonitorWorkspaceIntegration,
 ): any {
-  return {
-    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
-  };
+  return { azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"] };
 }
 
 export function azureMonitorWorkspaceIntegrationDeserializer(
@@ -1294,10 +1384,7 @@ export interface Users {
 }
 
 export function usersSerializer(item: Users): any {
-  return {
-    viewersCanEdit: item["viewersCanEdit"],
-    editorsCanAdmin: item["editorsCanAdmin"],
-  };
+  return { viewersCanEdit: item["viewersCanEdit"], editorsCanAdmin: item["editorsCanAdmin"] };
 }
 
 export function usersDeserializer(item: any): Users {
@@ -1761,7 +1848,9 @@ export function managedPrivateEndpointModelSerializer(item: ManagedPrivateEndpoi
 
 export function managedPrivateEndpointModelDeserializer(item: any): ManagedPrivateEndpointModel {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1920,6 +2009,10 @@ export function managedPrivateEndpointModelArrayDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2024-11-01-preview API version. */
+  V20241101Preview = "2024-11-01-preview",
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+  /** The 2025-09-01-preview API version. */
+  V20250901Preview = "2025-09-01-preview",
 }

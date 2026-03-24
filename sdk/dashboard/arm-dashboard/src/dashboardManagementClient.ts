@@ -6,6 +6,8 @@ import type {
   DashboardManagementClientOptionalParams,
 } from "./api/index.js";
 import { createDashboardManagement } from "./api/index.js";
+import type { DashboardDefinitionsOperations } from "./classic/dashboardDefinitions/index.js";
+import { _getDashboardDefinitionsOperations } from "./classic/dashboardDefinitions/index.js";
 import type { GrafanaOperations } from "./classic/grafana/index.js";
 import { _getGrafanaOperations } from "./classic/grafana/index.js";
 import type { IntegrationFabricsOperations } from "./classic/integrationFabrics/index.js";
@@ -23,7 +25,7 @@ import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResourc
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DashboardManagementClientOptionalParams } from "./api/dashboardManagementContext.js";
+export type { DashboardManagementClientOptionalParams } from "./api/dashboardManagementContext.js";
 
 export class DashboardManagementClient {
   private _client: DashboardManagementContext;
@@ -47,6 +49,7 @@ export class DashboardManagementClient {
     this.pipeline = this._client.pipeline;
     this.managedPrivateEndpoints = _getManagedPrivateEndpointsOperations(this._client);
     this.grafana = _getGrafanaOperations(this._client);
+    this.dashboardDefinitions = _getDashboardDefinitionsOperations(this._client);
     this.managedDashboards = _getManagedDashboardsOperations(this._client);
     this.integrationFabrics = _getIntegrationFabricsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
@@ -58,6 +61,8 @@ export class DashboardManagementClient {
   public readonly managedPrivateEndpoints: ManagedPrivateEndpointsOperations;
   /** The operation groups for grafana */
   public readonly grafana: GrafanaOperations;
+  /** The operation groups for dashboardDefinitions */
+  public readonly dashboardDefinitions: DashboardDefinitionsOperations;
   /** The operation groups for managedDashboards */
   public readonly managedDashboards: ManagedDashboardsOperations;
   /** The operation groups for integrationFabrics */

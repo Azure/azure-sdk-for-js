@@ -72,6 +72,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -82,76 +83,49 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}":
-    {
-      deserializer: _createDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints":
-    { deserializer: _refreshDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _refreshDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}":
-    {
-      deserializer: _$deleteDeserializeGrafana,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeGrafana, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}":
-    {
-      deserializer: _updateDeserializeGrafana,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeGrafana, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}":
-    {
-      deserializer: _createDeserializeGrafana,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createDeserializeGrafana, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/dashboards/{dashboardName}":
-    {
-      deserializer: _createDeserializeManagedDashboards,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createDeserializeManagedDashboards, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}":
     {
       deserializer: _$deleteDeserializeIntegrationFabrics,
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}":
-    {
-      deserializer: _updateDeserializeIntegrationFabrics,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeIntegrationFabrics, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}":
-    {
-      deserializer: _createDeserializeIntegrationFabrics,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createDeserializeIntegrationFabrics, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _approveDeserialize,
-      expectedStatuses: ["201", "200", "202"],
-    },
+    { deserializer: _approveDeserialize, expectedStatuses: ["201", "200", "202"] },
 };
 
 function getDeserializationHelper(
@@ -222,4 +196,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

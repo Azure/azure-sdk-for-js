@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-dashboard",
-  "version": "2.0.0",
+  "version": "2.1.0-beta.1",
   "description": "A generated SDK for DashboardManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -168,6 +168,24 @@
       "require": {
         "types": "./dist/commonjs/api/grafana/index.d.ts",
         "default": "./dist/commonjs/api/grafana/index.js"
+      }
+    },
+    "./api/dashboardDefinitions": {
+      "browser": {
+        "types": "./dist/browser/api/dashboardDefinitions/index.d.ts",
+        "default": "./dist/browser/api/dashboardDefinitions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dashboardDefinitions/index.d.ts",
+        "default": "./dist/react-native/api/dashboardDefinitions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dashboardDefinitions/index.d.ts",
+        "default": "./dist/esm/api/dashboardDefinitions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dashboardDefinitions/index.d.ts",
+        "default": "./dist/commonjs/api/dashboardDefinitions/index.js"
       }
     },
     "./api/managedDashboards": {

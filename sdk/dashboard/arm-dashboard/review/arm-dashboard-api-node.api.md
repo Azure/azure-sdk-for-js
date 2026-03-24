@@ -19,7 +19,7 @@ export interface DashboardManagementClientOptionalParams extends ClientOptions {
 
 // @public
 export interface DashboardManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

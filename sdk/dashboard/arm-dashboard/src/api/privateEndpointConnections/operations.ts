@@ -30,9 +30,7 @@ export function _listSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: PrivateEndpointConnectionsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections{?api%2Dversion}",
@@ -40,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +46,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -62,6 +57,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -73,16 +69,18 @@ export function list(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: PrivateEndpointConnectionsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-09-01-preview",
+    },
   );
 }
 
@@ -91,9 +89,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   workspaceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -102,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +112,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -133,9 +130,7 @@ export function $delete(
   resourceGroupName: string,
   workspaceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -149,6 +144,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,9 +153,7 @@ export function _approveSend(
   resourceGroupName: string,
   workspaceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsApproveOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsApproveOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}{?api%2Dversion}",
@@ -168,7 +162,7 @@ export function _approveSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,10 +171,7 @@ export function _approveSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"] ? options["body"] : privateEndpointConnectionSerializer(options["body"]),
   });
 }
@@ -192,6 +183,7 @@ export async function _approveDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -204,9 +196,7 @@ export function approve(
   resourceGroupName: string,
   workspaceName: string,
   privateEndpointConnectionName: string,
-  options: PrivateEndpointConnectionsApproveOptionalParams = {
-    requestOptions: {},
-  },
+  options: PrivateEndpointConnectionsApproveOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
   return getLongRunningPoller(context, _approveDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -220,6 +210,7 @@ export function approve(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01-preview",
   }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
@@ -237,7 +228,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,10 +236,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -259,6 +247,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
