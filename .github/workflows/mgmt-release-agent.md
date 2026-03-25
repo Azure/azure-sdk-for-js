@@ -42,7 +42,7 @@ You are an AI agent that helps provide next step guidance with merging status fo
 
 ### 2. Identify gaps to merge
 
-- If the PR is ready to merge means there will be a butten `Squash and merge` enabled, stop the analysis and comment `## PR is ready to merge`;
+- If the PR is ready to merge means there will be a button `Squash and merge` enabled, stop the analysis and comment `## PR is ready to merge`;
 - Otherwise classify each blocking using the CI check mapping and log symptom patterns below. Also inspect the PR's code directly (e.g., read generated files for compile errors). Also pay attention to PR `Merging is blocking` messages.
 
 ### 3. Post a comment
