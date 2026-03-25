@@ -1,10 +1,14 @@
 {
-  "name": "@azure-samples/arm-planetarycomputer-js-beta",
+  "name": "@azure-samples/arm-planetarycomputer-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-planetarycomputer client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-planetarycomputer client library samples for TypeScript",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -26,8 +30,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/arm-planetarycomputer",
   "dependencies": {
-    "@azure/arm-planetarycomputer": "next",
+    "@azure/arm-planetarycomputer": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.10.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

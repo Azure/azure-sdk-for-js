@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SpatioClient } = require("@azure/arm-planetarycomputer");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SpatioClient } from "@azure/arm-planetarycomputer";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list GeoCatalog resources by subscription ID
  *
  * @summary list GeoCatalog resources by subscription ID
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_ListBySubscription.json
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_ListBySubscription.json
  */
-async function geoCatalogsListBySubscription() {
+async function geoCatalogsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function geoCatalogsListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await geoCatalogsListBySubscription();
 }
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SpatioClient } = require("@azure/arm-planetarycomputer");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SpatioClient } from "@azure/arm-planetarycomputer";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to update a GeoCatalog
  *
  * @summary update a GeoCatalog
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_Update.json
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_Update.json
  */
-async function geoCatalogsUpdate() {
+async function geoCatalogsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function geoCatalogsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await geoCatalogsUpdate();
 }
 

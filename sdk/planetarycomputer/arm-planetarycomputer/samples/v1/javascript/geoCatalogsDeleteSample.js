@@ -5,21 +5,20 @@ const { SpatioClient } = require("@azure/arm-planetarycomputer");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get a GeoCatalog
+ * This sample demonstrates how to delete a GeoCatalog
  *
- * @summary get a GeoCatalog
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_Get.json
+ * @summary delete a GeoCatalog
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_Delete.json
  */
-async function geoCatalogsGet() {
+async function geoCatalogsDelete() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
-  const result = await client.geoCatalogs.get("MyResourceGroup", "MyCatalog");
-  console.log(result);
+  await client.geoCatalogs.delete("MyResourceGroup", "MyCatalog");
 }
 
 async function main() {
-  await geoCatalogsGet();
+  await geoCatalogsDelete();
 }
 
 main().catch(console.error);
