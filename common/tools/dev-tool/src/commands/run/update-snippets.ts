@@ -8,7 +8,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { format } from "../../util/prettier";
 import { createPrinter } from "../../util/printer";
-import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import { ProjectInfo, resolveProject, resolveRoot } from "../../util/resolveProject";
 import { convert } from "../../util/samples/convert";
 import { testSyntax } from "../../util/samples/syntax";
 import { createDiagnosticEmitter } from "../../util/typescript/diagnostic";
@@ -605,16 +605,35 @@ async function replaceSnippetsWithNew(
 
 /**
  * Type-checks the snippets file using `tsconfig.snippets.json` if it exists in the project directory.
+ * Builds the package and its workspace dependencies first to ensure type declarations are available.
  *
- * @param projectPath - the path to the project directory
+ * @param project - the resolved project info
  * @returns true if type-checking succeeds or no tsconfig.snippets.json is found, false otherwise
  */
-function typeCheckSnippets(projectPath: string): boolean {
-  const tsconfigPath = path.join(projectPath, TSCONFIG_SNIPPETS);
+async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
+  const tsconfigPath = path.join(project.path, TSCONFIG_SNIPPETS);
 
   if (!existsSync(tsconfigPath)) {
-    log.info(`No ${TSCONFIG_SNIPPETS} found in ${projectPath}, skipping type-check.`);
+    log.info(`No ${TSCONFIG_SNIPPETS} found in ${project.path}, skipping type-check.`);
     return true;
+  }
+
+  // Build the package and its workspace dependencies before type-checking.
+  // This ensures all workspace-linked packages have their type declarations (.d.ts) available.
+  const repoRoot = await resolveRoot(project.path);
+  log.info(`Building ${project.name} and workspace dependencies for type-checking...`);
+
+  const buildRes = spawnSync("pnpm", ["turbo", "build", "--filter", `${project.name}...`, "--token", "1"], {
+    stdio: "inherit",
+    shell: process.platform === "win32",
+    cwd: repoRoot,
+  });
+
+  if (buildRes.status !== 0 || buildRes.signal !== null) {
+    log.error(
+      `Build failed for ${project.name}. Run \`pnpm build --filter ${project.name}...\` to see detailed errors.`,
+    );
+    return false;
   }
 
   log.info(`Type-checking snippets using ${TSCONFIG_SNIPPETS}...`);
@@ -622,13 +641,12 @@ function typeCheckSnippets(projectPath: string): boolean {
   const res = spawnSync("tsc", ["-p", tsconfigPath, "--noEmit"], {
     stdio: "inherit",
     shell: process.platform === "win32",
-    cwd: projectPath,
+    cwd: project.path,
   });
 
   if (res.status !== 0 || res.signal !== null) {
-    const relativeTsconfigPath = path.relative(projectPath, tsconfigPath);
     log.error(
-      `Type-checking snippets failed. Run \`tsc -p ${relativeTsconfigPath} --noEmit\` to see detailed errors.`,
+      `Type-checking snippets failed. Run \`tsc -p ${TSCONFIG_SNIPPETS} --noEmit\` to see detailed errors.`,
     );
     return false;
   }
@@ -658,5 +676,5 @@ export default leafCommand(commandInfo, async (_) => {
     return false;
   }
 
-  return typeCheckSnippets(project.path);
+  return typeCheckSnippets(project);
 });
