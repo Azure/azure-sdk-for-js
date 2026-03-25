@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { DataLakeClient } from "./dataLakeClient.js";
+export type { PathReadResponse } from "./models/index.js";
 export type {
   FileSystemList,
   FileSystemItem,
@@ -12,8 +13,8 @@ export type {
   ListBlobsHierarchySegmentResponse,
   BlobHierarchyListSegment,
   BlobPrefix,
-  BlobItemInternal,
-  BlobPropertiesInternal,
+  BlobItemModel,
+  BlobPropertiesModel,
   SetAccessControlRecursiveResponse,
   AclFailedEntry,
   AccountResourceType,

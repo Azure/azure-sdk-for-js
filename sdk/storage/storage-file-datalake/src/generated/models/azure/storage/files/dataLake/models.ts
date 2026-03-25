@@ -41,14 +41,14 @@ export interface FileSystemItem {
   /** The last modified time. */
   lastModified?: string;
   /** The entity tag. */
-  eTag?: string;
+  etag?: string;
 }
 
 export function fileSystemItemDeserializer(item: any): FileSystemItem {
   return {
     name: item["name"],
     lastModified: item["lastModified"],
-    eTag: item["eTag"],
+    etag: item["eTag"],
   };
 }
 
@@ -131,7 +131,7 @@ export interface PathItem {
   /** The last modified time. */
   lastModified?: string;
   /** The entity tag. */
-  eTag?: string;
+  etag?: string;
   /** The content length. */
   contentLength?: number;
   /** The owner of the path. */
@@ -155,7 +155,7 @@ export function pathItemDeserializer(item: any): PathItem {
     name: item["name"],
     isDirectory: item["isDirectory"],
     lastModified: item["lastModified"],
-    eTag: item["eTag"],
+    etag: item["eTag"],
     contentLength: item["contentLength"],
     owner: item["owner"],
     group: item["group"],
@@ -188,7 +188,7 @@ export function pathItemXmlDeserializer(xmlString: string): PathItem {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "eTag",
+      propertyName: "etag",
       xmlOptions: { name: "eTag" },
       type: "primitive",
       primitiveSubtype: "string",
@@ -345,7 +345,7 @@ export interface BlobHierarchyListSegment {
   /** The blob prefixes. */
   blobPrefixes?: BlobPrefix[];
   /** The blob items. */
-  blobItems: BlobItemInternal[];
+  blobItems: BlobItemModel[];
 }
 
 export function blobHierarchyListSegmentDeserializer(item: any): BlobHierarchyListSegment {
@@ -353,7 +353,7 @@ export function blobHierarchyListSegmentDeserializer(item: any): BlobHierarchyLi
     blobPrefixes: !item["blobPrefixes"]
       ? item["blobPrefixes"]
       : blobPrefixArrayDeserializer(item["blobPrefixes"]),
-    blobItems: blobItemInternalArrayDeserializer(item["blobItems"]),
+    blobItems: blobItemModelArrayDeserializer(item["blobItems"]),
   };
 }
 
@@ -371,7 +371,7 @@ export function blobHierarchyListSegmentXmlDeserializer(
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemModelXmlObjectDeserializer,
     },
   ];
   return deserializeFromXml<BlobHierarchyListSegment>(xmlString, properties, "Blobs");
@@ -391,7 +391,7 @@ export function blobHierarchyListSegmentXmlObjectDeserializer(
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemModelXmlObjectDeserializer,
     },
   ];
   return deserializeXmlObject<BlobHierarchyListSegment>(xmlObject, properties);
@@ -439,14 +439,14 @@ export function blobPrefixXmlObjectDeserializer(xmlObject: Record<string, unknow
   return deserializeXmlObject<BlobPrefix>(xmlObject, properties);
 }
 
-export function blobItemInternalArrayDeserializer(result: Array<BlobItemInternal>): any[] {
+export function blobItemModelArrayDeserializer(result: Array<BlobItemModel>): any[] {
   return result.map((item) => {
-    return blobItemInternalDeserializer(item);
+    return blobItemModelDeserializer(item);
   });
 }
 
 /** An Azure Storage blob. */
-export interface BlobItemInternal {
+export interface BlobItemModel {
   /** The blob name. */
   name: string;
   /** Whether the blob is deleted. */
@@ -458,24 +458,24 @@ export interface BlobItemInternal {
   /** Whether this is the current version. */
   isCurrentVersion?: boolean;
   /** The blob properties. */
-  properties: BlobPropertiesInternal;
+  properties: BlobPropertiesModel;
   /** The deletion ID. */
   deletionId?: string;
 }
 
-export function blobItemInternalDeserializer(item: any): BlobItemInternal {
+export function blobItemModelDeserializer(item: any): BlobItemModel {
   return {
     name: item["name"],
     deleted: item["deleted"],
     snapshot: item["snapshot"],
     versionId: item["versionId"],
     isCurrentVersion: item["isCurrentVersion"],
-    properties: blobPropertiesInternalDeserializer(item["properties"]),
+    properties: blobPropertiesModelDeserializer(item["properties"]),
     deletionId: item["deletionId"],
   };
 }
 
-export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInternal {
+export function blobItemModelXmlDeserializer(xmlString: string): BlobItemModel {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "name",
@@ -511,7 +511,7 @@ export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInte
       propertyName: "properties",
       xmlOptions: { name: "Properties" },
       type: "object",
-      deserializer: blobPropertiesInternalXmlObjectDeserializer,
+      deserializer: blobPropertiesModelXmlObjectDeserializer,
     },
     {
       propertyName: "deletionId",
@@ -520,12 +520,12 @@ export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInte
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<BlobItemInternal>(xmlString, properties, "Blob");
+  return deserializeFromXml<BlobItemModel>(xmlString, properties, "Blob");
 }
 
-export function blobItemInternalXmlObjectDeserializer(
+export function blobItemModelXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
-): BlobItemInternal {
+): BlobItemModel {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "name",
@@ -561,7 +561,7 @@ export function blobItemInternalXmlObjectDeserializer(
       propertyName: "properties",
       xmlOptions: { name: "Properties" },
       type: "object",
-      deserializer: blobPropertiesInternalXmlObjectDeserializer,
+      deserializer: blobPropertiesModelXmlObjectDeserializer,
     },
     {
       propertyName: "deletionId",
@@ -570,11 +570,11 @@ export function blobItemInternalXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
   ];
-  return deserializeXmlObject<BlobItemInternal>(xmlObject, properties);
+  return deserializeXmlObject<BlobItemModel>(xmlObject, properties);
 }
 
 /** Properties of a blob. */
-export interface BlobPropertiesInternal {
+export interface BlobPropertiesModel {
   /** The creation time. */
   creationTime?: Date;
   /** The last modified time. */
@@ -630,14 +630,14 @@ export interface BlobPropertiesInternal {
   /** The expiry time. */
   expiresOn?: Date;
   /** Whether the blob is sealed. */
-  isSealed?: boolean;
+  sealed?: boolean;
   /** The last accessed time. */
   lastAccessedOn?: Date;
   /** The delete time. */
   deleteTime?: Date;
 }
 
-export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInternal {
+export function blobPropertiesModelDeserializer(item: any): BlobPropertiesModel {
   return {
     creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
     lastModified: new Date(item["lastModified"]),
@@ -674,7 +674,7 @@ export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInt
       : new Date(item["accessTierChangeTime"]),
     tagCount: item["tagCount"],
     expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
-    isSealed: item["isSealed"],
+    sealed: item["sealed"],
     lastAccessedOn: !item["lastAccessedOn"]
       ? item["lastAccessedOn"]
       : new Date(item["lastAccessedOn"]),
@@ -682,7 +682,7 @@ export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInt
   };
 }
 
-export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPropertiesInternal {
+export function blobPropertiesModelXmlDeserializer(xmlString: string): BlobPropertiesModel {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "creationTime",
@@ -847,7 +847,7 @@ export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPr
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "isSealed",
+      propertyName: "sealed",
       xmlOptions: { name: "Sealed" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -865,12 +865,12 @@ export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPr
       dateEncoding: "rfc7231",
     },
   ];
-  return deserializeFromXml<BlobPropertiesInternal>(xmlString, properties, "Properties");
+  return deserializeFromXml<BlobPropertiesModel>(xmlString, properties, "Properties");
 }
 
-export function blobPropertiesInternalXmlObjectDeserializer(
+export function blobPropertiesModelXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
-): BlobPropertiesInternal {
+): BlobPropertiesModel {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "creationTime",
@@ -1035,7 +1035,7 @@ export function blobPropertiesInternalXmlObjectDeserializer(
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "isSealed",
+      propertyName: "sealed",
       xmlOptions: { name: "Sealed" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -1053,7 +1053,7 @@ export function blobPropertiesInternalXmlObjectDeserializer(
       dateEncoding: "rfc7231",
     },
   ];
-  return deserializeXmlObject<BlobPropertiesInternal>(xmlObject, properties);
+  return deserializeXmlObject<BlobPropertiesModel>(xmlObject, properties);
 }
 
 /** The response for set access control recursive operations. */

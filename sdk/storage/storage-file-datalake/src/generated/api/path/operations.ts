@@ -11,7 +11,8 @@ import {
   PathSetAccessControlRecursiveMode,
   PathLeaseAction,
 } from "../../models/azure/storage/files/dataLake/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { PathReadResponse } from "../../models/models.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -42,15 +43,11 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 export function _undeleteSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathUndeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?comp=undelete{?timeout}",
+  const path = expandUrlTemplate(
+    "?comp=undelete{?timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       timeout: options?.timeout,
     },
     {
@@ -58,7 +55,7 @@ export function _undeleteSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -127,8 +124,6 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
 /** Undelete a path that was previously soft deleted. */
 export async function undelete(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathUndeleteOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -149,7 +144,7 @@ export async function undelete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _undeleteSend(context, filesystem, path, {
+  const result = await _undeleteSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -160,16 +155,12 @@ export async function undelete(
 
 export function _setExpirySend(
   context: Client,
-  filesystem: string,
-  path: string,
   expiryOptions: PathExpiryOptions,
   options: PathSetExpiryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?comp=expiry{?timeout}",
+  const path = expandUrlTemplate(
+    "?comp=expiry{?timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       timeout: options?.timeout,
     },
     {
@@ -177,7 +168,7 @@ export function _setExpirySend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -205,7 +196,7 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
 }
 
 export function _setExpiryDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -213,7 +204,7 @@ export function _setExpiryDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -243,13 +234,11 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
 /** Sets the time a blob will expire and be deleted. */
 export async function setExpiry(
   context: Client,
-  filesystem: string,
-  path: string,
   expiryOptions: PathExpiryOptions,
   options: PathSetExpiryOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;
@@ -258,7 +247,7 @@ export async function setExpiry(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -268,7 +257,7 @@ export async function setExpiry(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setExpirySend(context, filesystem, path, expiryOptions, {
+  const result = await _setExpirySend(context, expiryOptions, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -279,16 +268,12 @@ export async function setExpiry(
 
 export function _appendDataSend(
   context: Client,
-  filesystem: string,
-  path: string,
   body: Uint8Array,
   options: PathAppendDataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?action=append{?position,flush,timeout}",
+  const path = expandUrlTemplate(
+    "?action=append{?position,flush,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       position: options?.position,
       flush: options?.flush,
       timeout: options?.timeout,
@@ -298,7 +283,7 @@ export function _appendDataSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
@@ -371,7 +356,7 @@ export async function _appendDataDeserialize(result: PathUncheckedResponse): Pro
 }
 
 export function _appendDataDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   contentMD5?: Uint8Array;
   contentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
@@ -384,7 +369,7 @@ export function _appendDataDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     contentMD5:
       result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
         ? result.headers["content-md5"]
@@ -446,13 +431,11 @@ export function _appendDataDeserializeExceptionHeaders(result: PathUncheckedResp
 /** Append data to the file. */
 export async function appendData(
   context: Client,
-  filesystem: string,
-  path: string,
   body: Uint8Array,
   options: PathAppendDataOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     contentMD5?: Uint8Array;
     contentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
@@ -466,7 +449,7 @@ export async function appendData(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       contentMD5?: Uint8Array;
       contentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
@@ -481,7 +464,7 @@ export async function appendData(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _appendDataSend(context, filesystem, path, body, {
+  const result = await _appendDataSend(context, body, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -492,15 +475,11 @@ export async function appendData(
 
 export function _flushDataSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathFlushDataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?action=flush{?position,retainUncommittedData,close,timeout}",
+  const path = expandUrlTemplate(
+    "?action=flush{?position,retainUncommittedData,close,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       position: options?.position,
       retainUncommittedData: options?.retainUncommittedData,
       close: options?.close,
@@ -511,7 +490,7 @@ export function _flushDataSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -597,7 +576,7 @@ export async function _flushDataDeserialize(result: PathUncheckedResponse): Prom
 }
 
 export function _flushDataDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   contentLength?: number;
   isServerEncrypted?: boolean;
@@ -609,7 +588,7 @@ export function _flushDataDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentLength:
       result.headers["content-length"] === undefined || result.headers["content-length"] === null
@@ -658,12 +637,10 @@ export function _flushDataDeserializeExceptionHeaders(result: PathUncheckedRespo
 /** Set the owner, group, permissions, or access control list for a path. */
 export async function flushData(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathFlushDataOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     contentLength?: number;
     isServerEncrypted?: boolean;
@@ -676,7 +653,7 @@ export async function flushData(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       contentLength?: number;
       isServerEncrypted?: boolean;
@@ -690,7 +667,7 @@ export async function flushData(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _flushDataSend(context, filesystem, path, {
+  const result = await _flushDataSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -701,16 +678,12 @@ export async function flushData(
 
 export function _setAccessControlRecursiveSend(
   context: Client,
-  filesystem: string,
-  path: string,
   mode: PathSetAccessControlRecursiveMode,
   options: PathSetAccessControlRecursiveOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?action=setAccessControlRecursive{?mode,continuation,forceFlag,maxRecords,timeout}",
+  const path = expandUrlTemplate(
+    "?action=setAccessControlRecursive{?mode,continuation,forceFlag,maxRecords,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       mode: mode,
       continuation: options?.continuation,
       forceFlag: options?.forceFlag,
@@ -722,7 +695,7 @@ export function _setAccessControlRecursiveSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -797,8 +770,6 @@ export function _setAccessControlRecursiveDeserializeExceptionHeaders(
 /** Set the access control list for a path and sub-paths. */
 export async function setAccessControlRecursive(
   context: Client,
-  filesystem: string,
-  path: string,
   mode: PathSetAccessControlRecursiveMode,
   options: PathSetAccessControlRecursiveOptionalParams = { requestOptions: {} },
 ): Promise<
@@ -823,7 +794,7 @@ export async function setAccessControlRecursive(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setAccessControlRecursiveSend(context, filesystem, path, mode, {
+  const result = await _setAccessControlRecursiveSend(context, mode, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -834,15 +805,11 @@ export async function setAccessControlRecursive(
 
 export function _setAccessControlSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathSetAccessControlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}?action=setAccessControl{?timeout}",
+  const path = expandUrlTemplate(
+    "?action=setAccessControl{?timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       timeout: options?.timeout,
     },
     {
@@ -850,7 +817,7 @@ export function _setAccessControlSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -900,7 +867,7 @@ export async function _setAccessControlDeserialize(result: PathUncheckedResponse
 }
 
 export function _setAccessControlDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -908,7 +875,7 @@ export function _setAccessControlDeserializeHeaders(result: PathUncheckedRespons
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -938,12 +905,10 @@ export function _setAccessControlDeserializeExceptionHeaders(result: PathUncheck
 /** Set the owner, group, permissions, or access control list for a path. */
 export async function setAccessControl(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathSetAccessControlOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;
@@ -952,7 +917,7 @@ export async function setAccessControl(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -962,7 +927,7 @@ export async function setAccessControl(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setAccessControlSend(context, filesystem, path, {
+  const result = await _setAccessControlSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -973,15 +938,11 @@ export async function setAccessControl(
 
 export function _$deleteSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?recursive,continuation,paginated,timeout}",
+  const path = expandUrlTemplate(
+    "/{?recursive,continuation,paginated,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       recursive: options?.recursive,
       continuation: options?.continuation,
       paginated: options?.paginated,
@@ -992,7 +953,7 @@ export function _$deleteSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -1086,8 +1047,6 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
  */
 export async function $delete(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -1110,10 +1069,7 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, filesystem, path, {
-    ...options,
-    onResponse: _storageCompat.onResponse,
-  });
+  const result = await _$deleteSend(context, { ...options, onResponse: _storageCompat.onResponse });
   await _$deleteDeserialize(result);
   const parsedHeaders = _$deleteDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
@@ -1121,15 +1077,11 @@ export async function $delete(
 
 export function _getPropertiesSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?action,upn,timeout}",
+  const path = expandUrlTemplate(
+    "/{?action,upn,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       action: options?.action,
       upn: options?.upn,
       timeout: options?.timeout,
@@ -1139,7 +1091,7 @@ export function _getPropertiesSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -1194,7 +1146,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   contentRange?: string;
   contentType?: string;
   contentMD5?: Uint8Array;
-  eTag: string;
+  etag: string;
   lastModified: Date;
   resourceType?: string;
   properties?: string;
@@ -1258,7 +1210,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         : typeof result.headers["content-md5"] === "string"
           ? stringToUint8Array(result.headers["content-md5"], "base64")
           : result.headers["content-md5"],
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     resourceType:
       result.headers["x-ms-resource-type"] === undefined ||
@@ -1351,8 +1303,6 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 /** Get Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function getProperties(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -1365,7 +1315,7 @@ export async function getProperties(
     contentRange?: string;
     contentType?: string;
     contentMD5?: Uint8Array;
-    eTag: string;
+    etag: string;
     lastModified: Date;
     resourceType?: string;
     properties?: string;
@@ -1398,7 +1348,7 @@ export async function getProperties(
       contentRange?: string;
       contentType?: string;
       contentMD5?: Uint8Array;
-      eTag: string;
+      etag: string;
       lastModified: Date;
       resourceType?: string;
       properties?: string;
@@ -1423,7 +1373,7 @@ export async function getProperties(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _getPropertiesSend(context, filesystem, path, {
+  const result = await _getPropertiesSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -1434,15 +1384,11 @@ export async function getProperties(
 
 export function _readSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathReadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?timeout}",
+  const path = expandUrlTemplate(
+    "/{?timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       timeout: options?.timeout,
     },
     {
@@ -1450,7 +1396,7 @@ export function _readSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -1494,7 +1440,9 @@ export function _readSend(
     });
 }
 
-export async function _readDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _readDeserialize(
+  result: PathUncheckedResponse & PathReadResponse,
+): Promise<PathReadResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1503,7 +1451,7 @@ export async function _readDeserialize(result: PathUncheckedResponse): Promise<U
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _readDeserializeHeaders(result: PathUncheckedResponse): {
@@ -1515,7 +1463,7 @@ export function _readDeserializeHeaders(result: PathUncheckedResponse): {
   contentLength?: number;
   contentRange?: string;
   contentMD5?: Uint8Array;
-  eTag: string;
+  etag: string;
   lastModified: Date;
   resourceType?: string;
   properties?: string;
@@ -1568,7 +1516,7 @@ export function _readDeserializeHeaders(result: PathUncheckedResponse): {
         : typeof result.headers["content-md5"] === "string"
           ? stringToUint8Array(result.headers["content-md5"], "base64")
           : result.headers["content-md5"],
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     resourceType:
       result.headers["x-ms-resource-type"] === undefined ||
@@ -1633,8 +1581,6 @@ export function _readDeserializeExceptionHeaders(result: PathUncheckedResponse):
 /** Read the contents of a file. For read operations, range requests are supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function read(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathReadOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -1646,7 +1592,7 @@ export async function read(
     contentLength?: number;
     contentRange?: string;
     contentMD5?: Uint8Array;
-    eTag: string;
+    etag: string;
     lastModified: Date;
     resourceType?: string;
     properties?: string;
@@ -1660,9 +1606,9 @@ export async function read(
     requestId?: string;
     clientRequestId?: string;
     contentType: "application/octet-stream";
-  } & Uint8Array &
+  } & PathReadResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      PathReadResponse,
       {
         acceptRanges?: string;
         cacheControl?: string;
@@ -1672,7 +1618,7 @@ export async function read(
         contentLength?: number;
         contentRange?: string;
         contentMD5?: Uint8Array;
-        eTag: string;
+        etag: string;
         lastModified: Date;
         resourceType?: string;
         properties?: string;
@@ -1690,11 +1636,11 @@ export async function read(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const streamableMethod = _readSend(context, filesystem, path, {
+  const streamableMethod = _readSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _readDeserialize(result);
   const parsedHeaders = _readDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
@@ -1702,16 +1648,12 @@ export async function read(
 
 export function _leaseSend(
   context: Client,
-  filesystem: string,
-  path: string,
   leaseAction: PathLeaseAction,
   options: PathLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?timeout}",
+  const path = expandUrlTemplate(
+    "/{?timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       timeout: options?.timeout,
     },
     {
@@ -1719,7 +1661,7 @@ export function _leaseSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -1772,7 +1714,7 @@ export async function _leaseDeserialize(result: PathUncheckedResponse): Promise<
 }
 
 export function _leaseDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   leaseId?: string;
   leaseTime?: string;
@@ -1782,7 +1724,7 @@ export function _leaseDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
@@ -1820,13 +1762,11 @@ export function _leaseDeserializeExceptionHeaders(result: PathUncheckedResponse)
 /** Create and manage a lease to restrict write and delete access to the path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function lease(
   context: Client,
-  filesystem: string,
-  path: string,
   leaseAction: PathLeaseAction,
   options: PathLeaseOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     leaseId?: string;
     leaseTime?: string;
@@ -1837,7 +1777,7 @@ export async function lease(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       leaseId?: string;
       leaseTime?: string;
@@ -1849,7 +1789,7 @@ export async function lease(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _leaseSend(context, filesystem, path, leaseAction, {
+  const result = await _leaseSend(context, leaseAction, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -1860,17 +1800,13 @@ export async function lease(
 
 export function _updateSend(
   context: Client,
-  filesystem: string,
-  path: string,
   action: PathUpdateAction,
   body: Uint8Array,
   options: PathUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?action,maxRecords,continuation,mode,forceFlag,position,retainUncommittedData,close,timeout}",
+  const path = expandUrlTemplate(
+    "/{?action,maxRecords,continuation,mode,forceFlag,position,retainUncommittedData,close,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       action: action,
       maxRecords: options?.maxRecords,
       continuation: options?.continuation,
@@ -1886,7 +1822,7 @@ export function _updateSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
@@ -1967,7 +1903,7 @@ export async function _updateDeserialize(
 }
 
 export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   acceptRanges?: string;
   cacheControl?: string;
@@ -1986,7 +1922,7 @@ export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
   contentType: "application/json";
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     acceptRanges:
       result.headers["accept-ranges"] === undefined || result.headers["accept-ranges"] === null
@@ -2063,14 +1999,12 @@ export function _updateDeserializeExceptionHeaders(result: PathUncheckedResponse
 /** Uploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. Concurrent writes to the same file using multiple clients are not supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function update(
   context: Client,
-  filesystem: string,
-  path: string,
   action: PathUpdateAction,
   body: Uint8Array,
   options: PathUpdateOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     acceptRanges?: string;
     cacheControl?: string;
@@ -2091,7 +2025,7 @@ export async function update(
     StorageCompatResponseInfo<
       SetAccessControlRecursiveResponse,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         acceptRanges?: string;
         cacheControl?: string;
@@ -2112,7 +2046,7 @@ export async function update(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _updateSend(context, filesystem, path, action, body, {
+  const result = await _updateSend(context, action, body, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -2123,15 +2057,11 @@ export async function update(
 
 export function _createSend(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path_1 = expandUrlTemplate(
-    "/{filesystem}/{path}{?resource,mode,continuation,timeout}",
+  const path = expandUrlTemplate(
+    "/{?resource,mode,continuation,timeout}",
     {
-      filesystem: filesystem,
-      path: path,
       resource: options?.resource,
       mode: options?.mode,
       continuation: options?.continuation,
@@ -2142,7 +2072,7 @@ export function _createSend(
     },
   );
   return context
-    .path(path_1)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
@@ -2254,7 +2184,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 }
 
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   continuation?: string;
   contentLength?: number;
@@ -2266,7 +2196,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     continuation:
       result.headers["x-ms-continuation"] === undefined ||
@@ -2315,12 +2245,10 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
 /** Create or rename a file or directory. By default, the destination is overwritten and if the destination already exists and has a lease the lease is broken. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). To fail if the destination already exists, use a conditional request with If-None-Match: "*". */
 export async function create(
   context: Client,
-  filesystem: string,
-  path: string,
   options: PathCreateOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     continuation?: string;
     contentLength?: number;
@@ -2333,7 +2261,7 @@ export async function create(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       continuation?: string;
       contentLength?: number;
@@ -2347,10 +2275,7 @@ export async function create(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _createSend(context, filesystem, path, {
-    ...options,
-    onResponse: _storageCompat.onResponse,
-  });
+  const result = await _createSend(context, { ...options, onResponse: _storageCompat.onResponse });
   await _createDeserialize(result);
   const parsedHeaders = _createDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);

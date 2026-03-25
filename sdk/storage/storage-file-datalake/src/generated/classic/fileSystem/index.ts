@@ -29,7 +29,6 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 export interface FileSystemOperations {
   /** The List Blobs operation returns a list of the blobs under the specified container. */
   listBlobHierarchySegment: (
-    filesystem: string,
     options?: FileSystemListBlobHierarchySegmentOptionalParams,
   ) => Promise<
     {
@@ -52,12 +51,11 @@ export interface FileSystemOperations {
   >;
   /** List FileSystem paths and their properties. */
   listPaths: (
-    filesystem: string,
     recursive: boolean,
     options?: FileSystemListPathsOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       continuation?: string;
       date: Date;
@@ -69,7 +67,7 @@ export interface FileSystemOperations {
       StorageCompatResponseInfo<
         PathList,
         {
-          eTag: string;
+          etag: string;
           lastModified: Date;
           continuation?: string;
           date: Date;
@@ -87,7 +85,6 @@ export interface FileSystemOperations {
    *         to the operation to override the generated name.
    */
   delete: (
-    filesystem: string,
     resource: FileSystemResourceType,
     options?: FileSystemDeleteOptionalParams,
   ) => Promise<
@@ -103,12 +100,11 @@ export interface FileSystemOperations {
   >;
   /** All system and user-defined filesystem properties are specified in the response headers. */
   getProperties: (
-    filesystem: string,
     resource: FileSystemResourceType,
     options?: FileSystemGetPropertiesOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       properties?: string;
       namespaceEnabled?: string;
@@ -119,7 +115,7 @@ export interface FileSystemOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         properties?: string;
         namespaceEnabled?: string;
@@ -132,12 +128,11 @@ export interface FileSystemOperations {
   >;
   /** Set properties for the FileSystem. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
   setProperties: (
-    filesystem: string,
     resource: FileSystemResourceType,
     options?: FileSystemSetPropertiesOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -146,7 +141,7 @@ export interface FileSystemOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         date: Date;
         version: string;
@@ -157,12 +152,11 @@ export interface FileSystemOperations {
   >;
   /** Create a FileSystem rooted at the specified location. If the FileSystem already exists, the operation fails. This operation does not support conditional HTTP requests. */
   create: (
-    filesystem: string,
     resource: FileSystemResourceType,
     options?: FileSystemCreateOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       namespaceEnabled?: string;
       date: Date;
@@ -172,7 +166,7 @@ export interface FileSystemOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         namespaceEnabled?: string;
         date: Date;
@@ -186,35 +180,22 @@ export interface FileSystemOperations {
 
 function _getFileSystem(context: DataLakeContext) {
   return {
-    listBlobHierarchySegment: (
-      filesystem: string,
-      options?: FileSystemListBlobHierarchySegmentOptionalParams,
-    ) => listBlobHierarchySegment(context, filesystem, options),
-    listPaths: (
-      filesystem: string,
-      recursive: boolean,
-      options?: FileSystemListPathsOptionalParams,
-    ) => listPaths(context, filesystem, recursive, options),
-    delete: (
-      filesystem: string,
-      resource: FileSystemResourceType,
-      options?: FileSystemDeleteOptionalParams,
-    ) => $delete(context, filesystem, resource, options),
+    listBlobHierarchySegment: (options?: FileSystemListBlobHierarchySegmentOptionalParams) =>
+      listBlobHierarchySegment(context, options),
+    listPaths: (recursive: boolean, options?: FileSystemListPathsOptionalParams) =>
+      listPaths(context, recursive, options),
+    delete: (resource: FileSystemResourceType, options?: FileSystemDeleteOptionalParams) =>
+      $delete(context, resource, options),
     getProperties: (
-      filesystem: string,
       resource: FileSystemResourceType,
       options?: FileSystemGetPropertiesOptionalParams,
-    ) => getProperties(context, filesystem, resource, options),
+    ) => getProperties(context, resource, options),
     setProperties: (
-      filesystem: string,
       resource: FileSystemResourceType,
       options?: FileSystemSetPropertiesOptionalParams,
-    ) => setProperties(context, filesystem, resource, options),
-    create: (
-      filesystem: string,
-      resource: FileSystemResourceType,
-      options?: FileSystemCreateOptionalParams,
-    ) => create(context, filesystem, resource, options),
+    ) => setProperties(context, resource, options),
+    create: (resource: FileSystemResourceType, options?: FileSystemCreateOptionalParams) =>
+      create(context, resource, options),
   };
 }
 

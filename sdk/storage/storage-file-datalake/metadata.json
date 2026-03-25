@@ -2,7 +2,7 @@
   "apiVersions": {
     "Storage.DataLake": "2026-02-06"
   },
-  "emitterVersion": "0.50.2-alpha.20260309.3",
+  "emitterVersion": "0.51.0-alpha.20260324.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.DataLake",
     "CrossLanguageDefinitionId": {
@@ -15,8 +15,8 @@
       "@azure/storage-file-datalake!ListBlobsHierarchySegmentResponse:interface": "Storage.DataLake.ListBlobsHierarchySegmentResponse",
       "@azure/storage-file-datalake!BlobHierarchyListSegment:interface": "Storage.DataLake.BlobHierarchyListSegment",
       "@azure/storage-file-datalake!BlobPrefix:interface": "Storage.DataLake.BlobPrefix",
-      "@azure/storage-file-datalake!BlobItemInternal:interface": "Storage.DataLake.BlobItemInternal",
-      "@azure/storage-file-datalake!BlobPropertiesInternal:interface": "Storage.DataLake.BlobPropertiesInternal",
+      "@azure/storage-file-datalake!BlobItemModel:interface": "Storage.DataLake.BlobItemInternal",
+      "@azure/storage-file-datalake!BlobPropertiesModel:interface": "Storage.DataLake.BlobPropertiesInternal",
       "@azure/storage-file-datalake!SetAccessControlRecursiveResponse:interface": "Storage.DataLake.SetAccessControlRecursiveResponse",
       "@azure/storage-file-datalake!AclFailedEntry:interface": "Storage.DataLake.AclFailedEntry",
       "@azure/storage-file-datalake!KnownAccountResourceType:enum": "Storage.DataLake.AccountResourceType",

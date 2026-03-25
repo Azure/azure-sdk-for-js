@@ -33,13 +33,11 @@ import {
 
 export function _listBlobHierarchySegmentSend(
   context: Client,
-  filesystem: string,
   options: FileSystemListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}?restype=container&comp=list&hierarchy{?prefix,delimiter,marker,maxResults,include,showonly,timeout}",
+    "?restype=container&comp=list&hierarchy{?prefix,delimiter,marker,maxResults,include,showonly,timeout}",
     {
-      filesystem: filesystem,
       prefix: options?.prefix,
       delimiter: options?.delimiter,
       marker: options?.marker,
@@ -125,7 +123,6 @@ export function _listBlobHierarchySegmentDeserializeExceptionHeaders(
 /** The List Blobs operation returns a list of the blobs under the specified container. */
 export async function listBlobHierarchySegment(
   context: Client,
-  filesystem: string,
   options: FileSystemListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -147,7 +144,7 @@ export async function listBlobHierarchySegment(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _listBlobHierarchySegmentSend(context, filesystem, {
+  const result = await _listBlobHierarchySegmentSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -158,14 +155,12 @@ export async function listBlobHierarchySegment(
 
 export function _listPathsSend(
   context: Client,
-  filesystem: string,
   recursive: boolean,
   options: FileSystemListPathsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}?resource=filesystem{?continuation,directory,recursive,maxResults,upn,beginFrom,timeout}",
+    "?resource=filesystem{?continuation,directory,recursive,maxResults,upn,beginFrom,timeout}",
     {
-      filesystem: filesystem,
       continuation: options?.continuation,
       directory: options?.path,
       recursive: recursive,
@@ -206,7 +201,7 @@ export async function _listPathsDeserialize(result: PathUncheckedResponse): Prom
 }
 
 export function _listPathsDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   continuation?: string;
   date: Date;
@@ -216,7 +211,7 @@ export function _listPathsDeserializeHeaders(result: PathUncheckedResponse): {
   contentType: "application/json";
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     continuation:
       result.headers["x-ms-continuation"] === undefined ||
@@ -252,12 +247,11 @@ export function _listPathsDeserializeExceptionHeaders(result: PathUncheckedRespo
 /** List FileSystem paths and their properties. */
 export async function listPaths(
   context: Client,
-  filesystem: string,
   recursive: boolean,
   options: FileSystemListPathsOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     continuation?: string;
     date: Date;
@@ -269,7 +263,7 @@ export async function listPaths(
     StorageCompatResponseInfo<
       PathList,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         continuation?: string;
         date: Date;
@@ -281,7 +275,7 @@ export async function listPaths(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _listPathsSend(context, filesystem, recursive, {
+  const result = await _listPathsSend(context, recursive, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -292,14 +286,12 @@ export async function listPaths(
 
 export function _$deleteSend(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}{?resource,timeout}",
+    "/{?resource,timeout}",
     {
-      filesystem: filesystem,
       resource: resource,
       timeout: options?.timeout,
     },
@@ -387,7 +379,6 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
  */
 export async function $delete(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
@@ -402,7 +393,7 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, filesystem, resource, {
+  const result = await _$deleteSend(context, resource, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -413,14 +404,12 @@ export async function $delete(
 
 export function _getPropertiesSend(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}{?resource,timeout}",
+    "/{?resource,timeout}",
     {
-      filesystem: filesystem,
       resource: resource,
       timeout: options?.timeout,
     },
@@ -458,7 +447,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   properties?: string;
   namespaceEnabled?: string;
@@ -468,7 +457,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     properties:
       result.headers["x-ms-properties"] === undefined || result.headers["x-ms-properties"] === null
@@ -507,12 +496,11 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 /** All system and user-defined filesystem properties are specified in the response headers. */
 export async function getProperties(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     properties?: string;
     namespaceEnabled?: string;
@@ -523,7 +511,7 @@ export async function getProperties(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       properties?: string;
       namespaceEnabled?: string;
@@ -535,7 +523,7 @@ export async function getProperties(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _getPropertiesSend(context, filesystem, resource, {
+  const result = await _getPropertiesSend(context, resource, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -546,14 +534,12 @@ export async function getProperties(
 
 export function _setPropertiesSend(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemSetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}{?resource,timeout}",
+    "/{?resource,timeout}",
     {
-      filesystem: filesystem,
       resource: resource,
       timeout: options?.timeout,
     },
@@ -606,7 +592,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -614,7 +600,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -644,12 +630,11 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 /** Set properties for the FileSystem. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function setProperties(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemSetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;
@@ -658,7 +643,7 @@ export async function setProperties(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -668,7 +653,7 @@ export async function setProperties(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setPropertiesSend(context, filesystem, resource, {
+  const result = await _setPropertiesSend(context, resource, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -679,14 +664,12 @@ export async function setProperties(
 
 export function _createSend(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{filesystem}{?resource,timeout}",
+    "/{?resource,timeout}",
     {
-      filesystem: filesystem,
       resource: resource,
       timeout: options?.timeout,
     },
@@ -722,7 +705,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 }
 
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   namespaceEnabled?: string;
   date: Date;
@@ -731,7 +714,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     namespaceEnabled:
       result.headers["x-ms-namespace-enabled"] === undefined ||
@@ -766,12 +749,11 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
 /** Create a FileSystem rooted at the specified location. If the FileSystem already exists, the operation fails. This operation does not support conditional HTTP requests. */
 export async function create(
   context: Client,
-  filesystem: string,
   resource: FileSystemResourceType,
   options: FileSystemCreateOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    eTag: string;
+    etag: string;
     lastModified: Date;
     namespaceEnabled?: string;
     date: Date;
@@ -781,7 +763,7 @@ export async function create(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       namespaceEnabled?: string;
       date: Date;
@@ -792,7 +774,7 @@ export async function create(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _createSend(context, filesystem, resource, {
+  const result = await _createSend(context, resource, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });

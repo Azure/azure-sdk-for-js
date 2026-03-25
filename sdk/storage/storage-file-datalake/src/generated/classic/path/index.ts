@@ -37,14 +37,13 @@ import {
   PathSetAccessControlRecursiveMode,
   PathLeaseAction,
 } from "../../models/azure/storage/files/dataLake/models.js";
+import { PathReadResponse } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Path operations. */
 export interface PathOperations {
   /** Undelete a path that was previously soft deleted. */
   undelete: (
-    filesystem: string,
-    path: string,
     options?: PathUndeleteOptionalParams,
   ) => Promise<
     {
@@ -66,13 +65,11 @@ export interface PathOperations {
   >;
   /** Sets the time a blob will expire and be deleted. */
   setExpiry: (
-    filesystem: string,
-    path: string,
     expiryOptions: PathExpiryOptions,
     options?: PathSetExpiryOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -81,7 +78,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         date: Date;
         version: string;
@@ -92,13 +89,11 @@ export interface PathOperations {
   >;
   /** Append data to the file. */
   appendData: (
-    filesystem: string,
-    path: string,
     body: Uint8Array,
     options?: PathAppendDataOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       contentMD5?: Uint8Array;
       contentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
@@ -112,7 +107,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         contentMD5?: Uint8Array;
         contentCrc64?: Uint8Array;
         isServerEncrypted?: boolean;
@@ -128,12 +123,10 @@ export interface PathOperations {
   >;
   /** Set the owner, group, permissions, or access control list for a path. */
   flushData: (
-    filesystem: string,
-    path: string,
     options?: PathFlushDataOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       contentLength?: number;
       isServerEncrypted?: boolean;
@@ -146,7 +139,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         contentLength?: number;
         isServerEncrypted?: boolean;
@@ -161,8 +154,6 @@ export interface PathOperations {
   >;
   /** Set the access control list for a path and sub-paths. */
   setAccessControlRecursive: (
-    filesystem: string,
-    path: string,
     mode: PathSetAccessControlRecursiveMode,
     options?: PathSetAccessControlRecursiveOptionalParams,
   ) => Promise<
@@ -188,12 +179,10 @@ export interface PathOperations {
   >;
   /** Set the owner, group, permissions, or access control list for a path. */
   setAccessControl: (
-    filesystem: string,
-    path: string,
     options?: PathSetAccessControlOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       date: Date;
       version: string;
@@ -202,7 +191,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         date: Date;
         version: string;
@@ -218,8 +207,6 @@ export interface PathOperations {
    *         to the operation to override the generated name.
    */
   delete: (
-    filesystem: string,
-    path: string,
     options?: PathDeleteOptionalParams,
   ) => Promise<
     {
@@ -243,8 +230,6 @@ export interface PathOperations {
   >;
   /** Get Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
   getProperties: (
-    filesystem: string,
-    path: string,
     options?: PathGetPropertiesOptionalParams,
   ) => Promise<
     {
@@ -257,7 +242,7 @@ export interface PathOperations {
       contentRange?: string;
       contentType?: string;
       contentMD5?: Uint8Array;
-      eTag: string;
+      etag: string;
       lastModified: Date;
       resourceType?: string;
       properties?: string;
@@ -290,7 +275,7 @@ export interface PathOperations {
         contentRange?: string;
         contentType?: string;
         contentMD5?: Uint8Array;
-        eTag: string;
+        etag: string;
         lastModified: Date;
         resourceType?: string;
         properties?: string;
@@ -316,8 +301,6 @@ export interface PathOperations {
   >;
   /** Read the contents of a file. For read operations, range requests are supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
   read: (
-    filesystem: string,
-    path: string,
     options?: PathReadOptionalParams,
   ) => Promise<
     {
@@ -329,7 +312,7 @@ export interface PathOperations {
       contentLength?: number;
       contentRange?: string;
       contentMD5?: Uint8Array;
-      eTag: string;
+      etag: string;
       lastModified: Date;
       resourceType?: string;
       properties?: string;
@@ -343,9 +326,9 @@ export interface PathOperations {
       requestId?: string;
       clientRequestId?: string;
       contentType: "application/octet-stream";
-    } & Uint8Array &
+    } & PathReadResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        PathReadResponse,
         {
           acceptRanges?: string;
           cacheControl?: string;
@@ -355,7 +338,7 @@ export interface PathOperations {
           contentLength?: number;
           contentRange?: string;
           contentMD5?: Uint8Array;
-          eTag: string;
+          etag: string;
           lastModified: Date;
           resourceType?: string;
           properties?: string;
@@ -374,13 +357,11 @@ export interface PathOperations {
   >;
   /** Create and manage a lease to restrict write and delete access to the path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
   lease: (
-    filesystem: string,
-    path: string,
     leaseAction: PathLeaseAction,
     options?: PathLeaseOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       leaseId?: string;
       leaseTime?: string;
@@ -391,7 +372,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         leaseId?: string;
         leaseTime?: string;
@@ -404,14 +385,12 @@ export interface PathOperations {
   >;
   /** Uploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. Concurrent writes to the same file using multiple clients are not supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
   update: (
-    filesystem: string,
-    path: string,
     action: PathUpdateAction,
     body: Uint8Array,
     options?: PathUpdateOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       acceptRanges?: string;
       cacheControl?: string;
@@ -432,7 +411,7 @@ export interface PathOperations {
       StorageCompatResponseInfo<
         SetAccessControlRecursiveResponse,
         {
-          eTag: string;
+          etag: string;
           lastModified: Date;
           acceptRanges?: string;
           cacheControl?: string;
@@ -454,12 +433,10 @@ export interface PathOperations {
   >;
   /** Create or rename a file or directory. By default, the destination is overwritten and if the destination already exists and has a lease the lease is broken. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). To fail if the destination already exists, use a conditional request with If-None-Match: "*". */
   create: (
-    filesystem: string,
-    path: string,
     options?: PathCreateOptionalParams,
   ) => Promise<
     {
-      eTag: string;
+      etag: string;
       lastModified: Date;
       continuation?: string;
       contentLength?: number;
@@ -472,7 +449,7 @@ export interface PathOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        eTag: string;
+        etag: string;
         lastModified: Date;
         continuation?: string;
         contentLength?: number;
@@ -489,54 +466,26 @@ export interface PathOperations {
 
 function _getPath(context: DataLakeContext) {
   return {
-    undelete: (filesystem: string, path: string, options?: PathUndeleteOptionalParams) =>
-      undelete(context, filesystem, path, options),
-    setExpiry: (
-      filesystem: string,
-      path: string,
-      expiryOptions: PathExpiryOptions,
-      options?: PathSetExpiryOptionalParams,
-    ) => setExpiry(context, filesystem, path, expiryOptions, options),
-    appendData: (
-      filesystem: string,
-      path: string,
-      body: Uint8Array,
-      options?: PathAppendDataOptionalParams,
-    ) => appendData(context, filesystem, path, body, options),
-    flushData: (filesystem: string, path: string, options?: PathFlushDataOptionalParams) =>
-      flushData(context, filesystem, path, options),
+    undelete: (options?: PathUndeleteOptionalParams) => undelete(context, options),
+    setExpiry: (expiryOptions: PathExpiryOptions, options?: PathSetExpiryOptionalParams) =>
+      setExpiry(context, expiryOptions, options),
+    appendData: (body: Uint8Array, options?: PathAppendDataOptionalParams) =>
+      appendData(context, body, options),
+    flushData: (options?: PathFlushDataOptionalParams) => flushData(context, options),
     setAccessControlRecursive: (
-      filesystem: string,
-      path: string,
       mode: PathSetAccessControlRecursiveMode,
       options?: PathSetAccessControlRecursiveOptionalParams,
-    ) => setAccessControlRecursive(context, filesystem, path, mode, options),
-    setAccessControl: (
-      filesystem: string,
-      path: string,
-      options?: PathSetAccessControlOptionalParams,
-    ) => setAccessControl(context, filesystem, path, options),
-    delete: (filesystem: string, path: string, options?: PathDeleteOptionalParams) =>
-      $delete(context, filesystem, path, options),
-    getProperties: (filesystem: string, path: string, options?: PathGetPropertiesOptionalParams) =>
-      getProperties(context, filesystem, path, options),
-    read: (filesystem: string, path: string, options?: PathReadOptionalParams) =>
-      read(context, filesystem, path, options),
-    lease: (
-      filesystem: string,
-      path: string,
-      leaseAction: PathLeaseAction,
-      options?: PathLeaseOptionalParams,
-    ) => lease(context, filesystem, path, leaseAction, options),
-    update: (
-      filesystem: string,
-      path: string,
-      action: PathUpdateAction,
-      body: Uint8Array,
-      options?: PathUpdateOptionalParams,
-    ) => update(context, filesystem, path, action, body, options),
-    create: (filesystem: string, path: string, options?: PathCreateOptionalParams) =>
-      create(context, filesystem, path, options),
+    ) => setAccessControlRecursive(context, mode, options),
+    setAccessControl: (options?: PathSetAccessControlOptionalParams) =>
+      setAccessControl(context, options),
+    delete: (options?: PathDeleteOptionalParams) => $delete(context, options),
+    getProperties: (options?: PathGetPropertiesOptionalParams) => getProperties(context, options),
+    read: (options?: PathReadOptionalParams) => read(context, options),
+    lease: (leaseAction: PathLeaseAction, options?: PathLeaseOptionalParams) =>
+      lease(context, leaseAction, options),
+    update: (action: PathUpdateAction, body: Uint8Array, options?: PathUpdateOptionalParams) =>
+      update(context, action, body, options),
+    create: (options?: PathCreateOptionalParams) => create(context, options),
   };
 }
 
