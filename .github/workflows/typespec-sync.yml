@@ -177,7 +177,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Regenerate ai-projects client from spec commit $LATEST_COMMIT"
+          git commit -m "Regenerate $(basename "$PACKAGE_PATH") client from spec commit $LATEST_COMMIT"
           git push origin "$TARGET_BRANCH"
 
           echo "Changes committed and pushed to '$TARGET_BRANCH'."
