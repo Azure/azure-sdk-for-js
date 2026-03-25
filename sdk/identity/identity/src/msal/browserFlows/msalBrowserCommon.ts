@@ -175,8 +175,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
     return handleBrowserResult(
-      (await msalApp.handleRedirectPromise({ hash: redirectHash })) ||
-        undefined,
+      (await msalApp.handleRedirectPromise({ hash: redirectHash })) || undefined,
     );
   }
 
