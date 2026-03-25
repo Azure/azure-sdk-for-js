@@ -5,6 +5,12 @@ import type { EvaluatorType } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -17,9 +23,9 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
   /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
-  evaluatorType?: EvaluatorType | "all";
+  typeParam?: EvaluatorType | "all";
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
 }
@@ -27,7 +33,7 @@ export interface BetaEvaluatorsListLatestVersionsOptionalParams extends Operatio
 /** Optional parameters. */
 export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
   /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
-  evaluatorType?: EvaluatorType | "all";
+  typeParam?: EvaluatorType | "all";
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
 }

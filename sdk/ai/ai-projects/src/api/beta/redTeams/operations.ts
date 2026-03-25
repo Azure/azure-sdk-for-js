@@ -9,7 +9,7 @@ import {
   redTeamDeserializer,
   _pagedRedTeamDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
@@ -22,14 +22,14 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _createSend(
   context: Client,
+  foundryFeatures: "RedTeams=V1Preview",
   redTeam: RedTeam,
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
-    "/redTeams/runs:run{?api-version}",
+    "/redTeams/runs:run{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,6 +52,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -61,22 +62,23 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 /** Creates a redteam run. */
 export async function create(
   context: Client,
+  foundryFeatures: "RedTeams=V1Preview",
   redTeam: RedTeam,
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): Promise<RedTeam> {
-  const result = await _createSend(context, redTeam, options);
+  const result = await _createSend(context, foundryFeatures, redTeam, options);
   return _createDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  foundryFeatures: "RedTeams=V1Preview",
   options: BetaRedTeamsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
-    "/redTeams/runs{?api-version}",
+    "/redTeams/runs{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,9 +88,6 @@ export function _listSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -107,37 +106,29 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List a redteam by name. */
 export function list(
   context: Client,
+  foundryFeatures: "RedTeams=V1Preview",
   options: BetaRedTeamsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RedTeam> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "RedTeams=V1Preview",
-        },
-      },
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
 export function _getSend(
   context: Client,
   name: string,
+  foundryFeatures: "RedTeams=V1Preview",
   options: BetaRedTeamsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
-    "/redTeams/runs/{name}{?api-version}",
+    "/redTeams/runs/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,9 +138,6 @@ export function _getSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -169,8 +157,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 export async function get(
   context: Client,
   name: string,
+  foundryFeatures: "RedTeams=V1Preview",
   options: BetaRedTeamsGetOptionalParams = { requestOptions: {} },
 ): Promise<RedTeam> {
-  const result = await _getSend(context, name, options);
+  const result = await _getSend(context, name, foundryFeatures, options);
   return _getDeserialize(result);
 }

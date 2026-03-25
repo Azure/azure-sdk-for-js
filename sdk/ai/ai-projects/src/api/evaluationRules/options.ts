@@ -12,8 +12,6 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
   agentName?: string;
   /** Filter by the enabled status. */
   enabled?: boolean;
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */
@@ -23,13 +21,7 @@ export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
+export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "Evaluations=V1Preview";
-}
+export interface EvaluationRulesGetOptionalParams extends OperationOptions {}

@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../index.js";
-import type { Connection, _PagedConnection, ConnectionType } from "../../models/models.js";
+import type { Connection, _PagedConnection } from "../../models/models.js";
 import { connectionDeserializer, _pagedConnectionDeserializer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
-  ConnectionsGetDefaultOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -21,9 +20,9 @@ export function _listSend(
   options: ConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections{?api-version,connectionType,defaultConnection}",
+    "/connections{?api%2Dversion,connectionType,defaultConnection}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       connectionType: options?.connectionType,
       defaultConnection: options?.defaultConnection,
     },
@@ -62,7 +61,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -72,10 +71,10 @@ export function _getWithCredentialsSend(
   options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}/getConnectionWithCredentials{?api-version}",
+    "/connections/{name}/getConnectionWithCredentials{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,10 +119,10 @@ export function _getSend(
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}{?api-version}",
+    "/connections/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,42 +155,6 @@ export async function get(
   name: string,
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<Connection> {
-  if (options.includeCredentials) {
-    return getWithCredentials(context, name, options);
-  }
   const result = await _getSend(context, name, options);
   return _getDeserialize(result);
-}
-
-/**
- * Get the default connection for a given connection type.
- *
- * @param context - The AIProjectContext client
- * @param connectionType - The type of the connection. Required.
- * @param options - Optional parameters.
- * @returns A Connection object
- * @throws Error if no default connection is found for the given type.
- */
-export async function getDefault(
-  context: Client,
-  connectionType: ConnectionType,
-  options?: ConnectionsGetDefaultOptionalParams,
-): Promise<Connection> {
-  const { includeCredentials, ...listOptions } = options ?? {};
-  const connections = list(context, {
-    connectionType,
-    defaultConnection: true,
-    ...listOptions,
-  });
-
-  // Find the first default connection
-  for await (const connection of connections) {
-    if (includeCredentials) {
-      // If credentials are requested, get the connection with credentials
-      return getWithCredentials(context, connection.name, options);
-    }
-    return connection;
-  }
-
-  throw new Error(`No default connection found for type: ${connectionType}.`);
 }

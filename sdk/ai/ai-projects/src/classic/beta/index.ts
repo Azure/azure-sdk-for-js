@@ -14,36 +14,28 @@ import type { BetaRedTeamsOperations } from "./redTeams/index.js";
 import { _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaToolsetsOperations } from "./toolsets/index.js";
+import { _getBetaToolsetsOperations } from "./toolsets/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing evaluation schedules. */
+  toolsets: BetaToolsetsOperations;
   schedules: BetaSchedulesOperations;
-  /** Operations for managing red team evaluations. */
   redTeams: BetaRedTeamsOperations;
-  /** Operations for managing memory stores. */
   memoryStores: BetaMemoryStoresOperations;
-  /** Operations for managing evaluation insights. */
   insights: BetaInsightsOperations;
-  /** Operations for managing evaluators. */
   evaluators: BetaEvaluatorsOperations;
-  /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    /** Operations for managing evaluation schedules. */
+    toolsets: _getBetaToolsetsOperations(context),
     schedules: _getBetaSchedulesOperations(context),
-    /** Operations for managing red team evaluations. */
     redTeams: _getBetaRedTeamsOperations(context),
-    /** Operations for managing memory stores. */
     memoryStores: _getBetaMemoryStoresOperations(context),
-    /** Operations for managing evaluation insights. */
     insights: _getBetaInsightsOperations(context),
-    /** Operations for managing evaluators. */
     evaluators: _getBetaEvaluatorsOperations(context),
-    /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
   };
 }

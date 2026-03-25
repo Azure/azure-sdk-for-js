@@ -9,24 +9,43 @@ import type {
   BetaRedTeamsGetOptionalParams,
 } from "../../../api/beta/redTeams/options.js";
 import type { RedTeam } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaRedTeams operations. */
 export interface BetaRedTeamsOperations {
   /** Creates a redteam run. */
-  create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) => Promise<RedTeam>;
+  create: (
+    foundryFeatures: "RedTeams=V1Preview",
+    redTeam: RedTeam,
+    options?: BetaRedTeamsCreateOptionalParams,
+  ) => Promise<RedTeam>;
   /** List a redteam by name. */
-  list: (options?: BetaRedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
+  list: (
+    foundryFeatures: "RedTeams=V1Preview",
+    options?: BetaRedTeamsListOptionalParams,
+  ) => PagedAsyncIterableIterator<RedTeam>;
   /** Get a redteam by name. */
-  get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
+  get: (
+    name: string,
+    foundryFeatures: "RedTeams=V1Preview",
+    options?: BetaRedTeamsGetOptionalParams,
+  ) => Promise<RedTeam>;
 }
 
 function _getBetaRedTeams(context: AIProjectContext) {
   return {
-    create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) =>
-      create(context, redTeam, options),
-    list: (options?: BetaRedTeamsListOptionalParams) => list(context, options),
-    get: (name: string, options?: BetaRedTeamsGetOptionalParams) => get(context, name, options),
+    create: (
+      foundryFeatures: "RedTeams=V1Preview",
+      redTeam: RedTeam,
+      options?: BetaRedTeamsCreateOptionalParams,
+    ) => create(context, foundryFeatures, redTeam, options),
+    list: (foundryFeatures: "RedTeams=V1Preview", options?: BetaRedTeamsListOptionalParams) =>
+      list(context, foundryFeatures, options),
+    get: (
+      name: string,
+      foundryFeatures: "RedTeams=V1Preview",
+      options?: BetaRedTeamsGetOptionalParams,
+    ) => get(context, name, foundryFeatures, options),
   };
 }
 

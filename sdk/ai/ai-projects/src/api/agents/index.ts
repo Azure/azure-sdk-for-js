@@ -11,8 +11,8 @@ export {
   $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
-  update,
-  create,
+  updateAgent,
+  createAgent,
   get,
 } from "./operations.js";
 export type {
@@ -25,7 +25,7 @@ export type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateOptionalParams,
-  AgentsCreateOptionalParams,
+  AgentsUpdateAgentOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";

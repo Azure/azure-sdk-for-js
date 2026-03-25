@@ -33,7 +33,7 @@ import type {
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaMemoryStores operations. */
@@ -42,18 +42,21 @@ export interface BetaMemoryStoresOperations {
   deleteScope: (
     name: string,
     scope: string,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresDeleteScopeOptionalParams,
   ) => Promise<MemoryStoreDeleteScopeResponse>;
   /** Get memory store update result. */
   getUpdateResult: (
     name: string,
     updateId: string,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresGetUpdateResultOptionalParams,
   ) => Promise<MemoryStoreUpdateResponse>;
   /** Update memory store with conversation memories. */
   updateMemories: (
     name: string,
     scope: string,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresUpdateMemoriesOptionalParams,
   ) => PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
@@ -63,23 +66,42 @@ export interface BetaMemoryStoresOperations {
   searchMemories: (
     name: string,
     scope: string,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Delete a memory store. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     name: string,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresDeleteOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
   /** List all memory stores. */
-  list: (options?: BetaMemoryStoresListOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+  list: (
+    foundryFeatures: "MemoryStores=V1Preview",
+    options?: BetaMemoryStoresListOptionalParams,
+  ) => PagedAsyncIterableIterator<MemoryStore>;
   /** Retrieve a memory store. */
-  get: (name: string, options?: BetaMemoryStoresGetOptionalParams) => Promise<MemoryStore>;
+  get: (
+    name: string,
+    foundryFeatures: "MemoryStores=V1Preview",
+    options?: BetaMemoryStoresGetOptionalParams,
+  ) => Promise<MemoryStore>;
   /** Update a memory store. */
-  update: (name: string, options?: BetaMemoryStoresUpdateOptionalParams) => Promise<MemoryStore>;
+  update: (
+    name: string,
+    foundryFeatures: "MemoryStores=V1Preview",
+    options?: BetaMemoryStoresUpdateOptionalParams,
+  ) => Promise<MemoryStore>;
   /** Create a memory store. */
   create: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
+    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresCreateOptionalParams,
   ) => Promise<MemoryStore>;
 }
@@ -89,34 +111,52 @@ function _getBetaMemoryStores(context: AIProjectContext) {
     deleteScope: (
       name: string,
       scope: string,
+      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresDeleteScopeOptionalParams,
-    ) => deleteScope(context, name, scope, options),
+    ) => deleteScope(context, name, scope, foundryFeatures, options),
     getUpdateResult: (
       name: string,
       updateId: string,
+      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresGetUpdateResultOptionalParams,
-    ) => getUpdateResult(context, name, updateId, options),
+    ) => getUpdateResult(context, name, updateId, foundryFeatures, options),
     updateMemories: (
       name: string,
       scope: string,
+      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresUpdateMemoriesOptionalParams,
-    ) => updateMemories(context, name, scope, options),
+    ) => updateMemories(context, name, scope, foundryFeatures, options),
     searchMemories: (
       name: string,
       scope: string,
+      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresSearchMemoriesOptionalParams,
-    ) => searchMemories(context, name, scope, options),
-    delete: (name: string, options?: BetaMemoryStoresDeleteOptionalParams) =>
-      $delete(context, name, options),
-    list: (options?: BetaMemoryStoresListOptionalParams) => list(context, options),
-    get: (name: string, options?: BetaMemoryStoresGetOptionalParams) => get(context, name, options),
-    update: (name: string, options?: BetaMemoryStoresUpdateOptionalParams) =>
-      update(context, name, options),
+    ) => searchMemories(context, name, scope, foundryFeatures, options),
+    delete: (
+      name: string,
+      foundryFeatures: "MemoryStores=V1Preview",
+      options?: BetaMemoryStoresDeleteOptionalParams,
+    ) => $delete(context, name, foundryFeatures, options),
+    list: (
+      foundryFeatures: "MemoryStores=V1Preview",
+      options?: BetaMemoryStoresListOptionalParams,
+    ) => list(context, foundryFeatures, options),
+    get: (
+      name: string,
+      foundryFeatures: "MemoryStores=V1Preview",
+      options?: BetaMemoryStoresGetOptionalParams,
+    ) => get(context, name, foundryFeatures, options),
+    update: (
+      name: string,
+      foundryFeatures: "MemoryStores=V1Preview",
+      options?: BetaMemoryStoresUpdateOptionalParams,
+    ) => update(context, name, foundryFeatures, options),
     create: (
       name: string,
       definition: MemoryStoreDefinitionUnion,
+      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresCreateOptionalParams,
-    ) => create(context, name, definition, options),
+    ) => create(context, name, definition, foundryFeatures, options),
   };
 }
 

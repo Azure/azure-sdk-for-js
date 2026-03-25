@@ -8,7 +8,7 @@ import {
   evaluationTaxonomyDeserializer,
   _pagedEvaluationTaxonomyDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
@@ -23,16 +23,16 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _updateSend(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   name: string,
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,26 +64,27 @@ export async function _updateDeserialize(
 /** Update an evaluation taxonomy. */
 export async function update(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   name: string,
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _updateSend(context, name, body, options);
+  const result = await _updateSend(context, foundryFeatures, name, body, options);
   return _updateDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   name: string,
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,25 +116,26 @@ export async function _createDeserialize(
 /** Create an evaluation taxonomy. */
 export async function create(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   name: string,
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _createSend(context, name, body, options);
+  const result = await _createSend(context, foundryFeatures, name, body, options);
   return _createDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
   name: string,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,13 +143,7 @@ export function _$deleteSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
+    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
   });
 }
 
@@ -161,24 +157,30 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete an evaluation taxonomy by name. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   name: string,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, name, options);
+  const result = await _$deleteSend(context, name, foundryFeatures, options);
   return _$deleteDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies{?api-version,inputName,inputType}",
+    "/evaluationtaxonomies{?api%2Dversion,inputName,inputType}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       inputName: options?.inputName,
       inputType: options?.inputType,
     },
@@ -190,9 +192,6 @@ export function _listSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -213,37 +212,29 @@ export async function _listDeserialize(
 /** List evaluation taxonomies */
 export function list(
   context: Client,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluationTaxonomy> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Evaluations=V1Preview",
-        },
-      },
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
 export function _getSend(
   context: Client,
   name: string,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api-version}",
+    "/evaluationtaxonomies/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,9 +244,6 @@ export function _getSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -275,8 +263,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
 export async function get(
   context: Client,
   name: string,
+  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesGetOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _getSend(context, name, options);
+  const result = await _getSend(context, name, foundryFeatures, options);
   return _getDeserialize(result);
 }

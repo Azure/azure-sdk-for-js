@@ -4,7 +4,7 @@
 import type { AIProjectContext as Client } from "../index.js";
 import type { DeploymentUnion, _PagedDeployment } from "../../models/models.js";
 import { deploymentUnionDeserializer, _pagedDeploymentDeserializer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { DeploymentsListOptionalParams, DeploymentsGetOptionalParams } from "./options.js";
@@ -16,9 +16,9 @@ export function _listSend(
   options: DeploymentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/deployments{?api-version,modelPublisher,modelName,deploymentType}",
+    "/deployments{?api%2Dversion,modelPublisher,modelName,deploymentType}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
       modelPublisher: options?.modelPublisher,
       modelName: options?.modelName,
       deploymentType: options?.deploymentType,
@@ -58,7 +58,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -68,10 +68,10 @@ export function _getSend(
   options: DeploymentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/deployments/{name}{?api-version}",
+    "/deployments/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

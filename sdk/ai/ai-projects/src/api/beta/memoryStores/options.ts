@@ -14,8 +14,8 @@ export interface BetaMemoryStoresGetUpdateResultOptionalParams extends Operation
 export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** A list of messages to store in memory, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Only messages with `type` equals `message` are currently processed. Others are ignored. */
-  items?: Record<string, unknown>[];
+  /** A list of messages to store in memory, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Example of an item: {"role": "user", "type": "message", "content": "my user message"}. Only messages with `type` equals `message` are currently processed. Others are ignored. */
+  items?: Record<string, any>[];
   /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. */
   previousUpdateId?: string;
   /**
@@ -24,13 +24,13 @@ export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationO
    * Set to 0 to immediately trigger the update without delay.
    * Defaults to 300 (5 minutes).
    */
-  updateDelayInSecs?: number;
+  updateDelay?: number;
 }
 
 /** Optional parameters. */
 export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-  /** Items for which to search for relevant memories. */
-  items?: Record<string, unknown>[];
+  /** A list of messages used to extract relevant memories, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Example of an item: {"role": "user", "type": "message", "content": "my user message"}. Only messages with `type` equals `message` are currently processed. Others are ignored. */
+  items?: Record<string, any>[];
   /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. */
   previousSearchId?: string;
   /** Memory search options. */

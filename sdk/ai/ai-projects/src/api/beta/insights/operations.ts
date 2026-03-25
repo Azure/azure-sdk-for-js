@@ -4,11 +4,12 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type { Insight, _PagedInsight } from "../../../models/models.js";
 import {
+  apiErrorResponseDeserializer,
   insightSerializer,
   insightDeserializer,
   _pagedInsightDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
@@ -23,16 +24,15 @@ export function _listSend(
   context: Client,
   options: BetaInsightsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
-    "/insights{?api-version,type,evalId,runId,agentName,includeCoordinates}",
+    "/insights{?type,evalId,runId,agentName,includeCoordinates,api%2Dversion}",
     {
-      "api-version": context.apiVersion,
-      type: options?.insightType,
+      type: options?.typeParam,
       evalId: options?.evalId,
       runId: options?.runId,
       agentName: options?.agentName,
       includeCoordinates: options?.includeCoordinates,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,9 +41,8 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -54,7 +53,10 @@ export function _listSend(
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedInsight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return _pagedInsightDeserializer(result.body);
@@ -70,31 +72,21 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Insights=V1Preview",
-        },
-      },
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
 export function _getSend(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
-    "/insights/{id}{?api-version,includeCoordinates}",
+    "/insights/{id}{?includeCoordinates,api%2Dversion}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: insightId,
       includeCoordinates: options?.includeCoordinates,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,9 +95,8 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -116,7 +107,10 @@ export function _getSend(
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return insightDeserializer(result.body);
@@ -125,10 +119,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 /** Get a specific insight by Id. */
 export async function get(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _getSend(context, id, options);
+  const result = await _getSend(context, insightId, options);
   return _getDeserialize(result);
 }
 
@@ -137,11 +131,10 @@ export function _generateSend(
   insight: Insight,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
-    "/insights{?api-version}",
+    "/insights{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,7 +144,9 @@ export function _generateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-features": foundryFeatures,
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       ...(options?.repeatabilityRequestId !== undefined
         ? { "repeatability-request-id": options?.repeatabilityRequestId }
         : {}),
@@ -172,7 +167,10 @@ export function _generateSend(
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return insightDeserializer(result.body);

@@ -16,7 +16,7 @@ import {
   scheduleRunDeserializer,
   _pagedScheduleRunDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
@@ -32,15 +32,17 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _listRunsSend(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}/runs{?api-version}",
+    "/schedules/{id}/runs{?api%2Dversion,type,enabled}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: scheduleId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+      type: options?.typeParam,
+      enabled: options?.enabled,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,9 +52,6 @@ export function _listRunsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -73,24 +72,16 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, id, options),
+    () => _listRunsSend(context, scheduleId, foundryFeatures, options),
     _listRunsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Schedules=V1Preview",
-        },
-      },
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -98,15 +89,15 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
+    "/schedules/{schedule_id}/runs/{run_id}{?api%2Dversion}",
     {
       schedule_id: scheduleId,
       run_id: runId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +118,7 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -138,24 +130,25 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, options);
+  const result = await _getRunSend(context, scheduleId, runId, foundryFeatures, options);
   return _getRunDeserialize(result);
 }
 
 export function _createOrUpdateSend(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   schedule: Schedule,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api-version}",
+    "/schedules/{id}{?api%2Dversion}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: scheduleId,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,12 +156,9 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
+    contentType: "application/json",
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -188,24 +178,25 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 /** Create or update operation template. */
 export async function createOrUpdate(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   schedule: Schedule,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
-  const result = await _createOrUpdateSend(context, id, schedule, options);
+  const result = await _createOrUpdateSend(context, scheduleId, foundryFeatures, schedule, options);
   return _createOrUpdateDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules{?api-version,type,enabled}",
+    "/schedules{?api%2Dversion,type,enabled}",
     {
-      "api-version": context.apiVersion,
-      type: options?.scheduleType,
+      "api%2Dversion": context.apiVersion ?? "v1",
+      type: options?.typeParam,
       enabled: options?.enabled,
     },
     {
@@ -216,9 +207,6 @@ export function _listSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -237,37 +225,29 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List all schedules. */
 export function list(
   context: Client,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Schedule> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          "foundry-features": "Schedules=V1Preview",
-        },
-      },
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
 export function _getSend(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api-version}",
+    "/schedules/{id}{?api%2Dversion}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: scheduleId,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,9 +257,6 @@ export function _getSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -298,24 +275,25 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 /** Get a schedule by id. */
 export async function get(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
-  const result = await _getSend(context, id, options);
+  const result = await _getSend(context, scheduleId, foundryFeatures, options);
   return _getDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api-version}",
+    "/schedules/{id}{?api%2Dversion}",
     {
-      id: id,
-      "api-version": context.apiVersion,
+      id: scheduleId,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,13 +301,7 @@ export function _$deleteSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
+    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
   });
 }
 
@@ -343,11 +315,17 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a schedule. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
-  id: string,
+  scheduleId: string,
+  foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, id, options);
+  const result = await _$deleteSend(context, scheduleId, foundryFeatures, options);
   return _$deleteDeserialize(result);
 }

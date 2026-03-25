@@ -8,7 +8,7 @@ import {
   indexUnionSerializer,
   indexUnionDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -24,16 +24,16 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  version: string,
   index: IndexUnion,
+  version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,10 +42,7 @@ export function _createOrUpdateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: indexUnionSerializer(index),
   });
 }
@@ -69,7 +66,7 @@ export async function createOrUpdate(
   version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {
-  const result = await _createOrUpdateSend(context, name, version, index, options);
+  const result = await _createOrUpdateSend(context, name, index, version, options);
   return _createOrUpdateDeserialize(result);
 }
 
@@ -80,11 +77,11 @@ export function _$deleteSend(
   options: IndexesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,6 +100,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   name: string,
@@ -120,11 +122,11 @@ export function _getSend(
   options: IndexesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,10 +134,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -164,9 +163,9 @@ export function _listSend(
   options: IndexesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api-version}",
+    "/indexes{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,10 +173,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -200,7 +196,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -210,10 +206,10 @@ export function _listVersionsSend(
   options: IndexesListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions{?api-version}",
+    "/indexes/{name}/versions{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -221,10 +217,7 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -250,6 +243,6 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }

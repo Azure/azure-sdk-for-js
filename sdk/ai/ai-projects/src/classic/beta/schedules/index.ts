@@ -19,50 +19,85 @@ import type {
   BetaSchedulesDeleteOptionalParams,
 } from "../../../api/beta/schedules/options.js";
 import type { Schedule, ScheduleRun } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaSchedules operations. */
 export interface BetaSchedulesOperations {
   /** List all schedule runs. */
   listRuns: (
-    id: string,
+    scheduleId: string,
+    foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
   getRun: (
     scheduleId: string,
     runId: string,
+    foundryFeatures: "Schedules=V1Preview",
     options?: BetaSchedulesGetRunOptionalParams,
   ) => Promise<ScheduleRun>;
   /** Create or update operation template. */
   createOrUpdate: (
-    id: string,
+    scheduleId: string,
+    foundryFeatures: "Schedules=V1Preview",
     schedule: Schedule,
     options?: BetaSchedulesCreateOrUpdateOptionalParams,
   ) => Promise<Schedule>;
   /** List all schedules. */
-  list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
+  list: (
+    foundryFeatures: "Schedules=V1Preview",
+    options?: BetaSchedulesListOptionalParams,
+  ) => PagedAsyncIterableIterator<Schedule>;
   /** Get a schedule by id. */
-  get: (id: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
+  get: (
+    scheduleId: string,
+    foundryFeatures: "Schedules=V1Preview",
+    options?: BetaSchedulesGetOptionalParams,
+  ) => Promise<Schedule>;
   /** Delete a schedule. */
-  delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    scheduleId: string,
+    foundryFeatures: "Schedules=V1Preview",
+    options?: BetaSchedulesDeleteOptionalParams,
+  ) => Promise<void>;
 }
 
 function _getBetaSchedules(context: AIProjectContext) {
   return {
-    listRuns: (id: string, options?: BetaSchedulesListRunsOptionalParams) =>
-      listRuns(context, id, options),
-    getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) =>
-      getRun(context, scheduleId, runId, options),
+    listRuns: (
+      scheduleId: string,
+      foundryFeatures: "Schedules=V1Preview",
+      options?: BetaSchedulesListRunsOptionalParams,
+    ) => listRuns(context, scheduleId, foundryFeatures, options),
+    getRun: (
+      scheduleId: string,
+      runId: string,
+      foundryFeatures: "Schedules=V1Preview",
+      options?: BetaSchedulesGetRunOptionalParams,
+    ) => getRun(context, scheduleId, runId, foundryFeatures, options),
     createOrUpdate: (
-      id: string,
+      scheduleId: string,
+      foundryFeatures: "Schedules=V1Preview",
       schedule: Schedule,
       options?: BetaSchedulesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, id, schedule, options),
-    list: (options?: BetaSchedulesListOptionalParams) => list(context, options),
-    get: (id: string, options?: BetaSchedulesGetOptionalParams) => get(context, id, options),
-    delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) =>
-      $delete(context, id, options),
+    ) => createOrUpdate(context, scheduleId, foundryFeatures, schedule, options),
+    list: (foundryFeatures: "Schedules=V1Preview", options?: BetaSchedulesListOptionalParams) =>
+      list(context, foundryFeatures, options),
+    get: (
+      scheduleId: string,
+      foundryFeatures: "Schedules=V1Preview",
+      options?: BetaSchedulesGetOptionalParams,
+    ) => get(context, scheduleId, foundryFeatures, options),
+    delete: (
+      scheduleId: string,
+      foundryFeatures: "Schedules=V1Preview",
+      options?: BetaSchedulesDeleteOptionalParams,
+    ) => $delete(context, scheduleId, foundryFeatures, options),
   };
 }
 

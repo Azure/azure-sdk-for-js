@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
+import { list, getWithCredentials, get } from "../../api/connections/operations.js";
 import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
-  ConnectionsGetDefaultOptionalParams,
 } from "../../api/connections/options.js";
-import type { Connection, ConnectionType } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Connection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
@@ -23,11 +22,6 @@ export interface ConnectionsOperations {
   ) => Promise<Connection>;
   /** Get a connection by name, without populating connection credentials */
   get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
-  /** Get the default connection for the project */
-  getDefault: (
-    connectionType: ConnectionType,
-    options?: ConnectionsGetDefaultOptionalParams,
-  ) => Promise<Connection>;
 }
 
 function _getConnections(context: AIProjectContext) {
@@ -36,8 +30,6 @@ function _getConnections(context: AIProjectContext) {
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
       getWithCredentials(context, name, options),
     get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
-    getDefault: (connectionType: ConnectionType, options?: ConnectionsGetDefaultOptionalParams) =>
-      getDefault(context, connectionType, options),
   };
 }
 

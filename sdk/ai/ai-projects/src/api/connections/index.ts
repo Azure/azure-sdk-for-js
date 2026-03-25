@@ -6,5 +6,4 @@ export type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
-  ConnectionsGetDefaultOptionalParams,
 } from "./options.js";

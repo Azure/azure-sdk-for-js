@@ -21,7 +21,7 @@ import {
   deleteAgentVersionResponseDeserializer,
   _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -34,8 +34,8 @@ import type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateOptionalParams,
-  AgentsCreateOptionalParams,
+  AgentsUpdateAgentOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -47,14 +47,14 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,api%2Dversion}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,6 +73,7 @@ export async function _listVersionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -101,11 +102,11 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/versions/{agent_version}{?api%2Dversion}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,6 +125,7 @@ export async function _deleteVersionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -148,11 +150,11 @@ export function _getVersionSend(
   options: AgentsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/versions/{agent_version}{?api%2Dversion}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,6 +171,7 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -190,14 +193,14 @@ export function _createAgentVersionFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions:import{?api-version}",
+    "/agents/{agent_name}/versions:import{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,6 +226,7 @@ export async function _createAgentVersionFromManifestDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -234,7 +238,7 @@ export async function createAgentVersionFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createAgentVersionFromManifestSend(
@@ -254,10 +258,10 @@ export function _createVersionSend(
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api-version}",
+    "/agents/{agent_name}/versions{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,6 +292,7 @@ export async function _createVersionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -310,14 +315,14 @@ export function _listSend(
   options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?kind,limit,order,after,before,api-version}",
+    "/agents{?kind,limit,order,after,before,api%2Dversion}",
     {
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,6 +341,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -356,16 +362,16 @@ export function list(
   );
 }
 
-export function _deleteSend(
+export function _$deleteSend(
   context: Client,
   agentName: string,
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -377,13 +383,14 @@ export function _deleteSend(
   });
 }
 
-export async function _deleteDeserialize(
+export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -391,27 +398,32 @@ export async function _deleteDeserialize(
 }
 
 /** Deletes an agent. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   agentName: string,
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteAgentResponse> {
-  const result = await _deleteSend(context, agentName, options);
-  return _deleteDeserialize(result);
+  const result = await _$deleteSend(context, agentName, options);
+  return _$deleteDeserialize(result);
 }
 
 export function _updateAgentFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/import{?api-version}",
+    "/agents/{agent_name}/import{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -437,6 +449,7 @@ export async function _updateAgentFromManifestDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -451,7 +464,7 @@ export async function updateAgentFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
@@ -468,13 +481,13 @@ export function _createAgentFromManifestSend(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents:import{?api-version}",
+    "/agents:import{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -501,6 +514,7 @@ export async function _createAgentFromManifestDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -512,7 +526,7 @@ export async function createAgentFromManifest(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, unknown>,
+  parameterValues: Record<string, any>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _createAgentFromManifestSend(
@@ -525,17 +539,17 @@ export async function createAgentFromManifest(
   return _createAgentFromManifestDeserialize(result);
 }
 
-export function _updateSend(
+export function _updateAgentSend(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -559,11 +573,12 @@ export function _updateSend(
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -574,26 +589,26 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
  * Updates the agent by adding a new version if there are any changes to the agent definition.
  * If no changes, returns the existing agent version.
  */
-export async function update(
+export async function updateAgent(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _updateSend(context, agentName, definition, options);
-  return _updateDeserialize(result);
+  const result = await _updateAgentSend(context, agentName, definition, options);
+  return _updateAgentDeserialize(result);
 }
 
-export function _createSend(
+export function _createAgentSend(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateOptionalParams = { requestOptions: {} },
+  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api-version}",
+    "/agents{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,11 +633,12 @@ export function _createSend(
   });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -630,14 +646,14 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 }
 
 /** Creates the agent. */
-export async function create(
+export async function createAgent(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateOptionalParams = { requestOptions: {} },
+  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createSend(context, name, definition, options);
-  return _createDeserialize(result);
+  const result = await _createAgentSend(context, name, definition, options);
+  return _createAgentDeserialize(result);
 }
 
 export function _getSend(
@@ -646,10 +662,10 @@ export function _getSend(
   options: AgentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?api%2Dversion}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -666,6 +682,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
