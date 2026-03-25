@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-alertrulerecommendations": ["./src/index.ts"],
+      "@azure/arm-alertrulerecommendations/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
