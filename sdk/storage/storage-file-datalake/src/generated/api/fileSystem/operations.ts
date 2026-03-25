@@ -36,7 +36,7 @@ export function _listBlobHierarchySegmentSend(
   options: FileSystemListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?restype=container&comp=list&hierarchy{?prefix,delimiter,marker,maxResults,include,showonly,timeout}",
+    "?restype=container&comp=list{?prefix,delimiter,marker,maxResults,include,showonly,timeout}",
     {
       prefix: options?.prefix,
       delimiter: options?.delimiter,
