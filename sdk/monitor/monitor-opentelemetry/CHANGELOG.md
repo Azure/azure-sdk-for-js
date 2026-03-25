@@ -14,6 +14,7 @@
 
 ### Bugs Fixed
 
+- Fixed Available Memory performance counter on Linux to report `MemAvailable` from `/proc/meminfo` instead of `MemFree` (via `os.freemem()`). `MemAvailable` accounts for reclaimable memory (page cache, buffers), providing a more accurate measure of memory available to processes.
 - Fixed standard metrics and performance counters recording 0ms duration for all sub-second requests. `span.duration` is an `HrTime` tuple `[seconds, nanoseconds]` but was incorrectly read as `span.duration[0]` (seconds only). Converted to milliseconds using `hrTimeToMilliseconds()` from `@opentelemetry/core`.
 
 ## 1.16.0 (2026-02-20)
