@@ -349,9 +349,10 @@ async function mergeBatchChunk(
     : "This file does not exist yet. Merge the generated batches below into a single new test file.";
   if (existing) {
     attachments.push({
-      type: "file",
+      type: "virtual-file",
       path: resolve(packageDir, relPath),
       displayName: relPath,
+      content: existing,
     });
   }
   attachments.push({
@@ -365,9 +366,12 @@ async function mergeBatchChunk(
   if (sourceFile) {
     const sourceCode = await tryReadFile(resolve(packageDir, sourceFile));
     if (sourceCode) {
-      attachments.push(
-        buildFocusedFileAttachment(resolve(packageDir, sourceFile), sourceCode, [], sourceFile),
-      );
+      attachments.push({
+        type: "virtual-file",
+        path: resolve(packageDir, sourceFile),
+        displayName: sourceFile,
+        content: sourceCode,
+      });
       sourceSection = `The source file under test is attached as \`${sourceFile}\`. Use it to verify that all imports and symbol names in the merged output are correct.`;
     }
   }
@@ -849,6 +853,8 @@ export interface RunOptions {
   config?: Partial<{ [K in keyof Config]: Partial<Config[K]> }>;
   /** Skip coverage measurement if coveragePath already exists. */
   skipMeasureIfCached?: boolean;
+  /** Skip full-suite validation & final coverage measurement (faster for model comparison). */
+  skipFullSuiteValidation?: boolean;
 }
 
 /** Response schema for single-pass mode (includes analysis array). */
@@ -1447,7 +1453,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
   // ── Step 6: Full-suite validation & isolation fix ──
   let finalBranchCov = initialBranchCov;
-  if (!dryRun && generatedFiles.length > 0) {
+  if (!dryRun && generatedFiles.length > 0 && !options.skipFullSuiteValidation) {
     log("\n━━━ Step 5: Full-suite validation ━━━");
     const suiteResult = await runFullSuite(cfg.runner.command, packageDir, cfg);
 

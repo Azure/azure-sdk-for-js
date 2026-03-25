@@ -832,7 +832,7 @@ async function selectModel(
     enabled.find((entry) => entry.id === preferredModel || entry.name === preferredModel) ??
     knownModels.find((entry) => entry.id === preferredModel || entry.name === preferredModel);
 
-  const chooseLowCost = phase === "resolve" || phase === "merge";
+  const chooseLowCost = phase === "resolve";
   const selected =
     chooseLowCost && enabled.length > 0
       ? enabled.slice().sort(compareModelForCost)[0]
