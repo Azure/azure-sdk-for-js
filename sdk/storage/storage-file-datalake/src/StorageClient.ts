@@ -75,6 +75,29 @@ export class StorageClientContext {
     }
     (this.dataLakeClient as DataLakeClient & { pipeline: CorePipeline }).pipeline = corePipeline;
     this.dataLakeClient["_client"].pipeline = corePipeline;
+
+    // Add policy to strip trailing "/" before query params (generated URL templates produce "/?...")
+    // Only add once per pipeline
+    if (
+      !corePipeline
+        .getOrderedPolicies()
+        .some((p) => p.name === "stripTrailingSlashPolicy")
+    ) {
+      corePipeline.addPolicy(
+        {
+          name: "stripTrailingSlashPolicy",
+          sendRequest(request, next) {
+            const url = request.url;
+            const qIdx = url.indexOf("?");
+            if (qIdx > 0 && url[qIdx - 1] === "/") {
+              request.url = url.slice(0, qIdx - 1) + url.slice(qIdx);
+            }
+            return next(request);
+          },
+        },
+        { phase: "Serialize" },
+      );
+    }
   }
 }
 
