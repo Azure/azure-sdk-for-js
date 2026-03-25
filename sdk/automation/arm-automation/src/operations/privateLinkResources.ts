@@ -40,11 +40,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     automationAccountName: string,
     options?: PrivateLinkResourcesAutomationOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.automationPagingAll(
-      resourceGroupName,
-      automationAccountName,
-      options,
-    );
+    const iter = this.automationPagingAll(resourceGroupName, automationAccountName, options);
     return {
       next() {
         return iter.next();
@@ -73,11 +69,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesAutomationResponse;
-    result = await this._automation(
-      resourceGroupName,
-      automationAccountName,
-      options,
-    );
+    result = await this._automation(resourceGroupName, automationAccountName, options);
     yield result.value || [];
   }
 

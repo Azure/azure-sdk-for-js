@@ -10,11 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
@@ -85,11 +81,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateEndpointConnectionsListByAutomationAccountResponse;
-    result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options,
-    );
+    result = await this._listByAutomationAccount(resourceGroupName, automationAccountName, options);
     yield result.value || [];
   }
 
@@ -178,8 +170,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -281,8 +272,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -50,12 +50,7 @@ export interface RunbookOperations {
     automationAccountName: string,
     runbookName: string,
     options?: RunbookPublishOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RunbookPublishResponse>,
-      RunbookPublishResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<RunbookPublishResponse>, RunbookPublishResponse>>;
   /**
    * Publish runbook draft.
    * @param resourceGroupName Name of an Azure Resource group.

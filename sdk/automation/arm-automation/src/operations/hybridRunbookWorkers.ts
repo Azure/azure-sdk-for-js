@@ -475,26 +475,25 @@ const listByHybridRunbookWorkerGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.HybridRunbookWorkersListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridRunbookWorkersListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.automationAccountName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.hybridRunbookWorkerGroupName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.hybridRunbookWorkerGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

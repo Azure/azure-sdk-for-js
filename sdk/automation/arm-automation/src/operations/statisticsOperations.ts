@@ -73,11 +73,7 @@ export class StatisticsOperationsImpl implements StatisticsOperations {
     _settings?: PageSettings,
   ): AsyncIterableIterator<Statistics[]> {
     let result: StatisticsListByAutomationAccountResponse;
-    result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options,
-    );
+    result = await this._listByAutomationAccount(resourceGroupName, automationAccountName, options);
     yield result.value || [];
   }
 

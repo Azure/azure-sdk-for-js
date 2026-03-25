@@ -98,13 +98,7 @@ export interface DscConfigurationOperations {
           "text/plain; charset=utf-8",
           DscConfigurationUpdate$textOptionalParams?,
         ]
-      | [
-          string,
-          string,
-          string,
-          "application/json",
-          DscConfigurationUpdate$jsonOptionalParams?,
-        ]
+      | [string, string, string, "application/json", DscConfigurationUpdate$jsonOptionalParams?]
   ): Promise<DscConfigurationUpdateResponse>;
   /**
    * Retrieve the configuration script identified by configuration name.

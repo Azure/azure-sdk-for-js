@@ -73,11 +73,7 @@ export class UsagesImpl implements Usages {
     _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByAutomationAccountResponse;
-    result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options,
-    );
+    result = await this._listByAutomationAccount(resourceGroupName, automationAccountName, options);
     yield result.value || [];
   }
 

@@ -105,12 +105,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skip1,
-    Parameters.top1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skip1, Parameters.top1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

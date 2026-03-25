@@ -33,10 +33,7 @@ export class DeletedAutomationAccountsImpl implements DeletedAutomationAccounts 
   listBySubscription(
     options?: DeletedAutomationAccountsListBySubscriptionOptionalParams,
   ): Promise<DeletedAutomationAccountsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 }
 // Operation Specifications

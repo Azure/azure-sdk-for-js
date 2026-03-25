@@ -9,10 +9,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
-import {
-  LinkedWorkspaceGetOptionalParams,
-  LinkedWorkspaceGetResponse,
-} from "../models/index.js";
+import { LinkedWorkspaceGetOptionalParams, LinkedWorkspaceGetResponse } from "../models/index.js";
 
 /** Class containing LinkedWorkspaceOperations operations. */
 export class LinkedWorkspaceOperationsImpl implements LinkedWorkspaceOperations {

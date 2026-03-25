@@ -150,11 +150,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.softwareUpdateConfigurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.clientRequestId,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
   mediaType: "json",
   serializer,
 };

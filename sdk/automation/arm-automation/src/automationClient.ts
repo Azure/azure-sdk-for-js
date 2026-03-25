@@ -6,11 +6,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   NodeCountInformationImpl,
@@ -150,7 +146,7 @@ export class AutomationClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-automation/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-automation/11.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -162,8 +158,7 @@ export class AutomationClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -173,8 +168,7 @@ export class AutomationClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -190,11 +184,9 @@ export class AutomationClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -206,19 +198,13 @@ export class AutomationClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-10-23";
     this.nodeCountInformation = new NodeCountInformationImpl(this);
-    this.softwareUpdateConfigurations = new SoftwareUpdateConfigurationsImpl(
-      this,
-    );
+    this.softwareUpdateConfigurations = new SoftwareUpdateConfigurationsImpl(this);
     this.deletedAutomationAccounts = new DeletedAutomationAccountsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.agentRegistrationInformation = new AgentRegistrationInformationImpl(
-      this,
-    );
+    this.agentRegistrationInformation = new AgentRegistrationInformationImpl(this);
     this.dscNodeOperations = new DscNodeOperationsImpl(this);
     this.nodeReports = new NodeReportsImpl(this);
-    this.automationAccountOperations = new AutomationAccountOperationsImpl(
-      this,
-    );
+    this.automationAccountOperations = new AutomationAccountOperationsImpl(this);
     this.statisticsOperations = new StatisticsOperationsImpl(this);
     this.usages = new UsagesImpl(this);
     this.keys = new KeysImpl(this);
@@ -227,11 +213,9 @@ export class AutomationClient extends coreClient.ServiceClient {
     this.connectionTypeOperations = new ConnectionTypeOperationsImpl(this);
     this.credentialOperations = new CredentialOperationsImpl(this);
     this.dscConfigurationOperations = new DscConfigurationOperationsImpl(this);
-    this.dscNodeConfigurationOperations =
-      new DscNodeConfigurationOperationsImpl(this);
+    this.dscNodeConfigurationOperations = new DscNodeConfigurationOperationsImpl(this);
     this.hybridRunbookWorkers = new HybridRunbookWorkersImpl(this);
-    this.hybridRunbookWorkerGroupOperations =
-      new HybridRunbookWorkerGroupOperationsImpl(this);
+    this.hybridRunbookWorkerGroupOperations = new HybridRunbookWorkerGroupOperationsImpl(this);
     this.jobOperations = new JobOperationsImpl(this);
     this.jobStreamOperations = new JobStreamOperationsImpl(this);
     this.jobScheduleOperations = new JobScheduleOperationsImpl(this);
@@ -251,16 +235,13 @@ export class AutomationClient extends coreClient.ServiceClient {
     this.testJobOperations = new TestJobOperationsImpl(this);
     this.runtimeEnvironments = new RuntimeEnvironmentsImpl(this);
     this.scheduleOperations = new ScheduleOperationsImpl(this);
-    this.softwareUpdateConfigurationMachineRuns =
-      new SoftwareUpdateConfigurationMachineRunsImpl(this);
-    this.softwareUpdateConfigurationRuns =
-      new SoftwareUpdateConfigurationRunsImpl(this);
-    this.sourceControlOperations = new SourceControlOperationsImpl(this);
-    this.sourceControlSyncJobOperations =
-      new SourceControlSyncJobOperationsImpl(this);
-    this.sourceControlSyncJobStreams = new SourceControlSyncJobStreamsImpl(
+    this.softwareUpdateConfigurationMachineRuns = new SoftwareUpdateConfigurationMachineRunsImpl(
       this,
     );
+    this.softwareUpdateConfigurationRuns = new SoftwareUpdateConfigurationRunsImpl(this);
+    this.sourceControlOperations = new SourceControlOperationsImpl(this);
+    this.sourceControlSyncJobOperations = new SourceControlSyncJobOperationsImpl(this);
+    this.sourceControlSyncJobStreams = new SourceControlSyncJobStreamsImpl(this);
     this.variableOperations = new VariableOperationsImpl(this);
     this.watcherOperations = new WatcherOperationsImpl(this);
     this.webhookOperations = new WebhookOperationsImpl(this);
@@ -274,10 +255,7 @@ export class AutomationClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

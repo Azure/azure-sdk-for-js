@@ -71,11 +71,7 @@ export class AutomationAccountOperationsImpl implements AutomationAccountOperati
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -95,11 +91,7 @@ export class AutomationAccountOperationsImpl implements AutomationAccountOperati
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,10 +103,7 @@ export class AutomationAccountOperationsImpl implements AutomationAccountOperati
     resourceGroupName: string,
     options?: AutomationAccountListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AutomationAccount> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -219,11 +208,7 @@ export class AutomationAccountOperationsImpl implements AutomationAccountOperati
     let result: AutomationAccountListDeletedRunbooksResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDeletedRunbooks(
-        resourceGroupName,
-        automationAccountName,
-        options,
-      );
+      result = await this._listDeletedRunbooks(resourceGroupName, automationAccountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -397,10 +382,7 @@ export class AutomationAccountOperationsImpl implements AutomationAccountOperati
     nextLink: string,
     options?: AutomationAccountListNextOptionalParams,
   ): Promise<AutomationAccountListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -527,11 +509,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -603,11 +581,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -249,9 +249,7 @@ export class DscConfigurationOperationsImpl implements DscConfigurationOperation
       };
       options = args[5];
     } else {
-      throw new TypeError(
-        `"contentType" must be a valid value but instead was "${args[3]}".`,
-      );
+      throw new TypeError(`"contentType" must be a valid value but instead was "${args[3]}".`);
     }
     operationArguments.options = options || {};
     return this.client.sendOperationRequest(operationArguments, operationSpec);
@@ -300,13 +298,7 @@ export class DscConfigurationOperationsImpl implements DscConfigurationOperation
           "text/plain; charset=utf-8",
           DscConfigurationUpdate$textOptionalParams?,
         ]
-      | [
-          string,
-          string,
-          string,
-          "application/json",
-          DscConfigurationUpdate$jsonOptionalParams?,
-        ]
+      | [string, string, string, "application/json", DscConfigurationUpdate$jsonOptionalParams?]
   ): Promise<DscConfigurationUpdateResponse> {
     let operationSpec: coreClient.OperationSpec;
     let operationArguments: coreClient.OperationArguments;
@@ -332,9 +324,7 @@ export class DscConfigurationOperationsImpl implements DscConfigurationOperation
       };
       options = args[4];
     } else {
-      throw new TypeError(
-        `"contentType" must be a valid value but instead was "${args[3]}".`,
-      );
+      throw new TypeError(`"contentType" must be a valid value but instead was "${args[3]}".`);
     }
     operationArguments.options = options || {};
     return this.client.sendOperationRequest(operationArguments, operationSpec);
@@ -465,11 +455,7 @@ const createOrUpdate$textOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.configurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType1,
-    Parameters.accept1,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType1, Parameters.accept1],
   mediaType: "text",
   serializer,
 };
@@ -520,11 +506,7 @@ const update$textOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.configurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType1,
-    Parameters.accept1,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType1, Parameters.accept1],
   mediaType: "text",
   serializer,
 };

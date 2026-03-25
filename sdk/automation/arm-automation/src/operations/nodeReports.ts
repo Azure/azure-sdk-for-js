@@ -87,12 +87,7 @@ export class NodeReportsImpl implements NodeReports {
     let result: NodeReportsListByNodeResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNode(
-        resourceGroupName,
-        automationAccountName,
-        nodeId,
-        options,
-      );
+      result = await this._listByNode(resourceGroupName, automationAccountName, nodeId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

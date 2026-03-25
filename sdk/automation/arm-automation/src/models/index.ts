@@ -3679,9 +3679,7 @@ export type OperatingSystemType = "Windows" | "Linux";
 /** Defines values for TagOperators. */
 export type TagOperators = "All" | "Any";
 /** Defines values for EncryptionKeySourceType. */
-export type EncryptionKeySourceType =
-  | "Microsoft.Automation"
-  | "Microsoft.Keyvault";
+export type EncryptionKeySourceType = "Microsoft.Automation" | "Microsoft.Keyvault";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
@@ -3690,8 +3688,7 @@ export type ResourceIdentityType =
   | "None";
 
 /** Optional parameters. */
-export interface NodeCountInformationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NodeCountInformationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NodeCountInformationGetResponse = NodeCounts;
@@ -3704,8 +3701,7 @@ export interface SoftwareUpdateConfigurationsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type SoftwareUpdateConfigurationsCreateResponse =
-  SoftwareUpdateConfiguration;
+export type SoftwareUpdateConfigurationsCreateResponse = SoftwareUpdateConfiguration;
 
 /** Optional parameters. */
 export interface SoftwareUpdateConfigurationsGetByNameOptionalParams
@@ -3715,8 +3711,7 @@ export interface SoftwareUpdateConfigurationsGetByNameOptionalParams
 }
 
 /** Contains response data for the getByName operation. */
-export type SoftwareUpdateConfigurationsGetByNameResponse =
-  SoftwareUpdateConfiguration;
+export type SoftwareUpdateConfigurationsGetByNameResponse = SoftwareUpdateConfiguration;
 
 /** Optional parameters. */
 export interface SoftwareUpdateConfigurationsDeleteOptionalParams
@@ -3735,8 +3730,7 @@ export interface SoftwareUpdateConfigurationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SoftwareUpdateConfigurationsListResponse =
-  SoftwareUpdateConfigurationListResult;
+export type SoftwareUpdateConfigurationsListResponse = SoftwareUpdateConfigurationListResult;
 
 /** Optional parameters. */
 export interface DeletedAutomationAccountsListBySubscriptionOptionalParams
@@ -3747,12 +3741,10 @@ export type DeletedAutomationAccountsListBySubscriptionResponse =
   DeletedAutomationAccountListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesAutomationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesAutomationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the automation operation. */
-export type PrivateLinkResourcesAutomationResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesAutomationResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface AgentRegistrationInformationGetOptionalParams
@@ -3766,12 +3758,10 @@ export interface AgentRegistrationInformationRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type AgentRegistrationInformationRegenerateKeyResponse =
-  AgentRegistration;
+export type AgentRegistrationInformationRegenerateKeyResponse = AgentRegistration;
 
 /** Optional parameters. */
-export interface DscNodeDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscNodeDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DscNodeGetOptionalParams extends coreClient.OperationOptions {}
@@ -3780,15 +3770,13 @@ export interface DscNodeGetOptionalParams extends coreClient.OperationOptions {}
 export type DscNodeGetResponse = DscNode;
 
 /** Optional parameters. */
-export interface DscNodeUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscNodeUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type DscNodeUpdateResponse = DscNode;
 
 /** Optional parameters. */
-export interface DscNodeListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface DscNodeListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
   /** The number of rows to skip. */
@@ -3810,8 +3798,7 @@ export interface DscNodeListByAutomationAccountNextOptionalParams
 export type DscNodeListByAutomationAccountNextResponse = DscNodeListResult;
 
 /** Optional parameters. */
-export interface NodeReportsListByNodeOptionalParams
-  extends coreClient.OperationOptions {
+export interface NodeReportsListByNodeOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -3820,29 +3807,25 @@ export interface NodeReportsListByNodeOptionalParams
 export type NodeReportsListByNodeResponse = DscNodeReportListResult;
 
 /** Optional parameters. */
-export interface NodeReportsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NodeReportsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NodeReportsGetResponse = DscNodeReport;
 
 /** Optional parameters. */
-export interface NodeReportsGetContentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NodeReportsGetContentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContent operation. */
 export type NodeReportsGetContentResponse = Record<string, unknown>;
 
 /** Optional parameters. */
-export interface NodeReportsListByNodeNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NodeReportsListByNodeNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNodeNext operation. */
 export type NodeReportsListByNodeNextResponse = DscNodeReportListResult;
 
 /** Optional parameters. */
-export interface AutomationAccountUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AutomationAccountUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type AutomationAccountUpdateResponse = AutomationAccount;
@@ -3855,12 +3838,10 @@ export interface AutomationAccountCreateOrUpdateOptionalParams
 export type AutomationAccountCreateOrUpdateResponse = AutomationAccount;
 
 /** Optional parameters. */
-export interface AutomationAccountDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AutomationAccountDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AutomationAccountGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AutomationAccountGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AutomationAccountGetResponse = AutomationAccount;
@@ -3870,12 +3851,10 @@ export interface AutomationAccountListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AutomationAccountListByResourceGroupResponse =
-  AutomationAccountListResult;
+export type AutomationAccountListByResourceGroupResponse = AutomationAccountListResult;
 
 /** Optional parameters. */
-export interface AutomationAccountListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AutomationAccountListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AutomationAccountListResponse = AutomationAccountListResult;
@@ -3885,20 +3864,17 @@ export interface AutomationAccountListDeletedRunbooksOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeletedRunbooks operation. */
-export type AutomationAccountListDeletedRunbooksResponse =
-  DeletedRunbookListResult;
+export type AutomationAccountListDeletedRunbooksResponse = DeletedRunbookListResult;
 
 /** Optional parameters. */
 export interface AutomationAccountListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AutomationAccountListByResourceGroupNextResponse =
-  AutomationAccountListResult;
+export type AutomationAccountListByResourceGroupNextResponse = AutomationAccountListResult;
 
 /** Optional parameters. */
-export interface AutomationAccountListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AutomationAccountListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AutomationAccountListNextResponse = AutomationAccountListResult;
@@ -3908,8 +3884,7 @@ export interface AutomationAccountListDeletedRunbooksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeletedRunbooksNext operation. */
-export type AutomationAccountListDeletedRunbooksNextResponse =
-  DeletedRunbookListResult;
+export type AutomationAccountListDeletedRunbooksNextResponse = DeletedRunbookListResult;
 
 /** Optional parameters. */
 export interface StatisticsListByAutomationAccountOptionalParams
@@ -3922,40 +3897,34 @@ export interface StatisticsListByAutomationAccountOptionalParams
 export type StatisticsListByAutomationAccountResponse = StatisticsListResult;
 
 /** Optional parameters. */
-export interface UsagesListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsagesListByAutomationAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
 export type UsagesListByAutomationAccountResponse = UsageListResult;
 
 /** Optional parameters. */
-export interface KeysListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysListByAutomationAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
 export type KeysListByAutomationAccountResponse = KeyListResult;
 
 /** Optional parameters. */
-export interface CertificateDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificateGetResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificateCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CertificateCreateOrUpdateResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificateUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CertificateUpdateResponse = Certificate;
@@ -3972,30 +3941,25 @@ export interface CertificateListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type CertificateListByAutomationAccountNextResponse =
-  CertificateListResult;
+export type CertificateListByAutomationAccountNextResponse = CertificateListResult;
 
 /** Optional parameters. */
-export interface ConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ConnectionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectionGetResponse = Connection;
 
 /** Optional parameters. */
-export interface ConnectionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ConnectionCreateOrUpdateResponse = Connection;
 
 /** Optional parameters. */
-export interface ConnectionUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ConnectionUpdateResponse = Connection;
@@ -4012,23 +3976,19 @@ export interface ConnectionListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type ConnectionListByAutomationAccountNextResponse =
-  ConnectionListResult;
+export type ConnectionListByAutomationAccountNextResponse = ConnectionListResult;
 
 /** Optional parameters. */
-export interface ConnectionTypeDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionTypeDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ConnectionTypeGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionTypeGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectionTypeGetResponse = ConnectionType;
 
 /** Optional parameters. */
-export interface ConnectionTypeCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionTypeCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ConnectionTypeCreateOrUpdateResponse = ConnectionType;
@@ -4038,38 +3998,32 @@ export interface ConnectionTypeListByAutomationAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type ConnectionTypeListByAutomationAccountResponse =
-  ConnectionTypeListResult;
+export type ConnectionTypeListByAutomationAccountResponse = ConnectionTypeListResult;
 
 /** Optional parameters. */
 export interface ConnectionTypeListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type ConnectionTypeListByAutomationAccountNextResponse =
-  ConnectionTypeListResult;
+export type ConnectionTypeListByAutomationAccountNextResponse = ConnectionTypeListResult;
 
 /** Optional parameters. */
-export interface CredentialDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CredentialGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CredentialGetResponse = Credential;
 
 /** Optional parameters. */
-export interface CredentialCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CredentialCreateOrUpdateResponse = Credential;
 
 /** Optional parameters. */
-export interface CredentialUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CredentialUpdateResponse = Credential;
@@ -4086,16 +4040,13 @@ export interface CredentialListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type CredentialListByAutomationAccountNextResponse =
-  CredentialListResult;
+export type CredentialListByAutomationAccountNextResponse = CredentialListResult;
 
 /** Optional parameters. */
-export interface DscConfigurationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscConfigurationDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DscConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscConfigurationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DscConfigurationGetResponse = DscConfiguration;
@@ -4112,15 +4063,13 @@ export interface DscConfigurationCreateOrUpdate$jsonOptionalParams
 export type DscConfigurationCreateOrUpdateResponse = DscConfiguration;
 
 /** Optional parameters. */
-export interface DscConfigurationUpdate$textOptionalParams
-  extends coreClient.OperationOptions {
+export interface DscConfigurationUpdate$textOptionalParams extends coreClient.OperationOptions {
   /** The create or update parameters for configuration. */
   parameters?: string;
 }
 
 /** Optional parameters. */
-export interface DscConfigurationUpdate$jsonOptionalParams
-  extends coreClient.OperationOptions {
+export interface DscConfigurationUpdate$jsonOptionalParams extends coreClient.OperationOptions {
   /** The create or update parameters for configuration. */
   parameters?: DscConfigurationUpdateParameters;
 }
@@ -4129,8 +4078,7 @@ export interface DscConfigurationUpdate$jsonOptionalParams
 export type DscConfigurationUpdateResponse = DscConfiguration;
 
 /** Optional parameters. */
-export interface DscConfigurationGetContentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscConfigurationGetContentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContent operation. */
 export type DscConfigurationGetContentResponse = {
@@ -4152,24 +4100,20 @@ export interface DscConfigurationListByAutomationAccountOptionalParams
 }
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type DscConfigurationListByAutomationAccountResponse =
-  DscConfigurationListResult;
+export type DscConfigurationListByAutomationAccountResponse = DscConfigurationListResult;
 
 /** Optional parameters. */
 export interface DscConfigurationListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type DscConfigurationListByAutomationAccountNextResponse =
-  DscConfigurationListResult;
+export type DscConfigurationListByAutomationAccountNextResponse = DscConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscNodeConfigurationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscNodeConfigurationDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DscNodeConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DscNodeConfigurationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DscNodeConfigurationGetResponse = DscNodeConfiguration;
@@ -4197,8 +4141,7 @@ export interface DscNodeConfigurationListByAutomationAccountOptionalParams
 }
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type DscNodeConfigurationListByAutomationAccountResponse =
-  DscNodeConfigurationListResult;
+export type DscNodeConfigurationListByAutomationAccountResponse = DscNodeConfigurationListResult;
 
 /** Optional parameters. */
 export interface DscNodeConfigurationListByAutomationAccountNextOptionalParams
@@ -4209,26 +4152,22 @@ export type DscNodeConfigurationListByAutomationAccountNextResponse =
   DscNodeConfigurationListResult;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkersDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HybridRunbookWorkersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HybridRunbookWorkersGetResponse = HybridRunbookWorker;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkersCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkersCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type HybridRunbookWorkersCreateResponse = HybridRunbookWorker;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkersPatchOptionalParams
-  extends coreClient.OperationOptions {
+export interface HybridRunbookWorkersPatchOptionalParams extends coreClient.OperationOptions {
   /** The create or update parameters for hybrid runbook worker. */
   hybridRunbookWorkerCreationParameters?: HybridRunbookWorkerCreateParameters;
 }
@@ -4237,8 +4176,7 @@ export interface HybridRunbookWorkersPatchOptionalParams
 export type HybridRunbookWorkersPatchResponse = HybridRunbookWorker;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkersMoveOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkersMoveOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
@@ -4260,26 +4198,22 @@ export type HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse =
   HybridRunbookWorkersListResult;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkerGroupDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkerGroupDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HybridRunbookWorkerGroupGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkerGroupGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HybridRunbookWorkerGroupGetResponse = HybridRunbookWorkerGroup;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkerGroupCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkerGroupCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type HybridRunbookWorkerGroupCreateResponse = HybridRunbookWorkerGroup;
 
 /** Optional parameters. */
-export interface HybridRunbookWorkerGroupUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HybridRunbookWorkerGroupUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type HybridRunbookWorkerGroupUpdateResponse = HybridRunbookWorkerGroup;
@@ -4304,8 +4238,7 @@ export type HybridRunbookWorkerGroupListByAutomationAccountNextResponse =
   HybridRunbookWorkerGroupsListResult;
 
 /** Optional parameters. */
-export interface JobGetOutputOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobGetOutputOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4317,8 +4250,7 @@ export type JobGetOutputResponse = {
 };
 
 /** Optional parameters. */
-export interface JobGetRunbookContentOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobGetRunbookContentOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4360,8 +4292,7 @@ export interface JobCreateOptionalParams extends coreClient.OperationOptions {
 export type JobCreateResponse = Job;
 
 /** Optional parameters. */
-export interface JobListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
   /** The filter to apply on the operation. */
@@ -4378,8 +4309,7 @@ export interface JobResumeOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface JobListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4388,8 +4318,7 @@ export interface JobListByAutomationAccountNextOptionalParams
 export type JobListByAutomationAccountNextResponse = JobListResultV2;
 
 /** Optional parameters. */
-export interface JobStreamGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobStreamGetOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4398,8 +4327,7 @@ export interface JobStreamGetOptionalParams
 export type JobStreamGetResponse = JobStream;
 
 /** Optional parameters. */
-export interface JobStreamListByJobOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobStreamListByJobOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
   /** The filter to apply on the operation. */
@@ -4410,8 +4338,7 @@ export interface JobStreamListByJobOptionalParams
 export type JobStreamListByJobResponse = JobStreamListResult;
 
 /** Optional parameters. */
-export interface JobStreamListByJobNextOptionalParams
-  extends coreClient.OperationOptions {
+export interface JobStreamListByJobNextOptionalParams extends coreClient.OperationOptions {
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4420,19 +4347,16 @@ export interface JobStreamListByJobNextOptionalParams
 export type JobStreamListByJobNextResponse = JobStreamListResult;
 
 /** Optional parameters. */
-export interface JobScheduleDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobScheduleDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface JobScheduleGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobScheduleGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type JobScheduleGetResponse = JobSchedule;
 
 /** Optional parameters. */
-export interface JobScheduleCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface JobScheduleCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type JobScheduleCreateResponse = JobSchedule;
@@ -4452,40 +4376,34 @@ export interface JobScheduleListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type JobScheduleListByAutomationAccountNextResponse =
-  JobScheduleListResult;
+export type JobScheduleListByAutomationAccountNextResponse = JobScheduleListResult;
 
 /** Optional parameters. */
-export interface LinkedWorkspaceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LinkedWorkspaceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LinkedWorkspaceGetResponse = LinkedWorkspace;
 
 /** Optional parameters. */
-export interface ActivityGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ActivityGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ActivityGetResponse = Activity;
 
 /** Optional parameters. */
-export interface ActivityListByModuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ActivityListByModuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByModule operation. */
 export type ActivityListByModuleResponse = ActivityListResult;
 
 /** Optional parameters. */
-export interface ActivityListByModuleNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ActivityListByModuleNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByModuleNext operation. */
 export type ActivityListByModuleNextResponse = ActivityListResult;
 
 /** Optional parameters. */
-export interface ModuleDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModuleDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ModuleGetOptionalParams extends coreClient.OperationOptions {}
@@ -4494,22 +4412,19 @@ export interface ModuleGetOptionalParams extends coreClient.OperationOptions {}
 export type ModuleGetResponse = Module;
 
 /** Optional parameters. */
-export interface ModuleCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModuleCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ModuleCreateOrUpdateResponse = Module;
 
 /** Optional parameters. */
-export interface ModuleUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModuleUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ModuleUpdateResponse = Module;
 
 /** Optional parameters. */
-export interface ModuleListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModuleListByAutomationAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
 export type ModuleListByAutomationAccountResponse = ModuleListResult;
@@ -4526,8 +4441,7 @@ export interface ObjectDataTypesListFieldsByModuleAndTypeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFieldsByModuleAndType operation. */
-export type ObjectDataTypesListFieldsByModuleAndTypeResponse =
-  TypeFieldListResult;
+export type ObjectDataTypesListFieldsByModuleAndTypeResponse = TypeFieldListResult;
 
 /** Optional parameters. */
 export interface ObjectDataTypesListFieldsByTypeOptionalParams
@@ -4537,29 +4451,25 @@ export interface ObjectDataTypesListFieldsByTypeOptionalParams
 export type ObjectDataTypesListFieldsByTypeResponse = TypeFieldListResult;
 
 /** Optional parameters. */
-export interface FieldsListByTypeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FieldsListByTypeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByType operation. */
 export type FieldsListByTypeResponse = TypeFieldListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ConvertGraphRunbookContentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConvertGraphRunbookContentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the convertGraphRunbookContent operation. */
 export type ConvertGraphRunbookContentResponse = GraphicalRunbookContent;
 
 /** Optional parameters. */
-export interface PackageDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PackageDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PackageGetOptionalParams extends coreClient.OperationOptions {}
@@ -4568,15 +4478,13 @@ export interface PackageGetOptionalParams extends coreClient.OperationOptions {}
 export type PackageGetResponse = Package;
 
 /** Optional parameters. */
-export interface PackageCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PackageCreateOrUpdateResponse = Package;
 
 /** Optional parameters. */
-export interface PackageUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PackageUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type PackageUpdateResponse = Package;
@@ -4604,8 +4512,7 @@ export type PrivateEndpointConnectionsListByAutomationAccountResponse =
   PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -4620,8 +4527,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -4633,30 +4539,25 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse =
-  PrivateEndpointConnectionsDeleteHeaders;
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
-export interface Python2PackageDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python2PackageDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface Python2PackageGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python2PackageGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type Python2PackageGetResponse = Module;
 
 /** Optional parameters. */
-export interface Python2PackageCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python2PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type Python2PackageCreateOrUpdateResponse = Module;
 
 /** Optional parameters. */
-export interface Python2PackageUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python2PackageUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type Python2PackageUpdateResponse = Module;
@@ -4673,30 +4574,25 @@ export interface Python2PackageListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type Python2PackageListByAutomationAccountNextResponse =
-  ModuleListResult;
+export type Python2PackageListByAutomationAccountNextResponse = ModuleListResult;
 
 /** Optional parameters. */
-export interface Python3PackageDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python3PackageDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface Python3PackageGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python3PackageGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type Python3PackageGetResponse = Module;
 
 /** Optional parameters. */
-export interface Python3PackageCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python3PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type Python3PackageCreateOrUpdateResponse = Module;
 
 /** Optional parameters. */
-export interface Python3PackageUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface Python3PackageUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type Python3PackageUpdateResponse = Module;
@@ -4713,12 +4609,10 @@ export interface Python3PackageListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type Python3PackageListByAutomationAccountNextResponse =
-  ModuleListResult;
+export type Python3PackageListByAutomationAccountNextResponse = ModuleListResult;
 
 /** Optional parameters. */
-export interface RunbookDraftGetContentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookDraftGetContentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContent operation. */
 export type RunbookDraftGetContentResponse = {
@@ -4727,8 +4621,7 @@ export type RunbookDraftGetContentResponse = {
 };
 
 /** Optional parameters. */
-export interface RunbookDraftReplaceContentOptionalParams
-  extends coreClient.OperationOptions {
+export interface RunbookDraftReplaceContentOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4754,22 +4647,19 @@ export type RunbookDraftReplaceContentResponse = {
 };
 
 /** Optional parameters. */
-export interface RunbookDraftGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookDraftGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RunbookDraftGetResponse = RunbookDraft;
 
 /** Optional parameters. */
-export interface RunbookDraftUndoEditOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookDraftUndoEditOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the undoEdit operation. */
 export type RunbookDraftUndoEditResponse = RunbookDraftUndoEditResult;
 
 /** Optional parameters. */
-export interface RunbookPublishOptionalParams
-  extends coreClient.OperationOptions {
+export interface RunbookPublishOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4780,8 +4670,7 @@ export interface RunbookPublishOptionalParams
 export type RunbookPublishResponse = RunbookPublishHeaders;
 
 /** Optional parameters. */
-export interface RunbookGetContentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookGetContentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContent operation. */
 export type RunbookGetContentResponse = {
@@ -4796,26 +4685,22 @@ export interface RunbookGetOptionalParams extends coreClient.OperationOptions {}
 export type RunbookGetResponse = Runbook;
 
 /** Optional parameters. */
-export interface RunbookCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type RunbookCreateOrUpdateResponse = Runbook;
 
 /** Optional parameters. */
-export interface RunbookUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type RunbookUpdateResponse = Runbook;
 
 /** Optional parameters. */
-export interface RunbookDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RunbookListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunbookListByAutomationAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
 export type RunbookListByAutomationAccountResponse = RunbookListResult;
@@ -4828,15 +4713,13 @@ export interface RunbookListByAutomationAccountNextOptionalParams
 export type RunbookListByAutomationAccountNextResponse = RunbookListResult;
 
 /** Optional parameters. */
-export interface TestJobStreamsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TestJobStreamsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TestJobStreamsGetResponse = JobStream;
 
 /** Optional parameters. */
-export interface TestJobStreamsListByTestJobOptionalParams
-  extends coreClient.OperationOptions {
+export interface TestJobStreamsListByTestJobOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -4852,8 +4735,7 @@ export interface TestJobStreamsListByTestJobNextOptionalParams
 export type TestJobStreamsListByTestJobNextResponse = JobStreamListResult;
 
 /** Optional parameters. */
-export interface TestJobCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TestJobCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type TestJobCreateResponse = TestJob;
@@ -4865,38 +4747,31 @@ export interface TestJobGetOptionalParams extends coreClient.OperationOptions {}
 export type TestJobGetResponse = TestJob;
 
 /** Optional parameters. */
-export interface TestJobResumeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TestJobResumeOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TestJobStopOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TestJobStopOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TestJobSuspendOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TestJobSuspendOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RuntimeEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RuntimeEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type RuntimeEnvironmentsUpdateResponse = RuntimeEnvironment;
 
 /** Optional parameters. */
-export interface RuntimeEnvironmentsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RuntimeEnvironmentsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type RuntimeEnvironmentsCreateResponse = RuntimeEnvironment;
 
 /** Optional parameters. */
-export interface RuntimeEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RuntimeEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RuntimeEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RuntimeEnvironmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RuntimeEnvironmentsGetResponse = RuntimeEnvironment;
@@ -4906,41 +4781,35 @@ export interface RuntimeEnvironmentsListByAutomationAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type RuntimeEnvironmentsListByAutomationAccountResponse =
-  RuntimeEnvironmentListResult;
+export type RuntimeEnvironmentsListByAutomationAccountResponse = RuntimeEnvironmentListResult;
 
 /** Optional parameters. */
 export interface RuntimeEnvironmentsListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type RuntimeEnvironmentsListByAutomationAccountNextResponse =
-  RuntimeEnvironmentListResult;
+export type RuntimeEnvironmentsListByAutomationAccountNextResponse = RuntimeEnvironmentListResult;
 
 /** Optional parameters. */
-export interface ScheduleCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScheduleCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ScheduleCreateOrUpdateResponse = Schedule;
 
 /** Optional parameters. */
-export interface ScheduleUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScheduleUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ScheduleUpdateResponse = Schedule;
 
 /** Optional parameters. */
-export interface ScheduleGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScheduleGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScheduleGetResponse = Schedule;
 
 /** Optional parameters. */
-export interface ScheduleDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScheduleDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ScheduleListByAutomationAccountOptionalParams
@@ -4992,8 +4861,7 @@ export interface SoftwareUpdateConfigurationRunsGetByIdOptionalParams
 }
 
 /** Contains response data for the getById operation. */
-export type SoftwareUpdateConfigurationRunsGetByIdResponse =
-  SoftwareUpdateConfigurationRun;
+export type SoftwareUpdateConfigurationRunsGetByIdResponse = SoftwareUpdateConfigurationRun;
 
 /** Optional parameters. */
 export interface SoftwareUpdateConfigurationRunsListOptionalParams
@@ -5009,30 +4877,25 @@ export interface SoftwareUpdateConfigurationRunsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SoftwareUpdateConfigurationRunsListResponse =
-  SoftwareUpdateConfigurationRunListResult;
+export type SoftwareUpdateConfigurationRunsListResponse = SoftwareUpdateConfigurationRunListResult;
 
 /** Optional parameters. */
-export interface SourceControlCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type SourceControlCreateOrUpdateResponse = SourceControl;
 
 /** Optional parameters. */
-export interface SourceControlUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type SourceControlUpdateResponse = SourceControl;
 
 /** Optional parameters. */
-export interface SourceControlDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SourceControlGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SourceControlGetResponse = SourceControl;
@@ -5045,27 +4908,23 @@ export interface SourceControlListByAutomationAccountOptionalParams
 }
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type SourceControlListByAutomationAccountResponse =
-  SourceControlListResult;
+export type SourceControlListByAutomationAccountResponse = SourceControlListResult;
 
 /** Optional parameters. */
 export interface SourceControlListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
-export type SourceControlListByAutomationAccountNextResponse =
-  SourceControlListResult;
+export type SourceControlListByAutomationAccountNextResponse = SourceControlListResult;
 
 /** Optional parameters. */
-export interface SourceControlSyncJobCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlSyncJobCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SourceControlSyncJobCreateResponse = SourceControlSyncJob;
 
 /** Optional parameters. */
-export interface SourceControlSyncJobGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlSyncJobGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SourceControlSyncJobGetResponse = SourceControlSyncJobById;
@@ -5078,8 +4937,7 @@ export interface SourceControlSyncJobListByAutomationAccountOptionalParams
 }
 
 /** Contains response data for the listByAutomationAccount operation. */
-export type SourceControlSyncJobListByAutomationAccountResponse =
-  SourceControlSyncJobListResult;
+export type SourceControlSyncJobListByAutomationAccountResponse = SourceControlSyncJobListResult;
 
 /** Optional parameters. */
 export interface SourceControlSyncJobListByAutomationAccountNextOptionalParams
@@ -5101,12 +4959,10 @@ export type SourceControlSyncJobStreamsListBySyncJobResponse =
   SourceControlSyncJobStreamsListBySyncJob;
 
 /** Optional parameters. */
-export interface SourceControlSyncJobStreamsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SourceControlSyncJobStreamsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SourceControlSyncJobStreamsGetResponse =
-  SourceControlSyncJobStreamById;
+export type SourceControlSyncJobStreamsGetResponse = SourceControlSyncJobStreamById;
 
 /** Optional parameters. */
 export interface SourceControlSyncJobStreamsListBySyncJobNextOptionalParams
@@ -5117,26 +4973,22 @@ export type SourceControlSyncJobStreamsListBySyncJobNextResponse =
   SourceControlSyncJobStreamsListBySyncJob;
 
 /** Optional parameters. */
-export interface VariableCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VariableCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type VariableCreateOrUpdateResponse = Variable;
 
 /** Optional parameters. */
-export interface VariableUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VariableUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type VariableUpdateResponse = Variable;
 
 /** Optional parameters. */
-export interface VariableDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VariableDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface VariableGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VariableGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VariableGetResponse = Variable;
@@ -5156,8 +5008,7 @@ export interface VariableListByAutomationAccountNextOptionalParams
 export type VariableListByAutomationAccountNextResponse = VariableListResult;
 
 /** Optional parameters. */
-export interface WatcherCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WatcherCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type WatcherCreateOrUpdateResponse = Watcher;
@@ -5169,27 +5020,22 @@ export interface WatcherGetOptionalParams extends coreClient.OperationOptions {}
 export type WatcherGetResponse = Watcher;
 
 /** Optional parameters. */
-export interface WatcherUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WatcherUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type WatcherUpdateResponse = Watcher;
 
 /** Optional parameters. */
-export interface WatcherDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WatcherDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WatcherStartOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WatcherStartOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WatcherStopOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WatcherStopOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WatcherListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface WatcherListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -5205,8 +5051,7 @@ export interface WatcherListByAutomationAccountNextOptionalParams
 export type WatcherListByAutomationAccountNextResponse = WatcherListResult;
 
 /** Optional parameters. */
-export interface WebhookGenerateUriOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhookGenerateUriOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateUri operation. */
 export type WebhookGenerateUriResponse = {
@@ -5215,8 +5060,7 @@ export type WebhookGenerateUriResponse = {
 };
 
 /** Optional parameters. */
-export interface WebhookDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhookDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebhookGetOptionalParams extends coreClient.OperationOptions {}
@@ -5225,22 +5069,19 @@ export interface WebhookGetOptionalParams extends coreClient.OperationOptions {}
 export type WebhookGetResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhookCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhookCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type WebhookCreateOrUpdateResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhookUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhookUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type WebhookUpdateResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhookListByAutomationAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebhookListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
   filter?: string;
 }
@@ -5256,8 +5097,7 @@ export interface WebhookListByAutomationAccountNextOptionalParams
 export type WebhookListByAutomationAccountNextResponse = WebhookListResult;
 
 /** Optional parameters. */
-export interface AutomationClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AutomationClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
