@@ -61,8 +61,6 @@ jobs:
       - template: ../variables/globals.yml
       - name: ArmTemplateParameters
         value: '@{}'
-      - name: AdditionalParameters
-        value: '@{}'
 
     pool:
       name: $(Pool)
@@ -103,7 +101,6 @@ jobs:
               ServiceDirectory: '${{ directory }}'
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               ArmTemplateParameters: $(ArmTemplateParameters)
-              AdditionalParameters: $(AdditionalParameters)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               PersistOidcToken: ${{ parameters.PersistOidcToken }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
