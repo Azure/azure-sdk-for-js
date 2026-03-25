@@ -345,7 +345,7 @@ async function mergeBatchChunk(
   const mergeSchema = JSON.stringify(MergeResponse.toJSONSchema(), null, 2);
   const attachments: SendAttachment[] = [];
   const existingSection = existing
-    ? `Existing file is attached as \`${relPath}\`. Preserve all existing tests unchanged.`
+    ? `Existing file is attached as \`${relPath}\` AND included inline below. Preserve all existing tests unchanged.\n\n<existing_test_file file="${relPath}">\n${existing}\n</existing_test_file>`
     : "This file does not exist yet. Merge the generated batches below into a single new test file.";
   if (existing) {
     attachments.push({
@@ -385,7 +385,7 @@ async function mergeBatchChunk(
         displayName,
         content: code,
       });
-      return `- Generated batch ${index + 1} is attached as \`${displayName}\``;
+      return `- Generated batch ${index + 1} is attached as \`${displayName}\` AND included inline below:\n\n<generated_batch index="${index + 1}">\n${code}\n</generated_batch>`;
     })
     .join("\n");
   const prompt = await renderPromptTemplate("merge-generated-batches.md", {
@@ -406,7 +406,22 @@ async function mergeBatchChunk(
   });
   llmStats.push({ inputTokens, outputTokens, durationMs });
   const result = MergeResponse.parse(parseJsonResponse(content));
-  return result.code;
+
+  // Guard: reject placeholder / stub merges that lost real test content
+  const code = result.code;
+  const placeholderPatterns = [
+    /placeholder.*test/i,
+    /could not be reconstructed/i,
+    /replace with.*merged/i,
+    /pytest\.skip\(.*(placeholder|replace)/i,
+  ];
+  if (placeholderPatterns.some((p) => p.test(code))) {
+    throw new Error(
+      `Merge produced placeholder output for ${relPath} — rejecting to preserve existing tests`,
+    );
+  }
+
+  return code;
 }
 
 async function mergeBatchChunkWithRetry(
@@ -545,8 +560,8 @@ async function writeAndFix(
       content: "",
     },
   ];
-  const sourceSection = sourceCode
-    ? `\n## Source Under Test\n\nAttached as \`${sourceFile}\`.\n`
+  const sourceSection = sourceCode && sourceFile
+    ? `\n## Source Under Test\n\nAttached as \`${sourceFile}\` AND included inline below. Use it to verify constructor signatures, importable symbols, and method names.\n\n<source_code file="${sourceFile}">\n${sourceCode}\n</source_code>\n`
     : "";
   const existingSuiteSection = existingTestsSnippet
     ? `\n## Existing Suite Example\n\nAttached as \`${existingTestFile ?? "existing suite example"}\`.\n`
@@ -585,9 +600,27 @@ async function writeAndFix(
     currentCode: string;
     errors: string;
     passed: boolean;
+    /** Fingerprint of the previous error to detect repeated identical failures. */
+    lastErrorSig?: string;
+    /** Number of times the same error signature has appeared consecutively. */
+    repeatCount: number;
   }
 
-  const ctx: FixContext = { currentCode: code, errors: "", passed: false };
+  const ctx: FixContext = { currentCode: code, errors: "", passed: false, repeatCount: 0 };
+
+  /** Extract a short fingerprint from test errors for repeat detection. */
+  function errorSignature(output: string): string {
+    // Use the first FAILED/ERROR line + the immediately following exception line
+    const lines = output.split("\n");
+    const sig: string[] = [];
+    for (let i = 0; i < lines.length && sig.length < 3; i++) {
+      const l = lines[i].trim();
+      if (/^(FAILED|ERROR|E\s)/.test(l) || /Error[:,]/.test(l)) {
+        sig.push(l.slice(0, 120));
+      }
+    }
+    return sig.join("|");
+  }
 
   await loop<FixContext>(
     {
@@ -604,6 +637,21 @@ async function writeAndFix(
         // Log first few lines of error for diagnostics
         const errorPreview = result.output.split("\n").slice(0, 5).join("\n");
         log(`        💬 ${errorPreview.replace(/\n/g, "\n        💬 ")}`);
+
+        // Early exit: if the same error repeats 2x in a row, bail — LLM is stuck
+        const sig = errorSignature(result.output);
+        if (sig && sig === ctx.lastErrorSig) {
+          ctx.repeatCount++;
+          if (ctx.repeatCount >= 2) {
+            log("    🔁 Same error repeated — LLM is stuck, bailing early to save quota");
+            await deepLog("file_event", "fix_bail_repeat", { file: relPath, repeatCount: ctx.repeatCount });
+            return true; // stop the loop
+          }
+        } else {
+          ctx.repeatCount = 0;
+        }
+        ctx.lastErrorSig = sig;
+
         await deepLog("file_event", "fix_fail", {
           file: relPath,
           errorLen: result.output.length,
@@ -618,12 +666,12 @@ async function writeAndFix(
           : "";
         const prompt = await renderPromptTemplate("fix-generated-test.md", {
           relPath,
-          testFileSection: `Attached as \`${relPath}\`.`,
+          testFileSection: `Attached as \`${relPath}\` AND included inline below.\n\n<current_test_file file="${relPath}">\n${ctx.currentCode}\n</current_test_file>`,
           sourceSection,
           existingSuiteSection,
           contextSection,
           escalationSection,
-          errorSection: `Attached as \`${relPath} test errors\`.`,
+          errorSection: `\n<test_errors>\n${ctx.errors}\n</test_errors>`,
           jsonSchema: fixSchema,
         });
 

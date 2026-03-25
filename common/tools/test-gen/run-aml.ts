@@ -37,8 +37,9 @@ async function main() {
       },
       loop: {
         maxGapFiles: 20,
-        gapBatchSize: 5,
-        fixMaxIterations: 3,
+        gapBatchSize: 10,
+        fixMaxIterations: 5,
+        maxBatchesPerFile: 5,
       },
     },
     onProgress: console.log,
