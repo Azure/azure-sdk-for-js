@@ -193,7 +193,12 @@ describe("Sample: analyzeUrl", () => {
     const fullResult = await fullPoller.pollUntilDone();
     assert.ok(fullResult.contents);
     assert.ok(fullResult.contents.length > 0);
-    console.log(`Full video: ${fullResult.contents.length} segment(s)`);
+    const fullSegments = fullResult.contents.map((c) => c as AudioVisualContent);
+    const fullTotalDuration = fullSegments.reduce(
+      (sum, s) => sum + ((s.endTimeMs ?? 0) - (s.startTimeMs ?? 0)),
+      0,
+    );
+    console.log(`Full video: ${fullSegments.length} segment(s), ${fullTotalDuration} ms`);
 
     // "0-5000" — first 5 seconds
     console.log("\nAnalyzing first 5 seconds with content range '0-5000'...");
@@ -204,17 +209,23 @@ describe("Sample: analyzeUrl", () => {
     );
     const rangeResult = await rangePoller.pollUntilDone();
     assert.ok(rangeResult.contents);
-    assert.ok(rangeResult.contents.length > 0, "'0-5000' should return segments");
-    for (const content of rangeResult.contents) {
-      const av = content as AudioVisualContent;
+    const rangeSegments = rangeResult.contents.map((c) => c as AudioVisualContent);
+    assert.ok(rangeSegments.length > 0, "'0-5000' should return segments");
+    for (const seg of rangeSegments) {
       assert.ok(
-        (av.endTimeMs ?? 0) > (av.startTimeMs ?? 0),
-        "Segment should have endTimeMs > startTimeMs",
+        (seg.endTimeMs ?? 0) > (seg.startTimeMs ?? 0),
+        `Segment should have endTimeMs > startTimeMs, got ${seg.startTimeMs}-${seg.endTimeMs}`,
       );
-      assert.ok((av.startTimeMs ?? 0) >= 0, `'0-5000' segment startTimeMs should be >= 0`);
-      assert.ok((av.endTimeMs ?? 0) <= 5000, `'0-5000' segment endTimeMs should be <= 5000`);
+      assert.ok(
+        (seg.startTimeMs ?? 0) >= 0,
+        `'0-5000' segment startTimeMs (${seg.startTimeMs} ms) should be >= 0 ms`,
+      );
+      assert.ok(
+        (seg.endTimeMs ?? 0) <= 5000,
+        `'0-5000' segment endTimeMs (${seg.endTimeMs} ms) should be <= 5000 ms`,
+      );
     }
-    console.log(`'0-5000': ${rangeResult.contents.length} segment(s)`);
+    console.log(`'0-5000': ${rangeSegments.length} segment(s)`);
 
     // "10000-" — from 10 seconds onward
     console.log("\nAnalyzing from 10 seconds onward with content range '10000-'...");
@@ -225,17 +236,20 @@ describe("Sample: analyzeUrl", () => {
     );
     const fromResult = await fromPoller.pollUntilDone();
     assert.ok(fromResult.contents);
-    assert.ok(fromResult.contents.length > 0, "'10000-' should return segments");
-    for (const content of fromResult.contents) {
-      const av = content as AudioVisualContent;
+    const fromSegments = fromResult.contents.map((c) => c as AudioVisualContent);
+    assert.ok(fromSegments.length > 0, "'10000-' should return segments");
+    for (const seg of fromSegments) {
       assert.ok(
-        (av.endTimeMs ?? 0) > (av.startTimeMs ?? 0),
-        "Segment should have endTimeMs > startTimeMs",
+        (seg.endTimeMs ?? 0) > (seg.startTimeMs ?? 0),
+        `Segment should have endTimeMs > startTimeMs, got ${seg.startTimeMs}-${seg.endTimeMs}`,
       );
-      assert.ok(av.markdown, "Segment should have markdown");
-      assert.ok((av.startTimeMs ?? 0) >= 10000, `'10000-' segment startTimeMs should be >= 10000`);
+      assert.ok(seg.markdown, "Segment should have markdown");
+      assert.ok(
+        (seg.startTimeMs ?? 0) >= 10000,
+        `'10000-' segment startTimeMs (${seg.startTimeMs} ms) should be >= 10000 ms`,
+      );
     }
-    console.log(`'10000-': ${fromResult.contents.length} segment(s)`);
+    console.log(`'10000-': ${fromSegments.length} segment(s)`);
 
     // "1200-3651" — sub-second precision
     console.log(
@@ -248,17 +262,23 @@ describe("Sample: analyzeUrl", () => {
     );
     const subsecResult = await subsecPoller.pollUntilDone();
     assert.ok(subsecResult.contents);
-    assert.ok(subsecResult.contents.length > 0, "'1200-3651' should return segments");
-    for (const content of subsecResult.contents) {
-      const av = content as AudioVisualContent;
+    const subsecSegments = subsecResult.contents.map((c) => c as AudioVisualContent);
+    assert.ok(subsecSegments.length > 0, "'1200-3651' should return segments");
+    for (const seg of subsecSegments) {
       assert.ok(
-        (av.endTimeMs ?? 0) > (av.startTimeMs ?? 0),
-        "Segment should have endTimeMs > startTimeMs",
+        (seg.endTimeMs ?? 0) > (seg.startTimeMs ?? 0),
+        `Segment should have endTimeMs > startTimeMs, got ${seg.startTimeMs}-${seg.endTimeMs}`,
       );
-      assert.ok((av.startTimeMs ?? 0) >= 1200, `'1200-3651' segment startTimeMs should be >= 1200`);
-      assert.ok((av.endTimeMs ?? 0) <= 3651, `'1200-3651' segment endTimeMs should be <= 3651`);
+      assert.ok(
+        (seg.startTimeMs ?? 0) >= 1200,
+        `'1200-3651' segment startTimeMs (${seg.startTimeMs} ms) should be >= 1200 ms`,
+      );
+      assert.ok(
+        (seg.endTimeMs ?? 0) <= 3651,
+        `'1200-3651' segment endTimeMs (${seg.endTimeMs} ms) should be <= 3651 ms`,
+      );
     }
-    console.log(`'1200-3651': ${subsecResult.contents.length} segment(s)`);
+    console.log(`'1200-3651': ${subsecSegments.length} segment(s)`);
 
     // "0-3000,30000-" — combined time ranges
     console.log(
@@ -271,16 +291,16 @@ describe("Sample: analyzeUrl", () => {
     );
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);
-    assert.ok(combineResult.contents.length > 0, "'0-3000,30000-' should return segments");
-    for (const content of combineResult.contents) {
-      const av = content as AudioVisualContent;
+    const combineSegments = combineResult.contents.map((c) => c as AudioVisualContent);
+    assert.ok(combineSegments.length > 0, "'0-3000,30000-' should return segments");
+    for (const seg of combineSegments) {
       assert.ok(
-        (av.endTimeMs ?? 0) > (av.startTimeMs ?? 0),
-        "Segment should have endTimeMs > startTimeMs",
+        (seg.endTimeMs ?? 0) > (seg.startTimeMs ?? 0),
+        `Segment should have endTimeMs > startTimeMs, got ${seg.startTimeMs}-${seg.endTimeMs}`,
       );
-      assert.ok(av.markdown, "Segment should have markdown");
-      const segStart = av.startTimeMs ?? 0;
-      const segEnd = av.endTimeMs ?? 0;
+      assert.ok(seg.markdown, "Segment should have markdown");
+      const segStart = seg.startTimeMs ?? 0;
+      const segEnd = seg.endTimeMs ?? 0;
       const inFirstRange = segStart >= 0 && segEnd <= 3000;
       const inSecondRange = segStart >= 30000;
       assert.ok(
@@ -288,7 +308,7 @@ describe("Sample: analyzeUrl", () => {
         `'0-3000,30000-' segment (${segStart}-${segEnd} ms) should fall within 0-3000 ms or >= 30000 ms`,
       );
     }
-    console.log(`'0-3000,30000-': ${combineResult.contents.length} segment(s)`);
+    console.log(`'0-3000,30000-': ${combineSegments.length} segment(s)`);
   });
 
   it("should analyze audio URL with content ranges", async () => {
@@ -322,10 +342,16 @@ describe("Sample: analyzeUrl", () => {
     const rangeAudio = rangeResult.contents[0] as AudioVisualContent;
     assert.ok(
       (rangeAudio.endTimeMs ?? 0) > (rangeAudio.startTimeMs ?? 0),
-      "'0-5000' should have endTimeMs > startTimeMs",
+      `'0-5000' should have endTimeMs > startTimeMs, got ${rangeAudio.startTimeMs}-${rangeAudio.endTimeMs}`,
     );
-    assert.ok((rangeAudio.startTimeMs ?? 0) >= 0, "'0-5000' audio startTimeMs should be >= 0");
-    assert.ok((rangeAudio.endTimeMs ?? 0) <= 5000, "'0-5000' audio endTimeMs should be <= 5000");
+    assert.ok(
+      (rangeAudio.startTimeMs ?? 0) >= 0,
+      `'0-5000' audio startTimeMs (${rangeAudio.startTimeMs} ms) should be >= 0 ms`,
+    );
+    assert.ok(
+      (rangeAudio.endTimeMs ?? 0) <= 5000,
+      `'0-5000' audio endTimeMs (${rangeAudio.endTimeMs} ms) should be <= 5000 ms`,
+    );
     assert.ok(rangeAudio.markdown, "'0-5000' should have markdown");
     assert.ok(rangeAudio.markdown!.length > 0, "'0-5000' markdown should not be empty");
     const rangeDuration = (rangeAudio.endTimeMs ?? 0) - (rangeAudio.startTimeMs ?? 0);
@@ -347,11 +373,11 @@ describe("Sample: analyzeUrl", () => {
     const fromAudio = fromResult.contents[0] as AudioVisualContent;
     assert.ok(
       (fromAudio.endTimeMs ?? 0) > (fromAudio.startTimeMs ?? 0),
-      "'10000-' should have endTimeMs > startTimeMs",
+      `'10000-' should have endTimeMs > startTimeMs, got ${fromAudio.startTimeMs}-${fromAudio.endTimeMs}`,
     );
     assert.ok(
       (fromAudio.startTimeMs ?? 0) >= 10000,
-      "'10000-' audio startTimeMs should be >= 10000",
+      `'10000-' audio startTimeMs (${fromAudio.startTimeMs} ms) should be >= 10000 ms`,
     );
     assert.ok(fromAudio.markdown, "'10000-' should have markdown");
     console.log(`'10000-': ${fromAudio.markdown!.length} chars`);
@@ -370,15 +396,15 @@ describe("Sample: analyzeUrl", () => {
     const subsecAudio = subsecResult.contents[0] as AudioVisualContent;
     assert.ok(
       (subsecAudio.endTimeMs ?? 0) > (subsecAudio.startTimeMs ?? 0),
-      "'1200-3651' should have endTimeMs > startTimeMs",
+      `'1200-3651' should have endTimeMs > startTimeMs, got ${subsecAudio.startTimeMs}-${subsecAudio.endTimeMs}`,
     );
     assert.ok(
       (subsecAudio.startTimeMs ?? 0) >= 1200,
-      "'1200-3651' audio startTimeMs should be >= 1200",
+      `'1200-3651' audio startTimeMs (${subsecAudio.startTimeMs} ms) should be >= 1200 ms`,
     );
     assert.ok(
       (subsecAudio.endTimeMs ?? 0) <= 3651,
-      "'1200-3651' audio endTimeMs should be <= 3651",
+      `'1200-3651' audio endTimeMs (${subsecAudio.endTimeMs} ms) should be <= 3651 ms`,
     );
     assert.ok(subsecAudio.markdown, "'1200-3651' should have markdown");
     assert.ok(subsecAudio.markdown!.length > 0, "'1200-3651' markdown should not be empty");
@@ -403,7 +429,7 @@ describe("Sample: analyzeUrl", () => {
     const combineAudio = combineResult.contents[0] as AudioVisualContent;
     assert.ok(
       (combineAudio.endTimeMs ?? 0) > (combineAudio.startTimeMs ?? 0),
-      "'0-3000,30000-' should have endTimeMs > startTimeMs",
+      `'0-3000,30000-' should have endTimeMs > startTimeMs, got ${combineAudio.startTimeMs}-${combineAudio.endTimeMs}`,
     );
     assert.ok(combineAudio.markdown, "'0-3000,30000-' should have markdown");
     console.log(`'0-3000,30000-': ${combineAudio.markdown!.length} chars`);
