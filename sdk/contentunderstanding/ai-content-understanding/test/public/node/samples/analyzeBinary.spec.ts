@@ -184,6 +184,7 @@ describe("Sample: analyzeBinary", () => {
     );
     const range3Result = await range3Poller.pollUntilDone();
     assert.ok(range3Result.contents);
+    assert.ok(range3Result.contents.length > 0);
     const range3Doc = range3Result.contents[0] as DocumentContent;
     const range3PageCount = range3Doc.pages ? range3Doc.pages.length : 0;
     assert.equal(
