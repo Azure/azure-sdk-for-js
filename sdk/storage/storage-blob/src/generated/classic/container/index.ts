@@ -327,7 +327,6 @@ export interface ContainerOperations {
   >;
   /** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
   setAccessPolicy: (
-    containerAcl: SignedIdentifiers,
     options?: ContainerSetAccessPolicyOptionalParams,
   ) => Promise<
     {
@@ -517,10 +516,8 @@ function _getContainer(context: BlobContext) {
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>
       rename(context, sourceContainerName, options),
     restore: (options?: ContainerRestoreOptionalParams) => restore(context, options),
-    setAccessPolicy: (
-      containerAcl: SignedIdentifiers,
-      options?: ContainerSetAccessPolicyOptionalParams,
-    ) => setAccessPolicy(context, containerAcl, options),
+    setAccessPolicy: (options?: ContainerSetAccessPolicyOptionalParams) =>
+      setAccessPolicy(context, options),
     getAccessPolicy: (options?: ContainerGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
     setMetadata: (options?: ContainerSetMetadataOptionalParams) => setMetadata(context, options),

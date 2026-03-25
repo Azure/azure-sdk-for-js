@@ -1,0 +1,1261 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** System variables for a telemetry item. */
+export interface TelemetryItem {
+  /**
+   * Envelope version. For internal use only. By assigning this the default, it will
+   * not be serialized within the payload unless changed to a value other than #1.
+   */
+  version?: number;
+  /** Type name of telemetry data item. */
+  name: string;
+  /**
+   * Event date time when telemetry item was created. This is the wall clock time on
+   * the client when the event was generated. There is no guarantee that the
+   * client's time is accurate. This field must be formatted in UTC ISO 8601 format,
+   * with a trailing 'Z' character, as described publicly on
+   * https://en.wikipedia.org/wiki/ISO_8601#UTC. Note: the number of decimal seconds
+   * digits provided are variable (and unspecified). Consumers should handle this,
+   * i.e. managed code consumers should not use format 'O' for parsing as it
+   * specifies a fixed length. Example: 2009-06-15T13:45:30.0000000Z.
+   */
+  time: Date;
+  /**
+   * Sampling rate used in application. This telemetry item represents 100 /
+   * sampleRate actual telemetry items.
+   */
+  sampleRate?: number;
+  /** Sequence field used to track absolute order of uploaded events. */
+  sequence?: string;
+  /** The instrumentation key of the Application Insights resource. */
+  instrumentationKey?: string;
+  /**
+   * Key/value collection of context properties. See ContextTagKeys for information
+   * on available properties.
+   */
+  tags?: Record<string, string>;
+  /** Telemetry data item. */
+  data?: MonitorBase;
+}
+
+export function telemetryItemSerializer(item: TelemetryItem): any {
+  return {
+    ver: item["version"],
+    name: item["name"],
+    time: item["time"].toISOString(),
+    sampleRate: item["sampleRate"],
+    seq: item["sequence"],
+    iKey: item["instrumentationKey"],
+    tags: item["tags"],
+    data: !item["data"] ? item["data"] : monitorBaseSerializer(item["data"]),
+  };
+}
+
+/** Data struct to contain only C section with custom fields. */
+export interface MonitorBase {
+  /**
+   * Name of item (B section) if any. If telemetry data is derived straight from
+   * this, this should be null.
+   */
+  baseType?: string;
+  /** The data payload for the telemetry request */
+  baseData?: MonitorDomainUnion;
+}
+
+export function monitorBaseSerializer(item: MonitorBase): any {
+  return {
+    baseType: item["baseType"],
+    baseData: !item["baseData"] ? item["baseData"] : monitorDomainUnionSerializer(item["baseData"]),
+  };
+}
+
+/** The abstract common base of all domains. */
+export interface MonitorDomain {
+  /** Schema version */
+  version: number;
+  /** Discriminator property to identify the specific telemetry data type. */
+  /** The discriminator possible values: AvailabilityData, EventData, ExceptionData, MessageData, MetricsData, PageViewData, PageViewPerfData, RemoteDependencyData, RequestData */
+  readonly kind: MonitorDomainKind;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function monitorDomainSerializer(item: MonitorDomain): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}), ver: item["version"] };
+}
+
+export function monitorDomainDeserializer(item: any): MonitorDomain {
+  return {
+    additionalProperties: serializeRecord(item, ["version", "kind"]),
+    version: item["ver"],
+    kind: item["kind"],
+  };
+}
+
+/** Alias for MonitorDomainUnion */
+export type MonitorDomainUnion =
+  | AvailabilityData
+  | TelemetryEventData
+  | TelemetryExceptionData
+  | MessageData
+  | MetricsData
+  | PageViewData
+  | PageViewPerfData
+  | RemoteDependencyData
+  | RequestData
+  | MonitorDomain;
+
+export function monitorDomainUnionSerializer(item: MonitorDomainUnion): any {
+  switch (item.kind) {
+    case "AvailabilityData":
+      return availabilityDataSerializer(item as AvailabilityData);
+
+    case "EventData":
+      return telemetryEventDataSerializer(item as TelemetryEventData);
+
+    case "ExceptionData":
+      return telemetryExceptionDataSerializer(item as TelemetryExceptionData);
+
+    case "MessageData":
+      return messageDataSerializer(item as MessageData);
+
+    case "MetricsData":
+      return metricsDataSerializer(item as MetricsData);
+
+    case "PageViewData":
+      return pageViewDataSerializer(item as PageViewData);
+
+    case "PageViewPerfData":
+      return pageViewPerfDataSerializer(item as PageViewPerfData);
+
+    case "RemoteDependencyData":
+      return remoteDependencyDataSerializer(item as RemoteDependencyData);
+
+    case "RequestData":
+      return requestDataSerializer(item as RequestData);
+
+    default:
+      return monitorDomainSerializer(item);
+  }
+}
+
+export function monitorDomainUnionDeserializer(item: any): MonitorDomainUnion {
+  switch (item.kind) {
+    case "AvailabilityData":
+      return availabilityDataDeserializer(item as AvailabilityData);
+
+    case "EventData":
+      return telemetryEventDataDeserializer(item as TelemetryEventData);
+
+    case "ExceptionData":
+      return telemetryExceptionDataDeserializer(item as TelemetryExceptionData);
+
+    case "MessageData":
+      return messageDataDeserializer(item as MessageData);
+
+    case "MetricsData":
+      return metricsDataDeserializer(item as MetricsData);
+
+    case "PageViewData":
+      return pageViewDataDeserializer(item as PageViewData);
+
+    case "PageViewPerfData":
+      return pageViewPerfDataDeserializer(item as PageViewPerfData);
+
+    case "RemoteDependencyData":
+      return remoteDependencyDataDeserializer(item as RemoteDependencyData);
+
+    case "RequestData":
+      return requestDataDeserializer(item as RequestData);
+
+    default:
+      return monitorDomainDeserializer(item);
+  }
+}
+
+/** Identifies the specific telemetry data type. */
+export enum KnownMonitorDomainKind {
+  /** AvailabilityData type. */
+  AvailabilityData = "AvailabilityData",
+  /** EventData type. */
+  EventData = "EventData",
+  /** ExceptionData type. */
+  ExceptionData = "ExceptionData",
+  /** MessageData type. */
+  MessageData = "MessageData",
+  /** MetricsData type. */
+  MetricsData = "MetricsData",
+  /** PageViewData type. */
+  PageViewData = "PageViewData",
+  /** PageViewPerfData type. */
+  PageViewPerfData = "PageViewPerfData",
+  /** RemoteDependencyData type. */
+  RemoteDependencyData = "RemoteDependencyData",
+  /** RequestData type. */
+  RequestData = "RequestData",
+}
+
+/**
+ * Identifies the specific telemetry data type. \
+ * {@link KnownMonitorDomainKind} can be used interchangeably with MonitorDomainKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailabilityData**: AvailabilityData type. \
+ * **EventData**: EventData type. \
+ * **ExceptionData**: ExceptionData type. \
+ * **MessageData**: MessageData type. \
+ * **MetricsData**: MetricsData type. \
+ * **PageViewData**: PageViewData type. \
+ * **PageViewPerfData**: PageViewPerfData type. \
+ * **RemoteDependencyData**: RemoteDependencyData type. \
+ * **RequestData**: RequestData type.
+ */
+export type MonitorDomainKind = string;
+
+/**
+ * Instances of AvailabilityData represent the result of executing an availability
+ * test.
+ */
+export interface AvailabilityData extends MonitorDomain {
+  /** Discriminator value for AvailabilityData. */
+  readonly kind: "AvailabilityData";
+  /**
+   * Identifier of a test run. Use it to correlate steps of test run and telemetry
+   * generated by the service.
+   */
+  id: string;
+  /** Name of the test that these availability results represent. */
+  name: string;
+  /** Duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days. */
+  duration: string;
+  /** Success flag. */
+  success: boolean;
+  /** Name of the location where the test was run from. */
+  runLocation?: string;
+  /** Diagnostic message for the result. */
+  message?: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function availabilityDataSerializer(item: AvailabilityData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    id: item["id"],
+    name: item["name"],
+    duration: item["duration"],
+    success: item["success"],
+    runLocation: item["runLocation"],
+    message: item["message"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function availabilityDataDeserializer(item: any): AvailabilityData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "id",
+      "name",
+      "duration",
+      "success",
+      "runLocation",
+      "message",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    duration: item["duration"],
+    success: item["success"],
+    runLocation: item["runLocation"],
+    message: item["message"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * Instances of Event represent structured event records that can be grouped and
+ * searched by their properties. Event data item also creates a metric of event
+ * count by name.
+ */
+export interface TelemetryEventData extends MonitorDomain {
+  /** Discriminator value for EventData. */
+  readonly kind: "EventData";
+  /** Event name. Keep it low cardinality to allow proper grouping and useful metrics. */
+  name: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function telemetryEventDataSerializer(item: TelemetryEventData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    name: item["name"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function telemetryEventDataDeserializer(item: any): TelemetryEventData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "name",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    name: item["name"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * An instance of Exception represents a handled or unhandled exception that
+ * occurred during execution of the monitored application.
+ */
+export interface TelemetryExceptionData extends MonitorDomain {
+  /** Discriminator value for ExceptionData. */
+  readonly kind: "ExceptionData";
+  /** Exception chain - list of inner exceptions. */
+  exceptions: TelemetryExceptionDetails[];
+  /**
+   * Severity level. Mostly used to indicate exception severity level when it is
+   * reported by logging library.
+   */
+  severityLevel?: SeverityLevel;
+  /**
+   * Identifier of where the exception was thrown in code. Used for exceptions
+   * grouping. Typically a combination of exception type and a function from the
+   * call stack.
+   */
+  problemId?: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function telemetryExceptionDataSerializer(item: TelemetryExceptionData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    exceptions: telemetryExceptionDetailsArraySerializer(item["exceptions"]),
+    severityLevel: item["severityLevel"],
+    problemId: item["problemId"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function telemetryExceptionDataDeserializer(item: any): TelemetryExceptionData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "exceptions",
+      "severityLevel",
+      "problemId",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    exceptions: telemetryExceptionDetailsArrayDeserializer(item["exceptions"]),
+    severityLevel: item["severityLevel"],
+    problemId: item["problemId"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+export function telemetryExceptionDetailsArraySerializer(
+  result: Array<TelemetryExceptionDetails>,
+): any[] {
+  return result.map((item) => {
+    return telemetryExceptionDetailsSerializer(item);
+  });
+}
+
+export function telemetryExceptionDetailsArrayDeserializer(
+  result: Array<TelemetryExceptionDetails>,
+): any[] {
+  return result.map((item) => {
+    return telemetryExceptionDetailsDeserializer(item);
+  });
+}
+
+/** Exception details of the exception in a chain. */
+export interface TelemetryExceptionDetails {
+  /**
+   * In case exception is nested (outer exception contains inner one), the id and
+   * outerId properties are used to represent the nesting.
+   */
+  id?: number;
+  /**
+   * The value of outerId is a reference to an element in ExceptionDetails that
+   * represents the outer exception
+   */
+  outerId?: number;
+  /** Exception type name. */
+  typeName?: string;
+  /** Exception message. */
+  message: string;
+  /**
+   * Indicates if full exception stack is provided in the exception. The stack may
+   * be trimmed, such as in the case of a StackOverflow exception.
+   */
+  hasFullStack?: boolean;
+  /** Text describing the stack. Either stack or parsedStack should have a value. */
+  stack?: string;
+  /** List of stack frames. Either stack or parsedStack should have a value. */
+  parsedStack?: StackFrame[];
+}
+
+export function telemetryExceptionDetailsSerializer(item: TelemetryExceptionDetails): any {
+  return {
+    id: item["id"],
+    outerId: item["outerId"],
+    typeName: item["typeName"],
+    message: item["message"],
+    hasFullStack: item["hasFullStack"],
+    stack: item["stack"],
+    parsedStack: !item["parsedStack"]
+      ? item["parsedStack"]
+      : stackFrameArraySerializer(item["parsedStack"]),
+  };
+}
+
+export function telemetryExceptionDetailsDeserializer(item: any): TelemetryExceptionDetails {
+  return {
+    id: item["id"],
+    outerId: item["outerId"],
+    typeName: item["typeName"],
+    message: item["message"],
+    hasFullStack: item["hasFullStack"],
+    stack: item["stack"],
+    parsedStack: !item["parsedStack"]
+      ? item["parsedStack"]
+      : stackFrameArrayDeserializer(item["parsedStack"]),
+  };
+}
+
+export function stackFrameArraySerializer(result: Array<StackFrame>): any[] {
+  return result.map((item) => {
+    return stackFrameSerializer(item);
+  });
+}
+
+export function stackFrameArrayDeserializer(result: Array<StackFrame>): any[] {
+  return result.map((item) => {
+    return stackFrameDeserializer(item);
+  });
+}
+
+/** Stack frame information. */
+export interface StackFrame {
+  /** Level in the stack. */
+  level: number;
+  /** Method name. */
+  method: string;
+  /** Name of the assembly (dll, jar, etc.) containing this function. */
+  assembly?: string;
+  /** File name or URL of the method implementation. */
+  fileName?: string;
+  /** Line number of the code implementation. */
+  line?: number;
+}
+
+export function stackFrameSerializer(item: StackFrame): any {
+  return {
+    level: item["level"],
+    method: item["method"],
+    assembly: item["assembly"],
+    fileName: item["fileName"],
+    line: item["line"],
+  };
+}
+
+export function stackFrameDeserializer(item: any): StackFrame {
+  return {
+    level: item["level"],
+    method: item["method"],
+    assembly: item["assembly"],
+    fileName: item["fileName"],
+    line: item["line"],
+  };
+}
+
+/** Defines the level of severity for the event. */
+export enum KnownSeverityLevel {
+  /** Verbose level. */
+  Verbose = "Verbose",
+  /** Information level. */
+  Information = "Information",
+  /** Warning level. */
+  Warning = "Warning",
+  /** Error level. */
+  Error = "Error",
+  /** Critical level. */
+  Critical = "Critical",
+}
+
+/**
+ * Defines the level of severity for the event. \
+ * {@link KnownSeverityLevel} can be used interchangeably with SeverityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Verbose**: Verbose level. \
+ * **Information**: Information level. \
+ * **Warning**: Warning level. \
+ * **Error**: Error level. \
+ * **Critical**: Critical level.
+ */
+export type SeverityLevel = string;
+
+/**
+ * Instances of Message represent printf-like trace statements that are
+ * text-searched. Log4Net, NLog and other text-based log file entries are
+ * translated into instances of this type. The message does not have measurements.
+ */
+export interface MessageData extends MonitorDomain {
+  /** Discriminator value for MessageData. */
+  readonly kind: "MessageData";
+  /** Trace message */
+  message: string;
+  /** Trace severity level. */
+  severityLevel?: SeverityLevel;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function messageDataSerializer(item: MessageData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    message: item["message"],
+    severityLevel: item["severityLevel"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function messageDataDeserializer(item: any): MessageData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "message",
+      "severityLevel",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    message: item["message"],
+    severityLevel: item["severityLevel"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * An instance of the Metric item is a list of measurements (single data points)
+ * and/or aggregations.
+ */
+export interface MetricsData extends MonitorDomain {
+  /** Discriminator value for MetricsData. */
+  readonly kind: "MetricsData";
+  /**
+   * List of metrics. Only one metric in the list is currently supported by
+   * Application Insights storage. If multiple data points were sent only the first
+   * one will be used.
+   */
+  metrics: MetricDataPoint[];
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+}
+
+export function metricsDataSerializer(item: MetricsData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    metrics: metricDataPointArraySerializer(item["metrics"]),
+    properties: item["properties"],
+  };
+}
+
+export function metricsDataDeserializer(item: any): MetricsData {
+  return {
+    additionalProperties: serializeRecord(item, ["version", "kind", "metrics", "properties"]),
+    version: item["ver"],
+    kind: item["kind"],
+    metrics: metricDataPointArrayDeserializer(item["metrics"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+export function metricDataPointArraySerializer(result: Array<MetricDataPoint>): any[] {
+  return result.map((item) => {
+    return metricDataPointSerializer(item);
+  });
+}
+
+export function metricDataPointArrayDeserializer(result: Array<MetricDataPoint>): any[] {
+  return result.map((item) => {
+    return metricDataPointDeserializer(item);
+  });
+}
+
+/** Metric data single measurement. */
+export interface MetricDataPoint {
+  /** Namespace of the metric. */
+  namespace?: string;
+  /** Name of the metric. */
+  name: string;
+  /** Metric type. Single measurement or the aggregated value. */
+  dataPointType?: DataPointType;
+  /**
+   * Single value for measurement. Sum of individual measurements for the
+   * aggregation.
+   */
+  value: number;
+  /** Metric weight of the aggregated metric. Should not be set for a measurement. */
+  count?: number;
+  /** Minimum value of the aggregated metric. Should not be set for a measurement. */
+  min?: number;
+  /** Maximum value of the aggregated metric. Should not be set for a measurement. */
+  max?: number;
+  /**
+   * Standard deviation of the aggregated metric. Should not be set for a
+   * measurement.
+   */
+  stdDev?: number;
+}
+
+export function metricDataPointSerializer(item: MetricDataPoint): any {
+  return {
+    ns: item["namespace"],
+    name: item["name"],
+    kind: item["dataPointType"],
+    value: item["value"],
+    count: item["count"],
+    min: item["min"],
+    max: item["max"],
+    stdDev: item["stdDev"],
+  };
+}
+
+export function metricDataPointDeserializer(item: any): MetricDataPoint {
+  return {
+    namespace: item["ns"],
+    name: item["name"],
+    dataPointType: item["kind"],
+    value: item["value"],
+    count: item["count"],
+    min: item["min"],
+    max: item["max"],
+    stdDev: item["stdDev"],
+  };
+}
+
+/** Type of the metric data. */
+export enum KnownDataPointType {
+  /** Single measurement. */
+  Measurement = "Measurement",
+  /** Aggregated value. */
+  Aggregation = "Aggregation",
+}
+
+/**
+ * Type of the metric data. \
+ * {@link KnownDataPointType} can be used interchangeably with DataPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Measurement**: Single measurement. \
+ * **Aggregation**: Aggregated value.
+ */
+export type DataPointType = string;
+
+/**
+ * An instance of PageView represents a generic action on a page like a button
+ * click. It is also the base type for PageView.
+ */
+export interface PageViewData extends MonitorDomain {
+  /** Discriminator value for PageViewData. */
+  readonly kind: "PageViewData";
+  /**
+   * Identifier of a page view instance. Used for correlation between page view and
+   * other telemetry items.
+   */
+  id: string;
+  /** Event name. Keep it low cardinality to allow proper grouping and useful metrics. */
+  name: string;
+  /** Request URL with all query string parameters */
+  url?: string;
+  /**
+   * Request duration in format: DD.HH:MM:SS.MMMMMM. For a page view (PageViewData),
+   * this is the duration. For a page view with performance information
+   * (PageViewPerfData), this is the page load time. Must be less than 1000 days.
+   */
+  duration?: string;
+  /** Fully qualified page URI or URL of the referring page; if unknown, leave blank */
+  referredUri?: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function pageViewDataSerializer(item: PageViewData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    id: item["id"],
+    name: item["name"],
+    url: item["url"],
+    duration: item["duration"],
+    referredUri: item["referredUri"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function pageViewDataDeserializer(item: any): PageViewData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "id",
+      "name",
+      "url",
+      "duration",
+      "referredUri",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    url: item["url"],
+    duration: item["duration"],
+    referredUri: item["referredUri"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * An instance of PageViewPerf represents: a page view with no performance data, a
+ * page view with performance data, or just the performance data of an earlier
+ * page request.
+ */
+export interface PageViewPerfData extends MonitorDomain {
+  /** Discriminator value for PageViewPerfData. */
+  readonly kind: "PageViewPerfData";
+  /**
+   * Identifier of a page view instance. Used for correlation between page view and
+   * other telemetry items.
+   */
+  id: string;
+  /** Event name. Keep it low cardinality to allow proper grouping and useful metrics. */
+  name: string;
+  /** Request URL with all query string parameters */
+  url?: string;
+  /**
+   * Request duration in format: DD.HH:MM:SS.MMMMMM. For a page view (PageViewData),
+   * this is the duration. For a page view with performance information
+   * (PageViewPerfData), this is the page load time. Must be less than 1000 days.
+   */
+  duration?: string;
+  /** Performance total in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff */
+  perfTotal?: string;
+  /**
+   * Network connection time in TimeSpan 'G' (general long) format:
+   * d:hh:mm:ss.fffffff
+   */
+  networkConnect?: string;
+  /** Sent request time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff */
+  sentRequest?: string;
+  /** Received response time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff */
+  receivedResponse?: string;
+  /** DOM processing time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff */
+  domProcessing?: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function pageViewPerfDataSerializer(item: PageViewPerfData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    id: item["id"],
+    name: item["name"],
+    url: item["url"],
+    duration: item["duration"],
+    perfTotal: item["perfTotal"],
+    networkConnect: item["networkConnect"],
+    sentRequest: item["sentRequest"],
+    receivedResponse: item["receivedResponse"],
+    domProcessing: item["domProcessing"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function pageViewPerfDataDeserializer(item: any): PageViewPerfData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "id",
+      "name",
+      "url",
+      "duration",
+      "perfTotal",
+      "networkConnect",
+      "sentRequest",
+      "receivedResponse",
+      "domProcessing",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    url: item["url"],
+    duration: item["duration"],
+    perfTotal: item["perfTotal"],
+    networkConnect: item["networkConnect"],
+    sentRequest: item["sentRequest"],
+    receivedResponse: item["receivedResponse"],
+    domProcessing: item["domProcessing"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * An instance of Remote Dependency represents an interaction of the monitored
+ * component with a remote component/service like SQL or an HTTP endpoint.
+ */
+export interface RemoteDependencyData extends MonitorDomain {
+  /** Discriminator value for RemoteDependencyData. */
+  readonly kind: "RemoteDependencyData";
+  /**
+   * Identifier of a dependency call instance. Used for correlation with the request
+   * telemetry item corresponding to this dependency call.
+   */
+  id?: string;
+  /**
+   * Name of the command initiated with this dependency call. Low cardinality value.
+   * Examples are stored procedure name and URL path template.
+   */
+  name: string;
+  /**
+   * Result code of a dependency call. Examples are SQL error code and HTTP status
+   * code.
+   */
+  resultCode?: string;
+  /**
+   * Command initiated by this dependency call. Examples are SQL statement and HTTP
+   * URL with all query parameters.
+   */
+  data?: string;
+  /**
+   * Dependency type name. Very low cardinality value for logical grouping of
+   * dependencies and interpretation of other fields like commandName and
+   * resultCode. Examples are SQL, Azure table, and HTTP.
+   */
+  type?: string;
+  /** Target site of a dependency call. Examples are server name, host address. */
+  target?: string;
+  /** Request duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days. */
+  duration: string;
+  /** Indication of successful or unsuccessful call. */
+  success?: boolean;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function remoteDependencyDataSerializer(item: RemoteDependencyData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    id: item["id"],
+    name: item["name"],
+    resultCode: item["resultCode"],
+    data: item["data"],
+    type: item["type"],
+    target: item["target"],
+    duration: item["duration"],
+    success: item["success"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function remoteDependencyDataDeserializer(item: any): RemoteDependencyData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "id",
+      "name",
+      "resultCode",
+      "data",
+      "type",
+      "target",
+      "duration",
+      "success",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    resultCode: item["resultCode"],
+    data: item["data"],
+    type: item["type"],
+    target: item["target"],
+    duration: item["duration"],
+    success: item["success"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/**
+ * An instance of Request represents completion of an external request to the
+ * application to do work and contains a summary of that request execution and the
+ * results.
+ */
+export interface RequestData extends MonitorDomain {
+  /** Discriminator value for RequestData. */
+  readonly kind: "RequestData";
+  /**
+   * Identifier of a request call instance. Used for correlation between request and
+   * other telemetry items.
+   */
+  id: string;
+  /**
+   * Name of the request. Represents code path taken to process request. Low
+   * cardinality value to allow better grouping of requests. For HTTP requests it
+   * represents the HTTP method and URL path template like 'GET /values/{id}'.
+   */
+  name?: string;
+  /** Request duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days. */
+  duration: string;
+  /** Indication of successful or unsuccessful call. */
+  success: boolean;
+  /** Result of a request execution. HTTP status code for HTTP requests. */
+  responseCode: string;
+  /**
+   * Source of the request. Examples are the instrumentation key of the caller or
+   * the ip address of the caller.
+   */
+  source?: string;
+  /** Request URL with all query string parameters. */
+  url?: string;
+  /** Collection of custom properties. */
+  properties?: Record<string, string>;
+  /** Collection of custom measurements. */
+  measurements?: Record<string, number>;
+}
+
+export function requestDataSerializer(item: RequestData): any {
+  return {
+    ...serializeRecord(item.additionalProperties ?? {}),
+    ver: item["version"],
+    id: item["id"],
+    name: item["name"],
+    duration: item["duration"],
+    success: item["success"],
+    responseCode: item["responseCode"],
+    source: item["source"],
+    url: item["url"],
+    properties: item["properties"],
+    measurements: item["measurements"],
+  };
+}
+
+export function requestDataDeserializer(item: any): RequestData {
+  return {
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "kind",
+      "id",
+      "name",
+      "duration",
+      "success",
+      "responseCode",
+      "source",
+      "url",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    duration: item["duration"],
+    success: item["success"],
+    responseCode: item["responseCode"],
+    source: item["source"],
+    url: item["url"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+/** Response containing the status of each telemetry item. */
+export interface TrackResponse {
+  /** The number of items received. */
+  itemsReceived?: number;
+  /** The number of items accepted. */
+  itemsAccepted?: number;
+  /** An array of error detail objects. */
+  errors?: TelemetryErrorDetails[];
+}
+
+export function trackResponseDeserializer(item: any): TrackResponse {
+  return {
+    itemsReceived: item["itemsReceived"],
+    itemsAccepted: item["itemsAccepted"],
+    errors: !item["errors"]
+      ? item["errors"]
+      : telemetryErrorDetailsArrayDeserializer(item["errors"]),
+  };
+}
+
+export function telemetryErrorDetailsArrayDeserializer(
+  result: Array<TelemetryErrorDetails>,
+): any[] {
+  return result.map((item) => {
+    return telemetryErrorDetailsDeserializer(item);
+  });
+}
+
+/** The error details */
+export interface TelemetryErrorDetails {
+  /** The index in the original payload of the item. */
+  index?: number;
+  /** The item specific [HTTP Response status code](#Response Status Codes). */
+  statusCode?: number;
+  /** The error message. */
+  message?: string;
+}
+
+export function telemetryErrorDetailsDeserializer(item: any): TelemetryErrorDetails {
+  return {
+    index: item["index"],
+    statusCode: item["statusCode"],
+    message: item["message"],
+  };
+}
+
+/** Type of Versions */
+export type Versions = "v2.1";
+
+/** The context tag keys. */
+export enum KnownContextTagKeys {
+  /** Application version. */
+  AiApplicationVer = "ai.application.ver",
+  /** Device ID. */
+  AiDeviceId = "ai.device.id",
+  /** Device locale. */
+  AiDeviceLocale = "ai.device.locale",
+  /** Device model. */
+  AiDeviceModel = "ai.device.model",
+  /** Device OEM name. */
+  AiDeviceOemName = "ai.device.oemName",
+  /** Device OS version. */
+  AiDeviceOSVersion = "ai.device.osVersion",
+  /** Device type. */
+  AiDeviceType = "ai.device.type",
+  /** Location IP. */
+  AiLocationIp = "ai.location.ip",
+  /** Location country. */
+  AiLocationCountry = "ai.location.country",
+  /** Location province. */
+  AiLocationProvince = "ai.location.province",
+  /** Location city. */
+  AiLocationCity = "ai.location.city",
+  /** Operation ID. */
+  AiOperationId = "ai.operation.id",
+  /** Operation name. */
+  AiOperationName = "ai.operation.name",
+  /** Operation parent ID. */
+  AiOperationParentId = "ai.operation.parentId",
+  /** Operation synthetic source. */
+  AiOperationSyntheticSource = "ai.operation.syntheticSource",
+  /** Operation correlation vector. */
+  AiOperationCorrelationVector = "ai.operation.correlationVector",
+  /** Session ID. */
+  AiSessionId = "ai.session.id",
+  /** If session is the first one. */
+  AiSessionIsFirst = "ai.session.isFirst",
+  /** User account ID. */
+  AiUserAccountId = "ai.user.accountId",
+  /** User ID. */
+  AiUserId = "ai.user.id",
+  /** Authenticated user ID. */
+  AiUserAuthUserId = "ai.user.authUserId",
+  /** Cloud role. */
+  AiCloudRole = "ai.cloud.role",
+  /** Cloud role version. */
+  AiCloudRoleVer = "ai.cloud.roleVer",
+  /** Cloud role instance. */
+  AiCloudRoleInstance = "ai.cloud.roleInstance",
+  /** Cloud location. */
+  AiCloudLocation = "ai.cloud.location",
+  /** Internal SDK version. */
+  AiInternalSdkVersion = "ai.internal.sdkVersion",
+  /** Internal agent version. */
+  AiInternalAgentVersion = "ai.internal.agentVersion",
+  /** Internal node name. */
+  AiInternalNodeName = "ai.internal.nodeName",
+}
+
+/**
+ * The context tag keys. \
+ * {@link KnownContextTagKeys} can be used interchangeably with ContextTagKeys,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ai.application.ver**: Application version. \
+ * **ai.device.id**: Device ID. \
+ * **ai.device.locale**: Device locale. \
+ * **ai.device.model**: Device model. \
+ * **ai.device.oemName**: Device OEM name. \
+ * **ai.device.osVersion**: Device OS version. \
+ * **ai.device.type**: Device type. \
+ * **ai.location.ip**: Location IP. \
+ * **ai.location.country**: Location country. \
+ * **ai.location.province**: Location province. \
+ * **ai.location.city**: Location city. \
+ * **ai.operation.id**: Operation ID. \
+ * **ai.operation.name**: Operation name. \
+ * **ai.operation.parentId**: Operation parent ID. \
+ * **ai.operation.syntheticSource**: Operation synthetic source. \
+ * **ai.operation.correlationVector**: Operation correlation vector. \
+ * **ai.session.id**: Session ID. \
+ * **ai.session.isFirst**: If session is the first one. \
+ * **ai.user.accountId**: User account ID. \
+ * **ai.user.id**: User ID. \
+ * **ai.user.authUserId**: Authenticated user ID. \
+ * **ai.cloud.role**: Cloud role. \
+ * **ai.cloud.roleVer**: Cloud role version. \
+ * **ai.cloud.roleInstance**: Cloud role instance. \
+ * **ai.cloud.location**: Cloud location. \
+ * **ai.internal.sdkVersion**: Internal SDK version. \
+ * **ai.internal.agentVersion**: Internal agent version. \
+ * **ai.internal.nodeName**: Internal node name.
+ */
+export type ContextTagKeys = string;
+
+export function telemetryItemArraySerializer(result: Array<TelemetryItem>): any[] {
+  return result.map((item) => {
+    return telemetryItemSerializer(item);
+  });
+}

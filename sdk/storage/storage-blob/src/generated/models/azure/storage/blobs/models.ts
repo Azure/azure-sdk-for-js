@@ -321,23 +321,16 @@ export interface RetentionPolicy {
   enabled: boolean;
   /** The number of days to retain the logs. */
   days?: number;
-  /** Whether to allow permanent delete. */
-  allowPermanentDelete?: boolean;
 }
 
 export function retentionPolicySerializer(item: RetentionPolicy): any {
-  return {
-    enabled: item["enabled"],
-    days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { enabled: item["enabled"], days: item["days"] };
 }
 
 export function retentionPolicyDeserializer(item: any): RetentionPolicy {
   return {
     enabled: item["enabled"],
     days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
   };
 }
 
@@ -345,11 +338,6 @@ export function retentionPolicyXmlSerializer(item: RetentionPolicy): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
     { propertyName: "days", xmlOptions: { name: "Days" }, type: "primitive" },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-    },
   ];
   return serializeToXml(item, properties, "RetentionPolicy");
 }
@@ -368,22 +356,12 @@ export function retentionPolicyXmlDeserializer(xmlString: string): RetentionPoli
       type: "primitive",
       primitiveSubtype: "number",
     },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
   ];
   return deserializeFromXml<RetentionPolicy>(xmlString, properties, "RetentionPolicy");
 }
 
 export function retentionPolicyXmlObjectSerializer(item: RetentionPolicy): XmlSerializedObject {
-  return {
-    Enabled: item["enabled"],
-    Days: item["days"],
-    AllowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { Enabled: item["enabled"], Days: item["days"] };
 }
 
 export function retentionPolicyXmlObjectDeserializer(
@@ -401,12 +379,6 @@ export function retentionPolicyXmlObjectDeserializer(
       xmlOptions: { name: "Days" },
       type: "primitive",
       primitiveSubtype: "number",
-    },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
     },
   ];
   return deserializeXmlObject<RetentionPolicy>(xmlObject, properties);
@@ -1280,10 +1252,10 @@ export function containerPropertiesDeserializer(item: any): ContainerProperties 
     hasImmutabilityPolicy: item["hasImmutabilityPolicy"],
     hasLegalHold: item["hasLegalHold"],
     defaultEncryptionScope: item["defaultEncryptionScope"],
-    preventEncryptionScopeOverride: item["PreventEncryptionScopeOverride"],
+    preventEncryptionScopeOverride: item["preventEncryptionScopeOverride"],
     deletedOn: !item["deletedOn"] ? item["deletedOn"] : new Date(item["deletedOn"]),
     remainingRetentionDays: item["remainingRetentionDays"],
-    isImmutableStorageWithVersioningEnabled: item["IsImmutableStorageWithVersioningEnabled"],
+    isImmutableStorageWithVersioningEnabled: item["isImmutableStorageWithVersioningEnabled"],
   };
 }
 
@@ -2590,15 +2562,15 @@ export function blobPropertiesDeserializer(item: any): BlobProperties {
       ? item["accessTierChangedOn"]
       : new Date(item["accessTierChangedOn"]),
     tagCount: item["tagCount"],
-    expiresOn: !item["ExpiresOn"] ? item["ExpiresOn"] : new Date(item["ExpiresOn"]),
-    isSealed: item["IsSealed"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    isSealed: item["isSealed"],
     rehydratePriority: item["rehydratePriority"],
-    lastAccessedOn: !item["LastAccessedOn"]
-      ? item["LastAccessedOn"]
-      : new Date(item["LastAccessedOn"]),
-    immutabilityPolicyExpiresOn: !item["ImmutabilityPolicyExpiresOn"]
-      ? item["ImmutabilityPolicyExpiresOn"]
-      : new Date(item["ImmutabilityPolicyExpiresOn"]),
+    lastAccessedOn: !item["lastAccessedOn"]
+      ? item["lastAccessedOn"]
+      : new Date(item["lastAccessedOn"]),
+    immutabilityPolicyExpiresOn: !item["immutabilityPolicyExpiresOn"]
+      ? item["immutabilityPolicyExpiresOn"]
+      : new Date(item["immutabilityPolicyExpiresOn"]),
     immutabilityPolicyMode: item["immutabilityPolicyMode"],
     legalHold: item["legalHold"],
   };

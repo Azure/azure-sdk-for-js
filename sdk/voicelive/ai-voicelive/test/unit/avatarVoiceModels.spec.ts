@@ -25,6 +25,8 @@ import type {
   AzureCustomVoice,
   AzureStandardVoice,
   AzurePersonalVoice,
+  Voice,
+  RequestSession,
 } from "../../src/models/index.js";
 import {
   avatarConfigSerializer,
@@ -35,6 +37,9 @@ import {
   azureStandardVoiceDeserializer,
   azurePersonalVoiceSerializer,
   azurePersonalVoiceDeserializer,
+  voiceSerializer,
+  voiceDeserializer,
+  requestSessionSerializer,
   KnownAvatarConfigTypes,
   KnownPhotoAvatarBaseModes,
   KnownAvatarOutputProtocol,
@@ -519,6 +524,130 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
       expect(deserialized.character).toBe("no-ice-avatar");
       expect(deserialized.customized).toBe(false);
       expect(deserialized.iceServers).toEqual([]);
+    });
+  });
+
+  describe("voiceSerializer dispatches to correct sub-serializer", () => {
+    it("should pass through OAIVoice string values", () => {
+      const voice: Voice = "alloy";
+      const serialized = voiceSerializer(voice);
+      expect(serialized).toBe("alloy");
+    });
+
+    it("should serialize OpenAIVoice objects", () => {
+      const voice: Voice = { type: "openai", name: "coral" };
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("openai");
+      expect(serialized.name).toBe("coral");
+    });
+
+    it("should convert AzureCustomVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-custom",
+        name: "my-custom-voice",
+        endpointId: "ep-12345",
+        customLexiconUrl: "https://example.com/lexicon",
+        customTextNormalizationUrl: "https://example.com/norm",
+        preferLocales: ["en-US"],
+      } as AzureCustomVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-custom");
+      expect(serialized.name).toBe("my-custom-voice");
+      expect(serialized.endpoint_id).toBe("ep-12345");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.custom_text_normalization_url).toBe("https://example.com/norm");
+      expect(serialized.prefer_locales).toEqual(["en-US"]);
+      // Must NOT have camelCase keys on the wire
+      expect(serialized.endpointId).toBeUndefined();
+      expect(serialized.customLexiconUrl).toBeUndefined();
+      expect(serialized.customTextNormalizationUrl).toBeUndefined();
+      expect(serialized.preferLocales).toBeUndefined();
+    });
+
+    it("should convert AzureStandardVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-standard",
+        name: "en-US-JennyNeural",
+        customLexiconUrl: "https://example.com/lexicon",
+        preferLocales: ["en-US", "en-GB"],
+      } as AzureStandardVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-standard");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.prefer_locales).toEqual(["en-US", "en-GB"]);
+      expect(serialized.customLexiconUrl).toBeUndefined();
+      expect(serialized.preferLocales).toBeUndefined();
+    });
+
+    it("should convert AzurePersonalVoice camelCase to snake_case", () => {
+      const voice: Voice = {
+        type: "azure-personal",
+        name: "my-personal-voice",
+        model: "DragonLatestNeural",
+        customLexiconUrl: "https://example.com/lexicon",
+      } as AzurePersonalVoice;
+
+      const serialized = voiceSerializer(voice);
+      expect(serialized.type).toBe("azure-personal");
+      expect(serialized.model).toBe("DragonLatestNeural");
+      expect(serialized.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.customLexiconUrl).toBeUndefined();
+    });
+  });
+
+  describe("voiceDeserializer dispatches to correct sub-deserializer", () => {
+    it("should pass through OAIVoice string values", () => {
+      const deserialized = voiceDeserializer("echo");
+      expect(deserialized).toBe("echo");
+    });
+
+    it("should deserialize AzureCustomVoice snake_case to camelCase", () => {
+      const wireFormat = {
+        type: "azure-custom",
+        name: "my-custom-voice",
+        endpoint_id: "ep-12345",
+        custom_lexicon_url: "https://example.com/lexicon",
+        custom_text_normalization_url: "https://example.com/norm",
+        prefer_locales: ["en-US"],
+      };
+
+      const deserialized = voiceDeserializer(wireFormat) as AzureCustomVoice;
+      expect(deserialized.type).toBe("azure-custom");
+      expect(deserialized.endpointId).toBe("ep-12345");
+      expect(deserialized.customLexiconUrl).toBe("https://example.com/lexicon");
+      expect(deserialized.customTextNormalizationUrl).toBe("https://example.com/norm");
+      expect(deserialized.preferLocales).toEqual(["en-US"]);
+    });
+  });
+
+  describe("requestSessionSerializer converts voice via voiceSerializer", () => {
+    it("should convert AzureCustomVoice through requestSessionSerializer", () => {
+      const session: RequestSession = {
+        voice: {
+          type: "azure-custom",
+          name: "my-custom-voice",
+          endpointId: "ep-12345",
+          customLexiconUrl: "https://example.com/lexicon",
+        } as AzureCustomVoice,
+      };
+
+      const serialized = requestSessionSerializer(session);
+      expect(serialized.voice.type).toBe("azure-custom");
+      expect(serialized.voice.endpoint_id).toBe("ep-12345");
+      expect(serialized.voice.custom_lexicon_url).toBe("https://example.com/lexicon");
+      expect(serialized.voice.endpointId).toBeUndefined();
+      expect(serialized.voice.customLexiconUrl).toBeUndefined();
+    });
+
+    it("should pass through OAIVoice string in requestSessionSerializer", () => {
+      const session: RequestSession = {
+        voice: "alloy",
+      };
+
+      const serialized = requestSessionSerializer(session);
+      expect(serialized.voice).toBe("alloy");
     });
   });
 });

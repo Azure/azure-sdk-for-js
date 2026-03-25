@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function volumesExtralargeVolumeList() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.volumes.list("myRG", "account1", "pool1")) {

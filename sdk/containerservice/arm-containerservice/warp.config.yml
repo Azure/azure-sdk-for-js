@@ -1,15 +1,36 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/trustedAccessRoles": "src/api/trustedAccessRoles/index.ts"
+  "./api/resolvePrivateLinkServiceId": "src/api/resolvePrivateLinkServiceId/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./api/trustedAccessRoleBindings": "src/api/trustedAccessRoleBindings/index.ts"
+  "./api/snapshots": "src/api/snapshots/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/machines": "src/api/machines/index.ts"
+  "./api/managedNamespaces": "src/api/managedNamespaces/index.ts"
+  "./api/maintenanceConfigurations": "src/api/maintenanceConfigurations/index.ts"
+  "./api/managedClusters": "src/api/managedClusters/index.ts"
+  "./api/agentPools": "src/api/agentPools/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"

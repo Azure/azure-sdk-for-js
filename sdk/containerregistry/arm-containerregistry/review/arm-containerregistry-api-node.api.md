@@ -16,7 +16,7 @@ export interface ContainerRegistryManagementClientOptionalParams extends ClientO
 
 // @public
 export interface ContainerRegistryManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

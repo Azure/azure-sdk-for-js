@@ -27,6 +27,11 @@ stages:
             parameters:
               NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
+          - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+            parameters:
+              npmrcPath: $(CommonNpmrcPath)
+              registryUrl: '$(PublicDevOpsRegistry)'
+
           - task: PowerShell@2
             inputs:
               targetType: 'filePath'

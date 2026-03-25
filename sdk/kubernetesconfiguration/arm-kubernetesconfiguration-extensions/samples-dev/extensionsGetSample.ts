@@ -1,61 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets Kubernetes Cluster Extension.
- *
- * @summary Gets Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/GetExtension.json
- */
-
 import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets Kubernetes Cluster Extension.
+ *
+ * @summary gets Kubernetes Cluster Extension.
+ * x-ms-original-file: 2024-11-01/GetExtension.json
+ */
 async function getExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
-  const clusterRp = "Microsoft.Kubernetes";
-  const clusterResourceName = "connectedClusters";
-  const clusterName = "clusterName1";
-  const extensionName = "ClusterMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new ExtensionsClient(credential, subscriptionId);
   const result = await client.extensions.get(
-    resourceGroupName,
-    clusterRp,
-    clusterResourceName,
-    clusterName,
-    extensionName,
+    "rg1",
+    "Microsoft.Kubernetes",
+    "connectedClusters",
+    "clusterName1",
+    "ClusterMonitor",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets Kubernetes Cluster Extension.
+ * This sample demonstrates how to gets Kubernetes Cluster Extension.
  *
- * @summary Gets Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/GetExtensionWithPlan.json
+ * @summary gets Kubernetes Cluster Extension.
+ * x-ms-original-file: 2024-11-01/GetExtensionWithPlan.json
  */
 async function getExtensionWithPlan(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
-  const clusterRp = "Microsoft.Kubernetes";
-  const clusterResourceName = "connectedClusters";
-  const clusterName = "clusterName1";
-  const extensionName = "azureVote";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new ExtensionsClient(credential, subscriptionId);
   const result = await client.extensions.get(
-    resourceGroupName,
-    clusterRp,
-    clusterResourceName,
-    clusterName,
-    extensionName,
+    "rg1",
+    "Microsoft.Kubernetes",
+    "connectedClusters",
+    "clusterName1",
+    "azureVote",
   );
   console.log(result);
 }

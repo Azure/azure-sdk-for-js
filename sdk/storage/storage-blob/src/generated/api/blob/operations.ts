@@ -20,7 +20,8 @@ import {
   AccountKind,
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { BlobDownloadResponse } from "../../models/models.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -3802,7 +3803,9 @@ export function _downloadSend(
     });
 }
 
-export async function _downloadDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _downloadDeserialize(
+  result: PathUncheckedResponse & BlobDownloadResponse,
+): Promise<BlobDownloadResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -3816,7 +3819,7 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
@@ -4088,9 +4091,9 @@ export async function download(
     version: string;
     contentType: "application/octet-stream";
     contentCrc64?: Uint8Array;
-  } & Uint8Array &
+  } & BlobDownloadResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlobDownloadResponse,
       {
         requestId?: string;
         clientRequestId?: string;
@@ -4145,7 +4148,7 @@ export async function download(
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _downloadDeserialize(result);
   const parsedHeaders = _downloadDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
