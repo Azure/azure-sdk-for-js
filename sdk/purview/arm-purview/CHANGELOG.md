@@ -129,7 +129,7 @@ Compared with version 1.1.0
   - Enum KnownType has a new value None
   - Enum KnownType has a new value UserAssigned
     
-### 1.0.1 (2022-04-28)
+## 1.0.1 (2022-04-28)
 
 ### Features Added
 
