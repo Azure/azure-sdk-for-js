@@ -47,16 +47,11 @@ describe("Sample: analyzeBinary", () => {
     console.log(`Read ${pdfBytes.length.toLocaleString()} bytes from ${filePath}`);
 
     // Analyze the document using analyzeBinary
-    const poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      "application/pdf",
-      {
-        ...testPollingOptions,
-        // Use updateIntervalInMs to configure LRO polling; 0 makes playback fast
-        updateIntervalInMs: 0,
-      },
-    );
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf", {
+      ...testPollingOptions,
+      // Use updateIntervalInMs to configure LRO polling; 0 makes playback fast
+      updateIntervalInMs: 0,
+    });
 
     const result = await poller.pollUntilDone();
 
