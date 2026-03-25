@@ -1704,6 +1704,8 @@ sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-release-agent.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-release-agent.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
