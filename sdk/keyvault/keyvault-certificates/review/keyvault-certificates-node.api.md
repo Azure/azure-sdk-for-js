@@ -209,6 +209,8 @@ export type CertificateTags = {
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
+    ipAddresses?: string[];
+    uniformResourceIdentifiers?: string[];
     upns?: string[];
 }
 
@@ -484,6 +486,8 @@ export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesA
 export interface SubjectAlternativeNamesAll {
     dnsNames: ArrayOneOrMore<string>;
     emails: ArrayOneOrMore<string>;
+    ipAddresses: ArrayOneOrMore<string>;
+    uniformResourceIdentifiers: ArrayOneOrMore<string>;
     userPrincipalNames: ArrayOneOrMore<string>;
 }
 
