@@ -173,6 +173,28 @@ export function convertDimensions(
   return convertedDimensions as Attributes;
 }
 
+/**
+ * Returns available system memory in bytes.
+ * On Linux, reads MemAvailable from /proc/meminfo which accounts for reclaimable
+ * memory (page cache, buffers), providing a more accurate measure than os.freemem()
+ * which only reports MemFree. Falls back to os.freemem() on other platforms or on error.
+ */
+export function getAvailableMemory(): number {
+  if (process.platform === "linux") {
+    try {
+      const fs = require("node:fs");
+      const contents: string = fs.readFileSync("/proc/meminfo", "utf8");
+      const match = contents.match(/^MemAvailable:\s+(\d+)\s+kB$/m);
+      if (match) {
+        return parseInt(match[1], 10) * 1024;
+      }
+    } catch {
+      // Fall through to os.freemem()
+    }
+  }
+  return os.freemem();
+}
+
 // to get physical memory bytes
 export function getPhysicalMemory(): number {
   if (process?.memoryUsage) {
