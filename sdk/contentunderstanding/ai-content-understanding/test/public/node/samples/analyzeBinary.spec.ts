@@ -162,6 +162,7 @@ describe("Sample: analyzeBinary", () => {
     );
     const combine2Result = await combine2Poller.pollUntilDone();
     assert.ok(combine2Result.contents);
+    assert.ok(combine2Result.contents.length > 0);
     const combine2Doc = combine2Result.contents[0] as DocumentContent;
     const combine2PageCount = combine2Doc.pages ? combine2Doc.pages.length : 0;
     assert.equal(
