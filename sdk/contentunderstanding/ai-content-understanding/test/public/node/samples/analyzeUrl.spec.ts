@@ -378,6 +378,10 @@ describe("Sample: analyzeUrl", () => {
     );
     const fromResult = await fromPoller.pollUntilDone();
     assert.ok(fromResult.contents);
+    assert.ok(
+      fromResult.contents.length > 0,
+      "Expected at least one content item for '10000-' range",
+    );
     const fromAudio = fromResult.contents[0] as AudioVisualContent;
     assert.ok(
       (fromAudio.endTimeMs ?? 0) > (fromAudio.startTimeMs ?? 0),
