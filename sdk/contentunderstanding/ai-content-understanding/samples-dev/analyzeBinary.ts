@@ -101,7 +101,13 @@ export async function main(): Promise<void> {
   // A PDF file has only one content element even if it contains multiple pages
   if (result.contents && result.contents.length > 0) {
     const content = result.contents[0];
-    console.log(content.markdown);
+    if (content.markdown) {
+      console.log(content.markdown);
+    } else {
+      console.log("No markdown content was returned for this document.");
+    }
+  } else {
+    console.log("No content items were returned for this analysis.");
   }
 
   console.log("=".repeat(50));
