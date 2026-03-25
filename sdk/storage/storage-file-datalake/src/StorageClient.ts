@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { StorageContextClient } from "./StorageContextClient.js";
-import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import { Pipeline } from "./Pipeline.js";
 import type { AnonymousCredential } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import type { StorageSharedKeyCredential } from "@azure/storage-blob";
@@ -15,10 +14,21 @@ import {
   getURLScheme,
   iEqual,
 } from "./utils/utils.common.js";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import { DataLakeClientConfig } from "./models.js";
+import {
+  DataLakeClient,
+  type FileSystemOperations,
+  type PathOperations,
+  type ServiceOperations,
+  type DataLakeClientOptionalParams,
+} from "./generated/index.js";
+
+// Unused credential placeholder – the real auth is provided by the shared corePipeline.
+const unusedCred: TokenCredential = {
+  getToken: () => Promise.resolve(null),
+};
 
 /**
  * An interface for options common to every remote operation.
@@ -27,15 +37,58 @@ export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+/** @internal */
+export interface StorageClientContextOptions {
+  credential?: TokenCredential;
+  pipeline?: CorePipeline;
+  [key: string]: unknown;
+}
+
+/**
+ * Wraps the generated DataLakeClient (TypeSpec) and exposes its operation groups.
+ * @internal
+ */
+export class StorageClientContext {
+  public readonly dataLakeClient: DataLakeClient;
+  public readonly service: ServiceOperations;
+  public readonly fileSystem: FileSystemOperations;
+  public readonly path: PathOperations;
+
+  public get pipeline(): CorePipeline {
+    return this.dataLakeClient.pipeline;
+  }
+
+  constructor(url: string, options: StorageClientContextOptions = {}) {
+    const { credential, pipeline: corePipeline, ...clientOptions } = options;
+    this.dataLakeClient = new DataLakeClient(
+      url,
+      credential ?? unusedCred,
+      { ...clientOptions, pipeline: corePipeline } as DataLakeClientOptionalParams,
+    );
+    this.service = this.dataLakeClient.service;
+    this.fileSystem = this.dataLakeClient.fileSystem;
+    this.path = this.dataLakeClient.path;
+
+    // Replace the generated pipeline with our shared corePipeline
+    if (!corePipeline) {
+      throw new Error("Pipeline is required in options");
+    }
+    (this.dataLakeClient as DataLakeClient & { pipeline: CorePipeline }).pipeline = corePipeline;
+    this.dataLakeClient["_client"].pipeline = corePipeline;
+  }
+}
+
 // This function relies on the Pipeline already being initialized by a storage-blob client
-function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
-  const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  const httpClient: HttpClient = (pipeline as any)._coreHttpClient;
+function getCoreClientOptions(pipeline: PipelineLike): StorageClientContextOptions {
+  const { httpClient: _v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
+  const httpClient: HttpClient = (pipeline as Pipeline & { _coreHttpClient: HttpClient })
+    ._coreHttpClient;
   if (!httpClient) {
     throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
   }
 
-  const corePipeline: CorePipeline = (pipeline as any)._corePipeline;
+  const corePipeline: CorePipeline = (pipeline as Pipeline & { _corePipeline: CorePipeline })
+    ._corePipeline;
   if (!corePipeline) {
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
   }
@@ -113,28 +166,45 @@ export abstract class StorageClient {
     this.blobEndpointUrl = toBlobEndpointUrl(this.url);
     this.dfsEndpointUrl = toDfsEndpointUrl(this.url);
     this.accountName = getAccountNameFromUrl(this.blobEndpointUrl);
-    this.pipeline = pipeline;
+
     // creating this BlobServiceClient allows us to use the converted V2 Pipeline attached to `pipeline`.
     const blobClient = new BlobServiceClient(url, pipeline);
-    this.storageClientContext = new StorageContextClient(
-      this.dfsEndpointUrl,
-      getCoreClientOptions(pipeline),
-    );
+    this.credential = (blobClient as BlobServiceClient & { credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential }).credential;
 
-    this.storageClientContextToBlobEndpoint = new StorageContextClient(
-      this.blobEndpointUrl,
-      getCoreClientOptions(pipeline),
-    );
+    // Get core client options from the v1 pipeline
+    const coreClientOptions = getCoreClientOptions(pipeline);
+
+    // Remove serialization/deserialization policies from the corePipeline so that
+    // blob-delegated operations (ContainerClient, BlobClient) share the same pipeline
+    // without cloning.
+    const corePipeline = coreClientOptions.pipeline as CorePipeline;
+    if (corePipeline.getOrderedPolicies().some((p) => p.name === "serializationPolicy")) {
+      corePipeline.removePolicy({ name: "deserializationPolicy" });
+      corePipeline.removePolicy({ name: "serializationPolicy" });
+    }
+
+    // After removing serialization policies, rebuild the v1 pipeline wrapper
+    const cleanPipeline = new Pipeline(pipeline.factories);
+    (cleanPipeline as Pipeline & { _corePipeline: CorePipeline })._corePipeline = corePipeline;
+    (cleanPipeline as Pipeline & { _coreHttpClient: HttpClient })._coreHttpClient =
+      coreClientOptions.httpClient as HttpClient;
+    (cleanPipeline as Pipeline & { _credential: unknown })._credential = (
+      pipeline as Pipeline & { _credential: unknown }
+    )._credential;
+    this.pipeline = cleanPipeline;
+
+    this.storageClientContext = new StorageClientContext(this.dfsEndpointUrl, {
+      ...coreClientOptions,
+      pipeline: corePipeline,
+    });
+
+    this.storageClientContextToBlobEndpoint = new StorageClientContext(this.blobEndpointUrl, {
+      ...coreClientOptions,
+      pipeline: corePipeline,
+    });
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = (blobClient as any).credential;
-
-    // Override protocol layer's default content-type
-    const storageClientContext = this.storageClientContext as any;
-    storageClientContext.requestContentType = undefined;
-    const storageClientContextWithBlobEndpoint = this.storageClientContextToBlobEndpoint as any;
-    storageClientContextWithBlobEndpoint.requestContentType = undefined;
     this.dataLakeClientConfig = options;
   }
 }

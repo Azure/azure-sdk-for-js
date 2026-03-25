@@ -21,6 +21,7 @@
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
+    "regenerate": "tsp-client update && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",
@@ -57,7 +58,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/storageClient.ts",
+        "path": "src/generated/api/dataLakeContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -85,16 +86,18 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "1.10.1",
-    "@azure/core-http-compat": "2.3.2",
+    "@azure/core-http-compat": "^2.4.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.1",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
-    "@azure/storage-blob": "^12.32.0-beta.1",
+    "@azure/storage-blob": "workspace:^",
     "@azure/storage-common": "^12.4.0-beta.1",
+    "@azure-rest/core-client": "^2.3.4",
     "events": "^3.3.0",
+    "fast-xml-parser": "^5.2.5",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

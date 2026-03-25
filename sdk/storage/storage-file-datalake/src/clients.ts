@@ -14,7 +14,7 @@ import type { Readable } from "node:stream";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { BufferScheduler } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
-import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
+import type { PathOperations } from "./generated/index.js";
 import type {
   AccessControlChanges,
   DataLakeClientConfig,
@@ -103,7 +103,7 @@ import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
-  assertResponse,
+  adjustResponse,
   ensureCpkIfSpecified,
   getURLPathAndQuery,
   ParsePathGetPropertiesExtraHeaderValues,
@@ -113,15 +113,9 @@ import {
 } from "./utils/utils.common.js";
 import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
-  PathAppendDataHeaders,
   PathAppendDataOptionalParams,
-  PathCreateHeaders,
-  PathDeleteHeaders,
-  PathFlushDataHeaders,
-  PathGetPropertiesHeaders,
-  PathSetAccessControlHeaders,
-  PathSetExpiryHeaders,
-} from "./generated/src/index.js";
+  EncryptionAlgorithmType,
+} from "./generated/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -130,7 +124,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * pathContext provided by protocol layer.
    */
-  private pathContext: Path;
+  private pathContext: PathOperations;
 
   /**
    * blobClient provided by `@azure/storage-blob` package.
@@ -277,7 +271,7 @@ export class DataLakePathClient extends StorageClient {
       super(url, pipeline, options);
     }
 
-    this.pathContext = new Path(this.storageClientContext);
+    this.pathContext = this.storageClientContext.path;
     this.blobClient = new BlobClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -359,14 +353,19 @@ export class DataLakePathClient extends StorageClient {
         throw new Error(`Value for expiresOn is invalid: ${options.expiresOn}`);
       }
 
-      return assertResponse<PathCreateHeaders, PathCreateHeaders>(
+      return adjustResponse(
         await this.pathContext.create({
           ...updatedOptions,
           resource: resourceType,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
+          leaseId: options.conditions?.leaseId,
+          ifMatch: options.conditions?.ifMatch,
+          ifNoneMatch: options.conditions?.ifNoneMatch,
+          ifModifiedSince: options.conditions?.ifModifiedSince,
+          ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
           properties: toProperties(options.metadata),
-          cpkInfo: options.customerProvidedKey,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
           acl: options.acl ? toAclString(options.acl) : undefined,
           expiryOptions,
           expiresOn,
@@ -466,13 +465,16 @@ export class DataLakePathClient extends StorageClient {
 
       // How to handle long delete loop?
       do {
-        response = assertResponse<PathDeleteHeaders, PathDeleteHeaders>(
+        response = adjustResponse(
           await this.pathContext.delete({
             ...updatedOptions,
             continuation,
             recursive,
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions?.ifMatch,
+            ifNoneMatch: options.conditions?.ifNoneMatch,
+            ifModifiedSince: options.conditions?.ifModifiedSince,
+            ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
             abortSignal: options.abortSignal,
             paginated,
           }),
@@ -536,13 +538,16 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getAccessControl",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(
+        const response = adjustResponse(
           await this.pathContext.getProperties({
             ...updatedOptions,
             action: "getAccessControl",
             upn: options.userPrincipalName,
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions?.ifMatch,
+            ifNoneMatch: options.conditions?.ifNoneMatch,
+            ifModifiedSince: options.conditions?.ifModifiedSince,
+            ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
             abortSignal: options.abortSignal,
           }),
         );
@@ -551,7 +556,7 @@ export class DataLakePathClient extends StorageClient {
           _response: response._response,
           permissions: toPermissions(response.permissions),
           acl: toAcl(response.acl),
-        };
+        } as PathGetAccessControlResponse;
       },
     );
   }
@@ -573,12 +578,15 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-setAccessControl",
       options,
       async (updatedOptions) => {
-        return assertResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>(
+        return adjustResponse(
           await this.pathContext.setAccessControl({
             ...updatedOptions,
             acl: toAclString(acl),
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions?.ifMatch,
+            ifNoneMatch: options.conditions?.ifNoneMatch,
+            ifModifiedSince: options.conditions?.ifModifiedSince,
+            ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
           }),
         );
       },
@@ -665,12 +673,15 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-setPermissions",
       options,
       async (updatedOptions) => {
-        return assertResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>(
+        return adjustResponse(
           await this.pathContext.setAccessControl({
             ...updatedOptions,
             permissions: toPermissionsString(permissions),
-            leaseAccessConditions: options.conditions,
-            modifiedAccessConditions: options.conditions,
+            leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions?.ifMatch,
+            ifNoneMatch: options.conditions?.ifNoneMatch,
+            ifModifiedSince: options.conditions?.ifModifiedSince,
+            ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
           }),
         );
       },
@@ -834,20 +845,21 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-move",
       pathMoveOptions,
       async (updatedOptions) => {
-        return assertResponse<PathCreateHeaders, PathCreateHeaders>(
+        return adjustResponse(
           await destPathClient.pathContext.create({
             ...updatedOptions,
             mode: "legacy", // By default
             renameSource,
             sourceLeaseId: pathMoveOptions.conditions?.leaseId,
-            leaseAccessConditions: pathMoveOptions.destinationConditions,
-            sourceModifiedAccessConditions: {
-              sourceIfMatch: pathMoveOptions.conditions?.ifMatch,
-              sourceIfNoneMatch: pathMoveOptions.conditions?.ifNoneMatch,
-              sourceIfModifiedSince: pathMoveOptions.conditions?.ifModifiedSince,
-              sourceIfUnmodifiedSince: pathMoveOptions.conditions?.ifUnmodifiedSince,
-            },
-            modifiedAccessConditions: pathMoveOptions.destinationConditions,
+            leaseId: pathMoveOptions.destinationConditions?.leaseId,
+            ifMatch: pathMoveOptions.destinationConditions?.ifMatch,
+            ifNoneMatch: pathMoveOptions.destinationConditions?.ifNoneMatch,
+            ifModifiedSince: pathMoveOptions.destinationConditions?.ifModifiedSince,
+            ifUnmodifiedSince: pathMoveOptions.destinationConditions?.ifUnmodifiedSince,
+            sourceIfMatch: pathMoveOptions.conditions?.ifMatch,
+            sourceIfNoneMatch: pathMoveOptions.conditions?.ifNoneMatch,
+            sourceIfModifiedSince: pathMoveOptions.conditions?.ifModifiedSince,
+            sourceIfUnmodifiedSince: pathMoveOptions.conditions?.ifUnmodifiedSince,
             abortSignal: pathMoveOptions.abortSignal,
           }),
         );
@@ -1109,12 +1121,12 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * pathContextInternal provided by protocol layer.
    */
-  private pathContextInternal: Path;
+  private pathContextInternal: PathOperations;
 
   /**
    * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
    */
-  private pathContextInternalToBlobEndpoint: Path;
+  private pathContextInternalToBlobEndpoint: PathOperations;
 
   /**
    * blockBlobClientInternal provided by `@azure/storage-blob` package.
@@ -1174,12 +1186,12 @@ export class DataLakeFileClient extends DataLakePathClient {
       super(url, pipeline, options);
     }
 
-    this.pathContextInternal = new Path(this.storageClientContext);
+    this.pathContextInternal = this.storageClientContext.path;
     this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline, {
       uploadContentChecksumAlgorithm: this.dataLakeClientConfig?.uploadContentChecksumAlgorithm,
       downloadContentChecksumAlgorithm: this.dataLakeClientConfig?.downloadContentChecksumAlgorithm,
     });
-    this.pathContextInternalToBlobEndpoint = new Path(this.storageClientContextToBlobEndpoint);
+    this.pathContextInternalToBlobEndpoint = this.storageClientContextToBlobEndpoint.path;
   }
 
   /**
@@ -1407,11 +1419,13 @@ export class DataLakeFileClient extends DataLakePathClient {
         ...updatedOptions,
         abortSignal: options.abortSignal,
         position: offset,
-        leaseAccessConditions: options.conditions,
+        leaseId: options.conditions?.leaseId,
         requestOptions: {
           onUploadProgress: options.onProgress,
         },
-        cpkInfo: options.customerProvidedKey,
+        encryptionKey: options.customerProvidedKey?.encryptionKey,
+        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+        encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
         flush: options.flush,
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDurationInSeconds,
@@ -1425,8 +1439,8 @@ export class DataLakeFileClient extends DataLakePathClient {
         this.dataLakeClientConfig?.uploadContentChecksumAlgorithm,
       );
       parameters.contentLength = uploadBodyParameters.contentLength;
-      return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(
-        await this.pathContextInternal.appendData(uploadBodyParameters.body, parameters),
+      return adjustResponse(
+        await this.pathContextInternal.appendData(uploadBodyParameters.body as Uint8Array, parameters),
       );
     });
   }
@@ -1447,14 +1461,19 @@ export class DataLakeFileClient extends DataLakePathClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakeFileClient-flush", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse<PathFlushDataHeaders, PathFlushDataHeaders>(
+      return adjustResponse(
         await this.pathContextInternal.flushData({
           ...updatedOptions,
           position,
           contentLength: 0,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
-          cpkInfo: options.customerProvidedKey,
+          leaseId: options.conditions?.leaseId,
+          ifMatch: options.conditions?.ifMatch,
+          ifNoneMatch: options.conditions?.ifNoneMatch,
+          ifModifiedSince: options.conditions?.ifModifiedSince,
+          ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
           proposedLeaseId: options.proposedLeaseId,
           leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
@@ -1995,7 +2014,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         const adaptedOptions = { ...options, expiresOn };
-        return assertResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>(
+        return adjustResponse(
           await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
             ...adaptedOptions,
             tracingOptions: updatedOptions.tracingOptions,

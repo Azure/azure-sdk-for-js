@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
-import * as coreHttpCompat from "@azure/core-http-compat";
+import type { OperationOptions } from "@azure/core-client";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 
 export interface FileSystemList {
   filesystems?: FileSystem[];
@@ -793,7 +793,7 @@ export type LeaseAction =
 
 /** Optional parameters. */
 export interface ServiceListFileSystemsOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Filters results to filesystems within the specified prefix. */
   prefix?: string;
   /** Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory. */
@@ -812,7 +812,7 @@ export type ServiceListFileSystemsResponse = ServiceListFileSystemsHeaders &
 
 /** Optional parameters. */
 export interface FileSystemCreateOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -826,7 +826,7 @@ export type FileSystemCreateResponse = FileSystemCreateHeaders;
 
 /** Optional parameters. */
 export interface FileSystemSetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -842,7 +842,7 @@ export type FileSystemSetPropertiesResponse = FileSystemSetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface FileSystemGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -854,7 +854,7 @@ export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface FileSystemDeleteOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -868,7 +868,7 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders;
 
 /** Optional parameters. */
 export interface FileSystemListPathsOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory. */
   continuation?: string;
   /** An optional value that specifies the maximum number of items to return. If omitted or greater than 5,000, the response will include up to 5,000 items. */
@@ -890,7 +890,7 @@ export type FileSystemListPathsResponse = FileSystemListPathsHeaders & PathList;
 
 /** Optional parameters. */
 export interface FileSystemListBlobHierarchySegmentOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Filters results to filesystems within the specified prefix. */
   prefix?: string;
   /** An optional value that specifies the maximum number of items to return. If omitted or greater than 5,000, the response will include up to 5,000 items. */
@@ -912,7 +912,7 @@ export type FileSystemListBlobHierarchySegmentResponse =
   FileSystemListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse;
 
 /** Optional parameters. */
-export interface PathCreateOptionalParams extends coreClient.OperationOptions {
+export interface PathCreateOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -965,7 +965,7 @@ export interface PathCreateOptionalParams extends coreClient.OperationOptions {
 export type PathCreateResponse = PathCreateHeaders;
 
 /** Optional parameters. */
-export interface PathUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PathUpdateOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1011,7 +1011,7 @@ export type PathUpdateResponse = PathUpdateHeaders &
   SetAccessControlRecursiveResponse;
 
 /** Optional parameters. */
-export interface PathLeaseOptionalParams extends coreClient.OperationOptions {
+export interface PathLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1030,7 +1030,7 @@ export interface PathLeaseOptionalParams extends coreClient.OperationOptions {
 export type PathLeaseResponse = PathLeaseHeaders;
 
 /** Optional parameters. */
-export interface PathReadOptionalParams extends coreClient.OperationOptions {
+export interface PathReadOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1067,7 +1067,7 @@ export type PathReadResponse = PathReadHeaders & {
 
 /** Optional parameters. */
 export interface PathGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1086,7 +1086,7 @@ export interface PathGetPropertiesOptionalParams
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface PathDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PathDeleteOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1108,7 +1108,7 @@ export type PathDeleteResponse = PathDeleteHeaders;
 
 /** Optional parameters. */
 export interface PathSetAccessControlOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1132,7 +1132,7 @@ export type PathSetAccessControlResponse = PathSetAccessControlHeaders;
 
 /** Optional parameters. */
 export interface PathSetAccessControlRecursiveOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory. */
   continuation?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -1153,7 +1153,7 @@ export type PathSetAccessControlRecursiveResponse =
 
 /** Optional parameters. */
 export interface PathFlushDataOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
@@ -1187,7 +1187,7 @@ export type PathFlushDataResponse = PathFlushDataHeaders;
 
 /** Optional parameters. */
 export interface PathAppendDataOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -1223,7 +1223,7 @@ export type PathAppendDataResponse = PathAppendDataHeaders;
 
 /** Optional parameters. */
 export interface PathSetExpiryOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1237,7 +1237,7 @@ export type PathSetExpiryResponse = PathSetExpiryHeaders;
 
 /** Optional parameters. */
 export interface PathUndeleteOptionalParams
-  extends coreClient.OperationOptions {
+  extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1251,7 +1251,7 @@ export type PathUndeleteResponse = PathUndeleteHeaders;
 
 /** Optional parameters. */
 export interface StorageClientOptionalParams
-  extends coreHttpCompat.ExtendedServiceClientOptions {
+  extends ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** The value must be "filesystem" for all filesystem operations. */

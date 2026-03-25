@@ -22,9 +22,11 @@ import {
 } from "./constants.js";
 import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms.js";
 import { PathHttpHeaders } from "../generated-classic-models.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -645,6 +647,44 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+/**
+ * Converts a TypeSpec-generated response (with StorageCompatResponseInfo) into the
+ * legacy compat response shape expected by the public API surface.
+ */
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  if (result._response.parsedBody !== undefined) {
+    const { _response: _ignored, ...rest } = result._response.parsedBody as Record<string, unknown>;
+    compatResponse.parsedBody = rest;
+  }
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }
 
 export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
