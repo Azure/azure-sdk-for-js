@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/arm-databoundaries-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-databoundaries client library samples for JavaScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/databoundaries/arm-databoundaries"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoundaries/arm-databoundaries",
+  "dependencies": {
+    "@azure/arm-databoundaries": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}

@@ -5,20 +5,24 @@ import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to opt-in tenant to data boundary.
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary opt-in tenant to data boundary.
- * x-ms-original-file: 2024-08-01/PutDataBoundary.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2024-08-01/Operations_List.json
  */
-async function optInToDataBoundary(): Promise<void> {
+async function operationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataboundariesManegementClient(credential);
-  const result = await client.dataBoundaries.put("default", { properties: { dataBoundary: "EU" } });
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.operations.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await optInToDataBoundary();
+  await operationList();
 }
 
 main().catch(console.error);
