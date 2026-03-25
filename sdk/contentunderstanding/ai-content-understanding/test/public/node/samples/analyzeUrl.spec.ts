@@ -438,6 +438,7 @@ describe("Sample: analyzeUrl", () => {
     );
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);
+    assert.ok(combineResult.contents.length > 0, "Expected at least one content item in combineResult");
     const combineAudio = combineResult.contents[0] as AudioVisualContent;
     assert.ok(
       (combineAudio.endTimeMs ?? 0) > (combineAudio.startTimeMs ?? 0),
