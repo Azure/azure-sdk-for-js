@@ -83,9 +83,9 @@ jobs:
           set -euo pipefail
           cd "$PACKAGE_PATH"
 
-          SPEC_REPO=$(grep '^repo:' tsp-location.yaml | awk '{print $2}')
-          SPEC_DIR=$(grep '^directory:' tsp-location.yaml | awk '{print $2}')
-          CURRENT_COMMIT=$(grep '^commit:' tsp-location.yaml | awk '{print $2}')
+          SPEC_REPO=$(yq '.repo' tsp-location.yaml)
+          SPEC_DIR=$(yq '.directory' tsp-location.yaml)
+          CURRENT_COMMIT=$(yq '.commit' tsp-location.yaml)
 
           echo "Spec repo:       $SPEC_REPO"
           echo "Spec directory:   $SPEC_DIR"
