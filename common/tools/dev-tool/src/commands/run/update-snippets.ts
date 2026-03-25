@@ -78,6 +78,12 @@ const TS_PRESERVE_WHITESPACE = /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/
 const TS_IGNORE = /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g;
 const UNIX_EOL = "\n";
 
+const DIAGNOSTIC_FORMAT_HOST: ts.FormatDiagnosticsHost = {
+  getCanonicalFileName: (p) => p,
+  getCurrentDirectory: ts.sys.getCurrentDirectory,
+  getNewLine: () => ts.sys.newLine,
+};
+
 /**
  * Finds all the snippet locations in a project.
  *
@@ -606,15 +612,23 @@ async function replaceSnippetsWithNew(
 /**
  * Type-checks the snippets file using `tsconfig.snippets.json` if it exists in the project directory.
  * Builds the package and its workspace dependencies first to ensure type declarations are available.
+ * Only diagnostics originating from the snippets file itself are reported; errors in `src/` that are
+ * unrelated to the snippets are ignored.
  *
  * @param project - the resolved project info
  * @returns true if type-checking succeeds or no tsconfig.snippets.json is found, false otherwise
  */
 async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
   const tsconfigPath = path.join(project.path, TSCONFIG_SNIPPETS);
+  const snippetsFilePath = path.join(project.path, ...SNIPPET_PATH);
 
   if (!existsSync(tsconfigPath)) {
     log.info(`No ${TSCONFIG_SNIPPETS} found in ${project.path}, skipping type-check.`);
+    return true;
+  }
+
+  if (!existsSync(snippetsFilePath)) {
+    log.info(`No ${SNIPPET_PATH.join("/")} found in ${project.path}, skipping type-check.`);
     return true;
   }
 
@@ -623,11 +637,15 @@ async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
   const repoRoot = await resolveRoot(project.path);
   log.info(`Building ${project.name} and workspace dependencies for type-checking...`);
 
-  const buildRes = spawnSync("pnpm", ["turbo", "build", "--filter", `${project.name}...`, "--token", "1"], {
-    stdio: "inherit",
-    shell: process.platform === "win32",
-    cwd: repoRoot,
-  });
+  const buildRes = spawnSync(
+    "pnpm",
+    ["turbo", "build", "--filter", `${project.name}...`, "--token", "1"],
+    {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+      cwd: repoRoot,
+    },
+  );
 
   if (buildRes.status !== 0 || buildRes.signal !== null) {
     log.error(
@@ -638,15 +656,41 @@ async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
 
   log.info(`Type-checking snippets using ${TSCONFIG_SNIPPETS}...`);
 
-  const res = spawnSync("tsc", ["-p", tsconfigPath, "--noEmit"], {
-    stdio: "inherit",
-    shell: process.platform === "win32",
-    cwd: project.path,
-  });
-
-  if (res.status !== 0 || res.signal !== null) {
+  // Use the TypeScript compiler API to get diagnostics and filter to only errors from the
+  // snippets file. This avoids false positives from pre-existing errors in src/ that are
+  // unrelated to the snippets themselves.
+  const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+  if (configFile.error) {
     log.error(
-      `Type-checking snippets failed. Run \`tsc -p ${TSCONFIG_SNIPPETS} --noEmit\` to see detailed errors.`,
+      `Failed to read ${TSCONFIG_SNIPPETS}: ${ts.flattenDiagnosticMessageText(configFile.error.messageText, "\n")}`,
+    );
+    return false;
+  }
+
+  const parsedConfig = ts.parseJsonConfigFileContent(
+    configFile.config,
+    ts.sys,
+    project.path,
+    undefined,
+    tsconfigPath,
+  );
+
+  const program = ts.createProgram(parsedConfig.fileNames, parsedConfig.options);
+  const allDiagnostics = ts.getPreEmitDiagnostics(program);
+
+  // Normalize path separators for cross-platform comparison
+  const normalizedSnippetsPath = snippetsFilePath.replace(/\\/g, "/");
+  const snippetDiagnostics = allDiagnostics.filter(
+    (d) => d.file && d.file.fileName.replace(/\\/g, "/") === normalizedSnippetsPath,
+  );
+
+  if (snippetDiagnostics.length > 0) {
+    log.error(
+      `Type-checking snippets failed with ${snippetDiagnostics.length} error(s) in ${SNIPPET_PATH.join("/")}:\n` +
+        ts.formatDiagnosticsWithColorAndContext(
+          Array.from(snippetDiagnostics),
+          DIAGNOSTIC_FORMAT_HOST,
+        ),
     );
     return false;
   }
