@@ -42,12 +42,16 @@ export {
   readPackageImports,
   buildConditionsSet,
   sourcePathToOutputPath,
+  collectImportTargetPaths,
+  buildImportTargetIndex,
+  validateNoDirectImports,
 } from "./resolveImports.ts";
 export type {
   ImportsMap,
   ResolveImportsResult,
   UnresolvedSpecifier,
   MissingResolvedTarget,
+  DirectImportViolation,
 } from "./resolveImports.ts";
 export { Logger, getLogger, setLogLevel, setJsonMode, isJsonMode } from "./logger.ts";
 export type { LogLevel } from "./logger.ts";
