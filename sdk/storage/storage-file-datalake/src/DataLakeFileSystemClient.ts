@@ -799,6 +799,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       async (updatedOptions) => {
         const rawResponse = adjustResponse(
           await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
+            showonly: "deleted",
             marker: continuation,
             ...updatedOptions,
             prefix: options.prefix === "" ? undefined : options.prefix,
