@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
 
 import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
 import { DataLakeFileClient } from "../src/index.js";
 import { toPermissionsString } from "../src/transforms.js";
 import {
   bodyToString,
+  createAndStartRecorder,
   getDataLakeServiceClient,
   getEncryptionScope,
   getUniqueName,
-  recorderEnvSetup,
   sleep,
-  uriSanitizers,
 } from "./utils/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -33,9 +33,7 @@ describe("DataLakePathClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1469,9 +1467,7 @@ describe("DataLakePathClient with CPK", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -1872,9 +1868,7 @@ describe("DataLakePathClient - Encryption Scope", () => {
       ctx.skip();
     }
 
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

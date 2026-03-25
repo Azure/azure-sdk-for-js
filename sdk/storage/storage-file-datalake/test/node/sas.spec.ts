@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
 import type {
   PathAccessControlItem,
   PathPermissions,
@@ -27,13 +28,12 @@ import { DataLakeFileClient } from "../../src/index.js";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions.js";
 import { SASProtocol } from "../../src/sas/SASQueryParameters.js";
 import {
+  createAndStartRecorder,
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
   getEncryptionScope,
   getUniqueName,
-  recorderEnvSetup,
   configureStorageClient,
-  uriSanitizers,
   getSignatureFromSasUrl,
   customizeRequestPolicy,
 } from "../utils/index.js";
@@ -48,10 +48,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
   });
 
@@ -1772,10 +1769,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
   };
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
 
     const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -2098,10 +2092,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
   };
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
       oauthServiceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
@@ -2263,10 +2254,7 @@ describe.skip("Generate user delegation SAS against file system Node.js only", (
   let tmr: Date;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
@@ -2548,10 +2536,7 @@ describe.skip("Generate user delegation SAS against path Node.js only", () => {
   let tmr: Date;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getDataLakeServiceClientWithDefaultCredential(recorder);
     } catch {
