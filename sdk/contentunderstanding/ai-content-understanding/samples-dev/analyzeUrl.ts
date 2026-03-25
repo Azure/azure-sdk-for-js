@@ -46,6 +46,20 @@ export async function main(): Promise<void> {
 
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
+  // 1. Analyze Document from URL (with content range examples)
+  await analyzeDocument(client);
+
+  // 2. Analyze Video from URL (with content range examples)
+  await analyzeVideo(client);
+
+  // 3. Analyze Audio from URL (with content range examples)
+  await analyzeAudio(client);
+
+  // 4. Analyze Image from URL
+  await analyzeImage(client);
+}
+
+async function analyzeDocument(client: ContentUnderstandingClient): Promise<void> {
   // ========================================================================
   // DOCUMENT ANALYSIS FROM URL
   // ========================================================================
@@ -117,7 +131,9 @@ export async function main(): Promise<void> {
       `  Combined range analysis returned pages ${doc.startPageNumber} - ${doc.endPageNumber}`,
     );
   }
+}
 
+async function analyzeVideo(client: ContentUnderstandingClient): Promise<void> {
   // ========================================================================
   // VIDEO ANALYSIS FROM URL
   // ========================================================================
@@ -210,7 +226,9 @@ export async function main(): Promise<void> {
       console.log(`  '0-3000,30000-' segment: ${av.startTimeMs} ms - ${av.endTimeMs} ms`);
     }
   }
+}
 
+async function analyzeAudio(client: ContentUnderstandingClient): Promise<void> {
   // ========================================================================
   // AUDIO ANALYSIS FROM URL
   // ========================================================================
@@ -294,7 +312,9 @@ export async function main(): Promise<void> {
     const av = audioCombineResult.contents[0] as AudioVisualContent;
     console.log(`  '0-3000,30000-': ${av.startTimeMs} ms - ${av.endTimeMs} ms`);
   }
+}
 
+async function analyzeImage(client: ContentUnderstandingClient): Promise<void> {
   // ========================================================================
   // IMAGE ANALYSIS FROM URL
   // ========================================================================
