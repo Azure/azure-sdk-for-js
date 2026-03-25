@@ -56,6 +56,7 @@ export function fileSystemItemDeserializer(item: any): FileSystemItem {
 export interface StorageError {
   /** The service error response object. */
   error?: StorageErrorBody;
+  errorCode?: string;
 }
 
 export function storageErrorDeserializer(item: any): StorageError {

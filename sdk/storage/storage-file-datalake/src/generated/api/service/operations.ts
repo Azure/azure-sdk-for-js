@@ -28,7 +28,7 @@ export function _listFileSystemsSend(
   options: ServiceListFileSystemsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?resource,prefix,continuation,maxResults,timeout}",
+    "{?resource,prefix,continuation,maxResults,timeout}",
     {
       resource: resource,
       prefix: options?.prefix,
@@ -66,6 +66,11 @@ export async function _listFileSystemsDeserialize(
       ...(error.details as any),
       ..._listFileSystemsDeserializeExceptionHeaders(result),
     };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 

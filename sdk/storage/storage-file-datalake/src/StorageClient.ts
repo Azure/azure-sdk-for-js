@@ -60,11 +60,10 @@ export class StorageClientContext {
 
   constructor(url: string, options: StorageClientContextOptions = {}) {
     const { credential, pipeline: corePipeline, ...clientOptions } = options;
-    this.dataLakeClient = new DataLakeClient(
-      url,
-      credential ?? unusedCred,
-      { ...clientOptions, pipeline: corePipeline } as DataLakeClientOptionalParams,
-    );
+    this.dataLakeClient = new DataLakeClient(url, credential ?? unusedCred, {
+      ...clientOptions,
+      pipeline: corePipeline,
+    } as DataLakeClientOptionalParams);
     this.service = this.dataLakeClient.service;
     this.fileSystem = this.dataLakeClient.fileSystem;
     this.path = this.dataLakeClient.path;
@@ -75,29 +74,6 @@ export class StorageClientContext {
     }
     (this.dataLakeClient as DataLakeClient & { pipeline: CorePipeline }).pipeline = corePipeline;
     this.dataLakeClient["_client"].pipeline = corePipeline;
-
-    // Add policy to strip trailing "/" before query params (generated URL templates produce "/?...")
-    // Only add once per pipeline
-    if (
-      !corePipeline
-        .getOrderedPolicies()
-        .some((p) => p.name === "stripTrailingSlashPolicy")
-    ) {
-      corePipeline.addPolicy(
-        {
-          name: "stripTrailingSlashPolicy",
-          sendRequest(request, next) {
-            const url = request.url;
-            const qIdx = url.indexOf("?");
-            if (qIdx > 0 && url[qIdx - 1] === "/") {
-              request.url = url.slice(0, qIdx - 1) + url.slice(qIdx);
-            }
-            return next(request);
-          },
-        },
-        { phase: "Serialize" },
-      );
-    }
   }
 }
 
@@ -192,7 +168,11 @@ export abstract class StorageClient {
 
     // creating this BlobServiceClient allows us to use the converted V2 Pipeline attached to `pipeline`.
     const blobClient = new BlobServiceClient(url, pipeline);
-    this.credential = (blobClient as BlobServiceClient & { credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential }).credential;
+    this.credential = (
+      blobClient as BlobServiceClient & {
+        credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
+      }
+    ).credential;
 
     // Get core client options from the v1 pipeline
     const coreClientOptions = getCoreClientOptions(pipeline);

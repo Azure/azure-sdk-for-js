@@ -77,6 +77,11 @@ export async function _undeleteDeserialize(result: PathUncheckedResponse): Promi
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._undeleteDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -189,6 +194,11 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._setExpiryDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -349,6 +359,11 @@ export async function _appendDataDeserialize(result: PathUncheckedResponse): Pro
       ...(error.details as any),
       ..._appendDataDeserializeExceptionHeaders(result),
     };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -569,6 +584,11 @@ export async function _flushDataDeserialize(result: PathUncheckedResponse): Prom
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._flushDataDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -721,6 +741,11 @@ export async function _setAccessControlRecursiveDeserialize(
       ...(error.details as any),
       ..._setAccessControlRecursiveDeserializeExceptionHeaders(result),
     };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -860,6 +885,11 @@ export async function _setAccessControlDeserialize(result: PathUncheckedResponse
       ...(error.details as any),
       ..._setAccessControlDeserializeExceptionHeaders(result),
     };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -941,7 +971,7 @@ export function _$deleteSend(
   options: PathDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?recursive,continuation,paginated,timeout}",
+    "{?recursive,continuation,paginated,timeout}",
     {
       recursive: options?.recursive,
       continuation: options?.continuation,
@@ -989,6 +1019,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1080,7 +1115,7 @@ export function _getPropertiesSend(
   options: PathGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?action,upn,timeout}",
+    "{?action,upn,timeout}",
     {
       action: options?.action,
       upn: options?.upn,
@@ -1130,6 +1165,11 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
     };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1387,7 +1427,7 @@ export function _readSend(
   options: PathReadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1448,6 +1488,11 @@ export async function _readDeserialize(
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._readDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1652,7 +1697,7 @@ export function _leaseSend(
   options: PathLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1707,6 +1752,11 @@ export async function _leaseDeserialize(result: PathUncheckedResponse): Promise<
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._leaseDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1805,7 +1855,7 @@ export function _updateSend(
   options: PathUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?action,maxRecords,continuation,mode,forceFlag,position,retainUncommittedData,close,timeout}",
+    "{?action,maxRecords,continuation,mode,forceFlag,position,retainUncommittedData,close,timeout}",
     {
       action: action,
       maxRecords: options?.maxRecords,
@@ -1896,6 +1946,11 @@ export async function _updateDeserialize(
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._updateDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -2060,7 +2115,7 @@ export function _createSend(
   options: PathCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?resource,mode,continuation,timeout}",
+    "{?resource,mode,continuation,timeout}",
     {
       resource: options?.resource,
       mode: options?.mode,
@@ -2177,6 +2232,11 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
     const error = createRestError(result);
     error.details = storageErrorDeserializer(result.body);
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 

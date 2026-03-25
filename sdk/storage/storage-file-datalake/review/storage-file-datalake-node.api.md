@@ -11,16 +11,15 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-blob';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import { ClientOptions } from '@azure-rest/core-client';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
 import type { ContainerUndeleteResponse } from '@azure/storage-blob';
-import * as coreClient from '@azure/core-client';
-import * as coreHttpCompat from '@azure/core-http-compat';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
 import { CredentialPolicyCreator } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
+import type { FullOperationResponse } from '@azure-rest/core-client';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
@@ -30,11 +29,13 @@ import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import type { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { NodeJSReadableStream } from '@azure/storage-blob';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
+import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import { PipelineLike } from '@azure/storage-blob';
 import { PipelineOptions } from '@azure/storage-blob';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
@@ -57,7 +58,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-blob';
 import { StorageRetryPolicyType } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
@@ -556,8 +557,8 @@ export interface FileAppendOptions extends CommonOptions {
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
-    leaseAction?: LeaseAction;
+    // Warning: (ae-forgotten-export) The symbol "LeaseAction_2" needs to be exported by the entry point index.d.ts
+    leaseAction?: LeaseAction_2;
     leaseDurationInSeconds?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -597,7 +598,7 @@ export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
-    leaseAction?: LeaseAction;
+    leaseAction?: LeaseAction_2;
     leaseDurationInSeconds?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
@@ -1231,7 +1232,7 @@ export interface Metadata {
 }
 
 // @public (undocumented)
-export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
