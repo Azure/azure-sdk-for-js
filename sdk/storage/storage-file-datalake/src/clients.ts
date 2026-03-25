@@ -405,6 +405,7 @@ export class DataLakePathClient extends StorageClient {
           if (e.details?.errorCode === "PathAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -513,6 +514,7 @@ export class DataLakePathClient extends StorageClient {
           if (e.details?.errorCode === "PathNotFound") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
