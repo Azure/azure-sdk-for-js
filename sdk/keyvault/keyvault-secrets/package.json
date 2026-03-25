@@ -96,17 +96,38 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "/mnt/vss/_work/1/s/azure-sdk-for-js/sdk/keyvault/keyvault-secrets/generated/api/keyVaultContext.ts",
-        "prefix": "userAgentInfo"
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Secrets",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "skip": [
+      "backupAndRestore.js"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    }
+  },
   "dependencies": {
-    "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.3.3",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
-    "@azure/logger": "^1.2.0",
+    "@azure/core-lro": "^2.7.2",
+    "@azure/core-paging": "^1.6.2",
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/keyvault-common": "^2.0.0",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -117,11 +138,16 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "eslint": "catalog:",
+    "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -136,7 +162,7 @@
     "generate:client": "echo skipped",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "test:node": "dev-tool run test:vitest",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
