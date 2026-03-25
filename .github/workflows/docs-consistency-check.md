@@ -23,9 +23,9 @@ safe-outputs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        client-id: 5786d1fb-187e-4ca9-9a81-ab89ea278986
-        tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-        subscription-id: a18897a6-7e44-457d-9260-f2854c0aca42
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     - name: Login to GitHub
       uses: ./eng/common/actions/login-to-github
       with:

@@ -22,7 +22,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"365a3d5e3316325e6fc53cf037dbfb66189276463413c0412d60dd357a76ebc7","compiler_version":"v0.63.1","strict":true,"agent_id":"copilot"}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"db61ea5e6abc6608139d74a3558b239fde36d74015dff1bfacc361f1a264ac12","compiler_version":"v0.63.1","strict":true,"agent_id":"copilot"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -1081,9 +1081,9 @@ jobs:
         env:
           GH_HOST: ${{ steps.ghes-host-config.outputs.GH_HOST }}
         with:
-          client-id: 5786d1fb-187e-4ca9-9a81-ab89ea278986
-          subscription-id: a18897a6-7e44-457d-9260-f2854c0aca42
-          tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       - name: Login to GitHub
         uses: ./eng/common/actions/login-to-github
         env:
