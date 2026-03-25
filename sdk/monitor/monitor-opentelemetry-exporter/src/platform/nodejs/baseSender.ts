@@ -110,6 +110,11 @@ export abstract class BaseSender {
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
+
+    // Send all persisted files from previous sessions immediately on startup
+    if (!this.disableOfflineStorage) {
+      this.sendAllPersistedFiles();
+    }
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -154,8 +159,8 @@ export abstract class BaseSender {
         }
         if (result) {
           diag.info(result);
-          const breezeResponse = JSON.parse(result) as BreezeResponse;
-          const filteredEnvelopes: Envelope[] = [];
+          const { breezeResponse, retriableEnvelopes: filteredEnvelopes } =
+            this.parseRetriableEnvelopes(envelopes, result);
           // Create a list of successful envelopes by filtering out the failed ones for customer SDK Stats
           const successfulEnvelopes: Envelope[] = [...envelopes];
 
@@ -163,21 +168,10 @@ export abstract class BaseSender {
           if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
-          // Figure out if we need to either retry or count failures
+          // Mark errored envelopes so they are excluded from successful counts
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
-              // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
-
-              // Add to retry list if status code is retriable and not a sampling rejection
-              // Sampling rejections should not be retried as the server will always reject these items
-              if (
-                error.statusCode &&
-                isRetriable(error.statusCode) &&
-                !isSamplingRejection(error)
-              ) {
-                filteredEnvelopes.push(envelopes[error.index]);
-              }
             });
           }
 
@@ -385,7 +379,7 @@ export abstract class BaseSender {
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
       if (envelopes) {
-        await this.send(envelopes);
+        await this.exportEnvelopes(envelopes);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
@@ -393,6 +387,48 @@ export abstract class BaseSender {
       }
       diag.warn(`Failed to fetch persisted file`, err);
     }
+  }
+
+  private async sendAllPersistedFiles(): Promise<void> {
+    try {
+      // Clean outdated telemetry from disk before attempting to send
+      await this.persister.cleanExpiredFiles();
+
+      let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      while (envelopes) {
+        const result = await this.exportEnvelopes(envelopes);
+        if (result.code === ExportResultCode.FAILED) {
+          // Stop processing — remaining files stay on disk for later retry
+          diag.warn(`Failed to send persisted file during startup, will retry later`);
+          break;
+        }
+        envelopes = (await this.persister.shift()) as Envelope[] | null;
+      }
+    } catch (err: any) {
+      diag.warn(`Failed to read persisted files during startup`, err);
+    }
+  }
+
+  /**
+   * Parse a Breeze response and extract envelopes whose errors have retriable status codes.
+   */
+  private parseRetriableEnvelopes(
+    envelopes: Envelope[],
+    responseBody: string,
+  ): {
+    breezeResponse: BreezeResponse;
+    retriableEnvelopes: Envelope[];
+  } {
+    const breezeResponse = JSON.parse(responseBody) as BreezeResponse;
+    const retriableEnvelopes: Envelope[] = [];
+    if (breezeResponse.errors) {
+      for (const error of breezeResponse.errors) {
+        if (error.statusCode && isRetriable(error.statusCode) && !isSamplingRejection(error)) {
+          retriableEnvelopes.push(envelopes[error.index]);
+        }
+      }
+    }
+    return { breezeResponse, retriableEnvelopes };
   }
 
   private scheduleRetryTimer(retryAfterMs?: number): void {

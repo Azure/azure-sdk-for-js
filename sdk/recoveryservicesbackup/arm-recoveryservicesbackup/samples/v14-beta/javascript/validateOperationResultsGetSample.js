@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to fetches the result of a triggered validate operation.
+ *
+ * @summary fetches the result of a triggered validate operation.
+ * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ValidateOperationResults.json
+ */
+async function getOperationResultsOfValidateOperation() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const result = await client.validateOperationResults.get(
+    "NetSDKTestRsVault",
+    "SwaggerTestRg",
+    "00000000-0000-0000-0000-000000000000",
+  );
+  console.log(result);
+}
+
+async function main() {
+  await getOperationResultsOfValidateOperation();
+}
+
+main().catch(console.error);
