@@ -62,7 +62,6 @@ jobs:
       - name: Ensure target branch exists
         run: |
           set -euo pipefail
-          git fetch origin
 
           if git ls-remote --heads origin "refs/heads/$TARGET_BRANCH" | grep -q .; then
             echo "Branch '$TARGET_BRANCH' already exists."
@@ -153,7 +152,7 @@ jobs:
 
           npm install -g pnpm@latest-10
           npm install -g @azure-tools/typespec-client-generator-cli
-          pnpm install --no-frozen-lockfile
+          pnpm install
 
           cd "$PACKAGE_PATH"
 
