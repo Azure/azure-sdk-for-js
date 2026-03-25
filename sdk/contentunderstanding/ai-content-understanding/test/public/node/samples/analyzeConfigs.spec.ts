@@ -59,7 +59,7 @@ describe("Sample: analyzeConfigs", () => {
       "prebuilt-documentSearch",
       pdfBytes,
       "application/pdf",
-      testPollingOptions,
+      { ...testPollingOptions, updateIntervalInMs: 0 },
     );
     const result = await poller.pollUntilDone();
 
