@@ -5,7 +5,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger.js";
 
 /**
- * Options for {@link getEntraTokenPassword}.
+ * Options for {@link entraTokenProvider}.
  */
 export interface GetEntraTokenPasswordOptions {
   /**
@@ -104,10 +104,10 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
  * @returns The same Sequelize instance, for chaining.
  *
  * @example
- * ```ts snippet:ConfigureEntraIdAuth
+ * ```ts snippet:configureEntraAuthentication
  * import { DefaultAzureCredential } from "@azure/identity";
  *
- * const { configureEntraIdAuth } = await import("@azure/postgresql-auth");
+ * const { configureEntraAuthentication } = await import("@azure/postgresql-auth");
  * const { Sequelize } = await import("sequelize");
  * const sequelize = new Sequelize({
  *   dialect: "postgres",
@@ -116,11 +116,11 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
  *   database: process.env.PGDATABASE,
  * });
  * const credential = new DefaultAzureCredential();
- * configureEntraIdAuth(sequelize, credential);
+ * configureEntraAuthentication(sequelize, credential);
  * await sequelize.authenticate();
  * ```
  */
-export function configureEntraIdAuth(
+export function configureEntraAuthentication(
   sequelizeInstance: SequelizeBeforeConnectHook,
   credential: TokenCredential,
   options: ConfigureEntraIdAuthOptions = {},
@@ -133,7 +133,7 @@ export function configureEntraIdAuth(
   // Runs before every new connection is created by Sequelize
   sequelizeInstance.beforeConnect(async (config: { username?: string; password?: string }) => {
     logger.info("Fetching Entra ID access token...");
-    const token = await getEntraTokenPassword(credential);
+    const token = await entraTokenProvider(credential);
 
     // Derive username from token if you want (optional):
     const claims = decodeJwtToken(token);
@@ -163,10 +163,10 @@ export function configureEntraIdAuth(
  * @returns A promise that resolves to the access token string.
  *
  * @example
- * ```ts snippet:GetEntraTokenPassword
+ * ```ts snippet:entraTokenProvider
  * import { DefaultAzureCredential } from "@azure/identity";
  *
- * const { getEntraTokenPassword } = await import("@azure/postgresql-auth");
+ * const { entraTokenProvider } = await import("@azure/postgresql-auth");
  * const pg = await import("pg");
  * const credential = new DefaultAzureCredential();
  * const pool = new pg.Pool({
@@ -174,12 +174,12 @@ export function configureEntraIdAuth(
  *   port: Number(process.env.PGPORT || 5432),
  *   database: process.env.PGDATABASE,
  *   user: process.env.PGUSER,
- *   password: () => getEntraTokenPassword(credential),
+ *   password: () => entraTokenProvider(credential),
  *   ssl: { rejectUnauthorized: true },
  * });
  * ```
  */
-export async function getEntraTokenPassword(
+export async function entraTokenProvider(
   credential: TokenCredential,
   options: GetEntraTokenPasswordOptions = {},
 ): Promise<string> {

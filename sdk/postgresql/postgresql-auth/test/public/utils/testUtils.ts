@@ -119,7 +119,7 @@ export interface MockSequelizeInstance {
   beforeConnect: (
     callback: (config: { username?: string; password?: string }) => Promise<void>,
   ) => void;
-  /** The captured callback, available after `configureEntraIdAuth` is called. */
+  /** The captured callback, available after `configureEntraAuthentication` is called. */
   capturedCallback?: (config: { username?: string; password?: string }) => Promise<void>;
 }
 

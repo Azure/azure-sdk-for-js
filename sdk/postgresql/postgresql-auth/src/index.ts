@@ -10,7 +10,7 @@
  *
  * @packageDocumentation
  */
-export { configureEntraIdAuth, getEntraTokenPassword } from "./entraConnection.js";
+export { configureEntraAuthentication, entraTokenProvider } from "./entraConnection.js";
 export type {
   ConfigureEntraIdAuthOptions,
   GetEntraTokenPasswordOptions,
