@@ -42,8 +42,8 @@ npm install @azure/identity sequelize pg
 
 This library provides two functions for integrating Entra ID authentication with PostgreSQL:
 
-- **`getEntraTokenPassword`** — Acquires an Entra ID access token and returns it as a string suitable for use as a PostgreSQL password. Use this with `pg.Pool` or `pg.Client`.
-- **`configureEntraIdAuth`** — Registers a `beforeConnect` hook on a Sequelize instance that automatically acquires a fresh token and sets the username/password before each new connection.
+- **`entraTokenProvider`** — Acquires an Entra ID access token and returns it as a string suitable for use as a PostgreSQL password. Use this with `pg.Pool` or `pg.Client`.
+- **`configureEntraAuthentication`** — Registers a `beforeConnect` hook on a Sequelize instance that automatically acquires a fresh token and sets the username/password before each new connection.
 
 Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and handle token acquisition against the Azure Database for PostgreSQL scope.
 
@@ -51,10 +51,10 @@ Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and ha
 
 ### Using with node-postgres (`pg`)
 
-```ts snippet:GetEntraTokenPassword
+```ts snippet:entraTokenProvider
 import { DefaultAzureCredential } from "@azure/identity";
 
-const { getEntraTokenPassword } = await import("@azure/postgresql-auth");
+const { entraTokenProvider } = await import("@azure/postgresql-auth");
 const pg = await import("pg");
 const credential = new DefaultAzureCredential();
 const pool = new pg.Pool({
@@ -62,17 +62,17 @@ const pool = new pg.Pool({
   port: Number(process.env.PGPORT || 5432),
   database: process.env.PGDATABASE,
   user: process.env.PGUSER,
-  password: () => getEntraTokenPassword(credential),
+  password: () => entraTokenProvider(credential),
   ssl: { rejectUnauthorized: true },
 });
 ```
 
 ### Using with Sequelize
 
-```ts snippet:ConfigureEntraIdAuth
+```ts snippet:configureEntraAuthentication
 import { DefaultAzureCredential } from "@azure/identity";
 
-const { configureEntraIdAuth } = await import("@azure/postgresql-auth");
+const { configureEntraAuthentication } = await import("@azure/postgresql-auth");
 const { Sequelize } = await import("sequelize");
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -81,7 +81,7 @@ const sequelize = new Sequelize({
   database: process.env.PGDATABASE,
 });
 const credential = new DefaultAzureCredential();
-configureEntraIdAuth(sequelize, credential);
+configureEntraAuthentication(sequelize, credential);
 await sequelize.authenticate();
 ```
 

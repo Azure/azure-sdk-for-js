@@ -6,8 +6,8 @@ import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("GetEntraTokenPassword", async () => {
-    const { getEntraTokenPassword } = await import("@azure/postgresql-auth");
+  it("entraTokenProvider", async () => {
+    const { entraTokenProvider } = await import("@azure/postgresql-auth");
     const pg = await import("pg");
 
     const credential = new DefaultAzureCredential();
@@ -16,13 +16,13 @@ describe("snippets", () => {
       port: Number(process.env.PGPORT || 5432),
       database: process.env.PGDATABASE,
       user: process.env.PGUSER,
-      password: () => getEntraTokenPassword(credential),
+      password: () => entraTokenProvider(credential),
       ssl: { rejectUnauthorized: true },
     });
   });
 
-  it("ConfigureEntraIdAuth", async () => {
-    const { configureEntraIdAuth } = await import("@azure/postgresql-auth");
+  it("configureEntraAuthentication", async () => {
+    const { configureEntraAuthentication } = await import("@azure/postgresql-auth");
     const { Sequelize } = await import("sequelize");
 
     const sequelize = new Sequelize({
@@ -33,7 +33,7 @@ describe("snippets", () => {
     });
 
     const credential = new DefaultAzureCredential();
-    configureEntraIdAuth(sequelize, credential);
+    configureEntraAuthentication(sequelize, credential);
     await sequelize.authenticate();
   });
 

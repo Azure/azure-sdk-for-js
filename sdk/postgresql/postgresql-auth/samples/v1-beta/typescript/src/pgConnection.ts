@@ -8,7 +8,7 @@
 
 import pg from "pg";
 import { DefaultAzureCredential } from "@azure/identity";
-import { getEntraTokenPassword } from "@azure/postgresql-auth";
+import { entraTokenProvider } from "@azure/postgresql-auth";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -26,7 +26,7 @@ async function main(): Promise<void> {
     port: Number(process.env.PGPORT || 5432),
     database: process.env.PGDATABASE,
     user: process.env.PGUSER,
-    password: () => getEntraTokenPassword(credential),
+    password: () => entraTokenProvider(credential),
     ssl: { rejectUnauthorized: true },
     connectionTimeoutMillis: 20000,
     idleTimeoutMillis: 30000,

@@ -7,7 +7,7 @@
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function configureEntraIdAuth(sequelizeInstance: SequelizeBeforeConnectHook, credential: TokenCredential, options?: ConfigureEntraIdAuthOptions): typeof sequelizeInstance;
+export function configureEntraAuthentication(sequelizeInstance: SequelizeBeforeConnectHook, credential: TokenCredential, options?: ConfigureEntraIdAuthOptions): typeof sequelizeInstance;
 
 // @public
 export interface ConfigureEntraIdAuthOptions {
@@ -15,7 +15,7 @@ export interface ConfigureEntraIdAuthOptions {
 }
 
 // @public
-export function getEntraTokenPassword(credential: TokenCredential, options?: GetEntraTokenPasswordOptions): Promise<string>;
+export function entraTokenProvider(credential: TokenCredential, options?: GetEntraTokenPasswordOptions): Promise<string>;
 
 // @public
 export interface GetEntraTokenPasswordOptions {

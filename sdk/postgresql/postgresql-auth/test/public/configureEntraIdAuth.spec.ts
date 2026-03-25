@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { configureEntraIdAuth } from "@azure/postgresql-auth";
+import { configureEntraAuthentication } from "@azure/postgresql-auth";
 import {
   createValidJwtToken,
   createJwtTokenWithAppId,
@@ -17,14 +17,14 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-describe("configureEntraIdAuth", () => {
+describe("configureEntraAuthentication", () => {
   describe("hook registration", () => {
     it("should register a beforeConnect callback on the sequelize instance", () => {
       const mock = createMockSequelizeInstance();
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       expect(mock.capturedCallback).toBeDefined();
       expect(typeof mock.capturedCallback).toBe("function");
@@ -35,7 +35,7 @@ describe("configureEntraIdAuth", () => {
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      const result = configureEntraIdAuth(mock, credential);
+      const result = configureEntraAuthentication(mock, credential);
 
       expect(result).toBe(mock);
     });
@@ -44,7 +44,7 @@ describe("configureEntraIdAuth", () => {
       const mock = createMockSequelizeInstance();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(() => configureEntraIdAuth(mock, null as any)).toThrow("credential is required");
+      expect(() => configureEntraAuthentication(mock, null as any)).toThrow("credential is required");
     });
   });
 
@@ -54,7 +54,7 @@ describe("configureEntraIdAuth", () => {
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       await mock.capturedCallback!(config);
@@ -68,7 +68,7 @@ describe("configureEntraIdAuth", () => {
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config = { username: "old-user", password: "old-password" };
       await mock.capturedCallback!(config);
@@ -86,7 +86,7 @@ describe("configureEntraIdAuth", () => {
       const token = createJwtTokenWithAppId(TEST_USERS.MANAGED_IDENTITY_APP_ID);
       const credential = new TestTokenCredential(token);
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       await mock.capturedCallback!(config);
@@ -108,7 +108,7 @@ describe("configureEntraIdAuth", () => {
       const credential = new TestTokenCredential(token);
       const mock = createMockSequelizeInstance();
 
-      configureEntraIdAuth(mock, credential, {
+      configureEntraAuthentication(mock, credential, {
         fallbackUsername: TEST_USERS.FALLBACK_USER,
       });
 
@@ -132,7 +132,7 @@ describe("configureEntraIdAuth", () => {
       const credential = new TestTokenCredential(token);
       const mock = createMockSequelizeInstance();
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       await mock.capturedCallback!(config);
@@ -153,7 +153,7 @@ describe("configureEntraIdAuth", () => {
       const credential = new TestTokenCredential(token);
       const mock = createMockSequelizeInstance();
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       await expect(mock.capturedCallback!(config)).rejects.toThrow(
@@ -167,7 +167,7 @@ describe("configureEntraIdAuth", () => {
       const mock = createMockSequelizeInstance();
       const credential = new FailingTokenCredential("Simulated auth failure");
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       await expect(mock.capturedCallback!(config)).rejects.toThrow("Simulated auth failure");
@@ -181,7 +181,7 @@ describe("configureEntraIdAuth", () => {
       const credential = new TestTokenCredential(badToken);
       const mock = createMockSequelizeInstance();
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config: { username?: string; password?: string } = {};
       // With no upn/appid/fallback, this should fail to determine a username
@@ -197,7 +197,7 @@ describe("configureEntraIdAuth", () => {
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      configureEntraIdAuth(mock, credential);
+      configureEntraAuthentication(mock, credential);
 
       const config1: { username?: string; password?: string } = {};
       await mock.capturedCallback!(config1);

@@ -8,7 +8,7 @@
 
 const { Sequelize } = require("sequelize");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { configureEntraIdAuth } = require("@azure/postgresql-auth");
+const { configureEntraAuthentication } = require("@azure/postgresql-auth");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -28,7 +28,7 @@ async function main() {
 
   // Register the Entra ID `beforeConnect` hook.
   // This automatically sets the username and password on each new connection.
-  configureEntraIdAuth(sequelize, credential);
+  configureEntraAuthentication(sequelize, credential);
 
   try {
     console.log("Connecting to Azure Database for PostgreSQL via Sequelize...");
