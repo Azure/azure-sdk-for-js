@@ -112,10 +112,7 @@ import {
   setURLQueries,
 } from "./utils/utils.common.js";
 import { fsCreateReadStream, fsStat } from "./utils/utils.js";
-import type {
-  PathAppendDataOptionalParams,
-  EncryptionAlgorithmType,
-} from "./generated/index.js";
+import type { PathAppendDataOptionalParams, EncryptionAlgorithmType } from "./generated/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -356,6 +353,7 @@ export class DataLakePathClient extends StorageClient {
       return adjustResponse(
         await this.pathContext.create({
           ...updatedOptions,
+          ...updatedOptions.pathHttpHeaders,
           resource: resourceType,
           leaseId: options.conditions?.leaseId,
           ifMatch: options.conditions?.ifMatch,
@@ -365,7 +363,9 @@ export class DataLakePathClient extends StorageClient {
           properties: toProperties(options.metadata),
           encryptionKey: options.customerProvidedKey?.encryptionKey,
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
+          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as
+            | EncryptionAlgorithmType
+            | undefined,
           acl: options.acl ? toAclString(options.acl) : undefined,
           expiryOptions,
           expiresOn,
@@ -1425,7 +1425,9 @@ export class DataLakeFileClient extends DataLakePathClient {
         },
         encryptionKey: options.customerProvidedKey?.encryptionKey,
         encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-        encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
+        encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as
+          | EncryptionAlgorithmType
+          | undefined,
         flush: options.flush,
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDurationInSeconds,
@@ -1440,7 +1442,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       );
       parameters.contentLength = uploadBodyParameters.contentLength;
       return adjustResponse(
-        await this.pathContextInternal.appendData(uploadBodyParameters.body as Uint8Array, parameters),
+        await this.pathContextInternal.appendData(
+          uploadBodyParameters.body as Uint8Array,
+          parameters,
+        ),
       );
     });
   }
@@ -1464,6 +1469,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       return adjustResponse(
         await this.pathContextInternal.flushData({
           ...updatedOptions,
+          ...updatedOptions.pathHttpHeaders,
           position,
           contentLength: 0,
           leaseId: options.conditions?.leaseId,
@@ -1473,7 +1479,9 @@ export class DataLakeFileClient extends DataLakePathClient {
           ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as EncryptionAlgorithmType | undefined,
+          encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as
+            | EncryptionAlgorithmType
+            | undefined,
           proposedLeaseId: options.proposedLeaseId,
           leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
