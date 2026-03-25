@@ -1,36 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to List all Extensions in the cluster.
- *
- * @summary List all Extensions in the cluster.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/ListExtensions.json
- */
-
 import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to list all Extensions in the cluster.
+ *
+ * @summary list all Extensions in the cluster.
+ * x-ms-original-file: 2024-11-01/ListExtensions.json
+ */
 async function listExtensions(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const resourceGroupName =
-    process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
-  const clusterRp = "Microsoft.Kubernetes";
-  const clusterResourceName = "connectedClusters";
-  const clusterName = "clusterName1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new ExtensionsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.extensions.list(
-    resourceGroupName,
-    clusterRp,
-    clusterResourceName,
-    clusterName,
+    "rg1",
+    "Microsoft.Kubernetes",
+    "connectedClusters",
+    "clusterName1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

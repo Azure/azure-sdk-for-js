@@ -6,8 +6,8 @@
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
 import type { Attributes } from '@opentelemetry/api';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { Context } from '@opentelemetry/api';
-import * as coreClient from '@azure/core-client';
 import type { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
 import type { Link } from '@opentelemetry/api';
@@ -18,6 +18,7 @@ import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import type { Sampler } from '@opentelemetry/sdk-trace-base';
 import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
+import type { ServiceClientOptions } from '@azure/core-client';
 import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
@@ -26,7 +27,7 @@ import type { TokenCredential } from '@azure/core-auth';
 export const AI_OPERATION_NAME = "ai.operation.name";
 
 // @public
-export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends ServiceClientOptions, ClientOptions {
     endpoint?: string;
     host?: string;
 }

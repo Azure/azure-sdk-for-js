@@ -1,15 +1,76 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/operation": "src/api/operation/index.ts"
+  "./api/privateEndpoint": "src/api/privateEndpoint/index.ts"
+  "./api/privateEndpointConnection": "src/api/privateEndpointConnection/index.ts"
+  "./api/protectionIntent": "src/api/protectionIntent/index.ts"
+  "./api/tieringCostOperationStatus": "src/api/tieringCostOperationStatus/index.ts"
+  "./api/getTieringCostOperationResult": "src/api/getTieringCostOperationResult/index.ts"
+  "./api/fetchTieringCost": "src/api/fetchTieringCost/index.ts"
+  "./api/securityPINs": "src/api/securityPINs/index.ts"
+  "./api/deletedProtectionContainers": "src/api/deletedProtectionContainers/index.ts"
+  "./api/backupProtectionContainers": "src/api/backupProtectionContainers/index.ts"
+  "./api/backupProtectableItems": "src/api/backupProtectableItems/index.ts"
+  "./api/backupOperationStatuses": "src/api/backupOperationStatuses/index.ts"
+  "./api/backupOperationResults": "src/api/backupOperationResults/index.ts"
+  "./api/protectableContainers": "src/api/protectableContainers/index.ts"
+  "./api/protectionContainerRefreshOperationResults": "src/api/protectionContainerRefreshOperationResults/index.ts"
+  "./api/validateOperationStatuses": "src/api/validateOperationStatuses/index.ts"
+  "./api/validateOperationResults": "src/api/validateOperationResults/index.ts"
+  "./api/validateOperation": "src/api/validateOperation/index.ts"
+  "./api/backupProtectedItems": "src/api/backupProtectedItems/index.ts"
+  "./api/jobs": "src/api/jobs/index.ts"
+  "./api/backupUsageSummaries": "src/api/backupUsageSummaries/index.ts"
+  "./api/backupProtectionIntent": "src/api/backupProtectionIntent/index.ts"
+  "./api/featureSupport": "src/api/featureSupport/index.ts"
+  "./api/backupStatus": "src/api/backupStatus/index.ts"
+  "./api/resourceGuardProxies": "src/api/resourceGuardProxies/index.ts"
+  "./api/resourceGuardProxy": "src/api/resourceGuardProxy/index.ts"
+  "./api/backupEngines": "src/api/backupEngines/index.ts"
+  "./api/exportJobsOperationResults": "src/api/exportJobsOperationResults/index.ts"
+  "./api/jobOperationResults": "src/api/jobOperationResults/index.ts"
+  "./api/jobCancellations": "src/api/jobCancellations/index.ts"
+  "./api/backupJobs": "src/api/backupJobs/index.ts"
+  "./api/jobDetails": "src/api/jobDetails/index.ts"
+  "./api/protectionPolicyOperationStatuses": "src/api/protectionPolicyOperationStatuses/index.ts"
+  "./api/protectionPolicyOperationResults": "src/api/protectionPolicyOperationResults/index.ts"
+  "./api/backupPolicies": "src/api/backupPolicies/index.ts"
+  "./api/protectionPolicies": "src/api/protectionPolicies/index.ts"
+  "./api/itemLevelRecoveryConnections": "src/api/itemLevelRecoveryConnections/index.ts"
+  "./api/restores": "src/api/restores/index.ts"
+  "./api/recoveryPoints": "src/api/recoveryPoints/index.ts"
+  "./api/protectionContainerOperationResults": "src/api/protectionContainerOperationResults/index.ts"
+  "./api/backupWorkloadItems": "src/api/backupWorkloadItems/index.ts"
+  "./api/protectionContainers": "src/api/protectionContainers/index.ts"
+  "./api/protectedItemOperationResults": "src/api/protectedItemOperationResults/index.ts"
+  "./api/protectedItemOperationStatuses": "src/api/protectedItemOperationStatuses/index.ts"
+  "./api/recoveryPointsRecommendedForMove": "src/api/recoveryPointsRecommendedForMove/index.ts"
+  "./api/backups": "src/api/backups/index.ts"
+  "./api/protectedItems": "src/api/protectedItems/index.ts"
+  "./api/backupResourceEncryptionConfigs": "src/api/backupResourceEncryptionConfigs/index.ts"
+  "./api/backupResourceVaultConfigs": "src/api/backupResourceVaultConfigs/index.ts"
+  "./api/bmsPrepareDataMoveOperationResult": "src/api/bmsPrepareDataMoveOperationResult/index.ts"
+  "./api/backupResourceStorageConfigsNonCRR": "src/api/backupResourceStorageConfigsNonCRR/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
