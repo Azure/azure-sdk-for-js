@@ -169,7 +169,7 @@ describe("Sample: analyzeUrl", () => {
     console.log(`'1': ${rangePageCount} page, ${(rangeDoc.markdown || "").length} chars`);
 
     // "1-3,5,9-" — combined disjoint page ranges
-    // Document has 10 pages, so pages 1-3, 5, 9-10 match (6 pages total)
+    // pages 1-3, 5, and 9 through end => expected count = fullPageCount - 4 (skips pages 4, 6, 7, 8)
     console.log("\nAnalyzing combined pages (1-3, 5, 9-) with content range '1-3,5,9-'...");
     const combinePoller = client.analyze(
       "prebuilt-documentSearch",
@@ -184,15 +184,23 @@ describe("Sample: analyzeUrl", () => {
     );
     const combineDoc = combineResult.contents[0] as DocumentContent;
     const combinePageCount = combineDoc.pages ? combineDoc.pages.length : 0;
+    const expectedCombineCount = fullPageCount - 4; // pages 4, 6, 7, 8 are excluded
     assert.equal(
       combinePageCount,
-      6,
-      `'1-3,5,9-' should return 6 pages (1-3, 5, 9-10), got ${combinePageCount}`,
+      expectedCombineCount,
+      `'1-3,5,9-' should return ${expectedCombineCount} pages, got ${combinePageCount}`,
     );
     assert.equal(combineDoc.startPageNumber, 1, "'1-3,5,9-' should start at page 1");
-    assert.equal(combineDoc.endPageNumber, 10, "'1-3,5,9-' should end at page 10");
+    assert.equal(
+      combineDoc.endPageNumber,
+      fullDoc.endPageNumber,
+      `'1-3,5,9-' should end at page ${fullDoc.endPageNumber}`,
+    );
+    const expectedCombinePages = [1, 2, 3, 5].concat(
+      Array.from({ length: fullDoc.endPageNumber - 9 + 1 }, (_, i) => i + 9),
+    );
     const actualCombinePages = combineDoc.pages!.map((p) => p.pageNumber).sort((a, b) => a - b);
-    assert.deepEqual(actualCombinePages, [1, 2, 3, 5, 9, 10]);
+    assert.deepEqual(actualCombinePages, expectedCombinePages);
     console.log(`'1-3,5,9-': ${combinePageCount} pages, page numbers: ${actualCombinePages}`);
   });
 
