@@ -18,7 +18,6 @@ network:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, code_security]
-    lockdown: true
   bash: true
   cache-memory:
   repo-memory:

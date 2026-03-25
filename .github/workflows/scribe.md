@@ -12,7 +12,6 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
-    lockdown: true
   cache-memory:
   repo-memory:
 safe-outputs:

@@ -13,7 +13,6 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]
-    lockdown: true
   bash: true
   cache-memory:
   repo-memory:
