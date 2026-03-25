@@ -12,11 +12,7 @@ export default azsdkEslint.config([
     },
   },
   {
-    files: [
-      "src/api/**/*.ts",
-      "src/models/**/*.ts",
-      "src/static-helpers/**/*.ts",
-    ],
+    files: ["src/api/**/*.ts", "src/models/**/*.ts", "src/static-helpers/**/*.ts"],
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/naming-convention": "off",

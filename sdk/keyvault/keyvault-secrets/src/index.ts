@@ -108,7 +108,7 @@ export class SecretClient {
    * const vaultName = "<YOUR KEYVAULT NAME>";
    * const url = `https://${vaultName}.vault.azure.net`;
    *
-   * // Lastly, create our keys client and connect to the service
+   * // Lastly, create our secrets client and connect to the service
    * const client = new SecretClient(url, credential);
    * ```
    * @param vaultUrl - The base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
