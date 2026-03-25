@@ -120,6 +120,8 @@ describe("Sample: analyzeUrl", () => {
       testPollingOptions,
     );
     const fullResult = await fullPoller.pollUntilDone();
+    assert.ok(fullResult.contents, "Full result contents should not be null");
+    assert.ok(fullResult.contents.length > 0, "Full result should have at least one content item");
     const fullDoc = fullResult.contents[0] as DocumentContent;
     const fullPageCount = fullDoc.pages ? fullDoc.pages.length : 0;
     assert.equal(
@@ -137,6 +139,11 @@ describe("Sample: analyzeUrl", () => {
       testPollingOptions,
     );
     const rangeResult = await rangePoller.pollUntilDone();
+    assert.ok(rangeResult.contents, "Range result contents should not be null");
+    assert.ok(
+      rangeResult.contents.length > 0,
+      "Range result should have at least one content item",
+    );
     const rangeDoc = rangeResult.contents[0] as DocumentContent;
     const rangePageCount = rangeDoc.pages ? rangeDoc.pages.length : 0;
     assert.equal(rangePageCount, 1, `'1' should return only 1 page, got ${rangePageCount}`);
@@ -163,6 +170,11 @@ describe("Sample: analyzeUrl", () => {
       testPollingOptions,
     );
     const combineResult = await combinePoller.pollUntilDone();
+    assert.ok(combineResult.contents, "Combine result contents should not be null");
+    assert.ok(
+      combineResult.contents.length > 0,
+      "Combine result should have at least one content item",
+    );
     const combineDoc = combineResult.contents[0] as DocumentContent;
     const combinePageCount = combineDoc.pages ? combineDoc.pages.length : 0;
     assert.equal(
