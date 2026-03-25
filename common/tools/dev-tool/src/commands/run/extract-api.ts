@@ -43,13 +43,20 @@ interface RuntimeApiFiles {
 }
 
 async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
-  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
-  try {
-    await stat(tsconfigPath);
-    return tsconfigPath;
-  } catch {
-    return path.join(projectPath, `tsconfig.src.json`);
+  const tsconfigRuntime = runtime === "node" ? "esm" : runtime;
+  const candidates = [
+    path.join(projectPath, `src/tsconfig.${tsconfigRuntime}.json`),
+    path.join(projectPath, `tsconfig.src.json`),
+  ];
+  for (const candidate of candidates) {
+    try {
+      await stat(candidate);
+      return candidate;
+    } catch {
+      // continue
+    }
   }
+  return candidates[candidates.length - 1];
 }
 
 interface ApiJson {

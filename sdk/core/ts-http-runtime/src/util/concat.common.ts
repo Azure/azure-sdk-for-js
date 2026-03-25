@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeReadableStream } from "#platform/nodeTypes";
 import { isWebReadableStream } from "./typeGuards.js";
 
 /**
@@ -44,20 +45,20 @@ function arrayToArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
  *
  * @internal
  */
-export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+export type ConcatSource = ReadableStream<Uint8Array> | NodeReadableStream | Uint8Array | Blob;
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.
  *
  * @param sources - array of sources for the concatenation
- * @returns - in Node, a (() =\> NodeJS.ReadableStream) which, when read, produces a concatenation of all the inputs.
+ * @returns - in Node, a (() =\> NodeReadableStream) which, when read, produces a concatenation of all the inputs.
  *           In browser, returns a `Blob` representing all the concatenated inputs.
  *
  * @internal
  */
 export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
-): Promise<(() => NodeJS.ReadableStream) | Blob> {
+): Promise<(() => NodeReadableStream) | Blob> {
   const parts = [];
   for (const source of sources) {
     const blobPart = await toBlobPart(typeof source === "function" ? source() : source);

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeReadableStream } from "#platform/nodeTypes";
 import type {
   HttpClient,
   PipelineRequest,
@@ -206,7 +207,7 @@ export type HttpNodeStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: NodeJS.ReadableStream;
+  body?: NodeReadableStream;
 };
 
 /**

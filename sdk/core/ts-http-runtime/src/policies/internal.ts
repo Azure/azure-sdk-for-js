@@ -5,7 +5,7 @@ export { agentPolicy, agentPolicyName } from "./agentPolicy.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
-} from "./decompressResponsePolicy.js";
+} from "#platform/policies/decompressResponsePolicy";
 export {
   defaultRetryPolicy,
   defaultRetryPolicyName,
@@ -27,7 +27,11 @@ export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./throttlingRe
 export { formDataPolicy, formDataPolicyName } from "./formDataPolicy.js";
 export { logPolicy, logPolicyName, type LogPolicyOptions } from "./logPolicy.js";
 export { multipartPolicy, multipartPolicyName } from "./multipartPolicy.js";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./proxyPolicy.js";
+export {
+  proxyPolicy,
+  proxyPolicyName,
+  getDefaultProxySettings,
+} from "#platform/policies/proxyPolicy";
 export {
   redirectPolicy,
   redirectPolicyName,

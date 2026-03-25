@@ -1,7 +1,16 @@
 {
   "references": [
     {
-      "path": "./tsconfig.src.json"
+      "path": "./src/tsconfig.browser.json"
+    },
+    {
+      "path": "./src/tsconfig.react-native.json"
+    },
+    {
+      "path": "./src/tsconfig.esm.json"
+    },
+    {
+      "path": "./src/tsconfig.cjs.json"
     },
     {
       "path": "./tsconfig.samples.json"

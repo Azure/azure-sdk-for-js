@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+import type { NodeReadableStream } from "#platform/nodeTypes";
+
+export function isNodeReadableStream(x: unknown): x is NodeReadableStream {
+  return Boolean(x && typeof (x as NodeReadableStream)["pipe"] === "function");
 }
 
 export function isWebReadableStream(x: unknown): x is ReadableStream {
@@ -17,9 +19,9 @@ export function isBinaryBody(
   body: unknown,
 ): body is
   | Uint8Array
-  | NodeJS.ReadableStream
+  | NodeReadableStream
   | ReadableStream<Uint8Array>
-  | (() => NodeJS.ReadableStream)
+  | (() => NodeReadableStream)
   | (() => ReadableStream<Uint8Array>)
   | Blob {
   return (
@@ -31,7 +33,7 @@ export function isBinaryBody(
   );
 }
 
-export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
+export function isReadableStream(x: unknown): x is ReadableStream | NodeReadableStream {
   return isNodeReadableStream(x) || isWebReadableStream(x);
 }
 

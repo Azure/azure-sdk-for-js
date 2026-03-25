@@ -159,5 +159,103 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/defaultHttpClient": {
+      "browser": {
+        "default": "./src/defaultHttpClient-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/defaultHttpClient-react-native.mts"
+      },
+      "default": "./src/defaultHttpClient.ts"
+    },
+    "#platform/logger/log": {
+      "browser": {
+        "default": "./src/logger/log-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/logger/log-react-native.mts"
+      },
+      "default": "./src/logger/log.ts"
+    },
+    "#platform/policies/proxyPolicy": {
+      "browser": {
+        "default": "./src/policies/proxyPolicy-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/policies/proxyPolicy-react-native.mts"
+      },
+      "default": "./src/policies/proxyPolicy.ts"
+    },
+    "#platform/util/bytesEncoding": {
+      "browser": {
+        "default": "./src/util/bytesEncoding-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/bytesEncoding-react-native.mts"
+      },
+      "default": "./src/util/bytesEncoding.ts"
+    },
+    "#platform/util/concat": {
+      "browser": {
+        "default": "./src/util/concat-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/concat-react-native.mts"
+      },
+      "default": "./src/util/concat.ts"
+    },
+    "#platform/util/inspect": {
+      "browser": {
+        "default": "./src/util/inspect-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/inspect-react-native.mts"
+      },
+      "default": "./src/util/inspect.ts"
+    },
+    "#platform/util/sha256": {
+      "browser": {
+        "default": "./src/util/sha256-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/sha256-react-native.mts"
+      },
+      "default": "./src/util/sha256.ts"
+    },
+    "#platform/util/userAgentPlatform": {
+      "browser": {
+        "default": "./src/util/userAgentPlatform-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/userAgentPlatform-react-native.mts"
+      },
+      "default": "./src/util/userAgentPlatform.ts"
+    },
+    "#platform/util/uuidUtils": {
+      "browser": {
+        "default": "./src/util/uuidUtils-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/util/uuidUtils-react-native.mts"
+      },
+      "default": "./src/util/uuidUtils.ts"
+    },
+    "#platform/policies/decompressResponsePolicy": {
+      "browser": {
+        "default": "./src/policies/decompressResponsePolicy-browser.mts"
+      },
+      "default": "./src/policies/decompressResponsePolicy.ts"
+    },
+    "#platform/nodeTypes": {
+      "browser": {
+        "default": "./src/nodeTypes-browser.mts"
+      },
+      "react-native": {
+        "default": "./src/nodeTypes-react-native.mts"
+      },
+      "default": "./src/nodeTypes.ts"
+    }
+  }
 }

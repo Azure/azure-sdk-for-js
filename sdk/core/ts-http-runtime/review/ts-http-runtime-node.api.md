@@ -81,7 +81,7 @@ export interface BearerTokenCredential {
 
 // @public
 export interface BodyPart {
-    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeReadableStream)) | ReadableStream<Uint8Array> | NodeReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -207,7 +207,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJS.ReadableStream;
+    body?: NodeReadableStream;
 };
 
 // @public
@@ -252,6 +252,9 @@ export interface MultipartRequestBody {
 export interface NoAuthAuthScheme {
     kind: "noAuth";
 }
+
+// @public
+export type NodeReadableStream = NodeJS.ReadableStream;
 
 // @public
 export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
@@ -402,7 +405,7 @@ export interface PipelineResponse {
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
     request: PipelineRequest;
     status: number;
 }
@@ -446,7 +449,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeReadableStream | (() => NodeReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export type RequestParameters = {

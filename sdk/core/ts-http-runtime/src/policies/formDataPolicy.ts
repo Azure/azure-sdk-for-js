@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { stringToUint8Array } from "#platform/util/bytesEncoding";
 import { isNodeLike } from "../util/checkEnvironment.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import type {

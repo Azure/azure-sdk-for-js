@@ -12,7 +12,7 @@ import type {
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { randomUUID } from "./util/uuidUtils.js";
+import { randomUUID } from "#platform/util/uuidUtils";
 import type { AuthScheme } from "./auth/schemes.js";
 
 /**

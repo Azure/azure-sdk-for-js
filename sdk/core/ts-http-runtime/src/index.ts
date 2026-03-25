@@ -42,6 +42,7 @@ export type {
   RawHttpHeadersInput,
   PipelineRetryOptions,
 } from "./interfaces.js";
+export type { NodeReadableStream } from "#platform/nodeTypes";
 export { createHttpHeaders } from "./httpHeaders.js";
 export type * from "./auth/schemes.js";
 export type * from "./auth/oauth2Flows.js";
@@ -63,8 +64,12 @@ export {
   createEmptyPipeline,
 } from "./pipeline.js";
 export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
-export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
-export { createDefaultHttpClient } from "./defaultHttpClient.js";
+export {
+  stringToUint8Array,
+  uint8ArrayToString,
+  type EncodingType,
+} from "#platform/util/bytesEncoding";
+export { createDefaultHttpClient } from "#platform/defaultHttpClient";
 export { getClient } from "./client/getClient.js";
 export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
 export { createRestError } from "./client/restError.js";

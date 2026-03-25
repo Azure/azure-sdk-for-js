@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../tsconfig.src.esm.json",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "rootDir": ".",
+    "outDir": "../dist/esm"
+  },
+  "include": ["**/*.ts", "**/*.mts"],
+  "exclude": ["**/*-browser.mts", "**/*-react-native.mts", "fetchHttpClient.ts", "xhrHttpClient.ts"]
+}

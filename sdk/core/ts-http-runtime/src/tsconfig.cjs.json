@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../tsconfig.src.cjs.json",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "rootDir": ".",
+    "outDir": "../dist/commonjs"
+  },
+  "include": ["**/*.ts", "**/*.cts"],
+  "exclude": ["**/*-browser.mts", "**/*-react-native.mts", "fetchHttpClient.ts", "xhrHttpClient.ts"]
+}

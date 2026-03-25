@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AuthScheme } from "./auth/schemes.js";
+import type { NodeReadableStream } from "#platform/nodeTypes";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -59,9 +60,9 @@ export interface BodyPart {
    * The body of this part of the multipart request.
    */
   body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeReadableStream))
     | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
+    | NodeReadableStream
     | Uint8Array
     | Blob;
 }
@@ -86,12 +87,12 @@ export interface MultipartRequestBody {
 
 /**
  * Types of bodies supported on the request.
- * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
+ * NodeReadableStream and () =\> NodeReadableStream is Node only.
  * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
-  | NodeJS.ReadableStream
-  | (() => NodeJS.ReadableStream)
+  | NodeReadableStream
+  | (() => NodeReadableStream)
   | ReadableStream<Uint8Array>
   | (() => ReadableStream<Uint8Array>)
   | Blob
@@ -301,7 +302,7 @@ export interface PipelineResponse {
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 }
 
 /**

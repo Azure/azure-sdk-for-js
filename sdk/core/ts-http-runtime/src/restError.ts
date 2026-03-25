@@ -3,7 +3,7 @@
 
 import { isError } from "./util/error.js";
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
-import { custom } from "./util/inspect.js";
+import { custom } from "#platform/util/inspect";
 import { Sanitizer } from "./util/sanitizer.js";
 
 const errorSanitizer = new Sanitizer();

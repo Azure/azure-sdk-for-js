@@ -1,0 +1,24 @@
+{
+  "extends": "../../../../tsconfig.src.react-native.json",
+  "compilerOptions": {
+    "composite": true,
+    "customConditions": ["react-native"],
+    "rootDir": ".",
+    "outDir": "../dist/react-native"
+  },
+  "include": ["**/*.ts", "**/*.mts"],
+  "exclude": [
+    "defaultHttpClient.ts",
+    "nodeHttpClient.ts",
+    "nodeTypes.ts",
+    "logger/log.ts",
+    "policies/proxyPolicy.ts",
+    "util/bytesEncoding.ts",
+    "util/concat.ts",
+    "util/inspect.ts",
+    "util/sha256.ts",
+    "util/userAgentPlatform.ts",
+    "util/uuidUtils.ts",
+    "**/*-browser.mts"
+  ]
+}
