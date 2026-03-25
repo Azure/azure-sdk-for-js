@@ -113,6 +113,13 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze document URL with content range", async () => {
+    // Multiple POSTs hit the same URL path with different contentRange in the JSON body.
+    // Override matcher to compare bodies so the test proxy returns the correct recording.
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Authorization", "Ocp-Apim-Subscription-Key"],
+      compareBodies: true,
+    });
+
     // Full analysis for comparison
     const fullPoller = client.analyze(
       "prebuilt-documentSearch",
@@ -324,7 +331,12 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze audio URL with content ranges", async () => {
-    // Analyze audio content ranges and compare against full analysis
+    // Multiple POSTs hit the same URL path with different contentRange in the JSON body.
+    // Override matcher to compare bodies so the test proxy returns the correct recording.
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Authorization", "Ocp-Apim-Subscription-Key"],
+      compareBodies: true,
+    });
 
     // Full analysis for comparison
     const fullPoller = client.analyze(
@@ -438,7 +450,10 @@ describe("Sample: analyzeUrl", () => {
     );
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);
-    assert.ok(combineResult.contents.length > 0, "Expected at least one content item in combineResult");
+    assert.ok(
+      combineResult.contents.length > 0,
+      "Expected at least one content item in combineResult",
+    );
     const combineAudio = combineResult.contents[0] as AudioVisualContent;
     assert.ok(
       (combineAudio.endTimeMs ?? 0) > (combineAudio.startTimeMs ?? 0),
