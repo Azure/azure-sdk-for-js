@@ -227,6 +227,14 @@ export interface SubjectAlternativeNamesAll {
    * User principal names.
    */
   userPrincipalNames: ArrayOneOrMore<string>;
+  /**
+   * Uniform Resource Identifiers.
+   */
+  uniformResourceIdentifiers: ArrayOneOrMore<string>;
+  /**
+   * IP addresses; supports IPv4 and IPv6.
+   */
+  ipAddresses: ArrayOneOrMore<string>;
 }
 
 /**

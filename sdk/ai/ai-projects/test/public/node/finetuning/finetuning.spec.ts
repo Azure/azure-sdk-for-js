@@ -361,7 +361,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
     const resourceGroup: string = assertEnvironmentVariable(
       "AZURE_AI_PROJECTS_TESTS_AZURE_RESOURCE_GROUP",
     );
-    const projectEndpoint: string = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+    const projectEndpoint: string = assertEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
 
     const accountName = extractAccountNameFromEndpoint(projectEndpoint);
     const job = await openai.fineTuning.jobs.retrieve(completedJobId);

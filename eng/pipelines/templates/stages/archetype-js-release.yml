@@ -70,6 +70,14 @@ stages:
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
 
+                  - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
+                    parameters:
+                      DependsOn: TagRepository
+                      DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}_To_DevFeed
+                      ArtifactName: ${{ parameters.ArtifactName }}
+                      ArtifactSubPath: '${{ artifact.name }}'
+                      Registry: $(PublicDevOpsRegistry)
+
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
@@ -166,44 +174,6 @@ stages:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
                           PackageArtifactName: ${{ artifact.name }}
 
-                      - bash: |
-                          npm ci
-                        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
-                        displayName: Install eng-package-utils tool dependencies
-
-                      - bash: |
-                          npm ci
-                        workingDirectory: ./eng/tools/versioning
-                        displayName: Install versioning tool dependencies
-
-                      - bash: |
-                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        displayName: Increment package version
-
-                      - bash: |
-                          npm install -g pnpm
-                        displayName: Install Pnpm
-
-                      - bash: |
-                          pnpm install --no-frozen-lockfile
-                        displayName: "Install dependencies"
-
-                      - bash: |
-                          npm link
-                        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/dev-tool
-                        displayName: Link dev-tool globally
-
-                      - bash: |
-                          node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                        displayName: Publish samples for ${{ artifact.name }}
-
-                      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-                        parameters:
-                          RepoName: azure-sdk-for-js
-                          PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
-                          CommitMsg: Post release automated changes for ${{ artifact.name }}
-                          PRTitle: Post release automated changes for ${{ parameters.ServiceDirectory }} releases
-                          CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
     dependsOn: ${{ parameters.DependsOn }}
     condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))

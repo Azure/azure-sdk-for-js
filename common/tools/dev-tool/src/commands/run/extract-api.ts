@@ -323,12 +323,7 @@ async function buildMergedApiJson(
 
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
-
-  const packageMember = apiJson.members.find((m) => m.kind === "Package");
-  if (packageMember) {
-    packageMember.version = version;
-  }
-
+  apiJson.metadata.version = version;
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -426,7 +421,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
-        pkgJson["version"] || "",
+        pkgJson["version"],
         true,
       );
     }

@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AzureBlobDefinition {
@@ -37,6 +41,16 @@ export interface AzureBlobPatchDefinition {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BucketDefinition {
     accessKey?: string;
     bucketName?: string;
@@ -59,11 +73,16 @@ export interface BucketPatchDefinition {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -85,30 +104,23 @@ export interface ErrorResponse {
 export type FluxComplianceState = string;
 
 // @public
-export interface FluxConfigOperationStatus {
-    get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, operationId: string, options?: FluxConfigOperationStatusGetOptionalParams): Promise<FluxConfigOperationStatusGetResponse>;
+export interface FluxConfigOperationStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FluxConfigOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface FluxConfigOperationStatusOperations {
+    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, operationId: string, options?: FluxConfigOperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
 }
-
-// @public
-export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 // @public
 export interface FluxConfiguration extends ProxyResource {
     azureBlob?: AzureBlobDefinition;
     bucket?: BucketDefinition;
     readonly complianceState?: FluxComplianceState;
-    configurationProtectedSettings?: {
-        [propertyName: string]: string;
-    };
+    configurationProtectedSettings?: Record<string, string>;
     readonly errorMessage?: string;
     gitRepository?: GitRepositoryDefinition;
-    kustomizations?: {
-        [propertyName: string]: KustomizationDefinition | null;
-    };
+    kustomizations?: Record<string, KustomizationDefinition>;
     namespace?: string;
     ociRepository?: OCIRepositoryDefinition;
     readonly provisioningState?: ProvisioningState;
@@ -118,117 +130,118 @@ export interface FluxConfiguration extends ProxyResource {
     sourceKind?: SourceKindType;
     readonly sourceSyncedCommitId?: string;
     readonly sourceUpdatedAt?: Date;
-    readonly statuses?: (ObjectStatusDefinition | null)[];
+    readonly statuses?: ObjectStatusDefinition[];
     readonly statusUpdatedAt?: Date;
     suspend?: boolean;
-    readonly systemData?: SystemData;
     waitForReconciliation?: boolean;
 }
 
 // @public (undocumented)
-export class FluxConfigurationClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FluxConfigurationClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    fluxConfigOperationStatus: FluxConfigOperationStatus;
-    // (undocumented)
-    fluxConfigurations: FluxConfigurations;
-    // (undocumented)
-    subscriptionId: string;
+export class FluxConfigurationClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: FluxConfigurationClientOptionalParams);
+    readonly fluxConfigOperationStatus: FluxConfigOperationStatusOperations;
+    readonly fluxConfigurations: FluxConfigurationsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface FluxConfigurationClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface FluxConfigurationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface FluxConfigurationPatch {
     azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
-    configurationProtectedSettings?: {
-        [propertyName: string]: string;
-    };
+    configurationProtectedSettings?: Record<string, string>;
     gitRepository?: GitRepositoryPatchDefinition;
-    kustomizations?: {
-        [propertyName: string]: KustomizationPatchDefinition | null;
-    };
+    kustomizations?: Record<string, KustomizationPatchDefinition>;
     ociRepository?: OCIRepositoryPatchDefinition;
     sourceKind?: SourceKindType;
     suspend?: boolean;
 }
 
 // @public
-export interface FluxConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsCreateOrUpdateResponse>, FluxConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<FluxConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsUpdateResponse>, FluxConfigurationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<FluxConfigurationsUpdateResponse>;
-    get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams): Promise<FluxConfigurationsGetResponse>;
-    list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams): PagedAsyncIterableIterator<FluxConfiguration>;
+export interface FluxConfigurationPatchProperties {
+    azureBlob?: AzureBlobPatchDefinition;
+    bucket?: BucketPatchDefinition;
+    configurationProtectedSettings?: Record<string, string>;
+    gitRepository?: GitRepositoryPatchDefinition;
+    kustomizations?: Record<string, KustomizationPatchDefinition>;
+    ociRepository?: OCIRepositoryPatchDefinition;
+    sourceKind?: SourceKindType;
+    suspend?: boolean;
 }
 
 // @public
-export interface FluxConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FluxConfigurationProperties {
+    azureBlob?: AzureBlobDefinition;
+    bucket?: BucketDefinition;
+    readonly complianceState?: FluxComplianceState;
+    configurationProtectedSettings?: Record<string, string>;
+    readonly errorMessage?: string;
+    gitRepository?: GitRepositoryDefinition;
+    kustomizations?: Record<string, KustomizationDefinition>;
+    namespace?: string;
+    ociRepository?: OCIRepositoryDefinition;
+    readonly provisioningState?: ProvisioningState;
+    reconciliationWaitDuration?: string;
+    readonly repositoryPublicKey?: string;
+    scope?: ScopeType;
+    sourceKind?: SourceKindType;
+    readonly sourceSyncedCommitId?: string;
+    readonly sourceUpdatedAt?: Date;
+    readonly statuses?: ObjectStatusDefinition[];
+    readonly statusUpdatedAt?: Date;
+    suspend?: boolean;
+    waitForReconciliation?: boolean;
+}
+
+// @public
+export interface FluxConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FluxConfigurationsCreateOrUpdateResponse = FluxConfiguration;
-
-// @public
-export interface FluxConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FluxConfigurationsDeleteOptionalParams extends OperationOptions {
     forceDelete?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FluxConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface FluxConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FluxConfigurationsGetResponse = FluxConfiguration;
-
-// @public
-export interface FluxConfigurationsList {
-    readonly nextLink?: string;
-    readonly value?: FluxConfiguration[];
+export interface FluxConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FluxConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface FluxConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FluxConfiguration>, FluxConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => Promise<FluxConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FluxConfiguration>, FluxConfiguration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => Promise<FluxConfiguration>;
+    createOrUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
+    delete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams) => Promise<FluxConfiguration>;
+    list: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams) => PagedAsyncIterableIterator<FluxConfiguration>;
+    update: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams) => PollerLike<OperationState<FluxConfiguration>, FluxConfiguration>;
 }
 
 // @public
-export type FluxConfigurationsListNextResponse = FluxConfigurationsList;
-
-// @public
-export interface FluxConfigurationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FluxConfigurationsListResponse = FluxConfigurationsList;
-
-// @public
-export interface FluxConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FluxConfigurationsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type FluxConfigurationsUpdateResponse = FluxConfiguration;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitRepositoryDefinition {
@@ -283,13 +296,6 @@ export enum KnownFluxComplianceState {
 }
 
 // @public
-export enum KnownKustomizationValidationType {
-    Client = "client",
-    None = "none",
-    Server = "server"
-}
-
-// @public
 export enum KnownOperationType {
     Copy = "copy",
     Extract = "extract"
@@ -327,6 +333,11 @@ export enum KnownSourceKindType {
 }
 
 // @public
+export enum KnownVersions {
+    V20250401 = "2025-04-01"
+}
+
+// @public
 export interface KustomizationDefinition {
     dependsOn?: string[];
     force?: boolean;
@@ -352,9 +363,6 @@ export interface KustomizationPatchDefinition {
     timeoutInSeconds?: number;
     wait?: boolean;
 }
-
-// @public
-export type KustomizationValidationType = string;
 
 // @public
 export interface LayerSelectorDefinition {
@@ -465,9 +473,7 @@ export interface OperationStatusResult {
     readonly error?: ErrorDetail;
     id?: string;
     name?: string;
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
     status: string;
 }
 
@@ -475,19 +481,27 @@ export interface OperationStatusResult {
 export type OperationType = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PostBuildDefinition {
-    substitute?: {
-        [propertyName: string]: string;
-    };
-    substituteFrom?: (SubstituteFromDefinition | null)[];
+    substitute?: Record<string, string>;
+    substituteFrom?: SubstituteFromDefinition[];
 }
 
 // @public
 export interface PostBuildPatchDefinition {
-    substitute?: {
-        [propertyName: string]: string;
-    };
-    substituteFrom?: (SubstituteFromPatchDefinition | null)[];
+    substitute?: Record<string, string>;
+    substituteFrom?: SubstituteFromPatchDefinition[];
 }
 
 // @public
@@ -512,7 +526,18 @@ export interface RepositoryRefDefinition {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FluxConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -536,6 +561,28 @@ export interface ServicePrincipalPatchDefinition {
     clientId?: string;
     clientSecret?: string;
     tenantId?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -581,20 +628,16 @@ export interface TlsConfigPatchDefinition {
 
 // @public
 export interface VerifyDefinition {
-    matchOidcIdentity?: (MatchOidcIdentityDefinition | null)[];
+    matchOidcIdentity?: MatchOidcIdentityDefinition[];
     provider?: string;
-    verificationConfig?: {
-        [propertyName: string]: string;
-    };
+    verificationConfig?: Record<string, string>;
 }
 
 // @public
 export interface VerifyPatchDefinition {
-    matchOidcIdentity?: (MatchOidcIdentityPatchDefinition | null)[];
+    matchOidcIdentity?: MatchOidcIdentityPatchDefinition[];
     provider?: string;
-    verificationConfig?: {
-        [propertyName: string]: string;
-    };
+    verificationConfig?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)
