@@ -324,11 +324,7 @@ describe("Sample: analyzeUrl", () => {
   });
 
   it("should analyze audio URL with content ranges", async () => {
-    // Audio content range analysis requires live mode (long processing time)
-    if (!isLiveMode()) {
-      console.log("Skipping audio content range test in playback mode");
-      return;
-    }
+    // Analyze audio content ranges and compare against full analysis
 
     // Full analysis for comparison
     const fullPoller = client.analyze(
