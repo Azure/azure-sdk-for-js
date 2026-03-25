@@ -138,6 +138,7 @@ describe("Sample: analyzeBinary", () => {
     );
     const pages13Result = await pages13Poller.pollUntilDone();
     assert.ok(pages13Result.contents);
+    assert.ok(pages13Result.contents.length > 0);
     const pages13Doc = pages13Result.contents[0] as DocumentContent;
     const pages13PageCount = pages13Doc.pages ? pages13Doc.pages.length : 0;
     assert.equal(
