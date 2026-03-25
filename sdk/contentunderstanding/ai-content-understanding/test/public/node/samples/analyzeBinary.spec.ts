@@ -217,6 +217,7 @@ describe("Sample: analyzeBinary", () => {
     );
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);
+    assert.ok(combineResult.contents.length > 0);
     const combineDoc = combineResult.contents[0] as DocumentContent;
     const combinePageCount = combineDoc.pages ? combineDoc.pages.length : 0;
     // Expected pages: 1,2,3,5,9,10,...,N => count = N - 4
