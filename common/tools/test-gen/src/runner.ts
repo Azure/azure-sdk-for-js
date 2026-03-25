@@ -601,6 +601,9 @@ async function writeAndFix(
         }
         ctx.errors = result.output;
         log("    ⚠️  Tests failed — asking LLM to fix");
+        // Log first few lines of error for diagnostics
+        const errorPreview = result.output.split("\n").slice(0, 5).join("\n");
+        log(`        💬 ${errorPreview.replace(/\n/g, "\n        💬 ")}`);
         await deepLog("file_event", "fix_fail", {
           file: relPath,
           errorLen: result.output.length,
@@ -941,7 +944,7 @@ const SinglePassResponse = z.object({
     .array(
       z.object({
         test_name: z.string(),
-        covered_marker_lines: z.array(z.number()).min(1),
+        covered_marker_lines: z.array(z.number()),
         branch_summary: z.string(),
         trigger_strategy: z.string(),
       }),

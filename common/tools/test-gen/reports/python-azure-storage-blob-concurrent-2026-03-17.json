@@ -1,0 +1,79 @@
+{
+  "comment_only_or_stub_files": [
+    "test_blob_client_gaps.py",
+    "test_blob_client_helpers_gaps.py",
+    "test_container_client_helpers_gaps.py",
+    "test_encryption_gaps.py",
+    "test_models_gaps.py"
+  ],
+  "context_resolution_failures": 0,
+  "coverage_totals_snapshot": {
+    "covered_branches": 2718,
+    "covered_lines": 13027,
+    "excluded_lines": 247,
+    "missing_branches": 2760,
+    "missing_lines": 7451,
+    "num_branches": 5478,
+    "num_partial_branches": 968,
+    "num_statements": 20478,
+    "percent_branches_covered": 49.61664841182913,
+    "percent_branches_covered_display": "50",
+    "percent_covered": 60.660348281707506,
+    "percent_covered_display": "61",
+    "percent_statements_covered": 63.614610801836115,
+    "percent_statements_covered_display": "64"
+  },
+  "date": "2026-03-17",
+  "gap_batch_size": 5,
+  "generated_file_count": 10,
+  "generated_files": [
+    "test_blob_client_gaps.py",
+    "test_blob_client_helpers_gaps.py",
+    "test_blob_service_client_gaps.py",
+    "test_container_client_gaps.py",
+    "test_container_client_helpers_gaps.py",
+    "test_download_gaps.py",
+    "test_encryption_gaps.py",
+    "test_models_gaps.py",
+    "test_shared_access_signature_gaps.py",
+    "test_upload_helpers_gaps.py"
+  ],
+  "initial_branch_coverage": 73.2,
+  "isolation_findings": [
+    "blob_client_helpers and container_client_helpers tests relied on direct module-global mutation and polluted later tests",
+    "encryption tests used reload/import-state manipulation that leaked into the suite",
+    "shared_access_signature tests patched internal signing helpers and had to be rewritten",
+    "upload_helpers tests patched module-level helpers without fully restoring state",
+    "blob_client/models tests were eventually reduced to placeholders because isolation-safe coverage was not found"
+  ],
+  "json_parse_failures": 0,
+  "line_counts": {
+    "test_blob_client_gaps.py": 16,
+    "test_blob_client_helpers_gaps.py": 4,
+    "test_blob_service_client_gaps.py": 39,
+    "test_container_client_gaps.py": 41,
+    "test_container_client_helpers_gaps.py": 14,
+    "test_download_gaps.py": 38,
+    "test_encryption_gaps.py": 8,
+    "test_models_gaps.py": 15,
+    "test_shared_access_signature_gaps.py": 68,
+    "test_upload_helpers_gaps.py": 16
+  },
+  "llm_concurrency": 3,
+  "loop_concurrency": 3,
+  "model": "gpt-5.4",
+  "package": "azure-storage-blob",
+  "repo": "azure-sdk-for-python",
+  "report_completed": false,
+  "session_idle_timeouts": 2,
+  "stop_reason": "Stopped during repeated isolation-fix cleanup to avoid further spend after quality verdict was clear.",
+  "usable_generated_files": [
+    "test_blob_service_client_gaps.py",
+    "test_container_client_gaps.py",
+    "test_download_gaps.py",
+    "test_shared_access_signature_gaps.py",
+    "test_upload_helpers_gaps.py"
+  ],
+  "wall_clock_minutes_approx": 98.7,
+  "wall_clock_seconds_approx": 5922
+}
