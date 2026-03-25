@@ -144,7 +144,10 @@ export class AIProjectClient {
     const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       ...restOpts,
-      apiKey: ("key" in this._credential) ? this._credential.key : getBearerTokenProvider(this._credential, scope),
+      apiKey:
+        "key" in this._credential
+          ? this._credential.key
+          : getBearerTokenProvider(this._credential, scope),
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
