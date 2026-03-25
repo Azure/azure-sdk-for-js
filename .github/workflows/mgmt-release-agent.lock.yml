@@ -23,7 +23,7 @@
 #
 # Provide next step guidance on SDK release PR
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"991e8f2f338838f8315accdbfce875941197fc0327d819aec93d597d4c31094e","compiler_version":"v0.57.2"}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"48d93f56cc211f9c62d9d7c97e66046529b02661d5a06068c590671fd41987af","compiler_version":"v0.57.2"}
 
 name: "Management SDK Release Agent"
 "on":
@@ -42,7 +42,7 @@ run-name: "Management SDK Release Agent"
 jobs:
   activation:
     needs: pre_activation
-    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'mgmt-review-needed')
+    if: (needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'mgmt-release-guidance')
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1207,7 +1207,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: github.event.label.name == 'mgmt-review-needed'
+    if: github.event.label.name == 'mgmt-release-guidance'
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}

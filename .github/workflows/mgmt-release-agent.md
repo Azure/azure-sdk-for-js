@@ -2,8 +2,8 @@
 on:
   pull_request_target:
     types: [labeled]
-labels: [mgmt-review-needed]
-if: github.event.label.name == 'mgmt-review-needed'
+labels: [mgmt-release-guidance]
+if: github.event.label.name == 'mgmt-release-guidance'
 description: "Provide next step guidance on SDK release PR"
 permissions:
   contents: read
