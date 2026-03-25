@@ -7,18 +7,18 @@ import { logger } from "./logger.js";
 /**
  * Options for {@link entraTokenProvider}.
  */
-export interface GetEntraTokenPasswordOptions {
+export interface GetEntraAccessTokenOptions {
   /**
    * The OAuth scope to request. Defaults to the Azure Database for
    * PostgreSQL scope (`https://ossrdbms-aad.database.windows.net/.default`).
    */
-  scope?: string;
+  scope?: string | string[];
 }
 
 /**
  * Options for configuring Entra ID authentication with Sequelize.
  */
-export interface ConfigureEntraIdAuthOptions {
+export interface ConfigureEntraAuthenticationOptions {
   /**
    * Fallback username to use when the access token does not contain a usable `upn` or `appid` claim.
    *
@@ -123,7 +123,7 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
 export function configureEntraAuthentication(
   sequelizeInstance: SequelizeBeforeConnectHook,
   credential: TokenCredential,
-  options: ConfigureEntraIdAuthOptions = {},
+  options: ConfigureEntraAuthenticationOptions = {},
 ): typeof sequelizeInstance {
   if (!credential) {
     throw new Error("credential is required");
@@ -181,7 +181,7 @@ export function configureEntraAuthentication(
  */
 export async function entraTokenProvider(
   credential: TokenCredential,
-  options: GetEntraTokenPasswordOptions = {},
+  options: GetEntraAccessTokenOptions = {},
 ): Promise<string> {
   if (!credential) {
     throw new Error("credential is required");

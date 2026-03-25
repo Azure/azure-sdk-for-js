@@ -12,7 +12,7 @@
  */
 export { configureEntraAuthentication, entraTokenProvider } from "./entraConnection.js";
 export type {
-  ConfigureEntraIdAuthOptions,
-  GetEntraTokenPasswordOptions,
+  ConfigureEntraAuthenticationOptions,
+  GetEntraAccessTokenOptions as GetEntraTokenPasswordOptions,
   SequelizeBeforeConnectHook,
 } from "./entraConnection.js";
