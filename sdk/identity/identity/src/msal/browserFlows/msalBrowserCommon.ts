@@ -27,7 +27,6 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils.js";
 import { DefaultTenantId } from "../../constants.js";
-import { createStandardPublicClientApplication } from "@azure/msal-browser";
 
 // We keep a copy of the redirect hash.
 // Check if self and location object is defined.
@@ -114,7 +113,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function getApp(): Promise<msalBrowser.IPublicClientApplication> {
     if (!app) {
       // Prepare the MSAL application
-      app = await createStandardPublicClientApplication(msalConfig);
+      app = await msalBrowser.createStandardPublicClientApplication(msalConfig);
 
       // setting the account right after the app is created.
       if (account) {
