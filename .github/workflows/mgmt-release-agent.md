@@ -14,21 +14,16 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
-  cache-memory:
-  repo-memory:
 safe-outputs:
-  create-pull-request-review-comment:
-    max: 10
-    side: "RIGHT"
-    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
-  submit-pull-request-review:
+  add-comment:
     max: 1
-    footer: "if-body"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+    hide-older-comments: true
+    footer: false
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
-    run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for reviewing..."
-    run-success: "⚡ [{workflow_name}]({run_url}) completed the management-plane SDKs review. ✅"
+    run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for providing guidance..."
+    run-success: "⚡ [{workflow_name}]({run_url}) completed the management-plane SDKs release guidance. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
 timeout-minutes: 15
 ---
@@ -52,15 +47,18 @@ You are an AI agent that helps provide next step guidance with merging status fo
 
 ### 3. Post a comment
 
-Compose a GitHub comment with:
+Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Next steps that must be taken to merge this PR:`
 - **Per-failure sections**: `- ❌ `: Specific to THIS PR — include actual error messages, affected files, and concrete fix commands
 - **Quick fix command** at the end if applicable
 
-Before posting, check existing comments for `## Next Steps to Merge`
-- if the message exists, update it directly
-- if the message doesn't exist, post a new one
+Post via `add_comment` exactly once. Do not use `create_pull_request_review_comment` or `submit_pull_request_review`.
+
+To avoid duplicates across reruns:
+- rely on safe output `add-comment` with `hide-older-comments: true` so older comments from this workflow are hidden automatically
+- include a stable marker in the body, e.g. `<!-- gh-aw-workflow-id: mgmt-release-agent -->`
+- always publish the latest full guidance in the new comment body
 
 ## CI Check Name → Failure Mapping
 
