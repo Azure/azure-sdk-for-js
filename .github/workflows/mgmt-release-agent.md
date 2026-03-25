@@ -82,17 +82,17 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | Log symptom | Root cause | Category |
 |---|---|---|
 | `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update the test recordings or add .skip like describe.skip in test files to skip the testing. |
-| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update the test recordings or aor update the test:browser script to echo skipped to skip browser test. |
+| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update the test recordings or update the test:browser script to echo skipped to skip browser test. |
 | `Build FAILED` | Compilation failure | Build failure |
 | `Check-format FAILED` | Need to format the code | Run `pnpm format` to fix |
 | `verify-links` broken URL | Broken markdown links | Add the broken links into eng/ignore-links.txt file to bypass this verification |
-| `Merging is blocking` by pnpm-lock merge conflicts| pnpm-lock file is a shared file and easy to conflict | Follow (the guide)[https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md] to resolve conflicts|
+| `Merging is blocking` by pnpm-lock merge conflicts| pnpm-lock file is a shared file and easy to conflict | Follow [the guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to resolve conflicts|
 
 Besides above cases and please also pay attention to followings:
 - Only log one failure case if `UnitTest` failed with different environment with same errors
-- Always provide (guidance)[https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md] if this is a test recording relevant failure
-- Check (the doc)[https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md] for other CI failures
-- Review (the doc)[https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md] for more advice on pipeline hangs
+- Always provide [guidance](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) if this is a test recording relevant failure
+- Check [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other CI failures
+- Review [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md) for more advice on pipeline hangs
 - Provide general guidance if merging conflict exists
 
 ## Required Output Template
