@@ -51,7 +51,11 @@ describe("Sample: analyzeBinary", () => {
       "prebuilt-documentSearch",
       pdfBytes,
       "application/pdf",
-      testPollingOptions,
+      {
+        ...testPollingOptions,
+        // Use updateIntervalInMs to configure LRO polling; 0 makes playback fast
+        updateIntervalInMs: 0,
+      },
     );
 
     const result = await poller.pollUntilDone();
