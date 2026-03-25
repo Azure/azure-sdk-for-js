@@ -1,33 +1,111 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { describe, it, assert } from "vitest";
-import * as os from "node:os";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+
+const { mockFreemem, mockReadFileSync } = vi.hoisted(() => ({
+  mockFreemem: vi.fn<() => number>(),
+  mockReadFileSync: vi.fn<(path: string, encoding: string) => string>(),
+}));
+
+vi.mock("node:fs", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("node:fs")>();
+  return {
+    ...mod,
+    readFileSync: mockReadFileSync,
+  };
+});
+
+vi.mock("node:os", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("node:os")>();
+  return {
+    ...mod,
+    default: {
+      ...mod.default,
+      freemem: mockFreemem,
+    },
+  };
+});
+
 import { getAvailableMemory } from "../../../../src/metrics/utils.js";
 
 describe("getAvailableMemory", () => {
-  it("should return a positive number", () => {
-    const result = getAvailableMemory();
-    assert.isAbove(result, 0, "Available memory should be greater than 0");
+  const originalPlatform = process.platform;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    Object.defineProperty(process, "platform", {
+      value: originalPlatform,
+      configurable: true,
+    });
   });
 
-  it("should return a value less than or equal to total memory", () => {
-    const result = getAvailableMemory();
-    assert.isAtMost(result, os.totalmem(), "Available memory should not exceed total memory");
+  afterEach(() => {
+    Object.defineProperty(process, "platform", {
+      value: originalPlatform,
+      configurable: true,
+    });
   });
 
-  it("should return a value close to os.freemem() on non-Linux or at least os.freemem() on Linux", () => {
-    const freeMem = os.freemem();
+  it("returns os.freemem() on non-Linux platforms", () => {
+    const freeMem = 512 * 1024 * 1024; // 512 MB
+    mockFreemem.mockReturnValue(freeMem);
+
+    Object.defineProperty(process, "platform", {
+      value: "darwin",
+      configurable: true,
+    });
+
     const result = getAvailableMemory();
-    if (process.platform === "linux") {
-      // Available memory includes reclaimable memory (cache/buffers),
-      // so it should be >= free memory.
-      assert.isAtLeast(result, freeMem, "Available memory should be >= free memory on Linux");
-    } else {
-      // On non-Linux, getAvailableMemory falls back to os.freemem().
-      // Allow a small tolerance for memory fluctuations between calls.
-      const tolerance = 100 * 1024 * 1024; // 100 MB
-      assert.closeTo(result, freeMem, tolerance, "Should approximate os.freemem() on non-Linux");
-    }
+
+    assert.strictEqual(result, freeMem, "On non-Linux, available memory should equal os.freemem()");
+  });
+
+  it("uses MemAvailable from /proc/meminfo on Linux when present", () => {
+    const memAvailableKb = 123456;
+    const memInfoContent = [
+      "MemTotal:       16384256 kB",
+      `MemAvailable:   ${memAvailableKb} kB`,
+      "Buffers:         123456 kB",
+    ].join("\n");
+
+    Object.defineProperty(process, "platform", {
+      value: "linux",
+      configurable: true,
+    });
+
+    mockReadFileSync.mockReturnValue(memInfoContent);
+
+    const result = getAvailableMemory();
+
+    assert.strictEqual(
+      result,
+      memAvailableKb * 1024,
+      "On Linux, available memory should be derived from MemAvailable in /proc/meminfo",
+    );
+  });
+
+  it("falls back to os.freemem() on Linux when MemAvailable is not present", () => {
+    const freeMem = 256 * 1024 * 1024; // 256 MB
+    const memInfoContent = [
+      "MemTotal:       16384256 kB",
+      "Buffers:         123456 kB",
+      "Cached:          654321 kB",
+    ].join("\n");
+
+    Object.defineProperty(process, "platform", {
+      value: "linux",
+      configurable: true,
+    });
+
+    mockReadFileSync.mockReturnValue(memInfoContent);
+    mockFreemem.mockReturnValue(freeMem);
+
+    const result = getAvailableMemory();
+
+    assert.strictEqual(
+      result,
+      freeMem,
+      "On Linux without MemAvailable, available memory should fall back to os.freemem()",
+    );
   });
 });
-

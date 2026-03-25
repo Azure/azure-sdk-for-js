@@ -45,6 +45,7 @@ import {
 import { Logger } from "../shared/logging/logger.js";
 import os from "node:os";
 import process from "node:process";
+import { readFileSync } from "node:fs";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -182,8 +183,7 @@ export function convertDimensions(
 export function getAvailableMemory(): number {
   if (process.platform === "linux") {
     try {
-      const fs = require("node:fs");
-      const contents: string = fs.readFileSync("/proc/meminfo", "utf8");
+      const contents: string = readFileSync("/proc/meminfo", "utf8");
       const match = contents.match(/^MemAvailable:\s+(\d+)\s+kB$/m);
       if (match) {
         return parseInt(match[1], 10) * 1024;

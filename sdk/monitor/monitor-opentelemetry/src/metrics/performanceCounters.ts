@@ -154,7 +154,7 @@ export class PerformanceCounterMetrics {
     // Add callbacks
     this.requestRateGaugeCallback = this.getRequestRate.bind(this);
     this.memoryPrivateBytesGaugeCallback = this.getPrivateMemory.bind(this);
-    this.memoryAvailableBytesGaugeCallback = this.getAvailableMemory.bind(this);
+    this.memoryAvailableBytesGaugeCallback = this.observeAvailableMemory.bind(this);
     this.processorTimeGaugeCallback = this.getProcessorTime.bind(this);
     this.processTimeGaugeCallback = this.getProcessTime.bind(this);
     this.processTimeNormalizedGaugeCallback = this.getNormalizedProcessTime.bind(this);
@@ -247,7 +247,7 @@ export class PerformanceCounterMetrics {
     }
   }
 
-  private getAvailableMemory(observableResult: ObservableResult): void {
+  private observeAvailableMemory(observableResult: ObservableResult): void {
     observableResult.observe(getAvailableMemory());
   }
 
