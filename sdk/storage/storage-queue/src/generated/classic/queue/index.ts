@@ -185,7 +185,6 @@ export interface QueueOperations {
   >;
   /** sets the permissions for the specified queue. */
   setAccessPolicy: (
-    queueAcl: SignedIdentifiers,
     options?: QueueSetAccessPolicyOptionalParams,
   ) => Promise<
     {
@@ -309,8 +308,8 @@ function _getQueue(context: QueuesContext) {
     clear: (options?: QueueClearOptionalParams) => clear(context, options),
     receiveMessages: (options?: QueueReceiveMessagesOptionalParams) =>
       receiveMessages(context, options),
-    setAccessPolicy: (queueAcl: SignedIdentifiers, options?: QueueSetAccessPolicyOptionalParams) =>
-      setAccessPolicy(context, queueAcl, options),
+    setAccessPolicy: (options?: QueueSetAccessPolicyOptionalParams) =>
+      setAccessPolicy(context, options),
     getAccessPolicy: (options?: QueueGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
     setMetadata: (options?: QueueSetMetadataOptionalParams) => setMetadata(context, options),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueueMessage } from "../../models/azure/storage/queues/models.js";
+import { SignedIdentifiers, QueueMessage } from "../../models/azure/storage/queues/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -16,6 +16,8 @@ export interface QueueDeleteMessageOptionalParams extends OperationOptions {
 export interface QueueUpdateMessageOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** Content-Type header */
+  contentType?: "application/xml";
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A Message object which can be stored in a Queue */
@@ -84,8 +86,12 @@ export interface QueueReceiveMessagesOptionalParams extends OperationOptions {
 export interface QueueSetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The media type of the requestbody */
+  contentType?: "application/xml";
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** The access control list for the queue. */
+  queueAcl?: SignedIdentifiers;
 }
 
 /** Optional parameters. */
@@ -102,6 +108,8 @@ export interface QueueSetMetadataOptionalParams extends OperationOptions {
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** The metadata headers. */
+  metadata?: string;
 }
 
 /** Optional parameters. */

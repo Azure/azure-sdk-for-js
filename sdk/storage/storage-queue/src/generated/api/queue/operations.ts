@@ -762,7 +762,6 @@ export async function receiveMessages(
 
 export function _setAccessPolicySend(
   context: Client,
-  queueAcl: SignedIdentifiers,
   options: QueueSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -786,7 +785,9 @@ export function _setAccessPolicySend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: signedIdentifiersXmlSerializer(queueAcl),
+      body: !options["queueAcl"]
+        ? options["queueAcl"]
+        : signedIdentifiersXmlSerializer(options["queueAcl"]),
     });
 }
 
@@ -845,7 +846,6 @@ export function _setAccessPolicyDeserializeExceptionHeaders(result: PathUnchecke
 /** sets the permissions for the specified queue. */
 export async function setAccessPolicy(
   context: Client,
-  queueAcl: SignedIdentifiers,
   options: QueueSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -859,7 +859,7 @@ export async function setAccessPolicy(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setAccessPolicySend(context, queueAcl, {
+  const result = await _setAccessPolicySend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });

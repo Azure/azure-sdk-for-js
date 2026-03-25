@@ -912,8 +912,9 @@ export class QueueClient extends StorageClient {
 
         return assertResponse<QueueSetAccessPolicyHeaders, QueueSetAccessPolicyHeaders>(
           adjustResponse(
-            await this.storageClientContext.queue.setAccessPolicy({ items: acl } as any, {
+            await this.storageClientContext.queue.setAccessPolicy({
               ...updatedOptions,
+              queueAcl: { items: acl },
             }),
           ),
         );

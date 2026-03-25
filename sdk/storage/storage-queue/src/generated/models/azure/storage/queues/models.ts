@@ -1335,7 +1335,7 @@ export function receivedMessageXmlDeserializer(xmlString: string): ReceivedMessa
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<ReceivedMessage>(xmlString, properties, "ReceivedMessage");
+  return deserializeFromXml<ReceivedMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function receivedMessageXmlObjectDeserializer(
@@ -1498,7 +1498,7 @@ export function sentMessageXmlDeserializer(xmlString: string): SentMessage {
       dateEncoding: "rfc7231",
     },
   ];
-  return deserializeFromXml<SentMessage>(xmlString, properties, "SentMessage");
+  return deserializeFromXml<SentMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unknown>): SentMessage {
@@ -1627,7 +1627,7 @@ export function peekedMessageXmlDeserializer(xmlString: string): PeekedMessage {
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<PeekedMessage>(xmlString, properties, "PeekedMessage");
+  return deserializeFromXml<PeekedMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function peekedMessageXmlObjectDeserializer(
