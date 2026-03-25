@@ -22,7 +22,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"db61ea5e6abc6608139d74a3558b239fde36d74015dff1bfacc361f1a264ac12","compiler_version":"v0.63.1","strict":true,"agent_id":"copilot"}
+# gh-aw-metadata: {"schema_version":"v3","frontmatter_hash":"8b17c2f54330f38f5f06d3cc0949f937e7fe8b92d307ca283d4b41c0a1dae5ba","compiler_version":"v0.63.1","agent_id":"copilot"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -77,7 +77,7 @@ jobs:
           GH_AW_INFO_AWF_VERSION: "v0.25.0"
           GH_AW_INFO_AWMG_VERSION: ""
           GH_AW_INFO_FIREWALL_TYPE: "squid"
-          GH_AW_COMPILED_STRICT: "true"
+          GH_AW_COMPILED_STRICT: "false"
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           script: |
@@ -875,7 +875,6 @@ jobs:
       - safe_outputs
     if: always() && (needs.agent.result != 'skipped' || needs.activation.outputs.lockdown_check_failed == 'true')
     runs-on: ubuntu-slim
-    environment: AzureSDKEngKeyVault
     permissions:
       contents: write
       id-token: write
@@ -998,7 +997,6 @@ jobs:
       - agent
     if: (!cancelled()) && needs.agent.result != 'skipped' && needs.agent.outputs.detection_success == 'true'
     runs-on: ubuntu-slim
-    environment: AzureSDKEngKeyVault
     permissions:
       contents: write
       id-token: write

@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 9 * * 1"
 description: Review documentation for inconsistencies with source code and create a PR with fixes
+strict: false
 permissions:
   contents: read
   issues: read
@@ -18,7 +19,6 @@ safe-outputs:
     title-prefix: "[docs] "
     labels: [documentation, automated]
   id-token: write
-  environment: AzureSDKEngKeyVault
   steps:
     - name: Azure Login
       uses: azure/login@v2
