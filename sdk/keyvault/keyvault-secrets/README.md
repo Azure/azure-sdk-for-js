@@ -1,8 +1,8 @@
-# Azure KeyVault client library for JavaScript
+# Azure Key Vault Secrets client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure KeyVault client.
+Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
 
-The key vault client performs cryptographic key operations and vault operations against the Key Vault service.
+Azure Key Vault Secrets management allows you to securely store and tightly control access to tokens, passwords, certificates, API keys, and other secrets.
 
 Key links:
 
@@ -31,7 +31,7 @@ Install the Azure KeyVault client library for JavaScript with `npm`:
 npm install @azure/keyvault-secrets
 ```
 
-### Create and authenticate a `KeyVaultClient`
+### Create and authenticate a `SecretClient`
 
 To create a client object to access the Azure KeyVault API, you will need the `endpoint` of your Azure KeyVault resource and a `credential`. The Azure KeyVault client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure KeyVault resource in the [Azure Portal][azure_portal].
@@ -50,35 +50,40 @@ For more information about how to create an Azure AD Application check out [this
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
-```ts 
-import { KeyVaultClient } from "@azure/keyvault-secrets";
+```ts snippet:ReadmeSampleCreateClient
+import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new KeyVaultClient("<endpoint>", new DefaultAzureCredential());
+const credential = new DefaultAzureCredential();
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+const client = new SecretClient(url, credential);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
-```ts 
+```ts snippet:ReadmeSampleCreateClientBrowser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { KeyVaultClient } from "@azure/keyvault-secrets";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
-const client = new KeyVaultClient("<endpoint>", credential);
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+const client = new SecretClient(url, credential);
 ```
 
-
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### KeyVaultClient
+### SecretClient
 
-`KeyVaultClient` is the primary interface for developers using the Azure KeyVault client library. Explore the methods on this client object to understand the different features of the Azure KeyVault service that you can access.
+`SecretClient` is the primary interface for developers using the Azure Key Vault Secrets client library. Explore the methods on this client object to understand the different features of the Azure Key Vault Secrets service that you can access.
 
 ## Troubleshooting
 
@@ -86,14 +91,13 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts 
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
 
 ## Contributing
 

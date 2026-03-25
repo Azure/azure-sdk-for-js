@@ -11,4 +11,19 @@ export default azsdkEslint.config([
       "tsdoc/syntax": "warn",
     },
   },
+  {
+    files: [
+      "src/api/**/*.ts",
+      "src/models/**/*.ts",
+      "src/static-helpers/**/*.ts",
+    ],
+    rules: {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "tsdoc/syntax": "off",
+      "no-useless-escape": "off",
+      "no-unused-expressions": "off",
+    },
+  },
 ]);

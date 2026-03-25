@@ -70,7 +70,8 @@ describe("Transformations", () => {
     assert.equal(secret.properties.previousVersion, "1");
   });
 
-  it("correctly assigns all properties for a deleted secret", () => {    const date = new Date();
+  it("correctly assigns all properties for a deleted secret", () => {
+    const date = new Date();
     const bundle: DeletedSecretBundle = {
       id: "https://azure_keyvault.vault.azure.net/keys/abc123/1",
       recoveryId: "recovery_id",
