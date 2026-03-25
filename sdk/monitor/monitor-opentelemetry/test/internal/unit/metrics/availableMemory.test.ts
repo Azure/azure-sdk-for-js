@@ -16,11 +16,11 @@ vi.mock("node:fs", async (importOriginal) => {
 });
 
 vi.mock("node:os", async (importOriginal) => {
-  const mod: any = await importOriginal();
+  const mod = await importOriginal<Record<string, unknown>>();
   return {
     ...mod,
     default: {
-      ...mod.default,
+      ...(mod.default as Record<string, unknown>),
       freemem: mockFreemem,
     },
   };
