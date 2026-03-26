@@ -1,38 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ComputeScheduleContext as Client } from "../index.js";
+import type {
   _ScheduledActionResourcesListResult,
-  _scheduledActionResourcesListResultDeserializer,
   ScheduledActionResources,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  _scheduledActionResourcesListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByVmsSend(
   context: Client,
   resourceUri: string,
-  options: ScheduledActionExtensionListByVmsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionExtensionListByVmsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.ComputeSchedule/associatedScheduledActions{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,10 +34,7 @@ export function _listByVmsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -54,6 +45,7 @@ export async function _listByVmsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -64,15 +56,17 @@ export async function _listByVmsDeserialize(
 export function listByVms(
   context: Client,
   resourceUri: string,
-  options: ScheduledActionExtensionListByVmsOptionalParams = {
-    requestOptions: {},
-  },
+  options: ScheduledActionExtensionListByVmsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduledActionResources> {
   return buildPagedAsyncIterator(
     context,
     () => _listByVmsSend(context, resourceUri, options),
     _listByVmsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }

@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel } from "@azure-rest/core-client";
+import type { ErrorModel } from "@azure-rest/core-client";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -48,7 +54,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -171,7 +177,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** The deallocate request for resources */
-export interface SubmitDeallocateRequest {
+export interface SubmitDeallocateContent {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -182,7 +188,7 @@ export interface SubmitDeallocateRequest {
   correlationId: string;
 }
 
-export function submitDeallocateRequestSerializer(item: SubmitDeallocateRequest): any {
+export function submitDeallocateContentSerializer(item: SubmitDeallocateContent): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -289,12 +295,15 @@ export interface RetryPolicy {
   retryCount?: number;
   /** Retry window in minutes for user request */
   retryWindowInMinutes?: number;
+  /** Action to take on failure */
+  onFailureAction?: ResourceOperationType;
 }
 
 export function retryPolicySerializer(item: RetryPolicy): any {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
+    onFailureAction: item["onFailureAction"],
   };
 }
 
@@ -302,8 +311,39 @@ export function retryPolicyDeserializer(item: any): RetryPolicy {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
+    onFailureAction: item["onFailureAction"],
   };
 }
+
+/** The kind of operation types that can be performed on resources using ScheduledActions */
+export enum KnownResourceOperationType {
+  /** The default value for this enum type */
+  Unknown = "Unknown",
+  /** Start operations on the resources */
+  Start = "Start",
+  /** Deallocate operations on the resources */
+  Deallocate = "Deallocate",
+  /** Hibernate operations on the resources */
+  Hibernate = "Hibernate",
+  /** Create operations on the resources */
+  Create = "Create",
+  /** Delete operations on the resources */
+  Delete = "Delete",
+}
+
+/**
+ * The kind of operation types that can be performed on resources using ScheduledActions \
+ * {@link KnownResourceOperationType} can be used interchangeably with ResourceOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The default value for this enum type \
+ * **Start**: Start operations on the resources \
+ * **Deallocate**: Deallocate operations on the resources \
+ * **Hibernate**: Hibernate operations on the resources \
+ * **Create**: Create operations on the resources \
+ * **Delete**: Delete operations on the resources
+ */
+export type ResourceOperationType = string;
 
 /** The resources needed for the user request */
 export interface Resources {
@@ -395,6 +435,8 @@ export interface ResourceOperationDetails {
   operationTimezone?: string;
   /** Operation level errors if they exist */
   resourceOperationError?: ResourceOperationError;
+  /** Fallback operation details if a fallback was performed */
+  fallbackOperationInfo?: FallbackOperationInfo;
   /** Time the operation was complete if errors are null */
   completedAt?: string;
   /** Retry policy the user can pass */
@@ -415,36 +457,15 @@ export function resourceOperationDetailsDeserializer(item: any): ResourceOperati
     resourceOperationError: !item["resourceOperationError"]
       ? item["resourceOperationError"]
       : resourceOperationErrorDeserializer(item["resourceOperationError"]),
+    fallbackOperationInfo: !item["fallbackOperationInfo"]
+      ? item["fallbackOperationInfo"]
+      : fallbackOperationInfoDeserializer(item["fallbackOperationInfo"]),
     completedAt: item["completedAt"],
     retryPolicy: !item["retryPolicy"]
       ? item["retryPolicy"]
       : retryPolicyDeserializer(item["retryPolicy"]),
   };
 }
-
-/** The kind of operation types that can be performed on resources using ScheduledActions */
-export enum KnownResourceOperationType {
-  /** The default value for this enum type */
-  Unknown = "Unknown",
-  /** Start operations on the resources */
-  Start = "Start",
-  /** Deallocate operations on the resources */
-  Deallocate = "Deallocate",
-  /** Hibernate operations on the resources */
-  Hibernate = "Hibernate",
-}
-
-/**
- * The kind of operation types that can be performed on resources using ScheduledActions \
- * {@link KnownResourceOperationType} can be used interchangeably with ResourceOperationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown**: The default value for this enum type \
- * **Start**: Start operations on the resources \
- * **Deallocate**: Deallocate operations on the resources \
- * **Hibernate**: Hibernate operations on the resources
- */
-export type ResourceOperationType = string;
 
 /** Values that define the states of operations in Scheduled Actions */
 export enum KnownOperationState {
@@ -500,8 +521,26 @@ export function resourceOperationErrorDeserializer(item: any): ResourceOperation
   };
 }
 
+/** Describes the fallback operation that was performed */
+export interface FallbackOperationInfo {
+  /** The last operation type that was performed as a fallback */
+  lastOpType: ResourceOperationType;
+  /** The status of the fallback operation */
+  status: string;
+  /** The error code if the fallback operation failed */
+  error?: ResourceOperationError;
+}
+
+export function fallbackOperationInfoDeserializer(item: any): FallbackOperationInfo {
+  return {
+    lastOpType: item["lastOpType"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : resourceOperationErrorDeserializer(item["error"]),
+  };
+}
+
 /** This is the request for hibernate */
-export interface SubmitHibernateRequest {
+export interface SubmitHibernateContent {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -512,7 +551,7 @@ export interface SubmitHibernateRequest {
   correlationId: string;
 }
 
-export function submitHibernateRequestSerializer(item: SubmitHibernateRequest): any {
+export function submitHibernateContentSerializer(item: SubmitHibernateContent): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -547,7 +586,7 @@ export function hibernateResourceOperationResponseDeserializer(
 }
 
 /** This is the request for start */
-export interface SubmitStartRequest {
+export interface SubmitStartContent {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -558,7 +597,7 @@ export interface SubmitStartRequest {
   correlationId: string;
 }
 
-export function submitStartRequestSerializer(item: SubmitStartRequest): any {
+export function submitStartContentSerializer(item: SubmitStartContent): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -593,7 +632,7 @@ export function startResourceOperationResponseDeserializer(
 }
 
 /** The ExecuteDeallocateRequest request for executeDeallocate operations */
-export interface ExecuteDeallocateRequest {
+export interface ExecuteDeallocateContent {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -602,7 +641,7 @@ export interface ExecuteDeallocateRequest {
   correlationId: string;
 }
 
-export function executeDeallocateRequestSerializer(item: ExecuteDeallocateRequest): any {
+export function executeDeallocateContentSerializer(item: ExecuteDeallocateContent): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -611,7 +650,7 @@ export function executeDeallocateRequestSerializer(item: ExecuteDeallocateReques
 }
 
 /** The ExecuteHibernateRequest request for executeHibernate operations */
-export interface ExecuteHibernateRequest {
+export interface ExecuteHibernateContent {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -620,7 +659,7 @@ export interface ExecuteHibernateRequest {
   correlationId: string;
 }
 
-export function executeHibernateRequestSerializer(item: ExecuteHibernateRequest): any {
+export function executeHibernateContentSerializer(item: ExecuteHibernateContent): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -629,7 +668,7 @@ export function executeHibernateRequestSerializer(item: ExecuteHibernateRequest)
 }
 
 /** The ExecuteStartRequest request for executeStart operations */
-export interface ExecuteStartRequest {
+export interface ExecuteStartContent {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -638,7 +677,7 @@ export interface ExecuteStartRequest {
   correlationId: string;
 }
 
-export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
+export function executeStartContentSerializer(item: ExecuteStartContent): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -646,21 +685,263 @@ export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
   };
 }
 
+/** The ExecuteCreateFlexRequest request for executeCreateFlex operations */
+export interface ExecuteCreateFlexContent {
+  /** Resource creation payload with flex properties */
+  resourceConfigParameters: ResourceProvisionFlexPayload;
+  /** The execution parameters for the request */
+  executionParameters: ExecutionParameters;
+  /** Correlationid item */
+  correlationId?: string;
+}
+
+export function executeCreateFlexContentSerializer(item: ExecuteCreateFlexContent): any {
+  return {
+    resourceConfigParameters: resourceProvisionFlexPayloadSerializer(
+      item["resourceConfigParameters"],
+    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    correlationid: item["correlationId"],
+  };
+}
+
+/** Resource creation data model for flex VM provisioning */
+export interface ResourceProvisionFlexPayload {
+  /** JSON object that contains VM properties that are common across all VMs in this batch */
+  baseProfile?: Record<string, any>;
+  /** JSON array that contains VM properties that should be overridden for each VM in the batch */
+  resourceOverrides?: Record<string, any>[];
+  /** Number of VMs to be created */
+  resourceCount: number;
+  /** If resourceOverrides doesn't contain name, service will create name based on prefix and resourceCount */
+  resourcePrefix?: string;
+  /** The flex properties for flexible VM creation */
+  flexProperties: FlexProperties;
+}
+
+export function resourceProvisionFlexPayloadSerializer(item: ResourceProvisionFlexPayload): any {
+  return {
+    baseProfile: item["baseProfile"],
+    resourceOverrides: !item["resourceOverrides"]
+      ? item["resourceOverrides"]
+      : item["resourceOverrides"].map((p: any) => {
+          return p;
+        }),
+    resourceCount: item["resourceCount"],
+    resourcePrefix: item["resourcePrefix"],
+    flexProperties: flexPropertiesSerializer(item["flexProperties"]),
+  };
+}
+
+/** The flex properties for flexible VM creation */
+export interface FlexProperties {
+  /** The list of VM size profiles to use for flex creation */
+  vmSizeProfiles: VmSizeProfile[];
+  /** The operating system type for the VMs */
+  osType: OsType;
+  /** The priority profile for VM allocation */
+  priorityProfile: PriorityProfile;
+  /** The zone allocation policy for distributing VMs across availability zones */
+  zoneAllocationPolicy?: ZoneAllocationPolicy;
+}
+
+export function flexPropertiesSerializer(item: FlexProperties): any {
+  return {
+    vmSizeProfiles: vmSizeProfileArraySerializer(item["vmSizeProfiles"]),
+    osType: item["osType"],
+    priorityProfile: priorityProfileSerializer(item["priorityProfile"]),
+    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
+      ? item["zoneAllocationPolicy"]
+      : zoneAllocationPolicySerializer(item["zoneAllocationPolicy"]),
+  };
+}
+
+export function vmSizeProfileArraySerializer(result: Array<VmSizeProfile>): any[] {
+  return result.map((item) => {
+    return vmSizeProfileSerializer(item);
+  });
+}
+
+/** A VM size profile with a name and rank for flex VM creation */
+export interface VmSizeProfile {
+  /** The name of the VM size, eg Standard_D2ads_v5 */
+  name: string;
+  /** The rank of this VM size in the priority order */
+  rank: number;
+}
+
+export function vmSizeProfileSerializer(item: VmSizeProfile): any {
+  return { name: item["name"], rank: item["rank"] };
+}
+
+/** The supported operating system types for flex VM creation */
+export enum KnownOsType {
+  /** Windows operating system */
+  Windows = "Windows",
+  /** Linux operating system */
+  Linux = "Linux",
+}
+
+/**
+ * The supported operating system types for flex VM creation \
+ * {@link KnownOsType} can be used interchangeably with OsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows**: Windows operating system \
+ * **Linux**: Linux operating system
+ */
+export type OsType = string;
+
+/** The priority profile for flex VM creation */
+export interface PriorityProfile {
+  /** The priority type for VM allocation */
+  type?: PriorityType;
+  /** The allocation strategy for VM size selection */
+  allocationStrategy?: AllocationStrategy;
+}
+
+export function priorityProfileSerializer(item: PriorityProfile): any {
+  return { type: item["type"], allocationStrategy: item["allocationStrategy"] };
+}
+
+/** The priority type for VM allocation */
+export enum KnownPriorityType {
+  /** Regular priority VMs */
+  Regular = "Regular",
+  /** Spot priority VMs */
+  Spot = "Spot",
+}
+
+/**
+ * The priority type for VM allocation \
+ * {@link KnownPriorityType} can be used interchangeably with PriorityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular**: Regular priority VMs \
+ * **Spot**: Spot priority VMs
+ */
+export type PriorityType = string;
+
+/** The allocation strategy for VM size selection */
+export enum KnownAllocationStrategy {
+  /** Platform prioritizes VM sizes with the lowest hourly cost */
+  LowestPrice = "LowestPrice",
+  /** Customer specifies a rank for each VM size, platform uses VM sizes in rank order */
+  Prioritized = "Prioritized",
+  /** Platform prioritizes VM sizes with the highest available capacity first */
+  CapacityOptimized = "CapacityOptimized",
+}
+
+/**
+ * The allocation strategy for VM size selection \
+ * {@link KnownAllocationStrategy} can be used interchangeably with AllocationStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LowestPrice**: Platform prioritizes VM sizes with the lowest hourly cost \
+ * **Prioritized**: Customer specifies a rank for each VM size, platform uses VM sizes in rank order \
+ * **CapacityOptimized**: Platform prioritizes VM sizes with the highest available capacity first
+ */
+export type AllocationStrategy = string;
+
+/** The zone allocation policy for distributing VMs across availability zones */
+export interface ZoneAllocationPolicy {
+  /** The distribution strategy for zone allocation */
+  distributionStrategy?: DistributionStrategy;
+  /** The zone preferences for allocation priority */
+  zonePreferences?: ZonePreference[];
+}
+
+export function zoneAllocationPolicySerializer(item: ZoneAllocationPolicy): any {
+  return {
+    distributionStrategy: item["distributionStrategy"],
+    zonePreferences: !item["zonePreferences"]
+      ? item["zonePreferences"]
+      : zonePreferenceArraySerializer(item["zonePreferences"]),
+  };
+}
+
+/** The distribution strategy for zone allocation */
+export enum KnownDistributionStrategy {
+  /** Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed */
+  BestEffortSingleZone = "BestEffortSingleZone",
+  /** Platform uses customer-provided zone rankings to allocate VMs */
+  Prioritized = "Prioritized",
+  /** Platform attempts to evenly distribute VMs across all available zones with best effort */
+  BestEffortBalanced = "BestEffortBalanced",
+  /** Platform must evenly distribute VMs across zones, request is rejected if exact balance cannot be achieved */
+  StrictBalanced = "StrictBalanced",
+}
+
+/**
+ * The distribution strategy for zone allocation \
+ * {@link KnownDistributionStrategy} can be used interchangeably with DistributionStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BestEffortSingleZone**: Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed \
+ * **Prioritized**: Platform uses customer-provided zone rankings to allocate VMs \
+ * **BestEffortBalanced**: Platform attempts to evenly distribute VMs across all available zones with best effort \
+ * **StrictBalanced**: Platform must evenly distribute VMs across zones, request is rejected if exact balance cannot be achieved
+ */
+export type DistributionStrategy = string;
+
+export function zonePreferenceArraySerializer(result: Array<ZonePreference>): any[] {
+  return result.map((item) => {
+    return zonePreferenceSerializer(item);
+  });
+}
+
+/** A zone preference with a zone identifier and rank */
+export interface ZonePreference {
+  /** The zone identifier */
+  zone: string;
+  /** The rank of this zone in the priority order */
+  rank: number;
+}
+
+export function zonePreferenceSerializer(item: ZonePreference): any {
+  return { zone: item["zone"], rank: item["rank"] };
+}
+
+/** The response from a create flex request */
+export interface CreateFlexResourceOperationResponse {
+  /** The description of the operation response */
+  description: string;
+  /** The type of resources used in the create flex request eg virtual machines */
+  type: string;
+  /** The location of the create flex request eg westus */
+  location: string;
+  /** The results from the create flex request if no errors exist */
+  results?: ResourceOperation[];
+}
+
+export function createFlexResourceOperationResponseDeserializer(
+  item: any,
+): CreateFlexResourceOperationResponse {
+  return {
+    description: item["description"],
+    type: item["type"],
+    location: item["location"],
+    results: !item["results"]
+      ? item["results"]
+      : resourceOperationArrayDeserializer(item["results"]),
+  };
+}
+
 /** The ExecuteCreateRequest request for create operations */
-export interface ExecuteCreateRequest {
+export interface ExecuteCreateContent {
   /** resource creation payload */
   resourceConfigParameters: ResourceProvisionPayload;
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** CorrelationId item */
-  correlationid?: string;
+  correlationId?: string;
 }
 
-export function executeCreateRequestSerializer(item: ExecuteCreateRequest): any {
+export function executeCreateContentSerializer(item: ExecuteCreateContent): any {
   return {
     resourceConfigParameters: resourceProvisionPayloadSerializer(item["resourceConfigParameters"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -715,22 +996,22 @@ export function createResourceOperationResponseDeserializer(
 }
 
 /** The ExecuteDeleteRequest for delete VM operation */
-export interface ExecuteDeleteRequest {
+export interface ExecuteDeleteContent {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid?: string;
+  correlationId?: string;
   /** Forced delete resource item */
   forceDeletion?: boolean;
 }
 
-export function executeDeleteRequestSerializer(item: ExecuteDeleteRequest): any {
+export function executeDeleteContentSerializer(item: ExecuteDeleteContent): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
     forceDeletion: item["forceDeletion"],
   };
 }
@@ -761,14 +1042,14 @@ export function deleteResourceOperationResponseDeserializer(
 }
 
 /** This is the request to get operation status using operationids */
-export interface GetOperationStatusRequest {
+export interface GetOperationStatusContent {
   /** The list of operation ids to get the status of */
   operationIds: string[];
   /** CorrelationId item */
   correlationId: string;
 }
 
-export function getOperationStatusRequestSerializer(item: GetOperationStatusRequest): any {
+export function getOperationStatusContentSerializer(item: GetOperationStatusContent): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -790,14 +1071,14 @@ export function getOperationStatusResponseDeserializer(item: any): GetOperationS
 }
 
 /** This is the request to cancel running operations in scheduled actions using the operation ids */
-export interface CancelOperationsRequest {
+export interface CancelOperationsContent {
   /** The list of operation ids to cancel operations on */
   operationIds: string[];
   /** CorrelationId item */
   correlationId: string;
 }
 
-export function cancelOperationsRequestSerializer(item: CancelOperationsRequest): any {
+export function cancelOperationsContentSerializer(item: CancelOperationsContent): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -819,12 +1100,12 @@ export function cancelOperationsResponseDeserializer(item: any): CancelOperation
 }
 
 /** This is the request to get errors per vm operations */
-export interface GetOperationErrorsRequest {
+export interface GetOperationErrorsContent {
   /** The list of operation ids to query errors of */
   operationIds: string[];
 }
 
-export function getOperationErrorsRequestSerializer(item: GetOperationErrorsRequest): any {
+export function getOperationErrorsContentSerializer(item: GetOperationErrorsContent): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -937,7 +1218,9 @@ export function scheduledActionSerializer(item: ScheduledAction): any {
 
 export function scheduledActionDeserializer(item: any): ScheduledAction {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1300,7 +1583,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1539,27 +1824,25 @@ export function scheduledActionResourceDeserializer(item: any): ScheduledActionR
 }
 
 /** Request model to attach a list of scheduled action resources. */
-export interface ResourceAttachRequest {
+export interface ResourceAttachRequestInput {
   /** List of resources to be attached/patched */
-  resources: ScheduledActionResourceCreate[];
+  resources: ScheduledActionResourceInput[];
 }
 
-export function resourceAttachRequestSerializer(item: ResourceAttachRequest): any {
-  return {
-    resources: scheduledActionResourceCreateArraySerializer(item["resources"]),
-  };
+export function resourceAttachRequestInputSerializer(item: ResourceAttachRequestInput): any {
+  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
 }
 
-export function scheduledActionResourceCreateArraySerializer(
-  result: Array<ScheduledActionResourceCreate>,
+export function scheduledActionResourceInputArraySerializer(
+  result: Array<ScheduledActionResourceInput>,
 ): any[] {
   return result.map((item) => {
-    return scheduledActionResourceCreateSerializer(item);
+    return scheduledActionResourceInputSerializer(item);
   });
 }
 
-/** Represents an scheduled action resource metadata. */
-export interface ScheduledActionResourceCreate {
+/** Represents a scheduled action resource input for write operations. */
+export interface ScheduledActionResourceInput {
   /**
    * The ARM Id of the resource.
    * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
@@ -1569,7 +1852,7 @@ export interface ScheduledActionResourceCreate {
   notificationSettings?: NotificationProperties[];
 }
 
-export function scheduledActionResourceCreateSerializer(item: ScheduledActionResourceCreate): any {
+export function scheduledActionResourceInputSerializer(item: ScheduledActionResourceInput): any {
   return {
     resourceId: item["resourceId"],
     notificationSettings: !item["notificationSettings"]
@@ -1652,15 +1935,13 @@ export function resourceDetachRequestSerializer(item: ResourceDetachRequest): an
 }
 
 /** Request model perform a resource operation in a list of resources */
-export interface ResourcePatchRequest {
+export interface ResourcePatchRequestInput {
   /** The list of resources we watch to patch */
-  resources: ScheduledActionResourceCreate[];
+  resources: ScheduledActionResourceInput[];
 }
 
-export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any {
-  return {
-    resources: scheduledActionResourceCreateArraySerializer(item["resources"]),
-  };
+export function resourcePatchRequestInputSerializer(item: ResourcePatchRequestInput): any {
+  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
 }
 
 /** The request to cancel an occurrence. */
@@ -1831,7 +2112,7 @@ export function scheduledActionResourcesArrayDeserializer(
 /** The scheduled action extension */
 export interface ScheduledActionResources extends ExtensionResource {
   /** The resource-specific properties for this resource. */
-  properties?: ScheduledActionProperties;
+  properties?: ScheduledActionsExtensionProperties;
 }
 
 export function scheduledActionResourcesDeserializer(item: any): ScheduledActionResources {
@@ -1844,7 +2125,47 @@ export function scheduledActionResourcesDeserializer(item: any): ScheduledAction
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : scheduledActionPropertiesDeserializer(item["properties"]),
+      : scheduledActionsExtensionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Scheduled action extension properties */
+export interface ScheduledActionsExtensionProperties {
+  /** The type of resource the scheduled action is targeting */
+  resourceType: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType: ScheduledActionType;
+  /** The time which the scheduled action is supposed to start running */
+  startTime: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule: ScheduledActionsSchedule;
+  /** The notification settings for the scheduled action */
+  notificationSettings: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+  /** The status of the last provisioning operation performed on the resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** The notification settings for the scheduled action at a resource level. Resource level notification settings are scope to specific resources only and submitted through attach requests. */
+  readonly resourceNotificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionsExtensionPropertiesDeserializer(
+  item: any,
+): ScheduledActionsExtensionProperties {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleDeserializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+    provisioningState: item["provisioningState"],
+    resourceNotificationSettings: !item["resourceNotificationSettings"]
+      ? item["resourceNotificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["resourceNotificationSettings"]),
   };
 }
 
@@ -2043,11 +2364,15 @@ export function occurrenceExtensionPropertiesDeserializer(
 /** ComputeSchedule API versions */
 export enum KnownVersions {
   /** 2024-08-15-preview version */
-  V20240815Preview = "2024-08-15-preview",
+  _20240815Preview = "2024-08-15-preview",
   /** 2024-10-01 version */
   "V2024-10-01" = "2024-10-01",
   /** 2025-05-01 version */
   V20250501 = "2025-05-01",
   /** 2025-04-15-preview version */
-  V20250415Preview = "2025-04-15-preview",
+  _20250415Preview = "2025-04-15-preview",
+  /** 2026-01-01-preview version */
+  _20260101Preview = "2026-01-01-preview",
+  /** 2026-03-01-preview version */
+  _20260301Preview = "2026-03-01-preview",
 }

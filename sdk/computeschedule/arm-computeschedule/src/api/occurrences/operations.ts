@@ -1,43 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ComputeScheduleContext as Client } from "../index.js";
+import type {
   RecurringActionsResourceOperationResult,
-  recurringActionsResourceOperationResultDeserializer,
   CancelOccurrenceRequest,
-  cancelOccurrenceRequestSerializer,
   Occurrence,
-  occurrenceDeserializer,
   _OccurrenceListResult,
-  _occurrenceListResultDeserializer,
   _OccurrenceResourceListResponse,
-  _occurrenceResourceListResponseDeserializer,
   OccurrenceResource,
   DelayRequest,
-  delayRequestSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  recurringActionsResourceOperationResultDeserializer,
+  cancelOccurrenceRequestSerializer,
+  occurrenceDeserializer,
+  _occurrenceListResultDeserializer,
+  _occurrenceResourceListResponseDeserializer,
+  delayRequestSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   OccurrencesDelayOptionalParams,
   OccurrencesCancelOptionalParams,
   OccurrencesListResourcesOptionalParams,
   OccurrencesListByScheduledActionOptionalParams,
   OccurrencesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _delaySend(
   context: Client,
@@ -54,7 +50,7 @@ export function _delaySend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,10 +59,7 @@ export function _delaySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: delayRequestSerializer(body),
   });
 }
@@ -74,10 +67,11 @@ export function _delaySend(
 export async function _delayDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RecurringActionsResourceOperationResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -96,12 +90,13 @@ export function delay(
   OperationState<RecurringActionsResourceOperationResult>,
   RecurringActionsResourceOperationResult
 > {
-  return getLongRunningPoller(context, _delayDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _delayDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _delaySend(context, resourceGroupName, scheduledActionName, occurrenceId, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<
     OperationState<RecurringActionsResourceOperationResult>,
     RecurringActionsResourceOperationResult
@@ -123,7 +118,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,10 +127,7 @@ export function _cancelSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cancelOccurrenceRequestSerializer(body),
   });
 }
@@ -147,6 +139,7 @@ export async function _cancelDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -187,7 +180,7 @@ export function _listResourcesSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,10 +188,7 @@ export function _listResourcesSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -209,6 +199,7 @@ export async function _listResourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -229,7 +220,11 @@ export function listResources(
       _listResourcesSend(context, resourceGroupName, scheduledActionName, occurrenceId, options),
     _listResourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -237,9 +232,7 @@ export function _listByScheduledActionSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  options: OccurrencesListByScheduledActionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OccurrencesListByScheduledActionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ComputeSchedule/scheduledActions/{scheduledActionName}/occurrences{?api%2Dversion}",
@@ -247,7 +240,7 @@ export function _listByScheduledActionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,10 +248,7 @@ export function _listByScheduledActionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -269,6 +259,7 @@ export async function _listByScheduledActionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -280,16 +271,18 @@ export function listByScheduledAction(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  options: OccurrencesListByScheduledActionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OccurrencesListByScheduledActionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Occurrence> {
   return buildPagedAsyncIterator(
     context,
     () => _listByScheduledActionSend(context, resourceGroupName, scheduledActionName, options),
     _listByScheduledActionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -307,7 +300,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       scheduledActionName: scheduledActionName,
       occurrenceId: occurrenceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,10 +308,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -327,6 +317,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Oc
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
