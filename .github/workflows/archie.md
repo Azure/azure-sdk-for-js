@@ -12,6 +12,7 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
+    min-integrity: unapproved
   bash: true
   cache-memory:
   repo-memory:
