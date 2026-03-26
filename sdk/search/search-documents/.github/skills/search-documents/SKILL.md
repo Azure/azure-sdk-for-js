@@ -95,6 +95,82 @@ Each follows the same pattern:
 - `getSearchClient(indexName)` — factory that spawns a `SearchClient` for a specific index, sharing the credential.
 - `listIndexesNames()` — uses server-side projection (`select: "name"`) via `listIndexesWithSelectedProperties` to reduce payload, wrapped with `mapPagedAsyncIterable`.
 
+## CRITICAL: Public Surface Gate — Generated Code Is Not the Public API
+
+New operations, parameters, or models appearing after regeneration are **not available to consumers** until they are explicitly wired through the hand-authored convenience clients. Editing or adding code in generated/mirrored files does NOT expose anything to users.
+
+**After any regeneration that introduces new operations, you are responsible for completing the full wiring into the convenience layer. Do not stop at regeneration. Do not tell the user to wire it themselves. Identify every new operation in the generated diff and complete the checklist below for each one before reporting the task as done.**
+
+### Generated vs. Hand-Authored Files — Know the Difference
+
+The file paths look deceptively similar. Confusing them is the single most common mistake:
+
+| File | Type | Edit? |
+| --- | --- | --- |
+| `src/search/searchClient.ts` | **Generated** sub-client (mirrored from `generated/`) | **NEVER hand-edit** — overwritten on regeneration |
+| `src/searchClient.ts` | **Hand-authored** convenience client (`SearchClient<TModel>`) | **This is where you add operations** |
+| `src/searchIndex/searchIndexClient.ts` | **Generated** sub-client | **NEVER hand-edit** |
+| `src/searchIndexClient.ts` | **Hand-authored** convenience client (`SearchIndexClient`) | **This is where you add operations** |
+| `src/searchIndexer/searchIndexerClient.ts` | **Generated** sub-client | **NEVER hand-edit** |
+| `src/searchIndexerClient.ts` | **Hand-authored** convenience client (`SearchIndexerClient`) | **This is where you add operations** |
+| `src/knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.ts` | **Generated** sub-client | **NEVER hand-edit** |
+| `src/knowledgeRetrievalClient.ts` | **Hand-authored** convenience client (`KnowledgeRetrievalClient`) | **This is where you add operations** |
+| `src/search/api/operations.ts` | **Generated** operations | **NEVER hand-edit** |
+| `src/searchIndex/api/operations.ts` | **Generated** operations | **NEVER hand-edit** |
+| `src/searchIndexer/api/operations.ts` | **Generated** operations | **NEVER hand-edit** |
+| `src/models/models.ts` | **Generated** models | **NEVER hand-edit** |
+
+**Rule:** Any file under `src/{subclient}/` (i.e. `src/search/`, `src/searchIndex/`, `src/searchIndexer/`, `src/knowledgeBaseRetrieval/`) or `src/models/` is generated-mirrored code. Never hand-edit these files. They will be overwritten on the next regeneration.
+
+### Checklist: Exposing a New Operation
+
+When a new operation appears after regeneration (e.g. `explainPost` appears in `src/search/api/operations.ts`), complete ALL of these steps before reporting the task as done:
+
+1. **Add a public method** to the correct hand-authored convenience client file (e.g. `src/searchClient.ts`, NOT `src/search/searchClient.ts`). The method must wrap `tracingClient.withSpan()`, convert public types to generated types, call the generated operation, and convert the response back.
+2. **Define public model types** in `src/indexModels.ts`, `src/serviceModels.ts`, or `src/knowledgeBaseModels.ts` for any new request/response types the operation uses.
+3. **Add conversion functions** in `src/serviceUtils.ts` to translate between generated and public types (or add inline conversions in the convenience client for simple cases).
+4. **Export all new public symbols** from `src/index.ts` — this file is skipped during the customization merge and must always be updated manually.
+5. **Run `api-extractor`** and verify the new types and methods appear in `review/search-documents-node.api.md`. If they don't appear there, they are not part of the public API.
+
+The task is not complete until every new operation is callable from the public convenience client and visible in the API report. Do not leave this as a follow-up.
+
+### Wrong vs. Right Example
+
+**WRONG** — Adding `explainPost` directly to the generated sub-client:
+```
+// WRONG: src/search/searchClient.ts is a GENERATED file — this will be overwritten
+import { explainPost } from "./api/operations.js";
+export class SearchClient {
+  explainPost(body, options) {
+    return explainPost(this._client, body, options);  // raw generated types, no conversion
+  }
+}
+```
+This does nothing for consumers. The generated sub-client is an internal implementation detail, not the public API.
+
+**RIGHT** — Adding `explain` to the hand-authored convenience client:
+```
+// RIGHT: src/searchClient.ts is the HAND-AUTHORED convenience client
+export class SearchClient<TModel extends object> {
+  async explain(documentKey: string, searchText: string, options: ExplainOptions = {}) {
+    return tracingClient.withSpan("SearchClient.explain", options, async (updatedOptions) => {
+      // Convert public types -> generated types
+      const { body, operationOptions } = convertExplainOptions(documentKey, searchText, updatedOptions);
+      const result = await this.client.explainPost(body, operationOptions);
+      // Convert generated types -> public types
+      return convertExplainResult(result);
+    });
+  }
+}
+```
+Then export `ExplainOptions`, `ExplainResult`, etc. from `src/index.ts`.
+
+### Additional Rules
+
+- **Never hand-edit API version strings** in generated files. API versions are controlled by the TypeSpec spec and regeneration.
+- **Never modify `test/snippets.spec.ts`** unless you are updating documentation snippets. This file contains source code for README/doc snippets, not real tests. Destroying its contents breaks documentation.
+- **Never modify generated model files** (`src/models/models.ts`, `src/models/options.ts`, etc.) — define public models in the hand-authored model files instead.
+
 ## Search Pagination
 
 The `search()` method has a **fully custom pagination implementation**. It does NOT use the standard `buildPagedAsyncIterator` from `pagingHelpers.ts`.
@@ -306,7 +382,10 @@ The `odata` tagged template literal (`src/odata.ts`) handles:
 
 ## Common Pitfalls
 
+- **Generated sub-client != convenience client** — `src/search/searchClient.ts` is the GENERATED sub-client. `src/searchClient.ts` is the HAND-AUTHORED convenience client. Adding methods to the generated file does nothing for consumers. Always edit the hand-authored file at the `src/` root. See "CRITICAL: Public Surface Gate" above.
+- **Never hand-edit generated files** — files under `src/search/`, `src/searchIndex/`, `src/searchIndexer/`, `src/knowledgeBaseRetrieval/`, and `src/models/` are generated-mirrored. Edits will be overwritten. This includes API version strings.
 - **`src/index.ts` is `--skip`'d** — after regeneration or adding new types, you must manually add exports there. The `ae-forgotten-export` lint error catches this.
+- **`test/snippets.spec.ts` is documentation, not tests** — it contains source code for README and doc-comment snippets. Never delete or replace its contents. Never modify it when updating real tests.
 - **`@azure-rest/core-client`** not `@azure/core-client` — TypeSpec packages use the REST variant for `OperationOptions`, `ClientOptions`, etc.
 - **`knownSkills` whitelist** — `convertSkillsToPublic()` silently drops unknown skill types. New service skill types require updating this hardcoded record.
 - **No reverse conversion for some types** — `vectorSearch` and individual skills are passed through directly without dedicated public-to-generated converters. Don't look for functions that don't exist.
