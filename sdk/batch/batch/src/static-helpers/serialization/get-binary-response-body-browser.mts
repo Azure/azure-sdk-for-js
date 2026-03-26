@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { createRestError, StreamableMethod } from "@azure-rest/core-client";
 
 /**
@@ -6,7 +8,7 @@ import { createRestError, StreamableMethod } from "@azure-rest/core-client";
 export async function getBinaryResponseBody(
   result: StreamableMethod,
   expectedStatuses: string[] = ["200"],
-  deserializeError?: (error: any) => unknown
+  deserializeError?: (error: any) => unknown,
 ): Promise<{ blobBody?: Promise<Blob>; readableStreamBody?: NodeJS.ReadableStream }> {
   const browserStream = await result.asBrowserStream();
   if (!expectedStatuses.includes(browserStream.status)) {
@@ -18,5 +20,4 @@ export async function getBinaryResponseBody(
     throw error;
   }
   return { blobBody: new Response(browserStream.body).blob(), readableStreamBody: undefined };
-
 }
