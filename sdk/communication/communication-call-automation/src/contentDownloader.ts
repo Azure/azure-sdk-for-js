@@ -11,6 +11,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { DeleteRecordingOptions, DownloadRecordingOptions } from "./models/options.js";
+import { validateRecordingUrl } from "./utli/recordingUrlValidator.js";
 
 /** Class containing ContentDownloading operations. */
 export class ContentDownloaderImpl {
@@ -48,6 +49,9 @@ export class ContentDownloaderImpl {
    * @param deleteLocationUrl - The recording location url. Required.
    */
   async deleteRecording(deleteLocationUrl: string, options: DeleteRecordingOptions): Promise<void> {
+    // Validate the recording URL before processing
+    validateRecordingUrl(deleteLocationUrl, "deleteLocationUrl");
+
     const fileLocation = new URL(deleteLocationUrl);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
@@ -87,6 +91,9 @@ export class ContentDownloaderImpl {
     sourceLocationUrl: string,
     options: DownloadRecordingOptions,
   ): Promise<PipelineResponse> {
+    // Validate the recording URL before processing
+    validateRecordingUrl(sourceLocationUrl, "sourceLocationUrl");
+
     const fileLocation = new URL(sourceLocationUrl);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
