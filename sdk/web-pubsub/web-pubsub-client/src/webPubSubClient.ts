@@ -692,6 +692,7 @@ export class WebPubSubClient {
       canSend: () => this._canSendStreamTraffic(),
       sendStart: async () =>
         this._sendStreamStart(streamId, groupName, {
+          noEcho: options?.noEcho,
           idleTimeoutMs: options?.idleTimeoutMs,
         }),
       sendData: async (sequenceId, content, dataType) =>
@@ -1369,7 +1370,7 @@ export class WebPubSubClient {
     const message: SendToGroupMessage = {
       kind: "sendToGroup",
       group: groupName,
-      noEcho: true,
+      noEcho: options?.noEcho ?? false,
       stream: {
         streamId,
         idleTimeoutMs: options?.idleTimeoutMs,

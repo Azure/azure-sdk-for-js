@@ -130,7 +130,7 @@ export interface LeaveGroupOptions {
  */
 export interface SendToGroupOptions {
   /**
-   * Whether the message needs to echo to sender
+   * Whether the message should not be echoed back to the sender.
    */
   noEcho?: boolean;
   /**
@@ -187,6 +187,11 @@ export interface StreamOptions {
    * Optional stream identifier. If not specified, client will generate one.
    */
   streamId?: string;
+  /**
+   * Whether the stream start message should not be echoed back to the sender.
+   * Default: false.
+   */
+  noEcho?: boolean;
   /**
    * Optional stream idle timeout in milliseconds.
    */
@@ -403,8 +408,10 @@ export interface OnStreamOptions {
    */
   ttlInMs?: number;
   /**
-   * Whether to attach to an in-progress stream if the first observed fragment does not start at 1.
-   * Default: true.
+   * Whether to require the first observed fragment for a stream to start at `streamSequenceId === 1`.
+   * If true and the first observed fragment is mid-stream, that stream is ignored until its terminal
+   * frame arrives.
+   * Default: false.
    */
   handleFromStart?: boolean;
 }

@@ -269,7 +269,7 @@ describe("WebPubSubClient", () => {
       expect(mock).toHaveBeenNthCalledWith(1, {
         kind: "sendToGroup",
         group: "groupName",
-        noEcho: true,
+        noEcho: false,
         stream: {
           streamId: "stream1",
           idleTimeoutMs: 15000,
@@ -298,6 +298,27 @@ describe("WebPubSubClient", () => {
         },
         undefined,
       );
+    });
+
+    it("stream publisher allows overriding noEcho on stream start", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const mock = mockSendMessageWithAutoStreamStartAck(client);
+
+      await client.stream("groupName", {
+        streamId: "stream-noecho-true",
+        noEcho: true,
+      });
+
+      expect(mock).toHaveBeenCalledOnce();
+      expect(mock).toHaveBeenCalledWith({
+        kind: "sendToGroup",
+        group: "groupName",
+        noEcho: true,
+        stream: {
+          streamId: "stream-noecho-true",
+          idleTimeoutMs: undefined,
+        },
+      });
     });
 
     it("stream publisher generates guid streamId by default", async () => {
@@ -359,7 +380,7 @@ describe("WebPubSubClient", () => {
       expect(mock).toHaveBeenNthCalledWith(1, {
         kind: "sendToGroup",
         group: "groupName",
-        noEcho: true,
+        noEcho: false,
         stream: {
           streamId: "stream1",
           idleTimeoutMs: undefined,
@@ -368,7 +389,7 @@ describe("WebPubSubClient", () => {
       expect(mock).toHaveBeenNthCalledWith(2, {
         kind: "sendToGroup",
         group: "groupName",
-        noEcho: true,
+        noEcho: false,
         stream: {
           streamId: "stream1",
           idleTimeoutMs: undefined,

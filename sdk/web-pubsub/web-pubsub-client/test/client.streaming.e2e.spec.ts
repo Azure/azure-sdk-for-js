@@ -373,7 +373,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(sent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "invalid-ack-s1",
       },
@@ -449,7 +449,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await expect(streamDone).resolves.toEqual({ result: "chunk-1chunk-2" });
   });
 
-  it("supports handleFromStart=false so late-join fragments can be ignored", async () => {
+  it("supports handleFromStart=true so late-join fragments can be ignored", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -466,7 +466,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
           called = true;
         },
       }),
-      { handleFromStart: false },
+      { handleFromStart: true },
     );
 
     sendGroupStreamMessage(socket, {
@@ -594,7 +594,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await expect(result).resolves.toEqual({ messageCount: 0, completed: true });
   });
 
-  it("supports streamId reuse after ignored late-join stream ends when handleFromStart=false", async () => {
+  it("supports streamId reuse after ignored late-join stream ends when handleFromStart=true", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -612,7 +612,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
             onMessage: (args) => chunks.push(args.data as string),
             onComplete: () => resolve(chunks.join("")),
           }),
-          { handleFromStart: false },
+          { handleFromStart: true },
         );
       }),
       3000,
@@ -668,7 +668,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
             onMessage: (args) => chunks.push(args.data as string),
             onComplete: () => resolve(chunks.join("")),
           }),
-          { handleFromStart: false },
+          { handleFromStart: true },
         );
       }),
       3000,
@@ -818,7 +818,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(sent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "s1",
         idleTimeoutMs: 15000,
@@ -900,7 +900,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(firstSent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "recovery-replay-s1",
       },
@@ -975,7 +975,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(firstSent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "restart-replay-s1",
       },
@@ -1018,7 +1018,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(secondSent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "restart-replay-s2",
       },
@@ -1064,7 +1064,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(firstSent[0]).toEqual({
       type: "sendToGroup",
       group: "g1",
-      noEcho: true,
+      noEcho: false,
       stream: {
         streamId: "ended-no-replay-s1",
       },

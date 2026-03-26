@@ -317,7 +317,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     await expect(stream.publish("after-timeout", "text")).rejects.toThrow("is completed");
   });
 
-  it("treats messages after receiver ttl expiry as a new stream when handleFromStart=true", async () => {
+  it("treats messages after receiver ttl expiry as a new stream when handleFromStart=false", async () => {
     const serviceClient = createServiceClient();
     const ts = Date.now();
     const group = `stream-receiver-expire-start-${ts}`;
@@ -354,7 +354,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
           },
         };
       },
-      { ttlInMs: 200, handleFromStart: true },
+      { ttlInMs: 200, handleFromStart: false },
     );
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -383,7 +383,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     });
   });
 
-  it("requires a fresh seq=1 stream after receiver ttl expiry when handleFromStart=false", async () => {
+  it("requires a fresh seq=1 stream after receiver ttl expiry when handleFromStart=true", async () => {
     const serviceClient = createServiceClient();
     const ts = Date.now();
     const group = `stream-receiver-expire-strict-${ts}`;
@@ -421,7 +421,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
           },
         };
       },
-      { ttlInMs: 200, handleFromStart: false },
+      { ttlInMs: 200, handleFromStart: true },
     );
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -438,7 +438,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     await original.publish("old-2", "text");
     await withTimeout(firstExpired.promise, 10000, "Timed out waiting for strict ttl expiry.");
 
-    // Continues old stream (seq > 1) and should stay ignored when handleFromStart=false.
+    // Continues old stream (seq > 1) and should stay ignored when handleFromStart=true.
     await original.publish("old-3", "text");
     await original.publish("old-4", "text");
     await original.complete();

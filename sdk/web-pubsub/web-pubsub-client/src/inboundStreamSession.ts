@@ -39,7 +39,7 @@ export class InboundStreamSession {
       groupName,
       {
         ttlInMs: options?.ttlInMs ?? 300000,
-        handleFromStart: options?.handleFromStart ?? true,
+        handleFromStart: options?.handleFromStart ?? false,
       },
       handlerFactory,
     );
@@ -78,7 +78,7 @@ export class InboundStreamSession {
     }
 
     subscriptions.forEach((subscription) => {
-      // For handleFromStart=false, if we first observe a mid-stream fragment,
+      // For handleFromStart=true, if we first observe a mid-stream fragment,
       // ignore that streamId until its terminal frame arrives.
       if (subscription.ignoredStreamIds.has(stream.streamId)) {
         if (stream.endOfStream) {
@@ -90,7 +90,7 @@ export class InboundStreamSession {
       const key = this._buildHandlerKey(subscription.id, message.group, stream.streamId);
       let activeHandler = this._activeHandlers.get(key);
       if (activeHandler == null) {
-        if (!subscription.options.handleFromStart && stream.streamSequenceId !== 1) {
+        if (subscription.options.handleFromStart && stream.streamSequenceId !== 1) {
           if (!stream.endOfStream) {
             subscription.ignoredStreamIds.add(stream.streamId);
           }
@@ -262,7 +262,7 @@ class InboundStreamSubscription {
   public readonly groupName: string;
   public readonly options: InboundStreamOptions;
   public readonly handlerFactory: (streamId: string) => StreamHandler;
-  // Tracks streamIds currently skipped by handleFromStart=false.
+  // Tracks streamIds currently skipped by handleFromStart=true.
   public readonly ignoredStreamIds: Set<string>;
 
   constructor(

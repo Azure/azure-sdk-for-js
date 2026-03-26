@@ -412,6 +412,7 @@ export interface StreamNackMessage extends WebPubSubMessageBase {
 // @public
 export interface StreamOptions {
     idleTimeoutMs?: number;
+    noEcho?: boolean;
     streamId?: string;
 }
 
