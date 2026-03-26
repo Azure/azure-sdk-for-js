@@ -7,6 +7,7 @@ import { format } from "../../util/prettier";
 import { resolveProject, resolveRoot, METADATA_KEY, ProjectInfo } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { run } from "../../util/run";
+import { hasPowerShell } from "../../util/pwsh";
 import { leafCommand } from "../../framework/command";
 import { makeCommandInfo } from "../../framework/command";
 import { prerelease, inc } from "semver";
@@ -61,7 +62,7 @@ function isValidType(type: string): type is ValidTypes {
   return validTypes.includes(type);
 }
 
-// This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+// This regex is taken from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
 const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;
 
@@ -96,11 +97,18 @@ async function updatePackageConstants(
 }
 
 async function updateChangelog(project: ProjectInfo, newVersion: string) {
+  if (!(await hasPowerShell())) {
+    log.error(
+      "PowerShell is required to update the changelog. Ensure it is installed and available on your PATH.",
+    );
+    throw new Error("PowerShell is not installed");
+  }
+
   const targetPackagePath = project.path;
   const packageName = project.name;
   const service = path.basename(path.dirname(targetPackagePath));
   const changelogPath = path.join(targetPackagePath, "CHANGELOG.md");
-  const repoRoot = await resolveRoot();
+  const repoRoot = await resolveRoot(targetPackagePath);
   const updateChangelogPath = path.resolve(
     path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1"),
   );
@@ -119,7 +127,16 @@ async function updateChangelog(project: ProjectInfo, newVersion: string) {
   ];
 
   log.info(`Running pwsh script ${updateChangelogPath}`);
-  await run(args, { cwd: project.path });
+  const result = await run(args, {
+    cwd: project.path,
+    captureExitCode: true,
+    captureOutput: true,
+  });
+  if (result.exitCode !== 0) {
+    throw new Error(`Powershell exited with code: ${result.exitCode}, output: ${result.output}`);
+  } else {
+    log.info(`Command output ${result.output}`);
+  }
 }
 
 export default leafCommand(commandInfo, async (options) => {
