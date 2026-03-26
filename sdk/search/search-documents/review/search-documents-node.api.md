@@ -324,6 +324,7 @@ export interface BaseSearchIndexerSkill {
 
 // @public
 export interface BaseSearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -909,6 +910,27 @@ export type ExhaustiveKnnAlgorithmConfiguration = BaseVectorSearchAlgorithmConfi
 export interface ExhaustiveKnnParameters {
     metric?: VectorSearchAlgorithmMetric;
 }
+
+// @public
+export interface ExplainDocumentsResult {
+    readonly documentKey: string;
+    readonly explanation: ScoreExplanation;
+    readonly matchedFields?: string[];
+    readonly score: number;
+}
+
+// @public
+export interface ExplainOptions extends OperationOptions {
+    filter?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string[];
+    verbosity?: ExplainVerbosity;
+}
+
+// @public
+export type ExplainVerbosity = string;
 
 // @public (undocumented)
 export type ExtractDocumentKey<TModel> = {
@@ -1894,6 +1916,13 @@ export enum KnownEntityRecognitionSkillLanguage {
 }
 
 // @public
+export enum KnownExplainVerbosity {
+    Detailed = "detailed",
+    Full = "full",
+    Simple = "simple"
+}
+
+// @public
 export enum KnownHybridCountAndFacetMode {
     CountAllResults = "countAllResults",
     CountRetrievableResults = "countRetrievableResults"
@@ -2466,6 +2495,17 @@ export enum KnownRegexFlags {
     Multiline = "MULTILINE",
     UnicodeCase = "UNICODE_CASE",
     UnixLines = "UNIX_LINES"
+}
+
+// @public
+export enum KnownScoreComponentKind {
+    Boost = "boost",
+    Coordination = "coordination",
+    Custom = "custom",
+    FieldNorm = "fieldNorm",
+    InverseDocumentFrequency = "idf",
+    Similarity = "similarity",
+    TermFrequency = "tf"
 }
 
 // @public
@@ -3251,6 +3291,17 @@ export interface ScalarQuantizationParameters {
 }
 
 // @public
+export type ScoreComponentKind = string;
+
+// @public
+export interface ScoreExplanation {
+    description: string;
+    details?: ScoreExplanation[];
+    kind?: ScoreComponentKind;
+    value: number;
+}
+
+// @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
@@ -3286,6 +3337,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     deleteDocuments(documents: TModel[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof TModel, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
+    explain(documentKey: string, searchText: string, options?: ExplainOptions): Promise<ExplainDocumentsResult>;
     getDocument<TFields extends SelectFields<TModel>>(key: string, options?: GetDocumentOptions<TModel, TFields>): Promise<NarrowedModel<TModel, TFields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<TModel>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -3783,6 +3835,7 @@ export type SearchResult<TModel extends object, TFields extends SelectFields<TMo
     readonly captions?: QueryCaptionResult[];
     document: NarrowedModel<TModel, TFields>;
     readonly documentDebugInfo?: DocumentDebugInfo;
+    readonly explanation?: ScoreExplanation;
 };
 
 // @public

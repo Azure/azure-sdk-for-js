@@ -3,6 +3,7 @@
 
 export { SearchClient } from "./searchClient.js";
 export type {
+  ExplainPostOptionalParams,
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
