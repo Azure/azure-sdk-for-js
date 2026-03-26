@@ -1,5 +1,307 @@
 # Release History
 
+## 9.0.0-beta.1 (2026-03-26)
+Compared with version 8.1.0
+
+### Features Added
+  - Added operation group AgentApplicationsOperations
+  - Added operation group AgentDeploymentsOperations
+  - Added operation group ComputeOperationsOperations
+  - Added operation group ManagedNetworkProvisionsOperations
+  - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group OutboundRuleOperations
+  - Added operation group OutboundRulesOperations
+  - Added operation group RaiExternalSafetyProviderOperations
+  - Added operation group RaiExternalSafetyProvidersOperations
+  - Added operation group RaiToolLabelsOperations
+  - Added operation group SubscriptionRaiPolicyOperations
+  - Added operation group TestRaiExternalSafetyProviderOperations
+  - Added operation AccountCapabilityHostsOperations.createOrUpdate
+  - Added operation AccountCapabilityHostsOperations.delete
+  - Added operation AccountsOperations.create
+  - Added operation AccountsOperations.delete
+  - Added operation AccountsOperations.update
+  - Added operation CommitmentPlansOperations.createOrUpdateAssociation
+  - Added operation CommitmentPlansOperations.createOrUpdatePlan
+  - Added operation CommitmentPlansOperations.delete
+  - Added operation CommitmentPlansOperations.deleteAssociation
+  - Added operation CommitmentPlansOperations.deletePlan
+  - Added operation CommitmentPlansOperations.updatePlan
+  - Added operation DeletedAccountsOperations.purge
+  - Added operation DeploymentsOperations.createOrUpdate
+  - Added operation DeploymentsOperations.delete
+  - Added operation DeploymentsOperations.pause
+  - Added operation DeploymentsOperations.resume
+  - Added operation DeploymentsOperations.update
+  - Added operation EncryptionScopesOperations.delete
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation ProjectCapabilityHostsOperations.createOrUpdate
+  - Added operation ProjectCapabilityHostsOperations.delete
+  - Added operation ProjectsOperations.create
+  - Added operation ProjectsOperations.delete
+  - Added operation ProjectsOperations.update
+  - Added operation RaiBlocklistItemsOperations.delete
+  - Added operation RaiBlocklistsOperations.delete
+  - Added operation RaiPoliciesOperations.delete
+  - Added operation RaiTopicsOperations.delete
+  - Added Interface AgentApplication
+  - Added Interface AgentApplicationsCreateOrUpdateOptionalParams
+  - Added Interface AgentApplicationsDeleteOptionalParams
+  - Added Interface AgentApplicationsDisableOptionalParams
+  - Added Interface AgentApplicationsEnableOptionalParams
+  - Added Interface AgentApplicationsGetOptionalParams
+  - Added Interface AgentApplicationsListAgentsOptionalParams
+  - Added Interface AgentApplicationsListOptionalParams
+  - Added Interface AgentDeployment
+  - Added Interface AgentDeploymentProperties
+  - Added Interface AgentDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface AgentDeploymentsDeleteOptionalParams
+  - Added Interface AgentDeploymentsGetOptionalParams
+  - Added Interface AgentDeploymentsListOptionalParams
+  - Added Interface AgentDeploymentsStartOptionalParams
+  - Added Interface AgentDeploymentsStopOptionalParams
+  - Added Interface AgenticApplicationProperties
+  - Added Interface AgentProtocolVersion
+  - Added Interface AgentReference
+  - Added Interface AgentReferenceProperties
+  - Added Interface AgentReferenceResourceArmPaginatedResult
+  - Added Interface ApplicationAuthorizationPolicy
+  - Added Interface ApplicationTrafficRoutingPolicy
+  - Added Interface AssignedIdentity
+  - Added Interface ChannelsBuiltInAuthorizationPolicy
+  - Added Interface CommitmentPlanAccountAssociationProperties
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationStatus
+  - Added Interface ComputeOperationStatusProperties
+  - Added Interface DefenderForAISettingProperties
+  - Added Interface DeploymentRouting
+  - Added Interface DeploymentsPauseOptionalParams
+  - Added Interface DeploymentsResumeOptionalParams
+  - Added Interface FoundryAutoUpgrade
+  - Added Interface FqdnOutboundRule
+  - Added Interface HostedAgentDeployment
+  - Added Interface ManagedAgentDeployment
+  - Added Interface ManagedNetworkProvisionOptions
+  - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams
+  - Added Interface ManagedNetworkProvisionStatus
+  - Added Interface ManagedNetworkSettings
+  - Added Interface ManagedNetworkSettingsBasicResource
+  - Added Interface ManagedNetworkSettingsDeleteOptionalParams
+  - Added Interface ManagedNetworkSettingsEx
+  - Added Interface ManagedNetworkSettingsGetOptionalParams
+  - Added Interface ManagedNetworkSettingsListOptionalParams
+  - Added Interface ManagedNetworkSettingsPatchOptionalParams
+  - Added Interface ManagedNetworkSettingsProperties
+  - Added Interface ManagedNetworkSettingsPropertiesBasicResource
+  - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface OrganizationSharedBuiltInAuthorizationPolicy
+  - Added Interface OutboundRule
+  - Added Interface OutboundRuleBasicResource
+  - Added Interface OutboundRuleCreateOrUpdateOptionalParams
+  - Added Interface OutboundRuleDeleteOptionalParams
+  - Added Interface OutboundRuleGetOptionalParams
+  - Added Interface OutboundRuleListOptionalParams
+  - Added Interface OutboundRulesPostOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointOutboundRule
+  - Added Interface PrivateEndpointOutboundRuleDestination
+  - Added Interface RaiExternalSafetyProvider
+  - Added Interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface RaiExternalSafetyProviderDeleteOptionalParams
+  - Added Interface RaiExternalSafetyProviderGetOptionalParams
+  - Added Interface RaiExternalSafetyProviderProperties
+  - Added Interface RaiExternalSafetyProviderSchema
+  - Added Interface RaiExternalSafetyProviderSchemaProperties
+  - Added Interface RaiExternalSafetyProvidersListOptionalParams
+  - Added Interface RaiSafetyProviderConfig
+  - Added Interface RaiToolLabel
+  - Added Interface RaiToolLabelProperties
+  - Added Interface RaiToolLabelPropertiesAccountScope
+  - Added Interface RaiToolLabelPropertiesProjectScopesItem
+  - Added Interface RaiToolLabelsCreateOrUpdateOptionalParams
+  - Added Interface RaiToolLabelsDeleteOptionalParams
+  - Added Interface RaiToolLabelsGetOptionalParams
+  - Added Interface RaiToolLabelsListOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface RoleBasedBuiltInAuthorizationPolicy
+  - Added Interface SafetyProviderConfig
+  - Added Interface ServiceTagOutboundRule
+  - Added Interface ServiceTagOutboundRuleDestination
+  - Added Interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams
+  - Added Interface SubscriptionRaiPolicyDeleteOptionalParams
+  - Added Interface SubscriptionRaiPolicyGetOptionalParams
+  - Added Interface TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams
+  - Added Interface TrafficRoutingRule
+  - Added Interface VersionedAgentReference
+  - Interface AccountProperties has a new optional parameter foundryAutoUpgrade
+  - Interface ApiProperties has a new optional parameter additionalProperties
+  - Interface CapabilityHostProperties has a new optional parameter enablePublicHostingEnvironment
+  - Interface DeploymentProperties has a new optional parameter deploymentState
+  - Interface DeploymentProperties has a new optional parameter routing
+  - Interface DeploymentProperties has a new optional parameter serviceTier
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeId
+  - Interface ModelSkuCapacityProperties has a new optional parameter scopeType
+  - Interface RaiPolicyContentFilter has a new optional parameter action
+  - Interface RaiPolicyProperties has a new optional parameter safetyProviders
+  - Interface Usage has a new optional parameter scopeId
+  - Interface Usage has a new optional parameter scopeType
+  - Added Type Alias AgentDeploymentPropertiesUnion
+  - Added Type Alias AgentDeploymentProvisioningState
+  - Added Type Alias AgentDeploymentState
+  - Added Type Alias AgentDeploymentType
+  - Added Type Alias AgenticApplicationProvisioningState
+  - Added Type Alias AgentProtocol
+  - Added Type Alias ApplicationAuthorizationPolicyUnion
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BuiltInAuthorizationScheme
+  - Added Type Alias ComputeOperationStatusType
+  - Added Type Alias DeploymentState
+  - Added Type Alias FirewallSku
+  - Added Type Alias FoundryAutoUpgradeMode
+  - Added Type Alias IdentityKind
+  - Added Type Alias IdentityManagementType
+  - Added Type Alias IdentityProvisioningState
+  - Added Type Alias IsolationMode
+  - Added Type Alias ManagedNetworkKind
+  - Added Type Alias ManagedNetworkProvisioningState
+  - Added Type Alias ManagedNetworkStatus
+  - Added Type Alias OutboundRuleUnion
+  - Added Type Alias QuotaScopeType
+  - Added Type Alias RaiActionType
+  - Added Type Alias RaiExternalSafetyProviderCreateOrUpdateResponse
+  - Added Type Alias RoutingMode
+  - Added Type Alias RuleAction
+  - Added Type Alias RuleCategory
+  - Added Type Alias RuleStatus
+  - Added Type Alias RuleType
+  - Added Type Alias ServiceTier
+  - Added Type Alias TrafficRoutingProtocol
+  - Added Enum AzureClouds
+  - Added Enum KnownAgentDeploymentProvisioningState
+  - Added Enum KnownAgentDeploymentState
+  - Added Enum KnownAgentDeploymentType
+  - Added Enum KnownAgenticApplicationProvisioningState
+  - Added Enum KnownAgentProtocol
+  - Added Enum KnownBuiltInAuthorizationScheme
+  - Added Enum KnownComputeOperationStatusType
+  - Added Enum KnownDeploymentState
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownFoundryAutoUpgradeMode
+  - Added Enum KnownIdentityKind
+  - Added Enum KnownIdentityManagementType
+  - Added Enum KnownIdentityProvisioningState
+  - Added Enum KnownIsolationMode
+  - Added Enum KnownManagedNetworkKind
+  - Added Enum KnownManagedNetworkProvisioningState
+  - Added Enum KnownManagedNetworkStatus
+  - Added Enum KnownQuotaScopeType
+  - Added Enum KnownRaiActionType
+  - Added Enum KnownRoutingMode
+  - Added Enum KnownRuleAction
+  - Added Enum KnownRuleCategory
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownServiceTier
+  - Added Enum KnownTrafficRoutingProtocol
+  - Added Enum KnownVersions
+  - Enum KnownConnectionAuthType has a new value AccountManagedIdentity
+  - Enum KnownConnectionAuthType has a new value AgenticIdentityToken
+  - Enum KnownConnectionAuthType has a new value AgenticUser
+  - Enum KnownConnectionAuthType has a new value AgentUserImpersonation
+  - Enum KnownConnectionAuthType has a new value DelegatedSAS
+  - Enum KnownConnectionAuthType has a new value ProjectManagedIdentity
+  - Enum KnownConnectionAuthType has a new value UserEntraToken
+  - Enum KnownConnectionCategory has a new value ApiManagement
+  - Enum KnownConnectionCategory has a new value AppConfig
+  - Enum KnownConnectionCategory has a new value AppInsights
+  - Enum KnownConnectionCategory has a new value AzureContainerAppEnvironment
+  - Enum KnownConnectionCategory has a new value AzureKeyVault
+  - Enum KnownConnectionCategory has a new value Databricks
+  - Enum KnownConnectionCategory has a new value GroundingWithBingSearch
+  - Enum KnownConnectionCategory has a new value GroundingWithCustomSearch
+  - Enum KnownConnectionCategory has a new value MicrosoftFabric
+  - Enum KnownConnectionCategory has a new value ModelGateway
+  - Enum KnownConnectionCategory has a new value PowerPlatformEnvironment
+  - Enum KnownConnectionCategory has a new value RemoteA2A
+  - Enum KnownConnectionCategory has a new value RemoteTool
+  - Enum KnownConnectionCategory has a new value Sharepoint
+  - Enum KnownRaiPolicyContentSource has a new value PostRun
+  - Enum KnownRaiPolicyContentSource has a new value PostToolCall
+  - Enum KnownRaiPolicyContentSource has a new value PreRun
+  - Enum KnownRaiPolicyContentSource has a new value PreToolCall
+
+### Breaking Changes
+  - Removed operation AccountCapabilityHosts.beginCreateOrUpdate
+  - Removed operation AccountCapabilityHosts.beginCreateOrUpdateAndWait
+  - Removed operation AccountCapabilityHosts.beginDelete
+  - Removed operation AccountCapabilityHosts.beginDeleteAndWait
+  - Removed operation Accounts.beginCreate
+  - Removed operation Accounts.beginCreateAndWait
+  - Removed operation Accounts.beginDelete
+  - Removed operation Accounts.beginDeleteAndWait
+  - Removed operation Accounts.beginUpdate
+  - Removed operation Accounts.beginUpdateAndWait
+  - Removed operation CommitmentPlans.beginCreateOrUpdateAssociation
+  - Removed operation CommitmentPlans.beginCreateOrUpdateAssociationAndWait
+  - Removed operation CommitmentPlans.beginCreateOrUpdatePlan
+  - Removed operation CommitmentPlans.beginCreateOrUpdatePlanAndWait
+  - Removed operation CommitmentPlans.beginDelete
+  - Removed operation CommitmentPlans.beginDeleteAndWait
+  - Removed operation CommitmentPlans.beginDeleteAssociation
+  - Removed operation CommitmentPlans.beginDeleteAssociationAndWait
+  - Removed operation CommitmentPlans.beginDeletePlan
+  - Removed operation CommitmentPlans.beginDeletePlanAndWait
+  - Removed operation CommitmentPlans.beginUpdatePlan
+  - Removed operation CommitmentPlans.beginUpdatePlanAndWait
+  - Removed operation DeletedAccounts.beginPurge
+  - Removed operation DeletedAccounts.beginPurgeAndWait
+  - Removed operation Deployments.beginCreateOrUpdate
+  - Removed operation Deployments.beginCreateOrUpdateAndWait
+  - Removed operation Deployments.beginDelete
+  - Removed operation Deployments.beginDeleteAndWait
+  - Removed operation Deployments.beginUpdate
+  - Removed operation Deployments.beginUpdateAndWait
+  - Removed operation EncryptionScopes.beginDelete
+  - Removed operation EncryptionScopes.beginDeleteAndWait
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcile
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdate
+  - Removed operation PrivateEndpointConnections.beginCreateOrUpdateAndWait
+  - Removed operation PrivateEndpointConnections.beginDelete
+  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
+  - Removed operation ProjectCapabilityHosts.beginCreateOrUpdate
+  - Removed operation ProjectCapabilityHosts.beginCreateOrUpdateAndWait
+  - Removed operation ProjectCapabilityHosts.beginDelete
+  - Removed operation ProjectCapabilityHosts.beginDeleteAndWait
+  - Removed operation Projects.beginCreate
+  - Removed operation Projects.beginCreateAndWait
+  - Removed operation Projects.beginDelete
+  - Removed operation Projects.beginDeleteAndWait
+  - Removed operation Projects.beginUpdate
+  - Removed operation Projects.beginUpdateAndWait
+  - Removed operation RaiBlocklistItems.beginDelete
+  - Removed operation RaiBlocklistItems.beginDeleteAndWait
+  - Removed operation RaiBlocklists.beginDelete
+  - Removed operation RaiBlocklists.beginDeleteAndWait
+  - Removed operation RaiPolicies.beginDelete
+  - Removed operation RaiPolicies.beginDeleteAndWait
+  - Removed operation RaiTopics.beginDelete
+  - Removed operation RaiTopics.beginDeleteAndWait
+  - Operation AccountConnections.create has a new signature
+  - Operation AccountConnections.get has a new signature
+  - Operation AccountConnections.update has a new signature
+  - Operation Accounts.regenerateKey has a new signature
+  - Operation ProjectConnections.create has a new signature
+  - Operation ProjectConnections.get has a new signature
+  - Operation ProjectConnections.update has a new signature
+  - Removed Interface AzureEntityResource
+  - Removed Interface NetworkSecurityPerimeterConfigurationList
+  - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
+  - Type alias "ConnectionPropertiesV2Union" has been changed
+
 ## 8.1.0 (2025-11-13)
 
 ### Features Added
