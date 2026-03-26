@@ -19,7 +19,6 @@ import type {
   PacketCapturesCreateOptionalParams,
 } from "../../api/packetCaptures/options.js";
 import type {
-  NetworkWatcher,
   PacketCapture,
   PacketCaptureResult,
   PacketCaptureQueryStatusResult,
@@ -121,7 +120,7 @@ export interface PacketCapturesOperations {
     packetCaptureName: string,
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams,
-  ) => PollerLike<OperationState<NetworkWatcher>, NetworkWatcher>;
+  ) => PollerLike<OperationState<PacketCaptureResult>, PacketCaptureResult>;
   /** @deprecated use create instead */
   beginCreate: (
     resourceGroupName: string,
@@ -129,7 +128,7 @@ export interface PacketCapturesOperations {
     packetCaptureName: string,
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<NetworkWatcher>, NetworkWatcher>>;
+  ) => Promise<SimplePollerLike<OperationState<PacketCaptureResult>, PacketCaptureResult>>;
   /** @deprecated use create instead */
   beginCreateAndWait: (
     resourceGroupName: string,
@@ -137,7 +136,7 @@ export interface PacketCapturesOperations {
     packetCaptureName: string,
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams,
-  ) => Promise<NetworkWatcher>;
+  ) => Promise<PacketCaptureResult>;
 }
 
 function _getPacketCaptures(context: NetworkManagementContext) {

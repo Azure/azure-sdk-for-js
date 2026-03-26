@@ -8,7 +8,6 @@ export type {
   CreatedByType,
   ArmAcceptedLroResponse,
   ExpressRouteProviderPortListResult,
-  ArmErrorResponse,
   OperationStatusResult,
   NetworkSecurityPerimeterAssociationsReconcileResponse,
   NetworkSecurityPerimeterAccessRulesReconcileResponse,

@@ -325,7 +325,6 @@
   - Added Interface ApplicationGatewayWafDynamicManifestsListOptionalParams
   - Added Interface ApplicationSecurityGroupPropertiesFormat
   - Added Interface ArmAcceptedLroResponse
-  - Added Interface ArmErrorResponse
   - Added Interface AuthorizationPropertiesFormat
   - Added Interface AzureFirewallApplicationRuleCollectionPropertiesFormat
   - Added Interface AzureFirewallFqdnTagPropertiesFormat
@@ -499,10 +498,12 @@
   - Added Interface WebApplicationFirewallPolicyPropertiesFormat
   - Added Interface WritableResource
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BaseProvisioningState
+  - Added Type Alias CommonProvisioningState
   - Added Type Alias NetworkManagementClientCreatedByType
-  - Added Type Alias NetworkProvisioningState
   - Added Enum AzureClouds
-  - Added Enum KnownNetworkProvisioningState
+  - Added Enum KnownBaseProvisioningState
+  - Added Enum KnownCommonProvisioningState
   - Added Enum NetworkManagementClientKnownCreatedByType
 
 ### Breaking Changes
@@ -569,6 +570,7 @@
   - Removed Type Alias EvaluationState
   - Removed Type Alias HubVirtualNetworkConnectionStatus
   - Removed Type Alias NetworkOperationStatus
+  - Removed Type Alias ProvisioningState
   - Removed Type Alias TunnelConnectionStatus
   - Type alias "ActiveBaseSecurityAdminRuleUnion" has been changed
   - Type alias "EffectiveBaseSecurityAdminRuleUnion" has been changed
@@ -581,6 +583,7 @@
   - Removed Enum KnownEvaluationState
   - Removed Enum KnownHubVirtualNetworkConnectionStatus
   - Removed Enum KnownNetworkOperationStatus
+  - Removed Enum KnownProvisioningState
   - Removed Enum KnownTunnelConnectionStatus
 
 ## 36.0.0 (2026-02-11)

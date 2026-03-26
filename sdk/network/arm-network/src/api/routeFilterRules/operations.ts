@@ -12,7 +12,6 @@ import {
   routeFilterRuleDeserializer,
   _routeFilterRuleListResultDeserializer,
 } from "../../models/microsoft/network/models.js";
-import { armErrorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -57,7 +56,7 @@ export async function _listByRouteFilterDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = armErrorResponseDeserializer(result.body);
+    error.details = cloudErrorDeserializer(result.body);
 
     throw error;
   }

@@ -3,14 +3,12 @@
 
 import type { NetworkManagementContext as Client } from "../index.js";
 import type {
-  NetworkWatcher,
   PacketCapture,
   PacketCaptureResult,
   PacketCaptureQueryStatusResult,
   _PacketCaptureListResult,
 } from "../../models/microsoft/network/models.js";
 import {
-  networkWatcherDeserializer,
   errorResponseDeserializer,
   packetCaptureSerializer,
   packetCaptureResultDeserializer,
@@ -341,7 +339,9 @@ export function _createSend(
   });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<NetworkWatcher> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PacketCaptureResult> {
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -350,7 +350,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return networkWatcherDeserializer(result.body);
+  return packetCaptureResultDeserializer(result.body);
 }
 
 /** Create and start a packet capture on the specified VM. */
@@ -361,7 +361,7 @@ export function create(
   packetCaptureName: string,
   parameters: PacketCapture,
   options: PacketCapturesCreateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<NetworkWatcher>, NetworkWatcher> {
+): PollerLike<OperationState<PacketCaptureResult>, PacketCaptureResult> {
   return getLongRunningPoller(context, _createDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -376,5 +376,5 @@ export function create(
       ),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<NetworkWatcher>, NetworkWatcher>;
+  }) as PollerLike<OperationState<PacketCaptureResult>, PacketCaptureResult>;
 }

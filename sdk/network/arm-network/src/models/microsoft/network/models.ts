@@ -511,7 +511,7 @@ export interface EffectiveConnectivityConfiguration {
   /** Groups for configuration */
   appliesToGroups?: ConnectivityGroupItem[];
   /** The provisioning state of the connectivity configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
   /** Unique identifier for this resource. */
@@ -547,7 +547,7 @@ export interface ConnectivityConfigurationProperties {
   /** Groups for configuration */
   appliesToGroups: ConnectivityGroupItem[];
   /** The provisioning state of the connectivity configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
   /** Unique identifier for this resource. */
@@ -824,7 +824,7 @@ export enum KnownGroupConnectivity {
 export type GroupConnectivity = string;
 
 /** The current provisioning state. */
-export enum KnownNetworkProvisioningState {
+export enum KnownBaseProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
@@ -837,7 +837,7 @@ export enum KnownNetworkProvisioningState {
 
 /**
  * The current provisioning state. \
- * {@link KnownNetworkProvisioningState} can be used interchangeably with NetworkProvisioningState,
+ * {@link KnownBaseProvisioningState} can be used interchangeably with BaseProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Succeeded \
@@ -845,7 +845,7 @@ export enum KnownNetworkProvisioningState {
  * **Deleting**: Deleting \
  * **Failed**: Failed
  */
-export type NetworkProvisioningState = string;
+export type BaseProvisioningState = string;
 
 /** Flag if need to remove current existing peerings. */
 export enum KnownDeleteExistingPeering {
@@ -880,7 +880,7 @@ export interface ConfigurationGroup {
   /** The type of the group member. */
   memberType?: GroupMemberType;
   /** The provisioning state of the scope assignment resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -901,7 +901,7 @@ export interface NetworkGroupProperties {
   /** The type of the group member. */
   memberType?: GroupMemberType;
   /** The provisioning state of the scope assignment resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1100,7 +1100,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1146,7 +1146,7 @@ export interface AdminPropertiesFormat {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1325,7 +1325,7 @@ export enum KnownSecurityConfigurationRuleDirection {
 export type SecurityConfigurationRuleDirection = string;
 
 /** Provisioning states of a resource. */
-export enum KnownProvisioningState {
+export enum KnownCommonProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Succeeded */
@@ -1342,7 +1342,7 @@ export enum KnownProvisioningState {
 
 /**
  * Provisioning states of a resource. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * {@link KnownCommonProvisioningState} can be used interchangeably with CommonProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Failed**: Failed \
@@ -1352,7 +1352,7 @@ export enum KnownProvisioningState {
  * **Updating**: Updating \
  * **Deleting**: Deleting
  */
-export type ProvisioningState = string;
+export type CommonProvisioningState = string;
 
 /** Network default admin rule. */
 export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminRule {
@@ -1379,7 +1379,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1429,7 +1429,7 @@ export interface DefaultAdminPropertiesFormat {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1611,7 +1611,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1659,7 +1659,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -2103,7 +2103,7 @@ export interface ApplicationGateway extends Resource {
   /** The resource GUID property of the application gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the application gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom error configurations of the application gateway resource. */
   customErrorConfigurations?: ApplicationGatewayCustomError[];
   /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
@@ -2257,7 +2257,7 @@ export interface ApplicationGatewayPropertiesFormat {
   /** The resource GUID property of the application gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the application gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom error configurations of the application gateway resource. */
   customErrorConfigurations?: ApplicationGatewayCustomError[];
   /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
@@ -2875,7 +2875,7 @@ export interface ApplicationGatewayIPConfiguration extends SubResource {
   /** Reference to the subnet resource. A subnet from where application gateway gets its private address. */
   subnet?: SubResource;
   /** The provisioning state of the application gateway IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayIPConfigurationSerializer(
@@ -2909,7 +2909,7 @@ export interface ApplicationGatewayIPConfigurationPropertiesFormat {
   /** Reference to the subnet resource. A subnet from where application gateway gets its private address. */
   subnet?: SubResource;
   /** The provisioning state of the application gateway IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayIPConfigurationPropertiesFormatSerializer(
@@ -2970,7 +2970,7 @@ export interface ApplicationGatewayAuthenticationCertificate extends SubResource
   /** Certificate public data. */
   data?: string;
   /** The provisioning state of the authentication certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayAuthenticationCertificateSerializer(
@@ -3004,7 +3004,7 @@ export interface ApplicationGatewayAuthenticationCertificatePropertiesFormat {
   /** Certificate public data. */
   data?: string;
   /** The provisioning state of the authentication certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayAuthenticationCertificatePropertiesFormatSerializer(
@@ -3051,7 +3051,7 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the trusted root certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayTrustedRootCertificateSerializer(
@@ -3087,7 +3087,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the trusted root certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayTrustedRootCertificatePropertiesFormatSerializer(
@@ -3137,7 +3137,7 @@ export interface ApplicationGatewayTrustedClientCertificate extends SubResource 
   /** Distinguished name of client certificate issuer. */
   readonly clientCertIssuerDN?: string;
   /** The provisioning state of the trusted client certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayTrustedClientCertificateSerializer(
@@ -3175,7 +3175,7 @@ export interface ApplicationGatewayTrustedClientCertificatePropertiesFormat {
   /** Distinguished name of client certificate issuer. */
   readonly clientCertIssuerDN?: string;
   /** The provisioning state of the trusted client certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayTrustedClientCertificatePropertiesFormatSerializer(
@@ -3228,7 +3228,7 @@ export interface ApplicationGatewaySslCertificate extends SubResource {
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the SSL certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewaySslCertificateSerializer(
@@ -3268,7 +3268,7 @@ export interface ApplicationGatewaySslCertificatePropertiesFormat {
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the SSL certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewaySslCertificatePropertiesFormatSerializer(
@@ -3328,7 +3328,7 @@ export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
   /** Reference to the application gateway private link configuration. */
   privateLinkConfiguration?: SubResource;
   /** The provisioning state of the frontend IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayFrontendIPConfigurationSerializer(
@@ -3376,7 +3376,7 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormat {
   /** Reference to the application gateway private link configuration. */
   privateLinkConfiguration?: SubResource;
   /** The provisioning state of the frontend IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayFrontendIPConfigurationPropertiesFormatSerializer(
@@ -3457,7 +3457,7 @@ export interface ApplicationGatewayFrontendPort extends SubResource {
   /** Frontend port. */
   port?: number;
   /** The provisioning state of the frontend port resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayFrontendPortSerializer(
@@ -3491,7 +3491,7 @@ export interface ApplicationGatewayFrontendPortPropertiesFormat {
   /** Frontend port. */
   port?: number;
   /** The provisioning state of the frontend port resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayFrontendPortPropertiesFormatSerializer(
@@ -3556,7 +3556,7 @@ export interface ApplicationGatewayProbe extends SubResource {
   /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
   enableProbeProxyProtocolHeader?: boolean;
   /** The provisioning state of the probe resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Basic, Standard_v2 and WAF_v2 only. */
   port?: number;
 }
@@ -3621,7 +3621,7 @@ export interface ApplicationGatewayProbePropertiesFormat {
   /** Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. */
   enableProbeProxyProtocolHeader?: boolean;
   /** The provisioning state of the probe resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Basic, Standard_v2 and WAF_v2 only. */
   port?: number;
 }
@@ -3756,7 +3756,7 @@ export interface ApplicationGatewayBackendAddressPool extends SubResource {
   /** Backend addresses. */
   backendAddresses?: ApplicationGatewayBackendAddress[];
   /** The provisioning state of the backend address pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendAddressPoolSerializer(
@@ -3792,7 +3792,7 @@ export interface ApplicationGatewayBackendAddressPoolPropertiesFormat {
   /** Backend addresses. */
   backendAddresses?: ApplicationGatewayBackendAddress[];
   /** The provisioning state of the backend address pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendAddressPoolPropertiesFormatSerializer(
@@ -3866,7 +3866,7 @@ export interface NetworkInterfaceIPConfiguration extends SubResourceModel {
   /** Application security groups in which the IP configuration is included. */
   applicationSecurityGroups?: ApplicationSecurityGroup[];
   /** The provisioning state of the network interface IP configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** PrivateLinkConnection properties for the network interface. */
   readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties;
 }
@@ -3940,7 +3940,7 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormat {
   /** Application security groups in which the IP configuration is included. */
   applicationSecurityGroups?: ApplicationSecurityGroup[];
   /** The provisioning state of the network interface IP configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** PrivateLinkConnection properties for the network interface. */
   readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties;
 }
@@ -4044,7 +4044,7 @@ export interface VirtualNetworkTap extends Resource {
   /** The resource GUID property of the virtual network tap resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network tap resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The reference to the private IP Address of the collector nic that will receive the tap. */
   destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
   /** The reference to the private IP address on the internal Load Balancer that will receive the tap. */
@@ -4091,7 +4091,7 @@ export interface VirtualNetworkTapPropertiesFormat {
   /** The resource GUID property of the virtual network tap resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network tap resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The reference to the private IP Address of the collector nic that will receive the tap. */
   destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
   /** The reference to the private IP address on the internal Load Balancer that will receive the tap. */
@@ -4166,7 +4166,7 @@ export interface NetworkInterfaceTapConfiguration extends SubResourceModel {
   /** The reference to the Virtual Network Tap resource. */
   virtualNetworkTap?: VirtualNetworkTap;
   /** The provisioning state of the network interface tap configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkInterfaceTapConfigurationSerializer(
@@ -4200,7 +4200,7 @@ export interface NetworkInterfaceTapConfigurationPropertiesFormat {
   /** The reference to the Virtual Network Tap resource. */
   virtualNetworkTap?: VirtualNetworkTap;
   /** The provisioning state of the network interface tap configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkInterfaceTapConfigurationPropertiesFormatSerializer(
@@ -4253,7 +4253,7 @@ export interface FrontendIPConfiguration extends SubResourceModel {
   /** The reference to gateway load balancer frontend IP. */
   gatewayLoadBalancer?: SubResource;
   /** The provisioning state of the frontend IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function frontendIPConfigurationSerializer(item: FrontendIPConfiguration): any {
@@ -4321,7 +4321,7 @@ export interface FrontendIPConfigurationPropertiesFormat {
   /** The reference to gateway load balancer frontend IP. */
   gatewayLoadBalancer?: SubResource;
   /** The provisioning state of the frontend IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function frontendIPConfigurationPropertiesFormatSerializer(
@@ -4442,7 +4442,7 @@ export interface Subnet extends SubResourceModel {
   /** A read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties. */
   readonly purpose?: string;
   /** The provisioning state of the subnet resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Enable or Disable apply network policies on private end point in the subnet. */
   privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
   /** Enable or Disable apply network policies on private link service in the subnet. */
@@ -4531,7 +4531,7 @@ export interface SubnetPropertiesFormat {
   /** A read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties. */
   readonly purpose?: string;
   /** The provisioning state of the subnet resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Enable or Disable apply network policies on private end point in the subnet. */
   privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
   /** Enable or Disable apply network policies on private link service in the subnet. */
@@ -4676,7 +4676,7 @@ export interface NetworkSecurityGroup extends Resource {
   /** The resource GUID property of the network security group resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network security group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkSecurityGroupSerializer(item: NetworkSecurityGroup): any {
@@ -4723,7 +4723,7 @@ export interface NetworkSecurityGroupPropertiesFormat {
   /** The resource GUID property of the network security group resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network security group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkSecurityGroupPropertiesFormatSerializer(
@@ -4805,7 +4805,7 @@ export interface SecurityRule extends SubResourceModel {
   /** The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. */
   direction?: SecurityRuleDirection;
   /** The provisioning state of the security rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function securityRuleSerializer(item: SecurityRule): any {
@@ -4879,7 +4879,7 @@ export interface SecurityRulePropertiesFormat {
   /** The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. */
   direction: SecurityRuleDirection;
   /** The provisioning state of the security rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function securityRulePropertiesFormatSerializer(item: SecurityRulePropertiesFormat): any {
@@ -5016,7 +5016,7 @@ export interface ApplicationSecurityGroup extends Resource {
   /** The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the application security group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationSecurityGroupSerializer(item: ApplicationSecurityGroup): any {
@@ -5051,7 +5051,7 @@ export interface ApplicationSecurityGroupPropertiesFormat {
   /** The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the application security group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationSecurityGroupPropertiesFormatSerializer(
@@ -5156,7 +5156,7 @@ export interface NetworkInterface extends Resource {
   /** The resource GUID property of the network interface resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network interface resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** WorkloadType of the NetworkInterface for BareMetal resources */
   workloadType?: string;
   /** Type of Network Interface resource. */
@@ -5252,7 +5252,7 @@ export interface NetworkInterfacePropertiesFormat {
   /** The resource GUID property of the network interface resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network interface resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** WorkloadType of the NetworkInterface for BareMetal resources */
   workloadType?: string;
   /** Type of Network Interface resource. */
@@ -5355,7 +5355,7 @@ export interface PrivateEndpoint extends Resource {
   /** An array of references to the network interfaces created for this private endpoint. */
   readonly networkInterfaces?: NetworkInterface[];
   /** The provisioning state of the private endpoint resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4. */
   ipVersionType?: PrivateEndpointIPVersionType;
   /** A grouping of information about the connection to the remote resource. */
@@ -5421,7 +5421,7 @@ export interface PrivateEndpointProperties {
   /** An array of references to the network interfaces created for this private endpoint. */
   readonly networkInterfaces?: NetworkInterface[];
   /** The provisioning state of the private endpoint resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4. */
   ipVersionType?: PrivateEndpointIPVersionType;
   /** A grouping of information about the connection to the remote resource. */
@@ -5534,7 +5534,7 @@ export interface PrivateLinkServiceConnection extends SubResource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the private link service connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource id of private link service. */
   privateLinkServiceId?: string;
   /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. */
@@ -5575,7 +5575,7 @@ export function privateLinkServiceConnectionDeserializer(item: any): PrivateLink
 /** Properties of the PrivateLinkServiceConnection. */
 export interface PrivateLinkServiceConnectionProperties {
   /** The provisioning state of the private link service connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource id of private link service. */
   privateLinkServiceId?: string;
   /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. */
@@ -5899,7 +5899,7 @@ export interface PrivateLinkService extends Resource {
   /** An array of references to the network interfaces created for this private link service. */
   readonly networkInterfaces?: NetworkInterface[];
   /** The provisioning state of the private link service resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** An array of list about connections to the private endpoint. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** The visibility list of the private link service. */
@@ -5969,7 +5969,7 @@ export interface PrivateLinkServiceProperties {
   /** An array of references to the network interfaces created for this private link service. */
   readonly networkInterfaces?: NetworkInterface[];
   /** The provisioning state of the private link service resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** An array of list about connections to the private endpoint. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** The visibility list of the private link service. */
@@ -6091,7 +6091,7 @@ export interface PrivateLinkServiceIpConfiguration extends SubResource {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the private link service IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
   privateIPAddressVersion?: IPVersion;
 }
@@ -6139,7 +6139,7 @@ export interface PrivateLinkServiceIpConfigurationProperties {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the private link service IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
   privateIPAddressVersion?: IPVersion;
 }
@@ -6212,7 +6212,7 @@ export interface PrivateEndpointConnection extends SubResourceModel {
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The consumer link id. */
   readonly linkIdentifier?: string;
   /** The location of the private endpoint. */
@@ -6248,7 +6248,7 @@ export interface PrivateEndpointConnectionProperties {
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The consumer link id. */
   readonly linkIdentifier?: string;
   /** The location of the private endpoint. */
@@ -6462,7 +6462,7 @@ export interface FlowLog extends Resource {
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
   /** The provisioning state of the flow log. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function flowLogSerializer(item: FlowLog): any {
@@ -6528,7 +6528,7 @@ export interface FlowLogPropertiesFormat {
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
   /** The provisioning state of the flow log. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function flowLogPropertiesFormatSerializer(item: FlowLogPropertiesFormat): any {
@@ -6798,7 +6798,7 @@ export interface RouteTable extends Resource {
   /** Whether to disable the routes learned by BGP on that route table. True means disable. */
   disableBgpRoutePropagation?: boolean;
   /** The provisioning state of the route table resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the route table. */
   readonly resourceGuid?: string;
 }
@@ -6839,7 +6839,7 @@ export interface RouteTablePropertiesFormat {
   /** Whether to disable the routes learned by BGP on that route table. True means disable. */
   disableBgpRoutePropagation?: boolean;
   /** The provisioning state of the route table resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the route table. */
   readonly resourceGuid?: string;
 }
@@ -6884,7 +6884,7 @@ export interface Route extends SubResourceModel {
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** The provisioning state of the route resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** A value indicating whether this route overrides overlapping BGP routes regardless of LPM. */
   readonly hasBgpOverride?: boolean;
 }
@@ -6920,7 +6920,7 @@ export interface RoutePropertiesFormat {
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** The provisioning state of the route resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** A value indicating whether this route overrides overlapping BGP routes regardless of LPM. */
   readonly hasBgpOverride?: boolean;
 }
@@ -6995,7 +6995,7 @@ export interface ServiceEndpointPropertiesFormat {
   /** A list of locations. */
   locations?: string[];
   /** The provisioning state of the service endpoint resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function serviceEndpointPropertiesFormatSerializer(
@@ -7058,7 +7058,7 @@ export interface ServiceEndpointPolicy extends Resource {
   /** The resource GUID property of the service endpoint policy resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service endpoint policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The alias indicating if the policy belongs to a service */
   serviceAlias?: string;
   /** A collection of contextual service endpoint policy. */
@@ -7106,7 +7106,7 @@ export interface ServiceEndpointPolicyPropertiesFormat {
   /** The resource GUID property of the service endpoint policy resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service endpoint policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The alias indicating if the policy belongs to a service */
   serviceAlias?: string;
   /** A collection of contextual service endpoint policy. */
@@ -7175,7 +7175,7 @@ export interface ServiceEndpointPolicyDefinition extends SubResourceModel {
   /** A list of service resources. */
   serviceResources?: string[];
   /** The provisioning state of the service endpoint policy definition resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function serviceEndpointPolicyDefinitionSerializer(
@@ -7213,7 +7213,7 @@ export interface ServiceEndpointPolicyDefinitionPropertiesFormat {
   /** A list of service resources. */
   serviceResources?: string[];
   /** The provisioning state of the service endpoint policy definition resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function serviceEndpointPolicyDefinitionPropertiesFormatSerializer(
@@ -7278,7 +7278,7 @@ export interface IPConfiguration extends SubResource {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddress;
   /** The provisioning state of the IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function ipConfigurationDeserializer(item: any): IPConfiguration {
@@ -7303,7 +7303,7 @@ export interface IPConfigurationPropertiesFormat {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddress;
   /** The provisioning state of the IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function ipConfigurationPropertiesFormatDeserializer(
@@ -7351,7 +7351,7 @@ export interface PublicIPAddress extends Resource {
   /** The resource GUID property of the public IP address resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the public IP address resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The service public IP address of the public IP address resource. */
   servicePublicIPAddress?: PublicIPAddress;
   /** The NatGateway for the Public IP address. */
@@ -7446,7 +7446,7 @@ export interface PublicIPAddressPropertiesFormat {
   /** The resource GUID property of the public IP address resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the public IP address resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The service public IP address of the public IP address resource. */
   servicePublicIPAddress?: PublicIPAddress;
   /** The NatGateway for the Public IP address. */
@@ -7668,7 +7668,7 @@ export interface NatGateway extends Resource {
   /** The resource GUID property of the NAT gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the NAT gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function natGatewaySerializer(item: NatGateway): any {
@@ -7739,7 +7739,7 @@ export interface NatGatewayPropertiesFormat {
   /** The resource GUID property of the NAT gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the NAT gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function natGatewayPropertiesFormatSerializer(item: NatGatewayPropertiesFormat): any {
@@ -7957,7 +7957,7 @@ export interface IPConfigurationProfile extends SubResource {
   /** The reference to the subnet resource to create a container network interface ip configuration. */
   subnet?: Subnet;
   /** The provisioning state of the IP configuration profile resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function ipConfigurationProfileSerializer(item: IPConfigurationProfile): any {
@@ -7987,7 +7987,7 @@ export interface IPConfigurationProfilePropertiesFormat {
   /** The reference to the subnet resource to create a container network interface ip configuration. */
   subnet?: Subnet;
   /** The provisioning state of the IP configuration profile resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function ipConfigurationProfilePropertiesFormatSerializer(
@@ -8028,7 +8028,7 @@ export interface ResourceNavigationLink extends SubResource {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the resource navigation link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function resourceNavigationLinkDeserializer(item: any): ResourceNavigationLink {
@@ -8050,7 +8050,7 @@ export interface ResourceNavigationLinkFormat {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the resource navigation link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function resourceNavigationLinkFormatDeserializer(item: any): ResourceNavigationLinkFormat {
@@ -8082,7 +8082,7 @@ export interface ServiceAssociationLink extends SubResource {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the service association link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** If true, the resource can be deleted. */
   allowDelete?: boolean;
   /** A list of locations. */
@@ -8108,7 +8108,7 @@ export interface ServiceAssociationLinkPropertiesFormat {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the service association link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** If true, the resource can be deleted. */
   allowDelete?: boolean;
   /** A list of locations. */
@@ -8156,7 +8156,7 @@ export interface Delegation extends SubResource {
   /** The actions permitted to the service upon delegation. */
   readonly actions?: string[];
   /** The provisioning state of the service delegation resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function delegationSerializer(item: Delegation): any {
@@ -8189,7 +8189,7 @@ export interface ServiceDelegationPropertiesFormat {
   /** The actions permitted to the service upon delegation. */
   readonly actions?: string[];
   /** The provisioning state of the service delegation resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function serviceDelegationPropertiesFormatSerializer(
@@ -8368,7 +8368,7 @@ export interface BackendAddressPool extends SubResourceModel {
   /** An array of references to inbound NAT rules that use this backend address pool. */
   readonly inboundNatRules?: SubResource[];
   /** The provisioning state of the backend address pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Amount of seconds Load Balancer waits for before sending RESET to client and backend address. */
   drainPeriodInSeconds?: number;
   /** A reference to a virtual network. */
@@ -8425,7 +8425,7 @@ export interface BackendAddressPoolPropertiesFormat {
   /** An array of references to inbound NAT rules that use this backend address pool. */
   readonly inboundNatRules?: SubResource[];
   /** The provisioning state of the backend address pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Amount of seconds Load Balancer waits for before sending RESET to client and backend address. */
   drainPeriodInSeconds?: number;
   /** A reference to a virtual network. */
@@ -8798,7 +8798,7 @@ export interface InboundNatRule extends SubResourceModel {
   /** A reference to backendAddressPool resource. */
   backendAddressPool?: SubResource;
   /** The provisioning state of the inbound NAT rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundNatRuleSerializer(item: InboundNatRule): any {
@@ -8859,7 +8859,7 @@ export interface InboundNatRulePropertiesFormat {
   /** A reference to backendAddressPool resource. */
   backendAddressPool?: SubResource;
   /** The provisioning state of the inbound NAT rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundNatRulePropertiesFormatSerializer(
@@ -9054,7 +9054,7 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
   /** Specify an SNI value to match the common name of the certificate on the backend. By default, the application gateway uses the incoming request’s host header as the SNI. Default value is null. */
   sniName?: string;
   /** The provisioning state of the backend HTTP settings resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendHttpSettingsSerializer(
@@ -9138,7 +9138,7 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormat {
   /** Specify an SNI value to match the common name of the certificate on the backend. By default, the application gateway uses the incoming request’s host header as the SNI. Default value is null. */
   sniName?: string;
   /** The provisioning state of the backend HTTP settings resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendHttpSettingsPropertiesFormatSerializer(
@@ -9284,7 +9284,7 @@ export interface ApplicationGatewayBackendSettings extends SubResource {
   /** Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false. */
   enableL4ClientIpPreservation?: boolean;
   /** The provisioning state of the backend HTTP settings resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendSettingsSerializer(
@@ -9341,7 +9341,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormat {
   /** Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false. */
   enableL4ClientIpPreservation?: boolean;
   /** The provisioning state of the backend HTTP settings resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayBackendSettingsPropertiesFormatSerializer(
@@ -9418,7 +9418,7 @@ export interface ApplicationGatewayHttpListener extends SubResource {
   /** Applicable only if protocol is https. Enables SNI for multi-hosting. */
   requireServerNameIndication?: boolean;
   /** The provisioning state of the HTTP listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom error configurations of the HTTP listener. */
   customErrorConfigurations?: ApplicationGatewayCustomError[];
   /** Reference to the FirewallPolicy resource. */
@@ -9481,7 +9481,7 @@ export interface ApplicationGatewayHttpListenerPropertiesFormat {
   /** Applicable only if protocol is https. Enables SNI for multi-hosting. */
   requireServerNameIndication?: boolean;
   /** The provisioning state of the HTTP listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Custom error configurations of the HTTP listener. */
   customErrorConfigurations?: ApplicationGatewayCustomError[];
   /** Reference to the FirewallPolicy resource. */
@@ -9668,7 +9668,7 @@ export interface ApplicationGatewayListener extends SubResource {
   /** SSL profile resource of the application gateway. */
   sslProfile?: SubResource;
   /** The provisioning state of the listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. */
   hostNames?: string[];
 }
@@ -9715,7 +9715,7 @@ export interface ApplicationGatewayListenerPropertiesFormat {
   /** SSL profile resource of the application gateway. */
   sslProfile?: SubResource;
   /** The provisioning state of the listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. */
   hostNames?: string[];
 }
@@ -9802,7 +9802,7 @@ export interface ApplicationGatewaySslProfile extends SubResource {
   /** Client authentication configuration of the application gateway resource. */
   clientAuthConfiguration?: ApplicationGatewayClientAuthConfiguration;
   /** The provisioning state of the HTTP listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewaySslProfileSerializer(item: ApplicationGatewaySslProfile): any {
@@ -9840,7 +9840,7 @@ export interface ApplicationGatewaySslProfilePropertiesFormat {
   /** Client authentication configuration of the application gateway resource. */
   clientAuthConfiguration?: ApplicationGatewayClientAuthConfiguration;
   /** The provisioning state of the HTTP listener resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewaySslProfilePropertiesFormatSerializer(
@@ -9979,7 +9979,7 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
   /** Path rule of URL path map resource. */
   pathRules?: ApplicationGatewayPathRule[];
   /** The provisioning state of the URL path map resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayUrlPathMapSerializer(item: ApplicationGatewayUrlPathMap): any {
@@ -10026,7 +10026,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormat {
   /** Path rule of URL path map resource. */
   pathRules?: ApplicationGatewayPathRule[];
   /** The provisioning state of the URL path map resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayUrlPathMapPropertiesFormatSerializer(
@@ -10117,7 +10117,7 @@ export interface ApplicationGatewayPathRule extends SubResource {
   /** Load Distribution Policy resource of URL path map path rule. */
   loadDistributionPolicy?: SubResource;
   /** The provisioning state of the path rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Reference to the FirewallPolicy resource. */
   firewallPolicy?: SubResource;
 }
@@ -10167,7 +10167,7 @@ export interface ApplicationGatewayPathRulePropertiesFormat {
   /** Load Distribution Policy resource of URL path map path rule. */
   loadDistributionPolicy?: SubResource;
   /** The provisioning state of the path rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Reference to the FirewallPolicy resource. */
   firewallPolicy?: SubResource;
 }
@@ -10278,7 +10278,7 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
   /** Entra JWT validation configuration resource of the application gateway. */
   entraJWTValidationConfig?: SubResource;
   /** The provisioning state of the request routing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRequestRoutingRuleSerializer(
@@ -10341,7 +10341,7 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
   /** Entra JWT validation configuration resource of the application gateway. */
   entraJWTValidationConfig?: SubResource;
   /** The provisioning state of the request routing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRequestRoutingRulePropertiesFormatSerializer(
@@ -10464,7 +10464,7 @@ export interface ApplicationGatewayRoutingRule extends SubResource {
   /** Listener resource of the application gateway. */
   listener?: SubResource;
   /** The provisioning state of the request routing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRoutingRuleSerializer(item: ApplicationGatewayRoutingRule): any {
@@ -10510,7 +10510,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormat {
   /** Listener resource of the application gateway. */
   listener?: SubResource;
   /** The provisioning state of the request routing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRoutingRulePropertiesFormatSerializer(
@@ -10571,7 +10571,7 @@ export interface ApplicationGatewayRewriteRuleSet extends SubResource {
   /** Rewrite rules in the rewrite rule set. */
   rewriteRules?: ApplicationGatewayRewriteRule[];
   /** The provisioning state of the rewrite rule set resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRewriteRuleSetSerializer(
@@ -10604,7 +10604,7 @@ export interface ApplicationGatewayRewriteRuleSetPropertiesFormat {
   /** Rewrite rules in the rewrite rule set. */
   rewriteRules?: ApplicationGatewayRewriteRule[];
   /** The provisioning state of the rewrite rule set resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayRewriteRuleSetPropertiesFormatSerializer(
@@ -11277,7 +11277,7 @@ export interface ApplicationGatewayPrivateLinkConfiguration extends SubResource 
   /** An array of application gateway private link ip configurations. */
   ipConfigurations?: ApplicationGatewayPrivateLinkIpConfiguration[];
   /** The provisioning state of the application gateway private link configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayPrivateLinkConfigurationSerializer(
@@ -11311,7 +11311,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationProperties {
   /** An array of application gateway private link ip configurations. */
   ipConfigurations?: ApplicationGatewayPrivateLinkIpConfiguration[];
   /** The provisioning state of the application gateway private link configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayPrivateLinkConfigurationPropertiesSerializer(
@@ -11368,7 +11368,7 @@ export interface ApplicationGatewayPrivateLinkIpConfiguration extends SubResourc
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the application gateway private link IP configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayPrivateLinkIpConfigurationSerializer(
@@ -11413,7 +11413,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationProperties {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the application gateway private link IP configuration. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayPrivateLinkIpConfigurationPropertiesSerializer(
@@ -11464,7 +11464,7 @@ export interface ApplicationGatewayPrivateEndpointConnection extends SubResource
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /** The provisioning state of the application gateway private endpoint connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The consumer link id. */
   readonly linkIdentifier?: string;
 }
@@ -11502,7 +11502,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionProperties {
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
   /** The provisioning state of the application gateway private endpoint connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The consumer link id. */
   readonly linkIdentifier?: string;
 }
@@ -11561,7 +11561,7 @@ export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
   /** Load Distribution Targets resource of an application gateway. */
   loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
   /** The provisioning state of the Load Distribution Policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayLoadDistributionPolicySerializer(
@@ -11597,7 +11597,7 @@ export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormat {
   /** Load Distribution Targets resource of an application gateway. */
   loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
   /** The provisioning state of the Load Distribution Policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayLoadDistributionPolicyPropertiesFormatSerializer(
@@ -11761,7 +11761,7 @@ export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource 
   /** List of acceptable audience claims that can be present in the token (aud claim). A maximum of 5 audiences are permitted. */
   audiences?: string[];
   /** The provisioning state of the entra jwt validation configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayEntraJWTValidationConfigSerializer(
@@ -11805,7 +11805,7 @@ export interface ApplicationGatewayEntraJWTValidationConfigPropertiesFormat {
   /** List of acceptable audience claims that can be present in the token (aud claim). A maximum of 5 audiences are permitted. */
   audiences?: string[];
   /** The provisioning state of the entra jwt validation configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function applicationGatewayEntraJWTValidationConfigPropertiesFormatSerializer(
@@ -12359,7 +12359,7 @@ export function applicationGatewayFirewallRuleSetArrayDeserializer(
 /** A web application firewall rule set. */
 export interface ApplicationGatewayFirewallRuleSet extends Resource {
   /** The provisioning state of the web application firewall rule set. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of the web application firewall rule set. */
   ruleSetType?: string;
   /** The version of the web application firewall rule set type. */
@@ -12390,7 +12390,7 @@ export function applicationGatewayFirewallRuleSetDeserializer(
 /** Properties of the web application firewall rule set. */
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
   /** The provisioning state of the web application firewall rule set. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of the web application firewall rule set. */
   ruleSetType: string;
   /** The version of the web application firewall rule set type. */
@@ -12582,7 +12582,7 @@ export interface AzureFirewall extends Resource {
   /** IP configuration of the Azure Firewall used for management traffic. */
   managementIpConfiguration?: AzureFirewallIPConfiguration;
   /** The provisioning state of the Azure firewall resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The operation mode for Threat Intelligence. */
   threatIntelMode?: AzureFirewallThreatIntelMode;
   /** The virtualHub to which the firewall belongs. */
@@ -12670,7 +12670,7 @@ export interface AzureFirewallPropertiesFormat {
   /** IP configuration of the Azure Firewall used for management traffic. */
   managementIpConfiguration?: AzureFirewallIPConfiguration;
   /** The provisioning state of the Azure firewall resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The operation mode for Threat Intelligence. */
   threatIntelMode?: AzureFirewallThreatIntelMode;
   /** The virtualHub to which the firewall belongs. */
@@ -12798,7 +12798,7 @@ export interface AzureFirewallApplicationRuleCollection extends SubResource {
   /** Collection of rules used by a application rule collection. */
   rules?: AzureFirewallApplicationRule[];
   /** The provisioning state of the application rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallApplicationRuleCollectionSerializer(
@@ -12835,7 +12835,7 @@ export interface AzureFirewallApplicationRuleCollectionPropertiesFormat {
   /** Collection of rules used by a application rule collection. */
   rules?: AzureFirewallApplicationRule[];
   /** The provisioning state of the application rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallApplicationRuleCollectionPropertiesFormatSerializer(
@@ -13080,7 +13080,7 @@ export interface AzureFirewallNatRuleCollection extends SubResource {
   /** Collection of rules used by a NAT rule collection. */
   rules?: AzureFirewallNatRule[];
   /** The provisioning state of the NAT rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallNatRuleCollectionSerializer(
@@ -13117,7 +13117,7 @@ export interface AzureFirewallNatRuleCollectionProperties {
   /** Collection of rules used by a NAT rule collection. */
   rules?: AzureFirewallNatRule[];
   /** The provisioning state of the NAT rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallNatRuleCollectionPropertiesSerializer(
@@ -13334,7 +13334,7 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
   /** Collection of rules used by a network rule collection. */
   rules?: AzureFirewallNetworkRule[];
   /** The provisioning state of the network rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallNetworkRuleCollectionSerializer(
@@ -13371,7 +13371,7 @@ export interface AzureFirewallNetworkRuleCollectionPropertiesFormat {
   /** Collection of rules used by a network rule collection. */
   rules?: AzureFirewallNetworkRule[];
   /** The provisioning state of the network rule collection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallNetworkRuleCollectionPropertiesFormatSerializer(
@@ -13550,7 +13550,7 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   /** Reference to the PublicIP resource. This field is a mandatory input if subnet is not null. */
   publicIPAddress?: SubResource;
   /** The provisioning state of the Azure firewall IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallIPConfigurationSerializer(item: AzureFirewallIPConfiguration): any {
@@ -13584,7 +13584,7 @@ export interface AzureFirewallIPConfigurationPropertiesFormat {
   /** Reference to the PublicIP resource. This field is a mandatory input if subnet is not null. */
   publicIPAddress?: SubResource;
   /** The provisioning state of the Azure firewall IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function azureFirewallIPConfigurationPropertiesFormatSerializer(
@@ -14073,7 +14073,7 @@ export interface BastionHost extends Resource {
   virtualNetwork?: SubResource;
   networkAcls?: BastionHostPropertiesFormatNetworkAcls;
   /** The provisioning state of the bastion host resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale units for the Bastion Host resource. */
   scaleUnits?: number;
   /** Enable/Disable Copy/Paste feature of the Bastion Host resource. */
@@ -14157,7 +14157,7 @@ export interface BastionHostPropertiesFormat {
   virtualNetwork?: SubResource;
   networkAcls?: BastionHostPropertiesFormatNetworkAcls;
   /** The provisioning state of the bastion host resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale units for the Bastion Host resource. */
   scaleUnits?: number;
   /** Enable/Disable Copy/Paste feature of the Bastion Host resource. */
@@ -14256,7 +14256,7 @@ export interface BastionHostIPConfiguration extends SubResource {
   /** Reference of the PublicIP resource. Null for private only bastion */
   publicIPAddress?: SubResource;
   /** The provisioning state of the bastion host IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Private IP allocation method. */
   privateIPAllocationMethod?: IPAllocationMethod;
 }
@@ -14294,7 +14294,7 @@ export interface BastionHostIPConfigurationPropertiesFormat {
   /** Reference of the PublicIP resource. Null for private only bastion */
   publicIPAddress?: SubResource;
   /** The provisioning state of the bastion host IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Private IP allocation method. */
   privateIPAllocationMethod?: IPAllocationMethod;
 }
@@ -14812,7 +14812,7 @@ export interface DdosCustomPolicy extends Resource {
   /** The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DDoS custom policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of DDoS detection rules associated with the custom policy. */
   detectionRules?: DdosDetectionRule[];
   /** The list of frontend IP configurations associated with the custom policy. */
@@ -14851,7 +14851,7 @@ export interface DdosCustomPolicyPropertiesFormat {
   /** The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DDoS custom policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of DDoS detection rules associated with the custom policy. */
   detectionRules?: DdosDetectionRule[];
   /** The list of frontend IP configurations associated with the custom policy. */
@@ -14909,7 +14909,7 @@ export interface DdosDetectionRule extends SubResource {
   /** The resource type. */
   readonly type?: string;
   /** The provisioning state of the DDoS detection rule. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The detection mode for the DDoS detection rule. */
   detectionMode?: DdosDetectionMode;
   /** The traffic detection rule details. */
@@ -14940,7 +14940,7 @@ export function ddosDetectionRuleDeserializer(item: any): DdosDetectionRule {
 /** DDoS detection rule properties. */
 export interface DdosDetectionRulePropertiesFormat {
   /** The provisioning state of the DDoS detection rule. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The detection mode for the DDoS detection rule. */
   detectionMode?: DdosDetectionMode;
   /** The traffic detection rule details. */
@@ -15034,7 +15034,7 @@ export interface DdosProtectionPlan extends ResourceWithReadOnlyID {
   /** The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DDoS protection plan resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of public IPs associated with the DDoS protection plan resource. This list is read-only. */
   readonly publicIPAddresses?: SubResource[];
   /** The list of virtual networks associated with the DDoS protection plan resource. This list is read-only. */
@@ -15072,7 +15072,7 @@ export interface DdosProtectionPlanPropertiesFormat {
   /** The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DDoS protection plan resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of public IPs associated with the DDoS protection plan resource. This list is read-only. */
   readonly publicIPAddresses?: SubResource[];
   /** The list of virtual networks associated with the DDoS protection plan resource. This list is read-only. */
@@ -15153,7 +15153,7 @@ export interface ExpressRouteCircuitAuthorization extends SubResourceModel {
   /** The reference to the ExpressRoute connection resource using the authorization. */
   readonly connectionResourceUri?: string;
   /** The provisioning state of the authorization resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRouteCircuitAuthorizationSerializer(
@@ -15191,7 +15191,7 @@ export interface AuthorizationPropertiesFormat {
   /** The reference to the ExpressRoute connection resource using the authorization. */
   readonly connectionResourceUri?: string;
   /** The provisioning state of the authorization resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function authorizationPropertiesFormatSerializer(item: AuthorizationPropertiesFormat): any {
@@ -15290,7 +15290,7 @@ export interface ExpressRouteCircuit extends Resource {
   /** The identifier of the circuit traffic. Outer tag for QinQ encapsulation. */
   readonly stag?: number;
   /** The provisioning state of the express route circuit resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Flag denoting global reach status. */
@@ -15372,7 +15372,7 @@ export interface ExpressRouteCircuitPropertiesFormat {
   /** The identifier of the circuit traffic. Outer tag for QinQ encapsulation. */
   readonly stag?: number;
   /** The provisioning state of the express route circuit resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Flag denoting global reach status. */
@@ -15515,7 +15515,7 @@ export interface ExpressRouteCircuitPeering extends SubResourceModel {
   /** The peering stats of express route circuit. */
   stats?: ExpressRouteCircuitStats;
   /** The provisioning state of the express route circuit peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
@@ -15599,7 +15599,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormat {
   /** The peering stats of express route circuit. */
   stats?: ExpressRouteCircuitStats;
   /** The provisioning state of the express route circuit peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
@@ -16051,7 +16051,7 @@ export interface ExpressRouteCircuitConnection extends SubResourceModel {
   /** Express Route Circuit connection state. */
   readonly circuitConnectionStatus?: CircuitConnectionStatus;
   /** The provisioning state of the express route circuit connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRouteCircuitConnectionSerializer(item: ExpressRouteCircuitConnection): any {
@@ -16099,7 +16099,7 @@ export interface ExpressRouteCircuitConnectionPropertiesFormat {
   /** Express Route Circuit connection state. */
   readonly circuitConnectionStatus?: CircuitConnectionStatus;
   /** The provisioning state of the express route circuit connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRouteCircuitConnectionPropertiesFormatSerializer(
@@ -16205,7 +16205,7 @@ export interface PeerExpressRouteCircuitConnection extends SubResourceModel {
   /** The resource guid of the authorization used for the express route circuit connection. */
   authResourceGuid?: string;
   /** The provisioning state of the peer express route circuit connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function peerExpressRouteCircuitConnectionDeserializer(
@@ -16237,7 +16237,7 @@ export interface PeerExpressRouteCircuitConnectionPropertiesFormat {
   /** The resource guid of the authorization used for the express route circuit connection. */
   authResourceGuid?: string;
   /** The provisioning state of the peer express route circuit connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function peerExpressRouteCircuitConnectionPropertiesFormatDeserializer(
@@ -16533,7 +16533,7 @@ export interface ExpressRouteCrossConnection extends Resource {
   /** Additional read only notes set by the connectivity provider. */
   serviceProviderNotes?: string;
   /** The provisioning state of the express route cross connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of peerings. */
   peerings?: ExpressRouteCrossConnectionPeering[];
 }
@@ -16589,7 +16589,7 @@ export interface ExpressRouteCrossConnectionProperties {
   /** Additional read only notes set by the connectivity provider. */
   serviceProviderNotes?: string;
   /** The provisioning state of the express route cross connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The list of peerings. */
   peerings?: ExpressRouteCrossConnectionPeering[];
 }
@@ -16691,7 +16691,7 @@ export interface ExpressRouteCrossConnectionPeering extends SubResource {
   /** The Microsoft peering configuration. */
   microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfig;
   /** The provisioning state of the express route cross connection peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
@@ -16761,7 +16761,7 @@ export interface ExpressRouteCrossConnectionPeeringProperties {
   /** The Microsoft peering configuration. */
   microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfig;
   /** The provisioning state of the express route cross connection peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
@@ -16890,7 +16890,7 @@ export interface ExpressRoutePortsLocation extends Resource {
   /** The inventory of available ExpressRoutePort bandwidths. */
   availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
   /** The provisioning state of the express route port location resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRoutePortsLocationDeserializer(item: any): ExpressRoutePortsLocation {
@@ -16917,7 +16917,7 @@ export interface ExpressRoutePortsLocationPropertiesFormat {
   /** The inventory of available ExpressRoutePort bandwidths. */
   availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
   /** The provisioning state of the express route port location resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRoutePortsLocationPropertiesFormatDeserializer(
@@ -17008,7 +17008,7 @@ export interface ExpressRoutePort extends Resource {
   /** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource. */
   readonly circuits?: SubResource[];
   /** The provisioning state of the express route port resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the express route port resource. */
   readonly resourceGuid?: string;
   /** The billing type of the ExpressRoutePort resource. */
@@ -17075,7 +17075,7 @@ export interface ExpressRoutePortPropertiesFormat {
   /** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource. */
   readonly circuits?: SubResource[];
   /** The provisioning state of the express route port resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the express route port resource. */
   readonly resourceGuid?: string;
   /** The billing type of the ExpressRoutePort resource. */
@@ -17164,7 +17164,7 @@ export interface ExpressRouteLink extends SubResource {
   /** Administrative state of the physical port. */
   adminState?: ExpressRouteLinkAdminState;
   /** The provisioning state of the express route link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** MacSec configuration. */
   macSecConfig?: ExpressRouteLinkMacSecConfig;
 }
@@ -17207,7 +17207,7 @@ export interface ExpressRouteLinkPropertiesFormat {
   /** Administrative state of the physical port. */
   adminState?: ExpressRouteLinkAdminState;
   /** The provisioning state of the express route link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** MacSec configuration. */
   macSecConfig?: ExpressRouteLinkMacSecConfig;
 }
@@ -17431,7 +17431,7 @@ export interface ExpressRoutePortAuthorization extends SubResourceModel {
   /** The reference to the ExpressRoute circuit resource using the authorization. */
   readonly circuitResourceUri?: string;
   /** The provisioning state of the authorization resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRoutePortAuthorizationSerializer(item: ExpressRoutePortAuthorization): any {
@@ -17467,7 +17467,7 @@ export interface ExpressRoutePortAuthorizationPropertiesFormat {
   /** The reference to the ExpressRoute circuit resource using the authorization. */
   readonly circuitResourceUri?: string;
   /** The provisioning state of the authorization resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRoutePortAuthorizationPropertiesFormatSerializer(
@@ -17549,7 +17549,7 @@ export interface FirewallPolicy extends Resource {
   /** List of references to FirewallPolicyRuleCollectionGroups. */
   readonly ruleCollectionGroups?: SubResource[];
   /** The provisioning state of the firewall policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The parent firewall policy from which rules are inherited. */
   basePolicy?: SubResource;
   /** List of references to Azure Firewalls that this Firewall Policy is associated with. */
@@ -17630,7 +17630,7 @@ export interface FirewallPolicyPropertiesFormat {
   /** List of references to FirewallPolicyRuleCollectionGroups. */
   readonly ruleCollectionGroups?: SubResource[];
   /** The provisioning state of the firewall policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The parent firewall policy from which rules are inherited. */
   basePolicy?: SubResource;
   /** List of references to Azure Firewalls that this Firewall Policy is associated with. */
@@ -18447,7 +18447,7 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResourceModel {
   /** Group of Firewall Policy rule collections. */
   ruleCollections?: FirewallPolicyRuleCollectionUnion[];
   /** The provisioning state of the firewall policy rule collection group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function firewallPolicyRuleCollectionGroupSerializer(
@@ -18485,7 +18485,7 @@ export interface FirewallPolicyRuleCollectionGroupProperties {
   /** Group of Firewall Policy rule collections. */
   ruleCollections?: FirewallPolicyRuleCollectionUnion[];
   /** The provisioning state of the firewall policy rule collection group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function firewallPolicyRuleCollectionGroupPropertiesSerializer(
@@ -19662,7 +19662,7 @@ export interface IpamPoolProperties {
   /** List of IP address prefixes of the resource. */
   addressPrefixes: string[];
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function ipamPoolPropertiesSerializer(item: IpamPoolProperties): any {
@@ -20047,7 +20047,7 @@ export interface NetworkManager extends Resource {
   /** Scope Access. */
   networkManagerScopeAccesses?: ConfigurationType[];
   /** The provisioning state of the network manager resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -20095,7 +20095,7 @@ export interface NetworkManagerProperties {
   /** Scope Access. */
   networkManagerScopeAccesses?: ConfigurationType[];
   /** The provisioning state of the network manager resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -20293,7 +20293,7 @@ export interface StaticCidrProperties {
   /** Total number of IP addresses allocated for the static CIDR resource. */
   readonly totalNumberOfIPAddresses?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function staticCidrPropertiesSerializer(item: StaticCidrProperties): any {
@@ -20508,7 +20508,7 @@ export interface IpGroup extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the IpGroups resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** IpAddresses/IpAddressPrefixes in the IpGroups resource. */
   ipAddresses?: string[];
   /** List of references to Firewall resources that this IpGroups is associated with. */
@@ -20547,7 +20547,7 @@ export function ipGroupDeserializer(item: any): IpGroup {
 /** The IpGroups property information. */
 export interface IpGroupPropertiesFormat {
   /** The provisioning state of the IpGroups resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** IpAddresses/IpAddressPrefixes in the IpGroups resource. */
   ipAddresses?: string[];
   /** List of references to Firewall resources that this IpGroups is associated with. */
@@ -20620,7 +20620,7 @@ export interface LoadBalancer extends Resource {
   /** The resource GUID property of the load balancer resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the load balancer resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
   scope?: LoadBalancerScope;
 }
@@ -20688,7 +20688,7 @@ export interface LoadBalancerPropertiesFormat {
   /** The resource GUID property of the load balancer resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the load balancer resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Indicates the scope of the load balancer: external (Public) or internal (Private). */
   scope?: LoadBalancerScope;
 }
@@ -20788,7 +20788,7 @@ export interface LoadBalancingRule extends SubResourceModel {
   /** Defines whether connections between 2 communicating endpoints can be tracked and associated to the same backend VM over its lifetime when using UDP protocol. */
   enableConnectionTracking?: boolean;
   /** The provisioning state of the load balancing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function loadBalancingRuleSerializer(item: LoadBalancingRule): any {
@@ -20856,7 +20856,7 @@ export interface LoadBalancingRulePropertiesFormat {
   /** Defines whether connections between 2 communicating endpoints can be tracked and associated to the same backend VM over its lifetime when using UDP protocol. */
   enableConnectionTracking?: boolean;
   /** The provisioning state of the load balancing rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function loadBalancingRulePropertiesFormatSerializer(
@@ -20966,7 +20966,7 @@ export interface Probe extends SubResourceModel {
   /** The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value. */
   requestPath?: string;
   /** The provisioning state of the probe resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function probeSerializer(item: Probe): any {
@@ -21018,7 +21018,7 @@ export interface ProbePropertiesFormat {
   /** The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value. */
   requestPath?: string;
   /** The provisioning state of the probe resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function probePropertiesFormatSerializer(item: ProbePropertiesFormat): any {
@@ -21125,7 +21125,7 @@ export interface InboundNatPool extends SubResource {
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
   enableTcpReset?: boolean;
   /** The provisioning state of the inbound NAT pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundNatPoolSerializer(item: InboundNatPool): any {
@@ -21178,7 +21178,7 @@ export interface InboundNatPoolPropertiesFormat {
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
   enableTcpReset?: boolean;
   /** The provisioning state of the inbound NAT pool resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundNatPoolPropertiesFormatSerializer(
@@ -21239,7 +21239,7 @@ export interface OutboundRule extends SubResourceModel {
   /** A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs. */
   backendAddressPool?: SubResource;
   /** The provisioning state of the outbound rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The protocol for the outbound rule in load balancer. */
   protocol?: LoadBalancerOutboundRuleProtocol;
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
@@ -21286,7 +21286,7 @@ export interface OutboundRulePropertiesFormat {
   /** A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs. */
   backendAddressPool: SubResource;
   /** The provisioning state of the outbound rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The protocol for the outbound rule in load balancer. */
   protocol: LoadBalancerOutboundRuleProtocol;
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
@@ -21742,7 +21742,7 @@ export interface ConnectivityConfiguration extends ChildResource {
   /** Groups for configuration */
   appliesToGroups?: ConnectivityGroupItem[];
   /** The provisioning state of the connectivity configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
   /** Unique identifier for this resource. */
@@ -21805,7 +21805,7 @@ export interface NetworkGroup extends ChildResource {
   /** The type of the group member. */
   memberType?: GroupMemberType;
   /** The provisioning state of the scope assignment resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -21854,7 +21854,7 @@ export interface StaticMember extends ChildResource {
   /** Resource region. */
   readonly region?: string;
   /** The provisioning state of the scope assignment resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function staticMemberSerializer(item: StaticMember): any {
@@ -21887,7 +21887,7 @@ export interface StaticMemberProperties {
   /** Resource region. */
   readonly region?: string;
   /** The provisioning state of the scope assignment resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function staticMemberPropertiesSerializer(item: StaticMemberProperties): any {
@@ -21921,7 +21921,7 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
   /** A description of the routing configuration. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Route table usage mode defines which route table will be used by the configuration. If not defined, this will default to 'ManagedOnly'. */
@@ -21960,7 +21960,7 @@ export interface NetworkManagerRoutingConfigurationPropertiesFormat {
   /** A description of the routing configuration. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Route table usage mode defines which route table will be used by the configuration. If not defined, this will default to 'ManagedOnly'. */
@@ -22025,7 +22025,7 @@ export interface RoutingRuleCollection extends ChildResource {
   /** A description of the routing rule collection. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Groups for configuration */
@@ -22066,7 +22066,7 @@ export interface RoutingRuleCollectionPropertiesFormat {
   /** A description of the routing rule collection. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Groups for configuration */
@@ -22172,7 +22172,7 @@ export interface RoutingRule extends ChildResource {
   /** A description for this rule. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Indicates the destination for this particular rule. */
@@ -22209,7 +22209,7 @@ export interface RoutingRulePropertiesFormat {
   /** A description for this rule. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
   /** Indicates the destination for this particular rule. */
@@ -22422,7 +22422,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
   /** Determine update behavior for changes to network groups referenced within the rules in this configuration. */
   networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22463,7 +22463,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
   /** Determine update behavior for changes to network groups referenced within the rules in this configuration. */
   networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22562,7 +22562,7 @@ export interface AdminRuleCollection extends ChildResource {
   /** Groups for configuration */
   appliesToGroups?: NetworkManagerSecurityGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22597,7 +22597,7 @@ export interface AdminRuleCollectionPropertiesFormat {
   /** Groups for configuration */
   appliesToGroups: NetworkManagerSecurityGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22641,7 +22641,7 @@ export interface SecurityUserConfiguration extends ChildResource {
   /** A description of the security user configuration. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22674,7 +22674,7 @@ export interface SecurityUserConfigurationPropertiesFormat {
   /** A description of the security user configuration. */
   description?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22720,7 +22720,7 @@ export interface SecurityUserRuleCollection extends ChildResource {
   /** Groups for configuration */
   appliesToGroups?: SecurityUserGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22755,7 +22755,7 @@ export interface SecurityUserRuleCollectionPropertiesFormat {
   /** Groups for configuration */
   appliesToGroups: SecurityUserGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22845,7 +22845,7 @@ export interface SecurityUserRule extends ChildResource {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the security configuration user rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22898,7 +22898,7 @@ export interface SecurityUserRulePropertiesFormat {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction: SecurityConfigurationRuleDirection;
   /** The provisioning state of the security configuration user rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22978,7 +22978,7 @@ export interface NetworkProfile extends Resource {
   /** The resource GUID property of the network profile resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network profile resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkProfileSerializer(item: NetworkProfile): any {
@@ -23017,7 +23017,7 @@ export interface NetworkProfilePropertiesFormat {
   /** The resource GUID property of the network profile resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the network profile resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkProfilePropertiesFormatSerializer(
@@ -23072,7 +23072,7 @@ export interface ContainerNetworkInterface extends SubResource {
   /** Reference to the ip configuration on this container nic. */
   readonly ipConfigurations?: ContainerNetworkInterfaceIpConfiguration[];
   /** The provisioning state of the container network interface resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfaceDeserializer(item: any): ContainerNetworkInterface {
@@ -23096,7 +23096,7 @@ export interface ContainerNetworkInterfacePropertiesFormat {
   /** Reference to the ip configuration on this container nic. */
   readonly ipConfigurations?: ContainerNetworkInterfaceIpConfiguration[];
   /** The provisioning state of the container network interface resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfacePropertiesFormatDeserializer(
@@ -23129,7 +23129,7 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
   /** A list of container network interfaces created from this container network interface configuration. */
   containerNetworkInterfaces?: SubResource[];
   /** The provisioning state of the container network interface configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfaceConfigurationSerializer(
@@ -23165,7 +23165,7 @@ export interface ContainerNetworkInterfaceConfigurationPropertiesFormat {
   /** A list of container network interfaces created from this container network interface configuration. */
   containerNetworkInterfaces?: SubResource[];
   /** The provisioning state of the container network interface configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfaceConfigurationPropertiesFormatSerializer(
@@ -23221,7 +23221,7 @@ export interface ContainerNetworkInterfaceIpConfiguration {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the container network interface IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfaceIpConfigurationDeserializer(
@@ -23240,7 +23240,7 @@ export function containerNetworkInterfaceIpConfigurationDeserializer(
 /** Properties of the container network interface IP configuration. */
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormat {
   /** The provisioning state of the container network interface IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function containerNetworkInterfaceIpConfigurationPropertiesFormatDeserializer(
@@ -23546,7 +23546,7 @@ export function reachabilityAnalysisIntentDeserializer(item: any): ReachabilityA
 /** Represents the Reachability Analysis Intent properties. */
 export interface ReachabilityAnalysisIntentProperties {
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   description?: string;
   /** Source resource id to verify the reachability path of. */
   sourceResourceId: string;
@@ -23715,7 +23715,7 @@ export function verifierWorkspaceDeserializer(item: any): VerifierWorkspace {
 export interface VerifierWorkspaceProperties {
   description?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function verifierWorkspacePropertiesSerializer(item: VerifierWorkspaceProperties): any {
@@ -23803,7 +23803,7 @@ export interface ReachabilityAnalysisRunProperties {
   readonly analysisResult?: string;
   readonly errorMessage?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function reachabilityAnalysisRunPropertiesSerializer(
@@ -23870,7 +23870,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
   /** The name of the resource. */
   namePropertiesName?: string;
   /** The provisioning state of the NetworkVirtualApplianceConnection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Network Virtual Appliance ASN. */
   asn?: number;
   /** Unique identifier for the connection. */
@@ -23919,7 +23919,7 @@ export interface NetworkVirtualApplianceConnectionProperties {
   /** The name of the resource. */
   name?: string;
   /** The provisioning state of the NetworkVirtualApplianceConnection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Network Virtual Appliance ASN. */
   asn?: number;
   /** Unique identifier for the connection. */
@@ -24241,7 +24241,7 @@ export interface NetworkVirtualAppliance extends Resource {
   /** List of references to InboundSecurityRules. */
   readonly inboundSecurityRules?: SubResource[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The deployment type. PartnerManaged for the SaaS NVA */
   readonly deploymentType?: string;
   /** The delegation for the Virtual Appliance. Only appliable for SaaS NVA. */
@@ -24334,7 +24334,7 @@ export interface NetworkVirtualAppliancePropertiesFormat {
   /** List of references to InboundSecurityRules. */
   readonly inboundSecurityRules?: SubResource[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The deployment type. PartnerManaged for the SaaS NVA */
   readonly deploymentType?: string;
   /** The delegation for the Virtual Appliance. Only appliable for SaaS NVA. */
@@ -24798,7 +24798,7 @@ export interface DelegationProperties {
   /** The service name to which the NVA is delegated. */
   serviceName?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function delegationPropertiesSerializer(item: DelegationProperties): any {
@@ -25020,7 +25020,7 @@ export interface VirtualApplianceSite extends SubResourceModel {
   /** Office 365 Policy. */
   o365Policy?: Office365PolicyProperties;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualApplianceSiteSerializer(item: VirtualApplianceSite): any {
@@ -25052,7 +25052,7 @@ export interface VirtualApplianceSiteProperties {
   /** Office 365 Policy. */
   o365Policy?: Office365PolicyProperties;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualApplianceSitePropertiesSerializer(
@@ -25156,7 +25156,7 @@ export interface NetworkWatcher extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the network watcher resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkWatcherSerializer(item: NetworkWatcher): any {
@@ -25189,7 +25189,7 @@ export function networkWatcherDeserializer(item: any): NetworkWatcher {
 /** The network watcher properties. */
 export interface NetworkWatcherPropertiesFormat {
   /** The provisioning state of the network watcher resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function networkWatcherPropertiesFormatSerializer(
@@ -26918,7 +26918,7 @@ export interface PublicIPPrefix extends Resource {
   /** The resource GUID property of the public IP prefix resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the public IP prefix resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** NatGateway of Public IP Prefix. */
   natGateway?: NatGateway;
 }
@@ -26993,7 +26993,7 @@ export interface PublicIPPrefixPropertiesFormat {
   /** The resource GUID property of the public IP prefix resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the public IP prefix resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** NatGateway of Public IP Prefix. */
   natGateway?: NatGateway;
 }
@@ -27135,7 +27135,7 @@ export interface RouteFilter extends ResourceWithRequiredLocation {
   /** A collection of references to express route circuit ipv6 peerings. */
   readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
   /** The provisioning state of the route filter resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeFilterSerializer(item: RouteFilter): any {
@@ -27174,7 +27174,7 @@ export interface RouteFilterPropertiesFormat {
   /** A collection of references to express route circuit ipv6 peerings. */
   readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
   /** The provisioning state of the route filter resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeFilterPropertiesFormatSerializer(item: RouteFilterPropertiesFormat): any {
@@ -27221,7 +27221,7 @@ export interface RouteFilterRule extends SubResource {
   /** The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']. */
   communities?: string[];
   /** The provisioning state of the route filter rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeFilterRuleSerializer(item: RouteFilterRule): any {
@@ -27256,7 +27256,7 @@ export interface RouteFilterRulePropertiesFormat {
   /** The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']. */
   communities: string[];
   /** The provisioning state of the route filter rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeFilterRulePropertiesFormatSerializer(
@@ -27358,7 +27358,7 @@ export interface SecurityPartnerProvider extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the Security Partner Provider resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The security provider name. */
   securityProviderName?: SecurityProviderName;
   /** The connection status with the Security Partner Provider. */
@@ -27397,7 +27397,7 @@ export function securityPartnerProviderDeserializer(item: any): SecurityPartnerP
 /** Properties of the Security Partner Provider. */
 export interface SecurityPartnerProviderPropertiesFormat {
   /** The provisioning state of the Security Partner Provider resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The security provider name. */
   securityProviderName?: SecurityProviderName;
   /** The connection status with the Security Partner Provider. */
@@ -27510,7 +27510,7 @@ export interface VirtualNetwork extends Resource {
   /** The resourceGuid property of the Virtual Network resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
   enableDdosProtection?: boolean;
   /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
@@ -27592,7 +27592,7 @@ export interface VirtualNetworkPropertiesFormat {
   /** The resourceGuid property of the Virtual Network resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
   enableDdosProtection?: boolean;
   /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
@@ -27790,7 +27790,7 @@ export interface VirtualNetworkPeering extends SubResourceModel {
   /** The peering sync status of the virtual network peering. */
   peeringSyncLevel?: VirtualNetworkPeeringLevel;
   /** The provisioning state of the virtual network peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** If we need to verify the provisioning state of the remote gateway. */
   doNotVerifyRemoteGateways?: boolean;
   /** The resourceGuid property of the Virtual Network peering resource. */
@@ -27874,7 +27874,7 @@ export interface VirtualNetworkPeeringPropertiesFormat {
   /** The peering sync status of the virtual network peering. */
   peeringSyncLevel?: VirtualNetworkPeeringLevel;
   /** The provisioning state of the virtual network peering resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** If we need to verify the provisioning state of the remote gateway. */
   doNotVerifyRemoteGateways?: boolean;
   /** The resourceGuid property of the Virtual Network peering resource. */
@@ -28333,7 +28333,7 @@ export interface VirtualNetworkGateway extends Resource {
   /** The resource GUID property of the virtual network gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether dns forwarding is enabled or not. */
   enableDnsForwarding?: boolean;
   /** The IP address allocated by the gateway to which dns requests can be sent. */
@@ -28428,7 +28428,7 @@ export interface VirtualNetworkGatewayPropertiesFormat {
   /** The resource GUID property of the virtual network gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether dns forwarding is enabled or not. */
   enableDnsForwarding?: boolean;
   /** The IP address allocated by the gateway to which dns requests can be sent. */
@@ -28638,7 +28638,7 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
   /** Private IP Address for this gateway. */
   readonly privateIPAddress?: string;
   /** The provisioning state of the virtual network gateway IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualNetworkGatewayIPConfigurationSerializer(
@@ -28681,7 +28681,7 @@ export interface VirtualNetworkGatewayIPConfigurationPropertiesFormat {
   /** Private IP Address for this gateway. */
   readonly privateIPAddress?: string;
   /** The provisioning state of the virtual network gateway IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualNetworkGatewayIPConfigurationPropertiesFormatSerializer(
@@ -29146,7 +29146,7 @@ export interface VpnClientRootCertificate extends SubResource {
   /** The certificate public data. */
   publicCertData: string;
   /** The provisioning state of the VPN client root certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnClientRootCertificateSerializer(item: VpnClientRootCertificate): any {
@@ -29171,7 +29171,7 @@ export interface VpnClientRootCertificatePropertiesFormat {
   /** The certificate public data. */
   publicCertData: string;
   /** The provisioning state of the VPN client root certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnClientRootCertificatePropertiesFormatSerializer(
@@ -29214,7 +29214,7 @@ export interface VpnClientRevokedCertificate extends SubResource {
   /** The revoked VPN client certificate thumbprint. */
   thumbprint?: string;
   /** The provisioning state of the VPN client revoked certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnClientRevokedCertificateSerializer(item: VpnClientRevokedCertificate): any {
@@ -29243,7 +29243,7 @@ export interface VpnClientRevokedCertificatePropertiesFormat {
   /** The revoked VPN client certificate thumbprint. */
   thumbprint?: string;
   /** The provisioning state of the VPN client revoked certificate resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnClientRevokedCertificatePropertiesFormatSerializer(
@@ -29633,7 +29633,7 @@ export interface VngClientConnectionConfiguration extends SubResource {
   /** List of references to virtualNetworkGatewayPolicyGroups */
   virtualNetworkGatewayPolicyGroups?: SubResource[];
   /** The provisioning state of the VngClientConnectionConfiguration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vngClientConnectionConfigurationSerializer(
@@ -29671,7 +29671,7 @@ export interface VngClientConnectionConfigurationProperties {
   /** List of references to virtualNetworkGatewayPolicyGroups */
   virtualNetworkGatewayPolicyGroups: SubResource[];
   /** The provisioning state of the VngClientConnectionConfiguration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vngClientConnectionConfigurationPropertiesSerializer(
@@ -29728,7 +29728,7 @@ export interface VirtualNetworkGatewayPolicyGroup extends SubResource {
   /** List of references to vngClientConnectionConfigurations. */
   readonly vngClientConnectionConfigurations?: SubResource[];
   /** The provisioning state of the VirtualNetworkGatewayPolicyGroup resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualNetworkGatewayPolicyGroupSerializer(
@@ -29767,7 +29767,7 @@ export interface VirtualNetworkGatewayPolicyGroupProperties {
   /** List of references to vngClientConnectionConfigurations. */
   readonly vngClientConnectionConfigurations?: SubResource[];
   /** The provisioning state of the VirtualNetworkGatewayPolicyGroup resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualNetworkGatewayPolicyGroupPropertiesSerializer(
@@ -29980,7 +29980,7 @@ export interface VirtualNetworkGatewayNatRule extends SubResourceModel {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the NAT Rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of NAT rule for VPN NAT. */
   typePropertiesType?: VpnNatRuleType;
   /** The Source NAT direction of a VPN NAT. */
@@ -30024,7 +30024,7 @@ export function virtualNetworkGatewayNatRuleDeserializer(item: any): VirtualNetw
 /** Parameters for VirtualNetworkGatewayNatRule. */
 export interface VirtualNetworkGatewayNatRuleProperties {
   /** The provisioning state of the NAT Rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of NAT rule for VPN NAT. */
   type?: VpnNatRuleType;
   /** The Source NAT direction of a VPN NAT. */
@@ -30257,7 +30257,7 @@ export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
   /** The resource GUID property of the virtual network gateway connection resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -30323,7 +30323,7 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
   /** The resource GUID property of the virtual network gateway connection resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -31729,7 +31729,7 @@ export interface VirtualNetworkGatewayConnection extends Resource {
   /** The resource GUID property of the virtual network gateway connection resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -31820,7 +31820,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormat {
   /** The resource GUID property of the virtual network gateway connection resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -31956,7 +31956,7 @@ export interface LocalNetworkGateway extends Resource {
   /** The resource GUID property of the local network gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the local network gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function localNetworkGatewaySerializer(item: LocalNetworkGateway): any {
@@ -31995,7 +31995,7 @@ export interface LocalNetworkGatewayPropertiesFormat {
   /** The resource GUID property of the local network gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the local network gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function localNetworkGatewayPropertiesFormatSerializer(
@@ -32240,7 +32240,7 @@ export interface VirtualRouter extends Resource {
   /** List of references to VirtualRouterPeerings. */
   readonly peerings?: SubResource[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualRouterSerializer(item: VirtualRouter): any {
@@ -32288,7 +32288,7 @@ export interface VirtualRouterPropertiesFormat {
   /** List of references to VirtualRouterPeerings. */
   readonly peerings?: SubResource[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualRouterPropertiesFormatSerializer(item: VirtualRouterPropertiesFormat): any {
@@ -32350,7 +32350,7 @@ export interface VirtualRouterPeering extends SubResourceModel {
   /** Peer IP. */
   peerIp?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualRouterPeeringSerializer(item: VirtualRouterPeering): any {
@@ -32382,7 +32382,7 @@ export interface VirtualRouterPeeringProperties {
   /** Peer IP. */
   peerIp?: string;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualRouterPeeringPropertiesSerializer(
@@ -32430,7 +32430,7 @@ export interface VirtualWAN extends ResourceWithRequiredLocation {
   /** The office local breakout category. */
   readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
   /** The provisioning state of the virtual WAN resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of the VirtualWAN. */
   typePropertiesType?: string;
 }
@@ -32482,7 +32482,7 @@ export interface VirtualWanProperties {
   /** The office local breakout category. */
   readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
   /** The provisioning state of the virtual WAN resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of the VirtualWAN. */
   type?: string;
 }
@@ -32579,7 +32579,7 @@ export interface VpnSite extends ResourceWithRequiredLocation {
   /** The set of bgp properties. */
   bgpProperties?: BgpSettings;
   /** The provisioning state of the VPN site resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** IsSecuritySite flag. */
   isSecuritySite?: boolean;
   /** List of all vpn site links. */
@@ -32640,7 +32640,7 @@ export interface VpnSiteProperties {
   /** The set of bgp properties. */
   bgpProperties?: BgpSettings;
   /** The provisioning state of the VPN site resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** IsSecuritySite flag. */
   isSecuritySite?: boolean;
   /** List of all vpn site links. */
@@ -32753,7 +32753,7 @@ export interface VpnSiteLink extends SubResourceModel {
   /** The set of bgp properties. */
   bgpProperties?: VpnLinkBgpSettings;
   /** The provisioning state of the VPN site link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnSiteLinkSerializer(item: VpnSiteLink): any {
@@ -32789,7 +32789,7 @@ export interface VpnSiteLinkProperties {
   /** The set of bgp properties. */
   bgpProperties?: VpnLinkBgpSettings;
   /** The provisioning state of the VPN site link resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnSiteLinkPropertiesSerializer(item: VpnSiteLinkProperties): any {
@@ -33385,7 +33385,7 @@ export interface P2SVpnGateway extends ResourceWithRequiredLocation {
   /** List of all p2s connection configurations of the gateway. */
   p2SConnectionConfigurations?: P2SConnectionConfiguration[];
   /** The provisioning state of the P2S VPN gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale unit for this p2s vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** The VpnServerConfiguration to which the p2sVpnGateway is attached to. */
@@ -33439,7 +33439,7 @@ export interface P2SVpnGatewayProperties {
   /** List of all p2s connection configurations of the gateway. */
   p2SConnectionConfigurations?: P2SConnectionConfiguration[];
   /** The provisioning state of the P2S VPN gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale unit for this p2s vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** The VpnServerConfiguration to which the p2sVpnGateway is attached to. */
@@ -33531,7 +33531,7 @@ export interface P2SConnectionConfiguration extends SubResource {
   /** List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to. */
   readonly previousConfigurationPolicyGroupAssociations?: VpnServerConfigurationPolicyGroup[];
   /** The provisioning state of the P2SConnectionConfiguration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function p2SConnectionConfigurationSerializer(item: P2SConnectionConfiguration): any {
@@ -33573,7 +33573,7 @@ export interface P2SConnectionConfigurationProperties {
   /** List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to. */
   readonly previousConfigurationPolicyGroupAssociations?: VpnServerConfigurationPolicyGroup[];
   /** The provisioning state of the P2SConnectionConfiguration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function p2SConnectionConfigurationPropertiesSerializer(
@@ -33647,7 +33647,7 @@ export interface VpnServerConfigurationPolicyGroup extends SubResourceModel {
   /** List of references to P2SConnectionConfigurations. */
   readonly p2SConnectionConfigurations?: SubResource[];
   /** The provisioning state of the VpnServerConfigurationPolicyGroup resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnServerConfigurationPolicyGroupSerializer(
@@ -33687,7 +33687,7 @@ export interface VpnServerConfigurationPolicyGroupProperties {
   /** List of references to P2SConnectionConfigurations. */
   readonly p2SConnectionConfigurations?: SubResource[];
   /** The provisioning state of the VpnServerConfigurationPolicyGroup resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function vpnServerConfigurationPolicyGroupPropertiesSerializer(
@@ -33875,7 +33875,7 @@ export interface VirtualHub extends ResourceWithRequiredLocation {
   /** The routeTable associated with this virtual hub. */
   routeTable?: VirtualHubRouteTable;
   /** The provisioning state of the virtual hub resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The Security Provider name. */
   securityProviderName?: string;
   /** List of all virtual hub route table v2s associated with this VirtualHub. */
@@ -33969,7 +33969,7 @@ export interface VirtualHubProperties {
   /** The routeTable associated with this virtual hub. */
   routeTable?: VirtualHubRouteTable;
   /** The provisioning state of the virtual hub resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The Security Provider name. */
   securityProviderName?: string;
   /** List of all virtual hub route table v2s associated with this VirtualHub. */
@@ -34186,7 +34186,7 @@ export interface VirtualHubRouteTableV2 extends SubResource {
   /** List of all connections attached to this route table v2. */
   attachedConnections?: string[];
   /** The provisioning state of the virtual hub route table v2 resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualHubRouteTableV2Serializer(item: VirtualHubRouteTableV2): any {
@@ -34217,7 +34217,7 @@ export interface VirtualHubRouteTableV2Properties {
   /** List of all connections attached to this route table v2. */
   attachedConnections?: string[];
   /** The provisioning state of the virtual hub route table v2 resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function virtualHubRouteTableV2PropertiesSerializer(
@@ -34557,7 +34557,7 @@ export interface RouteMap extends ReadOnlySubResourceModel {
   /** List of RouteMap rules to be applied. */
   rules?: RouteMapRule[];
   /** The provisioning state of the RouteMap resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeMapSerializer(item: RouteMap): any {
@@ -34593,7 +34593,7 @@ export interface RouteMapProperties {
   /** List of RouteMap rules to be applied. */
   rules?: RouteMapRule[];
   /** The provisioning state of the RouteMap resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routeMapPropertiesSerializer(item: RouteMapProperties): any {
@@ -34976,7 +34976,7 @@ export interface VpnGateway extends ResourceWithRequiredLocation {
   /** Local network gateway's BGP speaker settings. */
   bgpSettings?: BgpSettings;
   /** The provisioning state of the VPN gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale unit for this vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** List of all IPs configured on the gateway. */
@@ -35033,7 +35033,7 @@ export interface VpnGatewayProperties {
   /** Local network gateway's BGP speaker settings. */
   bgpSettings?: BgpSettings;
   /** The provisioning state of the VPN gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The scale unit for this vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** List of all IPs configured on the gateway. */
@@ -35141,7 +35141,7 @@ export interface VpnConnection extends SubResource {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of all vpn site link connections to the gateway. */
   vpnLinkConnections?: VpnSiteLinkConnection[];
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
@@ -35220,7 +35220,7 @@ export interface VpnConnectionProperties {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of all vpn site link connections to the gateway. */
   vpnLinkConnections?: VpnSiteLinkConnection[];
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
@@ -35364,7 +35364,7 @@ export interface VpnSiteLinkConnection extends SubResourceModel {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN site link connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of ingress NatRules. */
   ingressNatRules?: SubResource[];
   /** List of egress NatRules. */
@@ -35444,7 +35444,7 @@ export interface VpnSiteLinkConnectionProperties {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN site link connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** List of ingress NatRules. */
   ingressNatRules?: SubResource[];
   /** List of egress NatRules. */
@@ -35589,7 +35589,7 @@ export interface VpnGatewayNatRule extends SubResourceModel {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the NAT Rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of NAT rule for VPN NAT. */
   typePropertiesType?: VpnNatRuleType;
   /** The Source NAT direction of a VPN NAT. */
@@ -35637,7 +35637,7 @@ export function vpnGatewayNatRuleDeserializer(item: any): VpnGatewayNatRule {
 /** Parameters for VpnGatewayNatRule. */
 export interface VpnGatewayNatRuleProperties {
   /** The provisioning state of the NAT Rule resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The type of NAT rule for VPN NAT. */
   type?: VpnNatRuleType;
   /** The Source NAT direction of a VPN NAT. */
@@ -35775,7 +35775,7 @@ export interface ExpressRouteGateway extends Resource {
   /** List of ExpressRoute connections to the ExpressRoute gateway. */
   expressRouteConnections?: ExpressRouteConnection[];
   /** The provisioning state of the express route gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
   virtualHub?: VirtualHubId;
   /** Configures this gateway to accept traffic from non Virtual WAN networks. */
@@ -35821,7 +35821,7 @@ export interface ExpressRouteGatewayProperties {
   /** List of ExpressRoute connections to the ExpressRoute gateway. */
   expressRouteConnections?: ExpressRouteConnection[];
   /** The provisioning state of the express route gateway resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
   virtualHub: VirtualHubId;
   /** Configures this gateway to accept traffic from non Virtual WAN networks. */
@@ -35931,7 +35931,7 @@ export interface ExpressRouteConnection extends SubResource {
   /** The name of the resource. */
   name: string;
   /** The provisioning state of the express route connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The ExpressRoute circuit peering. */
   expressRouteCircuitPeering?: ExpressRouteCircuitPeeringId;
   /** Authorization key to establish the connection. */
@@ -35979,7 +35979,7 @@ export function expressRouteConnectionDeserializer(item: any): ExpressRouteConne
 /** Properties of the ExpressRouteConnection subresource. */
 export interface ExpressRouteConnectionProperties {
   /** The provisioning state of the express route connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The ExpressRoute circuit peering. */
   expressRouteCircuitPeering: ExpressRouteCircuitPeeringId;
   /** Authorization key to establish the connection. */
@@ -36102,7 +36102,7 @@ export interface HubRouteTable extends SubResourceModel {
   /** List of all connections that advertise to this route table. */
   readonly propagatingConnections?: string[];
   /** The provisioning state of the RouteTable resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubRouteTableSerializer(item: HubRouteTable): any {
@@ -36138,7 +36138,7 @@ export interface HubRouteTableProperties {
   /** List of all connections that advertise to this route table. */
   readonly propagatingConnections?: string[];
   /** The provisioning state of the RouteTable resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubRouteTablePropertiesSerializer(item: HubRouteTableProperties): any {
@@ -36262,7 +36262,7 @@ export interface WebApplicationFirewallPolicy extends Resource {
   /** A collection of references to application gateways. */
   readonly applicationGateways?: ApplicationGateway[];
   /** The provisioning state of the web application firewall policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Resource status of the policy. */
   readonly resourceState?: WebApplicationFirewallPolicyResourceState;
   /** Describes the managedRules structure. */
@@ -36311,7 +36311,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormat {
   /** A collection of references to application gateways. */
   readonly applicationGateways?: ApplicationGateway[];
   /** The provisioning state of the web application firewall policy resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Resource status of the policy. */
   readonly resourceState?: WebApplicationFirewallPolicyResourceState;
   /** Describes the managedRules structure. */
@@ -37797,7 +37797,7 @@ export interface VirtualNetworkAppliance extends Resource {
   /** A list of IPConfigurations of the virtual network appliance. */
   readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
   /** The provisioning state of the virtual network appliance resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the virtual network appliance resource. */
   readonly resourceGuid?: string;
   /** The reference to the subnet resource. */
@@ -37838,7 +37838,7 @@ export interface VirtualNetworkAppliancePropertiesFormat {
   /** A list of IPConfigurations of the virtual network appliance. */
   readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
   /** The provisioning state of the virtual network appliance resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The resource GUID property of the virtual network appliance resource. */
   readonly resourceGuid?: string;
   /** The reference to the subnet resource. */
@@ -37891,7 +37891,7 @@ export interface VirtualNetworkApplianceIpConfiguration extends SubResource {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the private link service IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
   privateIPAddressVersion?: IPVersion;
 }
@@ -37919,7 +37919,7 @@ export interface VirtualNetworkApplianceIpConfigurationProperties {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the private link service IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
   privateIPAddressVersion?: IPVersion;
 }
@@ -37973,7 +37973,7 @@ export interface ServiceGateway extends SecurityPerimeterTrackedResource {
   /** The resource GUID property of the service gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service gateway resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function serviceGatewaySerializer(item: ServiceGateway): any {
@@ -38032,7 +38032,7 @@ export interface ServiceGatewayPropertiesFormat {
   /** The resource GUID property of the service gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service gateway resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function serviceGatewayPropertiesFormatSerializer(
@@ -39014,7 +39014,7 @@ export interface CustomIpPrefix extends Resource {
   /** The reason why resource is in failed state. */
   readonly failedReason?: string;
   /** The provisioning state of the custom IP prefix resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function customIpPrefixSerializer(item: CustomIpPrefix): any {
@@ -39102,7 +39102,7 @@ export interface CustomIpPrefixPropertiesFormat {
   /** The reason why resource is in failed state. */
   readonly failedReason?: string;
   /** The provisioning state of the custom IP prefix resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function customIpPrefixPropertiesFormatSerializer(
@@ -39285,7 +39285,7 @@ export interface DscpConfiguration extends Resource {
   /** The resource GUID property of the DSCP Configuration resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DSCP Configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function dscpConfigurationSerializer(item: DscpConfiguration): any {
@@ -39346,7 +39346,7 @@ export interface DscpConfigurationPropertiesFormat {
   /** The resource GUID property of the DSCP Configuration resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the DSCP Configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function dscpConfigurationPropertiesFormatSerializer(
@@ -40204,7 +40204,7 @@ export interface AdminRule extends BaseAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -40269,7 +40269,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -41224,7 +41224,7 @@ export interface InboundSecurityRule extends SubResourceModel {
   /** List of allowed rules. */
   rules?: InboundSecurityRules[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundSecurityRuleSerializer(item: InboundSecurityRule): any {
@@ -41256,7 +41256,7 @@ export interface InboundSecurityRuleProperties {
   /** List of allowed rules. */
   rules?: InboundSecurityRules[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function inboundSecurityRulePropertiesSerializer(item: InboundSecurityRuleProperties): any {
@@ -41661,7 +41661,7 @@ export interface PacketCaptureResult {
   /** The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values. */
   captureSettings?: PacketCaptureSettings;
   /** The provisioning state of the packet capture session. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function packetCaptureResultDeserializer(item: any): PacketCaptureResult {
@@ -41678,7 +41678,7 @@ export function packetCaptureResultDeserializer(item: any): PacketCaptureResult 
 /** The properties of a packet capture session. */
 export interface PacketCaptureResultProperties extends PacketCaptureParameters {
   /** The provisioning state of the packet capture session. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function packetCaptureResultPropertiesDeserializer(
@@ -41824,7 +41824,7 @@ export interface ConnectionMonitorResult extends TrackedResourcewithOptionalLoca
   /** Optional notes to be associated with the connection monitor. */
   notes?: string;
   /** The provisioning state of the connection monitor. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The date and time when the connection monitor was started. */
   readonly startTime?: Date;
   /** The monitoring status of the connection monitor. */
@@ -41852,7 +41852,7 @@ export function connectionMonitorResultDeserializer(item: any): ConnectionMonito
 /** Describes the properties of a connection monitor. */
 export interface ConnectionMonitorResultProperties extends ConnectionMonitorParameters {
   /** The provisioning state of the connection monitor. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The date and time when the connection monitor was started. */
   readonly startTime?: Date;
   /** The monitoring status of the connection monitor. */
@@ -42875,7 +42875,7 @@ export interface PrivateDnsZoneGroup extends SubResource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the private dns zone group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** A collection of private dns zone configurations of the private dns zone group. */
   privateDnsZoneConfigs?: PrivateDnsZoneConfig[];
 }
@@ -42904,7 +42904,7 @@ export function privateDnsZoneGroupDeserializer(item: any): PrivateDnsZoneGroup 
 /** Properties of the private dns zone group. */
 export interface PrivateDnsZoneGroupPropertiesFormat {
   /** The provisioning state of the private dns zone group resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** A collection of private dns zone configurations of the private dns zone group. */
   privateDnsZoneConfigs?: PrivateDnsZoneConfig[];
 }
@@ -43010,7 +43010,7 @@ export interface RecordSet {
   /** Fqdn that resolves to private endpoint ip address. */
   fqdn?: string;
   /** The provisioning state of the recordset. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** Recordset time to live. */
   ttl?: number;
   /** The private ip address of the private endpoint. */
@@ -43183,7 +43183,7 @@ export interface HubVirtualNetworkConnection extends SubResource {
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
   routingConfiguration?: RoutingConfiguration;
   /** The provisioning state of the hub virtual network connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubVirtualNetworkConnectionSerializer(item: HubVirtualNetworkConnection): any {
@@ -43226,7 +43226,7 @@ export interface HubVirtualNetworkConnectionProperties {
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
   routingConfiguration?: RoutingConfiguration;
   /** The provisioning state of the hub virtual network connection resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubVirtualNetworkConnectionPropertiesSerializer(
@@ -43429,7 +43429,7 @@ export interface SharedKeyProperties {
   /** The length of the shared key for the vpn link connection. */
   sharedKeyLength?: number;
   /** The provisioning state of the SharedKey resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function sharedKeyPropertiesSerializer(item: SharedKeyProperties): any {
@@ -43601,7 +43601,7 @@ export interface BgpConnection extends SubResourceModel {
   /** The reference to the HubVirtualNetworkConnection resource. */
   hubVirtualNetworkConnection?: SubResource;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The current state of the VirtualHub to Peer. */
   readonly connectionState?: HubBgpConnectionStatus;
 }
@@ -43637,7 +43637,7 @@ export interface BgpConnectionProperties {
   /** The reference to the HubVirtualNetworkConnection resource. */
   hubVirtualNetworkConnection?: SubResource;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The current state of the VirtualHub to Peer. */
   readonly connectionState?: HubBgpConnectionStatus;
 }
@@ -43760,7 +43760,7 @@ export interface HubIpConfiguration extends SubResourceModel {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddress;
   /** The provisioning state of the IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubIpConfigurationSerializer(item: HubIpConfiguration): any {
@@ -43801,7 +43801,7 @@ export interface HubIPConfigurationPropertiesFormat {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddress;
   /** The provisioning state of the IP configuration resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function hubIPConfigurationPropertiesFormatSerializer(
@@ -43867,7 +43867,7 @@ export interface RoutingIntent extends SubResourceModel {
   /** List of routing policies. */
   routingPolicies?: RoutingPolicy[];
   /** The provisioning state of the RoutingIntent resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routingIntentSerializer(item: RoutingIntent): any {
@@ -43897,7 +43897,7 @@ export interface RoutingIntentProperties {
   /** List of routing policies. */
   routingPolicies?: RoutingPolicy[];
   /** The provisioning state of the RoutingIntent resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function routingIntentPropertiesSerializer(item: RoutingIntentProperties): any {
@@ -44092,7 +44092,7 @@ export interface AzureFirewallFqdnTag extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   readonly etag?: string;
   /** The provisioning state of the Azure firewall FQDN tag resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The name of this FQDN Tag. */
   readonly fqdnTagName?: string;
 }
@@ -44116,7 +44116,7 @@ export function azureFirewallFqdnTagDeserializer(item: any): AzureFirewallFqdnTa
 /** Azure Firewall FQDN Tag Properties. */
 export interface AzureFirewallFqdnTagPropertiesFormat {
   /** The provisioning state of the Azure firewall FQDN tag resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
   /** The name of this FQDN Tag. */
   readonly fqdnTagName?: string;
 }
@@ -44184,7 +44184,7 @@ export interface ExpressRouteServiceProvider extends Resource {
   /** A list of bandwidths offered. */
   bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
   /** The provisioning state of the express route service provider resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRouteServiceProviderDeserializer(item: any): ExpressRouteServiceProvider {
@@ -44209,7 +44209,7 @@ export interface ExpressRouteServiceProviderPropertiesFormat {
   /** A list of bandwidths offered. */
   bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
   /** The provisioning state of the express route service provider resource. */
-  readonly provisioningState?: NetworkProvisioningState;
+  readonly provisioningState?: BaseProvisioningState;
 }
 
 export function expressRouteServiceProviderPropertiesFormatDeserializer(

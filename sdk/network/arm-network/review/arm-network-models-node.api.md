@@ -24,11 +24,6 @@ export interface ArmAcceptedLroResponse {
 }
 
 // @public
-export interface ArmErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public

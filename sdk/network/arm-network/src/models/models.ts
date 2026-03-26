@@ -1503,18 +1503,6 @@ export function _networkVirtualApplianceSkuListResultDeserializer(
   };
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ArmErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
 /** The response of a AzureFirewallFqdnTag list operation. */
 export interface _AzureFirewallFqdnTagListResult {
   /** The AzureFirewallFqdnTag items on this page */
