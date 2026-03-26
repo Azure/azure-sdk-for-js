@@ -8106,7 +8106,7 @@ export function _createAgentRequestFoundryFeaturesSerializer(
   return item;
 }
 
-/** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
+/** Opt-in keys for defining preview Hosted or Workflow Agents. */
 export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
 /** Alias for _CreateAgentVersionRequestFoundryFeatures */
 export type _CreateAgentVersionRequestFoundryFeatures =
@@ -8133,7 +8133,7 @@ export type AgentObjectType =
   | "agent.deleted"
   | "agent.version.deleted"
   | "agent.container";
-/** Type of FoundryFeaturesOptInKeys */
+/** Opt-in keys for enabling preview Foundry features. */
 export type FoundryFeaturesOptInKeys =
   | "Evaluations=V1Preview"
   | "Schedules=V1Preview"

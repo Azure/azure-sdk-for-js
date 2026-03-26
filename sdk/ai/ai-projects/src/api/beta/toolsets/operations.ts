@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
-import {
-  toolUnionArraySerializer,
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
   ToolUnion,
-  apiErrorResponseDeserializer,
   ToolsetObject,
-  toolsetObjectDeserializer,
   _AgentsPagedResultToolsetObject,
-  _agentsPagedResultToolsetObjectDeserializer,
   DeleteToolsetResponse,
-  deleteToolsetResponseDeserializer,
 } from "../../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
+  toolUnionArraySerializer,
+  apiErrorResponseDeserializer,
+  toolsetObjectDeserializer,
+  _agentsPagedResultToolsetObjectDeserializer,
+  deleteToolsetResponseDeserializer,
+} from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaToolsetsDeleteOptionalParams,
   BetaToolsetsListOptionalParams,
   BetaToolsetsGetOptionalParams,
   BetaToolsetsUpdateOptionalParams,
   BetaToolsetsCreateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,
@@ -48,16 +44,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _$deleteDeserialize(
@@ -108,16 +102,14 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -165,16 +157,14 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
@@ -217,22 +207,20 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        description: options?.description,
-        metadata: options?.metadata,
-        tools: toolUnionArraySerializer(tools),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      description: options?.description,
+      metadata: options?.metadata,
+      tools: toolUnionArraySerializer(tools),
+    },
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
@@ -275,23 +263,21 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: name,
-        description: options?.description,
-        metadata: options?.metadata,
-        tools: toolUnionArraySerializer(tools),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      name: name,
+      description: options?.description,
+      metadata: options?.metadata,
+      tools: toolUnionArraySerializer(tools),
+    },
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
