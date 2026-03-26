@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.KubernetesConfiguration": "2024-11-01"
+    "Microsoft.KubernetesConfiguration": "2025-03-01"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.KubernetesConfiguration",
     "CrossLanguageDefinitionId": {
@@ -15,6 +15,9 @@
       "@azure/arm-kubernetesconfiguration-extensions!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
       "@azure/arm-kubernetesconfiguration-extensions!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
       "@azure/arm-kubernetesconfiguration-extensions!ExtensionPropertiesAksAssignedIdentity:interface": "Microsoft.KubernetesConfiguration.ExtensionPropertiesAksAssignedIdentity",
+      "@azure/arm-kubernetesconfiguration-extensions!ManagementDetails:interface": "Microsoft.KubernetesConfiguration.ManagementDetails",
+      "@azure/arm-kubernetesconfiguration-extensions!AccessDetail:interface": "Microsoft.KubernetesConfiguration.AccessDetail",
+      "@azure/arm-kubernetesconfiguration-extensions!AdditionalDetails:interface": "Microsoft.KubernetesConfiguration.AdditionalDetails",
       "@azure/arm-kubernetesconfiguration-extensions!Identity:interface": "Azure.ResourceManager.CommonTypes.Identity",
       "@azure/arm-kubernetesconfiguration-extensions!Plan:interface": "Azure.ResourceManager.CommonTypes.Plan",
       "@azure/arm-kubernetesconfiguration-extensions!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
@@ -29,6 +32,7 @@
       "@azure/arm-kubernetesconfiguration-extensions!KnownProvisioningState:enum": "Microsoft.KubernetesConfiguration.ProvisioningState",
       "@azure/arm-kubernetesconfiguration-extensions!KnownLevelType:enum": "Microsoft.KubernetesConfiguration.LevelType",
       "@azure/arm-kubernetesconfiguration-extensions!KnownAKSIdentityType:enum": "Microsoft.KubernetesConfiguration.AKSIdentityType",
+      "@azure/arm-kubernetesconfiguration-extensions!KnownAutoUpgradeMode:enum": "Microsoft.KubernetesConfiguration.AutoUpgradeMode",
       "@azure/arm-kubernetesconfiguration-extensions!KnownResourceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ResourceIdentityType",
       "@azure/arm-kubernetesconfiguration-extensions!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-kubernetesconfiguration-extensions!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
