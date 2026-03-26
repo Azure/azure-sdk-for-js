@@ -3,12 +3,11 @@
 import {
   bodyToString,
   configureBlobStorageClient,
+  createAndStartRecorder,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
 import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
 import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
@@ -27,9 +26,7 @@ describe("PageBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -92,7 +89,10 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err: any) {
-      assert.isTrue(err.message.startsWith("The access tier is not supported for this blob type."));
+      assert.equal(err.code, "AccessTierNotSupportedForBlobType");
+      assert.isTrue(
+        err.details.message.startsWith("The access tier is not supported for this blob type."),
+      );
     }
   });
 

@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "sideEffects": false,
   "author": "Microsoft Corporation",
-  "version": "12.4.0-beta.1",
+  "version": "12.5.0-beta.1",
   "description": "Azure Storage Common Client Library for JavaScript",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -47,7 +47,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-http-compat": "^2.2.0",
+    "@azure/core-http-compat": "^2.4.0",
     "@azure/core-rest-pipeline": "^1.19.1",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",

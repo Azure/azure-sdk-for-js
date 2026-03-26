@@ -10,19 +10,21 @@ import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
 import type { CancelOnProgress } from '@azure/core-lro';
-import * as coreClient from '@azure/core-client';
-import * as coreHttpCompat from '@azure/core-http-compat';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { ClientOptions } from '@azure-rest/core-client';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
+import type { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+import type { FullOperationResponse } from '@azure-rest/core-client';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { NodeJSReadableStream } from '@azure/storage-common';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
@@ -39,7 +41,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
@@ -53,7 +55,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Premium" | "Cold";
 
 // @public
 export interface AccessTierModifiedConditions {
@@ -596,7 +598,7 @@ export interface BlobDownloadHeaders {
 }
 
 // @public
-export interface BlobDownloadOptionalParams extends coreClient.OperationOptions {
+export interface BlobDownloadOptionalParams extends OperationOptions {
     cpkInfo?: CpkInfo;
     leaseAccessConditions?: LeaseAccessConditions;
     modifiedAccessConditions?: ModifiedAccessConditionsModel;
@@ -1727,7 +1729,7 @@ export interface ContainerAcquireLeaseOptions extends CommonOptions {
 }
 
 // @public
-export interface ContainerBreakLeaseOptionalParams extends coreClient.OperationOptions {
+export interface ContainerBreakLeaseOptionalParams extends OperationOptions {
     breakPeriod?: number;
     modifiedAccessConditions?: ModifiedAccessConditionsModel;
     requestId?: string;
@@ -3081,7 +3083,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>;
+export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders, BlobServiceProperties>;
 
 // @public
 export type ServiceGetPropertiesResponseInternal = ServiceGetPropertiesHeaders & BlobServiceProperties;
@@ -3178,7 +3180,7 @@ export interface ServiceSubmitBatchHeaders {
 }
 
 // @public
-export interface ServiceSubmitBatchOptionalParamsModel extends coreClient.OperationOptions {
+export interface ServiceSubmitBatchOptionalParamsModel extends OperationOptions {
     requestId?: string;
     timeoutInSeconds?: number;
 }
