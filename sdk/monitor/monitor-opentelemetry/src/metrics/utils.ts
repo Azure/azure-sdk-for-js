@@ -180,7 +180,7 @@ export function convertDimensions(
  * memory (page cache, buffers), providing a more accurate measure than os.freemem()
  * which only reports MemFree. Falls back to os.freemem() on other platforms or on error.
  */
-export function getAvailableMemory(): number {
+export function readAvailableMemory(): number {
   if (process.platform === "linux") {
     try {
       const contents: string = readFileSync("/proc/meminfo", "utf8");

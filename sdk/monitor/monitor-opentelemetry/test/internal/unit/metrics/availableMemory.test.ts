@@ -26,9 +26,9 @@ vi.mock("node:os", async (importOriginal) => {
   };
 });
 
-import { getAvailableMemory } from "../../../../src/metrics/utils.js";
+import { readAvailableMemory } from "../../../../src/metrics/utils.js";
 
-describe("getAvailableMemory", () => {
+describe("readAvailableMemory", () => {
   const originalPlatform = process.platform;
 
   beforeEach(() => {
@@ -55,7 +55,7 @@ describe("getAvailableMemory", () => {
       configurable: true,
     });
 
-    const result = getAvailableMemory();
+    const result = readAvailableMemory();
 
     assert.strictEqual(result, freeMem, "On non-Linux, available memory should equal os.freemem()");
   });
@@ -75,7 +75,7 @@ describe("getAvailableMemory", () => {
 
     mockReadFileSync.mockReturnValue(memInfoContent);
 
-    const result = getAvailableMemory();
+    const result = readAvailableMemory();
 
     assert.strictEqual(
       result,
@@ -100,7 +100,7 @@ describe("getAvailableMemory", () => {
     mockReadFileSync.mockReturnValue(memInfoContent);
     mockFreemem.mockReturnValue(freeMem);
 
-    const result = getAvailableMemory();
+    const result = readAvailableMemory();
 
     assert.strictEqual(
       result,

@@ -23,7 +23,7 @@ import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import { Logger } from "../shared/logging/logger.js";
-import { getAvailableMemory } from "./utils.js";
+import { readAvailableMemory } from "./utils.js";
 import process from "node:process";
 
 /**
@@ -154,7 +154,7 @@ export class PerformanceCounterMetrics {
     // Add callbacks
     this.requestRateGaugeCallback = this.getRequestRate.bind(this);
     this.memoryPrivateBytesGaugeCallback = this.getPrivateMemory.bind(this);
-    this.memoryAvailableBytesGaugeCallback = this.observeAvailableMemory.bind(this);
+    this.memoryAvailableBytesGaugeCallback = this.getAvailableMemory.bind(this);
     this.processorTimeGaugeCallback = this.getProcessorTime.bind(this);
     this.processTimeGaugeCallback = this.getProcessTime.bind(this);
     this.processTimeNormalizedGaugeCallback = this.getNormalizedProcessTime.bind(this);
@@ -247,8 +247,8 @@ export class PerformanceCounterMetrics {
     }
   }
 
-  private observeAvailableMemory(observableResult: ObservableResult): void {
-    observableResult.observe(getAvailableMemory());
+  private getAvailableMemory(observableResult: ObservableResult): void {
+    observableResult.observe(readAvailableMemory());
   }
 
   private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
