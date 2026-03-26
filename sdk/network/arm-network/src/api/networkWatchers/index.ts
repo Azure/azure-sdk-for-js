@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  getNetworkConfigurationDiagnostic,
+  listAvailableProviders,
+  getAzureReachabilityReport,
+  checkConnectivity,
+  getFlowLogStatus,
+  setFlowLogConfiguration,
+  getTroubleshootingResult,
+  getTroubleshooting,
+  getVMSecurityRules,
+  getNextHop,
+  verifyIPFlow,
+  getTopology,
+  listAll,
+  list,
+  $delete,
+  updateTags,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
+  NetworkWatchersListAvailableProvidersOptionalParams,
+  NetworkWatchersGetAzureReachabilityReportOptionalParams,
+  NetworkWatchersCheckConnectivityOptionalParams,
+  NetworkWatchersGetFlowLogStatusOptionalParams,
+  NetworkWatchersSetFlowLogConfigurationOptionalParams,
+  NetworkWatchersGetTroubleshootingResultOptionalParams,
+  NetworkWatchersGetTroubleshootingOptionalParams,
+  NetworkWatchersGetVMSecurityRulesOptionalParams,
+  NetworkWatchersGetNextHopOptionalParams,
+  NetworkWatchersVerifyIPFlowOptionalParams,
+  NetworkWatchersGetTopologyOptionalParams,
+  NetworkWatchersListAllOptionalParams,
+  NetworkWatchersListOptionalParams,
+  NetworkWatchersDeleteOptionalParams,
+  NetworkWatchersUpdateTagsOptionalParams,
+  NetworkWatchersCreateOrUpdateOptionalParams,
+  NetworkWatchersGetOptionalParams,
+} from "./options.js";
