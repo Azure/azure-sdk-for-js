@@ -22,7 +22,6 @@ export type WebPubSubMessage =
   | InvokeResponseMessage
   | CancelInvocationMessage
   | PongMessage
-  | StreamStartMessage
   | StreamDataMessage
   | StreamEndMessage
   | StreamAckMessage
@@ -117,10 +116,6 @@ export type UpstreamMessageType =
    * Type for CancelInvocationMessage
    */
   | "cancelInvocation"
-  /**
-   * Type for StreamStartMessage
-   */
-  | "streamStart"
   /**
    * Type for StreamDataMessage
    */
@@ -328,6 +323,20 @@ export interface StreamEndUserError {
 }
 
 /**
+ * Stream descriptor attached to a sendToGroup control frame that opens a stream.
+ */
+export interface StartStreamOptions {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutMs?: number;
+}
+
+/**
  * Join group message
  */
 export interface JoinGroupMessage extends WebPubSubMessageBase {
@@ -406,17 +415,21 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
    */
   ackId?: number;
   /**
-   * The data type
+   * The data type. Omit for a stream-start control frame.
    */
-  dataType: WebPubSubDataType;
+  dataType?: WebPubSubDataType;
   /**
-   * The data
+   * The data. Omit for a stream-start control frame.
    */
-  data: JSONTypes | ArrayBuffer;
+  data?: JSONTypes | ArrayBuffer;
   /**
    * Whether the message needs to echo to sender
    */
   noEcho: boolean;
+  /**
+   * Optional stream descriptor when this frame opens a stream.
+   */
+  stream?: StartStreamOptions;
 }
 
 /**
@@ -519,32 +532,6 @@ export interface CancelInvocationMessage extends WebPubSubMessageBase {
    * The invocation ID to cancel.
    */
   invocationId: string;
-}
-
-/**
- * Stream start message.
- */
-export interface StreamStartMessage extends WebPubSubMessageBase {
-  /**
-   * Message type.
-   */
-  readonly kind: "streamStart";
-  /**
-   * Stream identifier.
-   */
-  streamId: string;
-  /**
-   * Stream target. Currently only `group` is supported.
-   */
-  target: "group";
-  /**
-   * Target group.
-   */
-  group: string;
-  /**
-   * Optional idle timeout in milliseconds.
-   */
-  idleTimeoutMs?: number;
 }
 
 /**

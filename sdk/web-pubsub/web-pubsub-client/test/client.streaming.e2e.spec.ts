@@ -158,9 +158,12 @@ async function waitForNoServerMessage(socket: WebSocket, timeoutInMs = 300): Pro
 function enableAutoStartAck(socket: WebSocket): void {
   socket.on("message", (data) => {
     try {
-      const parsed = JSON.parse(data.toString()) as { type?: string; streamId?: string };
-      if (parsed.type === "streamStart" && typeof parsed.streamId === "string") {
-        sendStreamAck(socket, parsed.streamId, 1);
+      const parsed = JSON.parse(data.toString()) as {
+        type?: string;
+        stream?: { streamId?: string };
+      };
+      if (parsed.type === "sendToGroup" && typeof parsed.stream?.streamId === "string") {
+        sendStreamAck(socket, parsed.stream.streamId, 1);
       }
     } catch {
       /** empty */
@@ -368,10 +371,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await waitForCollectedMessages(sent, 2);
     expect(sent[0]).toEqual({
-      type: "streamStart",
-      streamId: "invalid-ack-s1",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
+      noEcho: true,
+      stream: {
+        streamId: "invalid-ack-s1",
+      },
     });
     expect(sent[1]).toEqual({
       type: "streamEnd",
@@ -773,7 +778,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(invoked).toBe(false);
   });
 
-  it("sends streamStart, streamData, keepalive and streamEnd payloads via stream publisher", async () => {
+  it("sends sendToGroup stream-start, streamData, keepalive and streamEnd payloads via stream publisher", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -811,11 +816,13 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     );
 
     expect(sent[0]).toEqual({
-      type: "streamStart",
-      streamId: "s1",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
-      idleTimeoutMs: 15000,
+      noEcho: true,
+      stream: {
+        streamId: "s1",
+        idleTimeoutMs: 15000,
+      },
     });
     expect(sent[1]).toEqual({
       type: "streamData",
@@ -891,10 +898,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await waitForCollectedMessages(firstSent, 3);
     expect(firstSent[0]).toEqual({
-      type: "streamStart",
-      streamId: "recovery-replay-s1",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
+      noEcho: true,
+      stream: {
+        streamId: "recovery-replay-s1",
+      },
     });
     expect(firstSent[1]).toEqual({
       type: "streamData",
@@ -964,10 +973,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await waitForCollectedMessages(firstSent, 3);
     expect(firstSent[0]).toEqual({
-      type: "streamStart",
-      streamId: "restart-replay-s1",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
+      noEcho: true,
+      stream: {
+        streamId: "restart-replay-s1",
+      },
     });
     expect(firstSent[1]).toEqual({
       type: "streamData",
@@ -1005,10 +1016,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await fresh.publish("fresh-1", "text");
     await waitForCollectedMessages(secondSent, 2);
     expect(secondSent[0]).toEqual({
-      type: "streamStart",
-      streamId: "restart-replay-s2",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
+      noEcho: true,
+      stream: {
+        streamId: "restart-replay-s2",
+      },
     });
     expect(secondSent[1]).toEqual({
       type: "streamData",
@@ -1049,10 +1062,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await waitForCollectedMessages(firstSent, 3);
     expect(firstSent[0]).toEqual({
-      type: "streamStart",
-      streamId: "ended-no-replay-s1",
-      target: "group",
+      type: "sendToGroup",
       group: "g1",
+      noEcho: true,
+      stream: {
+        streamId: "ended-no-replay-s1",
+      },
     });
     expect(firstSent[1]).toEqual({
       type: "streamData",

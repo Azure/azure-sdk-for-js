@@ -12,13 +12,15 @@ import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { describe, it, expect, vi } from "vitest";
 describe("WebPubSubClient", () => {
   describe("Execute operation and translate to WebPubSubMessage", () => {
-    function mockSendMessageWithAutoStreamStartAck(client: WebPubSubClient) {
+    function mockSendMessageWithAutoStreamStartAck(
+      client: WebPubSubClient,
+    ): ReturnType<typeof vi.spyOn> {
       return vi.spyOn(client as any, "_sendMessage").mockImplementation((message: any) => {
-        if (message?.kind === "streamStart") {
+        if (message?.kind === "sendToGroup" && message?.stream?.streamId != null) {
           queueMicrotask(() => {
             (client as any)._handleOutboundStreamAckMessage({
               kind: "streamAck",
-              streamId: message.streamId,
+              streamId: message.stream.streamId,
               expectedSequenceId: 1,
             });
           });
@@ -265,11 +267,13 @@ describe("WebPubSubClient", () => {
 
       expect(mock).toHaveBeenCalledTimes(4);
       expect(mock).toHaveBeenNthCalledWith(1, {
-        kind: "streamStart",
-        streamId: "stream1",
-        target: "group",
+        kind: "sendToGroup",
         group: "groupName",
-        idleTimeoutMs: 15000,
+        noEcho: true,
+        stream: {
+          streamId: "stream1",
+          idleTimeoutMs: 15000,
+        },
       });
       expect(mock).toHaveBeenNthCalledWith(2, {
         kind: "streamData",
@@ -333,11 +337,11 @@ describe("WebPubSubClient", () => {
         .spyOn(client as any, "_sendMessage")
         .mockImplementationOnce(() => Promise.reject(new Error("start failed")))
         .mockImplementation((message: any) => {
-          if (message?.kind === "streamStart") {
+          if (message?.kind === "sendToGroup" && message?.stream?.streamId != null) {
             queueMicrotask(() => {
               (client as any)._handleOutboundStreamAckMessage({
                 kind: "streamAck",
-                streamId: message.streamId,
+                streamId: message.stream.streamId,
                 expectedSequenceId: 1,
               });
             });
@@ -353,18 +357,22 @@ describe("WebPubSubClient", () => {
       await expect(stream.publish("second", "text")).resolves.toBeUndefined();
 
       expect(mock).toHaveBeenNthCalledWith(1, {
-        kind: "streamStart",
-        streamId: "stream1",
-        target: "group",
+        kind: "sendToGroup",
         group: "groupName",
-        idleTimeoutMs: undefined,
+        noEcho: true,
+        stream: {
+          streamId: "stream1",
+          idleTimeoutMs: undefined,
+        },
       });
       expect(mock).toHaveBeenNthCalledWith(2, {
-        kind: "streamStart",
-        streamId: "stream1",
-        target: "group",
+        kind: "sendToGroup",
         group: "groupName",
-        idleTimeoutMs: undefined,
+        noEcho: true,
+        stream: {
+          streamId: "stream1",
+          idleTimeoutMs: undefined,
+        },
       });
       expect(mock).toHaveBeenNthCalledWith(3, {
         kind: "streamData",

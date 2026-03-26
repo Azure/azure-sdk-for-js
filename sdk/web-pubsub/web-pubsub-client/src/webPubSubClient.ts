@@ -54,7 +54,6 @@ import type {
   StreamAckMessage,
   StreamNackMessage,
   StreamClosedMessage,
-  StreamStartMessage,
   StreamDataMessage,
   StreamEndMessage,
   StreamDataError,
@@ -1367,12 +1366,14 @@ export class WebPubSubClient {
     groupName: string,
     options?: StreamOptions,
   ): Promise<void> {
-    const message: StreamStartMessage = {
-      kind: "streamStart",
-      streamId,
-      target: "group",
+    const message: SendToGroupMessage = {
+      kind: "sendToGroup",
       group: groupName,
-      idleTimeoutMs: options?.idleTimeoutMs,
+      noEcho: true,
+      stream: {
+        streamId,
+        idleTimeoutMs: options?.idleTimeoutMs,
+      },
     };
     await this._sendMessage(message);
   }

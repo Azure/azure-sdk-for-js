@@ -16,7 +16,6 @@ import type {
   StreamDataMessage,
   StreamEndMessage,
   StreamNackMessage,
-  StreamStartMessage,
   WebPubSubMessage,
 } from "../src/models/index.js";
 import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
@@ -175,20 +174,24 @@ describe("JsonProtocol", function () {
         payload: { type: "sequenceAck", sequenceId: 123456 },
       },
       {
-        testName: "streamStart1",
+        testName: "sendToGroupStreamStart1",
         message: {
-          kind: "streamStart",
-          streamId: "stream1",
-          target: "group",
+          kind: "sendToGroup",
           group: "group",
-          idleTimeoutMs: 15000,
-        } as StreamStartMessage,
+          noEcho: true,
+          stream: {
+            streamId: "stream1",
+            idleTimeoutMs: 15000,
+          },
+        } as SendToGroupMessage,
         payload: {
-          type: "streamStart",
-          streamId: "stream1",
-          target: "group",
+          type: "sendToGroup",
           group: "group",
-          idleTimeoutMs: 15000,
+          noEcho: true,
+          stream: {
+            streamId: "stream1",
+            idleTimeoutMs: 15000,
+          },
         },
       },
       {

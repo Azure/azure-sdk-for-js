@@ -142,14 +142,27 @@ export function writeMessage(message: WebPubSubMessage): string {
       break;
     }
     case "sendToGroup": {
-      data = {
+      const sendToGroupPayload: SendToGroupData = {
         type: "sendToGroup",
         group: message.group,
         ackId: message.ackId,
-        dataType: message.dataType,
-        data: getPayload(message.data, message.dataType),
         noEcho: message.noEcho,
-      } as SendToGroupData;
+      };
+      const hasPayload = message.dataType != null || message.data != null;
+      if (hasPayload) {
+        if (message.dataType == null || message.data == null) {
+          throw new TypeError("sendToGroup payload requires both dataType and data.");
+        }
+        sendToGroupPayload.dataType = message.dataType;
+        sendToGroupPayload.data = getPayload(message.data, message.dataType);
+      }
+      if (message.stream != null) {
+        sendToGroupPayload.stream = {
+          streamId: message.stream.streamId,
+          idleTimeoutMs: message.stream.idleTimeoutMs,
+        };
+      }
+      data = sendToGroupPayload;
       break;
     }
     case "sequenceAck": {
@@ -197,16 +210,6 @@ export function writeMessage(message: WebPubSubMessage): string {
     }
     case "ping": {
       data = { type: "ping" } as PingData;
-      break;
-    }
-    case "streamStart": {
-      data = {
-        type: "streamStart",
-        streamId: message.streamId,
-        target: message.target,
-        group: message.group,
-        idleTimeoutMs: message.idleTimeoutMs,
-      } as StreamStartData;
       break;
     }
     case "streamData": {
@@ -257,9 +260,13 @@ interface SendToGroupData {
   readonly type: "sendToGroup";
   group: string;
   ackId?: number;
-  dataType: WebPubSubDataType;
-  data: any;
+  dataType?: WebPubSubDataType;
+  data?: any;
   noEcho: boolean;
+  stream?: {
+    streamId: string;
+    idleTimeoutMs?: number;
+  };
 }
 
 interface SendEventData {
@@ -300,14 +307,6 @@ interface CancelInvocationData {
 
 interface PingData {
   readonly type: "ping";
-}
-
-interface StreamStartData {
-  readonly type: "streamStart";
-  streamId: string;
-  target: "group";
-  group: string;
-  idleTimeoutMs?: number;
 }
 
 interface StreamDataData {
