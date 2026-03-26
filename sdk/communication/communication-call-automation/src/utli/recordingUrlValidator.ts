@@ -12,7 +12,6 @@ const ALLOWED_HOST_SUFFIXES = [
 
 /**
  * Validates that a recording URL points to Azure Communication Services
- * or Azure Blob Storage endpoint before credentials are attached.
  * This prevents credential exfiltration via SSRF attacks.
  *
  * @param recordingUrl - The recording URL to validate.
