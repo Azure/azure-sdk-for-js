@@ -164,86 +164,8 @@ export function pathItemDeserializer(item: any): PathItem {
     encryptionScope: item["encryptionScope"],
     creationTime: item["creationTime"],
     expiryTime: item["expiryTime"],
-    encryptionContext: item["encryptionContext"],
+    encryptionContext: item["EncryptionContext"],
   };
-}
-
-export function pathItemXmlDeserializer(xmlString: string): PathItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "name",
-      xmlOptions: { name: "name" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "isDirectory",
-      xmlOptions: { name: "isDirectory" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
-    {
-      propertyName: "lastModified",
-      xmlOptions: { name: "lastModified" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "etag",
-      xmlOptions: { name: "eTag" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "contentLength",
-      xmlOptions: { name: "contentLength" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "owner",
-      xmlOptions: { name: "owner" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "group",
-      xmlOptions: { name: "group" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "permissions",
-      xmlOptions: { name: "permissions" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "encryptionScope",
-      xmlOptions: { name: "EncryptionScope" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "creationTime",
-      xmlOptions: { name: "creationTime" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "expiryTime",
-      xmlOptions: { name: "expiryTime" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "encryptionContext",
-      xmlOptions: { name: "EncryptionContext" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<PathItem>(xmlString, properties, "PathItem");
 }
 
 /** An enumeration of blobs. */
