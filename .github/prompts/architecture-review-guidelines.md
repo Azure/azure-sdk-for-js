@@ -22,15 +22,19 @@ Only review for **public API design** issues. Do not comment on:
 **Determine the stable API baseline first** — before flagging any removal
 as a breaking change, identify which APIs are actually GA-stable:
 
-1. Find the last GA release tag for the package:
+1. Fetch tags (shallow CI checkouts may not include them):
+   ```bash
+   git fetch --tags origin
+   ```
+2. Find the last GA release tag for the package:
    ```bash
    git tag -l '@azure/<package-name>_*' | grep -v 'beta\|alpha' | sort -V | tail -1
    ```
-2. Retrieve the GA version's API report:
+3. Retrieve the GA version's API report:
    ```bash
    git show "<tag>:sdk/<service>/<package>/review/<report-name>.api.md"
    ```
-3. **Only flag a removal as breaking if the removed API existed in the GA
+4. **Only flag a removal as breaking if the removed API existed in the GA
    API report.** APIs that were only added in beta versions (not present in
    any GA release) can be freely added, removed, or restructured without
    constituting a breaking change.
