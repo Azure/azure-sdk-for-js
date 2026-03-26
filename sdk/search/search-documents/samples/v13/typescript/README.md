@@ -13,10 +13,11 @@ urlFragment: search-documents-typescript-v13
 
 These sample programs show how to use the TypeScript client libraries for Azure Search Documents in some common scenarios.
 
-| **File Name**                                               | **Description**                                     |
-| ----------------------------------------------------------- | --------------------------------------------------- |
-| [knowledgeBaseOperations.ts][knowledgebaseoperations]       | Demonstrates the Knowledge Base Operations.         |
-| [knowledgeSourceOperations.ts][knowledgesourceoperations]   | Demonstrates the Knowledge Source Operations.       |
+| **File Name**                                                     | **Description**                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| [knowledgeBaseOperations.ts][knowledgebaseoperations]             | Demonstrates the Knowledge Base Operations.           |
+| [knowledgeSourceOperations.ts][knowledgesourceoperations]         | Demonstrates the Knowledge Source Operations.         |
+| [knowledgeRetrievalOperations.ts][knowledgeretrievaloperations]   | Demonstrates the Knowledge Retrieval Operations.      |
 
 ## Prerequisites
 
@@ -72,6 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [knowledgebaseoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/typescript/src/knowledgeBaseOperations.ts
 [knowledgesourceoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/typescript/src/knowledgeSourceOperations.ts
+[knowledgeretrievaloperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/typescript/src/knowledgeRetrievalOperations.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/search-documents
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuresearchdocumentsinstance]: https://learn.microsoft.com/azure/search/search-create-service-portal

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the Knowledge Base and Knowledge Retrieval Operations.
+ * @summary Demonstrates the Knowledge Base Operations.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SearchIndexClient, KnowledgeRetrievalClient } = require("@azure/search-documents");
+const { SearchIndexClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
@@ -94,29 +94,6 @@ async function listKnowledgeBases(client) {
   }
 }
 
-async function retrieveKnowledge(retrievalClient) {
-  console.log(`Retrieve Knowledge Operation`);
-
-  const retrievalRequest = {
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: "What information is available?",
-          },
-        ],
-      },
-    ],
-  };
-
-  const response = await retrievalClient.retrieveKnowledge(retrievalRequest);
-  console.log(`Retrieved knowledge response:`);
-  console.log(`  Activity records: ${response.activity?.length ?? 0}`);
-  console.log(`  References: ${response.references?.length ?? 0}`);
-}
-
 async function deleteKnowledgeBase(knowledgeBaseName, client) {
   console.log(`Deleting Knowledge Base Operation`);
   await client.deleteKnowledgeBase(knowledgeBaseName);
@@ -148,19 +125,11 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const client = new SearchIndexClient(endpoint, credential);
 
-  // Create KnowledgeRetrievalClient for the knowledge base
-  const retrievalClient = new KnowledgeRetrievalClient(
-    endpoint,
-    TEST_KNOWLEDGE_BASE_NAME,
-    credential,
-  );
-
   try {
     await setupPrerequisites(client);
     await createKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await getAndUpdateKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await listKnowledgeBases(client);
-    await retrieveKnowledge(retrievalClient);
   } finally {
     await deleteKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await cleanupPrerequisites(client);

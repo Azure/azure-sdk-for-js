@@ -1318,7 +1318,6 @@ export interface KnowledgeBaseRetrievalRequest {
     knowledgeSourceParams?: KnowledgeSourceParams[];
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
-    messages?: KnowledgeBaseMessage[];
 }
 
 // @public

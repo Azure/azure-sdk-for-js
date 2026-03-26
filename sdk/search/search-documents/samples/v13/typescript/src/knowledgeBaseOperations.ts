@@ -2,16 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the Knowledge Base and Knowledge Retrieval Operations.
+ * @summary Demonstrates the Knowledge Base Operations.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type {
-  KnowledgeBase,
-  SearchIndexKnowledgeSource,
-  KnowledgeBaseRetrievalRequest,
-} from "@azure/search-documents";
-import { SearchIndexClient, KnowledgeRetrievalClient } from "@azure/search-documents";
+import type { KnowledgeBase, SearchIndexKnowledgeSource } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -106,29 +102,6 @@ async function listKnowledgeBases(client: SearchIndexClient): Promise<void> {
   }
 }
 
-async function retrieveKnowledge(retrievalClient: KnowledgeRetrievalClient): Promise<void> {
-  console.log(`Retrieve Knowledge Operation`);
-
-  const retrievalRequest: KnowledgeBaseRetrievalRequest = {
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: "What information is available?",
-          },
-        ],
-      },
-    ],
-  };
-
-  const response = await retrievalClient.retrieveKnowledge(retrievalRequest);
-  console.log(`Retrieved knowledge response:`);
-  console.log(`  Activity records: ${response.activity?.length ?? 0}`);
-  console.log(`  References: ${response.references?.length ?? 0}`);
-}
-
 async function deleteKnowledgeBase(
   knowledgeBaseName: string,
   client: SearchIndexClient,
@@ -163,19 +136,11 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SearchIndexClient(endpoint, credential);
 
-  // Create KnowledgeRetrievalClient for the knowledge base
-  const retrievalClient = new KnowledgeRetrievalClient(
-    endpoint,
-    TEST_KNOWLEDGE_BASE_NAME,
-    credential,
-  );
-
   try {
     await setupPrerequisites(client);
     await createKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await getAndUpdateKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await listKnowledgeBases(client);
-    await retrieveKnowledge(retrievalClient);
   } finally {
     await deleteKnowledgeBase(TEST_KNOWLEDGE_BASE_NAME, client);
     await cleanupPrerequisites(client);

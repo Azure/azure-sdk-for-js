@@ -133,7 +133,6 @@ export interface KnowledgeBaseRetrievalRequest {
     knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
-    messages?: KnowledgeBaseMessage[];
 }
 
 // @public

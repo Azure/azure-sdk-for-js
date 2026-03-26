@@ -13,10 +13,11 @@ urlFragment: search-documents-javascript-v13
 
 These sample programs show how to use the JavaScript client libraries for Azure Search Documents in some common scenarios.
 
-| **File Name**                                               | **Description**                                     |
-| ----------------------------------------------------------- | --------------------------------------------------- |
-| [knowledgeBaseOperations.js][knowledgebaseoperations]       | Demonstrates the Knowledge Base Operations.         |
-| [knowledgeSourceOperations.js][knowledgesourceoperations]   | Demonstrates the Knowledge Source Operations.       |
+| **File Name**                                                     | **Description**                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| [knowledgeBaseOperations.js][knowledgebaseoperations]             | Demonstrates the Knowledge Base Operations.           |
+| [knowledgeSourceOperations.js][knowledgesourceoperations]         | Demonstrates the Knowledge Source Operations.         |
+| [knowledgeRetrievalOperations.js][knowledgeretrievaloperations]   | Demonstrates the Knowledge Retrieval Operations.      |
 
 ## Prerequisites
 
@@ -60,6 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [knowledgebaseoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeBaseOperations.js
 [knowledgesourceoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeSourceOperations.js
+[knowledgeretrievaloperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeRetrievalOperations.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/search-documents
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuresearchdocumentsinstance]: https://learn.microsoft.com/azure/search/search-create-service-portal

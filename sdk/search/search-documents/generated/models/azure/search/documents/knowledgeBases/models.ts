@@ -412,8 +412,6 @@ export function knowledgeSourceStatisticsDeserializer(item: any): KnowledgeSourc
 
 /** The input contract for the retrieval request. */
 export interface KnowledgeBaseRetrievalRequest {
-  /** A list of chat message style input. */
-  messages?: KnowledgeBaseMessage[];
   /** A list of intended queries to execute without model query planning. */
   intents?: KnowledgeRetrievalIntentUnion[];
   /** The maximum runtime in seconds. */
@@ -428,9 +426,6 @@ export interface KnowledgeBaseRetrievalRequest {
 
 export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetrievalRequest): any {
   return {
-    messages: !item["messages"]
-      ? item["messages"]
-      : knowledgeBaseMessageArraySerializer(item["messages"]),
     intents: !item["intents"]
       ? item["intents"]
       : knowledgeRetrievalIntentUnionArraySerializer(item["intents"]),
@@ -440,189 +435,6 @@ export function knowledgeBaseRetrievalRequestSerializer(item: KnowledgeBaseRetri
     knowledgeSourceParams: !item["knowledgeSourceParams"]
       ? item["knowledgeSourceParams"]
       : knowledgeSourceParamsUnionArraySerializer(item["knowledgeSourceParams"]),
-  };
-}
-
-export function knowledgeBaseMessageArraySerializer(result: Array<KnowledgeBaseMessage>): any[] {
-  return result.map((item) => {
-    return knowledgeBaseMessageSerializer(item);
-  });
-}
-
-export function knowledgeBaseMessageArrayDeserializer(result: Array<KnowledgeBaseMessage>): any[] {
-  return result.map((item) => {
-    return knowledgeBaseMessageDeserializer(item);
-  });
-}
-
-/** The natural language message style object. */
-export interface KnowledgeBaseMessage {
-  /** The role of the tool response. */
-  role?: string;
-  /** The content of the message. */
-  content: KnowledgeBaseMessageContentUnion[];
-}
-
-export function knowledgeBaseMessageSerializer(item: KnowledgeBaseMessage): any {
-  return {
-    role: item["role"],
-    content: knowledgeBaseMessageContentUnionArraySerializer(item["content"]),
-  };
-}
-
-export function knowledgeBaseMessageDeserializer(item: any): KnowledgeBaseMessage {
-  return {
-    role: item["role"],
-    content: knowledgeBaseMessageContentUnionArrayDeserializer(item["content"]),
-  };
-}
-
-export function knowledgeBaseMessageContentUnionArraySerializer(
-  result: Array<KnowledgeBaseMessageContentUnion>,
-): any[] {
-  return result.map((item) => {
-    return knowledgeBaseMessageContentUnionSerializer(item);
-  });
-}
-
-export function knowledgeBaseMessageContentUnionArrayDeserializer(
-  result: Array<KnowledgeBaseMessageContentUnion>,
-): any[] {
-  return result.map((item) => {
-    return knowledgeBaseMessageContentUnionDeserializer(item);
-  });
-}
-
-/** Specifies the type of the message content. */
-export interface KnowledgeBaseMessageContent {
-  /** The type of the message */
-  /** The discriminator possible values: text, image */
-  type: KnowledgeBaseMessageContentType;
-}
-
-export function knowledgeBaseMessageContentSerializer(item: KnowledgeBaseMessageContent): any {
-  return { type: item["type"] };
-}
-
-export function knowledgeBaseMessageContentDeserializer(item: any): KnowledgeBaseMessageContent {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for KnowledgeBaseMessageContentUnion */
-export type KnowledgeBaseMessageContentUnion =
-  | KnowledgeBaseMessageTextContent
-  | KnowledgeBaseMessageImageContent
-  | KnowledgeBaseMessageContent;
-
-export function knowledgeBaseMessageContentUnionSerializer(
-  item: KnowledgeBaseMessageContentUnion,
-): any {
-  switch (item.type) {
-    case "text":
-      return knowledgeBaseMessageTextContentSerializer(item as KnowledgeBaseMessageTextContent);
-
-    case "image":
-      return knowledgeBaseMessageImageContentSerializer(item as KnowledgeBaseMessageImageContent);
-
-    default:
-      return knowledgeBaseMessageContentSerializer(item);
-  }
-}
-
-export function knowledgeBaseMessageContentUnionDeserializer(
-  item: any,
-): KnowledgeBaseMessageContentUnion {
-  switch (item["type"]) {
-    case "text":
-      return knowledgeBaseMessageTextContentDeserializer(item as KnowledgeBaseMessageTextContent);
-
-    case "image":
-      return knowledgeBaseMessageImageContentDeserializer(item as KnowledgeBaseMessageImageContent);
-
-    default:
-      return knowledgeBaseMessageContentDeserializer(item);
-  }
-}
-
-/** The type of message content. */
-export enum KnownKnowledgeBaseMessageContentType {
-  /** Text message content kind. */
-  Text = "text",
-  /** Image message content kind. */
-  Image = "image",
-}
-
-/**
- * The type of message content. \
- * {@link KnownKnowledgeBaseMessageContentType} can be used interchangeably with KnowledgeBaseMessageContentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **text**: Text message content kind. \
- * **image**: Image message content kind.
- */
-export type KnowledgeBaseMessageContentType = string;
-
-/** Text message type. */
-export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageContent {
-  /** The discriminator value. */
-  type: "text";
-  /** The text content. */
-  text: string;
-}
-
-export function knowledgeBaseMessageTextContentSerializer(
-  item: KnowledgeBaseMessageTextContent,
-): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function knowledgeBaseMessageTextContentDeserializer(
-  item: any,
-): KnowledgeBaseMessageTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-/** Image message type. */
-export interface KnowledgeBaseMessageImageContent extends KnowledgeBaseMessageContent {
-  /** The discriminator value. */
-  type: "image";
-  /** The image content. */
-  image: KnowledgeBaseImageContent;
-}
-
-export function knowledgeBaseMessageImageContentSerializer(
-  item: KnowledgeBaseMessageImageContent,
-): any {
-  return { type: item["type"], image: knowledgeBaseImageContentSerializer(item["image"]) };
-}
-
-export function knowledgeBaseMessageImageContentDeserializer(
-  item: any,
-): KnowledgeBaseMessageImageContent {
-  return {
-    type: item["type"],
-    image: knowledgeBaseImageContentDeserializer(item["image"]),
-  };
-}
-
-/** Image content. */
-export interface KnowledgeBaseImageContent {
-  /** The url of the image. */
-  url: string;
-}
-
-export function knowledgeBaseImageContentSerializer(item: KnowledgeBaseImageContent): any {
-  return { url: item["url"] };
-}
-
-export function knowledgeBaseImageContentDeserializer(item: any): KnowledgeBaseImageContent {
-  return {
-    url: item["url"],
   };
 }
 
@@ -859,6 +671,133 @@ export function knowledgeBaseRetrievalResponseDeserializer(
     references: !item["references"]
       ? item["references"]
       : knowledgeBaseReferenceUnionArrayDeserializer(item["references"]),
+  };
+}
+
+export function knowledgeBaseMessageArrayDeserializer(result: Array<KnowledgeBaseMessage>): any[] {
+  return result.map((item) => {
+    return knowledgeBaseMessageDeserializer(item);
+  });
+}
+
+/** The natural language message style object. */
+export interface KnowledgeBaseMessage {
+  /** The role of the tool response. */
+  role?: string;
+  /** The content of the message. */
+  content: KnowledgeBaseMessageContentUnion[];
+}
+
+export function knowledgeBaseMessageDeserializer(item: any): KnowledgeBaseMessage {
+  return {
+    role: item["role"],
+    content: knowledgeBaseMessageContentUnionArrayDeserializer(item["content"]),
+  };
+}
+
+export function knowledgeBaseMessageContentUnionArrayDeserializer(
+  result: Array<KnowledgeBaseMessageContentUnion>,
+): any[] {
+  return result.map((item) => {
+    return knowledgeBaseMessageContentUnionDeserializer(item);
+  });
+}
+
+/** Specifies the type of the message content. */
+export interface KnowledgeBaseMessageContent {
+  /** The type of the message */
+  /** The discriminator possible values: text, image */
+  type: KnowledgeBaseMessageContentType;
+}
+
+export function knowledgeBaseMessageContentDeserializer(item: any): KnowledgeBaseMessageContent {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for KnowledgeBaseMessageContentUnion */
+export type KnowledgeBaseMessageContentUnion =
+  | KnowledgeBaseMessageTextContent
+  | KnowledgeBaseMessageImageContent
+  | KnowledgeBaseMessageContent;
+
+export function knowledgeBaseMessageContentUnionDeserializer(
+  item: any,
+): KnowledgeBaseMessageContentUnion {
+  switch (item["type"]) {
+    case "text":
+      return knowledgeBaseMessageTextContentDeserializer(item as KnowledgeBaseMessageTextContent);
+
+    case "image":
+      return knowledgeBaseMessageImageContentDeserializer(item as KnowledgeBaseMessageImageContent);
+
+    default:
+      return knowledgeBaseMessageContentDeserializer(item);
+  }
+}
+
+/** The type of message content. */
+export enum KnownKnowledgeBaseMessageContentType {
+  /** Text message content kind. */
+  Text = "text",
+  /** Image message content kind. */
+  Image = "image",
+}
+
+/**
+ * The type of message content. \
+ * {@link KnownKnowledgeBaseMessageContentType} can be used interchangeably with KnowledgeBaseMessageContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text**: Text message content kind. \
+ * **image**: Image message content kind.
+ */
+export type KnowledgeBaseMessageContentType = string;
+
+/** Text message type. */
+export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageContent {
+  /** The discriminator value. */
+  type: "text";
+  /** The text content. */
+  text: string;
+}
+
+export function knowledgeBaseMessageTextContentDeserializer(
+  item: any,
+): KnowledgeBaseMessageTextContent {
+  return {
+    type: item["type"],
+    text: item["text"],
+  };
+}
+
+/** Image message type. */
+export interface KnowledgeBaseMessageImageContent extends KnowledgeBaseMessageContent {
+  /** The discriminator value. */
+  type: "image";
+  /** The image content. */
+  image: KnowledgeBaseImageContent;
+}
+
+export function knowledgeBaseMessageImageContentDeserializer(
+  item: any,
+): KnowledgeBaseMessageImageContent {
+  return {
+    type: item["type"],
+    image: knowledgeBaseImageContentDeserializer(item["image"]),
+  };
+}
+
+/** Image content. */
+export interface KnowledgeBaseImageContent {
+  /** The url of the image. */
+  url: string;
+}
+
+export function knowledgeBaseImageContentDeserializer(item: any): KnowledgeBaseImageContent {
+  return {
+    url: item["url"],
   };
 }
 
