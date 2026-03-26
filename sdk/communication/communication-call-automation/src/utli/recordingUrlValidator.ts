@@ -8,7 +8,6 @@
 const ALLOWED_HOST_SUFFIXES = [
   ".asm.skype.com",
   ".asyncgw.teams.microsoft.com",
-  ".blob.core.windows.net",
 ] as const;
 
 /**
@@ -48,8 +47,7 @@ export function validateRecordingUrl(recordingUrl: string, parameterName: string
   if (!isValidEndpoint) {
     throw new Error(
       `${parameterName} host '${host}' is not a valid Azure Communication Services recording endpoint. ` +
-        "Only URLs pointing to *.asm.skype.com, *.asyncgw.teams.microsoft.com, " +
-        "or Azure Blob Storage (*.blob.core.windows.net) are allowed.",
+        "Only URLs pointing to *.asm.skype.com, *.asyncgw.teams.microsoft.com are allowed.",
     );
   }
 }
