@@ -4,7 +4,7 @@
 
 ### Features Added
 
-export `toCompatResponse`
+- Export `toCompatResponse` helper for converting responses to a `CompatResponse`.
 
 ### Breaking Changes
 
