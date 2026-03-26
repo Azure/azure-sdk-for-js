@@ -777,7 +777,7 @@ export interface VMExtension {
   /** The name of the extension handler publisher. */
   publisher: string;
   /** The type of the extension. */
-  type: string;
+  extensionType: string;
   /** The version of script handler. */
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
@@ -796,7 +796,7 @@ export function vmExtensionSerializer(item: VMExtension): any {
   return {
     name: item["name"],
     publisher: item["publisher"],
-    type: item["type"],
+    type: item["extensionType"],
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
@@ -814,7 +814,7 @@ export function vmExtensionDeserializer(item: any): VMExtension {
   return {
     name: item["name"],
     publisher: item["publisher"],
-    type: item["type"],
+    extensionType: item["type"],
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
@@ -1817,7 +1817,7 @@ export interface MountConfiguration {
   /** The NFS file system to mount on each node. This property is mutually exclusive with all other properties. */
   nfsMountConfiguration?: NfsMountConfiguration;
   /** The CIFS/SMB file system to mount on each node. This property is mutually exclusive with all other properties. */
-  cifsMountConfiguration?: CifsMountConfiguration;
+  cifsMountConfiguration?: BatchCifsMountConfiguration;
   /** The Azure File Share to mount on each node. This property is mutually exclusive with all other properties. */
   azureFileShareConfiguration?: AzureFileShareConfiguration;
 }
@@ -1832,7 +1832,7 @@ export function mountConfigurationSerializer(item: MountConfiguration): any {
       : nfsMountConfigurationSerializer(item["nfsMountConfiguration"]),
     cifsMountConfiguration: !item["cifsMountConfiguration"]
       ? item["cifsMountConfiguration"]
-      : cifsMountConfigurationSerializer(item["cifsMountConfiguration"]),
+      : batchCifsMountConfigurationSerializer(item["cifsMountConfiguration"]),
     azureFileShareConfiguration: !item["azureFileShareConfiguration"]
       ? item["azureFileShareConfiguration"]
       : azureFileShareConfigurationSerializer(item["azureFileShareConfiguration"]),
@@ -1849,7 +1849,7 @@ export function mountConfigurationDeserializer(item: any): MountConfiguration {
       : nfsMountConfigurationDeserializer(item["nfsMountConfiguration"]),
     cifsMountConfiguration: !item["cifsMountConfiguration"]
       ? item["cifsMountConfiguration"]
-      : cifsMountConfigurationDeserializer(item["cifsMountConfiguration"]),
+      : batchCifsMountConfigurationDeserializer(item["cifsMountConfiguration"]),
     azureFileShareConfiguration: !item["azureFileShareConfiguration"]
       ? item["azureFileShareConfiguration"]
       : azureFileShareConfigurationDeserializer(item["azureFileShareConfiguration"]),
@@ -1933,7 +1933,7 @@ export function nfsMountConfigurationDeserializer(item: any): NfsMountConfigurat
 }
 
 /** Information used to connect to a CIFS file system. */
-export interface CifsMountConfiguration {
+export interface BatchCifsMountConfiguration {
   /** The user to use for authentication against the CIFS file system. */
   username: string;
   /** The URI of the file system to mount. */
@@ -1946,7 +1946,7 @@ export interface CifsMountConfiguration {
   password: string;
 }
 
-export function cifsMountConfigurationSerializer(item: CifsMountConfiguration): any {
+export function batchCifsMountConfigurationSerializer(item: BatchCifsMountConfiguration): any {
   return {
     username: item["username"],
     source: item["source"],
@@ -1956,7 +1956,7 @@ export function cifsMountConfigurationSerializer(item: CifsMountConfiguration): 
   };
 }
 
-export function cifsMountConfigurationDeserializer(item: any): CifsMountConfiguration {
+export function batchCifsMountConfigurationDeserializer(item: any): BatchCifsMountConfiguration {
   return {
     username: item["username"],
     source: item["source"],
@@ -2691,7 +2691,7 @@ export interface BatchSupportedImage {
   /** The capabilities or features which the Image supports. Not every capability of the Image is listed. Capabilities in this list are considered of special interest and are generally related to integration with other features in the Azure Batch service. */
   capabilities?: string[];
   /** The time when the Azure Batch service will stop accepting create Pool requests for the Image. */
-  batchSupportEndOfLife?: Date;
+  supportEndDate?: Date;
   /** Whether the Azure Batch service actively verifies that the Image is compatible with the associated Compute Node agent SKU. */
   verificationType: ImageVerificationType;
 }
@@ -2706,7 +2706,7 @@ export function batchSupportedImageDeserializer(item: any): BatchSupportedImage 
       : item["capabilities"].map((p: any) => {
           return p;
         }),
-    batchSupportEndOfLife: !item["batchSupportEndOfLife"]
+    supportEndDate: !item["batchSupportEndOfLife"]
       ? item["batchSupportEndOfLife"]
       : new Date(item["batchSupportEndOfLife"]),
     verificationType: item["verificationType"],
@@ -3306,14 +3306,14 @@ export function batchTaskConstraintsDeserializer(item: any): BatchTaskConstraint
  */
 export interface AuthenticationTokenSettings {
   /** The Batch resources to which the token grants access. The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the Job which contains the Task. */
-  access?: BatchAccessScope[];
+  scopes?: BatchAccessScope[];
 }
 
 export function authenticationTokenSettingsSerializer(item: AuthenticationTokenSettings): any {
   return {
-    access: !item["access"]
-      ? item["access"]
-      : item["access"].map((p: any) => {
+    access: !item["scopes"]
+      ? item["scopes"]
+      : item["scopes"].map((p: any) => {
           return p;
         }),
   };
@@ -3321,7 +3321,7 @@ export function authenticationTokenSettingsSerializer(item: AuthenticationTokenS
 
 export function authenticationTokenSettingsDeserializer(item: any): AuthenticationTokenSettings {
   return {
-    access: !item["access"]
+    scopes: !item["access"]
       ? item["access"]
       : item["access"].map((p: any) => {
           return p;
@@ -4734,7 +4734,7 @@ export interface ExitConditions {
   /** How the Batch service should respond if a file upload error occurs. If the Task exited with an exit code that was specified via exitCodes or exitCodeRanges, and then encountered a file upload error, then the action specified by the exit code takes precedence. */
   fileUploadError?: ExitOptions;
   /** How the Batch service should respond if the Task fails with an exit condition not covered by any of the other properties. This value is used if the Task exits with any nonzero exit code not listed in the exitCodes or exitCodeRanges collection, with a pre-processing error if the preProcessingError property is not present, or with a file upload error if the fileUploadError property is not present. If you want non-default behavior on exit code 0, you must list it explicitly using the exitCodes or exitCodeRanges collection. */
-  default?: ExitOptions;
+  defaultOptions?: ExitOptions;
 }
 
 export function exitConditionsSerializer(item: ExitConditions): any {
@@ -4751,7 +4751,9 @@ export function exitConditionsSerializer(item: ExitConditions): any {
     fileUploadError: !item["fileUploadError"]
       ? item["fileUploadError"]
       : exitOptionsSerializer(item["fileUploadError"]),
-    default: !item["default"] ? item["default"] : exitOptionsSerializer(item["default"]),
+    default: !item["defaultOptions"]
+      ? item["defaultOptions"]
+      : exitOptionsSerializer(item["defaultOptions"]),
   };
 }
 
@@ -4769,7 +4771,7 @@ export function exitConditionsDeserializer(item: any): ExitConditions {
     fileUploadError: !item["fileUploadError"]
       ? item["fileUploadError"]
       : exitOptionsDeserializer(item["fileUploadError"]),
-    default: !item["default"] ? item["default"] : exitOptionsDeserializer(item["default"]),
+    defaultOptions: !item["default"] ? item["default"] : exitOptionsDeserializer(item["default"]),
   };
 }
 
@@ -5862,11 +5864,11 @@ export type BatchNodeReimageOption = "requeue" | "terminate" | "taskcompletion" 
 /** Options for deallocating a Compute Node. */
 export interface BatchNodeDeallocateOptions {
   /** When to deallocate the Compute Node and what to do with currently running Tasks. The default value is requeue. */
-  nodeDeallocateOption?: BatchNodeDeallocateOption;
+  nodeDeallocationOption?: BatchNodeDeallocateOption;
 }
 
 export function batchNodeDeallocateOptionsSerializer(item: BatchNodeDeallocateOptions): any {
-  return { nodeDeallocateOption: item["nodeDeallocateOption"] };
+  return { nodeDeallocateOption: item["nodeDeallocationOption"] };
 }
 
 /** BatchNodeDeallocateOption enums */
@@ -6072,3 +6074,37 @@ export enum KnownVersions {
   /** API Version 2025-06-01 */
   V20250601 = "2025-06-01",
 }
+
+export type GetNodeFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+export type GetTaskFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
