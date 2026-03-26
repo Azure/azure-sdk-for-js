@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBatch, BatchContext, BatchClientOptionalParams } from "./api/index.js";
+import { BatchContext, BatchClientOptionalParams, createBatch } from "./api/index.js";
 import {
   listNodeFiles,
   getNodeFileProperties,
@@ -186,6 +186,8 @@ import {
   UploadBatchServiceLogsOptions,
   UploadBatchServiceLogsResult,
   BatchNodeVMExtension,
+  GetNodeFileResponse,
+  GetTaskFileResponse,
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
@@ -239,7 +241,7 @@ export class BatchClient {
     nodeId: string,
     filePath: string,
     options: GetNodeFileOptionalParams = { requestOptions: {} },
-  ): Promise<Uint8Array> {
+  ): Promise<GetNodeFileResponse> {
     return getNodeFile(this._client, poolId, nodeId, filePath, options);
   }
 
@@ -446,7 +448,7 @@ export class BatchClient {
     taskId: string,
     filePath: string,
     options: GetTaskFileOptionalParams = { requestOptions: {} },
-  ): Promise<Uint8Array> {
+  ): Promise<GetTaskFileResponse> {
     return getTaskFile(this._client, jobId, taskId, filePath, options);
   }
 

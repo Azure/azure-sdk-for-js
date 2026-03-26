@@ -10,22 +10,10 @@
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -35,7 +23,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/batchContext.ts",
+        "path": "C:\\Users\\hoppewang\\work\\azure-sdk-for-js\\sdk\\batch\\batch\\generated/api/batchContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

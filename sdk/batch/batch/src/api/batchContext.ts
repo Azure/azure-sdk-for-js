@@ -35,7 +35,7 @@ export function createBatch(
 ): BatchContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-batch/13.0.0`;
+  const userAgentInfo = `azsdk-js-batch/13.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
