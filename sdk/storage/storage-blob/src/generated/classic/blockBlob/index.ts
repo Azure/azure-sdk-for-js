@@ -288,6 +288,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -303,6 +304,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
+        contentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;

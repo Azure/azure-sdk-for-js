@@ -1637,6 +1637,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
+  contentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1654,6 +1655,13 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1723,6 +1731,7 @@ export async function upload(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1738,6 +1747,7 @@ export async function upload(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
