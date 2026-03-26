@@ -115,7 +115,7 @@ importers:
     dependencies:
       '@_ts/max':
         specifier: npm:typescript@latest
-        version: typescript@5.9.3
+        version: typescript@6.0.2
       '@_ts/min':
         specifier: npm:typescript@~5.4.2
         version: typescript@5.4.5
@@ -3168,14 +3168,14 @@ importers:
         specifier: workspace:^
         version: link:../arm-batch
       '@azure/arm-compute':
-        specifier: workspace:^
+        specifier: ^23.3.0
         version: link:../../compute/arm-compute
       '@azure/arm-keyvault':
         specifier: workspace:^
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
-        specifier: catalog:arm
-        version: 5.2.0
+        specifier: ^7.0.0
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -3186,7 +3186,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/keyvault-keys':
-        specifier: workspace:^
+        specifier: ^4.10.0
         version: link:../../keyvault/keyvault-keys
       '@types/node':
         specifier: 'catalog:'
@@ -32541,15 +32541,15 @@ packages:
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@16.4.0':
-    resolution: {integrity: sha512-twXt09PYtj1PffNNIAzQlrBd0DS91cdA6i1gAfzJ6BnPM4xNk5k9q/5xna7jLIjU3Jnp0slKYtucshGM8OGNAw==}
+    resolution: {integrity: sha1-8oxeAI0CPwobuFgN4diazrWFL6w=}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-node-extensions@5.1.1':
-    resolution: {integrity: sha512-CHrR+b0V7r2uK+MH72tcfKtWD7c/Q9KDTygni7c3vbIEy/FXmZ+ySdz5JmpbsBJ1wbIpPTBmUFUwepu6BSSQyA==}
+    resolution: {integrity: sha1-aWSqEyEKABpaQSWYuOB6odhafJo=}
     engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.1':
-    resolution: {integrity: sha512-WVbMedbJHjt9M+qeZMH/6U1UmjXsKaMB6fN8OZUtGY7UVNYofrowZNx4nVvWN/ajPKBQCEW4Rr/MwcRuA8HGcQ==}
+    resolution: {integrity: sha1-iGqqCYEetHPo4IsjbwGxTGid43s=}
 
   '@azure/msal-node@2.16.3':
     resolution: {integrity: sha1-i4BRUq14CwSNbCszsdTibXtGM2g=}
@@ -32560,7 +32560,7 @@ packages:
     engines: {node: '>=16'}
 
   '@azure/msal-node@5.1.1':
-    resolution: {integrity: sha512-71grXU6+5hl+3CL3joOxlj/AW6rmhthuTlG0fRqsTrhPArQBpZuUFzCIlKOGdcafLUa/i1hBdV78ZxJdlvRA+g==}
+    resolution: {integrity: sha1-ksWRXpUrSfCQaYOoodgb1XaCqAI=}
     engines: {node: '>=20'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -36868,6 +36868,11 @@ packages:
 
   typescript@5.9.3:
     resolution: {integrity: sha1-W09Z4VMQqxeiFvXWz1PuR27eZw8=}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@6.0.2:
+    resolution: {integrity: sha1-Cxv7FfaMZLlwMvPXirv5i9u6UB8=}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -42562,6 +42567,8 @@ snapshots:
   typescript@5.8.3: {}
 
   typescript@5.9.3: {}
+
+  typescript@6.0.2: {}
 
   uc.micro@2.1.0: {}
 

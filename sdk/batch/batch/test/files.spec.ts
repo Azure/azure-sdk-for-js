@@ -22,6 +22,7 @@ import {
 import { createBatchLinuxPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 import { RestError } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
 
 const FILE_POOL = getResourceName("Pool-Files");
 const FILE_POOL_NUM_VMS = 3;
@@ -193,11 +194,15 @@ describe("File Operations Test", () => {
 
     const fileContent = await batchClient.getTaskFile(jobId, taskId, TEST_FILE_NAME);
 
-    expect(fileContent).toBeDefined();
-    expect(fileContent.length).toBeGreaterThan(0);
-
-    // Convert Uint8Array to string and check content
-    const contentString = new TextDecoder().decode(fileContent);
+    let contentString: string;
+    if (isNodeLike) {
+      expect(fileContent.readableStreamBody).toBeDefined();
+      contentString = fileContent.readableStreamBody!.read()?.toString();
+    } else {
+      expect(fileContent.blobBody).toBeDefined();
+      const blob = await fileContent.blobBody!;
+      contentString = await blob.text();
+    }
     expect(contentString).toContain("Hello World");
   });
 
@@ -268,11 +273,15 @@ describe("File Operations Test", () => {
       "startup/wd/hello.txt",
     );
 
-    expect(fileContent).toBeDefined();
-    expect(fileContent.length).toBeGreaterThan(0);
-
-    // Convert Uint8Array to string and check content
-    const contentString = new TextDecoder().decode(fileContent);
+    let contentString: string;
+    if (isNodeLike) {
+      expect(fileContent.readableStreamBody).toBeDefined();
+      contentString = fileContent.readableStreamBody!.read()?.toString();
+    } else {
+      expect(fileContent.blobBody).toBeDefined();
+      const blob = await fileContent.blobBody!;
+      contentString = await blob.text();
+    }
     expect(contentString).toContain("hello");
   });
 

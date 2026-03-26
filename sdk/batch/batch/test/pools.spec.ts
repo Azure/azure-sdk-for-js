@@ -96,7 +96,7 @@ describe("Pool Operations Test", () => {
         extensions: [
           {
             name: "batchextension1",
-            type: "GenevaMonitoring",
+            extensionType: "GenevaMonitoring",
             publisher: "Microsoft.Azure.Geneva",
             typeHandlerVersion: "2.0",
             autoUpgradeMinorVersion: true,
@@ -224,7 +224,7 @@ describe("Pool Operations Test", () => {
   it("should list a maximum number of pools", async () => {
     const maxResults = 1;
     const pools: unknown[] = [];
-    for await (const pool of batchClient.listPools({ maxresults: maxResults })) {
+    for await (const pool of batchClient.listPools({ maxResults: maxResults })) {
       pools.push(pool);
     }
 
@@ -234,7 +234,7 @@ describe("Pool Operations Test", () => {
   it("should fail to list pools with invalid max", async () => {
     try {
       const pools: unknown[] = [];
-      for await (const pool of batchClient.listPools({ maxresults: -5 })) {
+      for await (const pool of batchClient.listPools({ maxResults: -5 })) {
         pools.push(pool);
       }
       expect.fail("Expected an error to be thrown");
