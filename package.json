@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.4",
+    "@eslint/mcp": "^0.3.2",
     "cspell": "^9.6.4",
     "prettier-plugin-packagejson": "^2.5.22",
     "rimraf": "^6.1.3",
