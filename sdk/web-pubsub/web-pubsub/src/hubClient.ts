@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CommonClientOptions,
-  FullOperationResponse,
-  OperationOptions,
-} from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import { getClient, createRestError } from "@azure-rest/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
-import { RestError } from "@azure/core-rest-pipeline";
-import { GeneratedClient } from "../generated/generatedClient.js";
 import type {
   WebPubSubGroup,
   GroupAddConnectionOptions,
@@ -24,10 +19,31 @@ import { parseConnectionString } from "./parseConnectionString.js";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils.js";
 import type {
-  GeneratedClientOptionalParams,
   AddToGroupsRequest,
   RemoveFromGroupsRequest,
-} from "../generated/index.js";
+  MessageContentType,
+} from "./models/models.js";
+import type { WebPubSubContext } from "./api/webPubSubContext.js";
+import { createWebPubSub } from "./api/webPubSubContext.js";
+import {
+  sendToAll as generatedSendToAll,
+  sendToUser as generatedSendToUser,
+  sendToConnection as generatedSendToConnection,
+  closeConnection as generatedCloseConnection,
+  closeAllConnections as generatedCloseAllConnections,
+  closeUserConnections as generatedCloseUserConnections,
+  removeUserFromAllGroups as generatedRemoveUserFromAllGroups,
+  removeConnectionFromAllGroups as generatedRemoveConnectionFromAllGroups,
+  addConnectionsToGroups as generatedAddConnectionsToGroups,
+  removeConnectionsFromGroups as generatedRemoveConnectionsFromGroups,
+  grantPermission as generatedGrantPermission,
+  revokePermission as generatedRevokePermission,
+  generateClientToken as generatedGenerateClientToken,
+  _connectionExistsSend,
+  _groupExistsSend,
+  _userExistsSend,
+  _checkPermissionSend,
+} from "./api/operations.js";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 
 /**
@@ -104,7 +120,7 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+export interface WebPubSubServiceClientOptions extends ClientOptions {
   /**
    * Reverse proxy endpoint (for example, your Azure API management endpoint)
    */
@@ -307,7 +323,7 @@ export interface ClientTokenResponse {
  * Client for connecting to a Web PubSub hub
  */
 export class WebPubSubServiceClient {
-  private readonly client: GeneratedClient;
+  private readonly _context: WebPubSubContext;
   private credential!: AzureKeyCredential | TokenCredential;
   private readonly clientOptions?: WebPubSubServiceClientOptions;
 
@@ -383,34 +399,41 @@ export class WebPubSubServiceClient {
       this.clientOptions = hubNameOrOpts as WebPubSubServiceClientOptions;
     }
 
-    const internalPipelineOptions: GeneratedClientOptionalParams = {
+    const pipelineOptions: ClientOptions = {
       ...this.clientOptions,
-      ...{
-        apiVersion: this.apiVersion,
-        loggingOptions: {
-          additionalAllowedHeaderNames:
-            this.clientOptions?.loggingOptions?.additionalAllowedHeaderNames,
-          additionalAllowedQueryParameters:
-            this.clientOptions?.loggingOptions?.additionalAllowedQueryParameters,
-          logger: logger.info,
-        },
+      loggingOptions: {
+        additionalAllowedHeaderNames:
+          this.clientOptions?.loggingOptions?.additionalAllowedHeaderNames,
+        additionalAllowedQueryParameters:
+          this.clientOptions?.loggingOptions?.additionalAllowedQueryParameters,
+        logger: logger.info,
       },
-      ...(isTokenCredential(this.credential)
-        ? {
-            credential: this.credential,
-            credentialScopes: ["https://webpubsub.azure.com/.default"],
-          }
-        : {}),
     };
 
-    this.client = new GeneratedClient(this.endpoint, internalPipelineOptions);
-
-    if (!isTokenCredential(this.credential)) {
-      this.client.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
+    if (isTokenCredential(this.credential)) {
+      this._context = createWebPubSub(this.endpoint, this.credential, this.hubName, {
+        ...pipelineOptions,
+        apiVersion: this.apiVersion,
+      });
+    } else {
+      const prefixFromOptions = pipelineOptions?.userAgentOptions?.userAgentPrefix;
+      const userAgentInfo = `azsdk-js-web-pubsub/1.2.1`;
+      const userAgentPrefix = prefixFromOptions
+        ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+        : `azsdk-js-api ${userAgentInfo}`;
+      const clientContext = getClient(this.endpoint, {
+        ...pipelineOptions,
+        userAgentOptions: { userAgentPrefix },
+      });
+      this._context = Object.assign(clientContext, {
+        hub: this.hubName,
+        apiVersion: this.apiVersion,
+      }) as WebPubSubContext;
+      this._context.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
     }
 
     if (this.clientOptions?.reverseProxyEndpoint) {
-      this.client.pipeline.addPolicy(
+      this._context.pipeline.addPolicy(
         webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint),
       );
     }
@@ -421,7 +444,7 @@ export class WebPubSubServiceClient {
    * @param groupName - The name of the group to connect to.
    */
   public group(groupName: string): WebPubSubGroup {
-    return new WebPubSubGroupImpl(this.client, this.hubName, groupName);
+    return new WebPubSubGroupImpl(this._context, this.hubName, groupName);
   }
 
   /**
@@ -453,11 +476,14 @@ export class WebPubSubServiceClient {
   ): Promise<void> {
     return tracingClient.withSpan("WebPubSubServiceClient.sendToAll", options, (updatedOptions) => {
       const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      return this.client.webPubSub.sendToAll(
-        this.hubName,
-        contentType,
+      return generatedSendToAll(
+        this._context,
+        contentType as MessageContentType,
         payload as any,
-        updatedOptions,
+        {
+          ...updatedOptions,
+          excluded: updatedOptions.excludedConnections,
+        } as any,
       );
     });
   }
@@ -511,12 +537,12 @@ export class WebPubSubServiceClient {
       options,
       (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        return this.client.webPubSub.sendToUser(
-          this.hubName,
+        return generatedSendToUser(
+          this._context,
           username,
-          contentType,
+          contentType as MessageContentType,
           payload as any,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -572,12 +598,12 @@ export class WebPubSubServiceClient {
       (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 
-        return this.client.webPubSub.sendToConnection(
-          this.hubName,
+        return generatedSendToConnection(
+          this._context,
           connectionId,
-          contentType,
+          contentType as MessageContentType,
           payload as any,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -593,34 +619,22 @@ export class WebPubSubServiceClient {
     connectionId: string,
     options: HasConnectionOptions = {},
   ): Promise<boolean> {
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
-
     return tracingClient.withSpan(
       "WebPubSubServiceClient.connectionExists",
       options,
       async (updatedOptions) => {
-        await this.client.webPubSub.connectionExists(this.hubName, connectionId, {
-          ...updatedOptions,
-          onResponse,
-        });
+        const result = await _connectionExistsSend(
+          this._context,
+          connectionId,
+          updatedOptions as any,
+        );
 
-        if (response!.status === 200) {
+        if (result.status === "200") {
           return true;
-        } else if (response!.status === 404) {
+        } else if (result.status === "404") {
           return false;
         } else {
-          // this is sad - wish this was handled by autorest.
-          throw new RestError(response!.bodyAsText!, {
-            statusCode: response?.status,
-            request: response?.request,
-            response: response,
-          });
+          throw createRestError(result);
         }
       },
     );
@@ -640,7 +654,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.closeConnection",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.closeConnection(this.hubName, connectionId, updatedOptions);
+        return generatedCloseConnection(this._context, connectionId, updatedOptions as any);
       },
     );
   }
@@ -655,7 +669,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.closeAllConnections",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.closeAllConnections(this.hubName, updatedOptions);
+        return generatedCloseAllConnections(this._context, updatedOptions as any);
       },
     );
   }
@@ -674,7 +688,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.closeUserConnections",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.closeUserConnections(this.hubName, userId, updatedOptions);
+        return generatedCloseUserConnections(this._context, userId, updatedOptions as any);
       },
     );
   }
@@ -692,7 +706,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.removeUserFromAllGroups",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
+        return generatedRemoveUserFromAllGroups(this._context, userId, updatedOptions as any);
       },
     );
   }
@@ -710,10 +724,10 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.removeConnectionFromAllGroups",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.removeConnectionFromAllGroups(
-          this.hubName,
+        return generatedRemoveConnectionFromAllGroups(
+          this._context,
           connectionId,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -734,13 +748,13 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.addConnectionsToGroups",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.addConnectionsToGroups(
-          this.hubName,
+        return generatedAddConnectionsToGroups(
+          this._context,
           {
             groups: groups,
             filter: filter,
           } as AddToGroupsRequest,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -761,13 +775,13 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.removeConnectionsFromGroups",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.removeConnectionsFromGroups(
-          this.hubName,
+        return generatedRemoveConnectionsFromGroups(
+          this._context,
           {
             groups: groups,
             filter: filter,
           } as RemoveFromGroupsRequest,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -780,33 +794,22 @@ export class WebPubSubServiceClient {
    * @param options - Additional options
    */
   public async groupExists(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
-
     return tracingClient.withSpan(
       "WebPubSubServiceClient.groupExists",
       options,
       async (updatedOptions) => {
-        await this.client.webPubSub.groupExists(this.hubName, groupName, {
-          ...updatedOptions,
-          onResponse,
-        });
+        const result = await _groupExistsSend(
+          this._context,
+          groupName,
+          updatedOptions as any,
+        );
 
-        if (response!.status === 200) {
+        if (result.status === "200") {
           return true;
-        } else if (response!.status === 404) {
+        } else if (result.status === "404") {
           return false;
         } else {
-          throw new RestError(response!.bodyAsText!, {
-            statusCode: response?.status,
-            request: response?.request,
-            response: response,
-          });
+          throw createRestError(result);
         }
       },
     );
@@ -819,34 +822,22 @@ export class WebPubSubServiceClient {
    * @param options - Additional options
    */
   public async userExists(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
-
     return tracingClient.withSpan(
       "WebPubSubServiceClient.userExists",
       options,
       async (updatedOptions) => {
-        await this.client.webPubSub.userExists(this.hubName, username, {
-          ...updatedOptions,
-          onResponse,
-        });
+        const result = await _userExistsSend(
+          this._context,
+          username,
+          updatedOptions as any,
+        );
 
-        if (response!.status === 200) {
+        if (result.status === "200") {
           return true;
-        } else if (response!.status === 404) {
+        } else if (result.status === "404") {
           return false;
         } else {
-          // this is sad - wish this was handled by autorest.
-          throw new RestError(response!.bodyAsText!, {
-            statusCode: response?.status,
-            request: response?.request,
-            response: response,
-          });
+          throw createRestError(result);
         }
       },
     );
@@ -868,11 +859,11 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.grantPermission",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.grantPermission(
-          this.hubName,
+        return generatedGrantPermission(
+          this._context,
           permission,
           connectionId,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -894,11 +885,11 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.revokePermission",
       options,
       (updatedOptions) => {
-        return this.client.webPubSub.revokePermission(
-          this.hubName,
+        return generatedRevokePermission(
+          this._context,
           permission,
           connectionId,
-          updatedOptions,
+          updatedOptions as any,
         );
       },
     );
@@ -916,34 +907,23 @@ export class WebPubSubServiceClient {
     permission: Permission,
     options: HubHasPermissionOptions = {},
   ): Promise<boolean> {
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
-
     return tracingClient.withSpan(
       "WebPubSubServiceClient.hasPermission",
       options,
       async (updatedOptions) => {
-        await this.client.webPubSub.checkPermission(this.hubName, permission, connectionId, {
-          ...updatedOptions,
-          onResponse,
-        });
+        const result = await _checkPermissionSend(
+          this._context,
+          permission,
+          connectionId,
+          updatedOptions as any,
+        );
 
-        if (response!.status === 200) {
+        if (result.status === "200") {
           return true;
-        } else if (response!.status === 404) {
+        } else if (result.status === "404") {
           return false;
         } else {
-          // this is sad - wish this was handled by autorest.
-          throw new RestError(response!.bodyAsText!, {
-            statusCode: response?.status,
-            request: response?.request,
-            response: response,
-          });
+          throw createRestError(result);
         }
       },
     );
@@ -976,10 +956,11 @@ export class WebPubSubServiceClient {
 
         let token: string;
         if (isTokenCredential(this.credential)) {
-          const response = await this.client.webPubSub.generateClientToken(this.hubName, {
+          const response = await generatedGenerateClientToken(this._context, {
             ...updatedOptions,
-            clientType: clientProtocol,
-          });
+            clientProtocol: clientProtocol as any,
+            minutesToExpire: updatedOptions?.expirationTimeInMinutes,
+          } as any);
           token = response.token!;
         } else {
           const key = this.credential.key;

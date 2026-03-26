@@ -23,25 +23,28 @@
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "files": ["dist/", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageDetails"
+        "path": "src/hubClient.ts",
+        "prefix": "userAgentInfo"
       },
       {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "src\\generated/api/webPubSubContext.ts",
+        "path": "src/api/webPubSubContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
   },
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "cloud"],
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
@@ -87,8 +90,12 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub",
-    "productSlugs": ["azure"],
-    "skip": ["managingGroups.js"]
+    "productSlugs": [
+      "azure"
+    ],
+    "skip": [
+      "managingGroups.js"
+    ]
   },
   "type": "module",
   "exports": {

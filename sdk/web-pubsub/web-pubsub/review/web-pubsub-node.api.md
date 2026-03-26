@@ -5,9 +5,8 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -38,7 +37,7 @@ export interface GroupAddUserOptions extends OperationOptions {
 }
 
 // @public
-export interface GroupAdminClientOptions extends CommonClientOptions {
+export interface GroupAdminClientOptions extends ClientOptions {
 }
 
 // @public
@@ -178,6 +177,7 @@ export interface WebPubSubGroup {
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;
+    // Warning: (ae-forgotten-export) The symbol "PagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
     listConnections(options?: GroupListConnectionsOptions): Promise<PagedAsyncIterableIterator<WebPubSubGroupMember>>;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;
@@ -232,7 +232,7 @@ export interface WebPubSubServiceClientLogOptions {
 }
 
 // @public
-export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+export interface WebPubSubServiceClientOptions extends ClientOptions {
     loggingOptions?: WebPubSubServiceClientLogOptions;
     reverseProxyEndpoint?: string;
 }

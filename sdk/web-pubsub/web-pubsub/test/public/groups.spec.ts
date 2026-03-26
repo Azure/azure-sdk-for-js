@@ -5,7 +5,7 @@ import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import type { WebPubSubGroup } from "../../src/index.js";
 import { WebPubSubServiceClient } from "../../src/index.js";
 import recorderOptions from "../testEnv.js";
-import type { FullOperationResponse } from "@azure/core-client";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getEndpoint } from "../utils/injectables.js";
@@ -16,8 +16,8 @@ import type { GroupListConnectionsOptions } from "../../src/index.js";
 describe("Group client working with a group", () => {
   let recorder: Recorder;
   let client: WebPubSubGroup;
-  let lastResponse: FullOperationResponse | undefined;
-  function onResponse(response: FullOperationResponse): void {
+  let lastResponse: PipelineResponse | undefined;
+  function onResponse(response: PipelineResponse): void {
     lastResponse = response;
   }
   beforeEach(async (ctx) => {
@@ -111,9 +111,9 @@ describe("Group client working with a group", () => {
 
 describe("client working with multiple groups", () => {
   let recorder: Recorder;
-  let lastResponse: FullOperationResponse | undefined;
+  let lastResponse: PipelineResponse | undefined;
   let hubClient: WebPubSubServiceClient;
-  function onResponse(response: FullOperationResponse): void {
+  function onResponse(response: PipelineResponse): void {
     lastResponse = response;
   }
   beforeEach(async (ctx) => {

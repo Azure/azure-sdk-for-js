@@ -4,7 +4,8 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../../src/index.js";
 import recorderOptions from "../testEnv.js";
-import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -52,9 +53,9 @@ describe("HubClient", () => {
   describe("Working with a hub", () => {
     let recorder: Recorder;
     let client: WebPubSubServiceClient;
-    let lastResponse: FullOperationResponse | undefined;
+    let lastResponse: PipelineResponse | undefined;
     const credential = createTestCredential();
-    function onResponse(response: FullOperationResponse): void {
+    function onResponse(response: PipelineResponse): void {
       lastResponse = response;
     }
     beforeEach(async (ctx) => {
