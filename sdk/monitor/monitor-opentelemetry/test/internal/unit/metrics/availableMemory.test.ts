@@ -108,4 +108,26 @@ describe("readAvailableMemory", () => {
       "On Linux without MemAvailable, available memory should fall back to os.freemem()",
     );
   });
+
+  it("falls back to os.freemem() on Linux when readFileSync throws", () => {
+    const freeMem = 256 * 1024 * 1024; // 256 MB
+
+    Object.defineProperty(process, "platform", {
+      value: "linux",
+      configurable: true,
+    });
+
+    mockReadFileSync.mockImplementation(() => {
+      throw new Error("EACCES: permission denied");
+    });
+    mockFreemem.mockReturnValue(freeMem);
+
+    const result = readAvailableMemory();
+
+    assert.strictEqual(
+      result,
+      freeMem,
+      "On Linux with readFileSync error, should fall back to os.freemem()",
+    );
+  });
 });
