@@ -10,7 +10,21 @@ For a detailed guide on migrating from v12 to v13, see the [Migration Guide](htt
 
 ### Features Added
 
+- Added new response types `GetNodeFileResponse` and `GetTaskFileResponse` with `blobBody` and `readableStreamBody` properties for streaming file downloads.
+
 ### Breaking Changes
+
+- `getNodeFile` now returns `Promise<GetNodeFileResponse>` instead of `Promise<Uint8Array>`.
+- `getTaskFile` now returns `Promise<GetTaskFileResponse>` instead of `Promise<Uint8Array>`.
+- Renamed `CifsMountConfiguration` to `BatchCifsMountConfiguration`. The `cifsMountConfiguration` property in `MountConfiguration` now uses the renamed type.
+- Renamed `BatchSupportedImage.batchSupportEndOfLife` to `supportEndDate`.
+- Renamed `BatchNodeDeallocateOptions.nodeDeallocateOption` to `nodeDeallocationOption`.
+- Renamed `ExitConditions.default` to `defaultOptions`.
+- Renamed `VMExtension.type` to `extensionType`.
+- Renamed optional parameters across all operation options for consistent casing:
+  - `ocpdate` → `ocpDate`
+  - `timeOutInSeconds` → `timeoutInSeconds`
+  - `maxresults` → `maxResults`
 
 ### Bugs Fixed
 
