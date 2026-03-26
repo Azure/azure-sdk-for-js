@@ -78,6 +78,11 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
 
 ## Step 2 — Check Against Guidelines
 
+Before checking for breaking changes, use `bash` to find the last GA
+release tag for the package and retrieve its API report. This establishes
+the stable baseline — only flag removals as breaking if the API existed
+in the GA release.
+
 For each changed public API element, apply the full checklist from the
 architecture review guidelines. Focus on breaking changes, naming
 conventions, exports, type safety, parameter design, async patterns,
