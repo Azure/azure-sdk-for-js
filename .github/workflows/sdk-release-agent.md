@@ -38,7 +38,7 @@ You are an AI agent that helps provide next step guidance with merging status fo
 
 - Fetch PR details, check statuses, changed files, and workflow runs using GitHub MCP tools.
 - If a pipeline build ID is available (often named js - PullRequest), extract the pipeline logging details(often public available links in ado).
-- For failed GitHub Actions jobs, use `github-mcp-server-get_job_logs` with `return_content: true` to get logs.
+- For failed GitHub Actions jobs, use the GitHub MCP Actions toolset to fetch the job logs and return their full content.
 
 ### 2. Identify gaps to merge
 
@@ -60,7 +60,7 @@ Post via `add_comment` exactly once. Do not use `create_pull_request_review_comm
 
 To avoid duplicates across reruns:
 - rely on safe output `add-comment` with `hide-older-comments: true` so older comments from this workflow are hidden automatically
-- include a stable marker in the body, e.g. `<!-- gh-aw-workflow-id: mgmt-release-agent -->`
+- include a stable marker in the body, e.g. `<!-- gh-aw-workflow-id: sdk-release-agent -->`
 - always publish the latest full guidance in the new comment body
 
 ## CI Check Name → Failure Mapping
@@ -69,7 +69,7 @@ These are the Azure DevOps and GitHub checks that run on SDK PRs. The check name
 
 | Check Name Pattern | What It Validates | Key Script |
 |---|---|---|
-| `Build` | Compilation on src/samples/test codes | `pnpm build --filter ...${package_name}...` |
+| `Build` | Compilation on src/samples/test codes | `pnpm turbo build --filter=<package-name>... --token 1` |
 | `Analyze` | Samples, READMEs, snippets compile, Format, ESlint | `pnpm run check-format`/`pnpm run update-snippets` etc |
 | `verify-links` | Markdown link validation | `eng/common/scripts/Verify-Links.ps1` |
 | `UnitTest ${environment}` | Run test cases on different environments including node and browser testings | `pnpm test` or `.skip` on test files to skip running|
@@ -81,8 +81,8 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 
 | Log symptom | Root cause | Category |
 |---|---|---|
-| `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update the test recordings or add .skip like describe.skip in test files to skip the testing. |
-| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update the test recordings or update the test:browser script to echo skipped to skip browser test. |
+| `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update or add the correct test recordings so the tests pass with the new service behavior. Only if recordings cannot be updated in time, and with explicit justification and SDK maintainer approval, consider temporarily marking the affected tests as skipped. |
+| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings | Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to create or update the browser test recordings and restore passing browser tests. As a last-resort temporary workaround that requires clear justification and SDK maintainer approval, you may adjust the browser test configuration to skip the affected tests until a proper fix is merged. |
 | `Build FAILED` | Compilation failure | Build failure |
 | `Check-format FAILED` | Need to format the code | Run `pnpm format` to fix |
 | `verify-links` broken URL | Broken markdown links | Add the broken links into eng/ignore-links.txt file to bypass this verification |
