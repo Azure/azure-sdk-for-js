@@ -23,14 +23,14 @@ safe-outputs:
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for providing guidance..."
-    run-success: "⚡ [{workflow_name}]({run_url}) completed the management-plane SDKs release guidance. ✅"
+    run-success: "⚡ [{workflow_name}]({run_url}) completed the SDK release guidance. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
 timeout-minutes: 15
 ---
 
-# Management SDK Release Agent
+# SDK Release Agent
 
-You are an AI agent that helps provide next step guidance with merging status for management SDK release PRs.
+You are an AI agent that helps provide next step guidance with merging status for SDK release PRs.
 
 ## Workflow
 
