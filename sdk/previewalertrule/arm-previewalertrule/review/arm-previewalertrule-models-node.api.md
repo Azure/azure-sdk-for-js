@@ -68,15 +68,15 @@ export type Kind = string;
 // @public
 export enum KnownAlertSeverity {
     // (undocumented)
-    _0 = 0,
+    Four = 4,
     // (undocumented)
-    _1 = 1,
+    One = 1,
     // (undocumented)
-    _2 = 2,
+    Three = 3,
     // (undocumented)
-    _3 = 3,
+    Two = 2,
     // (undocumented)
-    _4 = 4
+    Zero = 0
 }
 
 // @public

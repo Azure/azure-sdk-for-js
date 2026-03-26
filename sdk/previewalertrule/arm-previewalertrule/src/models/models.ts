@@ -152,15 +152,15 @@ export function logAlertRulePropertiesSerializer(item: LogAlertRuleProperties): 
 /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
 export enum KnownAlertSeverity {
   /** 0 */
-  _0 = 0,
+  Zero = 0,
   /** 1 */
-  _1 = 1,
+  One = 1,
   /** 2 */
-  _2 = 2,
+  Two = 2,
   /** 3 */
-  _3 = 3,
+  Three = 3,
   /** 4 */
-  _4 = 4,
+  Four = 4,
 }
 
 /**
