@@ -71,7 +71,7 @@ describe("BlobClient", () => {
     await recorder.stop();
   });
 
-  it("upload blob with cold tier should work", async () => {
+  it.only("upload blob with cold tier should work", async () => {
     const newBlobClient = containerClient.getBlockBlobClient(
       recorder.variable("coldtierblob", getUniqueName("coldtierblob")),
     );

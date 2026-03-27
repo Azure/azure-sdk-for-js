@@ -1179,6 +1179,28 @@ export const contentLength: OperationParameter = {
   },
 };
 
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const range: OperationParameter = {
   parameterPath: ["options", "range"],
   mapper: {
@@ -1197,17 +1219,6 @@ export const rangeGetContentMD5: OperationParameter = {
     xmlName: "x-ms-range-get-content-md5",
     type: {
       name: "Boolean",
-    },
-  },
-};
-
-export const structuredBodyType: OperationParameter = {
-  parameterPath: ["options", "structuredBodyType"],
-  mapper: {
-    serializedName: "x-ms-structured-body",
-    xmlName: "x-ms-structured-body",
-    type: {
-      name: "String",
     },
   },
 };
@@ -1281,17 +1292,6 @@ export const fileLastWrittenMode: OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: ["Now", "Preserve"],
-    },
-  },
-};
-
-export const structuredContentLength: OperationParameter = {
-  parameterPath: ["options", "structuredContentLength"],
-  mapper: {
-    serializedName: "x-ms-structured-content-length",
-    xmlName: "x-ms-structured-content-length",
-    type: {
-      name: "Number",
     },
   },
 };
