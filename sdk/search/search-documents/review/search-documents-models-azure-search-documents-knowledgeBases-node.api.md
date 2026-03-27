@@ -30,11 +30,6 @@ export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourcePara
 }
 
 // @public
-export interface IndexedSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
-    kind: "indexedSharePoint";
-}
-
-// @public
 export interface KnowledgeBaseActivityRecord {
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
@@ -46,7 +41,7 @@ export interface KnowledgeBaseActivityRecord {
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
@@ -88,12 +83,6 @@ export interface KnowledgeBaseIndexedOneLakeReference extends KnowledgeBaseRefer
 }
 
 // @public
-export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseReference {
-    docUrl?: string;
-    type: "indexedSharePoint";
-}
-
-// @public
 export interface KnowledgeBaseMessage {
     content: KnowledgeBaseMessageContentUnion[];
     role?: string;
@@ -123,20 +112,6 @@ export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageCon
 }
 
 // @public
-export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends KnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
-    type: "modelAnswerSynthesis";
-}
-
-// @public
-export interface KnowledgeBaseModelQueryPlanningActivityRecord extends KnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
-    type: "modelQueryPlanning";
-}
-
-// @public
 export interface KnowledgeBaseReference {
     activitySource: number;
     id: string;
@@ -149,25 +124,15 @@ export interface KnowledgeBaseReference {
 export type KnowledgeBaseReferenceType = string;
 
 // @public
-export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseReference;
-
-// @public
-export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseReference {
-    searchSensitivityLabelInfo?: SharePointSensitivityLabelInfo;
-    type: "remoteSharePoint";
-    webUrl?: string;
-}
+export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseReference;
 
 // @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: KnowledgeRetrievalIntentUnion[];
     knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
-    maxOutputSize?: number;
+    maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
-    messages?: KnowledgeBaseMessage[];
-    outputMode?: KnowledgeRetrievalOutputMode;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -202,22 +167,9 @@ export type KnowledgeRetrievalIntentType = string;
 export type KnowledgeRetrievalIntentUnion = KnowledgeRetrievalSemanticIntent | KnowledgeRetrievalIntent;
 
 // @public
-export interface KnowledgeRetrievalLowReasoningEffort extends KnowledgeRetrievalReasoningEffort {
-    kind: "low";
-}
-
-// @public
-export interface KnowledgeRetrievalMediumReasoningEffort extends KnowledgeRetrievalReasoningEffort {
-    kind: "medium";
-}
-
-// @public
 export interface KnowledgeRetrievalMinimalReasoningEffort extends KnowledgeRetrievalReasoningEffort {
     kind: "minimal";
 }
-
-// @public
-export type KnowledgeRetrievalOutputMode = string;
 
 // @public
 export interface KnowledgeRetrievalReasoningEffort {
@@ -228,7 +180,7 @@ export interface KnowledgeRetrievalReasoningEffort {
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
 // @public
-export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | KnowledgeRetrievalReasoningEffort;
+export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalReasoningEffort;
 
 // @public
 export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalIntent {
@@ -256,7 +208,6 @@ export interface KnowledgeSourceIngestionParameters {
 
 // @public
 export interface KnowledgeSourceParams {
-    alwaysQuerySource?: boolean;
     includeReferences?: boolean;
     includeReferenceSourceData?: boolean;
     kind: KnowledgeSourceKind;
@@ -265,7 +216,7 @@ export interface KnowledgeSourceParams {
 }
 
 // @public
-export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | KnowledgeSourceParams;
+export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | KnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceStatistics {
@@ -277,10 +228,21 @@ export interface KnowledgeSourceStatistics {
 // @public
 export interface KnowledgeSourceStatus {
     currentSynchronizationState?: SynchronizationState;
+    kind?: KnowledgeSourceKind;
     lastSynchronizationState?: CompletedSynchronizationState;
     statistics?: KnowledgeSourceStatistics;
     synchronizationInterval?: string;
     synchronizationStatus: KnowledgeSourceSynchronizationStatus;
+}
+
+// @public
+export interface KnowledgeSourceSynchronizationError {
+    details?: string;
+    docId?: string;
+    documentationLink?: string;
+    errorMessage: string;
+    name?: string;
+    statusCode?: number;
 }
 
 // @public
@@ -296,10 +258,6 @@ export enum KnownKnowledgeBaseActivityRecordType {
     AgenticReasoning = "agenticReasoning",
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
-    IndexedSharePoint = "indexedSharePoint",
-    ModelAnswerSynthesis = "modelAnswerSynthesis",
-    ModelQueryPlanning = "modelQueryPlanning",
-    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
     Web = "web"
 }
@@ -314,8 +272,6 @@ export enum KnownKnowledgeBaseMessageContentType {
 export enum KnownKnowledgeBaseReferenceType {
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
-    IndexedSharePoint = "indexedSharePoint",
-    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
     Web = "web"
 }
@@ -326,22 +282,8 @@ export enum KnownKnowledgeRetrievalIntentType {
 }
 
 // @public
-export enum KnownKnowledgeRetrievalOutputMode {
-    AnswerSynthesis = "answerSynthesis",
-    ExtractiveData = "extractiveData"
-}
-
-// @public
 export enum KnownKnowledgeRetrievalReasoningEffortKind {
-    Low = "low",
-    Medium = "medium",
     Minimal = "minimal"
-}
-
-// @public
-export interface RemoteSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
-    filterExpressionAddOn?: string;
-    kind: "remoteSharePoint";
 }
 
 // @public
@@ -351,17 +293,8 @@ export interface SearchIndexKnowledgeSourceParams extends KnowledgeSourceParams 
 }
 
 // @public
-export interface SharePointSensitivityLabelInfo {
-    color?: string;
-    displayName?: string;
-    isEncrypted?: boolean;
-    priority?: number;
-    sensitivityLabelId?: string;
-    tooltip?: string;
-}
-
-// @public
 export interface SynchronizationState {
+    errors?: KnowledgeSourceSynchronizationError[];
     itemsSkipped: number;
     itemsUpdatesFailed: number;
     itemsUpdatesProcessed: number;

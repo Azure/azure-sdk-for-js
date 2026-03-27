@@ -43,7 +43,6 @@ import type {
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
   GetKnowledgeSourceStatusOptions,
@@ -51,7 +50,6 @@ import type {
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  IndexStatisticsSummaryIterator,
   KnowledgeBaseIterator,
   KnowledgeSource,
   KnowledgeSourceIterator,
@@ -608,16 +606,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options - Options to the list index operation.
-   */
-  public getIndexStatsSummary(
-    options: GetIndexStatsSummaryOptions = {},
-  ): IndexStatisticsSummaryIterator {
-    return this.client.listIndexStatsSummary(options);
-  }
-
-  /**
    * Creates a new knowledgebase.
    * @param knowledgeBase - definition of the knowledgebase to create.
    * @param options - options parameters.
@@ -654,7 +642,7 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateKnowledgeBase",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
+        const etag = options.onlyIfUnchanged ? knowledgeBase.eTag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
           utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
           knowledgeBaseName,
@@ -728,7 +716,7 @@ export class SearchIndexClient {
           typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
         const etag =
           typeof knowledgeBase !== "string" && options.onlyIfUnchanged
-            ? knowledgeBase.etag
+            ? knowledgeBase.eTag
             : undefined;
 
         const result = await this.client.deleteKnowledgeBase(knowledgeBaseName, {

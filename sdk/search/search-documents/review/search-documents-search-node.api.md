@@ -45,8 +45,6 @@ export interface GetDocumentCountOptionalParams extends OperationOptions {
 // @public
 export interface GetDocumentOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    enableElevatedRead?: boolean;
-    querySourceAuthorization?: string;
     selectedFields?: string;
 }
 
@@ -61,7 +59,7 @@ export class SearchClient {
     autocompleteGet(searchText: string, suggesterName: string, options?: AutocompleteGetOptionalParams): Promise<AutocompleteResult>;
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
-    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
+    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
     searchGet(options?: SearchGetOptionalParams): Promise<SearchDocumentsResult>;
@@ -87,7 +85,6 @@ export interface SearchGetOptionalParams extends OperationOptions {
     captions?: QueryCaptionType;
     clientRequestId?: string;
     debug?: QueryDebugMode;
-    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
@@ -96,9 +93,6 @@ export interface SearchGetOptionalParams extends OperationOptions {
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
-    querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -109,12 +103,10 @@ export interface SearchGetOptionalParams extends OperationOptions {
     select?: string;
     semanticConfiguration?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
     skip?: number;
-    speller?: QuerySpellerType;
     top?: number;
 }
 
@@ -124,20 +116,14 @@ export interface SearchPostOptionalParams extends OperationOptions {
     captions?: QueryCaptionType;
     clientRequestId?: string;
     debug?: QueryDebugMode;
-    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
     highlightPostTag?: string;
     highlightPreTag?: string;
-    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
-    querySourceAuthorization?: string;
-    querySpeller?: QuerySpellerType;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -148,7 +134,6 @@ export interface SearchPostOptionalParams extends OperationOptions {
     select?: string;
     semanticConfigurationName?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;

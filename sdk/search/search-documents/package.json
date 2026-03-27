@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.3.0-beta.2",
+  "version": "13.0.0",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -22,6 +22,7 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
+    "test:node:preview": "cross-env TEST_PREVIEW=true dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -33,19 +34,19 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/search/api/searchContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/search/api/searchContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndex/api/searchIndexContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndex/api/searchIndexContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndexer/api/searchIndexerContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndexer/api/searchIndexerContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

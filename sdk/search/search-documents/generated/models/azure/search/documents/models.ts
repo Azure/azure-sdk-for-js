@@ -87,8 +87,6 @@ export interface SearchDocumentsResult {
   readonly facets?: Record<string, FacetResult[]>;
   /** The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'. */
   readonly answers?: QueryAnswerResult[];
-  /** Debug information that applies to the search results as a whole. */
-  readonly debugInfo?: DebugInfo;
   /** Continuation JSON payload returned when the query can't return all the requested results in a single response. You can use this JSON along with */
   readonly nextPageParameters?: SearchRequest;
   /** The sequence of results returned by the query. */
@@ -99,8 +97,6 @@ export interface SearchDocumentsResult {
   readonly semanticPartialResponseReason?: SemanticErrorReason;
   /** Type of partial response that was returned for a semantic ranking request. */
   readonly semanticPartialResponseType?: SemanticSearchResultsType;
-  /** Type of query rewrite that was used to retrieve documents. */
-  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
@@ -117,9 +113,6 @@ export function searchDocumentsResultDeserializer(item: any): SearchDocumentsRes
     answers: !item["@search.answers"]
       ? item["@search.answers"]
       : queryAnswerResultArrayDeserializer(item["@search.answers"]),
-    debugInfo: !item["@search.debug"]
-      ? item["@search.debug"]
-      : debugInfoDeserializer(item["@search.debug"]),
     nextPageParameters: !item["@search.nextPageParameters"]
       ? item["@search.nextPageParameters"]
       : searchRequestDeserializer(item["@search.nextPageParameters"]),
@@ -127,7 +120,6 @@ export function searchDocumentsResultDeserializer(item: any): SearchDocumentsRes
     nextLink: item["@odata.nextLink"],
     semanticPartialResponseReason: item["@search.semanticPartialResponseReason"],
     semanticPartialResponseType: item["@search.semanticPartialResponseType"],
-    semanticQueryRewritesResultType: item["@search.semanticQueryRewritesResultType"],
   };
 }
 
@@ -167,18 +159,6 @@ export function facetResultArrayDeserializer(result: Array<FacetResult>): any[] 
 export interface FacetResult {
   /** The approximate count of documents falling within the bucket described by this facet. */
   readonly count?: number;
-  /** The resulting total avg for the facet when a avg metric is requested. */
-  readonly avg?: number;
-  /** The resulting total min for the facet when a min metric is requested. */
-  readonly min?: number;
-  /** The resulting total max for the facet when a max metric is requested. */
-  readonly max?: number;
-  /** The resulting total sum for the facet when a sum metric is requested. */
-  readonly sum?: number;
-  /** The resulting total cardinality for the facet when a cardinality metric is requested. */
-  readonly cardinality?: number;
-  /** The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets. */
-  readonly facets?: Record<string, FacetResult[]>;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -189,24 +169,8 @@ export function facetResultSerializer(item: FacetResult): any {
 
 export function facetResultDeserializer(item: any): FacetResult {
   return {
-    additionalProperties: serializeRecord(item, [
-      "count",
-      "avg",
-      "min",
-      "max",
-      "sum",
-      "cardinality",
-      "facets",
-    ]),
+    additionalProperties: serializeRecord(item, ["count"]),
     count: item["count"],
-    avg: item["avg"],
-    min: item["min"],
-    max: item["max"],
-    sum: item["sum"],
-    cardinality: item["cardinality"],
-    facets: !item["@search.facets"]
-      ? item["@search.facets"]
-      : facetResultArrayRecordDeserializer(item["@search.facets"]),
   };
 }
 
@@ -250,68 +214,6 @@ export function queryAnswerResultDeserializer(item: any): QueryAnswerResult {
   };
 }
 
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DebugInfo {
-  /** Contains debugging information specific to query rewrites. */
-  readonly queryRewrites?: QueryRewritesDebugInfo;
-}
-
-export function debugInfoSerializer(item: DebugInfo): any {
-  return item;
-}
-
-export function debugInfoDeserializer(item: any): DebugInfo {
-  return {
-    queryRewrites: !item["queryRewrites"]
-      ? item["queryRewrites"]
-      : queryRewritesDebugInfoDeserializer(item["queryRewrites"]),
-  };
-}
-
-/** Contains debugging information specific to query rewrites. */
-export interface QueryRewritesDebugInfo {
-  /** List of query rewrites generated for the text query. */
-  readonly text?: QueryRewritesValuesDebugInfo;
-  /** List of query rewrites generated for the vectorizable text queries. */
-  readonly vectors?: QueryRewritesValuesDebugInfo[];
-}
-
-export function queryRewritesDebugInfoDeserializer(item: any): QueryRewritesDebugInfo {
-  return {
-    text: !item["text"] ? item["text"] : queryRewritesValuesDebugInfoDeserializer(item["text"]),
-    vectors: !item["vectors"]
-      ? item["vectors"]
-      : queryRewritesValuesDebugInfoArrayDeserializer(item["vectors"]),
-  };
-}
-
-/** Contains debugging information specific to query rewrites. */
-export interface QueryRewritesValuesDebugInfo {
-  /** The input text to the generative query rewriting model. There may be cases where the user query and the input to the generative model are not identical. */
-  readonly inputQuery?: string;
-  /** List of query rewrites. */
-  readonly rewrites?: string[];
-}
-
-export function queryRewritesValuesDebugInfoDeserializer(item: any): QueryRewritesValuesDebugInfo {
-  return {
-    inputQuery: item["inputQuery"],
-    rewrites: !item["rewrites"]
-      ? item["rewrites"]
-      : item["rewrites"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function queryRewritesValuesDebugInfoArrayDeserializer(
-  result: Array<QueryRewritesValuesDebugInfo>,
-): any[] {
-  return result.map((item) => {
-    return queryRewritesValuesDebugInfoDeserializer(item);
-  });
-}
-
 /** Parameters for filtering, sorting, faceting, paging, and other search query behaviors. */
 export interface SearchRequest {
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -348,10 +250,6 @@ export interface SearchRequest {
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
-  /** A value that specifies the language of the search query. */
-  queryLanguage?: QueryLanguage;
-  /** A value that specifies the type of the speller to use to spell-correct individual search query terms. */
-  querySpeller?: QuerySpellerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -370,16 +268,10 @@ export interface SearchRequest {
   answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
   captions?: QueryCaptionType;
-  /** A value that specifies whether query rewrites should be generated to augment the search query. */
-  queryRewrites?: QueryRewritesType;
-  /** The comma-separated list of field names used for semantic ranking. */
-  semanticFields?: string[];
   /** The query parameters for vector and hybrid search queries. */
   vectorQueries?: VectorQueryUnion[];
   /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter' for new indexes. */
   vectorFilterMode?: VectorFilterMode;
-  /** The query parameters to configure hybrid search behaviors. */
-  hybridSearch?: HybridSearch;
 }
 
 export function searchRequestDeserializer(item: any): SearchRequest {
@@ -412,8 +304,6 @@ export function searchRequestDeserializer(item: any): SearchRequest {
     searchText: item["search"],
     searchFields: item["searchFields"],
     searchMode: item["searchMode"],
-    queryLanguage: item["queryLanguage"],
-    querySpeller: item["speller"],
     select: item["select"],
     skip: item["skip"],
     top: item["top"],
@@ -423,18 +313,10 @@ export function searchRequestDeserializer(item: any): SearchRequest {
     semanticQuery: item["semanticQuery"],
     answers: item["answers"],
     captions: item["captions"],
-    queryRewrites: item["queryRewrites"],
-    semanticFields:
-      item["semanticFields"] === null || item["semanticFields"] === undefined
-        ? item["semanticFields"]
-        : parseCsvCollection(item["semanticFields"]),
     vectorQueries: !item["vectorQueries"]
       ? item["vectorQueries"]
       : vectorQueryUnionArrayDeserializer(item["vectorQueries"]),
     vectorFilterMode: item["vectorFilterMode"],
-    hybridSearch: !item["hybridSearch"]
-      ? item["hybridSearch"]
-      : hybridSearchDeserializer(item["hybridSearch"]),
   };
 }
 
@@ -493,252 +375,6 @@ export type QueryDebugMode = string;
 /** Specifies whether any or all of the search terms must be matched in order to count the document as a match. */
 export type SearchMode = "any" | "all";
 
-/** The language of the query. */
-export enum KnownQueryLanguage {
-  /** Query language not specified. */
-  None = "none",
-  /** Query language value for English (United States). */
-  EnUs = "en-us",
-  /** Query language value for English (Great Britain). */
-  EnGb = "en-gb",
-  /** Query language value for English (India). */
-  EnIn = "en-in",
-  /** Query language value for English (Canada). */
-  EnCa = "en-ca",
-  /** Query language value for English (Australia). */
-  EnAu = "en-au",
-  /** Query language value for French (France). */
-  FrFr = "fr-fr",
-  /** Query language value for French (Canada). */
-  FrCa = "fr-ca",
-  /** Query language value for German (Germany). */
-  DeDe = "de-de",
-  /** Query language value for Spanish (Spain). */
-  EsEs = "es-es",
-  /** Query language value for Spanish (Mexico). */
-  EsMx = "es-mx",
-  /** Query language value for Chinese (China). */
-  ZhCn = "zh-cn",
-  /** Query language value for Chinese (Taiwan). */
-  ZhTw = "zh-tw",
-  /** Query language value for Portuguese (Brazil). */
-  PtBr = "pt-br",
-  /** Query language value for Portuguese (Portugal). */
-  PtPt = "pt-pt",
-  /** Query language value for Italian (Italy). */
-  ItIt = "it-it",
-  /** Query language value for Japanese (Japan). */
-  JaJp = "ja-jp",
-  /** Query language value for Korean (Korea). */
-  KoKr = "ko-kr",
-  /** Query language value for Russian (Russia). */
-  RuRu = "ru-ru",
-  /** Query language value for Czech (Czech Republic). */
-  CsCz = "cs-cz",
-  /** Query language value for Dutch (Belgium). */
-  NlBe = "nl-be",
-  /** Query language value for Dutch (Netherlands). */
-  NlNl = "nl-nl",
-  /** Query language value for Hungarian (Hungary). */
-  HuHu = "hu-hu",
-  /** Query language value for Polish (Poland). */
-  PlPl = "pl-pl",
-  /** Query language value for Swedish (Sweden). */
-  SvSe = "sv-se",
-  /** Query language value for Turkish (Turkey). */
-  TrTr = "tr-tr",
-  /** Query language value for Hindi (India). */
-  HiIn = "hi-in",
-  /** Query language value for Arabic (Saudi Arabia). */
-  ArSa = "ar-sa",
-  /** Query language value for Arabic (Egypt). */
-  ArEg = "ar-eg",
-  /** Query language value for Arabic (Morocco). */
-  ArMa = "ar-ma",
-  /** Query language value for Arabic (Kuwait). */
-  ArKw = "ar-kw",
-  /** Query language value for Arabic (Jordan). */
-  ArJo = "ar-jo",
-  /** Query language value for Danish (Denmark). */
-  DaDk = "da-dk",
-  /** Query language value for Norwegian (Norway). */
-  NoNo = "no-no",
-  /** Query language value for Bulgarian (Bulgaria). */
-  BgBg = "bg-bg",
-  /** Query language value for Croatian (Croatia). */
-  HrHr = "hr-hr",
-  /** Query language value for Croatian (Bosnia and Herzegovina). */
-  HrBa = "hr-ba",
-  /** Query language value for Malay (Malaysia). */
-  MsMy = "ms-my",
-  /** Query language value for Malay (Brunei Darussalam). */
-  MsBn = "ms-bn",
-  /** Query language value for Slovenian (Slovenia). */
-  SlSl = "sl-sl",
-  /** Query language value for Tamil (India). */
-  TaIn = "ta-in",
-  /** Query language value for Vietnamese (Viet Nam). */
-  ViVn = "vi-vn",
-  /** Query language value for Greek (Greece). */
-  ElGr = "el-gr",
-  /** Query language value for Romanian (Romania). */
-  RoRo = "ro-ro",
-  /** Query language value for Icelandic (Iceland). */
-  IsIs = "is-is",
-  /** Query language value for Indonesian (Indonesia). */
-  IdId = "id-id",
-  /** Query language value for Thai (Thailand). */
-  ThTh = "th-th",
-  /** Query language value for Lithuanian (Lithuania). */
-  LtLt = "lt-lt",
-  /** Query language value for Ukrainian (Ukraine). */
-  UkUa = "uk-ua",
-  /** Query language value for Latvian (Latvia). */
-  LvLv = "lv-lv",
-  /** Query language value for Estonian (Estonia). */
-  EtEe = "et-ee",
-  /** Query language value for Catalan. */
-  CaEs = "ca-es",
-  /** Query language value for Finnish (Finland). */
-  FiFi = "fi-fi",
-  /** Query language value for Serbian (Bosnia and Herzegovina). */
-  SrBa = "sr-ba",
-  /** Query language value for Serbian (Montenegro). */
-  SrMe = "sr-me",
-  /** Query language value for Serbian (Serbia). */
-  SrRs = "sr-rs",
-  /** Query language value for Slovak (Slovakia). */
-  SkSk = "sk-sk",
-  /** Query language value for Norwegian (Norway). */
-  NbNo = "nb-no",
-  /** Query language value for Armenian (Armenia). */
-  HyAm = "hy-am",
-  /** Query language value for Bengali (India). */
-  BnIn = "bn-in",
-  /** Query language value for Basque. */
-  EuEs = "eu-es",
-  /** Query language value for Galician. */
-  GlEs = "gl-es",
-  /** Query language value for Gujarati (India). */
-  GuIn = "gu-in",
-  /** Query language value for Hebrew (Israel). */
-  HeIl = "he-il",
-  /** Query language value for Irish (Ireland). */
-  GaIe = "ga-ie",
-  /** Query language value for Kannada (India). */
-  KnIn = "kn-in",
-  /** Query language value for Malayalam (India). */
-  MlIn = "ml-in",
-  /** Query language value for Marathi (India). */
-  MrIn = "mr-in",
-  /** Query language value for Persian (U.A.E.). */
-  FaAe = "fa-ae",
-  /** Query language value for Punjabi (India). */
-  PaIn = "pa-in",
-  /** Query language value for Telugu (India). */
-  TeIn = "te-in",
-  /** Query language value for Urdu (Pakistan). */
-  UrPk = "ur-pk",
-}
-
-/**
- * The language of the query. \
- * {@link KnownQueryLanguage} can be used interchangeably with QueryLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Query language not specified. \
- * **en-us**: Query language value for English (United States). \
- * **en-gb**: Query language value for English (Great Britain). \
- * **en-in**: Query language value for English (India). \
- * **en-ca**: Query language value for English (Canada). \
- * **en-au**: Query language value for English (Australia). \
- * **fr-fr**: Query language value for French (France). \
- * **fr-ca**: Query language value for French (Canada). \
- * **de-de**: Query language value for German (Germany). \
- * **es-es**: Query language value for Spanish (Spain). \
- * **es-mx**: Query language value for Spanish (Mexico). \
- * **zh-cn**: Query language value for Chinese (China). \
- * **zh-tw**: Query language value for Chinese (Taiwan). \
- * **pt-br**: Query language value for Portuguese (Brazil). \
- * **pt-pt**: Query language value for Portuguese (Portugal). \
- * **it-it**: Query language value for Italian (Italy). \
- * **ja-jp**: Query language value for Japanese (Japan). \
- * **ko-kr**: Query language value for Korean (Korea). \
- * **ru-ru**: Query language value for Russian (Russia). \
- * **cs-cz**: Query language value for Czech (Czech Republic). \
- * **nl-be**: Query language value for Dutch (Belgium). \
- * **nl-nl**: Query language value for Dutch (Netherlands). \
- * **hu-hu**: Query language value for Hungarian (Hungary). \
- * **pl-pl**: Query language value for Polish (Poland). \
- * **sv-se**: Query language value for Swedish (Sweden). \
- * **tr-tr**: Query language value for Turkish (Turkey). \
- * **hi-in**: Query language value for Hindi (India). \
- * **ar-sa**: Query language value for Arabic (Saudi Arabia). \
- * **ar-eg**: Query language value for Arabic (Egypt). \
- * **ar-ma**: Query language value for Arabic (Morocco). \
- * **ar-kw**: Query language value for Arabic (Kuwait). \
- * **ar-jo**: Query language value for Arabic (Jordan). \
- * **da-dk**: Query language value for Danish (Denmark). \
- * **no-no**: Query language value for Norwegian (Norway). \
- * **bg-bg**: Query language value for Bulgarian (Bulgaria). \
- * **hr-hr**: Query language value for Croatian (Croatia). \
- * **hr-ba**: Query language value for Croatian (Bosnia and Herzegovina). \
- * **ms-my**: Query language value for Malay (Malaysia). \
- * **ms-bn**: Query language value for Malay (Brunei Darussalam). \
- * **sl-sl**: Query language value for Slovenian (Slovenia). \
- * **ta-in**: Query language value for Tamil (India). \
- * **vi-vn**: Query language value for Vietnamese (Viet Nam). \
- * **el-gr**: Query language value for Greek (Greece). \
- * **ro-ro**: Query language value for Romanian (Romania). \
- * **is-is**: Query language value for Icelandic (Iceland). \
- * **id-id**: Query language value for Indonesian (Indonesia). \
- * **th-th**: Query language value for Thai (Thailand). \
- * **lt-lt**: Query language value for Lithuanian (Lithuania). \
- * **uk-ua**: Query language value for Ukrainian (Ukraine). \
- * **lv-lv**: Query language value for Latvian (Latvia). \
- * **et-ee**: Query language value for Estonian (Estonia). \
- * **ca-es**: Query language value for Catalan. \
- * **fi-fi**: Query language value for Finnish (Finland). \
- * **sr-ba**: Query language value for Serbian (Bosnia and Herzegovina). \
- * **sr-me**: Query language value for Serbian (Montenegro). \
- * **sr-rs**: Query language value for Serbian (Serbia). \
- * **sk-sk**: Query language value for Slovak (Slovakia). \
- * **nb-no**: Query language value for Norwegian (Norway). \
- * **hy-am**: Query language value for Armenian (Armenia). \
- * **bn-in**: Query language value for Bengali (India). \
- * **eu-es**: Query language value for Basque. \
- * **gl-es**: Query language value for Galician. \
- * **gu-in**: Query language value for Gujarati (India). \
- * **he-il**: Query language value for Hebrew (Israel). \
- * **ga-ie**: Query language value for Irish (Ireland). \
- * **kn-in**: Query language value for Kannada (India). \
- * **ml-in**: Query language value for Malayalam (India). \
- * **mr-in**: Query language value for Marathi (India). \
- * **fa-ae**: Query language value for Persian (U.A.E.). \
- * **pa-in**: Query language value for Punjabi (India). \
- * **te-in**: Query language value for Telugu (India). \
- * **ur-pk**: Query language value for Urdu (Pakistan).
- */
-export type QueryLanguage = string;
-
-/** Improve search recall by spell-correcting individual search query terms. */
-export enum KnownQuerySpellerType {
-  /** Speller not enabled. */
-  None = "none",
-  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
-  Lexicon = "lexicon",
-}
-
-/**
- * Improve search recall by spell-correcting individual search query terms. \
- * {@link KnownQuerySpellerType} can be used interchangeably with QuerySpellerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Speller not enabled. \
- * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
- */
-export type QuerySpellerType = string;
-
 /** Allows the user to choose whether a semantic call should fail completely, or to return partial results. */
 export enum KnownSemanticErrorMode {
   /** If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. */
@@ -793,24 +429,6 @@ export enum KnownQueryCaptionType {
  */
 export type QueryCaptionType = string;
 
-/** This parameter is only valid if the query type is `semantic`. When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will produce 10 (default) rewrites to help increase the recall of the request. The requested count can be configured by appending the pipe character `|` followed by the `count-<number of rewrites>` option, such as `generative|count-3`. Defaults to `None`. */
-export enum KnownQueryRewritesType {
-  /** Do not generate additional query rewrites for this query. */
-  None = "none",
-  /** Generate alternative query terms to increase the recall of a search request. */
-  Generative = "generative",
-}
-
-/**
- * This parameter is only valid if the query type is `semantic`. When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will produce 10 (default) rewrites to help increase the recall of the request. The requested count can be configured by appending the pipe character `|` followed by the `count-<number of rewrites>` option, such as `generative|count-3`. Defaults to `None`. \
- * {@link KnownQueryRewritesType} can be used interchangeably with QueryRewritesType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Do not generate additional query rewrites for this query. \
- * **generative**: Generate alternative query terms to increase the recall of a search request.
- */
-export type QueryRewritesType = string;
-
 export function vectorQueryUnionArraySerializer(result: Array<VectorQueryUnion>): any[] {
   return result.map((item) => {
     return vectorQueryUnionSerializer(item);
@@ -835,12 +453,6 @@ export interface VectorQuery {
   oversampling?: number;
   /** Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero. */
   weight?: number;
-  /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
-  threshold?: VectorThresholdUnion;
-  /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in the top level filter parameter is used instead. */
-  filterOverride?: string;
-  /** Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0. */
-  perDocumentVectorLimit?: number;
   /** Type of query. */
   /** The discriminator possible values: vector, text, imageUrl, imageBinary */
   kind: VectorQueryKind;
@@ -853,11 +465,6 @@ export function vectorQuerySerializer(item: VectorQuery): any {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
   };
 }
@@ -869,11 +476,6 @@ export function vectorQueryDeserializer(item: any): VectorQuery {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
   };
 }
@@ -924,111 +526,6 @@ export function vectorQueryUnionDeserializer(item: any): VectorQueryUnion {
   }
 }
 
-/** The threshold used for vector queries. */
-export interface VectorThreshold {
-  /** Type of threshold. */
-  /** The discriminator possible values: vectorSimilarity, searchScore */
-  kind: VectorThresholdKind;
-}
-
-export function vectorThresholdSerializer(item: VectorThreshold): any {
-  return { kind: item["kind"] };
-}
-
-export function vectorThresholdDeserializer(item: any): VectorThreshold {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** Alias for VectorThresholdUnion */
-export type VectorThresholdUnion =
-  | VectorSimilarityThreshold
-  | SearchScoreThreshold
-  | VectorThreshold;
-
-export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any {
-  switch (item.kind) {
-    case "vectorSimilarity":
-      return vectorSimilarityThresholdSerializer(item as VectorSimilarityThreshold);
-
-    case "searchScore":
-      return searchScoreThresholdSerializer(item as SearchScoreThreshold);
-
-    default:
-      return vectorThresholdSerializer(item);
-  }
-}
-
-export function vectorThresholdUnionDeserializer(item: any): VectorThresholdUnion {
-  switch (item["kind"]) {
-    case "vectorSimilarity":
-      return vectorSimilarityThresholdDeserializer(item as VectorSimilarityThreshold);
-
-    case "searchScore":
-      return searchScoreThresholdDeserializer(item as SearchScoreThreshold);
-
-    default:
-      return vectorThresholdDeserializer(item);
-  }
-}
-
-/** The kind of threshold used to filter vector queries. */
-export enum KnownVectorThresholdKind {
-  /** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-  VectorSimilarity = "vectorSimilarity",
-  /** The results of the vector query will filter based on the '@search.score' value. Note this is the @search.score returned as part of the search response. The threshold direction will be chosen for higher @search.score. */
-  SearchScore = "searchScore",
-}
-
-/**
- * The kind of threshold used to filter vector queries. \
- * {@link KnownVectorThresholdKind} can be used interchangeably with VectorThresholdKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **vectorSimilarity**: The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. \
- * **searchScore**: The results of the vector query will filter based on the '@search.score' value. Note this is the @search.score returned as part of the search response. The threshold direction will be chosen for higher @search.score.
- */
-export type VectorThresholdKind = string;
-
-/** The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-export interface VectorSimilarityThreshold extends VectorThreshold {
-  /** The threshold will filter based on the similarity metric value. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field. */
-  value: number;
-  /** The kind of threshold used to filter vector queries */
-  kind: "vectorSimilarity";
-}
-
-export function vectorSimilarityThresholdSerializer(item: VectorSimilarityThreshold): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function vectorSimilarityThresholdDeserializer(item: any): VectorSimilarityThreshold {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
-/** The results of the vector query will filter based on the ' */
-export interface SearchScoreThreshold extends VectorThreshold {
-  /** The threshold will filter based on the ' */
-  value: number;
-  /** The kind of threshold used to filter vector queries */
-  kind: "searchScore";
-}
-
-export function searchScoreThresholdSerializer(item: SearchScoreThreshold): any {
-  return { kind: item["kind"], value: item["value"] };
-}
-
-export function searchScoreThresholdDeserializer(item: any): SearchScoreThreshold {
-  return {
-    kind: item["kind"],
-    value: item["value"],
-  };
-}
-
 /** The kind of vector query being performed. */
 export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
@@ -1068,11 +565,6 @@ export function vectorizedQuerySerializer(item: VectorizedQuery): any {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     vector: item["vector"].map((p: any) => {
       return p;
@@ -1087,11 +579,6 @@ export function vectorizedQueryDeserializer(item: any): VectorizedQuery {
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     vector: item["vector"].map((p: any) => {
       return p;
@@ -1103,8 +590,6 @@ export function vectorizedQueryDeserializer(item: any): VectorizedQuery {
 export interface VectorizableTextQuery extends VectorQuery {
   /** The text to be vectorized to perform a vector search query. */
   text: string;
-  /** Can be configured to let a generative model rewrite the query before sending it to be vectorized. */
-  queryRewrites?: QueryRewritesType;
   /** The kind of vector query being performed. */
   kind: "text";
 }
@@ -1116,14 +601,8 @@ export function vectorizableTextQuerySerializer(item: VectorizableTextQuery): an
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     text: item["text"],
-    queryRewrites: item["queryRewrites"],
   };
 }
 
@@ -1134,14 +613,8 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     text: item["text"],
-    queryRewrites: item["queryRewrites"],
   };
 }
 
@@ -1160,11 +633,6 @@ export function vectorizableImageUrlQuerySerializer(item: VectorizableImageUrlQu
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     url: item["url"],
   };
@@ -1177,11 +645,6 @@ export function vectorizableImageUrlQueryDeserializer(item: any): VectorizableIm
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     url: item["url"],
   };
@@ -1202,11 +665,6 @@ export function vectorizableImageBinaryQuerySerializer(item: VectorizableImageBi
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionSerializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     base64Image: item["base64Image"],
   };
@@ -1219,11 +677,6 @@ export function vectorizableImageBinaryQueryDeserializer(item: any): Vectorizabl
     exhaustive: item["exhaustive"],
     oversampling: item["oversampling"],
     weight: item["weight"],
-    threshold: !item["threshold"]
-      ? item["threshold"]
-      : vectorThresholdUnionDeserializer(item["threshold"]),
-    filterOverride: item["filterOverride"],
-    perDocumentVectorLimit: item["perDocumentVectorLimit"],
     kind: item["kind"],
     base64Image: item["base64Image"],
   };
@@ -1249,46 +702,6 @@ export enum KnownVectorFilterMode {
  * **strictPostFilter**: The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'.
  */
 export type VectorFilterMode = string;
-
-/** TThe query parameters to configure hybrid search behaviors. */
-export interface HybridSearch {
-  /** Determines the maximum number of documents to be retrieved by the text query portion of a hybrid search request. Those documents will be combined with the documents matching the vector queries to produce a single final list of results. Choosing a larger maxTextRecallSize value will allow retrieving and paging through more documents (using the top and skip parameters), at the cost of higher resource utilization and higher latency. The value needs to be between 1 and 10,000. Default is 1000. */
-  maxTextRecallSize?: number;
-  /** Determines whether the count and facets should includes all documents that matched the search query, or only the documents that are retrieved within the 'maxTextRecallSize' window. */
-  countAndFacetMode?: HybridCountAndFacetMode;
-}
-
-export function hybridSearchSerializer(item: HybridSearch): any {
-  return {
-    maxTextRecallSize: item["maxTextRecallSize"],
-    countAndFacetMode: item["countAndFacetMode"],
-  };
-}
-
-export function hybridSearchDeserializer(item: any): HybridSearch {
-  return {
-    maxTextRecallSize: item["maxTextRecallSize"],
-    countAndFacetMode: item["countAndFacetMode"],
-  };
-}
-
-/** Determines whether the count and facets should includes all documents that matched the search query, or only the documents that are retrieved within the 'maxTextRecallSize' window. The default value is 'countAllResults'. */
-export enum KnownHybridCountAndFacetMode {
-  /** Only include documents that were matched within the 'maxTextRecallSize' retrieval window when computing 'count' and 'facets'. */
-  CountRetrievableResults = "countRetrievableResults",
-  /** Include all documents that were matched by the search query when computing 'count' and 'facets', regardless of whether or not those documents are within the 'maxTextRecallSize' retrieval window. */
-  CountAllResults = "countAllResults",
-}
-
-/**
- * Determines whether the count and facets should includes all documents that matched the search query, or only the documents that are retrieved within the 'maxTextRecallSize' window. The default value is 'countAllResults'. \
- * {@link KnownHybridCountAndFacetMode} can be used interchangeably with HybridCountAndFacetMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **countRetrievableResults**: Only include documents that were matched within the 'maxTextRecallSize' retrieval window when computing 'count' and 'facets'. \
- * **countAllResults**: Include all documents that were matched by the search query when computing 'count' and 'facets', regardless of whether or not those documents are within the 'maxTextRecallSize' retrieval window.
- */
-export type HybridCountAndFacetMode = string;
 
 export function searchResultArraySerializer(result: Array<SearchResult>): any[] {
   return result.map((item) => {
@@ -1382,118 +795,13 @@ export function queryCaptionResultDeserializer(item: any): QueryCaptionResult {
 
 /** Contains debugging information that can be used to further explore your search results. */
 export interface DocumentDebugInfo {
-  /** Contains debugging information specific to semantic ranking requests. */
-  readonly semantic?: SemanticDebugInfo;
   /** Contains debugging information specific to vector and hybrid search. */
   readonly vectors?: VectorsDebugInfo;
-  /** Contains debugging information specific to vectors matched within a collection of complex types. */
-  readonly innerHits?: Record<string, QueryResultDocumentInnerHit[]>;
 }
 
 export function documentDebugInfoDeserializer(item: any): DocumentDebugInfo {
   return {
-    semantic: !item["semantic"]
-      ? item["semantic"]
-      : semanticDebugInfoDeserializer(item["semantic"]),
     vectors: !item["vectors"] ? item["vectors"] : vectorsDebugInfoDeserializer(item["vectors"]),
-    innerHits: !item["innerHits"]
-      ? item["innerHits"]
-      : queryResultDocumentInnerHitArrayRecordDeserializer(item["innerHits"]),
-  };
-}
-
-/** Contains debugging information specific to semantic ranking requests. */
-export interface SemanticDebugInfo {
-  /** The title field that was sent to the semantic enrichment process, as well as how it was used */
-  readonly titleField?: QueryResultDocumentSemanticField;
-  /** The content fields that were sent to the semantic enrichment process, as well as how they were used */
-  readonly contentFields?: QueryResultDocumentSemanticField[];
-  /** The keyword fields that were sent to the semantic enrichment process, as well as how they were used */
-  readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /** The raw concatenated strings that were sent to the semantic enrichment process. */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
-}
-
-export function semanticDebugInfoDeserializer(item: any): SemanticDebugInfo {
-  return {
-    titleField: !item["titleField"]
-      ? item["titleField"]
-      : queryResultDocumentSemanticFieldDeserializer(item["titleField"]),
-    contentFields: !item["contentFields"]
-      ? item["contentFields"]
-      : queryResultDocumentSemanticFieldArrayDeserializer(item["contentFields"]),
-    keywordFields: !item["keywordFields"]
-      ? item["keywordFields"]
-      : queryResultDocumentSemanticFieldArrayDeserializer(item["keywordFields"]),
-    rerankerInput: !item["rerankerInput"]
-      ? item["rerankerInput"]
-      : queryResultDocumentRerankerInputDeserializer(item["rerankerInput"]),
-  };
-}
-
-/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
-export interface QueryResultDocumentSemanticField {
-  /** The name of the field that was sent to the semantic enrichment process */
-  readonly name?: string;
-  /** The way the field was used for the semantic enrichment process (fully used, partially used, or unused) */
-  readonly state?: SemanticFieldState;
-}
-
-export function queryResultDocumentSemanticFieldDeserializer(
-  item: any,
-): QueryResultDocumentSemanticField {
-  return {
-    name: item["name"],
-    state: item["state"],
-  };
-}
-
-/** The way the field was used for the semantic enrichment process. */
-export enum KnownSemanticFieldState {
-  /** The field was fully used for semantic enrichment. */
-  Used = "used",
-  /** The field was not used for semantic enrichment. */
-  Unused = "unused",
-  /** The field was partially used for semantic enrichment. */
-  Partial = "partial",
-}
-
-/**
- * The way the field was used for the semantic enrichment process. \
- * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **used**: The field was fully used for semantic enrichment. \
- * **unused**: The field was not used for semantic enrichment. \
- * **partial**: The field was partially used for semantic enrichment.
- */
-export type SemanticFieldState = string;
-
-export function queryResultDocumentSemanticFieldArrayDeserializer(
-  result: Array<QueryResultDocumentSemanticField>,
-): any[] {
-  return result.map((item) => {
-    return queryResultDocumentSemanticFieldDeserializer(item);
-  });
-}
-
-/** The raw concatenated strings that were sent to the semantic enrichment process. */
-export interface QueryResultDocumentRerankerInput {
-  /** The raw string for the title field that was used for semantic enrichment. */
-  readonly title?: string;
-  /** The raw concatenated strings for the content fields that were used for semantic enrichment. */
-  readonly content?: string;
-  /** The raw concatenated strings for the keyword fields that were used for semantic enrichment. */
-  readonly keywords?: string;
-}
-
-export function queryResultDocumentRerankerInputDeserializer(
-  item: any,
-): QueryResultDocumentRerankerInput {
-  return {
-    title: item["title"],
-    content: item["content"],
-    keywords: item["keywords"],
   };
 }
 
@@ -1576,41 +884,6 @@ export function singleVectorFieldResultDeserializer(item: any): SingleVectorFiel
   };
 }
 
-export function queryResultDocumentInnerHitArrayRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, Array<QueryResultDocumentInnerHit>> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : queryResultDocumentInnerHitArrayDeserializer(item[key]);
-  });
-  return result;
-}
-
-export function queryResultDocumentInnerHitArrayDeserializer(
-  result: Array<QueryResultDocumentInnerHit>,
-): any[] {
-  return result.map((item) => {
-    return queryResultDocumentInnerHitDeserializer(item);
-  });
-}
-
-/** Detailed scoring information for an individual element of a complex collection. */
-export interface QueryResultDocumentInnerHit {
-  /** Position of this specific matching element within it's original collection. Position starts at 0. */
-  readonly ordinal?: number;
-  /** Detailed scoring information for an individual element of a complex collection that matched a vector query. */
-  readonly vectors?: Record<string, SingleVectorFieldResult>[];
-}
-
-export function queryResultDocumentInnerHitDeserializer(item: any): QueryResultDocumentInnerHit {
-  return {
-    ordinal: item["ordinal"],
-    vectors: !item["vectors"]
-      ? item["vectors"]
-      : singleVectorFieldResultRecordArrayDeserializer(item["vectors"]),
-  };
-}
-
 /** Reason that a partial response was returned for a semantic ranking request. */
 export enum KnownSemanticErrorReason {
   /** If `semanticMaxWaitInMilliseconds` was set and the semantic processing duration exceeded that value. Only the base results were returned. */
@@ -1649,21 +922,6 @@ export enum KnownSemanticSearchResultsType {
  * **rerankedResults**: Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights.
  */
 export type SemanticSearchResultsType = string;
-
-/** Type of query rewrite that was used for this request. */
-export enum KnownSemanticQueryRewritesResultType {
-  /** Query rewrites were not successfully generated for this request. Only the original query was used to retrieve the results. */
-  OriginalQueryOnly = "originalQueryOnly",
-}
-
-/**
- * Type of query rewrite that was used for this request. \
- * {@link KnownSemanticQueryRewritesResultType} can be used interchangeably with SemanticQueryRewritesResultType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **originalQueryOnly**: Query rewrites were not successfully generated for this request. Only the original query was used to retrieve the results.
- */
-export type SemanticQueryRewritesResultType = string;
 
 /** A document retrieved via a document lookup operation. */
 export interface LookupDocument {
@@ -1854,3 +1112,10 @@ export function autocompleteItemDeserializer(item: any): AutocompleteItem {
 
 /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context in producing autocomplete terms. */
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DebugInfo {}
+
+export function debugInfoSerializer(item: DebugInfo): any {
+  return item;
+}

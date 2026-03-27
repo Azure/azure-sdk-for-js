@@ -7,9 +7,7 @@ import type {
   AIFoundryModelCatalogName,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
-  AzureMachineLearningSkill,
   AzureOpenAIModelName,
-  AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
   SearchIndexerSkill as BaseSearchIndexerSkill,
@@ -46,11 +44,8 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  IndexedSharePointContainerName,
-  IndexerPermissionOption,
   IndexingSchedule,
   IndexProjectionMode,
-  IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnowledgeSourceContentExtractionMode,
@@ -103,9 +98,7 @@ import type {
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
-  PermissionFilter,
   PhoneticTokenFilter,
-  RemoteSharePointKnowledgeSourceParameters,
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
@@ -115,7 +108,6 @@ import type {
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
-  SearchIndexPermissionFilterOption,
   SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
@@ -125,7 +117,6 @@ import type {
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
-  SplitSkillUnit,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
@@ -342,35 +333,6 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
-}
-
-/**
- * Options for reset docs operation.
- */
-export interface ResetDocumentsOptions extends OperationOptions {
-  /**
-   * document keys to be reset
-   */
-  documentKeys?: string[];
-  /**
-   * datasource document identifiers to be reset
-   */
-  datasourceDocumentIds?: string[];
-  /**
-   * If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this
-   * payload will be queued to be re-ingested.
-   */
-  overwrite?: boolean;
-}
-
-/**
- * Options for reset skills operation.
- */
-export interface ResetSkillsOptions extends OperationOptions {
-  /**
-   * the names of skills to be reset.
-   */
-  skillNames?: string[];
 }
 
 /**
@@ -702,26 +664,9 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
 export type WebApiSkills = WebApiSkill | ChatCompletionSkill;
 
 /**
- * Allows you to generate a vector embedding for a given image or text input using the Azure AI
- * Services Vision Vectorize API.
- */
-export interface VisionVectorizeSkill extends BaseSearchIndexerSkill {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
-  /**
-   * The version of the model to use when calling the AI Services Vision service. It will default to
-   * the latest available when not specified.
-   */
-  modelVersion?: string;
-}
-
-/**
  * Contains the possible cases for Skill.
  */
 export type SearchIndexerSkill =
-  | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
   | ConditionalSkill
   | CustomEntityLookupSkill
@@ -742,7 +687,6 @@ export type SearchIndexerSkill =
   | ShaperSkill
   | SplitSkill
   | TextTranslationSkill
-  | VisionVectorizeSkill
   | WebApiSkills;
 
 /**
@@ -1126,10 +1070,6 @@ export interface SimpleField {
    */
   facetable?: boolean;
   /**
-   * A value indicating whether the field should be used as a permission filter.
-   */
-  permissionFilter?: PermissionFilter;
-  /**
    * The name of the analyzer to use for the field. This option can be used only with
    * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
    * Once the analyzer is chosen, it cannot be changed for the field.
@@ -1239,16 +1179,6 @@ export interface SynonymMap {
  * per iteration.
  */
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
-
-/**
- * An iterator for statistics summaries for each index in the Search service. Will make requests as
- * needed during iteration. Use .byPage() to make one request to the server per iteration.
- */
-export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<
-  IndexStatisticsSummary,
-  IndexStatisticsSummary[],
-  {}
->;
 
 /**
  * An iterator for listing the knowledge bases that exist in the Search service. Will make requests
@@ -1361,38 +1291,11 @@ export interface SearchIndex {
    */
   vectorSearch?: VectorSearch;
   /**
-   * A value indicating whether permission filtering is enabled for the index.
-   */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /**
    * The ETag of the index.
    */
   etag?: string;
   /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
   purviewEnabled?: boolean;
-}
-
-export interface SearchIndexerCache {
-  /**
-   * A guid for the SearchIndexerCache.
-   */
-  id?: string;
-  /**
-   * The connection string to the storage account where the cache data will be persisted.
-   */
-  storageConnectionString?: string;
-  /**
-   * Specifies whether incremental reprocessing is enabled.
-   */
-  enableReprocessing?: boolean;
-  /**
-   * The user-assigned managed identity used for connections to the enrichment cache.  If the
-   * connection string indicates an identity (ResourceId) and it's not specified, the
-   * system-assigned managed identity is used. On updates to the indexer, if the identity is
-   * unspecified, the value remains unchanged. If set to "none", the value of this property is
-   * cleared.
-   */
-  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1456,11 +1359,6 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
-  /**
-   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
-   * having to rebuild the index every time.
-   */
-  cache?: SearchIndexerCache;
 }
 
 /**
@@ -2277,10 +2175,6 @@ export interface SearchIndexerDataSourceConnection {
    */
   identity?: SearchIndexerDataIdentity;
   /**
-   * Ingestion options with various types of permission data.
-   */
-  indexerPermissionOptions?: IndexerPermissionOption[];
-  /**
    * The data change detection policy for the datasource.
    */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
@@ -2537,50 +2431,9 @@ export interface WebApiParameters {
  * Contains configuration options on how to vectorize text vector queries.
  */
 export type VectorSearchVectorizer =
-  | AIServicesVisionVectorizer
   | AzureMachineLearningVectorizer
   | AzureOpenAIVectorizer
   | WebApiVectorizer;
-
-/**
- * Specifies the AI Services Vision parameters for vectorizing a query image or text.
- */
-export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "aiServicesVision";
-  /**
-   * Contains the parameters specific to AI Services Vision embedding vectorization.
-   */
-  parameters?: AIServicesVisionParameters;
-}
-
-/**
- * Specifies the AI Services Vision parameters for vectorizing a query image or text.
- */
-export interface AIServicesVisionParameters {
-  /**
-   * The version of the model to use when calling the AI Services Vision service. It will default to
-   * the latest available when not specified.
-   */
-  modelVersion?: string;
-  /**
-   * The resource URI of the AI Services resource.
-   */
-  resourceUri: string;
-  /**
-   * API key of the designated AI Services resource.
-   */
-  apiKey?: string;
-  /**
-   * The user-assigned managed identity used for outbound connections. If an authResourceId is
-   * provided and it's not specified, the system-assigned managed identity is used. On updates to
-   * the index, if the identity is unspecified, the value remains unchanged. If set to "none", the
-   * value of this property is cleared.
-   */
-  authIdentity?: SearchIndexerDataIdentity;
-}
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
@@ -3095,18 +2948,6 @@ export interface SplitSkill extends BaseSearchIndexerSkill {
    * improve performance when only a few initial pages are needed from each document.
    */
   maximumPagesToTake?: number;
-  /**
-   * Only applies if textSplitMode is set to pages. There are two possible values. The choice of the
-   * values will decide the length (maximumPageLength and pageOverlapLength) measurement. The
-   * default is 'characters', which means the length will be measured by character.
-   */
-  unit?: SplitSkillUnit;
-  /**
-   * Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use
-   * these parameters when performing the tokenization. The parameters are a valid
-   * 'encoderModelName' and an optional 'allowedSpecialTokens' property.
-   */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /**
@@ -3162,10 +3003,8 @@ export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
-  | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3174,13 +3013,7 @@ export interface BaseKnowledgeSource {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  kind:
-    | "searchIndex"
-    | "azureBlob"
-    | "indexedSharePoint"
-    | "indexedOneLake"
-    | "web"
-    | "remoteSharePoint";
+  kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
   /**
    * The name of the knowledge source.
    */
@@ -3253,37 +3086,6 @@ export interface AzureBlobKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for SharePoint knowledge source.
- */
-export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "indexedSharePoint";
-  /**
-   * The parameters for the SharePoint knowledge source.
-   */
-  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
-}
-
-/** Parameters for SharePoint knowledge source. */
-export interface IndexedSharePointKnowledgeSourceParameters {
-  /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
-  connectionString: string;
-  /** Specifies which SharePoint libraries to access. */
-  containerName: IndexedSharePointContainerName;
-  /** Optional query to filter SharePoint content. */
-  query?: string;
-  /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters;
-  /**
-   * Resources created by the knowledge source.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdResources?: { [propertyName: string]: string };
-}
-
-/**
  * Configuration for OneLake knowledge source.
  */
 export interface IndexedOneLakeKnowledgeSource extends BaseKnowledgeSource {
@@ -3326,20 +3128,6 @@ export interface WebKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the web knowledge source.
    */
   webParameters?: WebKnowledgeSourceParameters;
-}
-
-/**
- * Configuration for remote SharePoint knowledge source.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the knowledge source.
-   */
-  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3386,8 +3174,6 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourc
  * Contains configuration options specific to the compression method used during indexing or querying.
  */
 export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuantizationCompression;
-
-export interface GetIndexStatsSummaryOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeBaseOptions extends OperationOptions {
   /**

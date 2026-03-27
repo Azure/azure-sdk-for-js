@@ -4,12 +4,6 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
-
-/** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;

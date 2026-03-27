@@ -24,6 +24,8 @@ export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesS
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-11-01-preview API version. */
-  V20251101Preview = "2025-11-01-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }
+
+export type GetDocumentCountResponse = { body: number };

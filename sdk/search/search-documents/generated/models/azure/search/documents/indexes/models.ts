@@ -8,10 +8,6 @@ import { parseNewlineCollection } from "../../../../../static-helpers/serializat
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
 import {
-  knowledgeRetrievalReasoningEffortUnionSerializer,
-  knowledgeRetrievalReasoningEffortUnionDeserializer,
-  KnowledgeRetrievalReasoningEffortUnion,
-  KnowledgeRetrievalOutputMode,
   KnowledgeSourceIngestionParameters,
   knowledgeSourceIngestionParametersSerializer,
   knowledgeSourceIngestionParametersDeserializer,
@@ -288,10 +284,6 @@ export interface SearchIndex {
   semanticSearch?: SemanticSearch;
   /** Contains configuration options related to vector search. */
   vectorSearch?: VectorSearch;
-  /** A value indicating whether permission filtering is enabled for the index. */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /** A value indicating whether Purview is enabled for the index. */
-  purviewEnabled?: boolean;
   /** The ETag of the index. */
   eTag?: string;
 }
@@ -338,8 +330,6 @@ export function searchIndexSerializer(item: SearchIndex): any {
     vectorSearch: !item["vectorSearch"]
       ? item["vectorSearch"]
       : vectorSearchSerializer(item["vectorSearch"]),
-    permissionFilterOption: item["permissionFilterOption"],
-    purviewEnabled: item["purviewEnabled"],
     "@odata.etag": item["eTag"],
   };
 }
@@ -386,8 +376,6 @@ export function searchIndexDeserializer(item: any): SearchIndex {
     vectorSearch: !item["vectorSearch"]
       ? item["vectorSearch"]
       : vectorSearchDeserializer(item["vectorSearch"]),
-    permissionFilterOption: item["permissionFilterOption"],
-    purviewEnabled: item["purviewEnabled"],
     eTag: item["@odata.etag"],
   };
 }
@@ -424,10 +412,6 @@ export interface SearchField {
   sortable?: boolean;
   /** A value indicating whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This property must be null for complex fields. Fields of type Edm.GeographyPoint or Collection(Edm.GeographyPoint) cannot be facetable. Default is true for all other simple fields. */
   facetable?: boolean;
-  /** A value indicating whether the field should be used as a permission filter. */
-  permissionFilter?: PermissionFilter;
-  /** A value indicating whether the field contains sensitivity label information. */
-  sensitivityLabel?: boolean;
   /** The name of the analyzer to use for the field. This option can be used only with searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   analyzerName?: LexicalAnalyzerName;
   /** The name of the analyzer used at search time for the field. This option can be used only with searchable fields. It must be set together with indexAnalyzer and it cannot be set together with the analyzer option. This property cannot be set to the name of a language analyzer; use the analyzer property instead if you need a language analyzer. This analyzer can be updated on an existing field. Must be null for complex fields. */
@@ -459,8 +443,6 @@ export function searchFieldSerializer(item: SearchField): any {
     filterable: item["filterable"],
     sortable: item["sortable"],
     facetable: item["facetable"],
-    permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
     analyzer: item["analyzerName"],
     searchAnalyzer: item["searchAnalyzerName"],
     indexAnalyzer: item["indexAnalyzerName"],
@@ -488,8 +470,6 @@ export function searchFieldDeserializer(item: any): SearchField {
     filterable: item["filterable"],
     sortable: item["sortable"],
     facetable: item["facetable"],
-    permissionFilter: item["permissionFilter"],
-    sensitivityLabel: item["sensitivityLabel"],
     analyzerName: item["analyzer"],
     searchAnalyzerName: item["searchAnalyzer"],
     indexAnalyzerName: item["indexAnalyzer"],
@@ -556,27 +536,6 @@ export enum KnownSearchFieldDataType {
  * **Edm.Byte**: Indicates that a field contains a 8-bit unsigned integer. This is only valid when used with Collection(Edm.Byte).
  */
 export type SearchFieldDataType = string;
-
-/** A value indicating whether the field should be used as a permission filter. */
-export enum KnownPermissionFilter {
-  /** Field represents user IDs that should be used to filter document access on queries. */
-  UserIds = "userIds",
-  /** Field represents group IDs that should be used to filter document access on queries. */
-  GroupIds = "groupIds",
-  /** Field represents an RBAC scope that should be used to filter document access on queries. */
-  RbacScope = "rbacScope",
-}
-
-/**
- * A value indicating whether the field should be used as a permission filter. \
- * {@link KnownPermissionFilter} can be used interchangeably with PermissionFilter,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userIds**: Field represents user IDs that should be used to filter document access on queries. \
- * **groupIds**: Field represents group IDs that should be used to filter document access on queries. \
- * **rbacScope**: Field represents an RBAC scope that should be used to filter document access on queries.
- */
-export type PermissionFilter = string;
 
 /** Defines the names of all text analyzers supported by the search engine. */
 export enum KnownLexicalAnalyzerName {
@@ -3927,8 +3886,6 @@ export interface SemanticConfiguration {
   prioritizedFields: SemanticPrioritizedFields;
   /** Specifies the score type to be used for the sort order of the search results. */
   rankingOrder?: RankingOrder;
-  /** Determines which semantic or query rewrite models to use during model flighting/upgrades. */
-  flightingOptIn?: boolean;
 }
 
 export function semanticConfigurationSerializer(item: SemanticConfiguration): any {
@@ -3936,7 +3893,6 @@ export function semanticConfigurationSerializer(item: SemanticConfiguration): an
     name: item["name"],
     prioritizedFields: semanticPrioritizedFieldsSerializer(item["prioritizedFields"]),
     rankingOrder: item["rankingOrder"],
-    flightingOptIn: item["flightingOptIn"],
   };
 }
 
@@ -3945,7 +3901,6 @@ export function semanticConfigurationDeserializer(item: any): SemanticConfigurat
     name: item["name"],
     prioritizedFields: semanticPrioritizedFieldsDeserializer(item["prioritizedFields"]),
     rankingOrder: item["rankingOrder"],
-    flightingOptIn: item["flightingOptIn"],
   };
 }
 
@@ -4370,7 +4325,7 @@ export interface VectorSearchVectorizer {
   /** The name to associate with this particular vectorization method. */
   vectorizerName: string;
   /** Type of VectorSearchVectorizer. */
-  /** The discriminator possible values: azureOpenAI, customWebApi, aiServicesVision, aml */
+  /** The discriminator possible values: azureOpenAI, customWebApi, aml */
   kind: VectorSearchVectorizerKind;
 }
 
@@ -4389,7 +4344,6 @@ export function vectorSearchVectorizerDeserializer(item: any): VectorSearchVecto
 export type VectorSearchVectorizerUnion =
   | AzureOpenAIVectorizer
   | WebApiVectorizer
-  | AIServicesVisionVectorizer
   | AzureMachineLearningVectorizer
   | VectorSearchVectorizer;
 
@@ -4400,9 +4354,6 @@ export function vectorSearchVectorizerUnionSerializer(item: VectorSearchVectoriz
 
     case "customWebApi":
       return webApiVectorizerSerializer(item as WebApiVectorizer);
-
-    case "aiServicesVision":
-      return aiServicesVisionVectorizerSerializer(item as AIServicesVisionVectorizer);
 
     case "aml":
       return azureMachineLearningVectorizerSerializer(item as AzureMachineLearningVectorizer);
@@ -4419,9 +4370,6 @@ export function vectorSearchVectorizerUnionDeserializer(item: any): VectorSearch
 
     case "customWebApi":
       return webApiVectorizerDeserializer(item as WebApiVectorizer);
-
-    case "aiServicesVision":
-      return aiServicesVisionVectorizerDeserializer(item as AIServicesVisionVectorizer);
 
     case "aml":
       return azureMachineLearningVectorizerDeserializer(item as AzureMachineLearningVectorizer);
@@ -4533,22 +4481,14 @@ export enum KnownAzureOpenAIModelName {
   TextEmbedding3Large = "text-embedding-3-large",
   /** TextEmbedding3Small model. */
   TextEmbedding3Small = "text-embedding-3-small",
-  /** Gpt4o model. */
-  Gpt4O = "gpt-4o",
-  /** Gpt4oMini model. */
-  Gpt4OMini = "gpt-4o-mini",
-  /** Gpt41 model. */
-  Gpt41 = "gpt-4.1",
-  /** Gpt41Mini model. */
-  Gpt41Mini = "gpt-4.1-mini",
-  /** Gpt41Nano model. */
-  Gpt41Nano = "gpt-4.1-nano",
-  /** Gpt5 model. */
-  Gpt5 = "gpt-5",
   /** Gpt5Mini model. */
   Gpt5Mini = "gpt-5-mini",
   /** Gpt5Nano model. */
   Gpt5Nano = "gpt-5-nano",
+  /** Gpt54Mini model. */
+  Gpt54Mini = "gpt-5.4-mini",
+  /** Gpt54Nano model. */
+  Gpt54Nano = "gpt-5.4-nano",
 }
 
 /**
@@ -4559,14 +4499,10 @@ export enum KnownAzureOpenAIModelName {
  * **text-embedding-ada-002**: TextEmbeddingAda002 model. \
  * **text-embedding-3-large**: TextEmbedding3Large model. \
  * **text-embedding-3-small**: TextEmbedding3Small model. \
- * **gpt-4o**: Gpt4o model. \
- * **gpt-4o-mini**: Gpt4oMini model. \
- * **gpt-4.1**: Gpt41 model. \
- * **gpt-4.1-mini**: Gpt41Mini model. \
- * **gpt-4.1-nano**: Gpt41Nano model. \
- * **gpt-5**: Gpt5 model. \
  * **gpt-5-mini**: Gpt5Mini model. \
- * **gpt-5-nano**: Gpt5Nano model.
+ * **gpt-5-nano**: Gpt5Nano model. \
+ * **gpt-5.4-mini**: Gpt54Mini model. \
+ * **gpt-5.4-nano**: Gpt54Nano model.
  */
 export type AzureOpenAIModelName = string;
 
@@ -4638,68 +4574,6 @@ export function webApiVectorizerParametersDeserializer(item: any): WebApiVectori
     httpMethod: item["httpMethod"],
     timeout: item["timeout"],
     authResourceId: item["authResourceId"],
-    authIdentity: !item["authIdentity"]
-      ? item["authIdentity"]
-      : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
-  };
-}
-
-/** Clears the identity property of a datasource. */
-export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
-  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
-  aiServicesVisionParameters?: AIServicesVisionParameters;
-  /** The name of the kind of vectorization method being configured for use with vector search. */
-  kind: "aiServicesVision";
-}
-
-export function aiServicesVisionVectorizerSerializer(item: AIServicesVisionVectorizer): any {
-  return {
-    name: item["vectorizerName"],
-    kind: item["kind"],
-    aiServicesVisionParameters: !item["aiServicesVisionParameters"]
-      ? item["aiServicesVisionParameters"]
-      : aiServicesVisionParametersSerializer(item["aiServicesVisionParameters"]),
-  };
-}
-
-export function aiServicesVisionVectorizerDeserializer(item: any): AIServicesVisionVectorizer {
-  return {
-    vectorizerName: item["name"],
-    kind: item["kind"],
-    aiServicesVisionParameters: !item["aiServicesVisionParameters"]
-      ? item["aiServicesVisionParameters"]
-      : aiServicesVisionParametersDeserializer(item["aiServicesVisionParameters"]),
-  };
-}
-
-/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
-export interface AIServicesVisionParameters {
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
-  /** The resource URI of the AI Services resource. */
-  resourceUri: string;
-  /** API key of the designated AI Services resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentityUnion;
-}
-
-export function aiServicesVisionParametersSerializer(item: AIServicesVisionParameters): any {
-  return {
-    modelVersion: item["modelVersion"],
-    resourceUri: item["resourceUri"],
-    apiKey: item["apiKey"],
-    authIdentity: !item["authIdentity"]
-      ? item["authIdentity"]
-      : searchIndexerDataIdentityUnionSerializer(item["authIdentity"]),
-  };
-}
-
-export function aiServicesVisionParametersDeserializer(item: any): AIServicesVisionParameters {
-  return {
-    modelVersion: item["modelVersion"],
-    resourceUri: item["resourceUri"],
-    apiKey: item["apiKey"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
@@ -5057,24 +4931,6 @@ export function binaryQuantizationCompressionDeserializer(
   };
 }
 
-/** A value indicating whether permission filtering is enabled for the index. */
-export enum KnownSearchIndexPermissionFilterOption {
-  /** enabled. */
-  Enabled = "enabled",
-  /** disabled. */
-  Disabled = "disabled",
-}
-
-/**
- * A value indicating whether permission filtering is enabled for the index. \
- * {@link KnownSearchIndexPermissionFilterOption} can be used interchangeably with SearchIndexPermissionFilterOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled**: enabled. \
- * **disabled**: disabled.
- */
-export type SearchIndexPermissionFilterOption = string;
-
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesResult {
   /** The indexes in the Search service. */
@@ -5139,10 +4995,6 @@ export interface SearchIndexResponse {
   semantic?: SemanticSearch;
   /** Contains configuration options related to vector search. */
   vectorSearch?: VectorSearch;
-  /** A value indicating whether permission filtering is enabled for the index. */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /** A value indicating whether Purview is enabled for the index. */
-  purviewEnabled?: boolean;
   /** The ETag of the index. */
   eTag?: string;
 }
@@ -5187,8 +5039,6 @@ export function searchIndexResponseDeserializer(item: any): SearchIndexResponse 
     vectorSearch: !item["vectorSearch"]
       ? item["vectorSearch"]
       : vectorSearchDeserializer(item["vectorSearch"]),
-    permissionFilterOption: item["permissionFilterOption"],
-    purviewEnabled: item["purviewEnabled"],
     eTag: item["@odata.etag"],
   };
 }
@@ -5365,20 +5215,12 @@ export interface KnowledgeBase {
   knowledgeSources: KnowledgeSourceReference[];
   /** Contains configuration options on how to connect to AI models. */
   models?: KnowledgeBaseModelUnion[];
-  /** The retrieval reasoning effort configuration. */
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
-  /** The output mode for the knowledge base. */
-  outputMode?: KnowledgeRetrievalOutputMode;
   /** The ETag of the knowledge base. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The description of the knowledge base. */
   description?: string;
-  /** Instructions considered by the knowledge base when developing query plan. */
-  retrievalInstructions?: string;
-  /** Instructions considered by the knowledge base when generating answers. */
-  answerInstructions?: string;
 }
 
 export function knowledgeBaseSerializer(item: KnowledgeBase): any {
@@ -5388,17 +5230,11 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArraySerializer(item["models"]),
-    retrievalReasoningEffort: !item["retrievalReasoningEffort"]
-      ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionSerializer(item["retrievalReasoningEffort"]),
-    outputMode: item["outputMode"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
     description: item["description"],
-    retrievalInstructions: item["retrievalInstructions"],
-    answerInstructions: item["answerInstructions"],
   };
 }
 
@@ -5409,17 +5245,11 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArrayDeserializer(item["models"]),
-    retrievalReasoningEffort: !item["retrievalReasoningEffort"]
-      ? item["retrievalReasoningEffort"]
-      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
-    outputMode: item["outputMode"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
     description: item["description"],
-    retrievalInstructions: item["retrievalInstructions"],
-    answerInstructions: item["answerInstructions"],
   };
 }
 
@@ -5582,7 +5412,7 @@ export interface KnowledgeSource {
   /** Optional user-defined description. */
   description?: string;
   /** The type of the knowledge source. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedOneLake, web */
   kind: KnowledgeSourceKind;
   /** The ETag of the knowledge source. */
   eTag?: string;
@@ -5618,10 +5448,8 @@ export function knowledgeSourceDeserializer(item: any): KnowledgeSource {
 export type KnowledgeSourceUnion =
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
-  | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
   | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource
   | KnowledgeSource;
 
 export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any {
@@ -5632,17 +5460,11 @@ export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any 
     case "azureBlob":
       return azureBlobKnowledgeSourceSerializer(item as AzureBlobKnowledgeSource);
 
-    case "indexedSharePoint":
-      return indexedSharePointKnowledgeSourceSerializer(item as IndexedSharePointKnowledgeSource);
-
     case "indexedOneLake":
       return indexedOneLakeKnowledgeSourceSerializer(item as IndexedOneLakeKnowledgeSource);
 
     case "web":
       return webKnowledgeSourceSerializer(item as WebKnowledgeSource);
-
-    case "remoteSharePoint":
-      return remoteSharePointKnowledgeSourceSerializer(item as RemoteSharePointKnowledgeSource);
 
     default:
       return knowledgeSourceSerializer(item);
@@ -5657,17 +5479,11 @@ export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnio
     case "azureBlob":
       return azureBlobKnowledgeSourceDeserializer(item as AzureBlobKnowledgeSource);
 
-    case "indexedSharePoint":
-      return indexedSharePointKnowledgeSourceDeserializer(item as IndexedSharePointKnowledgeSource);
-
     case "indexedOneLake":
       return indexedOneLakeKnowledgeSourceDeserializer(item as IndexedOneLakeKnowledgeSource);
 
     case "web":
       return webKnowledgeSourceDeserializer(item as WebKnowledgeSource);
-
-    case "remoteSharePoint":
-      return remoteSharePointKnowledgeSourceDeserializer(item as RemoteSharePointKnowledgeSource);
 
     default:
       return knowledgeSourceDeserializer(item);
@@ -5680,14 +5496,10 @@ export enum KnownKnowledgeSourceKind {
   SearchIndex = "searchIndex",
   /** A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. */
   AzureBlob = "azureBlob",
-  /** A knowledge source that reads data from indexed SharePoint. */
-  IndexedSharePoint = "indexedSharePoint",
   /** A knowledge source that reads data from indexed OneLake. */
   IndexedOneLake = "indexedOneLake",
   /** A knowledge source that reads data from the web. */
   Web = "web",
-  /** A knowledge source that reads data from remote SharePoint. */
-  RemoteSharePoint = "remoteSharePoint",
 }
 
 /**
@@ -5697,10 +5509,8 @@ export enum KnownKnowledgeSourceKind {
  * ### Known values supported by the service
  * **searchIndex**: A knowledge source that reads data from a Search Index. \
  * **azureBlob**: A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. \
- * **indexedSharePoint**: A knowledge source that reads data from indexed SharePoint. \
  * **indexedOneLake**: A knowledge source that reads data from indexed OneLake. \
- * **web**: A knowledge source that reads data from the web. \
- * **remoteSharePoint**: A knowledge source that reads data from remote SharePoint.
+ * **web**: A knowledge source that reads data from the web.
  */
 export type KnowledgeSourceKind = string;
 
@@ -5970,111 +5780,6 @@ export function createdResourcesDeserializer(item: any): CreatedResources {
   };
 }
 
-/** Configuration for SharePoint knowledge source. */
-export interface IndexedSharePointKnowledgeSource extends KnowledgeSource {
-  kind: "indexedSharePoint";
-  /** The parameters for the knowledge source. */
-  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
-}
-
-export function indexedSharePointKnowledgeSourceSerializer(
-  item: IndexedSharePointKnowledgeSource,
-): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    kind: item["kind"],
-    "@odata.etag": item["eTag"],
-    encryptionKey: !item["encryptionKey"]
-      ? item["encryptionKey"]
-      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
-    indexedSharePointParameters: indexedSharePointKnowledgeSourceParametersSerializer(
-      item["indexedSharePointParameters"],
-    ),
-  };
-}
-
-export function indexedSharePointKnowledgeSourceDeserializer(
-  item: any,
-): IndexedSharePointKnowledgeSource {
-  return {
-    name: item["name"],
-    description: item["description"],
-    kind: item["kind"],
-    eTag: item["@odata.etag"],
-    encryptionKey: !item["encryptionKey"]
-      ? item["encryptionKey"]
-      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
-    indexedSharePointParameters: indexedSharePointKnowledgeSourceParametersDeserializer(
-      item["indexedSharePointParameters"],
-    ),
-  };
-}
-
-/** Parameters for SharePoint knowledge source. */
-export interface IndexedSharePointKnowledgeSourceParameters {
-  /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
-  connectionString: string;
-  /** Specifies which SharePoint libraries to access. */
-  containerName: IndexedSharePointContainerName;
-  /** Optional query to filter SharePoint content. */
-  query?: string;
-  /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters;
-  /** Resources created by the knowledge source. */
-  readonly createdResources?: CreatedResources;
-}
-
-export function indexedSharePointKnowledgeSourceParametersSerializer(
-  item: IndexedSharePointKnowledgeSourceParameters,
-): any {
-  return {
-    connectionString: item["connectionString"],
-    containerName: item["containerName"],
-    query: item["query"],
-    ingestionParameters: !item["ingestionParameters"]
-      ? item["ingestionParameters"]
-      : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
-  };
-}
-
-export function indexedSharePointKnowledgeSourceParametersDeserializer(
-  item: any,
-): IndexedSharePointKnowledgeSourceParameters {
-  return {
-    connectionString: item["connectionString"],
-    containerName: item["containerName"],
-    query: item["query"],
-    ingestionParameters: !item["ingestionParameters"]
-      ? item["ingestionParameters"]
-      : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
-    createdResources: !item["createdResources"]
-      ? item["createdResources"]
-      : createdResourcesDeserializer(item["createdResources"]),
-  };
-}
-
-/** Specifies which SharePoint libraries to access. */
-export enum KnownIndexedSharePointContainerName {
-  /** Index content from the site's default document library. */
-  DefaultSiteLibrary = "defaultSiteLibrary",
-  /** Index content from every document library in the site. */
-  AllSiteLibraries = "allSiteLibraries",
-  /** Use a query to filter SharePoint content. */
-  UseQuery = "useQuery",
-}
-
-/**
- * Specifies which SharePoint libraries to access. \
- * {@link KnownIndexedSharePointContainerName} can be used interchangeably with IndexedSharePointContainerName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **defaultSiteLibrary**: Index content from the site's default document library. \
- * **allSiteLibraries**: Index content from every document library in the site. \
- * **useQuery**: Use a query to filter SharePoint content.
- */
-export type IndexedSharePointContainerName = string;
-
 /** Configuration for OneLake knowledge source. */
 export interface IndexedOneLakeKnowledgeSource extends KnowledgeSource {
   kind: "indexedOneLake";
@@ -6281,85 +5986,6 @@ export function webKnowledgeSourceDomainDeserializer(item: any): WebKnowledgeSou
   };
 }
 
-/** Configuration for remote SharePoint knowledge source. */
-export interface RemoteSharePointKnowledgeSource extends KnowledgeSource {
-  kind: "remoteSharePoint";
-  /** The parameters for the remote SharePoint knowledge source. */
-  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
-}
-
-export function remoteSharePointKnowledgeSourceSerializer(
-  item: RemoteSharePointKnowledgeSource,
-): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    kind: item["kind"],
-    "@odata.etag": item["eTag"],
-    encryptionKey: !item["encryptionKey"]
-      ? item["encryptionKey"]
-      : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
-    remoteSharePointParameters: !item["remoteSharePointParameters"]
-      ? item["remoteSharePointParameters"]
-      : remoteSharePointKnowledgeSourceParametersSerializer(item["remoteSharePointParameters"]),
-  };
-}
-
-export function remoteSharePointKnowledgeSourceDeserializer(
-  item: any,
-): RemoteSharePointKnowledgeSource {
-  return {
-    name: item["name"],
-    description: item["description"],
-    kind: item["kind"],
-    eTag: item["@odata.etag"],
-    encryptionKey: !item["encryptionKey"]
-      ? item["encryptionKey"]
-      : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
-    remoteSharePointParameters: !item["remoteSharePointParameters"]
-      ? item["remoteSharePointParameters"]
-      : remoteSharePointKnowledgeSourceParametersDeserializer(item["remoteSharePointParameters"]),
-  };
-}
-
-/** Parameters for remote SharePoint knowledge source. */
-export interface RemoteSharePointKnowledgeSourceParameters {
-  /** Keyword Query Language (KQL) expression with queryable SharePoint properties and attributes to scope the retrieval before the query runs. */
-  filterExpression?: string;
-  /** A list of metadata fields to be returned for each item in the response. Only retrievable metadata properties can be included in this list. By default, no metadata is returned. */
-  resourceMetadata?: string[];
-  /** Container ID for SharePoint Embedded connection. When this is null, it will use SharePoint Online. */
-  containerTypeId?: string;
-}
-
-export function remoteSharePointKnowledgeSourceParametersSerializer(
-  item: RemoteSharePointKnowledgeSourceParameters,
-): any {
-  return {
-    filterExpression: item["filterExpression"],
-    resourceMetadata: !item["resourceMetadata"]
-      ? item["resourceMetadata"]
-      : item["resourceMetadata"].map((p: any) => {
-          return p;
-        }),
-    containerTypeId: item["containerTypeId"],
-  };
-}
-
-export function remoteSharePointKnowledgeSourceParametersDeserializer(
-  item: any,
-): RemoteSharePointKnowledgeSourceParameters {
-  return {
-    filterExpression: item["filterExpression"],
-    resourceMetadata: !item["resourceMetadata"]
-      ? item["resourceMetadata"]
-      : item["resourceMetadata"].map((p: any) => {
-          return p;
-        }),
-    containerTypeId: item["containerTypeId"],
-  };
-}
-
 /** Result from listing knowledge sources. */
 export interface _ListKnowledgeSourcesResult {
   /** The knowledge sources in the service. */
@@ -6411,15 +6037,12 @@ export interface SearchServiceStatistics {
   counters: ServiceCounters;
   /** Service level general limits. */
   limits: ServiceLimits;
-  /** Service level indexer runtime consumption. */
-  indexersRuntime: ServiceIndexersRuntime;
 }
 
 export function searchServiceStatisticsDeserializer(item: any): SearchServiceStatistics {
   return {
     counters: serviceCountersDeserializer(item["counters"]),
     limits: serviceLimitsDeserializer(item["limits"]),
-    indexersRuntime: serviceIndexersRuntimeDeserializer(item["indexersRuntime"]),
   };
 }
 
@@ -6501,68 +6124,6 @@ export function serviceLimitsDeserializer(item: any): ServiceLimits {
   };
 }
 
-/** Represents service-level indexer runtime counters. */
-export interface ServiceIndexersRuntime {
-  /** Cumulative runtime of all indexers in the service from the beginningTime to endingTime, in seconds. */
-  usedSeconds: number;
-  /** Cumulative runtime remaining for all indexers in the service from the beginningTime to endingTime, in seconds. */
-  remainingSeconds?: number;
-  /** Beginning UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
-  beginningTime: Date;
-  /** End UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
-  endingTime: Date;
-}
-
-export function serviceIndexersRuntimeDeserializer(item: any): ServiceIndexersRuntime {
-  return {
-    usedSeconds: item["usedSeconds"],
-    remainingSeconds: item["remainingSeconds"],
-    beginningTime: new Date(item["beginningTime"]),
-    endingTime: new Date(item["endingTime"]),
-  };
-}
-
-/** Response from a request to retrieve stats summary of all indexes. If successful, it includes the stats of each index in the service. */
-export interface _ListIndexStatsSummary {
-  /** The Statistics summary of all indexes in the Search service. */
-  readonly indexesStatistics: IndexStatisticsSummary[];
-}
-
-export function _listIndexStatsSummaryDeserializer(item: any): _ListIndexStatsSummary {
-  return {
-    indexesStatistics: indexStatisticsSummaryArrayDeserializer(item["value"]),
-  };
-}
-
-export function indexStatisticsSummaryArrayDeserializer(
-  result: Array<IndexStatisticsSummary>,
-): any[] {
-  return result.map((item) => {
-    return indexStatisticsSummaryDeserializer(item);
-  });
-}
-
-/** Statistics for a given index. Statistics are collected periodically and are not guaranteed to always be up-to-date. */
-export interface IndexStatisticsSummary {
-  /** The name of the index. */
-  name: string;
-  /** The number of documents in the index. */
-  readonly documentCount: number;
-  /** The amount of storage in bytes consumed by the index. */
-  readonly storageSize: number;
-  /** The amount of memory in bytes consumed by vectors in the index. */
-  readonly vectorIndexSize: number;
-}
-
-export function indexStatisticsSummaryDeserializer(item: any): IndexStatisticsSummary {
-  return {
-    name: item["name"],
-    documentCount: item["documentCount"],
-    storageSize: item["storageSize"],
-    vectorIndexSize: item["vectorIndexSize"],
-  };
-}
-
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSourceConnection {
   /** The name of the datasource. */
@@ -6571,14 +6132,10 @@ export interface SearchIndexerDataSourceConnection {
   description?: string;
   /** The type of the datasource. */
   type: SearchIndexerDataSourceType;
-  /** A specific type of the data source, in case the resource is capable of different modalities. For example, 'MongoDb' for certain 'cosmosDb' accounts. */
-  readonly subType?: string;
   /** The data container for the datasource. */
   container: SearchIndexerDataContainer;
   /** An explicit managed identity to use for this datasource. If not specified and the connection string is a managed identity, the system-assigned managed identity is used. If not specified, the value remains unchanged. If "none" is specified, the value of this property is cleared. */
   identity?: SearchIndexerDataIdentityUnion;
-  /** Ingestion options with various types of permission data. */
-  indexerPermissionOptions?: IndexerPermissionOption[];
   /** The data change detection policy for the datasource. */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion;
   /** The data deletion detection policy for the datasource. */
@@ -6603,11 +6160,6 @@ export function searchIndexerDataSourceConnectionSerializer(
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionSerializer(item["identity"]),
-    indexerPermissionOptions: !item["indexerPermissionOptions"]
-      ? item["indexerPermissionOptions"]
-      : item["indexerPermissionOptions"].map((p: any) => {
-          return p;
-        }),
     dataChangeDetectionPolicy: !item["dataChangeDetectionPolicy"]
       ? item["dataChangeDetectionPolicy"]
       : dataChangeDetectionPolicyUnionSerializer(item["dataChangeDetectionPolicy"]),
@@ -6628,17 +6180,11 @@ export function searchIndexerDataSourceConnectionDeserializer(
     name: item["name"],
     description: item["description"],
     type: item["type"],
-    subType: item["subType"],
     ..._searchIndexerDataSourceConnectionCredentialsDeserializer(item["credentials"]),
     container: searchIndexerDataContainerDeserializer(item["container"]),
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
-    indexerPermissionOptions: !item["indexerPermissionOptions"]
-      ? item["indexerPermissionOptions"]
-      : item["indexerPermissionOptions"].map((p1: any) => {
-          return p1;
-        }),
     dataChangeDetectionPolicy: !item["dataChangeDetectionPolicy"]
       ? item["dataChangeDetectionPolicy"]
       : dataChangeDetectionPolicyUnionDeserializer(item["dataChangeDetectionPolicy"]),
@@ -6722,27 +6268,6 @@ export function searchIndexerDataContainerDeserializer(item: any): SearchIndexer
     query: item["query"],
   };
 }
-
-/** Options with various types of permission data to index. */
-export enum KnownIndexerPermissionOption {
-  /** Indexer to ingest ACL userIds from data source to index. */
-  UserIds = "userIds",
-  /** Indexer to ingest ACL groupIds from data source to index. */
-  GroupIds = "groupIds",
-  /** Indexer to ingest Azure RBAC scope from data source to index. */
-  RbacScope = "rbacScope",
-}
-
-/**
- * Options with various types of permission data to index. \
- * {@link KnownIndexerPermissionOption} can be used interchangeably with IndexerPermissionOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userIds**: Indexer to ingest ACL userIds from data source to index. \
- * **groupIds**: Indexer to ingest ACL groupIds from data source to index. \
- * **rbacScope**: Indexer to ingest Azure RBAC scope from data source to index.
- */
-export type IndexerPermissionOption = string;
 
 /** Base type for data change detection policies. */
 export interface DataChangeDetectionPolicy {
@@ -6988,60 +6513,6 @@ export function searchIndexerDataSourceConnectionArrayDeserializer(
   });
 }
 
-/** Request body for resync indexer operation. */
-export interface IndexerResyncBody {
-  /** Re-sync options that have been pre-defined from data source. */
-  options?: IndexerResyncOption[];
-}
-
-export function indexerResyncBodySerializer(item: IndexerResyncBody): any {
-  return {
-    options: !item["options"]
-      ? item["options"]
-      : item["options"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Options with various types of permission data to index. */
-export enum KnownIndexerResyncOption {
-  /** Indexer to re-ingest pre-selected permissions data from data source to index. */
-  Permissions = "permissions",
-}
-
-/**
- * Options with various types of permission data to index. \
- * {@link KnownIndexerResyncOption} can be used interchangeably with IndexerResyncOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **permissions**: Indexer to re-ingest pre-selected permissions data from data source to index.
- */
-export type IndexerResyncOption = string;
-
-/** The type of the keysOrIds. */
-export interface DocumentKeysOrIds {
-  /** document keys to be reset */
-  documentKeys?: string[];
-  /** datasource document identifiers to be reset */
-  datasourceDocumentIds?: string[];
-}
-
-export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
-  return {
-    documentKeys: !item["documentKeys"]
-      ? item["documentKeys"]
-      : item["documentKeys"].map((p: any) => {
-          return p;
-        }),
-    datasourceDocumentIds: !item["datasourceDocumentIds"]
-      ? item["datasourceDocumentIds"]
-      : item["datasourceDocumentIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** Represents an indexer. */
 export interface SearchIndexer {
   /** The name of the indexer. */
@@ -7068,8 +6539,6 @@ export interface SearchIndexer {
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your indexer definition (as well as indexer execution status) when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your indexer definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your indexer definition (and indexer execution status) will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
-  /** Adds caching to an enrichment pipeline to allow for incremental modification steps without having to rebuild the index every time. */
-  cache?: SearchIndexerCache;
 }
 
 export function searchIndexerSerializer(item: SearchIndexer): any {
@@ -7094,7 +6563,6 @@ export function searchIndexerSerializer(item: SearchIndexer): any {
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
-    cache: !item["cache"] ? item["cache"] : searchIndexerCacheSerializer(item["cache"]),
   };
 }
 
@@ -7120,7 +6588,6 @@ export function searchIndexerDeserializer(item: any): SearchIndexer {
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
-    cache: !item["cache"] ? item["cache"] : searchIndexerCacheDeserializer(item["cache"]),
   };
 }
 
@@ -7497,40 +6964,6 @@ export function fieldMappingFunctionDeserializer(item: any): FieldMappingFunctio
   };
 }
 
-/** The type of the cache. */
-export interface SearchIndexerCache {
-  /** A guid for the SearchIndexerCache. */
-  id?: string;
-  /** The connection string to the storage account where the cache data will be persisted. */
-  storageConnectionString?: string;
-  /** Specifies whether incremental reprocessing is enabled. */
-  enableReprocessing?: boolean;
-  /** The user-assigned managed identity used for connections to the enrichment cache.  If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  identity?: SearchIndexerDataIdentityUnion;
-}
-
-export function searchIndexerCacheSerializer(item: SearchIndexerCache): any {
-  return {
-    id: item["id"],
-    storageConnectionString: item["storageConnectionString"],
-    enableReprocessing: item["enableReprocessing"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : searchIndexerDataIdentityUnionSerializer(item["identity"]),
-  };
-}
-
-export function searchIndexerCacheDeserializer(item: any): SearchIndexerCache {
-  return {
-    id: item["id"],
-    storageConnectionString: item["storageConnectionString"],
-    enableReprocessing: item["enableReprocessing"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
-  };
-}
-
 /** Response from a List Indexers request. If successful, it includes the full definitions of all indexers. */
 export interface ListIndexersResult {
   /** The indexers in the Search service. */
@@ -7561,66 +6994,33 @@ export interface SearchIndexerStatus {
   readonly name: string;
   /** Overall indexer status. */
   readonly status: IndexerStatus;
-  /** Snapshot of the indexer's cumulative runtime consumption for the service over the current UTC period. */
-  readonly runtime: IndexerRuntime;
   /** The result of the most recent or an in-progress indexer execution. */
   readonly lastResult?: IndexerExecutionResult;
   /** History of the recent indexer executions, sorted in reverse chronological order. */
   readonly executionHistory: IndexerExecutionResult[];
   /** The execution limits for the indexer. */
   readonly limits: SearchIndexerLimits;
-  /** All of the state that defines and dictates the indexer's current execution. */
-  readonly currentState?: IndexerCurrentState;
 }
 
 export function searchIndexerStatusDeserializer(item: any): SearchIndexerStatus {
   return {
     name: item["name"],
     status: item["status"],
-    runtime: indexerRuntimeDeserializer(item["runtime"]),
     lastResult: !item["lastResult"]
       ? item["lastResult"]
       : indexerExecutionResultDeserializer(item["lastResult"]),
     executionHistory: indexerExecutionResultArrayDeserializer(item["executionHistory"]),
     limits: searchIndexerLimitsDeserializer(item["limits"]),
-    currentState: !item["currentState"]
-      ? item["currentState"]
-      : indexerCurrentStateDeserializer(item["currentState"]),
   };
 }
 
 /** Represents the overall indexer status. */
 export type IndexerStatus = "unknown" | "error" | "running";
 
-/** Represents the indexer's cumulative runtime consumption in the service. */
-export interface IndexerRuntime {
-  /** Cumulative runtime of the indexer from the beginningTime to endingTime, in seconds. */
-  usedSeconds: number;
-  /** Cumulative runtime remaining for all indexers in the service from the beginningTime to endingTime, in seconds. */
-  remainingSeconds?: number;
-  /** Beginning UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
-  beginningTime: Date;
-  /** End UTC time of the 24-hour period considered for indexer runtime usage (inclusive). */
-  endingTime: Date;
-}
-
-export function indexerRuntimeDeserializer(item: any): IndexerRuntime {
-  return {
-    usedSeconds: item["usedSeconds"],
-    remainingSeconds: item["remainingSeconds"],
-    beginningTime: new Date(item["beginningTime"]),
-    endingTime: new Date(item["endingTime"]),
-  };
-}
-
 /** Represents the result of an individual indexer execution. */
 export interface IndexerExecutionResult {
   /** The outcome of this indexer execution. */
   readonly status: IndexerExecutionStatus;
-  /** The outcome of this indexer execution. */
-  readonly statusDetail?: IndexerExecutionStatusDetail;
-  /** The mode the indexer is running in. */
-  readonly mode?: IndexingMode;
   /** The error message indicating the top-level error, if any. */
   readonly errorMessage?: string;
   /** The start time of this indexer execution. */
@@ -7644,8 +7044,6 @@ export interface IndexerExecutionResult {
 export function indexerExecutionResultDeserializer(item: any): IndexerExecutionResult {
   return {
     status: item["status"],
-    statusDetail: item["statusDetail"],
-    mode: item["mode"],
     errorMessage: item["errorMessage"],
     startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
@@ -7660,45 +7058,6 @@ export function indexerExecutionResultDeserializer(item: any): IndexerExecutionR
 
 /** Represents the status of an individual indexer execution. */
 export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
-
-/** Details the status of an individual indexer execution. */
-export enum KnownIndexerExecutionStatusDetail {
-  /** Indicates that the reset that occurred was for a call to ResetDocs. */
-  ResetDocs = "resetDocs",
-  /** Indicates to selectively resync based on option(s) from data source. */
-  Resync = "resync",
-}
-
-/**
- * Details the status of an individual indexer execution. \
- * {@link KnownIndexerExecutionStatusDetail} can be used interchangeably with IndexerExecutionStatusDetail,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **resetDocs**: Indicates that the reset that occurred was for a call to ResetDocs. \
- * **resync**: Indicates to selectively resync based on option(s) from data source.
- */
-export type IndexerExecutionStatusDetail = string;
-
-/** Represents the mode the indexer is executing in. */
-export enum KnownIndexingMode {
-  /** The indexer is indexing all documents in the datasource. */
-  IndexingAllDocs = "indexingAllDocs",
-  /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
-  IndexingResetDocs = "indexingResetDocs",
-  /** The indexer is resyncing and indexing selective option(s) from the datasource. */
-  IndexingResync = "indexingResync",
-}
-
-/**
- * Represents the mode the indexer is executing in. \
- * {@link KnownIndexingMode} can be used interchangeably with IndexingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **indexingAllDocs**: The indexer is indexing all documents in the datasource. \
- * **indexingResetDocs**: The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. \
- * **indexingResync**: The indexer is resyncing and indexing selective option(s) from the datasource.
- */
-export type IndexingMode = string;
 
 export function searchIndexerErrorArrayDeserializer(result: Array<SearchIndexerError>): any[] {
   return result.map((item) => {
@@ -7789,50 +7148,6 @@ export function searchIndexerLimitsDeserializer(item: any): SearchIndexerLimits 
   };
 }
 
-/** Represents all of the state that defines and dictates the indexer's current execution. */
-export interface IndexerCurrentState {
-  /** The mode the indexer is running in. */
-  readonly mode?: IndexingMode;
-  /** Change tracking state used when indexing starts on all documents in the datasource. */
-  readonly allDocsInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on all documents in the datasource. */
-  readonly allDocsFinalTrackingState?: string;
-  /** Change tracking state used when indexing starts on select, reset documents in the datasource. */
-  readonly resetDocsInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on select, reset documents in the datasource. */
-  readonly resetDocsFinalTrackingState?: string;
-  /** Change tracking state used when indexing starts on selective options from the datasource. */
-  readonly resyncInitialTrackingState?: string;
-  /** Change tracking state value when indexing finishes on selective options from the datasource. */
-  readonly resyncFinalTrackingState?: string;
-  /** The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys. */
-  readonly resetDocumentKeys?: string[];
-  /** The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids. */
-  readonly resetDatasourceDocumentIds?: string[];
-}
-
-export function indexerCurrentStateDeserializer(item: any): IndexerCurrentState {
-  return {
-    mode: item["mode"],
-    allDocsInitialTrackingState: item["allDocsInitialTrackingState"],
-    allDocsFinalTrackingState: item["allDocsFinalTrackingState"],
-    resetDocsInitialTrackingState: item["resetDocsInitialTrackingState"],
-    resetDocsFinalTrackingState: item["resetDocsFinalTrackingState"],
-    resyncInitialTrackingState: item["resyncInitialTrackingState"],
-    resyncFinalTrackingState: item["resyncFinalTrackingState"],
-    resetDocumentKeys: !item["resetDocumentKeys"]
-      ? item["resetDocumentKeys"]
-      : item["resetDocumentKeys"].map((p: any) => {
-          return p;
-        }),
-    resetDatasourceDocumentIds: !item["resetDatasourceDocumentIds"]
-      ? item["resetDatasourceDocumentIds"]
-      : item["resetDatasourceDocumentIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** A list of skills. */
 export interface SearchIndexerSkillset {
   /** The name of the skillset. */
@@ -7914,7 +7229,7 @@ export function searchIndexerSkillUnionArrayDeserializer(
 /** Base type for skills. */
 export interface SearchIndexerSkill {
   /** The discriminator for derived types. */
-  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Custom.AmlSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Vision.VectorizeSkill, #Microsoft.Skills.Util.ContentUnderstandingSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
+  /** The discriminator possible values: #Microsoft.Skills.Util.ConditionalSkill, #Microsoft.Skills.Text.KeyPhraseExtractionSkill, #Microsoft.Skills.Vision.OcrSkill, #Microsoft.Skills.Vision.ImageAnalysisSkill, #Microsoft.Skills.Text.LanguageDetectionSkill, #Microsoft.Skills.Util.ShaperSkill, #Microsoft.Skills.Text.MergeSkill, #Microsoft.Skills.Text.V3.SentimentSkill, #Microsoft.Skills.Text.V3.EntityLinkingSkill, #Microsoft.Skills.Text.V3.EntityRecognitionSkill, #Microsoft.Skills.Text.PIIDetectionSkill, #Microsoft.Skills.Text.SplitSkill, #Microsoft.Skills.Text.CustomEntityLookupSkill, #Microsoft.Skills.Text.TranslationSkill, #Microsoft.Skills.Util.DocumentExtractionSkill, #Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill, #Microsoft.Skills.Custom.WebApiSkill, #Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill, #Microsoft.Skills.Util.ContentUnderstandingSkill, #Microsoft.Skills.Custom.ChatCompletionSkill */
   odatatype: string;
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
@@ -7969,9 +7284,7 @@ export type SearchIndexerSkillUnion =
   | DocumentExtractionSkill
   | DocumentIntelligenceLayoutSkill
   | WebApiSkill
-  | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
-  | VisionVectorizeSkill
   | ContentUnderstandingSkill
   | ChatCompletionSkill
   | SearchIndexerSkill;
@@ -8029,14 +7342,8 @@ export function searchIndexerSkillUnionSerializer(item: SearchIndexerSkillUnion)
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillSerializer(item as WebApiSkill);
 
-    case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillSerializer(item as AzureMachineLearningSkill);
-
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
       return azureOpenAIEmbeddingSkillSerializer(item as AzureOpenAIEmbeddingSkill);
-
-    case "#Microsoft.Skills.Vision.VectorizeSkill":
-      return visionVectorizeSkillSerializer(item as VisionVectorizeSkill);
 
     case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
       return contentUnderstandingSkillSerializer(item as ContentUnderstandingSkill);
@@ -8102,14 +7409,8 @@ export function searchIndexerSkillUnionDeserializer(item: any): SearchIndexerSki
     case "#Microsoft.Skills.Custom.WebApiSkill":
       return webApiSkillDeserializer(item as WebApiSkill);
 
-    case "#Microsoft.Skills.Custom.AmlSkill":
-      return azureMachineLearningSkillDeserializer(item as AzureMachineLearningSkill);
-
     case "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill":
       return azureOpenAIEmbeddingSkillDeserializer(item as AzureOpenAIEmbeddingSkill);
-
-    case "#Microsoft.Skills.Vision.VectorizeSkill":
-      return visionVectorizeSkillDeserializer(item as VisionVectorizeSkill);
 
     case "#Microsoft.Skills.Util.ContentUnderstandingSkill":
       return contentUnderstandingSkillDeserializer(item as ContentUnderstandingSkill);
@@ -9693,10 +8994,6 @@ export interface SplitSkill extends SearchIndexerSkill {
   pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
   maximumPagesToTake?: number;
-  /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
-  unit?: SplitSkillUnit;
-  /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
   /** A URI fragment specifying the type of skill. */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
 }
@@ -9714,10 +9011,6 @@ export function splitSkillSerializer(item: SplitSkill): any {
     maximumPageLength: item["maximumPageLength"],
     pageOverlapLength: item["pageOverlapLength"],
     maximumPagesToTake: item["maximumPagesToTake"],
-    unit: item["unit"],
-    azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
-      ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersSerializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -9734,10 +9027,6 @@ export function splitSkillDeserializer(item: any): SplitSkill {
     maximumPageLength: item["maximumPageLength"],
     pageOverlapLength: item["pageOverlapLength"],
     maximumPagesToTake: item["maximumPagesToTake"],
-    unit: item["unit"],
-    azureOpenAITokenizerParameters: !item["azureOpenAITokenizerParameters"]
-      ? item["azureOpenAITokenizerParameters"]
-      : azureOpenAITokenizerParametersDeserializer(item["azureOpenAITokenizerParameters"]),
   };
 }
 
@@ -9869,82 +9158,6 @@ export enum KnownTextSplitMode {
  * **sentences**: Split the text into individual sentences.
  */
 export type TextSplitMode = string;
-
-/** A value indicating which unit to use. */
-export enum KnownSplitSkillUnit {
-  /** The length will be measured by character. */
-  Characters = "characters",
-  /** The length will be measured by an AzureOpenAI tokenizer from the tiktoken library. */
-  AzureOpenAITokens = "azureOpenAITokens",
-}
-
-/**
- * A value indicating which unit to use. \
- * {@link KnownSplitSkillUnit} can be used interchangeably with SplitSkillUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **characters**: The length will be measured by character. \
- * **azureOpenAITokens**: The length will be measured by an AzureOpenAI tokenizer from the tiktoken library.
- */
-export type SplitSkillUnit = string;
-
-/** Azure OpenAI Tokenizer parameters. */
-export interface AzureOpenAITokenizerParameters {
-  /** Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'. */
-  encoderModelName?: SplitSkillEncoderModelName;
-  /** (Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process. */
-  allowedSpecialTokens?: string[];
-}
-
-export function azureOpenAITokenizerParametersSerializer(
-  item: AzureOpenAITokenizerParameters,
-): any {
-  return {
-    encoderModelName: item["encoderModelName"],
-    allowedSpecialTokens: !item["allowedSpecialTokens"]
-      ? item["allowedSpecialTokens"]
-      : item["allowedSpecialTokens"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function azureOpenAITokenizerParametersDeserializer(
-  item: any,
-): AzureOpenAITokenizerParameters {
-  return {
-    encoderModelName: item["encoderModelName"],
-    allowedSpecialTokens: !item["allowedSpecialTokens"]
-      ? item["allowedSpecialTokens"]
-      : item["allowedSpecialTokens"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** A value indicating which tokenizer to use. */
-export enum KnownSplitSkillEncoderModelName {
-  /** Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. */
-  R50KBase = "r50k_base",
-  /** A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. */
-  P50KBase = "p50k_base",
-  /** Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. */
-  P50KEdit = "p50k_edit",
-  /** A base model with a 100,000 token vocabulary. */
-  CL100KBase = "cl100k_base",
-}
-
-/**
- * A value indicating which tokenizer to use. \
- * {@link KnownSplitSkillEncoderModelName} can be used interchangeably with SplitSkillEncoderModelName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **r50k_base**: Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. \
- * **p50k_base**: A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. \
- * **p50k_edit**: Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. \
- * **cl100k_base**: A base model with a 100,000 token vocabulary.
- */
-export type SplitSkillEncoderModelName = string;
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
 export interface CustomEntityLookupSkill extends SearchIndexerSkill {
@@ -10745,58 +9958,6 @@ export function webApiHttpHeadersDeserializer(item: any): WebApiHttpHeaders {
   };
 }
 
-/** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
-export interface AzureMachineLearningSkill extends SearchIndexerSkill {
-  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
-  scoringUri?: string;
-  /** (Required for key authentication) The key for the AML service. */
-  authenticationKey?: string;
-  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
-  resourceId?: string;
-  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
-  timeout?: string;
-  /** (Optional for token authentication). The region the AML service is deployed in. */
-  region?: string;
-  /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
-  degreeOfParallelism?: number;
-  /** A URI fragment specifying the type of skill. */
-  odatatype: "#Microsoft.Skills.Custom.AmlSkill";
-}
-
-export function azureMachineLearningSkillSerializer(item: AzureMachineLearningSkill): any {
-  return {
-    "@odata.type": item["odatatype"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
-    uri: item["scoringUri"],
-    key: item["authenticationKey"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-  };
-}
-
-export function azureMachineLearningSkillDeserializer(item: any): AzureMachineLearningSkill {
-  return {
-    odatatype: item["@odata.type"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
-    scoringUri: item["uri"],
-    authenticationKey: item["key"],
-    resourceId: item["resourceId"],
-    timeout: item["timeout"],
-    region: item["region"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-  };
-}
-
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
 export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** The resource URI of the Azure OpenAI resource. */
@@ -10850,38 +10011,6 @@ export function azureOpenAIEmbeddingSkillDeserializer(item: any): AzureOpenAIEmb
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
     modelName: item["modelName"],
     dimensions: item["dimensions"],
-  };
-}
-
-/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
-export interface VisionVectorizeSkill extends SearchIndexerSkill {
-  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
-  modelVersion: string | null;
-  /** A URI fragment specifying the type of skill. */
-  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
-}
-
-export function visionVectorizeSkillSerializer(item: VisionVectorizeSkill): any {
-  return {
-    "@odata.type": item["odatatype"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
-    modelVersion: item["modelVersion"],
-  };
-}
-
-export function visionVectorizeSkillDeserializer(item: any): VisionVectorizeSkill {
-  return {
-    odatatype: item["@odata.type"],
-    name: item["name"],
-    description: item["description"],
-    context: item["context"],
-    inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
-    outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
-    modelVersion: item["modelVersion"],
   };
 }
 
@@ -11000,18 +10129,6 @@ export type ContentUnderstandingSkillChunkingUnit = string;
 export interface ChatCompletionSkill extends SearchIndexerSkill {
   /** The url for the Web API. */
   uri: string;
-  /** The headers required to make the http request. */
-  httpHeaders?: WebApiHttpHeaders;
-  /** The method for the http request. */
-  httpMethod?: string;
-  /** The desired timeout for the request. Default is 30 seconds. */
-  timeout?: string;
-  /** The desired batch size which indicates number of documents. */
-  batchSize?: number;
-  /** If set, the number of parallel calls that can be made to the Web API. */
-  degreeOfParallelism?: number;
-  /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   authIdentity?: SearchIndexerDataIdentityUnion;
   /** API key for authenticating to the model. Both apiKey and authIdentity cannot be specified at the same time. */
@@ -11037,14 +10154,6 @@ export function chatCompletionSkillSerializer(item: ChatCompletionSkill): any {
     inputs: inputFieldMappingEntryArraySerializer(item["inputs"]),
     outputs: outputFieldMappingEntryArraySerializer(item["outputs"]),
     uri: item["uri"],
-    httpHeaders: !item["httpHeaders"]
-      ? item["httpHeaders"]
-      : webApiHttpHeadersSerializer(item["httpHeaders"]),
-    httpMethod: item["httpMethod"],
-    timeout: item["timeout"],
-    batchSize: item["batchSize"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-    authResourceId: item["authResourceId"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionSerializer(item["authIdentity"]),
@@ -11069,14 +10178,6 @@ export function chatCompletionSkillDeserializer(item: any): ChatCompletionSkill 
     inputs: inputFieldMappingEntryArrayDeserializer(item["inputs"]),
     outputs: outputFieldMappingEntryArrayDeserializer(item["outputs"]),
     uri: item["uri"],
-    httpHeaders: !item["httpHeaders"]
-      ? item["httpHeaders"]
-      : webApiHttpHeadersDeserializer(item["httpHeaders"]),
-    httpMethod: item["httpMethod"],
-    timeout: item["timeout"],
-    batchSize: item["batchSize"],
-    degreeOfParallelism: item["degreeOfParallelism"],
-    authResourceId: item["authResourceId"],
     authIdentity: !item["authIdentity"]
       ? item["authIdentity"]
       : searchIndexerDataIdentityUnionDeserializer(item["authIdentity"]),
@@ -11399,7 +10500,7 @@ export function cognitiveServicesAccountKeyDeserializer(item: any): CognitiveSer
 export interface AIServicesAccountKey extends CognitiveServicesAccount {
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
-  /** The subdomain url for the corresponding AI Service. */
+  /** The subdomain/Azure AI Services endpoint url for the corresponding AI Service. */
   subdomainUrl: string;
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
   odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
@@ -11427,7 +10528,7 @@ export function aiServicesAccountKeyDeserializer(item: any): AIServicesAccountKe
 export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
   /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   identity?: SearchIndexerDataIdentityUnion;
-  /** The subdomain url for the corresponding AI Service. */
+  /** The subdomain/Azure AI Services endpoint url for the corresponding AI Service. */
   subdomainUrl: string;
   /** A URI fragment specifying the type of Azure AI service resource attached to a skillset. */
   odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
@@ -11463,8 +10564,6 @@ export interface SearchIndexerKnowledgeStore {
   projections: SearchIndexerKnowledgeStoreProjection[];
   /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   identity?: SearchIndexerDataIdentityUnion;
-  /** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-  parameters?: SearchIndexerKnowledgeStoreParameters;
 }
 
 export function searchIndexerKnowledgeStoreSerializer(item: SearchIndexerKnowledgeStore): any {
@@ -11474,9 +10573,6 @@ export function searchIndexerKnowledgeStoreSerializer(item: SearchIndexerKnowled
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionSerializer(item["identity"]),
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : searchIndexerKnowledgeStoreParametersSerializer(item["parameters"]),
   };
 }
 
@@ -11487,9 +10583,6 @@ export function searchIndexerKnowledgeStoreDeserializer(item: any): SearchIndexe
     identity: !item["identity"]
       ? item["identity"]
       : searchIndexerDataIdentityUnionDeserializer(item["identity"]),
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : searchIndexerKnowledgeStoreParametersDeserializer(item["parameters"]),
   };
 }
 
@@ -11700,32 +10793,6 @@ export function searchIndexerKnowledgeStoreFileProjectionSelectorDeserializer(
     inputs: !item["inputs"]
       ? item["inputs"]
       : inputFieldMappingEntryArrayDeserializer(item["inputs"]),
-  };
-}
-
-/** A dictionary of knowledge store-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-export interface SearchIndexerKnowledgeStoreParameters {
-  /** Whether or not projections should synthesize a generated key name if one isn't already present. */
-  synthesizeGeneratedKeyName?: boolean;
-  /** Additional properties */
-  additionalProperties?: Record<string, any>;
-}
-
-export function searchIndexerKnowledgeStoreParametersSerializer(
-  item: SearchIndexerKnowledgeStoreParameters,
-): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    synthesizeGeneratedKeyName: item["synthesizeGeneratedKeyName"],
-  };
-}
-
-export function searchIndexerKnowledgeStoreParametersDeserializer(
-  item: any,
-): SearchIndexerKnowledgeStoreParameters {
-  return {
-    additionalProperties: serializeRecord(item, ["synthesizeGeneratedKeyName"]),
-    synthesizeGeneratedKeyName: item["synthesizeGeneratedKeyName"],
   };
 }
 
@@ -11951,6 +11018,60 @@ export function searchIndexerSkillsetArrayDeserializer(
   return result.map((item) => {
     return searchIndexerSkillsetDeserializer(item);
   });
+}
+
+/** Request body for resync indexer operation. */
+export interface IndexerResyncBody {
+  /** Re-sync options that have been pre-defined from data source. */
+  options?: IndexerResyncOption[];
+}
+
+export function indexerResyncBodySerializer(item: IndexerResyncBody): any {
+  return {
+    options: !item["options"]
+      ? item["options"]
+      : item["options"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Options with various types of permission data to index. */
+export enum KnownIndexerResyncOption {
+  /** Indexer to re-ingest pre-selected permissions data from data source to index. */
+  Permissions = "permissions",
+}
+
+/**
+ * Options with various types of permission data to index. \
+ * {@link KnownIndexerResyncOption} can be used interchangeably with IndexerResyncOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **permissions**: Indexer to re-ingest pre-selected permissions data from data source to index.
+ */
+export type IndexerResyncOption = string;
+
+/** The type of the keysOrIds. */
+export interface DocumentKeysOrIds {
+  /** document keys to be reset */
+  documentKeys?: string[];
+  /** datasource document identifiers to be reset */
+  datasourceDocumentIds?: string[];
+}
+
+export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
+  return {
+    documentKeys: !item["documentKeys"]
+      ? item["documentKeys"]
+      : item["documentKeys"].map((p: any) => {
+          return p;
+        }),
+    datasourceDocumentIds: !item["datasourceDocumentIds"]
+      ? item["datasourceDocumentIds"]
+      : item["datasourceDocumentIds"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 /** The type of the skill names. */

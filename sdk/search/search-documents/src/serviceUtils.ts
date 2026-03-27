@@ -19,7 +19,6 @@ import type {
   DataDeletionDetectionPolicyUnion,
   AIServicesAccountIdentity as GeneratedAIServicesAccountIdentity,
   AIServicesAccountKey as GeneratedAIServicesAccountKey,
-  AIServicesVisionVectorizer as GeneratedAIServicesVisionVectorizer,
   AzureMachineLearningParameters as GeneratedAMLParameters,
   AzureMachineLearningVectorizer as GeneratedAMLVectorizer,
   AzureBlobKnowledgeSource as GeneratedAzureBlobKnowledgeSource,
@@ -31,18 +30,15 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
-  IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
   KnowledgeSourceUnion as GeneratedKnowledgeSource,
   // KnowledgeSourceVectorizer as GeneratedKnowledgeSourceVectorizer,
   // PatternAnalyzer as GeneratedPatternAnalyzer,
-  RemoteSharePointKnowledgeSource as GeneratedRemoteSharePointKnowledgeSource,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   SearchIndexer as GeneratedSearchIndexer,
-  SearchIndexerCache as GeneratedSearchIndexerCache,
   SearchIndexerDataSourceConnection as GeneratedSearchIndexerDataSourceConnection,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
   SearchIndexKnowledgeSource as GeneratedSearchIndexKnowledgeSource,
@@ -76,7 +72,6 @@ import type {
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import type {
-  AIServicesVisionVectorizer,
   AzureBlobKnowledgeSourceParameters,
   AzureMachineLearningVectorizer,
   AzureMachineLearningVectorizerParameters,
@@ -111,7 +106,6 @@ import type {
   SearchFieldDataType,
   SearchIndex,
   SearchIndexer,
-  SearchIndexerCache,
   SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
   SearchIndexerDataSourceType,
@@ -136,7 +130,7 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2025-11-01-Preview";
+export const defaultServiceVersion = "2026-04-01";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -508,25 +502,6 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
       return vectorizer;
     },
 
-    aiServicesVision: () => {
-      const generatedVisionVectorizer = generatedVectorizer as GeneratedAIServicesVisionVectorizer;
-      const { aiServicesVisionParameters: generatedParameters } = generatedVisionVectorizer;
-      const parameters = generatedParameters
-        ? {
-            ...generatedParameters,
-            modelVersion: generatedParameters.modelVersion,
-            resourceUri: generatedParameters.resourceUri,
-            authIdentity: convertSearchIndexerDataIdentityToPublic(
-              generatedParameters.authIdentity,
-            ),
-          }
-        : undefined;
-      const vectorizer: AIServicesVisionVectorizer = {
-        ...generatedVisionVectorizer,
-        parameters,
-      };
-      return vectorizer;
-    },
     aml: () => {
       const generatedAMLVectorizer = generatedVectorizer as GeneratedAMLVectorizer;
 
@@ -840,7 +815,6 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     ...indexer,
     parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
-    cache: convertSearchIndexerCacheToPublic(indexer.cache),
     schedule: indexer.schedule,
     isDisabled: indexer.isDisabled,
   };
@@ -949,20 +923,6 @@ function convertKnowledgeStoreToPublic(
   };
 }
 
-export function convertSearchIndexerCacheToPublic(
-  cache?: GeneratedSearchIndexerCache,
-): SearchIndexerCache | undefined {
-  if (!cache) {
-    return cache;
-  }
-
-  return {
-    ...cache,
-    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
-    enableReprocessing: cache.enableReprocessing,
-  };
-}
-
 export function convertKnowledgeBaseToPublic(
   knowledgeBase: GeneratedKnowledgeBase | undefined,
 ): KnowledgeBase {
@@ -1015,24 +975,6 @@ export function convertKnowledgeSourceToPublic(
         azureBlobParameters: convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters),
       };
     }
-    case "indexedSharePoint": {
-      const { encryptionKey, indexedSharePointParameters } =
-        knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
-      return {
-        ...knowledgeSource,
-        kind: "indexedSharePoint",
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-        indexedSharePointParameters: {
-          connectionString: indexedSharePointParameters.connectionString,
-          containerName: indexedSharePointParameters.containerName,
-          createdResources: indexedSharePointParameters.createdResources?.additionalProperties,
-          ingestionParameters: convertKnowledgeIngestionParametersToPublic(
-            indexedSharePointParameters.ingestionParameters,
-          ),
-          query: indexedSharePointParameters.query,
-        },
-      };
-    }
     case "indexedOneLake": {
       const { encryptionKey, indexedOneLakeParameters } =
         knowledgeSource as GeneratedIndexedOneLakeKnowledgeSource;
@@ -1049,14 +991,6 @@ export function convertKnowledgeSourceToPublic(
           targetPath: indexedOneLakeParameters.targetPath,
           createdResources: indexedOneLakeParameters.createdResources?.additionalProperties,
         },
-      };
-    }
-    case "remoteSharePoint": {
-      const { encryptionKey } = knowledgeSource as GeneratedRemoteSharePointKnowledgeSource;
-      return {
-        ...knowledgeSource,
-        kind: "remoteSharePoint",
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
     case "web": {
@@ -1206,12 +1140,10 @@ export function convertPublicActionsToGeneratedActions<
 export function convertGeneratedFacetResultToPublic(
   facetResult: GeneratedFacetResult,
 ): FacetResult {
-  const { additionalProperties, facets, ...rest } = facetResult;
+  const { additionalProperties, ...rest } = facetResult;
   return {
     ...additionalProperties,
     ...rest,
-    // Recursively convert nested facets
-    facets: convertGeneratedFacetsToPublic(facets),
     additionalProperties,
   } as FacetResult;
 }
