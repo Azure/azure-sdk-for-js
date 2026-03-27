@@ -1719,8 +1719,20 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen
 /.github/workflows/tester.md             @deyaaeldeen
 /.github/workflows/tester.lock.yml       @deyaaeldeen
-/.github/agents/                         @deyaaeldeen
-/.github/prompts/                        @deyaaeldeen
+/.github/agents/agentic-workflows.agent.md @deyaaeldeen
+/.github/agents/archie.agent.md          @deyaaeldeen
+/.github/agents/dash.agent.md            @deyaaeldeen
+/.github/agents/dexter.agent.md          @deyaaeldeen
+/.github/agents/scribe.agent.md          @deyaaeldeen
+/.github/agents/sentinel.agent.md        @deyaaeldeen
+/.github/agents/tester.agent.md          @deyaaeldeen
+/.github/prompts/architecture-review-guidelines.md @deyaaeldeen
+/.github/prompts/dependency-review-guidelines.md   @deyaaeldeen
+/.github/prompts/documentation-review-guidelines.md @deyaaeldeen
+/.github/prompts/performance-review-guidelines.md  @deyaaeldeen
+/.github/prompts/security-review-guidelines.md     @deyaaeldeen
+/.github/prompts/test-recording.prompt.md          @deyaaeldeen
+/.github/prompts/test-review-guidelines.md         @deyaaeldeen
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
