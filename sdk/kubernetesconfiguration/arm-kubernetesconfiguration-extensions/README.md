@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-kubernetesconfiguration-extensions)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/samples)
 
 ## Getting started
