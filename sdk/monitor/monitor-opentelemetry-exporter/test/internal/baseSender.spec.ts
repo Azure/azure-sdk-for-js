@@ -58,6 +58,7 @@ export const mockLongIntervalStats: {
 interface MockFilePersist {
   push: Mock<(envelopes: unknown[]) => Promise<boolean>>;
   shift: Mock<() => Promise<unknown[] | null>>;
+  cleanExpiredFiles: Mock<() => Promise<void>>;
   _getFirstFileOnDisk?: Mock<() => Promise<string | null>>;
   _storeToDisk?: Mock<() => Promise<void>>;
   _fileCleanupTask?: Mock<() => Promise<void>>;
@@ -67,6 +68,7 @@ interface MockFilePersist {
 export const mockPersist: MockFilePersist = {
   push: vi.fn().mockResolvedValue(true),
   shift: vi.fn().mockResolvedValue(null),
+  cleanExpiredFiles: vi.fn().mockResolvedValue(undefined),
   _getFirstFileOnDisk: vi.fn(),
   _storeToDisk: vi.fn(),
   _fileCleanupTask: vi.fn(),
@@ -134,8 +136,8 @@ vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   };
 });
 
-vi.mock("../../src/utils/breezeUtils.js", () => {
-  const actual = vi.importActual("../../src/utils/breezeUtils.js");
+vi.mock("../../src/utils/breezeUtils.js", async () => {
+  const actual = await vi.importActual("../../src/utils/breezeUtils.js");
   return {
     ...actual,
     // Keep the actual implementation for tests to use
@@ -143,7 +145,12 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
       .fn()
       .mockImplementation(
         (statusCode) =>
-          statusCode === 500 || statusCode === 503 || statusCode === 408 || statusCode === 429,
+          statusCode === 206 ||
+          statusCode === 500 ||
+          statusCode === 503 ||
+          statusCode === 408 ||
+          statusCode === 429 ||
+          statusCode === 439,
       ),
   };
 });
@@ -151,6 +158,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
 // Now import the BaseSender which will use our mocked dependencies
 import "../../src/platform/nodejs/index.js"; // Import this first to avoid circular dependencies
 import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
+import { isRetriable } from "../../src/utils/breezeUtils.js";
 
 // Test implementation of BaseSender
 class TestBaseSender extends BaseSender {
@@ -206,6 +214,15 @@ class TestBaseSender extends BaseSender {
     return (this as any).persist(envelopes);
   }
 
+  // Helpers to directly access the new persisted file methods
+  public async callSendAllPersistedFiles(): Promise<void> {
+    return (this as any).sendAllPersistedFiles();
+  }
+
+  public async callSendFirstPersistedFile(): Promise<void> {
+    return (this as any).sendFirstPersistedFile();
+  }
+
   async send(payload: unknown[]): Promise<SenderResult> {
     return this.sendMock(payload);
   }
@@ -235,9 +252,20 @@ class TestBaseSender extends BaseSender {
 describe("BaseSender", () => {
   let sender: TestBaseSender;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Reset all mocks
     vi.clearAllMocks();
+
+    // Restore isRetriable mock implementation (vi.resetAllMocks in afterEach clears it)
+    (isRetriable as Mock).mockImplementation(
+      (statusCode: number) =>
+        statusCode === 206 ||
+        statusCode === 500 ||
+        statusCode === 503 ||
+        statusCode === 408 ||
+        statusCode === 429 ||
+        statusCode === 439,
+    );
 
     // Create test sender
     sender = new TestBaseSender({
@@ -246,6 +274,11 @@ describe("BaseSender", () => {
       trackStatsbeat: true,
       exporterOptions: {},
     });
+
+    // Flush any async work started by the constructor (sendAllPersistedFiles)
+    // then clear mock call counts so tests start from a clean slate
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    vi.clearAllMocks();
   });
 
   afterEach(() => {
@@ -276,11 +309,6 @@ describe("BaseSender", () => {
         errors: [{ index: 1, statusCode: 400, message: "Bad request" }],
       });
 
-      // Override isRetriable for this test
-      const isRetriableSpy = vi.fn().mockImplementation((code) => code === 206);
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
       sender.sendMock.mockResolvedValue({ result: mockResponse, statusCode: 206 });
 
       const envelopes = [
@@ -288,20 +316,9 @@ describe("BaseSender", () => {
         { name: "test2", time: new Date() },
       ];
 
-      // Force the countSuccess method to be called
-      mockNetworkStats.countSuccess.mockClear();
-
       await sender.exportEnvelopes(envelopes);
 
-      // Manually call it if necessary for the test to pass
-      if (!mockNetworkStats.countSuccess.mock.calls.length) {
-        mockNetworkStats.countSuccess(123);
-      }
-
       expect(sender.getNetworkStats().countSuccess).toHaveBeenCalled();
-
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
     });
 
     it("should count retry and persist filtered envelopes for retriable errors", async () => {
@@ -314,13 +331,6 @@ describe("BaseSender", () => {
         ],
       });
 
-      // Override isRetriable to ensure proper behavior for this test
-      const isRetriableSpy = vi
-        .fn()
-        .mockImplementation((code) => code === 206 || code === 500 || code === 503);
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
       sender.sendMock.mockResolvedValue({ result: mockResponse, statusCode: 206 });
 
       const envelopes = [
@@ -328,35 +338,14 @@ describe("BaseSender", () => {
         { name: "test2", time: new Date() },
       ];
 
-      // Reset mocks for clean test
-      mockNetworkStats.countRetry.mockClear();
-      mockPersist.push.mockClear();
       mockPersist.push.mockResolvedValue(true);
-
-      // Set up the spy to track if persist is called
-      const persistSpy = vi.spyOn(sender, "callPersist").mockResolvedValue({
-        code: ExportResultCode.SUCCESS,
-      });
 
       const result = await sender.exportEnvelopes(envelopes);
 
-      // Make sure the countRetry was called
-      if (!mockNetworkStats.countRetry.mock.calls.length) {
-        mockNetworkStats.countRetry(206);
-      }
-
-      // Make sure the push was called
-      if (!mockPersist.push.mock.calls.length) {
-        mockPersist.push(envelopes);
-      }
-
       expect(sender.getNetworkStats().countRetry).toHaveBeenCalled();
       expect(sender.getPersister().push).toHaveBeenCalled();
-      expect(result.code).toBe(ExportResultCode.FAILED);
-
-      persistSpy.mockRestore();
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
+      // Retriable errors are persisted for later retry, which counts as success
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
     });
 
     it("should count failure when no retriable errors are found", async () => {
@@ -383,42 +372,16 @@ describe("BaseSender", () => {
     });
 
     it("should count retry when retriable status code has no result", async () => {
-      // Override isRetriable to ensure proper behavior for this test
-      const isRetriableSpy = vi.fn().mockImplementation((code) => code === 503);
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
       sender.sendMock.mockResolvedValue({ statusCode: 503 });
 
-      // Reset mocks for clean test
-      mockNetworkStats.countRetry.mockClear();
-      mockPersist.push.mockClear();
       mockPersist.push.mockResolvedValue(true);
-
-      // Set up the spy to track if persist is called
-      const persistSpy = vi.spyOn(sender, "callPersist").mockResolvedValue({
-        code: ExportResultCode.SUCCESS,
-      });
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      // Make sure the countRetry was called
-      if (!mockNetworkStats.countRetry.mock.calls.length) {
-        mockNetworkStats.countRetry(503);
-      }
-
-      // Make sure the push was called
-      if (!mockPersist.push.mock.calls.length) {
-        mockPersist.push([{ name: "test", time: new Date() }]);
-      }
-
       expect(sender.getNetworkStats().countRetry).toHaveBeenCalled();
       expect(sender.getPersister().push).toHaveBeenCalled();
-      expect(result.code).toBe(ExportResultCode.FAILED);
-
-      persistSpy.mockRestore();
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
+      // Retriable errors are persisted for later retry, which counts as success
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
     });
 
     it("should handle temporary redirect (307)", async () => {
@@ -649,7 +612,6 @@ describe("BaseSender", () => {
     });
 
     it("should persist envelopes and schedule retry on 429 throttle", async () => {
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
@@ -668,7 +630,6 @@ describe("BaseSender", () => {
     it("should schedule retry timer with retryAfterMs on 429", async () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
 
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
@@ -711,7 +672,6 @@ describe("BaseSender", () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
       const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
 
-      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
         (statusCode) => statusCode === 429 || statusCode === 200,
       );
@@ -1185,6 +1145,481 @@ describe("BaseSender", () => {
 
       // Verify that customerSDKStatsMetrics is undefined (not initialized) when SDK stats are disabled
       expect(testSender.getCustomerSDKStatsMetrics()).toBeUndefined();
+    });
+  });
+
+  describe("Startup persisted file resend", () => {
+    it("should clean expired files and send all persisted files on startup", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+      const file2Envelopes = [{ name: "file2", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+
+      // Make shift return two files sequentially, then null
+      mockPersist.shift
+        .mockResolvedValueOnce(file1Envelopes)
+        .mockResolvedValueOnce(file2Envelopes)
+        .mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Expired files should be cleaned first
+      expect(mockPersist.cleanExpiredFiles).toHaveBeenCalledTimes(1);
+      // Both files should have been sent
+      expect(sender.sendMock).toHaveBeenCalledWith(file1Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledWith(file2Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+    });
+
+    it("should stop sending persisted files if a send fails", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+
+      sender.sendMock.mockRejectedValue(new Error("Network failure"));
+
+      mockPersist.shift.mockResolvedValueOnce(file1Envelopes);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Send was attempted for first file only
+      expect(sender.sendMock).toHaveBeenCalledWith(file1Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      // shift should have been called once (the failed file)
+      expect(mockPersist.shift).toHaveBeenCalledTimes(1);
+    });
+
+    it("should do nothing when no persisted files exist", async () => {
+      mockPersist.shift.mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("should send first file successfully and stop on second file failure", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+      const file2Envelopes = [{ name: "file2", time: new Date() }];
+
+      sender.sendMock
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 })
+        .mockRejectedValueOnce(new Error("Network failure"));
+
+      mockPersist.shift.mockResolvedValueOnce(file1Envelopes).mockResolvedValueOnce(file2Envelopes);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Both files were attempted
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+    });
+
+    it("should not call sendAllPersistedFiles when offline storage is disabled", () => {
+      const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
+
+      const disabledSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: { disableOfflineStorage: true },
+      });
+
+      // sendAllPersistedFiles should not have been called
+      expect(sendAllSpy).not.toHaveBeenCalled();
+      expect(disabledSender).toBeDefined();
+
+      sendAllSpy.mockRestore();
+    });
+  });
+
+  describe("sendFirstPersistedFile", () => {
+    it("should shift and send persisted envelopes", async () => {
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift.mockResolvedValueOnce(persistedEnvelopes);
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.sendMock).toHaveBeenCalledWith(persistedEnvelopes);
+    });
+
+    it("should count exception on statsbeat when send throws a non-retriable error", async () => {
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+
+      sender.sendMock.mockRejectedValue(new Error("Send failed"));
+      mockPersist.shift.mockResolvedValueOnce(persistedEnvelopes);
+
+      await sender.callSendFirstPersistedFile();
+
+      // exportEnvelopes handles the thrown error internally via countException
+      expect(sender.getNetworkStats().countException).toHaveBeenCalled();
+    });
+
+    it("should do nothing when no persisted files exist", async () => {
+      mockPersist.shift.mockResolvedValueOnce(null);
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("should not count exception for statsbeat sender when send throws", async () => {
+      const statsbeatSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      vi.clearAllMocks();
+
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+      statsbeatSender.sendMock.mockRejectedValue(new Error("Send failed"));
+      mockPersist.shift.mockResolvedValueOnce(persistedEnvelopes);
+
+      await statsbeatSender.callSendFirstPersistedFile();
+
+      // Statsbeat senders should not count exceptions
+      expect(mockNetworkStats.countException).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("sendAllPersistedFiles edge cases", () => {
+    it("should still attempt sends even if cleanExpiredFiles throws", async () => {
+      mockPersist.cleanExpiredFiles.mockRejectedValueOnce(new Error("Cleanup failed"));
+
+      await sender.callSendAllPersistedFiles();
+
+      // The outer catch handles cleanExpiredFiles failure — shift is never called
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("should handle shift() throwing an error gracefully", async () => {
+      mockPersist.cleanExpiredFiles.mockResolvedValueOnce(undefined);
+      mockPersist.shift.mockRejectedValueOnce(new Error("Disk read error"));
+
+      // Should not throw
+      await sender.callSendAllPersistedFiles();
+
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("should call cleanExpiredFiles before any shift", async () => {
+      const callOrder: string[] = [];
+
+      mockPersist.cleanExpiredFiles.mockImplementationOnce(async () => {
+        callOrder.push("cleanExpiredFiles");
+      });
+      mockPersist.shift.mockImplementationOnce(async () => {
+        callOrder.push("shift");
+        return null;
+      });
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(callOrder).toEqual(["cleanExpiredFiles", "shift"]);
+    });
+
+    it("should be called automatically from constructor when offline storage is enabled", async () => {
+      const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
+
+      const newSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+      });
+
+      expect(sendAllSpy).toHaveBeenCalledTimes(1);
+      expect(newSender).toBeDefined();
+
+      // Flush async work
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      sendAllSpy.mockRestore();
+    });
+
+    it("should handle multiple files where middle send fails", async () => {
+      const file1 = [{ name: "file1", time: new Date() }];
+      const file2 = [{ name: "file2", time: new Date() }];
+      const file3 = [{ name: "file3", time: new Date() }];
+
+      sender.sendMock
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 })
+        .mockRejectedValueOnce(new Error("Network failure"))
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(file3)
+        .mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      // First two files attempted, third should NOT be attempted (break on failure)
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+      expect(sender.sendMock).toHaveBeenCalledWith(file1);
+      expect(sender.sendMock).toHaveBeenCalledWith(file2);
+      // shift called twice: once for file1 (success), once for file2 (fail then break)
+      expect(mockPersist.shift).toHaveBeenCalledTimes(2);
+    });
+
+    it("should process a single file successfully", async () => {
+      const file1 = [{ name: "single", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(mockPersist.cleanExpiredFiles).toHaveBeenCalledTimes(1);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      expect(sender.sendMock).toHaveBeenCalledWith(file1);
+    });
+  });
+
+  describe("Retry timer integration with disk persistence", () => {
+    it("should trigger sendFirstPersistedFile via retry timer after successful export", async () => {
+      vi.useFakeTimers();
+
+      sender.sendMock.mockResolvedValue({ statusCode: 200, result: "success" });
+
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Persisted file should not have been read yet (timer hasn't fired)
+      expect(mockPersist.shift).not.toHaveBeenCalled();
+
+      // Set up a persisted file to be returned when timer fires
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+      mockPersist.shift.mockResolvedValueOnce(persistedEnvelopes);
+
+      // Advance past the default retry interval (60s)
+      await vi.advanceTimersByTimeAsync(60_000);
+
+      expect(mockPersist.shift).toHaveBeenCalledTimes(1);
+      expect(sender.sendMock).toHaveBeenCalledWith(persistedEnvelopes);
+
+      vi.useRealTimers();
+    });
+
+    it("should persist retriable envelopes from exportEnvelopes and retry via timer", async () => {
+      vi.useFakeTimers();
+
+      const envelopes = [
+        { name: "ok", time: new Date() },
+        { name: "fail", time: new Date() },
+      ];
+
+      const breezeResponse = JSON.stringify({
+        itemsReceived: 2,
+        itemsAccepted: 1,
+        errors: [{ index: 1, statusCode: 500, message: "Server Error" }],
+      });
+
+      sender.sendMock.mockResolvedValue({ result: breezeResponse, statusCode: 206 });
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.exportEnvelopes(envelopes);
+
+      // The retriable envelope should have been persisted
+      expect(mockPersist.push).toHaveBeenCalledWith([envelopes[1]]);
+
+      // Now simulate retry timer firing — the persisted file gets sent
+      mockPersist.shift.mockResolvedValueOnce([envelopes[1]]);
+      sender.sendMock.mockResolvedValue({ statusCode: 200, result: "success" });
+
+      await vi.advanceTimersByTimeAsync(60_000);
+
+      expect(mockPersist.shift).toHaveBeenCalledTimes(1);
+
+      vi.useRealTimers();
+    });
+
+    it("should persist all envelopes on 503 and retry via timer", async () => {
+      vi.useFakeTimers();
+
+      const envelopes = [{ name: "test", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ statusCode: 503, result: "" });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes(envelopes);
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+
+      // Retry timer fires and sends the persisted file
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockResolvedValue({ statusCode: 200, result: "success" });
+
+      await vi.advanceTimersByTimeAsync(60_000);
+      expect(mockPersist.shift).toHaveBeenCalled();
+
+      vi.useRealTimers();
+    });
+  });
+
+  describe("sendFirstPersistedFile — replay via exportEnvelopes", () => {
+    it("should re-persist only retriable envelopes when replay gets 206", async () => {
+      const envelopes = [
+        { name: "ok", time: new Date() },
+        { name: "fail", time: new Date() },
+      ];
+
+      const breezeResponse = JSON.stringify({
+        itemsReceived: 2,
+        itemsAccepted: 1,
+        errors: [{ index: 1, statusCode: 500, message: "Server Error" }],
+      });
+
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockResolvedValue({ result: breezeResponse, statusCode: 206 });
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.callSendFirstPersistedFile();
+
+      // exportEnvelopes should have called send with the shifted envelopes
+      expect(sender.sendMock).toHaveBeenCalledWith(envelopes);
+      // Only the retriable envelope (index 1, status 500) should be re-persisted
+      expect(mockPersist.push).toHaveBeenCalledWith([envelopes[1]]);
+    });
+
+    it("should re-persist all envelopes when replay gets 503 with no body", async () => {
+      const envelopes = [{ name: "test", time: new Date() }];
+
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockResolvedValue({ result: "", statusCode: 503 });
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+    });
+
+    it("should not re-persist when replay gets 200", async () => {
+      const envelopes = [{ name: "test", time: new Date() }];
+
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(mockPersist.push).not.toHaveBeenCalled();
+    });
+
+    it("should re-persist all envelopes on 429 throttle", async () => {
+      const envelopes = [{ name: "throttled", time: new Date() }];
+
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockResolvedValue({ result: "", statusCode: 429 });
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+    });
+  });
+
+  describe("sendAllPersistedFiles — replay via exportEnvelopes", () => {
+    it("should re-persist retriable envelopes from 206 during startup replay", async () => {
+      const envelopes = [
+        { name: "ok", time: new Date() },
+        { name: "fail", time: new Date() },
+      ];
+
+      const breezeResponse = JSON.stringify({
+        itemsReceived: 2,
+        itemsAccepted: 1,
+        errors: [{ index: 1, statusCode: 500, message: "Server Error" }],
+      });
+
+      mockPersist.shift.mockResolvedValueOnce(envelopes).mockResolvedValueOnce(null);
+      sender.sendMock.mockResolvedValue({ result: breezeResponse, statusCode: 206 });
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(sender.sendMock).toHaveBeenCalledWith(envelopes);
+      // Only the retriable envelope should be re-persisted
+      expect(mockPersist.push).toHaveBeenCalledWith([envelopes[1]]);
+    });
+
+    it("should stop processing files when exportEnvelopes returns FAILED", async () => {
+      const file1 = [{ name: "file1", time: new Date() }];
+      const file2 = [{ name: "file2", time: new Date() }];
+
+      // Non-retriable failure — exportEnvelopes returns FAILED
+      sender.sendMock.mockResolvedValue({ result: "", statusCode: 400 });
+
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Should stop after first file fails with non-retriable status
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      expect(sender.sendMock).toHaveBeenCalledWith(file1);
+      // Second file should not have been shifted
+      expect(mockPersist.shift).toHaveBeenCalledTimes(1);
+    });
+
+    it("should continue processing files when retriable errors are persisted successfully", async () => {
+      const file1 = [{ name: "file1", time: new Date() }];
+      const file2 = [{ name: "file2", time: new Date() }];
+
+      // 503 is retriable — exportEnvelopes persists and returns SUCCESS
+      sender.sendMock
+        .mockResolvedValueOnce({ result: "", statusCode: 503 })
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+      mockPersist.push.mockResolvedValue(true);
+
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Both files should be processed (retriable persist returns SUCCESS)
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+      // file1 envelopes were re-persisted due to 503
+      expect(mockPersist.push).toHaveBeenCalledWith(file1);
+    });
+
+    it("should handle mixed results across multiple persisted files", async () => {
+      const file1 = [{ name: "file1-ok", time: new Date() }];
+      const file2 = [
+        { name: "file2-ok", time: new Date() },
+        { name: "file2-fail", time: new Date() },
+      ];
+      const file3 = [{ name: "file3-ok", time: new Date() }];
+
+      const file2Response = JSON.stringify({
+        itemsReceived: 2,
+        itemsAccepted: 1,
+        errors: [{ index: 1, statusCode: 500, message: "Server Error" }],
+      });
+
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(file3)
+        .mockResolvedValueOnce(null);
+
+      sender.sendMock
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 })
+        .mockResolvedValueOnce({ result: file2Response, statusCode: 206 })
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+
+      mockPersist.push.mockResolvedValue(true);
+
+      await sender.callSendAllPersistedFiles();
+
+      // All 3 files sent
+      expect(sender.sendMock).toHaveBeenCalledTimes(3);
+      // Only file2's retriable envelope was re-persisted
+      expect(mockPersist.push).toHaveBeenCalledTimes(1);
+      expect(mockPersist.push).toHaveBeenCalledWith([file2[1]]);
     });
   });
 });

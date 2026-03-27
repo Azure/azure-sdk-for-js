@@ -57,6 +57,7 @@
     "@azure/functions": "^4.9.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
     "@opentelemetry/exporter-metrics-otlp-http": "^0.204.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.204.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
