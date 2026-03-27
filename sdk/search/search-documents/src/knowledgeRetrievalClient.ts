@@ -22,6 +22,7 @@ import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
 import * as utils from "./serviceUtils.js";
+import { previewServiceVersion } from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
@@ -105,7 +106,7 @@ export class KnowledgeRetrievalClient {
 
     const internalClientPipelineOptions: KnowledgeBaseRetrievalClientOptionalParams = {
       ...options,
-      apiVersion: options.serviceVersion ?? utils.defaultServiceVersion,
+      apiVersion: options.serviceVersion ?? previewServiceVersion,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -121,7 +122,7 @@ export class KnowledgeRetrievalClient {
       },
     };
 
-    this.serviceVersion = options.serviceVersion ?? utils.defaultServiceVersion;
+    this.serviceVersion = options.serviceVersion ?? previewServiceVersion;
 
     this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
 

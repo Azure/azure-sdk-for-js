@@ -25,6 +25,8 @@ import { SearchClient } from "./searchClient.js";
 import type {
   AliasIterator,
   AnalyzeTextOptions,
+  BetaIndexIterator,
+  BetaSearchIndex,
   CreateAliasOptions,
   CreateIndexOptions,
   CreateKnowledgeBaseOptions,
@@ -67,6 +69,7 @@ import type {
   SynonymMap,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
+import { previewServiceVersion } from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { KnowledgeSourceStatus } from "./models/azure/search/documents/knowledgeBases/index.js";
@@ -93,6 +96,242 @@ export interface SearchIndexClientOptions extends ClientOptions {
    */
   audience?: string;
 }
+
+/**
+ * Beta operations available on {@link SearchIndexClient} after calling
+ * {@link SearchIndexClient.enableBeta}. These operations require the preview
+ * API version and are subject to change.
+ */
+export interface SearchIndexClientBetaOperations {
+  /**
+   * Creates a new knowledge base.
+   * @param knowledgeBase - definition of the knowledge base to create.
+   * @param options - options parameters.
+   */
+  createKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    options?: CreateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase>;
+
+  /**
+   * Creates a new knowledge base or updates a knowledge base if it already exists.
+   * @param knowledgeBaseName - name of the knowledge base to create or update.
+   * @param knowledgeBase - definition of the knowledge base to create or update.
+   * @param options - options parameters.
+   */
+  createOrUpdateKnowledgeBase(
+    knowledgeBaseName: string,
+    knowledgeBase: KnowledgeBase,
+    options?: CreateOrUpdateKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase>;
+
+  /**
+   * Retrieves a knowledge base definition.
+   * @param knowledgeBaseName - name of the knowledge base to retrieve.
+   * @param options - options parameters.
+   */
+  getKnowledgeBase(
+    knowledgeBaseName: string,
+    options?: GetKnowledgeBaseOptions,
+  ): Promise<KnowledgeBase>;
+
+  /**
+   * Retrieves a list of existing knowledge bases in the service.
+   * @param options - Options to the list knowledge bases operation.
+   */
+  listKnowledgeBases(options?: ListKnowledgeBasesOptions): KnowledgeBaseIterator;
+
+  /**
+   * Deletes an existing knowledge base.
+   * @param knowledgeBaseName - name of the knowledge base to delete.
+   * @param options - options parameters.
+   */
+  deleteKnowledgeBase(
+    knowledgeBaseName: string,
+    options?: DeleteKnowledgeBaseOptions,
+  ): Promise<void>;
+
+  /**
+   * Deletes an existing knowledge base.
+   * @param knowledgeBase - the knowledge base to delete.
+   * @param options - options parameters.
+   */
+  deleteKnowledgeBase(
+    knowledgeBase: KnowledgeBase,
+    options?: DeleteKnowledgeBaseOptions,
+  ): Promise<void>;
+
+  /**
+   * Creates a new knowledge source or updates a knowledge source if it already exists.
+   * @param sourceName - name of the knowledge source to create or update.
+   * @param knowledgeSource - definition of the knowledge source to create or update.
+   * @param options - options parameters.
+   */
+  createOrUpdateKnowledgeSource(
+    sourceName: string,
+    knowledgeSource: KnowledgeSource,
+    options?: CreateOrUpdateKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource>;
+
+  /**
+   * Deletes an existing knowledge source.
+   * @param sourceName - name of the knowledge source to delete.
+   * @param options - options parameters.
+   */
+  deleteKnowledgeSource(sourceName: string, options?: DeleteKnowledgeSourceOptions): Promise<void>;
+
+  /**
+   * Deletes an existing knowledge source.
+   * @param source - the knowledge source to delete.
+   * @param options - options parameters.
+   */
+  deleteKnowledgeSource(
+    source: KnowledgeSource,
+    options?: DeleteKnowledgeSourceOptions,
+  ): Promise<void>;
+
+  /**
+   * Retrieves a knowledge source definition.
+   * @param sourceName - The name of the knowledge source to retrieve.
+   * @param options - The options parameters.
+   */
+  getKnowledgeSource(
+    sourceName: string,
+    options?: GetKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource>;
+
+  /**
+   * Retrieves a list of existing knowledge sources in the service.
+   * @param options - Options to the list knowledge sources operation.
+   */
+  listKnowledgeSources(options?: ListKnowledgeSourcesOptions): KnowledgeSourceIterator;
+
+  /**
+   * Creates a new knowledge source.
+   * @param knowledgeSource - The definition of the knowledge source to create.
+   * @param options - The options parameters.
+   */
+  createKnowledgeSource(
+    knowledgeSource: KnowledgeSource,
+    options?: CreateKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource>;
+
+  /**
+   * Returns the current status and synchronization history of a knowledge source.
+   * @param sourceName - The name of the knowledge source for which to retrieve status.
+   * @param options - The options parameters.
+   */
+  getKnowledgeSourceStatus(
+    sourceName: string,
+    options?: GetKnowledgeSourceStatusOptions,
+  ): Promise<KnowledgeSourceStatus>;
+
+  /**
+   * Retrieves the KnowledgeRetrievalClient corresponding to this SearchIndexClient.
+   * @param knowledgeBaseName - Name of the knowledge base
+   * @param options - KnowledgeRetrievalClient Options
+   */
+  getKnowledgeRetrievalClient(
+    knowledgeBaseName: string,
+    options?: GetKnowledgeRetrievalClientOptions,
+  ): KnowledgeRetrievalClient;
+
+  /**
+   * Retrieves a list of existing indexes in the service with statistics.
+   * @param options - Options to the list index stats summary operation.
+   */
+  getIndexStatsSummary(options?: GetIndexStatsSummaryOptions): IndexStatisticsSummaryIterator;
+
+  /**
+   * Lists all aliases available for a search service.
+   * @param options - The options parameters.
+   */
+  listAliases(options?: ListAliasesOptions): AliasIterator;
+
+  /**
+   * Creates a new search alias.
+   * @param alias - The definition of the alias to create.
+   * @param options - The options parameters.
+   */
+  createAlias(alias: SearchIndexAlias, options?: CreateAliasOptions): Promise<SearchIndexAlias>;
+
+  /**
+   * Creates a new search alias or updates an alias if it already exists.
+   * @param alias - The definition of the alias to create or update.
+   * @param options - The options parameters.
+   */
+  createOrUpdateAlias(
+    alias: SearchIndexAlias,
+    options?: CreateOrUpdateAliasOptions,
+  ): Promise<SearchIndexAlias>;
+
+  /**
+   * Deletes a search alias and its associated mapping to an index. This operation is permanent,
+   * with no recovery option. The mapped index is untouched by this operation.
+   * @param aliasName - Name of the alias to delete.
+   * @param options - Additional optional arguments.
+   */
+  deleteAlias(aliasName: string, options?: DeleteAliasOptions): Promise<void>;
+
+  /**
+   * Deletes a search alias and its associated mapping to an index. This operation is permanent,
+   * with no recovery option. The mapped index is untouched by this operation.
+   * @param alias - The alias to delete.
+   * @param options - Additional optional arguments.
+   */
+  deleteAlias(alias: SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
+
+  /**
+   * Retrieves an alias definition.
+   * @param aliasName - The name of the alias to retrieve.
+   * @param options - The options parameters.
+   */
+  getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
+
+  // --- Scenario B: stable operations returning wider model with preview properties ---
+
+  /**
+   * Retrieves a list of existing indexes in the service, including preview-only properties.
+   * @param options - Options to the list index operation.
+   */
+  listIndexes(options?: ListIndexesOptions): BetaIndexIterator;
+
+  /**
+   * Retrieves information about an index, including preview-only properties.
+   * @param indexName - The name of the index.
+   * @param options - Additional optional arguments.
+   */
+  getIndex(indexName: string, options?: GetIndexOptions): Promise<BetaSearchIndex>;
+
+  /**
+   * Creates a new index and returns the result including preview-only properties.
+   * @param index - The information describing the index to be created.
+   * @param options - Additional optional arguments.
+   */
+  createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<BetaSearchIndex>;
+
+  /**
+   * Creates a new index or modifies an existing one, returning the result including
+   * preview-only properties.
+   * @param index - The information describing the index to be created.
+   * @param options - Additional optional arguments.
+   */
+  createOrUpdateIndex(
+    index: SearchIndex,
+    options?: CreateOrUpdateIndexOptions,
+  ): Promise<BetaSearchIndex>;
+}
+
+/**
+ * The beta-enabled projection of {@link SearchIndexClient}. Returned by
+ * {@link SearchIndexClient.enableBeta}. This is the same client instance with a
+ * wider type that includes preview operations and wider return types.
+ */
+export type SearchIndexClientWithBeta = Omit<
+  SearchIndexClient,
+  "listIndexes" | "getIndex" | "createIndex" | "createOrUpdateIndex"
+> &
+  SearchIndexClientBetaOperations;
 
 /**
  * Class to perform operations to manage
@@ -136,6 +375,11 @@ export class SearchIndexClient {
    * Used to configure the Search Index client.
    */
   private readonly options: SearchIndexClientOptions;
+
+  /**
+   * Whether beta operations have been activated on this instance.
+   */
+  private _betaActivated: boolean = false;
 
   /**
    * Creates an instance of SearchIndexClient.
@@ -211,14 +455,6 @@ export class SearchIndexClient {
       this.client.listIndexes(options),
       utils.generatedIndexToPublicIndex,
     );
-  }
-
-  /**
-   * Lists all aliases available for a search service.
-   * @param options - The options parameters.
-   */
-  public listAliases(options: ListAliasesOptions = {}): AliasIterator {
-    return this.client.listAliases(options);
   }
 
   /**
@@ -460,95 +696,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new search alias or updates an alias if it already exists.
-   * @param alias - The definition of the alias to create or update.
-   * @param options - The options parameters.
-   */
-  public async createOrUpdateAlias(
-    alias: SearchIndexAlias,
-    options: CreateOrUpdateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createOrUpdateAlias",
-      options,
-      async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? alias.etag : undefined;
-        return this.client.createOrUpdateAlias(alias, alias.name, {
-          ...updatedOptions,
-          ifMatch: etag,
-        });
-      },
-    );
-  }
-
-  /**
-   * Creates a new search alias.
-   * @param alias - The definition of the alias to create.
-   * @param options - The options parameters.
-   */
-  public async createAlias(
-    alias: SearchIndexAlias,
-    options: CreateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createAlias",
-      options,
-      async (updatedOptions) => {
-        return this.client.createAlias(alias, updatedOptions);
-      },
-    );
-  }
-
-  /**
-   * Deletes a search alias and its associated mapping to an index. This operation is permanent,
-   * with no recovery option. The mapped index is untouched by this operation.
-   * @param aliasName - Name of the alias to delete.
-   * @param options - Additional optional arguments.
-   */
-  public async deleteAlias(aliasName: string, options?: DeleteAliasOptions): Promise<void>;
-
-  /**
-   * Deletes a search alias and its associated mapping to an index. This operation is permanent,
-   * with no recovery option. The mapped index is untouched by this operation.
-   * @param alias - The alias to delete.
-   * @param options - Additional optional arguments.
-   */
-  public async deleteAlias(alias: SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
-  public async deleteAlias(
-    alias: string | SearchIndexAlias,
-    options: DeleteAliasOptions = {},
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-deleteAlias",
-      options,
-      async (updatedOptions) => {
-        const aliasName: string = typeof alias === "string" ? alias : alias.name;
-        const etag =
-          typeof alias === "string" ? undefined : options.onlyIfUnchanged ? alias.etag : undefined;
-
-        await this.client.deleteAlias(aliasName, {
-          ...updatedOptions,
-          ifMatch: etag,
-        });
-      },
-    );
-  }
-
-  /**
-   * Retrieves an alias definition.
-   * @param aliasName - The name of the alias to retrieve.
-   * @param options - The options parameters.
-   */
-  public async getAlias(
-    aliasName: string,
-    options: GetAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
-    return tracingClient.withSpan("SearchIndexClient-getAlias", options, async (updatedOptions) => {
-      return this.client.getAlias(aliasName, updatedOptions);
-    });
-  }
-
-  /**
    * Retrieves statistics about an index, such as the count of documents and the size
    * of index storage.
    * @param indexName - The name of the index.
@@ -608,263 +755,362 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options - Options to the list index operation.
+   * Activates preview (beta) operations on this client instance and returns
+   * it with a wider type that includes preview operations and wider return types.
+   *
+   * After calling this method, the returned reference exposes all preview operations
+   * such as Knowledge Base and Knowledge Source management, and the API version
+   * will be upgraded to the latest preview version (unless explicitly set
+   * in the constructor options).
+   *
+   * This method is idempotent — calling it more than once has no additional effect.
+   *
+   * @example
+   * ```ts snippet:SearchIndexClient_enableBeta
+   * import { AzureKeyCredential, SearchIndexClient } from "@azure/search-documents";
+   *
+   * const endpoint = "<endpoint>";
+   * const credential = new AzureKeyCredential("<apiKey>");
+   * const client = new SearchIndexClient(endpoint, credential).enableBeta();
+   * ```
    */
-  public getIndexStatsSummary(
-    options: GetIndexStatsSummaryOptions = {},
-  ): IndexStatisticsSummaryIterator {
-    return this.client.listIndexStatsSummary(options);
-  }
+  public enableBeta(): SearchIndexClientWithBeta {
+    if (this._betaActivated) {
+      return this as unknown as SearchIndexClientWithBeta;
+    }
+    this._betaActivated = true;
 
-  /**
-   * Creates a new knowledgebase.
-   * @param knowledgeBase - definition of the knowledgebase to create.
-   * @param options - options parameters.
-   */
-  public async createKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
-    options: CreateKnowledgeBaseOptions = {},
-  ): Promise<KnowledgeBase> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createKnowledgeBase",
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.createKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
-          updatedOptions,
+    // Upgrade the API version to preview unless the user explicitly set one
+    if (!this.options.serviceVersion && !this.options.apiVersion) {
+      (this as { serviceVersion: string }).serviceVersion = previewServiceVersion;
+      (this as { apiVersion: string }).apiVersion = previewServiceVersion;
+      // Mutate the generated client's internal context to use the preview version
+      this.client["_client"].apiVersion = previewServiceVersion;
+    }
+
+    const generatedClient = this.client;
+    const endpoint = this.endpoint;
+    const credential = this.credential;
+    const options = this.options;
+
+    const betaOperations: SearchIndexClientBetaOperations = {
+      createKnowledgeBase(
+        knowledgeBase: KnowledgeBase,
+        opts: CreateKnowledgeBaseOptions = {},
+      ): Promise<KnowledgeBase> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createKnowledgeBase",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.createKnowledgeBase(
+              utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
+              updatedOptions,
+            );
+            return utils.convertKnowledgeBaseToPublic(result)!;
+          },
         );
-        return utils.convertKnowledgeBaseToPublic(result)!;
       },
-    );
-  }
 
-  /**
-   * Creates a new knowledge base or updates a knowledge base if it already exists.
-   * @param knowledgeBaseName - name of the knowledge base to create or update.
-   * @param knowledgeBase - definition of the knowledge base to create or update.
-   * @param options - options parameters.
-   */
-  public async createOrUpdateKnowledgeBase(
-    knowledgeBaseName: string,
-    knowledgeBase: KnowledgeBase,
-    options: CreateOrUpdateKnowledgeBaseOptions = {},
-  ): Promise<KnowledgeBase> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createOrUpdateKnowledgeBase",
-      options,
-      async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
-        const result = await this.client.createOrUpdateKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
+      createOrUpdateKnowledgeBase(
+        knowledgeBaseName: string,
+        knowledgeBase: KnowledgeBase,
+        opts: CreateOrUpdateKnowledgeBaseOptions = {},
+      ): Promise<KnowledgeBase> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createOrUpdateKnowledgeBase",
+          opts,
+          async (updatedOptions) => {
+            const etag = opts.onlyIfUnchanged ? knowledgeBase.etag : undefined;
+            const result = await generatedClient.createOrUpdateKnowledgeBase(
+              utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
+              knowledgeBaseName,
+              {
+                ...updatedOptions,
+                ifMatch: etag,
+              },
+            );
+            return utils.convertKnowledgeBaseToPublic(result)!;
+          },
+        );
+      },
+
+      getKnowledgeBase(
+        knowledgeBaseName: string,
+        opts: GetKnowledgeBaseOptions = {},
+      ): Promise<KnowledgeBase> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-getKnowledgeBase",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.getKnowledgeBase(
+              knowledgeBaseName,
+              updatedOptions,
+            );
+            return utils.convertKnowledgeBaseToPublic(result);
+          },
+        );
+      },
+
+      listKnowledgeBases(opts: ListKnowledgeBasesOptions = {}): KnowledgeBaseIterator {
+        return utils.mapPagedAsyncIterable(
+          generatedClient.listKnowledgeBases(opts),
+          utils.convertKnowledgeBaseToPublic,
+        );
+      },
+
+      deleteKnowledgeBase(
+        knowledgeBase: string | KnowledgeBase,
+        opts: DeleteKnowledgeBaseOptions = {},
+      ): Promise<void> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-deleteKnowledgeBase",
+          opts,
+          async (updatedOptions) => {
+            const knowledgeBaseName =
+              typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
+            const etag =
+              typeof knowledgeBase !== "string" && opts.onlyIfUnchanged
+                ? knowledgeBase.etag
+                : undefined;
+
+            const result = await generatedClient.deleteKnowledgeBase(knowledgeBaseName, {
+              ...updatedOptions,
+              ifMatch: etag,
+            });
+            return result;
+          },
+        );
+      },
+
+      createOrUpdateKnowledgeSource(
+        sourceName: string,
+        knowledgeSource: KnowledgeSource,
+        opts: CreateOrUpdateKnowledgeSourceOptions = {},
+      ): Promise<KnowledgeSource> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createOrUpdateKnowledgeSource",
+          opts,
+          async (updatedOptions) => {
+            const etag = opts.onlyIfUnchanged ? knowledgeSource.etag : undefined;
+            const result = await generatedClient.createOrUpdateKnowledgeSource(
+              utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+              sourceName,
+              {
+                ...updatedOptions,
+                ifMatch: etag,
+              },
+            );
+            return utils.convertKnowledgeSourceToPublic(result)!;
+          },
+        );
+      },
+
+      deleteKnowledgeSource(
+        source: string | KnowledgeSource,
+        opts: DeleteKnowledgeSourceOptions = {},
+      ): Promise<void> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-deleteKnowledgeSource",
+          opts,
+          async (updatedOptions) => {
+            const sourceName = typeof source === "string" ? source : source.name;
+            const etag =
+              typeof source !== "string" && opts.onlyIfUnchanged ? source.etag : undefined;
+
+            return generatedClient.deleteKnowledgeSource(sourceName, {
+              ...updatedOptions,
+              ifMatch: etag,
+            });
+          },
+        );
+      },
+
+      getKnowledgeSource(
+        sourceName: string,
+        opts: GetKnowledgeSourceOptions = {},
+      ): Promise<KnowledgeSource> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-getKnowledgeSource",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.getKnowledgeSource(sourceName, updatedOptions);
+            return utils.convertKnowledgeSourceToPublic(result)!;
+          },
+        );
+      },
+
+      listKnowledgeSources(opts: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
+        return utils.mapPagedAsyncIterable(
+          generatedClient.listKnowledgeSources(opts),
+          (ks) => utils.convertKnowledgeSourceToPublic(ks)!,
+        );
+      },
+
+      createKnowledgeSource(
+        knowledgeSource: KnowledgeSource,
+        opts: CreateKnowledgeSourceOptions = {},
+      ): Promise<KnowledgeSource> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createKnowledgeSource",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.createKnowledgeSource(
+              utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+              updatedOptions,
+            );
+            return utils.convertKnowledgeSourceToPublic(result)!;
+          },
+        );
+      },
+
+      getKnowledgeSourceStatus(
+        sourceName: string,
+        opts: GetKnowledgeSourceStatusOptions = {},
+      ): Promise<KnowledgeSourceStatus> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-getKnowledgeSourceStatus",
+          opts,
+          async (updatedOptions) => {
+            return generatedClient.getKnowledgeSourceStatus(sourceName, updatedOptions);
+          },
+        );
+      },
+
+      getKnowledgeRetrievalClient(
+        knowledgeBaseName: string,
+        opts?: GetKnowledgeRetrievalClientOptions,
+      ): KnowledgeRetrievalClient {
+        return new KnowledgeRetrievalClient(
+          endpoint,
           knowledgeBaseName,
-          {
-            ...updatedOptions,
-            ifMatch: etag,
+          credential,
+          opts || options,
+        );
+      },
+
+      getIndexStatsSummary(opts: GetIndexStatsSummaryOptions = {}): IndexStatisticsSummaryIterator {
+        return generatedClient.listIndexStatsSummary(opts);
+      },
+
+      listAliases(opts: ListAliasesOptions = {}): AliasIterator {
+        return generatedClient.listAliases(opts);
+      },
+
+      createAlias(
+        alias: SearchIndexAlias,
+        opts: CreateAliasOptions = {},
+      ): Promise<SearchIndexAlias> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createAlias",
+          opts,
+          async (updatedOptions) => {
+            return generatedClient.createAlias(alias, updatedOptions);
           },
         );
-        return utils.convertKnowledgeBaseToPublic(result)!;
       },
-    );
-  }
 
-  /**
-   * Retrieves a knowledge base definition.
-   * @param knowledgeBaseName - name of the knowledge base to retrieve.
-   * @param options - options parameters.
-   */
-  public async getKnowledgeBase(
-    knowledgeBaseName: string,
-    options: GetKnowledgeBaseOptions = {},
-  ): Promise<KnowledgeBase> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-getKnowledgeBase",
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.getKnowledgeBase(knowledgeBaseName, updatedOptions);
-        return utils.convertKnowledgeBaseToPublic(result);
-      },
-    );
-  }
-
-  /**
-   * Retrieves a list of existing KnowledgeBases in the service.
-   * @param options - Options to the list knowledge bases operation.
-   */
-  public listKnowledgeBases(options: ListKnowledgeBasesOptions = {}): KnowledgeBaseIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listKnowledgeBases(options),
-      utils.convertKnowledgeBaseToPublic,
-    );
-  }
-
-  /**
-   * Deletes an existing knowledge base.
-   * @param knowledgeBaseName - name of the knowledge base to delete.
-   * @param options - options parameters.
-   */
-  public async deleteKnowledgeBase(
-    knowledgeBaseName: string,
-    options?: DeleteKnowledgeBaseOptions,
-  ): Promise<void>;
-  /**
-   * Deletes an existing knowledge base.
-   * @param knowledgeBase - the knowledge base to delete.
-   * @param options - options parameters.
-   */
-  public async deleteKnowledgeBase(
-    knowledgeBase: KnowledgeBase,
-    options?: DeleteKnowledgeBaseOptions,
-  ): Promise<void>;
-  public async deleteKnowledgeBase(
-    knowledgeBase: string | KnowledgeBase,
-    options: DeleteKnowledgeBaseOptions = {},
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-deleteKnowledgeBase",
-      options,
-      async (updatedOptions) => {
-        const knowledgeBaseName =
-          typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
-        const etag =
-          typeof knowledgeBase !== "string" && options.onlyIfUnchanged
-            ? knowledgeBase.etag
-            : undefined;
-
-        const result = await this.client.deleteKnowledgeBase(knowledgeBaseName, {
-          ...updatedOptions,
-          ifMatch: etag,
-        });
-        return result;
-      },
-    );
-  }
-
-  public async createOrUpdateKnowledgeSource(
-    sourceName: string,
-    knowledgeSource: KnowledgeSource,
-    options: CreateOrUpdateKnowledgeSourceOptions = {},
-  ): Promise<KnowledgeSource> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createOrUpdateKnowledgeSource",
-      options,
-      async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
-        const result = await this.client.createOrUpdateKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          sourceName,
-          {
-            ...updatedOptions,
-            ifMatch: etag,
+      createOrUpdateAlias(
+        alias: SearchIndexAlias,
+        opts: CreateOrUpdateAliasOptions = {},
+      ): Promise<SearchIndexAlias> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createOrUpdateAlias",
+          opts,
+          async (updatedOptions) => {
+            const etag = opts.onlyIfUnchanged ? alias.etag : undefined;
+            return generatedClient.createOrUpdateAlias(alias, alias.name, {
+              ...updatedOptions,
+              ifMatch: etag,
+            });
           },
         );
-        return utils.convertKnowledgeSourceToPublic(result)!;
       },
-    );
-  }
 
-  /**
-   * Deletes an existing source.
-   * @param sourceName - name of the knowledge source to delete.
-   * @param options - options parameters.
-   */
-  public async deleteKnowledgeSource(
-    sourceName: string,
-    options?: DeleteKnowledgeSourceOptions,
-  ): Promise<void>;
-  /**
-   * Deletes an existing source.
-   * @param source - the knowledge source to delete.
-   * @param options - options parameters.
-   */
-  public async deleteKnowledgeSource(
-    source: KnowledgeSource,
-    options?: DeleteKnowledgeSourceOptions,
-  ): Promise<void>;
-  public async deleteKnowledgeSource(
-    source: string | KnowledgeSource,
-    options: DeleteKnowledgeSourceOptions = {},
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-deleteKnowledgeSource",
-      options,
-      async (updatedOptions) => {
-        const sourceName = typeof source === "string" ? source : source.name;
-        const etag =
-          typeof source !== "string" && options.onlyIfUnchanged ? source.etag : undefined;
+      deleteAlias(alias: string | SearchIndexAlias, opts: DeleteAliasOptions = {}): Promise<void> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-deleteAlias",
+          opts,
+          async (updatedOptions) => {
+            const aliasName: string = typeof alias === "string" ? alias : alias.name;
+            const etag =
+              typeof alias === "string" ? undefined : opts.onlyIfUnchanged ? alias.etag : undefined;
 
-        return this.client.deleteKnowledgeSource(sourceName, { ...updatedOptions, ifMatch: etag });
-      },
-    );
-  }
-
-  /**
-   * Retrieves a knowledge source definition.
-   * @param sourceName - The name of the knowledge source to retrieve.
-   * @param options - The options parameters.
-   */
-  public async getKnowledgeSource(
-    sourceName: string,
-    options: GetKnowledgeSourceOptions = {},
-  ): Promise<KnowledgeSource> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-getKnowledgeSource",
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.getKnowledgeSource(sourceName, updatedOptions);
-        return utils.convertKnowledgeSourceToPublic(result)!;
-      },
-    );
-  }
-  /**
-   * Retrieves a list of existing KnowledgeSources in the service.
-   * @param options - Options to the list knowledge sources operation.
-   */
-  public listKnowledgeSources(options: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listKnowledgeSources(options),
-      (ks) => utils.convertKnowledgeSourceToPublic(ks)!,
-    );
-  }
-
-  /**
-   * Creates a new knowledge source.
-   * @param knowledgeSource - The definition of the knowledge source to create.
-   * @param options - The options parameters.
-   */
-  public async createKnowledgeSource(
-    knowledgeSource: KnowledgeSource,
-    options: CreateKnowledgeSourceOptions = {},
-  ): Promise<KnowledgeSource> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-createKnowledgeSource",
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.createKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          updatedOptions,
+            await generatedClient.deleteAlias(aliasName, {
+              ...updatedOptions,
+              ifMatch: etag,
+            });
+          },
         );
-        return utils.convertKnowledgeSourceToPublic(result)!;
       },
-    );
-  }
 
-  /**
-   * Returns the current status and synchronization history of a knowledge source.
-   * @param sourceName - The name of the knowledge source for which to retrieve status.
-   * @param options - The options parameters.
-   */
-  public async getKnowledgeSourceStatus(
-    sourceName: string,
-    options: GetKnowledgeSourceStatusOptions = {},
-  ): Promise<KnowledgeSourceStatus> {
-    return tracingClient.withSpan(
-      "SearchIndexClient-getKnowledgeSourceStatus",
-      options,
-      async (updatedOptions) => {
-        return this.client.getKnowledgeSourceStatus(sourceName, updatedOptions);
+      getAlias(aliasName: string, opts: GetAliasOptions = {}): Promise<SearchIndexAlias> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-getAlias",
+          opts,
+          async (updatedOptions) => {
+            return generatedClient.getAlias(aliasName, updatedOptions);
+          },
+        );
       },
-    );
+
+      // --- Scenario B: stable operations returning wider model with preview properties ---
+
+      listIndexes(opts: ListIndexesOptions = {}): BetaIndexIterator {
+        return utils.mapPagedAsyncIterable(
+          generatedClient.listIndexes(opts),
+          utils.generatedIndexToPublicIndex,
+        );
+      },
+
+      getIndex(indexName: string, opts: GetIndexOptions = {}): Promise<BetaSearchIndex> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-getIndex",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.getIndex(indexName, updatedOptions);
+            return utils.generatedIndexToPublicIndex(result);
+          },
+        );
+      },
+
+      createIndex(index: SearchIndex, opts: CreateIndexOptions = {}): Promise<BetaSearchIndex> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createIndex",
+          opts,
+          async (updatedOptions) => {
+            const result = await generatedClient.createIndex(
+              utils.publicIndexToGeneratedIndex(index),
+              updatedOptions,
+            );
+            generatedClient.pipeline.removePolicy({ name: "debugPolicy" });
+            return utils.generatedIndexToPublicIndex(result);
+          },
+        );
+      },
+
+      createOrUpdateIndex(
+        index: SearchIndex,
+        opts: CreateOrUpdateIndexOptions = {},
+      ): Promise<BetaSearchIndex> {
+        return tracingClient.withSpan(
+          "SearchIndexClient-createOrUpdateIndex",
+          opts,
+          async (updatedOptions) => {
+            const etag = opts.onlyIfUnchanged ? index.etag : undefined;
+            const result = await generatedClient.createOrUpdateIndex(
+              utils.publicIndexToGeneratedIndex(index),
+              index.name,
+              { ...updatedOptions, ifMatch: etag },
+            );
+            return utils.generatedIndexToPublicIndex(result);
+          },
+        );
+      },
+    };
+
+    Object.assign(this, betaOperations);
+
+    return this as unknown as SearchIndexClientWithBeta;
   }
 
   /**
@@ -882,23 +1128,6 @@ export class SearchIndexClient {
     return new SearchClient<TModel>(
       this.endpoint,
       indexName,
-      this.credential,
-      options || this.options,
-    );
-  }
-
-  /**
-   * Retrieves the KnowledgeRetrievalClient corresponding to this SearchIndexClient
-   * @param knowledgeBaseName - Name of the knowledge base
-   * @param options - KnowledgeRetrievalClient Options
-   */
-  public getKnowledgeRetrievalClient(
-    knowledgeBaseName: string,
-    options?: GetKnowledgeRetrievalClientOptions,
-  ): KnowledgeRetrievalClient {
-    return new KnowledgeRetrievalClient(
-      this.endpoint,
-      knowledgeBaseName,
       this.credential,
       options || this.options,
     );
