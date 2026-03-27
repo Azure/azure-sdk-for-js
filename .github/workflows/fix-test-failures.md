@@ -89,9 +89,8 @@ failures.
      name pattern: `js - <service> - tests` with job suffixes like
      `(Public ...)`. Example: `js - attestation - tests (Public macoslatest_24x_node)`.
 
-   **Ignore all check runs whose name contains `- tests`.** These are live-test
-   pipeline results. Live failures are caused by infrastructure or service-side
-   issues (expired credentials, service outages, network timeouts), not by code
+   **Ignore all check runs whose name contains `- tests`, `- tests-weekly`, or
+   `- perf`.** These are live-test and performance pipeline results, not CI
    regressions. This workflow should only analyze CI pipeline failures.
 4. If a specific `package` input was provided, scope investigation to that package only.
 5. Collect the list of affected **service directories** or **package names** from the
