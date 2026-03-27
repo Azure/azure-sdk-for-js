@@ -147,6 +147,10 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _encodedMessages: Buffer[] = [];
   /**
+   * Raw rhea messages stored for idempotent mode to avoid decode+re-encode.
+   */
+  private _rawMessages: RheaMessage[] = [];
+  /**
    * Number of events in the batch.
    */
   private _count: number;
@@ -272,14 +276,11 @@ export class EventDataBatchImpl implements EventDataBatch {
     publishingProps?: PartitionPublishingProperties,
   ): Buffer {
     if (this._isIdempotent && publishingProps) {
-      // We need to decode the encoded events, add the idempotent annotations, and re-encode them.
-      // We can't lazily encode the events because we rely on `message.encode` to capture the
-      // byte length of anything not in `event.body`.
+      // Use stored raw messages to avoid decode+re-encode overhead.
       // Events can't be decorated ahead of time because the publishing properties aren't known
       // until the events are being sent to the service.
-      const decodedEvents = encodedEvents.map(message.decode) as unknown as RheaMessage[];
       const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
-        decodedEvents,
+        this._rawMessages,
         publishingProps,
       );
       encodedEvents = decoratedEvents.map(message.encode);
@@ -424,6 +425,9 @@ export class EventDataBatchImpl implements EventDataBatch {
 
     // The event will fit in the batch, so it is now safe to store it.
     this._encodedMessages.push(encodedMessage);
+    if (this._isIdempotent) {
+      this._rawMessages.push(amqpMessage);
+    }
     if (spanContext) {
       this._spanContexts.push(spanContext);
     }

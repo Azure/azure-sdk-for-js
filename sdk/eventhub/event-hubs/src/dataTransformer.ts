@@ -19,6 +19,8 @@ export const sequenceSectionTypeCode = 0x76 as const;
 /** @internal */
 export const valueSectionTypeCode = 0x77 as const;
 
+const stringNeedsJsonEscaping = /["\\\u0000-\u001f\u2028\u2029]/;
+
 /**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
@@ -52,7 +54,16 @@ export const defaultDataTransformer = {
       result = message.data_section(null);
     } else {
       try {
-        const bodyStr = JSON.stringify(body);
+        let bodyStr: string;
+
+        if (typeof body === "string") {
+          bodyStr = stringNeedsJsonEscaping.test(body) ? JSON.stringify(body) : `"${body}"`;
+        } else if (typeof body === "number" || typeof body === "boolean") {
+          bodyStr = String(body);
+        } else {
+          bodyStr = JSON.stringify(body);
+        }
+
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
       } catch (err: any) {
         const msg =
@@ -127,6 +138,9 @@ function tryToJsonDecode(body: unknown): unknown {
     // Trying to stringify and JSON.parse() anything else will fail flat and we shall return
     // the original type back
     const bodyStr: string = processedBody.toString("utf8");
+    if (!looksLikeJson(bodyStr)) {
+      return processedBody;
+    }
     processedBody = JSON.parse(bodyStr);
   } catch (err: any) {
     logger.verbose(
@@ -135,6 +149,30 @@ function tryToJsonDecode(body: unknown): unknown {
     );
   }
   return processedBody;
+}
+
+function looksLikeJson(body: string): boolean {
+  const trimmed = body.trimStart();
+  if (trimmed.length === 0) {
+    return false;
+  }
+
+  switch (trimmed[0]) {
+    case "{":
+    case "[":
+    case '"':
+      return true;
+    case "t":
+      return trimmed === "true";
+    case "f":
+      return trimmed === "false";
+    case "n":
+      return trimmed === "null";
+    case "-":
+      return trimmed.length > 1 && /\d/.test(trimmed[1]);
+    default:
+      return /\d/.test(trimmed[0]);
+  }
 }
 
 /**

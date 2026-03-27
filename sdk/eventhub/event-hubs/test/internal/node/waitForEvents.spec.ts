@@ -3,7 +3,7 @@
 
 import { assert } from "../../utils/chai.js";
 import EventEmitter from "events";
-import { waitForEvents } from "../../../src/partitionReceiver.js";
+import { createQueueSignal, waitForEvents } from "../../../src/partitionReceiver.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { afterAll, beforeAll, describe, it, vi } from "vitest";
 
@@ -17,6 +17,7 @@ function assertWaitForEvents(inputs: {
   queue?: number[];
   abortSignal?: AbortSignalLike;
   expectedErrorMsg?: string;
+  useQueueSignal?: boolean;
 }): Promise<void> {
   const {
     maxEventCount,
@@ -27,9 +28,12 @@ function assertWaitForEvents(inputs: {
     expectedEvents,
     abortSignal,
     expectedErrorMsg,
+    useQueueSignal,
   } = inputs;
+  const queueSignal = useQueueSignal ? createQueueSignal() : undefined;
   const events = waitForEvents(maxEventCount, maxWaitTimeInMs, prefetchTimeInMs, queue, {
     abortSignal,
+    queueSignal,
   }).catch((err) => {
     if (expectedErrorMsg !== undefined) {
       assert.deepEqual(err.message, expectedErrorMsg);
@@ -40,6 +44,7 @@ function assertWaitForEvents(inputs: {
   const emitter = new EventEmitter();
   emitter.on("message", (event: number) => {
     queue.push(event);
+    queueSignal?.notify();
   });
   return Promise.all([
     events.then(() => queue.splice(0, maxEventCount)),
@@ -112,6 +117,28 @@ describe("waitForEvents", function () {
         for (let i = 0; i < maxEventCount; i++) {
           emitter.emit("message", Math.random());
         }
+      },
+    });
+  });
+
+  it("Yields using queue notifications without polling", async function () {
+    const maxEventCount = 10;
+    const maxWaitTimeInMs = 10000;
+    const prefetchTimeInMs = 40;
+    await assertWaitForEvents({
+      expectedEvents: [0, 1, 2, 3, 4],
+      maxEventCount,
+      maxWaitTimeInMs,
+      prefetchTimeInMs,
+      useQueueSignal: true,
+      expectedElapsedTimeInMs: prefetchTimeInMs,
+      sendEvents: async (emitter) => {
+        emitter.emit("message", 0);
+        emitter.emit("message", 1);
+        emitter.emit("message", 2);
+        emitter.emit("message", 3);
+        emitter.emit("message", 4);
+        await vi.advanceTimersByTimeAsync(prefetchTimeInMs);
       },
     });
   });
