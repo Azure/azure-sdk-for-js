@@ -333,7 +333,7 @@ export class SecretClient {
       const response = await this.client.getSecret(
         secretName,
         options && options.version ? options.version : "",
-        { ...updatedOptions, outContentType: options.outContentType },
+        updatedOptions,
       );
       return getSecretFromSecretBundle(response);
     });
