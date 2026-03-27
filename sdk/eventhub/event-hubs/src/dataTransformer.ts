@@ -58,7 +58,9 @@ export const defaultDataTransformer = {
 
         if (typeof body === "string") {
           bodyStr = stringNeedsJsonEscaping.test(body) ? JSON.stringify(body) : `"${body}"`;
-        } else if (typeof body === "number" || typeof body === "boolean") {
+        } else if (typeof body === "number") {
+          bodyStr = Number.isFinite(body) ? String(body) : JSON.stringify(body);
+        } else if (typeof body === "boolean") {
           bodyStr = String(body);
         } else {
           bodyStr = JSON.stringify(body);
@@ -152,7 +154,7 @@ function tryToJsonDecode(body: unknown): unknown {
 }
 
 function looksLikeJson(body: string): boolean {
-  const trimmed = body.trimStart();
+  const trimmed = body.trim();
   if (trimmed.length === 0) {
     return false;
   }

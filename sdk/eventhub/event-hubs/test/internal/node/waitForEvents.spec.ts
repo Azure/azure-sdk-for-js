@@ -143,6 +143,27 @@ describe("waitForEvents", function () {
     });
   });
 
+  it("Yields after prefetch wait when queue already has events and queueSignal is used", async function () {
+    const queue = [0, 1, 2, 3, 4];
+    const queueSignal = createQueueSignal();
+    let resolved = false;
+
+    const wait = waitForEvents(10, 10000, 40, queue, { queueSignal }).then(() => {
+      resolved = true;
+    });
+
+    await Promise.resolve();
+    assert.strictEqual(resolved, false, "waitForEvents should still honor the prefetch delay.");
+
+    await vi.advanceTimersByTimeAsync(39);
+    assert.strictEqual(resolved, false, "waitForEvents should not resolve before the prefetch delay.");
+
+    await vi.advanceTimersByTimeAsync(1);
+    await wait;
+
+    assert.strictEqual(resolved, true, "waitForEvents should resolve after the prefetch delay.");
+  });
+
   it("Can be aborted", async function () {
     const maxEventCount = 10;
     const maxWaitTimeInMs = 10000;

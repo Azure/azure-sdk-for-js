@@ -425,9 +425,11 @@ export function waitForEvents(
     },
   };
 
-  const waitForMessage = queueSignal
-    ? queueSignal.wait(updatedOptions)
-    : checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions);
+  const waitForMessage = queue.length > 0
+    ? Promise.resolve()
+    : queueSignal
+      ? queueSignal.wait(updatedOptions)
+      : checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions);
 
   return Promise.race([
     waitForMessage
