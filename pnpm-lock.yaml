@@ -15093,11 +15093,11 @@ importers:
         specifier: ^1.0.0
         version: link:../../core/logger
       '@azure/msal-browser':
-        specifier: ^4.2.0
-        version: 4.30.0
+        specifier: ^5.5.0
+        version: 5.6.1
       '@azure/msal-node':
-        specifier: ^3.5.0
-        version: 3.8.10
+        specifier: ^5.1.0
+        version: 5.1.1
       open:
         specifier: ^11.0.0
         version: 11.0.0
@@ -32611,6 +32611,10 @@ packages:
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-browser@5.6.1':
+    resolution: {integrity: sha1-nNbJqs40YUWu/x/ochgIg3awIw8=}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@14.16.1':
     resolution: {integrity: sha1-0j7M5AgjpNA610Fg3IGdYuDAp4c=}
     engines: {node: '>=0.8.0'}
@@ -37731,6 +37735,10 @@ snapshots:
   '@azure/msal-browser@4.30.0':
     dependencies:
       '@azure/msal-common': 15.17.0
+
+  '@azure/msal-browser@5.6.1':
+    dependencies:
+      '@azure/msal-common': 16.4.0
 
   '@azure/msal-common@14.16.1': {}
 
