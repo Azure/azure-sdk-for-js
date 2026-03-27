@@ -11,7 +11,7 @@
 ### Other Changes
 
 - Bump minimum dependency `fast-xml-parser` version to `^5.3.7` to address security issues [GHSA-jmr7-xgp7-cmfj](https://github.com/advisories/GHSA-jmr7-xgp7-cmfj) and [GHSA-m7jm-9gc2-mpf2](https://github.com/advisories/GHSA-m7jm-9gc2-mpf2)
-- Bump `fast-xml-parser` dependency to `^5.5.6` [#37665](https://github.com/Azure/azure-sdk-for-js/issues/37665)
+- Bump `fast-xml-parser` dependency to `^5.5.9` [#37665](https://github.com/Azure/azure-sdk-for-js/issues/37665)
 
 ## 1.5.0 (2025-07-10)
 
