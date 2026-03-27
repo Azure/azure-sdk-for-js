@@ -189,7 +189,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { getBatchNodeFileProperties } from "../static-helpers/fileProperties.js";
+import { getBatchNodeFileProperties } from "../customization/static-helpers/fileProperties.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import {
   createDeletePoolPoller,
@@ -206,7 +206,7 @@ import {
   createTerminateJobPoller,
   createDeleteJobSchedulePoller,
   createTerminateJobSchedulePoller,
-} from "./lroPoller.js";
+} from "../customization/api/lroPoller.js";
 
 export function _listNodeFilesSend(
   context: Client,
