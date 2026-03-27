@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a GeoCatalog
  *
  * @summary delete a GeoCatalog
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_Delete.json
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_Delete.json
  */
 async function geoCatalogsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

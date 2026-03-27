@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a GeoCatalog
  *
  * @summary get a GeoCatalog
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_Get.json
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_Get.json
  */
 async function geoCatalogsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

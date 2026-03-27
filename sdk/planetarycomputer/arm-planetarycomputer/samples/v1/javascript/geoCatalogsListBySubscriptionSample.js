@@ -5,17 +5,17 @@ const { SpatioClient } = require("@azure/arm-planetarycomputer");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list GeoCatalog resources by resource group
+ * This sample demonstrates how to list GeoCatalog resources by subscription ID
  *
- * @summary list GeoCatalog resources by resource group
- * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_ListByResourceGroup.json
+ * @summary list GeoCatalog resources by subscription ID
+ * x-ms-original-file: 2026-04-15/GeoCatalogs_ListBySubscription.json
  */
-async function geoCatalogsListByResourceGroup() {
+async function geoCatalogsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.geoCatalogs.listByResourceGroup("MyResourceGroup")) {
+  for await (const item of client.geoCatalogs.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function geoCatalogsListByResourceGroup() {
 }
 
 async function main() {
-  await geoCatalogsListByResourceGroup();
+  await geoCatalogsListBySubscription();
 }
 
 main().catch(console.error);
