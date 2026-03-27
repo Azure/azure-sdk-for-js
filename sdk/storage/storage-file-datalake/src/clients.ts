@@ -127,6 +127,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
+  PathGetPropertiesResponse as PathGetSystemPropertiesResponseInternal
 } from "./generated/src/index.js";
 
 /**
@@ -704,7 +705,7 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getSystemProperties",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(
+        const response = assertResponse<PathGetSystemPropertiesResponseInternal, PathGetSystemPropertiesResponseInternal>(
           await this.pathContext.getProperties({
             ...updatedOptions,
             action: "getStatus",
@@ -712,13 +713,13 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
-          }),
-        );
+          }));
         return {
           ...response,
           _response: response._response,
-          pathPermissions: toPermissions(response.permissions),
-        };
+          permissions: toPermissions(response.permissions),
+          acl: toAcl(response.acl)
+        }
       },
     );
   }

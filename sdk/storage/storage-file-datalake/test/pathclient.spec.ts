@@ -52,6 +52,22 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
+  it.only("DataLakeFileClient getSystemProperties", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+
+    await testFileClient.create({ metadata: metadata });
+    const result = await testFileClient.getSystemProperties();
+    result;
+    const result1 = await testFileClient.getProperties();
+    result1;
+    //assert.deepStrictEqual(result.metadata, metadata);
+  });
+
   it("DataLakeFileClient create file path with directory dots", async () => {
     const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
     const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
