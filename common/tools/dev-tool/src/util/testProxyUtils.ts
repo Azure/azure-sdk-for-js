@@ -11,6 +11,7 @@ import {
   constants,
   lstat,
   mkdir,
+  readdir,
   readFile,
   rm,
   symlink,
@@ -276,6 +277,139 @@ export async function linkRecordingsDirectory() {
   } catch (e) {
     log.warn("Could not create symbolic link to recordings directory");
     log.warn(e);
+  }
+}
+
+export interface DiffOptions {
+  stat?: boolean;
+}
+
+/**
+ * Locates the asset-sync clone directory for a given package by reading
+ * the `.assets/breadcrumb/` entries. Returns the clone root path, or
+ * undefined if no clone is found.
+ */
+async function findAssetCloneDirectory(
+  repoRoot: string,
+  projectRelativeToRoot: string,
+): Promise<string | undefined> {
+  const breadcrumbDir = path.join(repoRoot, ".assets", "breadcrumb");
+  if (!existsSync(breadcrumbDir)) {
+    return undefined;
+  }
+
+  const files = await readdir(breadcrumbDir);
+
+  for (const file of files) {
+    if (!file.endsWith(".breadcrumb")) continue;
+    const content = (await readFile(path.join(breadcrumbDir, file), "utf-8")).trim();
+    // Format: <assetsJsonRelPath>;<cloneDirName>;<tag>
+    const parts = content.split(";");
+    if (parts[0] === path.join(projectRelativeToRoot, "assets.json")) {
+      return path.join(repoRoot, ".assets", parts[1]);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Shows what test recordings have changed since the last push or restore.
+ * Runs `git status` and optionally `git diff` inside the asset-sync clone
+ * scoped to the current package's recording subtree.
+ */
+export async function getRecordingsDiff(
+  project: ProjectInfo,
+  options: DiffOptions = {},
+): Promise<void> {
+  const assetsJsonPath = path.join(project.path, "assets.json");
+  if (!existsSync(assetsJsonPath)) {
+    log.error("No assets.json found in the current package — is asset sync set up?");
+    return;
+  }
+
+  const root = await resolveRoot();
+  const projectRelativeToRoot = path.relative(root, project.path);
+
+  // Locate the asset clone directory via breadcrumb (no test-proxy binary needed)
+  const cloneDir = await findAssetCloneDirectory(root, projectRelativeToRoot);
+  if (!cloneDir || !existsSync(cloneDir)) {
+    log.error(
+      "Could not locate the recordings directory. Have you run `dev-tool test-proxy restore`?",
+    );
+    return;
+  }
+
+  // Read AssetsRepoPrefixPath from assets.json to build the correct subtree path
+  const assetsJson = JSON.parse(await readFile(assetsJsonPath, "utf-8"));
+  const prefix: string = assetsJson.AssetsRepoPrefixPath ?? "";
+  const recordingsSubtree = prefix
+    ? path.join(prefix, projectRelativeToRoot, "recordings")
+    : path.join(projectRelativeToRoot, "recordings");
+
+  // Check for any changes (staged, unstaged, or untracked)
+  const { stdout: statusOutput } = await execPromise(
+    `git status --porcelain -- "${recordingsSubtree}"`,
+    { cwd: cloneDir },
+  );
+
+  if (!statusOutput.trim()) {
+    log.success("No recording changes detected — recordings are clean.");
+    return;
+  }
+
+  // Show summary header
+  const lines = statusOutput.trim().split("\n");
+  const added = lines.filter((l) => l.startsWith("?") || l.startsWith("A")).length;
+  const modified = lines.filter((l) => l.startsWith(" M") || l.startsWith("M")).length;
+  const deleted = lines.filter((l) => l.startsWith(" D") || l.startsWith("D")).length;
+
+  log.info(`\nRecording changes for ${project.name}:`);
+  log.info(
+    `  ${lines.length} file(s) changed: +${added} added, ~${modified} modified, -${deleted} deleted\n`,
+  );
+
+  // Always show the file list
+  for (const line of lines) {
+    const status = line.substring(0, 2).trim();
+    const file = line.substring(3);
+    const label =
+      status === "??" ? "new" : status === "M" ? "modified" : status === "D" ? "deleted" : status;
+    log(`  [${label}] ${file}`);
+  }
+
+  // Show full diff unless --stat
+  if (options.stat) {
+    log.info("\n(Use without --stat to see full diffs)");
+  } else {
+    log.info(""); // blank line before diffs
+
+    // Diff for tracked modified files
+    if (modified > 0 || deleted > 0) {
+      const { stdout: diffOutput } = await execPromise(
+        `git diff --no-color -- "${recordingsSubtree}"`,
+        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      );
+      if (diffOutput.trim()) {
+        process.stdout.write(diffOutput);
+      }
+    }
+
+    // Show content of new untracked files (truncated)
+    const untrackedFiles = lines.filter((l) => l.startsWith("??")).map((l) => l.substring(3));
+
+    for (const file of untrackedFiles) {
+      const filePath = path.join(cloneDir, file);
+      try {
+        const content = await readFile(filePath, "utf-8");
+        const preview =
+          content.length > 2000 ? content.substring(0, 2000) + "\n... (truncated)" : content;
+        log.info(`\n--- new file: ${file} ---`);
+        process.stdout.write(preview + "\n");
+      } catch {
+        // Skip files that can't be read
+      }
+    }
   }
 }
 
