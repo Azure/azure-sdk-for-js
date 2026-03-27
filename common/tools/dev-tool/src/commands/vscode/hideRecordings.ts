@@ -5,7 +5,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { disableRecordingsPanel } from "../../util/vscodeSettings";
 
 export const commandInfo = makeCommandInfo(
-  "vscode",
+  "hide",
   "hide test recording asset repos from the VS Code Source Control panel",
   {},
 );

@@ -6,7 +6,7 @@ import { resolveProject } from "../../util/resolveProject";
 import { getRecordingsDiff } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
-  "test-proxy",
+  "diff",
   "show what test recordings have changed since the last push/restore",
   {
     stat: {

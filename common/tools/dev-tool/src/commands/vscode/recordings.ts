@@ -4,7 +4,7 @@
 import { subCommand, makeCommandInfo } from "../../framework/command";
 
 export const commandInfo = makeCommandInfo(
-  "vscode",
+  "recordings",
   "manage test recording visibility in the VS Code Source Control panel",
 );
 

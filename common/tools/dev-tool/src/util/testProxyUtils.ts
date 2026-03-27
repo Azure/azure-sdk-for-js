@@ -285,28 +285,63 @@ export interface DiffOptions {
 }
 
 /**
+ * Converts a path to use forward slashes (POSIX style).
+ * Breadcrumb files and git pathspecs use forward slashes on all platforms.
+ */
+function toPosixPath(p: string): string {
+  return p.split(path.sep).join("/");
+}
+
+/**
  * Locates the asset-sync clone directory for a given package by reading
- * the `.assets/breadcrumb/` entries. Returns the clone root path, or
- * undefined if no clone is found.
+ * breadcrumb entries under `.assets/`. Supports both:
+ *
+ * - The documented single-file format: `.assets/.breadcrumb`
+ * - The multi-file format: `.assets/breadcrumb/*.breadcrumb`
+ *
+ * Returns the clone root path, or undefined if no clone is found.
  */
 async function findAssetCloneDirectory(
   repoRoot: string,
   projectRelativeToRoot: string,
 ): Promise<string | undefined> {
-  const breadcrumbDir = path.join(repoRoot, ".assets", "breadcrumb");
-  if (!existsSync(breadcrumbDir)) {
+  const assetsDir = path.join(repoRoot, ".assets");
+  const singleBreadcrumbPath = path.join(assetsDir, ".breadcrumb");
+  const multiBreadcrumbDir = path.join(assetsDir, "breadcrumb");
+
+  const breadcrumbEntries: string[] = [];
+
+  if (existsSync(singleBreadcrumbPath)) {
+    const fileContent = (await readFile(singleBreadcrumbPath, "utf-8")).trim();
+    for (const line of fileContent.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (trimmed) {
+        breadcrumbEntries.push(trimmed);
+      }
+    }
+  } else if (existsSync(multiBreadcrumbDir)) {
+    const files = await readdir(multiBreadcrumbDir);
+    for (const file of files) {
+      if (!file.endsWith(".breadcrumb")) continue;
+      const content = (await readFile(path.join(multiBreadcrumbDir, file), "utf-8")).trim();
+      if (content) {
+        breadcrumbEntries.push(content);
+      }
+    }
+  } else {
     return undefined;
   }
 
-  const files = await readdir(breadcrumbDir);
+  const expectedAssetsPath = toPosixPath(path.join(projectRelativeToRoot, "assets.json"));
 
-  for (const file of files) {
-    if (!file.endsWith(".breadcrumb")) continue;
-    const content = (await readFile(path.join(breadcrumbDir, file), "utf-8")).trim();
+  for (const entry of breadcrumbEntries) {
     // Format: <assetsJsonRelPath>;<cloneDirName>;<tag>
-    const parts = content.split(";");
-    if (parts[0] === path.join(projectRelativeToRoot, "assets.json")) {
-      return path.join(repoRoot, ".assets", parts[1]);
+    const parts = entry.split(";");
+    if (parts.length < 2 || !parts[1] || parts[1].trim().length === 0) {
+      continue;
+    }
+    if (toPosixPath(parts[0]) === expectedAssetsPath) {
+      return path.join(assetsDir, parts[1]);
     }
   }
 
@@ -343,9 +378,11 @@ export async function getRecordingsDiff(
   // Read AssetsRepoPrefixPath from assets.json to build the correct subtree path
   const assetsJson = JSON.parse(await readFile(assetsJsonPath, "utf-8"));
   const prefix: string = assetsJson.AssetsRepoPrefixPath ?? "";
-  const recordingsSubtree = prefix
-    ? path.join(prefix, projectRelativeToRoot, "recordings")
-    : path.join(projectRelativeToRoot, "recordings");
+  const recordingsSubtree = toPosixPath(
+    prefix
+      ? path.join(prefix, projectRelativeToRoot, "recordings")
+      : path.join(projectRelativeToRoot, "recordings"),
+  );
 
   // Check for any changes (staged, unstaged, or untracked)
   const { stdout: statusOutput } = await execPromise(
@@ -384,14 +421,21 @@ export async function getRecordingsDiff(
   } else {
     log.info(""); // blank line before diffs
 
-    // Diff for tracked modified files
+    // Diff for tracked changes (both staged and unstaged)
     if (modified > 0 || deleted > 0) {
       const { stdout: diffOutput } = await execPromise(
         `git diff --no-color -- "${recordingsSubtree}"`,
         { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
       );
+      const { stdout: cachedDiffOutput } = await execPromise(
+        `git diff --cached --no-color -- "${recordingsSubtree}"`,
+        { cwd: cloneDir, maxBuffer: 10 * 1024 * 1024 },
+      );
       if (diffOutput.trim()) {
         process.stdout.write(diffOutput);
+      }
+      if (cachedDiffOutput.trim()) {
+        process.stdout.write(cachedDiffOutput);
       }
     }
 
