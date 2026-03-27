@@ -70,6 +70,19 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFileSmall);
   });
 
+  it("create with content larger than 4Mib should fail", async () => {
+    const createContent = new Uint8Array(4 * 1024 * 1024 + 1);
+    try {
+      await fileClient.create(4 * 1024 * 1024, {
+        content: createContent,
+        contentLength: createContent.length,
+      });
+    } catch (ex) {
+      assert.equal((ex as any).statusCode, 413);
+      assert.equal((ex as any).code, "RequestBodyTooLarge");
+    }
+  });
+
   it(
     "uploadFile should success for large data",
     { timeout: timeoutForLargeFileUploadingTest },

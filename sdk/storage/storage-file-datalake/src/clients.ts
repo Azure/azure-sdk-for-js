@@ -127,6 +127,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
+  PathGetPropertiesResponse as PathGetSystemPropertiesResponseInternal
 } from "./generated/src/index.js";
 
 /**
@@ -682,18 +683,12 @@ export class DataLakePathClient extends StorageClient {
       },
     );
   }
-
   
   /**
-   * Returns all user-defined metadata, standard HTTP properties, and system properties
+   * Returns all standard HTTP properties, and system properties
    * for the path (directory or file).
    *
-   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
-   * they originally contained uppercase characters. This differs from the metadata keys returned by
-   * the methods of {@link DataLakeFileSystemClient} that list paths using the `includeMetadata` option, which
-   * will retain their original casing.
-   *
-   * @see https://learn.microsoft.com/rest/api/storageservices/get-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/get-properties?view=rest-storageservices-datalakestoragegen2-2019-12-12
    *
    * @param options - Optional. Options when getting path properties.
    */
@@ -704,7 +699,7 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getSystemProperties",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(
+        const response = assertResponse<PathGetSystemPropertiesResponseInternal, PathGetSystemPropertiesResponseInternal>(
           await this.pathContext.getProperties({
             ...updatedOptions,
             action: "getStatus",
@@ -712,13 +707,13 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
-          }),
-        );
+          }));
         return {
           ...response,
           _response: response._response,
-          pathPermissions: toPermissions(response.permissions),
-        };
+          isDirectory: response.resourceType === "directory",
+          permissions: toPermissions(response.permissions),
+        }
       },
     );
   }

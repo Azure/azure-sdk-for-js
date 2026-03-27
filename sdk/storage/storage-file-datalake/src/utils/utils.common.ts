@@ -531,6 +531,14 @@ export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }
 
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
+
 /**
  * Extracts account name from the url
  * @param url - url to extract the account name from
@@ -542,7 +550,14 @@ export function getAccountNameFromUrl(url: string): string {
   try {
     if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.blob.${endpointSuffix}`;
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i){
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)){
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+        }
+      };
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/

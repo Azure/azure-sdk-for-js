@@ -146,7 +146,7 @@ export enum BlockBlobTier {
    */
   Archive = "Archive",
   /**
-   * 
+   *
    */
   Smart = "Smart",
 }

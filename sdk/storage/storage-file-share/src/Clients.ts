@@ -104,6 +104,7 @@ import type {
   FileGetSymbolicLinkHeaders,
 } from "./generatedModels.js";
 import type {
+  FileCreateOptionalParams,
   FileRenameHeaders,
   FileUploadRangeOptionalParams,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
@@ -3100,11 +3101,25 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
-  
-  /** 
-   * Initial data. 
+
+  /**
+   * An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).
+   */
+  contentMD5?: Uint8Array;
+  /**
+   * Specifies the number of bytes being transmitted in the request body. When the content is set to NULL, the value of this header must be set to zero.
+   */
+  contentLength?: number;
+
+  /**
+   * Initial data.
    */
   content?: HttpRequestBody;
+
+  /**
+   * Progress updating event handler.
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -4127,7 +4142,7 @@ export class ShareFileClient extends StorageClient {
 
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
-      const rawResponse = await this.context.create(size, {
+      const parameters: FileCreateOptionalParams = {
         ...updatedOptions,
         fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
         fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
@@ -4140,7 +4155,29 @@ export class ShareFileClient extends StorageClient {
         fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
         nfsFileType: updatedOptions.posixProperties?.fileType,
         ...this.shareClientConfig,
-      });
+      };
+
+      if (options.content !== undefined) {
+        if (options.contentLength === undefined) {
+          throw new RangeError(`contentLength nust be specified when creating file with content`);
+        }
+
+        const createChecksumBody = await setUploadChecksumParameters(
+          options.content,
+          options.contentLength,
+          parameters,
+          options,
+          this.shareClientConfig?.uploadContentChecksumAlgorithm,
+        );
+
+        parameters.requestOptions = {
+          onUploadProgress: updatedOptions.onProgress,
+        };
+        parameters.body = createChecksumBody.body;
+        parameters.contentLength = createChecksumBody.contentLength;
+      }
+
+      const rawResponse = await this.context.create(size, parameters);
 
       const wrappedRes = {
         ...rawResponse,

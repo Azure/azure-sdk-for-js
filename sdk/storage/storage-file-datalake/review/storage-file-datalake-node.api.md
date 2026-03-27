@@ -1617,6 +1617,40 @@ export interface PathGetPropertiesOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetPropertiesResponse = WithResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>;
 
+// @public
+export interface PathGetSystemPropertiesHeaders {
+    acceptRanges?: string;
+    acl?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    creationTime?: Date;
+    date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    errorCode?: string;
+    etag?: string;
+    expiresOn?: Date;
+    group?: string;
+    isDirectory?: boolean;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    owner?: string;
+    permissions?: PathPermissions;
+    properties?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface PathGetSystemPropertiesOptions extends CommonOptions {
     // (undocumented)
@@ -1628,7 +1662,7 @@ export interface PathGetSystemPropertiesOptions extends CommonOptions {
 }
 
 // @public (undocumented)
-export type PathGetSystemPropertiesResponse = WithResponse<PathSystemProperties & PathGetPropertiesHeadersModel, PathGetPropertiesHeadersModel>;
+export type PathGetSystemPropertiesResponse = WithResponse<PathGetSystemPropertiesHeaders, PathGetPropertiesHeadersModel>;
 
 // @public
 export interface PathGetTagsHeaders {
@@ -1887,26 +1921,6 @@ export interface PathSetTagsOptions extends CommonOptions {
 
 // @public (undocumented)
 export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
-
-// @public (undocumented)
-export interface PathSystemProperties {
-    contentLength?: number;
-    creationTime?: Date;
-    encryptionContext?: string;
-    encryptionKeySha256?: string;
-    encryptionScope?: string;
-    etag?: string;
-    expiresOn?: Date;
-    // (undocumented)
-    group?: string;
-    isServerEncrypted?: boolean;
-    lastModified?: Date;
-    // (undocumented)
-    owner?: string;
-    // (undocumented)
-    pathPermissions?: PathPermissions;
-    resourceType?: string;
-}
 
 // @public
 export interface PathUndeleteHeaders {

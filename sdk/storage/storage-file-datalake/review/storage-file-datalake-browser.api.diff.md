@@ -293,7 +293,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Path {
      // (undocumented)
      contentLength?: number;
-@@ -1988,78 +1858,8 @@
+@@ -2002,78 +1872,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -372,7 +372,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2167,12 +1967,8 @@
+@@ -2181,12 +1981,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

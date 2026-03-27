@@ -894,7 +894,9 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    */
   permissions?: BlobSASPermissions;
   /**
-   * 
+   *
+   * Beginning in version 2020-02-10, this value defines whether or
+   * not the instance is a virtual directory.
    */
   isDirectory?: boolean;
 }

@@ -671,7 +671,6 @@ export interface BlobFlatListSegmentModel {
 
 // @public
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
-    // (undocumented)
     isDirectory?: boolean;
     permissions?: BlobSASPermissions;
 }
@@ -1148,7 +1147,6 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    // (undocumented)
     isDirectory?: boolean;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
@@ -2971,7 +2969,6 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly delegatedUserObjectId?: string;
-    // (undocumented)
     readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
@@ -3000,7 +2997,6 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     delegatedUserObjectId?: string;
-    // (undocumented)
     directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;

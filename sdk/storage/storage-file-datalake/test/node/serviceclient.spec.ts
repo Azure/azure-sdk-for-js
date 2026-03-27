@@ -9,6 +9,8 @@ import {
   getDataLakeServiceClient,
   configureStorageClient,
   SimpleTokenCredential,
+  getGenericDataLakeServiceClient,
+  getGenericCredential,
 } from "../utils/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -24,6 +26,24 @@ describe("DataLakeServiceClient", () => {
   afterEach(async () => {
     await recorder.stop();
   });
+    
+    it("IPv6 Test", async () => {
+      const credentials = getGenericCredential("");
+      let blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-ipv6");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+  
+      blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-secondary-ipv6");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+      blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-secondary-dualstack");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+      blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-dualstack");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+      blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-secondary");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+  
+      blobServiceClient = getGenericDataLakeServiceClient(recorder, "", "-something");
+      assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");  
+    });
 
   it("DataLakeServiceClient default audience should work", async () => {
     const serviceClient = getDataLakeServiceClient(recorder);

@@ -20,6 +20,22 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { TokenCredential } from "@azure/identity";
 export * from "./testutils.common.js";
 
+export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
+
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
+
+  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
+    );
+  }
+
+  return new StorageSharedKeyCredential(accountName, accountKey);
+}
+
 export function getGenericQSU(
   recorder: Recorder,
   accountType: string,

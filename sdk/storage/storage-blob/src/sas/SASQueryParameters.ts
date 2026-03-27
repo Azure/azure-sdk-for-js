@@ -124,6 +124,10 @@ export interface SASQueryParametersOptions {
    * Keys for query parameters required in generating the SAS token
    */
   requestQueryParameterKeys?: string;
+  /** Optional. Required when {@link resource} is set to "d" to indicate the
+   * depth of the virtual blob directory specified in the canonicalizedresource
+   * field of the string-to-sign.
+   */
   directoryDepth?: number;
 }
 
@@ -301,6 +305,10 @@ export class SASQueryParameters {
    * Keys for request query parameters required in the SAS token
    */
   public readonly requestQueryParameterKeys?: string;
+
+  /** To indicate the depth of the virtual blob directory specified
+   * in the canonicalizedresource field of the string-to-sign.
+   */
   public readonly directoryDepth?: number;
 
   /**
@@ -509,6 +517,7 @@ export class SASQueryParameters {
       "rsct",
       "saoid",
       "scid",
+      "sdd",
       "sduoid", // Signed key user delegation object ID
       "skdutid", // Signed key user delegation tenant ID
       "srh", // Request Headers
@@ -625,6 +634,9 @@ export class SASQueryParameters {
           break;
         case "srq": // Request headers
           this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
+          break;
+        case "sdd": // Request headers
+          this.tryAppendQueryParameter(queries, param, "" + this.directoryDepth);
           break;
       }
     }

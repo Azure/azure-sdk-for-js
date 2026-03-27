@@ -4,6 +4,8 @@ import {
   configureBlobStorageClient,
   getBSU,
   getConnectionStringFromEnvironment,
+  getGenericBSU,
+  getGenericCredential,
   getTokenBSUWithDefaultCredential,
   recorderEnvSetup,
   SimpleTokenCredential,
@@ -24,6 +26,24 @@ describe("BlobServiceClient Node.js only", () => {
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const credentials = getGenericCredential("");
+    let blobServiceClient = getGenericBSU(recorder, "", "-ipv6");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+
+    blobServiceClient = getGenericBSU(recorder, "", "-secondary-ipv6");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    blobServiceClient = getGenericBSU(recorder, "", "-secondary-dualstack");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    blobServiceClient = getGenericBSU(recorder, "", "-dualstack");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    blobServiceClient = getGenericBSU(recorder, "", "-secondary");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+
+    blobServiceClient = getGenericBSU(recorder, "", "-something");
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");
   });
 
   it("Default audience should work", async () => {

@@ -71,7 +71,7 @@ describe("BlobClient", () => {
     await recorder.stop();
   });
 
-  it.only("upload blob with cold tier should work", async () => {
+  it("upload blob with cold tier should work", async () => {
     const newBlobClient = containerClient.getBlockBlobClient(
       recorder.variable("coldtierblob", getUniqueName("coldtierblob")),
     );
@@ -744,6 +744,14 @@ describe("BlobClient", () => {
     const properties = await blockBlobClient.getProperties();
     assert.isDefined(properties.accessTier);
     assert.equal(properties.accessTier!, "Cool");
+  });
+
+  // Service is not support this feature yet.
+  it.skip("setAccessTier set to smart", async () => {
+    await blockBlobClient.setAccessTier("Smart");
+    const properties = await blockBlobClient.getProperties();
+    assert.isDefined(properties.accessTier);
+    assert.equal(properties.accessTier!, "Smart");
   });
 
   it("setAccessTier set archive to hot", async () => {
