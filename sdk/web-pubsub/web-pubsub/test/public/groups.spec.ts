@@ -13,6 +13,14 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import WebSocket from "ws";
 import type { GroupListConnectionsOptions } from "../../src/index.js";
 
+function getErrorMessage(error: any): string {
+  try {
+    return JSON.parse(error.message).message ?? error.message;
+  } catch {
+    return error.message;
+  }
+}
+
 describe("Group client working with a group", () => {
   let recorder: Recorder;
   let client: WebPubSubGroup;
@@ -69,7 +77,7 @@ describe("Group client working with a group", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -149,7 +157,7 @@ describe("client working with multiple groups", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -172,7 +180,7 @@ describe("client working with multiple groups", () => {
     }
     assert.equal(error.statusCode, 400);
     assert.equal(
-      JSON.parse(error.message).message,
+      getErrorMessage(error),
       "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
@@ -248,9 +256,8 @@ describe("Group client listing connections", () => {
     it(`can list connections with ${testCase.totalConnectionCount} connections, maxCount=${testCase.maxCountToList}, pageSize=${testCase.maxPageSize}`, async () => {
       const groupName = "group1";
 
-      const clientAccessUri = await hubClient.getClientAccessToken({ groups: [groupName] });
-
       if (!isPlaybackMode()) {
+        const clientAccessUri = await hubClient.getClientAccessToken({ groups: [groupName] });
         for (let i = 0; i < testCase.totalConnectionCount; i++) {
           const client = new WebSocket(clientAccessUri.url);
           await new Promise((resolve) => client.on("open", resolve));

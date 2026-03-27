@@ -20,6 +20,11 @@ export interface ClientTokenResponse {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export interface GenerateClientTokenOptions extends OperationOptions {
     clientProtocol?: WebPubSubClientProtocol;
     expirationTimeInMinutes?: number;
@@ -129,7 +134,6 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
 
 // @public
 export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptions {
-    // (undocumented)
     contentType: "text/plain";
 }
 
@@ -162,13 +166,25 @@ export type JSONTypes = string | number | boolean | object;
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
-// @public (undocumented)
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 // @public
 export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";
 
-// @public (undocumented)
+// @public
 export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
@@ -177,7 +193,6 @@ export interface WebPubSubGroup {
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;
-    // Warning: (ae-forgotten-export) The symbol "PagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
     listConnections(options?: GroupListConnectionsOptions): Promise<PagedAsyncIterableIterator<WebPubSubGroupMember>>;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;

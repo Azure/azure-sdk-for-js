@@ -187,6 +187,9 @@ export interface HubSendToConnectionOptions extends OperationOptions {
  * Options for sending a text message to a connection.
  */
 export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptions {
+  /**
+   * The content will be sent to the clients in plain text.
+   */
   contentType: "text/plain";
 }
 
@@ -222,6 +225,9 @@ export interface HubSendTextToUserOptions extends HubSendToUserOptions {
   contentType: "text/plain";
 }
 
+/**
+ * The type of permission.
+ */
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 /**
@@ -474,9 +480,9 @@ export class WebPubSubServiceClient {
     message: RequestBodyType | JSONTypes,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("WebPubSubServiceClient.sendToAll", options, (updatedOptions) => {
+    return tracingClient.withSpan("WebPubSubServiceClient.sendToAll", options, async (updatedOptions) => {
       const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      return generatedSendToAll(
+      await generatedSendToAll(
         this._context,
         contentType as MessageContentType,
         payload as any,
@@ -535,9 +541,9 @@ export class WebPubSubServiceClient {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.sendToUser",
       options,
-      (updatedOptions) => {
+      async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        return generatedSendToUser(
+        await generatedSendToUser(
           this._context,
           username,
           contentType as MessageContentType,
@@ -595,10 +601,9 @@ export class WebPubSubServiceClient {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.sendToConnection",
       options,
-      (updatedOptions) => {
+      async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-
-        return generatedSendToConnection(
+        await generatedSendToConnection(
           this._context,
           connectionId,
           contentType as MessageContentType,
@@ -747,15 +752,23 @@ export class WebPubSubServiceClient {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.addConnectionsToGroups",
       options,
-      (updatedOptions) => {
-        return generatedAddConnectionsToGroups(
-          this._context,
-          {
-            groups: groups,
-            filter: filter,
-          } as AddToGroupsRequest,
-          updatedOptions as any,
-        );
+      async (updatedOptions) => {
+        try {
+          await generatedAddConnectionsToGroups(
+            this._context,
+            {
+              groups: groups,
+              filter: filter,
+            } as AddToGroupsRequest,
+            updatedOptions as any,
+          );
+        } catch (error: any) {
+          // Remove after correcting swagger
+          if (error?.statusCode === 200 || error?.statusCode === 204) {
+            return;
+          }
+          throw error;
+        }
       },
     );
   }
@@ -774,15 +787,23 @@ export class WebPubSubServiceClient {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.removeConnectionsFromGroups",
       options,
-      (updatedOptions) => {
-        return generatedRemoveConnectionsFromGroups(
-          this._context,
-          {
-            groups: groups,
-            filter: filter,
-          } as RemoveFromGroupsRequest,
-          updatedOptions as any,
-        );
+      async (updatedOptions) => {
+        try {
+          await generatedRemoveConnectionsFromGroups(
+            this._context,
+            {
+              groups: groups,
+              filter: filter,
+            } as RemoveFromGroupsRequest,
+            updatedOptions as any,
+          );
+        } catch (error: any) {
+          // Remove after correcting swagger
+          if (error?.statusCode === 200 || error?.statusCode === 204) {
+            return;
+          }
+          throw error;
+        }
       },
     );
   }

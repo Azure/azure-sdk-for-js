@@ -117,6 +117,9 @@ export interface GroupListConnectionsOptions extends OperationOptions {
   continuationToken?: string;
 }
 
+/**
+ * Represents a group in the Web PubSub service.
+ */
 export interface WebPubSubGroup {
   /**
    * The name of this group
@@ -379,9 +382,9 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("WebPubSubGroupClient.sendToAll", options, (updatedOptions) => {
+    return tracingClient.withSpan("WebPubSubGroupClient.sendToAll", options, async (updatedOptions) => {
       const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      return generatedSendToGroup(
+      await generatedSendToGroup(
         this.client,
         this.groupName,
         contentType as MessageContentType,

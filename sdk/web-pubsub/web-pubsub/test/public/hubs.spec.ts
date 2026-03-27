@@ -23,6 +23,14 @@ import {
 expect.extend({ toSupportTracing });
 
 describe("HubClient", () => {
+  function getErrorMessage(error: any): string {
+    try {
+      return JSON.parse(error.message).message ?? error.message;
+    } catch {
+      return error.message;
+    }
+  }
+
   describe("Constructing a HubClient", () => {
     const credential = createTestCredential();
     it("takes a connection string, hub name, and options", () => {
@@ -110,7 +118,7 @@ describe("HubClient", () => {
       }
       assert.equal(error.statusCode, 400);
       assert.equal(
-        JSON.parse(error.message).message,
+        getErrorMessage(error),
         "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
       );
     });
@@ -192,7 +200,7 @@ describe("HubClient", () => {
       }
       assert.equal(error.statusCode, 400);
       assert.equal(
-        JSON.parse(error.message).message,
+        getErrorMessage(error),
         "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
       );
     });

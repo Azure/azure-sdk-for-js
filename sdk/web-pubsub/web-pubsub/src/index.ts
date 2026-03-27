@@ -42,4 +42,8 @@ export type {
   GroupListConnectionsOptions,
 } from "./groupClient.js";
 export { odata } from "./utils.js";
-export type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+export type {
+  PagedAsyncIterableIterator,
+  PageSettings,
+  ContinuablePage,
+} from "./static-helpers/pagingHelpers.js";
