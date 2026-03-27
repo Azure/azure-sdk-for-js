@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
   triggerManualOccurrence,
   cancelNextOccurrence,
@@ -22,6 +22,7 @@ import {
   virtualMachinesGetOperationStatus,
   virtualMachinesExecuteDelete,
   virtualMachinesExecuteCreate,
+  virtualMachinesExecuteCreateFlex,
   virtualMachinesExecuteStart,
   virtualMachinesExecuteHibernate,
   virtualMachinesExecuteDeallocate,
@@ -29,7 +30,7 @@ import {
   virtualMachinesSubmitHibernate,
   virtualMachinesSubmitDeallocate,
 } from "../../api/scheduledActions/operations.js";
-import {
+import type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -49,6 +50,7 @@ import {
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
@@ -56,38 +58,40 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "../../api/scheduledActions/options.js";
-import {
-  SubmitDeallocateRequest,
+import type {
+  SubmitDeallocateContent,
   DeallocateResourceOperationResponse,
-  SubmitHibernateRequest,
+  SubmitHibernateContent,
   HibernateResourceOperationResponse,
-  SubmitStartRequest,
+  SubmitStartContent,
   StartResourceOperationResponse,
-  ExecuteDeallocateRequest,
-  ExecuteHibernateRequest,
-  ExecuteStartRequest,
-  ExecuteCreateRequest,
+  ExecuteDeallocateContent,
+  ExecuteHibernateContent,
+  ExecuteStartContent,
+  ExecuteCreateFlexContent,
+  CreateFlexResourceOperationResponse,
+  ExecuteCreateContent,
   CreateResourceOperationResponse,
-  ExecuteDeleteRequest,
+  ExecuteDeleteContent,
   DeleteResourceOperationResponse,
-  GetOperationStatusRequest,
+  GetOperationStatusContent,
   GetOperationStatusResponse,
-  CancelOperationsRequest,
+  CancelOperationsContent,
   CancelOperationsResponse,
-  GetOperationErrorsRequest,
+  GetOperationErrorsContent,
   GetOperationErrorsResponse,
   ScheduledAction,
   ScheduledActionUpdate,
   ScheduledActionResource,
-  ResourceAttachRequest,
+  ResourceAttachRequestInput,
   RecurringActionsResourceOperationResult,
   ResourceDetachRequest,
-  ResourcePatchRequest,
+  ResourcePatchRequestInput,
   CancelOccurrenceRequest,
   Occurrence,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
@@ -120,7 +124,7 @@ export interface ScheduledActionsOperations {
   patchResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourcePatchRequest,
+    body: ResourcePatchRequestInput,
     options?: ScheduledActionsPatchResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** A synchronous resource action. */
@@ -134,7 +138,7 @@ export interface ScheduledActionsOperations {
   attachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourceAttachRequest,
+    body: ResourceAttachRequestInput,
     options?: ScheduledActionsAttachResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** List resources attached to Scheduled Actions */
@@ -186,67 +190,73 @@ export interface ScheduledActionsOperations {
   /** VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist. */
   virtualMachinesGetOperationErrors: (
     locationparameter: string,
-    requestBody: GetOperationErrorsRequest,
+    requestBody: GetOperationErrorsContent,
     options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
   ) => Promise<GetOperationErrorsResponse>;
   /** VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request */
   virtualMachinesCancelOperations: (
     locationparameter: string,
-    requestBody: CancelOperationsRequest,
+    requestBody: CancelOperationsContent,
     options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ) => Promise<CancelOperationsResponse>;
   /** VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on virtual machines */
   virtualMachinesGetOperationStatus: (
     locationparameter: string,
-    requestBody: GetOperationStatusRequest,
+    requestBody: GetOperationStatusContent,
     options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
   ) => Promise<GetOperationStatusResponse>;
-  /** VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** [PRIVATE PREVIEW]: VirtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteDelete: (
     locationparameter: string,
-    requestBody: ExecuteDeleteRequest,
+    requestBody: ExecuteDeleteContent,
     options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
   ) => Promise<DeleteResourceOperationResponse>;
-  /** VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
+  /** [PRIVATE PREVIEW]: VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteCreate: (
     locationparameter: string,
-    requestBody: ExecuteCreateRequest,
+    requestBody: ExecuteCreateContent,
     options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
   ) => Promise<CreateResourceOperationResponse>;
+  /** VirtualMachinesExecuteCreateFlex: Execute create operation for a batch of virtual machines with flex properties, this operation is triggered as soon as Computeschedule receives it. */
+  virtualMachinesExecuteCreateFlex: (
+    locationparameter: string,
+    body: ExecuteCreateFlexContent,
+    options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
+  ) => Promise<CreateFlexResourceOperationResponse>;
   /** VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteStart: (
     locationparameter: string,
-    requestBody: ExecuteStartRequest,
+    requestBody: ExecuteStartContent,
     options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ) => Promise<StartResourceOperationResponse>;
   /** VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteHibernate: (
     locationparameter: string,
-    requestBody: ExecuteHibernateRequest,
+    requestBody: ExecuteHibernateContent,
     options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ) => Promise<HibernateResourceOperationResponse>;
   /** VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it. */
   virtualMachinesExecuteDeallocate: (
     locationparameter: string,
-    requestBody: ExecuteDeallocateRequest,
+    requestBody: ExecuteDeallocateContent,
     options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
   ) => Promise<DeallocateResourceOperationResponse>;
   /** VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future. */
   virtualMachinesSubmitStart: (
     locationparameter: string,
-    requestBody: SubmitStartRequest,
+    requestBody: SubmitStartContent,
     options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
   ) => Promise<StartResourceOperationResponse>;
   /** VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at datetime in future. */
   virtualMachinesSubmitHibernate: (
     locationparameter: string,
-    requestBody: SubmitHibernateRequest,
+    requestBody: SubmitHibernateContent,
     options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ) => Promise<HibernateResourceOperationResponse>;
   /** VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future. */
   virtualMachinesSubmitDeallocate: (
     locationparameter: string,
-    requestBody: SubmitDeallocateRequest,
+    requestBody: SubmitDeallocateContent,
     options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
   ) => Promise<DeallocateResourceOperationResponse>;
 }
@@ -277,7 +287,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     patchResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourcePatchRequest,
+      body: ResourcePatchRequestInput,
       options?: ScheduledActionsPatchResourcesOptionalParams,
     ) => patchResources(context, resourceGroupName, scheduledActionName, body, options),
     detachResources: (
@@ -289,7 +299,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     attachResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourceAttachRequest,
+      body: ResourceAttachRequestInput,
       options?: ScheduledActionsAttachResourcesOptionalParams,
     ) => attachResources(context, resourceGroupName, scheduledActionName, body, options),
     listResources: (
@@ -327,57 +337,62 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     ) => get(context, resourceGroupName, scheduledActionName, options),
     virtualMachinesGetOperationErrors: (
       locationparameter: string,
-      requestBody: GetOperationErrorsRequest,
+      requestBody: GetOperationErrorsContent,
       options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
     ) => virtualMachinesGetOperationErrors(context, locationparameter, requestBody, options),
     virtualMachinesCancelOperations: (
       locationparameter: string,
-      requestBody: CancelOperationsRequest,
+      requestBody: CancelOperationsContent,
       options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
     ) => virtualMachinesCancelOperations(context, locationparameter, requestBody, options),
     virtualMachinesGetOperationStatus: (
       locationparameter: string,
-      requestBody: GetOperationStatusRequest,
+      requestBody: GetOperationStatusContent,
       options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
     ) => virtualMachinesGetOperationStatus(context, locationparameter, requestBody, options),
     virtualMachinesExecuteDelete: (
       locationparameter: string,
-      requestBody: ExecuteDeleteRequest,
+      requestBody: ExecuteDeleteContent,
       options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
     ) => virtualMachinesExecuteDelete(context, locationparameter, requestBody, options),
     virtualMachinesExecuteCreate: (
       locationparameter: string,
-      requestBody: ExecuteCreateRequest,
+      requestBody: ExecuteCreateContent,
       options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
     ) => virtualMachinesExecuteCreate(context, locationparameter, requestBody, options),
+    virtualMachinesExecuteCreateFlex: (
+      locationparameter: string,
+      body: ExecuteCreateFlexContent,
+      options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams,
+    ) => virtualMachinesExecuteCreateFlex(context, locationparameter, body, options),
     virtualMachinesExecuteStart: (
       locationparameter: string,
-      requestBody: ExecuteStartRequest,
+      requestBody: ExecuteStartContent,
       options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
     ) => virtualMachinesExecuteStart(context, locationparameter, requestBody, options),
     virtualMachinesExecuteHibernate: (
       locationparameter: string,
-      requestBody: ExecuteHibernateRequest,
+      requestBody: ExecuteHibernateContent,
       options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
     ) => virtualMachinesExecuteHibernate(context, locationparameter, requestBody, options),
     virtualMachinesExecuteDeallocate: (
       locationparameter: string,
-      requestBody: ExecuteDeallocateRequest,
+      requestBody: ExecuteDeallocateContent,
       options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
     ) => virtualMachinesExecuteDeallocate(context, locationparameter, requestBody, options),
     virtualMachinesSubmitStart: (
       locationparameter: string,
-      requestBody: SubmitStartRequest,
+      requestBody: SubmitStartContent,
       options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
     ) => virtualMachinesSubmitStart(context, locationparameter, requestBody, options),
     virtualMachinesSubmitHibernate: (
       locationparameter: string,
-      requestBody: SubmitHibernateRequest,
+      requestBody: SubmitHibernateContent,
       options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
     ) => virtualMachinesSubmitHibernate(context, locationparameter, requestBody, options),
     virtualMachinesSubmitDeallocate: (
       locationparameter: string,
-      requestBody: SubmitDeallocateRequest,
+      requestBody: SubmitDeallocateContent,
       options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
     ) => virtualMachinesSubmitDeallocate(context, locationparameter, requestBody, options),
   };

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import { listOccurrenceByVms } from "../../api/occurrenceExtension/operations.js";
-import { OccurrenceExtensionListOccurrenceByVmsOptionalParams } from "../../api/occurrenceExtension/options.js";
-import { OccurrenceExtensionResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OccurrenceExtensionListOccurrenceByVmsOptionalParams } from "../../api/occurrenceExtension/options.js";
+import type { OccurrenceExtensionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OccurrenceExtension operations. */
 export interface OccurrenceExtensionOperations {

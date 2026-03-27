@@ -4,10 +4,13 @@
 
 ```ts
 
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export type ActionType = string;
+
+// @public
+export type AllocationStrategy = string;
 
 // @public
 export interface CancelOccurrenceRequest {
@@ -15,7 +18,7 @@ export interface CancelOccurrenceRequest {
 }
 
 // @public
-export interface CancelOperationsRequest {
+export interface CancelOperationsContent {
     correlationId: string;
     operationIds: string[];
 }
@@ -27,6 +30,14 @@ export interface CancelOperationsResponse {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateFlexResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
 
 // @public
 export interface CreateResourceOperationResponse {
@@ -62,6 +73,9 @@ export interface DeleteResourceOperationResponse {
 }
 
 // @public
+export type DistributionStrategy = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -82,36 +96,43 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExecuteCreateRequest {
-    correlationid?: string;
+export interface ExecuteCreateContent {
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionPayload;
 }
 
 // @public
-export interface ExecuteDeallocateRequest {
+export interface ExecuteCreateFlexContent {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionFlexPayload;
+}
+
+// @public
+export interface ExecuteDeallocateContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteDeleteRequest {
-    correlationid?: string;
+export interface ExecuteDeleteContent {
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteHibernateRequest {
+export interface ExecuteHibernateContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteStartRequest {
+export interface ExecuteStartContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -128,7 +149,22 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
-export interface GetOperationErrorsRequest {
+export interface FallbackOperationInfo {
+    error?: ResourceOperationError;
+    lastOpType: ResourceOperationType;
+    status: string;
+}
+
+// @public
+export interface FlexProperties {
+    osType: OsType;
+    priorityProfile: PriorityProfile;
+    vmSizeProfiles: VmSizeProfile[];
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
+}
+
+// @public
+export interface GetOperationErrorsContent {
     operationIds: string[];
 }
 
@@ -138,7 +174,7 @@ export interface GetOperationErrorsResponse {
 }
 
 // @public
-export interface GetOperationStatusRequest {
+export interface GetOperationStatusContent {
     correlationId: string;
     operationIds: string[];
 }
@@ -162,6 +198,13 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAllocationStrategy {
+    CapacityOptimized = "CapacityOptimized",
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -174,6 +217,14 @@ export enum KnownDeadlineType {
     CompleteBy = "CompleteBy",
     InitiateAt = "InitiateAt",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDistributionStrategy {
+    BestEffortBalanced = "BestEffortBalanced",
+    BestEffortSingleZone = "BestEffortSingleZone",
+    Prioritized = "Prioritized",
+    StrictBalanced = "StrictBalanced"
 }
 
 // @public
@@ -242,6 +293,18 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownOsType {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownPriorityType {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
@@ -257,7 +320,9 @@ export enum KnownResourceOperationStatus {
 
 // @public
 export enum KnownResourceOperationType {
+    Create = "Create",
     Deallocate = "Deallocate",
+    Delete = "Delete",
     Hibernate = "Hibernate",
     Start = "Start",
     Unknown = "Unknown"
@@ -286,8 +351,10 @@ export enum KnownScheduledActionType {
 // @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
-    V20240815Preview = "2024-08-15-preview",
-    V20250415Preview = "2025-04-15-preview",
+    _20240815Preview = "2024-08-15-preview",
+    _20250415Preview = "2025-04-15-preview",
+    _20260101Preview = "2026-01-01-preview",
+    _20260301Preview = "2026-03-01-preview",
     V20250501 = "2025-05-01"
 }
 
@@ -416,6 +483,18 @@ export type OptimizationPreference = string;
 export type Origin = string;
 
 // @public
+export type OsType = string;
+
+// @public
+export interface PriorityProfile {
+    allocationStrategy?: AllocationStrategy;
+    type?: PriorityType;
+}
+
+// @public
+export type PriorityType = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -437,8 +516,8 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceAttachRequest {
-    resources: ScheduledActionResourceCreate[];
+export interface ResourceAttachRequestInput {
+    resources: ScheduledActionResourceInput[];
 }
 
 // @public
@@ -459,6 +538,7 @@ export interface ResourceOperationDetails {
     completedAt?: string;
     deadline?: string;
     deadlineType?: DeadlineType;
+    fallbackOperationInfo?: FallbackOperationInfo;
     operationId: string;
     operationTimezone?: string;
     opType?: ResourceOperationType;
@@ -483,8 +563,17 @@ export type ResourceOperationStatus = string;
 export type ResourceOperationType = string;
 
 // @public
-export interface ResourcePatchRequest {
-    resources: ScheduledActionResourceCreate[];
+export interface ResourcePatchRequestInput {
+    resources: ScheduledActionResourceInput[];
+}
+
+// @public
+export interface ResourceProvisionFlexPayload {
+    baseProfile?: Record<string, any>;
+    flexProperties: FlexProperties;
+    resourceCount: number;
+    resourceOverrides?: Record<string, any>[];
+    resourcePrefix?: string;
 }
 
 // @public
@@ -522,6 +611,7 @@ export type ResourceType = string;
 
 // @public
 export interface RetryPolicy {
+    onFailureAction?: ResourceOperationType;
     retryCount?: number;
     retryWindowInMinutes?: number;
 }
@@ -562,14 +652,27 @@ export interface ScheduledActionResource {
 }
 
 // @public
-export interface ScheduledActionResourceCreate {
+export interface ScheduledActionResourceInput {
     notificationSettings?: NotificationProperties[];
     resourceId: string;
 }
 
 // @public
 export interface ScheduledActionResources extends ExtensionResource {
-    properties?: ScheduledActionProperties;
+    properties?: ScheduledActionsExtensionProperties;
+}
+
+// @public
+export interface ScheduledActionsExtensionProperties {
+    actionType: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings: NotificationProperties[];
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceNotificationSettings?: NotificationProperties[];
+    resourceType: ResourceType;
+    schedule: ScheduledActionsSchedule;
+    startTime: string;
 }
 
 // @public
@@ -612,7 +715,7 @@ export interface StartResourceOperationResponse {
 }
 
 // @public
-export interface SubmitDeallocateRequest {
+export interface SubmitDeallocateContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -620,7 +723,7 @@ export interface SubmitDeallocateRequest {
 }
 
 // @public
-export interface SubmitHibernateRequest {
+export interface SubmitHibernateContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -628,7 +731,7 @@ export interface SubmitHibernateRequest {
 }
 
 // @public
-export interface SubmitStartRequest {
+export interface SubmitStartContent {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -652,7 +755,25 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface VmSizeProfile {
+    name: string;
+    rank: number;
+}
+
+// @public
 export type WeekDay = string;
+
+// @public
+export interface ZoneAllocationPolicy {
+    distributionStrategy?: DistributionStrategy;
+    zonePreferences?: ZonePreference[];
+}
+
+// @public
+export interface ZonePreference {
+    rank: number;
+    zone: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

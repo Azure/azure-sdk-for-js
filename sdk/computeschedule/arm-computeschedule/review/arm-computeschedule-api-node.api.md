@@ -4,9 +4,9 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ComputeScheduleClientOptionalParams extends ClientOptions {
@@ -16,7 +16,7 @@ export interface ComputeScheduleClientOptionalParams extends ClientOptions {
 
 // @public
 export interface ComputeScheduleContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 
