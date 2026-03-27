@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/expressRouteProviderPortsLocation/operations.js";
 import type { ExpressRouteProviderPortsLocationListOptionalParams } from "../../api/expressRouteProviderPortsLocation/options.js";
-import type { ExpressRouteProviderPortListResult } from "../../models/models.js";
+import type { ExpressRouteProviderPortListResult } from "../../models/microsoft/network/models.js";
 
 /** Interface representing a ExpressRouteProviderPortsLocation operations. */
 export interface ExpressRouteProviderPortsLocationOperations {

@@ -34,7 +34,6 @@ import type {
   ServiceGatewayService,
   ServiceGatewayAddressLocationResponse,
 } from "../../models/microsoft/network/models.js";
-import type { NoContentResponse } from "../../models/typeSpec/http/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -66,21 +65,21 @@ export interface ServiceGatewaysOperations {
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateServicesRequest,
     options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => PollerLike<OperationState<NoContentResponse>, NoContentResponse>;
+  ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use updateServices instead */
   beginUpdateServices: (
     resourceGroupName: string,
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateServicesRequest,
     options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<NoContentResponse>, NoContentResponse>>;
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use updateServices instead */
   beginUpdateServicesAndWait: (
     resourceGroupName: string,
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateServicesRequest,
     options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => Promise<NoContentResponse>;
+  ) => Promise<void>;
   /**
    * Creates or updates address locations within the service gateway.
    *
@@ -99,21 +98,21 @@ export interface ServiceGatewaysOperations {
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateAddressLocationsRequest,
     options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => PollerLike<OperationState<NoContentResponse>, NoContentResponse>;
+  ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use updateAddressLocations instead */
   beginUpdateAddressLocations: (
     resourceGroupName: string,
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateAddressLocationsRequest,
     options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<NoContentResponse>, NoContentResponse>>;
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use updateAddressLocations instead */
   beginUpdateAddressLocationsAndWait: (
     resourceGroupName: string,
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateAddressLocationsRequest,
     options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => Promise<NoContentResponse>;
+  ) => Promise<void>;
   /** Gets all the service gateways in a subscription. */
   listAll: (
     options?: ServiceGatewaysListAllOptionalParams,

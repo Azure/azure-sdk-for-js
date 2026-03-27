@@ -73,7 +73,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -89,7 +89,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -131,7 +131,7 @@ export interface AdminPropertiesFormat {
     direction: SecurityConfigurationRuleDirection;
     priority: number;
     protocol: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -147,7 +147,7 @@ export interface AdminRule extends BaseAdminRule {
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -157,7 +157,7 @@ export interface AdminRule extends BaseAdminRule {
 export interface AdminRuleCollection extends ChildResource {
     appliesToGroups?: NetworkManagerSecurityGroupItem[];
     description?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -166,7 +166,7 @@ export interface AdminRuleCollection extends ChildResource {
 export interface AdminRuleCollectionPropertiesFormat {
     appliesToGroups: NetworkManagerSecurityGroupItem[];
     description?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -214,7 +214,7 @@ export interface ApplicationGateway extends Resource {
     readonly privateEndpointConnections?: ApplicationGatewayPrivateEndpointConnection[];
     privateLinkConfigurations?: ApplicationGatewayPrivateLinkConfiguration[];
     probes?: ApplicationGatewayProbe[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
     requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
     readonly resourceGuid?: string;
@@ -236,14 +236,14 @@ export interface ApplicationGatewayAuthenticationCertificate extends SubResource
     data?: string;
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayAuthenticationCertificatePropertiesFormat {
     data?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -285,7 +285,7 @@ export interface ApplicationGatewayBackendAddressPool extends SubResource {
     readonly backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -293,7 +293,7 @@ export interface ApplicationGatewayBackendAddressPool extends SubResource {
 export interface ApplicationGatewayBackendAddressPoolPropertiesFormat {
     backendAddresses?: ApplicationGatewayBackendAddress[];
     readonly backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -346,7 +346,7 @@ export interface ApplicationGatewayBackendHttpSettings extends SubResource {
     probe?: SubResource;
     probeEnabled?: boolean;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestTimeout?: number;
     sniName?: string;
     trustedRootCertificates?: SubResource[];
@@ -369,7 +369,7 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     probe?: SubResource;
     probeEnabled?: boolean;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestTimeout?: number;
     sniName?: string;
     trustedRootCertificates?: SubResource[];
@@ -387,7 +387,7 @@ export interface ApplicationGatewayBackendSettings extends SubResource {
     port?: number;
     probe?: SubResource;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     timeout?: number;
     trustedRootCertificates?: SubResource[];
     readonly type?: string;
@@ -401,7 +401,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormat {
     port?: number;
     probe?: SubResource;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     timeout?: number;
     trustedRootCertificates?: SubResource[];
 }
@@ -443,7 +443,7 @@ export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource 
     clientId?: string;
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     tenantId?: string;
     unAuthorizedRequestAction?: ApplicationGatewayUnAuthorizedRequestAction;
 }
@@ -452,7 +452,7 @@ export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource 
 export interface ApplicationGatewayEntraJWTValidationConfigPropertiesFormat {
     audiences?: string[];
     clientId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     tenantId?: string;
     unAuthorizedRequestAction?: ApplicationGatewayUnAuthorizedRequestAction;
 }
@@ -504,7 +504,7 @@ export interface ApplicationGatewayFirewallRuleGroup {
 
 // @public
 export interface ApplicationGatewayFirewallRuleSet extends Resource {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleGroups?: ApplicationGatewayFirewallRuleGroup[];
     ruleSetType?: string;
     ruleSetVersion?: string;
@@ -513,7 +513,7 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
 
 // @public
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleGroups: ApplicationGatewayFirewallRuleGroup[];
     ruleSetType: string;
     ruleSetVersion: string;
@@ -535,7 +535,7 @@ export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
     privateLinkConfiguration?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
     readonly type?: string;
@@ -546,7 +546,7 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
     privateLinkConfiguration?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
@@ -556,14 +556,14 @@ export interface ApplicationGatewayFrontendPort extends SubResource {
     readonly etag?: string;
     name?: string;
     port?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayFrontendPortPropertiesFormat {
     port?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -590,7 +590,7 @@ export interface ApplicationGatewayHttpListener extends SubResource {
     hostNames?: string[];
     name?: string;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requireServerNameIndication?: boolean;
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
@@ -606,7 +606,7 @@ export interface ApplicationGatewayHttpListenerPropertiesFormat {
     hostName?: string;
     hostNames?: string[];
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requireServerNameIndication?: boolean;
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
@@ -616,14 +616,14 @@ export interface ApplicationGatewayHttpListenerPropertiesFormat {
 export interface ApplicationGatewayIPConfiguration extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: SubResource;
     readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayIPConfigurationPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: SubResource;
 }
 
@@ -635,7 +635,7 @@ export interface ApplicationGatewayListener extends SubResource {
     hostNames?: string[];
     name?: string;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
     readonly type?: string;
@@ -647,7 +647,7 @@ export interface ApplicationGatewayListenerPropertiesFormat {
     frontendPort?: SubResource;
     hostNames?: string[];
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
 }
@@ -661,7 +661,7 @@ export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
     loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
     loadDistributionTargets?: ApplicationGatewayLoadDistributionTarget[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -669,7 +669,7 @@ export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
 export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormat {
     loadDistributionAlgorithm?: ApplicationGatewayLoadDistributionAlgorithm;
     loadDistributionTargets?: ApplicationGatewayLoadDistributionTarget[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -712,7 +712,7 @@ export interface ApplicationGatewayPathRule extends SubResource {
     loadDistributionPolicy?: SubResource;
     name?: string;
     paths?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
     readonly type?: string;
@@ -725,7 +725,7 @@ export interface ApplicationGatewayPathRulePropertiesFormat {
     firewallPolicy?: SubResource;
     loadDistributionPolicy?: SubResource;
     paths?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
 }
@@ -736,7 +736,7 @@ export interface ApplicationGatewayPrivateEndpointConnection extends SubResource
     readonly linkIdentifier?: string;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -744,7 +744,7 @@ export interface ApplicationGatewayPrivateEndpointConnectionProperties {
     readonly linkIdentifier?: string;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -752,14 +752,14 @@ export interface ApplicationGatewayPrivateLinkConfiguration extends SubResource 
     readonly etag?: string;
     ipConfigurations?: ApplicationGatewayPrivateLinkIpConfiguration[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkConfigurationProperties {
     ipConfigurations?: ApplicationGatewayPrivateLinkIpConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -769,7 +769,7 @@ export interface ApplicationGatewayPrivateLinkIpConfiguration extends SubResourc
     primary?: boolean;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: SubResource;
     readonly type?: string;
 }
@@ -779,7 +779,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationProperties {
     primary?: boolean;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: SubResource;
 }
 
@@ -814,7 +814,7 @@ export interface ApplicationGatewayProbe extends SubResource {
     pickHostNameFromBackendSettings?: boolean;
     port?: number;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     timeout?: number;
     readonly type?: string;
     unhealthyThreshold?: number;
@@ -838,7 +838,7 @@ export interface ApplicationGatewayProbePropertiesFormat {
     pickHostNameFromBackendSettings?: boolean;
     port?: number;
     protocol?: ApplicationGatewayProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     timeout?: number;
     unhealthyThreshold?: number;
 }
@@ -868,7 +868,7 @@ export interface ApplicationGatewayPropertiesFormat {
     readonly privateEndpointConnections?: ApplicationGatewayPrivateEndpointConnection[];
     privateLinkConfigurations?: ApplicationGatewayPrivateLinkConfiguration[];
     probes?: ApplicationGatewayProbe[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
     requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
     readonly resourceGuid?: string;
@@ -927,7 +927,7 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
     loadDistributionPolicy?: SubResource;
     name?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
@@ -943,7 +943,7 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
     httpListener?: SubResource;
     loadDistributionPolicy?: SubResource;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
@@ -980,13 +980,13 @@ export interface ApplicationGatewayRewriteRuleCondition {
 export interface ApplicationGatewayRewriteRuleSet extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rewriteRules?: ApplicationGatewayRewriteRule[];
 }
 
 // @public
 export interface ApplicationGatewayRewriteRuleSetPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rewriteRules?: ApplicationGatewayRewriteRule[];
 }
 
@@ -998,7 +998,7 @@ export interface ApplicationGatewayRoutingRule extends SubResource {
     listener?: SubResource;
     name?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
     readonly type?: string;
 }
@@ -1009,7 +1009,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormat {
     backendSettings?: SubResource;
     listener?: SubResource;
     priority: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
 }
 
@@ -1037,7 +1037,7 @@ export interface ApplicationGatewaySslCertificate extends SubResource {
     keyVaultSecretId?: string;
     name?: string;
     password?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicCertData?: string;
     readonly type?: string;
 }
@@ -1047,7 +1047,7 @@ export interface ApplicationGatewaySslCertificatePropertiesFormat {
     data?: string;
     keyVaultSecretId?: string;
     password?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicCertData?: string;
 }
 
@@ -1087,7 +1087,7 @@ export interface ApplicationGatewaySslProfile extends SubResource {
     clientAuthConfiguration?: ApplicationGatewayClientAuthConfiguration;
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sslPolicy?: ApplicationGatewaySslPolicy;
     trustedClientCertificates?: SubResource[];
     readonly type?: string;
@@ -1096,7 +1096,7 @@ export interface ApplicationGatewaySslProfile extends SubResource {
 // @public
 export interface ApplicationGatewaySslProfilePropertiesFormat {
     clientAuthConfiguration?: ApplicationGatewayClientAuthConfiguration;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sslPolicy?: ApplicationGatewaySslPolicy;
     trustedClientCertificates?: SubResource[];
 }
@@ -1116,7 +1116,7 @@ export interface ApplicationGatewayTrustedClientCertificate extends SubResource 
     data?: string;
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
     readonly validatedCertData?: string;
 }
@@ -1125,7 +1125,7 @@ export interface ApplicationGatewayTrustedClientCertificate extends SubResource 
 export interface ApplicationGatewayTrustedClientCertificatePropertiesFormat {
     readonly clientCertIssuerDN?: string;
     data?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly validatedCertData?: string;
 }
 
@@ -1135,7 +1135,7 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
     readonly etag?: string;
     keyVaultSecretId?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -1143,7 +1143,7 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
 export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
     data?: string;
     keyVaultSecretId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1166,7 +1166,7 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
     readonly etag?: string;
     name?: string;
     pathRules?: ApplicationGatewayPathRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -1178,7 +1178,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormat {
     defaultRedirectConfiguration?: SubResource;
     defaultRewriteRuleSet?: SubResource;
     pathRules?: ApplicationGatewayPathRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1189,7 +1189,7 @@ export interface ApplicationGatewayWafDynamicManifestPropertiesResult {
 }
 
 // @public
-export interface ApplicationGatewayWafDynamicManifestResult extends ProxyResourcewithoutEtag {
+export interface ApplicationGatewayWafDynamicManifestResult extends ProxyResourceWithSettableId {
     availableRuleSets?: ApplicationGatewayFirewallManifestRuleSet[];
     defaultRuleSet?: DefaultRuleSetPropertyFormat;
 }
@@ -1235,13 +1235,13 @@ export interface ApplicationRule extends FirewallPolicyRule {
 // @public
 export interface ApplicationSecurityGroup extends Resource {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
 // @public
 export interface ApplicationSecurityGroupPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -1259,7 +1259,7 @@ export interface AuthorizationPropertiesFormat {
     authorizationKey?: string;
     authorizationUseStatus?: AuthorizationUseStatus;
     readonly connectionResourceUri?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1353,7 +1353,7 @@ export interface AzureFirewall extends Resource {
     managementIpConfiguration?: AzureFirewallIPConfiguration;
     natRuleCollections?: AzureFirewallNatRuleCollection[];
     networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sku?: AzureFirewallSku;
     threatIntelMode?: AzureFirewallThreatIntelMode;
     virtualHub?: SubResource;
@@ -1377,7 +1377,7 @@ export interface AzureFirewallApplicationRuleCollection extends SubResource {
     readonly etag?: string;
     name?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallApplicationRule[];
 }
 
@@ -1385,7 +1385,7 @@ export interface AzureFirewallApplicationRuleCollection extends SubResource {
 export interface AzureFirewallApplicationRuleCollectionPropertiesFormat {
     action?: AzureFirewallRCAction;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallApplicationRule[];
 }
 
@@ -1408,13 +1408,13 @@ export interface AzureFirewallAutoscaleConfiguration {
 export interface AzureFirewallFqdnTag extends Resource {
     readonly etag?: string;
     readonly fqdnTagName?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface AzureFirewallFqdnTagPropertiesFormat {
     readonly fqdnTagName?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1422,7 +1422,7 @@ export interface AzureFirewallIPConfiguration extends SubResource {
     readonly etag?: string;
     name?: string;
     readonly privateIPAddress?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
     readonly type?: string;
@@ -1431,7 +1431,7 @@ export interface AzureFirewallIPConfiguration extends SubResource {
 // @public
 export interface AzureFirewallIPConfigurationPropertiesFormat {
     readonly privateIPAddress?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
@@ -1470,7 +1470,7 @@ export interface AzureFirewallNatRuleCollection extends SubResource {
     readonly etag?: string;
     name?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallNatRule[];
 }
 
@@ -1478,7 +1478,7 @@ export interface AzureFirewallNatRuleCollection extends SubResource {
 export interface AzureFirewallNatRuleCollectionProperties {
     action?: AzureFirewallNatRCAction;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallNatRule[];
 }
 
@@ -1501,7 +1501,7 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
     readonly etag?: string;
     name?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallNetworkRule[];
 }
 
@@ -1509,7 +1509,7 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
 export interface AzureFirewallNetworkRuleCollectionPropertiesFormat {
     action?: AzureFirewallRCAction;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: AzureFirewallNetworkRule[];
 }
 
@@ -1555,7 +1555,7 @@ export interface AzureFirewallPropertiesFormat {
     managementIpConfiguration?: AzureFirewallIPConfiguration;
     natRuleCollections?: AzureFirewallNatRuleCollection[];
     networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sku?: AzureFirewallSku;
     threatIntelMode?: AzureFirewallThreatIntelMode;
     virtualHub?: SubResource;
@@ -1651,7 +1651,7 @@ export interface BackendAddressPool extends SubResourceModel {
     location?: string;
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     virtualNetwork?: SubResource;
@@ -1667,7 +1667,7 @@ export interface BackendAddressPoolPropertiesFormat {
     location?: string;
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     virtualNetwork?: SubResource;
@@ -1681,9 +1681,6 @@ export interface BaseAdminRule extends ChildResource {
 
 // @public
 export type BaseAdminRuleUnion = AdminRule | DefaultAdminRule | BaseAdminRule;
-
-// @public
-export type BaseProvisioningState = string;
 
 // @public
 export interface BastionActiveSession {
@@ -1718,7 +1715,7 @@ export interface BastionHost extends Resource {
     ipConfigurations?: BastionHostIPConfiguration[];
     // (undocumented)
     networkAcls?: BastionHostPropertiesFormatNetworkAcls;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
@@ -1730,7 +1727,7 @@ export interface BastionHostIPConfiguration extends SubResource {
     readonly etag?: string;
     name?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
     readonly type?: string;
@@ -1739,7 +1736,7 @@ export interface BastionHostIPConfiguration extends SubResource {
 // @public
 export interface BastionHostIPConfigurationPropertiesFormat {
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet: SubResource;
 }
@@ -1758,7 +1755,7 @@ export interface BastionHostPropertiesFormat {
     ipConfigurations?: BastionHostIPConfiguration[];
     // (undocumented)
     networkAcls?: BastionHostPropertiesFormatNetworkAcls;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     scaleUnits?: number;
     virtualNetwork?: SubResource;
 }
@@ -1813,7 +1810,7 @@ export interface BgpConnection extends SubResourceModel {
     hubVirtualNetworkConnection?: SubResource;
     peerAsn?: number;
     peerIp?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1822,7 +1819,7 @@ export interface BgpConnectionProperties {
     hubVirtualNetworkConnection?: SubResource;
     peerAsn?: number;
     peerIp?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -1970,7 +1967,7 @@ export interface ConfigurationGroup {
     description?: string;
     id?: string;
     memberType?: GroupMemberType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -2090,7 +2087,7 @@ export interface ConnectionMonitorParameters {
 }
 
 // @public
-export interface ConnectionMonitorResult extends TrackedResourcewithOptionalLocation {
+export interface ConnectionMonitorResult extends TrackedResourceWithEtag {
     autoStart?: boolean;
     readonly connectionMonitorType?: ConnectionMonitorType;
     destination?: ConnectionMonitorDestination;
@@ -2099,7 +2096,7 @@ export interface ConnectionMonitorResult extends TrackedResourcewithOptionalLoca
     readonly monitoringStatus?: string;
     notes?: string;
     outputs?: ConnectionMonitorOutput[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     source?: ConnectionMonitorSource;
     readonly startTime?: Date;
     testConfigurations?: ConnectionMonitorTestConfiguration[];
@@ -2110,7 +2107,7 @@ export interface ConnectionMonitorResult extends TrackedResourcewithOptionalLoca
 export interface ConnectionMonitorResultProperties extends ConnectionMonitorParameters {
     readonly connectionMonitorType?: ConnectionMonitorType;
     readonly monitoringStatus?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly startTime?: Date;
 }
 
@@ -2192,7 +2189,7 @@ export interface ConnectivityConfiguration extends ChildResource {
     description?: string;
     hubs?: Hub[];
     isGlobal?: IsGlobal;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -2206,7 +2203,7 @@ export interface ConnectivityConfigurationProperties {
     description?: string;
     hubs?: Hub[];
     isGlobal?: IsGlobal;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -2293,7 +2290,7 @@ export interface ContainerNetworkInterface extends SubResource {
     readonly etag?: string;
     readonly ipConfigurations?: ContainerNetworkInterfaceIpConfiguration[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -2303,7 +2300,7 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
     readonly etag?: string;
     ipConfigurations?: IPConfigurationProfile[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -2311,20 +2308,20 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
 export interface ContainerNetworkInterfaceConfigurationPropertiesFormat {
     containerNetworkInterfaces?: SubResource[];
     ipConfigurations?: IPConfigurationProfile[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfiguration {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -2332,7 +2329,7 @@ export interface ContainerNetworkInterfacePropertiesFormat {
     container?: Container;
     readonly containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfiguration;
     readonly ipConfigurations?: ContainerNetworkInterfaceIpConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -2377,7 +2374,7 @@ export interface CustomIpPrefix extends Resource {
     geo?: Geo;
     noInternetAdvertise?: boolean;
     prefixType?: CustomIpPrefixType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIpPrefixes?: SubResource[];
     readonly resourceGuid?: string;
     signedMessage?: string;
@@ -2397,7 +2394,7 @@ export interface CustomIpPrefixPropertiesFormat {
     geo?: Geo;
     noInternetAdvertise?: boolean;
     prefixType?: CustomIpPrefixType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIpPrefixes?: SubResource[];
     readonly resourceGuid?: string;
     signedMessage?: string;
@@ -2411,7 +2408,7 @@ export interface DdosCustomPolicy extends Resource {
     detectionRules?: DdosDetectionRule[];
     readonly etag?: string;
     frontEndIpConfiguration?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -2419,7 +2416,7 @@ export interface DdosCustomPolicy extends Resource {
 export interface DdosCustomPolicyPropertiesFormat {
     detectionRules?: DdosDetectionRule[];
     frontEndIpConfiguration?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -2432,7 +2429,7 @@ export interface DdosDetectionRule extends SubResource {
     readonly etag?: string;
     readonly id?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     trafficDetectionRule?: TrafficDetectionRule;
     readonly type?: string;
 }
@@ -2440,14 +2437,14 @@ export interface DdosDetectionRule extends SubResource {
 // @public
 export interface DdosDetectionRulePropertiesFormat {
     detectionMode?: DdosDetectionMode;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     trafficDetectionRule?: TrafficDetectionRule;
 }
 
 // @public
-export interface DdosProtectionPlan extends ResourceWithReadOnlyID {
+export interface DdosProtectionPlan extends TrackedResourceWithOptionalLocation {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     tags?: Record<string, string>;
@@ -2456,7 +2453,7 @@ export interface DdosProtectionPlan extends ResourceWithReadOnlyID {
 
 // @public
 export interface DdosProtectionPlanPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIPAddresses?: SubResource[];
     readonly resourceGuid?: string;
     readonly virtualNetworks?: SubResource[];
@@ -2484,7 +2481,7 @@ export interface DefaultAdminPropertiesFormat {
     flag?: string;
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -2501,7 +2498,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -2518,14 +2515,14 @@ export interface Delegation extends SubResource {
     readonly actions?: string[];
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     serviceName?: string;
     type?: string;
 }
 
 // @public
 export interface DelegationProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     serviceName?: string;
 }
 
@@ -2594,7 +2591,7 @@ export interface DscpConfiguration extends Resource {
     readonly etag?: string;
     markings?: number[];
     protocol?: ProtocolType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly qosCollectionId?: string;
     qosDefinitionCollection?: QosDefinition[];
     readonly resourceGuid?: string;
@@ -2609,7 +2606,7 @@ export interface DscpConfigurationPropertiesFormat {
     destinationPortRanges?: QosPortRange[];
     markings?: number[];
     protocol?: ProtocolType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly qosCollectionId?: string;
     qosDefinitionCollection?: QosDefinition[];
     readonly resourceGuid?: string;
@@ -2644,7 +2641,7 @@ export interface EffectiveConnectivityConfiguration {
     hubs?: Hub[];
     id?: string;
     isGlobal?: IsGlobal;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -2659,7 +2656,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -2682,7 +2679,7 @@ export interface EffectiveNetworkSecurityGroupAssociation {
 
 // @public
 export interface EffectiveNetworkSecurityGroupListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: EffectiveNetworkSecurityGroup[];
 }
 
@@ -2718,7 +2715,7 @@ export interface EffectiveRoute {
 
 // @public
 export interface EffectiveRouteListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: EffectiveRoute[];
 }
 
@@ -2756,7 +2753,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -2864,7 +2861,7 @@ export interface ExpressRouteCircuit extends Resource {
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
     peerings?: ExpressRouteCircuitPeering[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     serviceKey?: string;
     serviceProviderNotes?: string;
     serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
@@ -2887,7 +2884,7 @@ export interface ExpressRouteCircuitAuthorization extends SubResourceModel {
     authorizationUseStatus?: AuthorizationUseStatus;
     readonly connectionResourceUri?: string;
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -2899,7 +2896,7 @@ export interface ExpressRouteCircuitConnection extends SubResourceModel {
     expressRouteCircuitPeering?: SubResource;
     ipv6CircuitConnectionConfig?: Ipv6CircuitConnectionConfig;
     peerExpressRouteCircuitPeering?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -2910,7 +2907,7 @@ export interface ExpressRouteCircuitConnectionPropertiesFormat {
     expressRouteCircuitPeering?: SubResource;
     ipv6CircuitConnectionConfig?: Ipv6CircuitConnectionConfig;
     peerExpressRouteCircuitPeering?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -2928,7 +2925,7 @@ export interface ExpressRouteCircuitPeering extends SubResourceModel {
     peeringType?: ExpressRoutePeeringType;
     primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routeFilter?: SubResource;
     secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
@@ -2971,7 +2968,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormat {
     peeringType?: ExpressRoutePeeringType;
     primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routeFilter?: SubResource;
     secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
@@ -2997,7 +2994,7 @@ export interface ExpressRouteCircuitPropertiesFormat {
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
     peerings?: ExpressRouteCircuitPeering[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     serviceKey?: string;
     serviceProviderNotes?: string;
     serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
@@ -3082,7 +3079,7 @@ export interface ExpressRouteConnection extends SubResource {
     expressRouteCircuitPeering?: ExpressRouteCircuitPeeringId;
     expressRouteGatewayBypass?: boolean;
     name: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
 }
@@ -3104,7 +3101,7 @@ export interface ExpressRouteConnectionProperties {
     enablePrivateLinkFastPath?: boolean;
     expressRouteCircuitPeering: ExpressRouteCircuitPeeringId;
     expressRouteGatewayBypass?: boolean;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
 }
@@ -3117,7 +3114,7 @@ export interface ExpressRouteCrossConnection extends Resource {
     readonly peeringLocation?: string;
     peerings?: ExpressRouteCrossConnectionPeering[];
     readonly primaryAzurePort?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly secondaryAzurePort?: string;
     serviceProviderNotes?: string;
     serviceProviderProvisioningState?: ServiceProviderProvisioningState;
@@ -3137,7 +3134,7 @@ export interface ExpressRouteCrossConnectionPeering extends SubResource {
     peeringType?: ExpressRoutePeeringType;
     readonly primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
     sharedKey?: string;
@@ -3156,7 +3153,7 @@ export interface ExpressRouteCrossConnectionPeeringProperties {
     peeringType?: ExpressRoutePeeringType;
     readonly primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
     sharedKey?: string;
@@ -3171,7 +3168,7 @@ export interface ExpressRouteCrossConnectionProperties {
     readonly peeringLocation?: string;
     peerings?: ExpressRouteCrossConnectionPeering[];
     readonly primaryAzurePort?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly secondaryAzurePort?: string;
     serviceProviderNotes?: string;
     serviceProviderProvisioningState?: ServiceProviderProvisioningState;
@@ -3188,7 +3185,7 @@ export interface ExpressRouteCrossConnectionRoutesTableSummary {
 
 // @public
 export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: ExpressRouteCrossConnectionRoutesTableSummary[];
 }
 
@@ -3251,7 +3248,7 @@ export interface ExpressRouteGateway extends Resource {
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
     readonly etag?: string;
     expressRouteConnections?: ExpressRouteConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub?: VirtualHubId;
 }
 
@@ -3265,7 +3262,7 @@ export interface ExpressRouteGatewayProperties {
     allowNonVirtualWanTraffic?: boolean;
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
     expressRouteConnections?: ExpressRouteConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub: VirtualHubId;
 }
 
@@ -3290,7 +3287,7 @@ export interface ExpressRouteLink extends SubResource {
     macSecConfig?: ExpressRouteLinkMacSecConfig;
     name?: string;
     readonly patchPanelId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly rackId?: string;
     readonly routerName?: string;
 }
@@ -3323,7 +3320,7 @@ export interface ExpressRouteLinkPropertiesFormat {
     readonly interfaceName?: string;
     macSecConfig?: ExpressRouteLinkMacSecConfig;
     readonly patchPanelId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly rackId?: string;
     readonly routerName?: string;
 }
@@ -3348,7 +3345,7 @@ export interface ExpressRoutePort extends Resource {
     readonly mtu?: string;
     peeringLocation?: string;
     readonly provisionedBandwidthInGbps?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -3358,7 +3355,7 @@ export interface ExpressRoutePortAuthorization extends SubResourceModel {
     readonly authorizationUseStatus?: ExpressRoutePortAuthorizationUseStatus;
     readonly circuitResourceUri?: string;
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -3366,7 +3363,7 @@ export interface ExpressRoutePortAuthorizationPropertiesFormat {
     readonly authorizationKey?: string;
     readonly authorizationUseStatus?: ExpressRoutePortAuthorizationUseStatus;
     readonly circuitResourceUri?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -3384,7 +3381,7 @@ export interface ExpressRoutePortPropertiesFormat {
     readonly mtu?: string;
     peeringLocation?: string;
     readonly provisionedBandwidthInGbps?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -3399,7 +3396,7 @@ export interface ExpressRoutePortsLocation extends Resource {
     readonly address?: string;
     availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
     readonly contact?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -3413,11 +3410,11 @@ export interface ExpressRoutePortsLocationPropertiesFormat {
     readonly address?: string;
     availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
     readonly contact?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
-export interface ExpressRouteProviderPort extends ResourceWithReadOnlyNameAndID {
+export interface ExpressRouteProviderPort extends TrackedResourceWithOptionalLocation {
     readonly etag?: string;
     overprovisionFactor?: number;
     peeringLocation?: string;
@@ -3427,6 +3424,12 @@ export interface ExpressRouteProviderPort extends ResourceWithReadOnlyNameAndID 
     remainingBandwidthInMbps?: number;
     readonly secondaryAzurePort?: string;
     usedBandwidthInMbps?: number;
+}
+
+// @public
+export interface ExpressRouteProviderPortListResult {
+    readonly nextLink?: string;
+    value: ExpressRouteProviderPort[];
 }
 
 // @public
@@ -3445,7 +3448,7 @@ export interface ExpressRouteProviderPortProperties {
 export interface ExpressRouteServiceProvider extends Resource {
     bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
     peeringLocations?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -3458,7 +3461,7 @@ export interface ExpressRouteServiceProviderBandwidthsOffered {
 export interface ExpressRouteServiceProviderPropertiesFormat {
     bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
     peeringLocations?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -3518,7 +3521,7 @@ export interface FirewallPolicy extends Resource {
     identity?: ManagedServiceIdentity;
     insights?: FirewallPolicyInsights;
     intrusionDetection?: FirewallPolicyIntrusionDetection;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly ruleCollectionGroups?: SubResource[];
     readonly size?: string;
     sku?: FirewallPolicySku;
@@ -3678,7 +3681,7 @@ export interface FirewallPolicyPropertiesFormat {
     readonly firewalls?: SubResource[];
     insights?: FirewallPolicyInsights;
     intrusionDetection?: FirewallPolicyIntrusionDetection;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly ruleCollectionGroups?: SubResource[];
     readonly size?: string;
     sku?: FirewallPolicySku;
@@ -3716,7 +3719,7 @@ export interface FirewallPolicyRuleCollection {
 export interface FirewallPolicyRuleCollectionGroup extends SubResourceModel {
     readonly etag?: string;
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleCollections?: FirewallPolicyRuleCollectionUnion[];
     readonly size?: string;
 }
@@ -3738,7 +3741,7 @@ export interface FirewallPolicyRuleCollectionGroupDraftProperties {
 // @public
 export interface FirewallPolicyRuleCollectionGroupProperties {
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     ruleCollections?: FirewallPolicyRuleCollectionUnion[];
     readonly size?: string;
 }
@@ -3796,7 +3799,7 @@ export interface FlowLog extends Resource {
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
     identity?: ManagedServiceIdentity;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     recordTypes?: string;
     retentionPolicy?: RetentionPolicyParameters;
     storageId?: string;
@@ -3842,7 +3845,7 @@ export interface FlowLogPropertiesFormat {
     enabledFilteringCriteria?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     recordTypes?: string;
     retentionPolicy?: RetentionPolicyParameters;
     storageId: string;
@@ -3866,7 +3869,7 @@ export interface FrontendIPConfiguration extends SubResourceModel {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     publicIPPrefix?: SubResource;
     subnet?: Subnet;
@@ -3883,7 +3886,7 @@ export interface FrontendIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     publicIPPrefix?: SubResource;
     subnet?: Subnet;
@@ -4074,7 +4077,7 @@ export interface HubIpConfiguration extends SubResourceModel {
     readonly etag?: string;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -4083,7 +4086,7 @@ export interface HubIpConfiguration extends SubResourceModel {
 export interface HubIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -4109,7 +4112,7 @@ export interface HubRouteTable extends SubResourceModel {
     readonly etag?: string;
     labels?: string[];
     readonly propagatingConnections?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routes?: HubRoute[];
 }
 
@@ -4118,7 +4121,7 @@ export interface HubRouteTableProperties {
     readonly associatedConnections?: string[];
     labels?: string[];
     readonly propagatingConnections?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routes?: HubRoute[];
 }
 
@@ -4132,7 +4135,7 @@ export interface HubVirtualNetworkConnection extends SubResource {
     enableInternetSecurity?: boolean;
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteVirtualNetwork?: SubResource;
     routingConfiguration?: RoutingConfiguration;
 }
@@ -4142,7 +4145,7 @@ export interface HubVirtualNetworkConnectionProperties {
     allowHubToRemoteVnetTransit?: boolean;
     allowRemoteVnetToUseHubVnetGateways?: boolean;
     enableInternetSecurity?: boolean;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteVirtualNetwork?: SubResource;
     routingConfiguration?: RoutingConfiguration;
 }
@@ -4174,7 +4177,7 @@ export interface InboundNatPool extends SubResource {
     idleTimeoutInMinutes?: number;
     name?: string;
     protocol?: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -4188,7 +4191,7 @@ export interface InboundNatPoolPropertiesFormat {
     frontendPortRangeStart: number;
     idleTimeoutInMinutes?: number;
     protocol: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -4205,7 +4208,7 @@ export interface InboundNatRule extends SubResourceModel {
     frontendPortRangeStart?: number;
     idleTimeoutInMinutes?: number;
     protocol?: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -4229,20 +4232,20 @@ export interface InboundNatRulePropertiesFormat {
     frontendPortRangeStart?: number;
     idleTimeoutInMinutes?: number;
     protocol?: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface InboundSecurityRule extends SubResourceModel {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: InboundSecurityRules[];
     ruleType?: InboundSecurityRuleType;
 }
 
 // @public
 export interface InboundSecurityRuleProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: InboundSecurityRules[];
     ruleType?: InboundSecurityRuleType;
 }
@@ -4341,7 +4344,7 @@ export interface IpamPoolProperties {
     displayName?: string;
     readonly ipAddressType?: IpType[];
     parentPoolName?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
@@ -4363,7 +4366,7 @@ export interface IPConfiguration extends SubResource {
     name?: string;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -4380,14 +4383,14 @@ export interface IPConfigurationBgpPeeringAddress {
 export interface IPConfigurationProfile extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
     readonly type?: string;
 }
 
 // @public
 export interface IPConfigurationProfilePropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
 }
 
@@ -4395,7 +4398,7 @@ export interface IPConfigurationProfilePropertiesFormat {
 export interface IPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -4409,7 +4412,7 @@ export interface IpGroup extends Resource {
     readonly firewallPolicies?: SubResource[];
     readonly firewalls?: SubResource[];
     ipAddresses?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -4417,7 +4420,7 @@ export interface IpGroupPropertiesFormat {
     readonly firewallPolicies?: SubResource[];
     readonly firewalls?: SubResource[];
     ipAddresses?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -4905,14 +4908,6 @@ export enum KnownAzureFirewallThreatIntelMode {
 }
 
 // @public
-export enum KnownBaseProvisioningState {
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownBastionConnectProtocol {
     RDP = "RDP",
     SSH = "SSH"
@@ -4956,8 +4951,6 @@ export enum KnownCommissionedState {
 
 // @public
 export enum KnownCommonProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -5934,6 +5927,16 @@ export enum KnownResiliencyModel {
 }
 
 // @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownRouteFilterRuleType {
     Community = "Community"
 }
@@ -6499,7 +6502,7 @@ export interface LoadBalancer extends Resource {
     loadBalancingRules?: LoadBalancingRule[];
     outboundRules?: OutboundRule[];
     probes?: Probe[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     scope?: LoadBalancerScope;
     sku?: LoadBalancerSku;
@@ -6558,7 +6561,7 @@ export interface LoadBalancerPropertiesFormat {
     loadBalancingRules?: LoadBalancingRule[];
     outboundRules?: OutboundRule[];
     probes?: Probe[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     scope?: LoadBalancerScope;
 }
@@ -6610,7 +6613,7 @@ export interface LoadBalancingRule extends SubResourceModel {
     loadDistribution?: LoadDistribution;
     probe?: SubResource;
     protocol?: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -6628,7 +6631,7 @@ export interface LoadBalancingRulePropertiesFormat {
     loadDistribution?: LoadDistribution;
     probe?: SubResource;
     protocol: TransportProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -6641,7 +6644,7 @@ export interface LocalNetworkGateway extends Resource {
     fqdn?: string;
     gatewayIpAddress?: string;
     localNetworkAddressSpace?: AddressSpace;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -6651,7 +6654,7 @@ export interface LocalNetworkGatewayPropertiesFormat {
     fqdn?: string;
     gatewayIpAddress?: string;
     localNetworkAddressSpace?: AddressSpace;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -6761,7 +6764,7 @@ export interface MigrateLoadBalancerToIpBasedRequest {
 export interface NatGateway extends Resource {
     readonly etag?: string;
     idleTimeoutInMinutes?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIpAddresses?: SubResource[];
     publicIpAddressesV6?: SubResource[];
     publicIpPrefixes?: SubResource[];
@@ -6777,7 +6780,7 @@ export interface NatGateway extends Resource {
 // @public
 export interface NatGatewayPropertiesFormat {
     idleTimeoutInMinutes?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIpAddresses?: SubResource[];
     publicIpAddressesV6?: SubResource[];
     publicIpPrefixes?: SubResource[];
@@ -6847,7 +6850,7 @@ export interface NetworkConfigurationDiagnosticResult {
 export interface NetworkGroup extends ChildResource {
     description?: string;
     memberType?: GroupMemberType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -6856,7 +6859,7 @@ export interface NetworkGroup extends ChildResource {
 export interface NetworkGroupProperties {
     description?: string;
     memberType?: GroupMemberType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -6895,7 +6898,7 @@ export interface NetworkInterface extends Resource {
     readonly primary?: boolean;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkService?: PrivateLinkService;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly tapConfigurations?: NetworkInterfaceTapConfiguration[];
     readonly virtualMachine?: SubResource;
@@ -6938,7 +6941,7 @@ export interface NetworkInterfaceIPConfiguration extends SubResourceModel {
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
     readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
     virtualNetworkTaps?: VirtualNetworkTap[];
@@ -6964,7 +6967,7 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormat {
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
     readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
     virtualNetworkTaps?: VirtualNetworkTap[];
@@ -6995,7 +6998,7 @@ export interface NetworkInterfacePropertiesFormat {
     readonly primary?: boolean;
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkService?: PrivateLinkService;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly tapConfigurations?: NetworkInterfaceTapConfiguration[];
     readonly virtualMachine?: SubResource;
@@ -7006,13 +7009,13 @@ export interface NetworkInterfacePropertiesFormat {
 // @public
 export interface NetworkInterfaceTapConfiguration extends SubResourceModel {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualNetworkTap?: VirtualNetworkTap;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualNetworkTap?: VirtualNetworkTap;
 }
 
@@ -7022,7 +7025,7 @@ export interface NetworkManager extends Resource {
     readonly etag?: string;
     networkManagerScopeAccesses?: ConfigurationType[];
     networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -7090,7 +7093,7 @@ export interface NetworkManagerProperties {
     description?: string;
     networkManagerScopeAccesses?: ConfigurationType[];
     networkManagerScopes: NetworkManagerPropertiesNetworkManagerScopes;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -7104,7 +7107,7 @@ export interface NetworkManagerPropertiesNetworkManagerScopes {
 // @public
 export interface NetworkManagerRoutingConfiguration extends ChildResource {
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routeTableUsageMode?: RouteTableUsageMode;
     readonly systemData?: SystemData;
@@ -7113,7 +7116,7 @@ export interface NetworkManagerRoutingConfiguration extends ChildResource {
 // @public
 export interface NetworkManagerRoutingConfigurationPropertiesFormat {
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routeTableUsageMode?: RouteTableUsageMode;
 }
@@ -7133,7 +7136,7 @@ export interface NetworkProfile extends Resource {
     containerNetworkInterfaceConfigurations?: ContainerNetworkInterfaceConfiguration[];
     readonly containerNetworkInterfaces?: ContainerNetworkInterface[];
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -7141,7 +7144,7 @@ export interface NetworkProfile extends Resource {
 export interface NetworkProfilePropertiesFormat {
     containerNetworkInterfaceConfigurations?: ContainerNetworkInterfaceConfiguration[];
     readonly containerNetworkInterfaces?: ContainerNetworkInterface[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -7167,7 +7170,7 @@ export interface NetworkSecurityGroup extends Resource {
     readonly flowLogs?: FlowLog[];
     flushConnection?: boolean;
     readonly networkInterfaces?: NetworkInterface[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     securityRules?: SecurityRule[];
     readonly subnets?: Subnet[];
@@ -7179,7 +7182,7 @@ export interface NetworkSecurityGroupPropertiesFormat {
     readonly flowLogs?: FlowLog[];
     flushConnection?: boolean;
     readonly networkInterfaces?: NetworkInterface[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     securityRules?: SecurityRule[];
     readonly subnets?: Subnet[];
@@ -7231,7 +7234,7 @@ export interface NetworkVirtualAppliance extends Resource {
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
     readonly privateIpAddress?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
     readonly virtualApplianceConnections?: SubResource[];
@@ -7254,7 +7257,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
     enableInternetSecurity?: boolean;
     name?: string;
     namePropertiesName?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     tunnelIdentifier?: number;
 }
@@ -7265,7 +7268,7 @@ export interface NetworkVirtualApplianceConnectionProperties {
     bgpPeerAddress?: string[];
     enableInternetSecurity?: boolean;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     tunnelIdentifier?: number;
 }
@@ -7296,7 +7299,7 @@ export interface NetworkVirtualAppliancePropertiesFormat {
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
     readonly privateIpAddress?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
     readonly virtualApplianceConnections?: SubResource[];
@@ -7335,12 +7338,12 @@ export interface NetworkVirtualApplianceSkuPropertiesFormat {
 // @public
 export interface NetworkWatcher extends Resource {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface NetworkWatcherPropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7588,7 +7591,7 @@ export interface OutboundRule extends SubResourceModel {
     frontendIPConfigurations?: SubResource[];
     idleTimeoutInMinutes?: number;
     protocol?: LoadBalancerOutboundRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7599,7 +7602,7 @@ export interface OutboundRulePropertiesFormat {
     frontendIPConfigurations: SubResource[];
     idleTimeoutInMinutes?: number;
     protocol: LoadBalancerOutboundRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7626,7 +7629,7 @@ export interface P2SConnectionConfiguration extends SubResource {
     readonly etag?: string;
     name?: string;
     readonly previousConfigurationPolicyGroupAssociations?: VpnServerConfigurationPolicyGroup[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     vpnClientAddressPool?: AddressSpace;
 }
@@ -7636,7 +7639,7 @@ export interface P2SConnectionConfigurationProperties {
     configurationPolicyGroupAssociations?: SubResource[];
     enableInternetSecurity?: boolean;
     readonly previousConfigurationPolicyGroupAssociations?: VpnServerConfigurationPolicyGroup[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingConfiguration?: RoutingConfiguration;
     vpnClientAddressPool?: AddressSpace;
 }
@@ -7658,12 +7661,12 @@ export interface P2SVpnConnectionRequest {
 }
 
 // @public
-export interface P2SVpnGateway extends ResourceWithRequiredLocation {
+export interface P2SVpnGateway extends TrackedResourceWithSettableIdOptionalLocation {
     customDnsServers?: string[];
     readonly etag?: string;
     isRoutingPreferenceInternet?: boolean;
     p2SConnectionConfigurations?: P2SConnectionConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub?: SubResource;
     readonly vpnClientConnectionHealth?: VpnClientConnectionHealth;
     vpnGatewayScaleUnit?: number;
@@ -7675,7 +7678,7 @@ export interface P2SVpnGatewayProperties {
     customDnsServers?: string[];
     isRoutingPreferenceInternet?: boolean;
     p2SConnectionConfigurations?: P2SConnectionConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub?: SubResource;
     readonly vpnClientConnectionHealth?: VpnClientConnectionHealth;
     vpnGatewayScaleUnit?: number;
@@ -7749,7 +7752,7 @@ export interface PacketCaptureResult {
     filters?: PacketCaptureFilter[];
     readonly id?: string;
     readonly name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     scope?: PacketCaptureMachineScope;
     storageLocation?: PacketCaptureStorageLocation;
     target?: string;
@@ -7760,7 +7763,7 @@ export interface PacketCaptureResult {
 
 // @public
 export interface PacketCaptureResultProperties extends PacketCaptureParameters {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7818,7 +7821,7 @@ export interface PeerExpressRouteCircuitConnection extends SubResourceModel {
     readonly etag?: string;
     expressRouteCircuitPeering?: SubResource;
     peerExpressRouteCircuitPeering?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7829,7 +7832,7 @@ export interface PeerExpressRouteCircuitConnectionPropertiesFormat {
     connectionName?: string;
     expressRouteCircuitPeering?: SubResource;
     peerExpressRouteCircuitPeering?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7947,13 +7950,13 @@ export interface PrivateDnsZoneGroup extends SubResource {
     readonly etag?: string;
     name?: string;
     privateDnsZoneConfigs?: PrivateDnsZoneConfig[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface PrivateDnsZoneGroupPropertiesFormat {
     privateDnsZoneConfigs?: PrivateDnsZoneConfig[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7974,7 +7977,7 @@ export interface PrivateEndpoint extends Resource {
     manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
     readonly networkInterfaces?: NetworkInterface[];
     privateLinkServiceConnections?: PrivateLinkServiceConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
 }
 
@@ -7985,7 +7988,7 @@ export interface PrivateEndpointConnection extends SubResourceModel {
     readonly privateEndpoint?: PrivateEndpoint;
     readonly privateEndpointLocation?: string;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -7994,7 +7997,7 @@ export interface PrivateEndpointConnectionProperties {
     readonly privateEndpoint?: PrivateEndpoint;
     readonly privateEndpointLocation?: string;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -8027,7 +8030,7 @@ export interface PrivateEndpointProperties {
     manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
     readonly networkInterfaces?: NetworkInterface[];
     privateLinkServiceConnections?: PrivateLinkServiceConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
 }
 
@@ -8048,7 +8051,7 @@ export interface PrivateLinkService extends Resource {
     loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
     readonly networkInterfaces?: NetworkInterface[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     visibility?: PrivateLinkServicePropertiesVisibility;
 }
 
@@ -8059,7 +8062,7 @@ export interface PrivateLinkServiceConnection extends SubResource {
     name?: string;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     privateLinkServiceId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestMessage?: string;
     readonly type?: string;
 }
@@ -8069,7 +8072,7 @@ export interface PrivateLinkServiceConnectionProperties {
     groupIds?: string[];
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     privateLinkServiceId?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestMessage?: string;
 }
 
@@ -8088,7 +8091,7 @@ export interface PrivateLinkServiceIpConfiguration extends SubResource {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
     readonly type?: string;
 }
@@ -8099,7 +8102,7 @@ export interface PrivateLinkServiceIpConfigurationProperties {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     subnet?: Subnet;
 }
 
@@ -8115,7 +8118,7 @@ export interface PrivateLinkServiceProperties {
     loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
     readonly networkInterfaces?: NetworkInterface[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     visibility?: PrivateLinkServicePropertiesVisibility;
 }
 
@@ -8142,7 +8145,7 @@ export interface Probe extends SubResourceModel {
     port?: number;
     probeThreshold?: number;
     protocol?: ProbeProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestPath?: string;
 }
 
@@ -8158,7 +8161,7 @@ export interface ProbePropertiesFormat {
     port: number;
     probeThreshold?: number;
     protocol: ProbeProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     requestPath?: string;
 }
 
@@ -8194,15 +8197,15 @@ export interface ProxyResource {
 }
 
 // @public
-export interface ProxyResourcewithoutEtag {
-    id?: string;
+export interface ProxyResourceWithReadOnlyID {
+    readonly id?: string;
     readonly name?: string;
     readonly type?: string;
 }
 
 // @public
-export interface ProxyResourceWithReadOnlyID {
-    readonly id?: string;
+export interface ProxyResourceWithSettableId {
+    id?: string;
     readonly name?: string;
     readonly type?: string;
 }
@@ -8221,7 +8224,7 @@ export interface PublicIPAddress extends Resource {
     linkedPublicIPAddress?: PublicIPAddress;
     migrationPhase?: PublicIPAddressMigrationPhase;
     natGateway?: NatGateway;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddressVersion?: IPVersion;
     publicIPAllocationMethod?: IPAllocationMethod;
     publicIPPrefix?: SubResource;
@@ -8257,7 +8260,7 @@ export interface PublicIPAddressPropertiesFormat {
     linkedPublicIPAddress?: PublicIPAddress;
     migrationPhase?: PublicIPAddressMigrationPhase;
     natGateway?: NatGateway;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddressVersion?: IPVersion;
     publicIPAllocationMethod?: IPAllocationMethod;
     publicIPPrefix?: SubResource;
@@ -8295,7 +8298,7 @@ export interface PublicIPPrefix extends Resource {
     readonly loadBalancerFrontendIpConfiguration?: SubResource;
     natGateway?: NatGateway;
     prefixLength?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIPAddresses?: ReferencedPublicIpAddress[];
     publicIPAddressVersion?: IPVersion;
     readonly resourceGuid?: string;
@@ -8311,7 +8314,7 @@ export interface PublicIPPrefixPropertiesFormat {
     readonly loadBalancerFrontendIpConfiguration?: SubResource;
     natGateway?: NatGateway;
     prefixLength?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly publicIPAddresses?: ReferencedPublicIpAddress[];
     publicIPAddressVersion?: IPVersion;
     readonly resourceGuid?: string;
@@ -8404,7 +8407,7 @@ export interface ReachabilityAnalysisIntentProperties {
     description?: string;
     destinationResourceId: string;
     ipTraffic: IPTraffic;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     sourceResourceId: string;
 }
 
@@ -8424,7 +8427,7 @@ export interface ReachabilityAnalysisRunProperties {
     readonly errorMessage?: string;
     readonly intentContent?: IntentContent;
     intentId: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
@@ -8438,7 +8441,7 @@ export interface ReadOnlySubResourceModel {
 export interface RecordSet {
     fqdn?: string;
     ipAddresses?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     recordSetName?: string;
     recordType?: string;
     ttl?: number;
@@ -8490,7 +8493,7 @@ export interface ResourceNavigationLink extends SubResource {
     link?: string;
     linkedResourceType?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -8498,54 +8501,21 @@ export interface ResourceNavigationLink extends SubResource {
 export interface ResourceNavigationLinkFormat {
     link?: string;
     linkedResourceType?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface ResourceNavigationLinksListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: ResourceNavigationLink[];
 }
 
 // @public
+export type ResourceProvisioningState = string;
+
+// @public
 export interface ResourceSet {
     subscriptions?: string[];
-}
-
-// @public
-export interface ResourceWithReadOnlyID {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    tags?: Record<string, string>;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceWithReadOnlyNameAndID {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    tags?: Record<string, string>;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceWithRequiredLocation {
-    id?: string;
-    location: string;
-    readonly name?: string;
-    tags?: Record<string, string>;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceWithWritableName {
-    id?: string;
-    location?: string;
-    name?: string;
-    tags?: Record<string, string>;
-    readonly type?: string;
 }
 
 // @public
@@ -8561,15 +8531,15 @@ export interface Route extends SubResourceModel {
     readonly hasBgpOverride?: boolean;
     nextHopIpAddress?: string;
     nextHopType?: RouteNextHopType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
-export interface RouteFilter extends ResourceWithRequiredLocation {
+export interface RouteFilter extends TrackedResourceWithSettableIdOptionalLocation {
     readonly etag?: string;
     readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
     readonly peerings?: ExpressRouteCircuitPeering[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: RouteFilterRule[];
 }
 
@@ -8577,7 +8547,7 @@ export interface RouteFilter extends ResourceWithRequiredLocation {
 export interface RouteFilterPropertiesFormat {
     readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
     readonly peerings?: ExpressRouteCircuitPeering[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: RouteFilterRule[];
 }
 
@@ -8588,7 +8558,7 @@ export interface RouteFilterRule extends SubResource {
     readonly etag?: string;
     location?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routeFilterRuleType?: RouteFilterRuleType;
 }
 
@@ -8596,7 +8566,7 @@ export interface RouteFilterRule extends SubResource {
 export interface RouteFilterRulePropertiesFormat {
     access: Access;
     communities: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routeFilterRuleType: RouteFilterRuleType;
 }
 
@@ -8608,7 +8578,7 @@ export interface RouteMap extends ReadOnlySubResourceModel {
     associatedInboundConnections?: string[];
     associatedOutboundConnections?: string[];
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: RouteMapRule[];
 }
 
@@ -8622,7 +8592,7 @@ export type RouteMapMatchCondition = string;
 export interface RouteMapProperties {
     associatedInboundConnections?: string[];
     associatedOutboundConnections?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     rules?: RouteMapRule[];
 }
 
@@ -8643,7 +8613,7 @@ export interface RoutePropertiesFormat {
     readonly hasBgpOverride?: boolean;
     nextHopIpAddress?: string;
     nextHopType: RouteNextHopType;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -8657,7 +8627,7 @@ export interface RouteSourceDetails {
 export interface RouteTable extends Resource {
     disableBgpRoutePropagation?: boolean;
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routes?: Route[];
     readonly subnets?: Subnet[];
@@ -8666,7 +8636,7 @@ export interface RouteTable extends Resource {
 // @public
 export interface RouteTablePropertiesFormat {
     disableBgpRoutePropagation?: boolean;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routes?: Route[];
     readonly subnets?: Subnet[];
@@ -8694,13 +8664,13 @@ export interface RoutingConfiguration {
 // @public
 export interface RoutingIntent extends SubResourceModel {
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingPolicies?: RoutingPolicy[];
 }
 
 // @public
 export interface RoutingIntentProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingPolicies?: RoutingPolicy[];
 }
 
@@ -8716,7 +8686,7 @@ export interface RoutingRule extends ChildResource {
     description?: string;
     destination?: RoutingRuleRouteDestination;
     nextHop?: RoutingRuleNextHop;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -8726,7 +8696,7 @@ export interface RoutingRuleCollection extends ChildResource {
     appliesTo?: NetworkManagerRoutingGroupItem[];
     description?: string;
     disableBgpRoutePropagation?: DisableBgpRoutePropagation;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -8736,7 +8706,7 @@ export interface RoutingRuleCollectionPropertiesFormat {
     appliesTo: NetworkManagerRoutingGroupItem[];
     description?: string;
     disableBgpRoutePropagation?: DisableBgpRoutePropagation;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -8757,7 +8727,7 @@ export interface RoutingRulePropertiesFormat {
     description?: string;
     destination: RoutingRuleRouteDestination;
     nextHop: RoutingRuleNextHop;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -8805,7 +8775,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -8815,7 +8785,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -8848,7 +8818,7 @@ export interface SecurityGroupViewResult {
 export interface SecurityPartnerProvider extends Resource {
     readonly connectionStatus?: SecurityPartnerProviderConnectionStatus;
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     securityProviderName?: SecurityProviderName;
     virtualHub?: SubResource;
 }
@@ -8859,7 +8829,7 @@ export type SecurityPartnerProviderConnectionStatus = string;
 // @public
 export interface SecurityPartnerProviderPropertiesFormat {
     readonly connectionStatus?: SecurityPartnerProviderConnectionStatus;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     securityProviderName?: SecurityProviderName;
     virtualHub?: SubResource;
 }
@@ -8908,7 +8878,7 @@ export interface SecurityRule extends SubResourceModel {
     readonly etag?: string;
     priority?: number;
     protocol?: SecurityRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sourceAddressPrefix?: string;
     sourceAddressPrefixes?: string[];
     sourceApplicationSecurityGroups?: ApplicationSecurityGroup[];
@@ -8942,7 +8912,7 @@ export interface SecurityRulePropertiesFormat {
     direction: SecurityRuleDirection;
     priority: number;
     protocol: SecurityRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sourceAddressPrefix?: string;
     sourceAddressPrefixes?: string[];
     sourceApplicationSecurityGroups?: ApplicationSecurityGroup[];
@@ -8956,7 +8926,7 @@ export type SecurityRuleProtocol = string;
 // @public
 export interface SecurityUserConfiguration extends ChildResource {
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -8964,7 +8934,7 @@ export interface SecurityUserConfiguration extends ChildResource {
 // @public
 export interface SecurityUserConfigurationPropertiesFormat {
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -8980,7 +8950,7 @@ export interface SecurityUserRule extends ChildResource {
     destinations?: AddressPrefixItem[];
     direction?: SecurityConfigurationRuleDirection;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -8991,7 +8961,7 @@ export interface SecurityUserRule extends ChildResource {
 export interface SecurityUserRuleCollection extends ChildResource {
     appliesToGroups?: SecurityUserGroupItem[];
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -9000,7 +8970,7 @@ export interface SecurityUserRuleCollection extends ChildResource {
 export interface SecurityUserRuleCollectionPropertiesFormat {
     appliesToGroups: SecurityUserGroupItem[];
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -9011,7 +8981,7 @@ export interface SecurityUserRulePropertiesFormat {
     destinations?: AddressPrefixItem[];
     direction: SecurityConfigurationRuleDirection;
     protocol: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -9028,7 +8998,7 @@ export interface ServiceAssociationLink extends SubResource {
     linkedResourceType?: string;
     locations?: string[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -9038,19 +9008,19 @@ export interface ServiceAssociationLinkPropertiesFormat {
     link?: string;
     linkedResourceType?: string;
     locations?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface ServiceAssociationLinksListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: ServiceAssociationLink[];
 }
 
 // @public
 export interface ServiceDelegationPropertiesFormat {
     readonly actions?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     serviceName?: string;
 }
 
@@ -9059,7 +9029,7 @@ export interface ServiceEndpointPolicy extends Resource {
     contextualServiceEndpointPolicies?: string[];
     readonly etag?: string;
     readonly kind?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     serviceAlias?: string;
     serviceEndpointPolicyDefinitions?: ServiceEndpointPolicyDefinition[];
@@ -9070,7 +9040,7 @@ export interface ServiceEndpointPolicy extends Resource {
 export interface ServiceEndpointPolicyDefinition extends SubResourceModel {
     description?: string;
     readonly etag?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     service?: string;
     serviceResources?: string[];
 }
@@ -9078,7 +9048,7 @@ export interface ServiceEndpointPolicyDefinition extends SubResourceModel {
 // @public
 export interface ServiceEndpointPolicyDefinitionPropertiesFormat {
     description?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     service?: string;
     serviceResources?: string[];
 }
@@ -9086,7 +9056,7 @@ export interface ServiceEndpointPolicyDefinitionPropertiesFormat {
 // @public
 export interface ServiceEndpointPolicyPropertiesFormat {
     contextualServiceEndpointPolicies?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     serviceAlias?: string;
     serviceEndpointPolicyDefinitions?: ServiceEndpointPolicyDefinition[];
@@ -9097,14 +9067,14 @@ export interface ServiceEndpointPolicyPropertiesFormat {
 export interface ServiceEndpointPropertiesFormat {
     locations?: string[];
     networkIdentifier?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     service?: string;
 }
 
 // @public
 export interface ServiceGateway extends SecurityPerimeterTrackedResource {
     readonly etag?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     routeTargetAddress?: RouteTargetAddressPropertiesFormat;
     routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
@@ -9134,7 +9104,7 @@ export interface ServiceGatewayAddressLocationResponse {
 
 // @public
 export interface ServiceGatewayPropertiesFormat {
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly resourceGuid?: string;
     routeTargetAddress?: RouteTargetAddressPropertiesFormat;
     routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
@@ -9235,7 +9205,7 @@ export type Severity = string;
 
 // @public
 export interface SharedKeyProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sharedKey?: string;
     sharedKeyLength?: number;
 }
@@ -9302,13 +9272,13 @@ export interface StaticCidrProperties {
     // (undocumented)
     description?: string;
     numberOfIPAddressesToAllocate?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
     readonly totalNumberOfIPAddresses?: string;
 }
 
 // @public
 export interface StaticMember extends ChildResource {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly region?: string;
     resourceId?: string;
     readonly systemData?: SystemData;
@@ -9316,7 +9286,7 @@ export interface StaticMember extends ChildResource {
 
 // @public
 export interface StaticMemberProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly region?: string;
     resourceId?: string;
 }
@@ -9351,7 +9321,7 @@ export interface Subnet extends SubResourceModel {
     privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
     readonly privateEndpoints?: PrivateEndpoint[];
     privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly purpose?: string;
     readonly resourceNavigationLinks?: ResourceNavigationLink[];
     routeTable?: RouteTable;
@@ -9384,7 +9354,7 @@ export interface SubnetPropertiesFormat {
     privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
     readonly privateEndpoints?: PrivateEndpoint[];
     privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly purpose?: string;
     readonly resourceNavigationLinks?: ResourceNavigationLink[];
     routeTable?: RouteTable;
@@ -9401,8 +9371,7 @@ export interface SubResource {
 }
 
 // @public
-export interface SubResourceModel {
-    id?: string;
+export interface SubResourceModel extends SubResource {
     name?: string;
     readonly type?: string;
 }
@@ -9470,11 +9439,38 @@ export interface TopologyResource {
 }
 
 // @public
-export interface TrackedResourcewithOptionalLocation {
+export interface TrackedResourceWithEtag {
     readonly etag?: string;
     readonly id?: string;
     location?: string;
     readonly name?: string;
+    tags?: Record<string, string>;
+    readonly type?: string;
+}
+
+// @public
+export interface TrackedResourceWithOptionalLocation {
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: Record<string, string>;
+    readonly type?: string;
+}
+
+// @public
+export interface TrackedResourceWithSettableIdOptionalLocation {
+    id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: Record<string, string>;
+    readonly type?: string;
+}
+
+// @public
+export interface TrackedResourceWithSettableName {
+    id?: string;
+    location?: string;
+    name?: string;
     tags?: Record<string, string>;
     readonly type?: string;
 }
@@ -9622,7 +9618,7 @@ export interface VerifierWorkspace extends CommonTrackedResource {
 export interface VerifierWorkspaceProperties {
     // (undocumented)
     description?: string;
-    readonly provisioningState?: CommonProvisioningState;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
@@ -9680,14 +9676,14 @@ export interface VirtualApplianceSite extends SubResourceModel {
     addressPrefix?: string;
     readonly etag?: string;
     o365Policy?: Office365PolicyProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface VirtualApplianceSiteProperties {
     addressPrefix?: string;
     o365Policy?: Office365PolicyProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -9698,7 +9694,7 @@ export interface VirtualApplianceSkuProperties {
 }
 
 // @public
-export interface VirtualHub extends ResourceWithRequiredLocation {
+export interface VirtualHub extends TrackedResourceWithSettableIdOptionalLocation {
     addressPrefix?: string;
     allowBranchToBranchTraffic?: boolean;
     azureFirewall?: SubResource;
@@ -9710,7 +9706,7 @@ export interface VirtualHub extends ResourceWithRequiredLocation {
     readonly kind?: string;
     p2SVpnGateway?: SubResource;
     preferredRoutingGateway?: PreferredRoutingGateway;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly routeMaps?: SubResource[];
     routeTable?: VirtualHubRouteTable;
     readonly routingState?: RoutingState;
@@ -9755,7 +9751,7 @@ export interface VirtualHubProperties {
     readonly ipConfigurations?: SubResource[];
     p2SVpnGateway?: SubResource;
     preferredRoutingGateway?: PreferredRoutingGateway;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly routeMaps?: SubResource[];
     routeTable?: VirtualHubRouteTable;
     readonly routingState?: RoutingState;
@@ -9786,14 +9782,14 @@ export interface VirtualHubRouteTableV2 extends SubResource {
     attachedConnections?: string[];
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routes?: VirtualHubRouteV2[];
 }
 
 // @public
 export interface VirtualHubRouteTableV2Properties {
     attachedConnections?: string[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routes?: VirtualHubRouteV2[];
 }
 
@@ -9821,7 +9817,7 @@ export interface VirtualNetwork extends Resource {
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     subnets?: Subnet[];
     virtualNetworkPeerings?: VirtualNetworkPeering[];
@@ -9832,7 +9828,7 @@ export interface VirtualNetworkAppliance extends Resource {
     bandwidthInGbps?: string;
     readonly etag?: string;
     readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     subnet?: Subnet;
 }
@@ -9845,7 +9841,7 @@ export interface VirtualNetworkApplianceIpConfiguration extends SubResource {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly type?: string;
 }
 
@@ -9855,14 +9851,14 @@ export interface VirtualNetworkApplianceIpConfigurationProperties {
     privateIPAddress?: string;
     privateIPAddressVersion?: IPVersion;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface VirtualNetworkAppliancePropertiesFormat {
     bandwidthInGbps?: string;
     readonly ipConfigurations?: VirtualNetworkApplianceIpConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     subnet?: Subnet;
 }
@@ -9910,7 +9906,7 @@ export interface VirtualNetworkGateway extends Resource {
     readonly inboundDnsForwardingEndpoint?: string;
     ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
     natRules?: VirtualNetworkGatewayNatRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     resiliencyModel?: ResiliencyModel;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
@@ -9955,7 +9951,7 @@ export interface VirtualNetworkGatewayConnection extends Resource {
     ipsecPolicies?: IpsecPolicy[];
     localNetworkGateway2?: LocalNetworkGateway;
     peer?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
@@ -9985,7 +9981,7 @@ export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
     ipsecPolicies?: IpsecPolicy[];
     localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
     peer?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
@@ -10012,7 +10008,7 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     ipsecPolicies?: IpsecPolicy[];
     localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
     peer?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
@@ -10047,7 +10043,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormat {
     ipsecPolicies?: IpsecPolicy[];
     localNetworkGateway2?: LocalNetworkGateway;
     peer?: SubResource;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
@@ -10081,7 +10077,7 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
     name?: string;
     readonly privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
@@ -10090,7 +10086,7 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
 export interface VirtualNetworkGatewayIPConfigurationPropertiesFormat {
     readonly privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
@@ -10124,7 +10120,7 @@ export interface VirtualNetworkGatewayNatRule extends SubResourceModel {
     internalMappings?: VpnNatRuleMapping[];
     ipConfigurationId?: string;
     mode?: VpnNatRuleMode;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     typePropertiesType?: VpnNatRuleType;
 }
 
@@ -10134,7 +10130,7 @@ export interface VirtualNetworkGatewayNatRuleProperties {
     internalMappings?: VpnNatRuleMapping[];
     ipConfigurationId?: string;
     mode?: VpnNatRuleMode;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     type?: VpnNatRuleType;
 }
 
@@ -10145,7 +10141,7 @@ export interface VirtualNetworkGatewayPolicyGroup extends SubResource {
     name?: string;
     policyMembers?: VirtualNetworkGatewayPolicyGroupMember[];
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly vngClientConnectionConfigurations?: SubResource[];
 }
 
@@ -10161,7 +10157,7 @@ export interface VirtualNetworkGatewayPolicyGroupProperties {
     isDefault: boolean;
     policyMembers: VirtualNetworkGatewayPolicyGroupMember[];
     priority: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly vngClientConnectionConfigurations?: SubResource[];
 }
 
@@ -10185,7 +10181,7 @@ export interface VirtualNetworkGatewayPropertiesFormat {
     readonly inboundDnsForwardingEndpoint?: string;
     ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
     natRules?: VirtualNetworkGatewayNatRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     resiliencyModel?: ResiliencyModel;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
@@ -10227,7 +10223,7 @@ export interface VirtualNetworkPeering extends SubResourceModel {
     peerCompleteVnets?: boolean;
     peeringState?: VirtualNetworkPeeringState;
     peeringSyncLevel?: VirtualNetworkPeeringLevel;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteAddressSpace?: AddressSpace;
     remoteBgpCommunities?: VirtualNetworkBgpCommunities;
     remoteSubnetNames?: string[];
@@ -10254,7 +10250,7 @@ export interface VirtualNetworkPeeringPropertiesFormat {
     peerCompleteVnets?: boolean;
     peeringState?: VirtualNetworkPeeringState;
     peeringSyncLevel?: VirtualNetworkPeeringLevel;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteAddressSpace?: AddressSpace;
     remoteBgpCommunities?: VirtualNetworkBgpCommunities;
     remoteSubnetNames?: string[];
@@ -10288,7 +10284,7 @@ export interface VirtualNetworkPropertiesFormat {
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
     privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     subnets?: Subnet[];
     virtualNetworkPeerings?: VirtualNetworkPeering[];
@@ -10301,7 +10297,7 @@ export interface VirtualNetworkTap extends Resource {
     destinationPort?: number;
     readonly etag?: string;
     readonly networkInterfaceTapConfigurations?: NetworkInterfaceTapConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -10311,7 +10307,7 @@ export interface VirtualNetworkTapPropertiesFormat {
     destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
     destinationPort?: number;
     readonly networkInterfaceTapConfigurations?: NetworkInterfaceTapConfiguration[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -10336,7 +10332,7 @@ export interface VirtualRouter extends Resource {
     hostedGateway?: SubResource;
     hostedSubnet?: SubResource;
     readonly peerings?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualRouterAsn?: number;
     virtualRouterIps?: string[];
 }
@@ -10351,14 +10347,14 @@ export interface VirtualRouterPeering extends SubResourceModel {
     readonly etag?: string;
     peerAsn?: number;
     peerIp?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
 export interface VirtualRouterPeeringProperties {
     peerAsn?: number;
     peerIp?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -10366,19 +10362,19 @@ export interface VirtualRouterPropertiesFormat {
     hostedGateway?: SubResource;
     hostedSubnet?: SubResource;
     readonly peerings?: SubResource[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualRouterAsn?: number;
     virtualRouterIps?: string[];
 }
 
 // @public
-export interface VirtualWAN extends ResourceWithRequiredLocation {
+export interface VirtualWAN extends TrackedResourceWithSettableIdOptionalLocation {
     allowBranchToBranchTraffic?: boolean;
     allowVnetToVnetTraffic?: boolean;
     disableVpnEncryption?: boolean;
     readonly etag?: string;
     readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     typePropertiesType?: string;
     readonly virtualHubs?: SubResource[];
     readonly vpnSites?: SubResource[];
@@ -10390,7 +10386,7 @@ export interface VirtualWanProperties {
     allowVnetToVnetTraffic?: boolean;
     disableVpnEncryption?: boolean;
     readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     type?: string;
     readonly virtualHubs?: SubResource[];
     readonly vpnSites?: SubResource[];
@@ -10435,14 +10431,14 @@ export interface VnetRoute {
 export interface VngClientConnectionConfiguration extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualNetworkGatewayPolicyGroups?: SubResource[];
     vpnClientAddressPool?: AddressSpace;
 }
 
 // @public
 export interface VngClientConnectionConfigurationProperties {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualNetworkGatewayPolicyGroups: SubResource[];
     vpnClientAddressPool: AddressSpace;
 }
@@ -10523,13 +10519,13 @@ export type VpnClientProtocol = string;
 export interface VpnClientRevokedCertificate extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     thumbprint?: string;
 }
 
 // @public
 export interface VpnClientRevokedCertificatePropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     thumbprint?: string;
 }
 
@@ -10537,13 +10533,13 @@ export interface VpnClientRevokedCertificatePropertiesFormat {
 export interface VpnClientRootCertificate extends SubResource {
     readonly etag?: string;
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicCertData: string;
 }
 
 // @public
 export interface VpnClientRootCertificatePropertiesFormat {
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     publicCertData: string;
 }
 
@@ -10560,7 +10556,7 @@ export interface VpnConnection extends SubResource {
     readonly ingressBytesTransferred?: number;
     ipsecPolicies?: IpsecPolicy[];
     name?: string;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteVpnSite?: SubResource;
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
@@ -10595,7 +10591,7 @@ export interface VpnConnectionProperties {
     enableRateLimiting?: boolean;
     readonly ingressBytesTransferred?: number;
     ipsecPolicies?: IpsecPolicy[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     remoteVpnSite?: SubResource;
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
@@ -10618,7 +10614,7 @@ export interface VpnDeviceScriptParameters {
 }
 
 // @public
-export interface VpnGateway extends ResourceWithRequiredLocation {
+export interface VpnGateway extends TrackedResourceWithSettableIdOptionalLocation {
     bgpSettings?: BgpSettings;
     connections?: VpnConnection[];
     enableBgpRouteTranslationForNat?: boolean;
@@ -10626,7 +10622,7 @@ export interface VpnGateway extends ResourceWithRequiredLocation {
     readonly ipConfigurations?: VpnGatewayIpConfiguration[];
     isRoutingPreferenceInternet?: boolean;
     natRules?: VpnGatewayNatRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub?: SubResource;
     vpnGatewayScaleUnit?: number;
 }
@@ -10650,7 +10646,7 @@ export interface VpnGatewayNatRule extends SubResourceModel {
     internalMappings?: VpnNatRuleMapping[];
     ipConfigurationId?: string;
     mode?: VpnNatRuleMode;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     typePropertiesType?: VpnNatRuleType;
 }
 
@@ -10662,7 +10658,7 @@ export interface VpnGatewayNatRuleProperties {
     internalMappings?: VpnNatRuleMapping[];
     ipConfigurationId?: string;
     mode?: VpnNatRuleMode;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     type?: VpnNatRuleType;
 }
 
@@ -10684,7 +10680,7 @@ export interface VpnGatewayProperties {
     readonly ipConfigurations?: VpnGatewayIpConfiguration[];
     isRoutingPreferenceInternet?: boolean;
     natRules?: VpnGatewayNatRule[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     virtualHub?: SubResource;
     vpnGatewayScaleUnit?: number;
 }
@@ -10750,7 +10746,7 @@ export interface VpnServerConfigRadiusServerRootCertificate {
 }
 
 // @public
-export interface VpnServerConfiguration extends ResourceWithWritableName {
+export interface VpnServerConfiguration extends TrackedResourceWithSettableName {
     aadAuthenticationParameters?: AadAuthenticationParameters;
     configurationPolicyGroups?: VpnServerConfigurationPolicyGroup[];
     readonly etag?: string;
@@ -10777,7 +10773,7 @@ export interface VpnServerConfigurationPolicyGroup extends SubResourceModel {
     readonly p2SConnectionConfigurations?: SubResource[];
     policyMembers?: VpnServerConfigurationPolicyGroupMember[];
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -10793,7 +10789,7 @@ export interface VpnServerConfigurationPolicyGroupProperties {
     readonly p2SConnectionConfigurations?: SubResource[];
     policyMembers?: VpnServerConfigurationPolicyGroupMember[];
     priority?: number;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -10834,7 +10830,7 @@ export interface VpnServerConfigVpnClientRootCertificate {
 }
 
 // @public
-export interface VpnSite extends ResourceWithRequiredLocation {
+export interface VpnSite extends TrackedResourceWithSettableIdOptionalLocation {
     addressSpace?: AddressSpace;
     bgpProperties?: BgpSettings;
     deviceProperties?: DeviceProperties;
@@ -10842,7 +10838,7 @@ export interface VpnSite extends ResourceWithRequiredLocation {
     ipAddress?: string;
     isSecuritySite?: boolean;
     o365Policy?: O365PolicyProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     siteKey?: string;
     virtualWan?: SubResource;
     vpnSiteLinks?: VpnSiteLink[];
@@ -10855,7 +10851,7 @@ export interface VpnSiteLink extends SubResourceModel {
     fqdn?: string;
     ipAddress?: string;
     linkProperties?: VpnLinkProviderProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -10871,7 +10867,7 @@ export interface VpnSiteLinkConnection extends SubResourceModel {
     readonly ingressBytesTransferred?: number;
     ingressNatRules?: SubResource[];
     ipsecPolicies?: IpsecPolicy[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingWeight?: number;
     sharedKey?: string;
     useLocalAzureIpAddress?: boolean;
@@ -10894,7 +10890,7 @@ export interface VpnSiteLinkConnectionProperties {
     readonly ingressBytesTransferred?: number;
     ingressNatRules?: SubResource[];
     ipsecPolicies?: IpsecPolicy[];
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     routingWeight?: number;
     sharedKey?: string;
     useLocalAzureIpAddress?: boolean;
@@ -10911,7 +10907,7 @@ export interface VpnSiteLinkProperties {
     fqdn?: string;
     ipAddress?: string;
     linkProperties?: VpnLinkProviderProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -10922,7 +10918,7 @@ export interface VpnSiteProperties {
     ipAddress?: string;
     isSecuritySite?: boolean;
     o365Policy?: O365PolicyProperties;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     siteKey?: string;
     virtualWan?: SubResource;
     vpnSiteLinks?: VpnSiteLink[];
@@ -10970,7 +10966,7 @@ export interface WebApplicationFirewallPolicy extends Resource {
     managedRules?: ManagedRulesDefinition;
     readonly pathBasedRules?: SubResource[];
     policySettings?: PolicySettings;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceState?: WebApplicationFirewallPolicyResourceState;
 }
 
@@ -10983,7 +10979,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormat {
     managedRules: ManagedRulesDefinition;
     readonly pathBasedRules?: SubResource[];
     policySettings?: PolicySettings;
-    readonly provisioningState?: BaseProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceState?: WebApplicationFirewallPolicyResourceState;
 }
 

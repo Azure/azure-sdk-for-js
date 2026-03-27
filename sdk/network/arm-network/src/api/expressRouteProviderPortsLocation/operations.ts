@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/microsoft/network/models.js";
-import type { ExpressRouteProviderPortListResult } from "../../models/models.js";
-import { expressRouteProviderPortListResultDeserializer } from "../../models/models.js";
+import type { ExpressRouteProviderPortListResult } from "../../models/microsoft/network/models.js";
+import {
+  cloudErrorDeserializer,
+  expressRouteProviderPortListResultDeserializer,
+} from "../../models/microsoft/network/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ExpressRouteProviderPortsLocationListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";

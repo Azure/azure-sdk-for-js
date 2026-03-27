@@ -19,6 +19,7 @@ import type {
   VpnConnectionsGetOptionalParams,
 } from "../../api/vpnConnections/options.js";
 import type { VpnConnection } from "../../models/microsoft/network/models.js";
+import type { ArmAcceptedLroResponse12, ArmAcceptedLroResponse13 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -38,14 +39,7 @@ export interface VpnConnectionsOperations {
     gatewayName: string,
     vpnConnectionName: string,
     options?: VpnConnectionsStopPacketCaptureOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCapture: (
     resourceGroupName: string,
@@ -53,14 +47,7 @@ export interface VpnConnectionsOperations {
     vpnConnectionName: string,
     options?: VpnConnectionsStopPacketCaptureOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
+    SimplePollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13>
   >;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCaptureAndWait: (
@@ -68,23 +55,14 @@ export interface VpnConnectionsOperations {
     gatewayName: string,
     vpnConnectionName: string,
     options?: VpnConnectionsStopPacketCaptureOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse13>;
   /** Starts packet capture on Vpn connection in the specified resource group. */
   startPacketCapture: (
     resourceGroupName: string,
     gatewayName: string,
     vpnConnectionName: string,
     options?: VpnConnectionsStartPacketCaptureOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCapture: (
     resourceGroupName: string,
@@ -92,14 +70,7 @@ export interface VpnConnectionsOperations {
     vpnConnectionName: string,
     options?: VpnConnectionsStartPacketCaptureOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
+    SimplePollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12>
   >;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCaptureAndWait: (
@@ -107,9 +78,7 @@ export interface VpnConnectionsOperations {
     gatewayName: string,
     vpnConnectionName: string,
     options?: VpnConnectionsStartPacketCaptureOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse12>;
   /** Deletes a vpn connection. */
   /**
    *  @fixme Delete is a reserved word that cannot be used as an operation name.

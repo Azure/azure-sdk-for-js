@@ -24,6 +24,7 @@ import type {
   VpnSiteLinkConnection,
   ConnectionSharedKeyResult,
 } from "../../models/microsoft/network/models.js";
+import type { ArmAcceptedLroResponse14 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -38,14 +39,7 @@ export interface VpnLinkConnectionsOperations {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14>;
   /** @deprecated use getIkeSas instead */
   beginGetIkeSas: (
     resourceGroupName: string,
@@ -54,14 +48,7 @@ export interface VpnLinkConnectionsOperations {
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams,
   ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
+    SimplePollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14>
   >;
   /** @deprecated use getIkeSas instead */
   beginGetIkeSasAndWait: (
@@ -70,9 +57,7 @@ export interface VpnLinkConnectionsOperations {
     connectionName: string,
     linkConnectionName: string,
     options?: VpnLinkConnectionsGetIkeSasOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse14>;
   /** Resets the VpnLink connection specified. */
   resetConnection: (
     resourceGroupName: string,

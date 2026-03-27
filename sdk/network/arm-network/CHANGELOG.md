@@ -1,6 +1,6 @@
 # Release History
 
-## 37.0.0 (2026-03-26)
+## 37.0.0 (2026-03-27)
 
 ### Features Added
   - Added operation AdminRuleCollectionsOperations.delete
@@ -325,6 +325,20 @@
   - Added Interface ApplicationGatewayWafDynamicManifestsListOptionalParams
   - Added Interface ApplicationSecurityGroupPropertiesFormat
   - Added Interface ArmAcceptedLroResponse
+  - Added Interface ArmAcceptedLroResponse1
+  - Added Interface ArmAcceptedLroResponse10
+  - Added Interface ArmAcceptedLroResponse11
+  - Added Interface ArmAcceptedLroResponse12
+  - Added Interface ArmAcceptedLroResponse13
+  - Added Interface ArmAcceptedLroResponse14
+  - Added Interface ArmAcceptedLroResponse2
+  - Added Interface ArmAcceptedLroResponse3
+  - Added Interface ArmAcceptedLroResponse4
+  - Added Interface ArmAcceptedLroResponse5
+  - Added Interface ArmAcceptedLroResponse6
+  - Added Interface ArmAcceptedLroResponse7
+  - Added Interface ArmAcceptedLroResponse8
+  - Added Interface ArmAcceptedLroResponse9
   - Added Interface AuthorizationPropertiesFormat
   - Added Interface AzureFirewallApplicationRuleCollectionPropertiesFormat
   - Added Interface AzureFirewallFqdnTagPropertiesFormat
@@ -401,7 +415,6 @@
   - Added Interface NetworkVirtualAppliancePropertiesFormat
   - Added Interface NetworkVirtualApplianceSkuPropertiesFormat
   - Added Interface NetworkWatcherPropertiesFormat
-  - Added Interface NoContentResponse
   - Added Interface NspAccessRuleProperties
   - Added Interface NspAssociationProperties
   - Added Interface NspLinkProperties
@@ -425,16 +438,12 @@
   - Added Interface PrivateLinkServiceIpConfigurationProperties
   - Added Interface PrivateLinkServiceProperties
   - Added Interface ProbePropertiesFormat
-  - Added Interface ProxyResourcewithoutEtag
   - Added Interface ProxyResourceWithReadOnlyID
+  - Added Interface ProxyResourceWithSettableId
   - Added Interface PublicIPAddressPropertiesFormat
   - Added Interface PublicIPPrefixPropertiesFormat
   - Added Interface ReadOnlySubResourceModel
   - Added Interface ResourceNavigationLinkFormat
-  - Added Interface ResourceWithReadOnlyID
-  - Added Interface ResourceWithReadOnlyNameAndID
-  - Added Interface ResourceWithRequiredLocation
-  - Added Interface ResourceWithWritableName
   - Added Interface RestorePollerOptions
   - Added Interface RouteFilterPropertiesFormat
   - Added Interface RouteFilterRulePropertiesFormat
@@ -464,7 +473,10 @@
   - Added Interface StaticMemberProperties
   - Added Interface SubnetPropertiesFormat
   - Added Interface SubResourceModel
-  - Added Interface TrackedResourcewithOptionalLocation
+  - Added Interface TrackedResourceWithEtag
+  - Added Interface TrackedResourceWithOptionalLocation
+  - Added Interface TrackedResourceWithSettableIdOptionalLocation
+  - Added Interface TrackedResourceWithSettableName
   - Added Interface TroubleshootingProperties
   - Added Interface VirtualApplianceSiteProperties
   - Added Interface VirtualHubProperties
@@ -498,12 +510,12 @@
   - Added Interface WebApplicationFirewallPolicyPropertiesFormat
   - Added Interface WritableResource
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias BaseProvisioningState
   - Added Type Alias CommonProvisioningState
   - Added Type Alias NetworkManagementClientCreatedByType
+  - Added Type Alias ResourceProvisioningState
   - Added Enum AzureClouds
-  - Added Enum KnownBaseProvisioningState
   - Added Enum KnownCommonProvisioningState
+  - Added Enum KnownResourceProvisioningState
   - Added Enum NetworkManagementClientKnownCreatedByType
 
 ### Breaking Changes
@@ -517,15 +529,30 @@
   - Operation IpamPools.beginDeleteAndWait has a new signature
   - Operation ReachabilityAnalysisRuns.beginDeleteAndWait has a new signature
   - Operation ServiceGateways.beginDeleteAndWait has a new signature
+  - Operation ServiceGateways.beginUpdateAddressLocationsAndWait has a new signature
+  - Operation ServiceGateways.beginUpdateServicesAndWait has a new signature
   - Operation StaticCidrs.beginDeleteAndWait has a new signature
   - Operation VerifierWorkspaces.beginDeleteAndWait has a new signature
   - Operation VirtualNetworkAppliances.beginDeleteAndWait has a new signature
   - Operation VirtualNetworkGatewayConnections.beginGetIkeSasAndWait has a new signature
+  - Operation VirtualNetworkGatewayConnections.beginStartPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGatewayConnections.beginStopPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginGeneratevpnclientpackageAndWait has a new signature
   - Operation VirtualNetworkGateways.beginGenerateVpnProfileAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginGetVpnProfilePackageUrlAndWait has a new signature
   - Operation VirtualNetworkGateways.beginInvokeAbortMigrationAndWait has a new signature
   - Operation VirtualNetworkGateways.beginInvokeCommitMigrationAndWait has a new signature
   - Operation VirtualNetworkGateways.beginInvokeExecuteMigrationAndWait has a new signature
   - Operation VirtualNetworkGateways.beginInvokePrepareMigrationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStartExpressRouteSiteFailoverSimulationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStartPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStopExpressRouteSiteFailoverSimulationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnConnections.beginStartPacketCaptureAndWait has a new signature
+  - Operation VpnConnections.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnGateways.beginStartPacketCaptureAndWait has a new signature
+  - Operation VpnGateways.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnLinkConnections.beginGetIkeSasAndWait has a new signature
   - Removed Interface ApplicationGatewayAvailableSslPredefinedPolicies
   - Removed Interface ApplicationGatewayWafDynamicManifestResultList
   - Removed Interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
@@ -556,15 +583,9 @@
   - Parameter value of interface ExpressRouteCircuitsRoutesTableSummaryListResult is now required
   - Parameter value of interface ExpressRouteCrossConnectionsRoutesTableSummaryListResult is now required
   - Parameter value of interface ExpressRouteProviderPortListResult is now required
-  - Parameter location of interface P2SVpnGateway is now required
   - Parameter value of interface RadiusAuthServerListResult is now required
   - Parameter value of interface ResourceNavigationLinksListResult is now required
-  - Parameter location of interface RouteFilter is now required
   - Parameter value of interface ServiceAssociationLinksListResult is now required
-  - Parameter location of interface VirtualHub is now required
-  - Parameter location of interface VirtualWAN is now required
-  - Parameter location of interface VpnGateway is now required
-  - Parameter location of interface VpnSite is now required
   - Removed Type Alias ConnectionMonitorSourceStatus
   - Removed Type Alias ConnectionState
   - Removed Type Alias EvaluationState

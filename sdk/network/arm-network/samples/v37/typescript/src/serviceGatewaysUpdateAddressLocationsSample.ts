@@ -34,7 +34,7 @@ async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceGateways.updateAddressLocations("rg1", "sg", {
+  await client.serviceGateways.updateAddressLocations("rg1", "sg", {
     action: "FullUpdate",
     addressLocations: [
       {
@@ -49,7 +49,6 @@ async function fullUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGateway
       },
     ],
   });
-  console.log(result);
 }
 
 /**
@@ -82,7 +81,7 @@ async function partialUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGate
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceGateways.updateAddressLocations("rg1", "sg", {
+  await client.serviceGateways.updateAddressLocations("rg1", "sg", {
     action: "PartialUpdate",
     addressLocations: [
       {
@@ -98,7 +97,6 @@ async function partialUpdateCreateUpdateOrDeleteAddressLocationsInTheServiceGate
       { addressLocation: "192.0.0.3" },
     ],
   });
-  console.log(result);
 }
 
 async function main(): Promise<void> {

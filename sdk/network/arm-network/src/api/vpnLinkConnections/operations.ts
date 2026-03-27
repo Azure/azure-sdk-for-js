@@ -15,8 +15,9 @@ import {
   connectionSharedKeyResultDeserializer,
   _connectionSharedKeyResultListDeserializer,
   _listVpnSiteLinkConnectionsResultDeserializer,
-  _getIkeSasFinalResultDeserializer,
 } from "../../models/microsoft/network/models.js";
+import type { ArmAcceptedLroResponse14 } from "../../models/models.js";
+import { armAcceptedLroResponse14Deserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -62,9 +63,9 @@ export function _getIkeSasSend(
   });
 }
 
-export async function _getIkeSasDeserialize(result: PathUncheckedResponse): Promise<{
-  body: string;
-}> {
+export async function _getIkeSasDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ArmAcceptedLroResponse14> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -73,7 +74,7 @@ export async function _getIkeSasDeserialize(result: PathUncheckedResponse): Prom
     throw error;
   }
 
-  return _getIkeSasFinalResultDeserializer(result.body);
+  return armAcceptedLroResponse14Deserializer(result.body);
 }
 
 /** Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group. */
@@ -84,14 +85,7 @@ export function getIkeSas(
   connectionName: string,
   linkConnectionName: string,
   options: VpnLinkConnectionsGetIkeSasOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<{
-    body: string;
-  }>,
-  {
-    body: string;
-  }
-> {
+): PollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14> {
   return getLongRunningPoller(context, _getIkeSasDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -106,14 +100,7 @@ export function getIkeSas(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  }) as PollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14>;
 }
 
 export function _resetConnectionSend(

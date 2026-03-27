@@ -6,7 +6,6 @@ exports:
   "./api": "./src/api/index.ts"
   "./models": "./src/models/index.ts"
   "./models/microsoft/network": "./src/models/microsoft/network/index.ts"
-  "./models/typeSpec/http": "./src/models/typeSpec/http/index.ts"
 
 targets:
   - name: browser

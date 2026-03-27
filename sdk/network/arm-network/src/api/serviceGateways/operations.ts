@@ -24,8 +24,6 @@ import {
 } from "../../models/microsoft/network/models.js";
 import type { _ServiceGatewayListResult } from "../../models/models.js";
 import { _serviceGatewayListResultDeserializer } from "../../models/models.js";
-import type { NoContentResponse } from "../../models/typeSpec/http/models.js";
-import { noContentResponseDeserializer } from "../../models/typeSpec/http/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -180,9 +178,7 @@ export function _updateServicesSend(
   });
 }
 
-export async function _updateServicesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<NoContentResponse> {
+export async function _updateServicesDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -191,7 +187,7 @@ export async function _updateServicesDeserialize(
     throw error;
   }
 
-  return noContentResponseDeserializer(result.body);
+  return;
 }
 
 /**
@@ -207,7 +203,7 @@ export function updateServices(
   serviceGatewayName: string,
   parameters: ServiceGatewayUpdateServicesRequest,
   options: ServiceGatewaysUpdateServicesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<NoContentResponse>, NoContentResponse> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _updateServicesDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -215,7 +211,7 @@ export function updateServices(
       _updateServicesSend(context, resourceGroupName, serviceGatewayName, parameters, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<NoContentResponse>, NoContentResponse>;
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateAddressLocationsSend(
@@ -246,7 +242,7 @@ export function _updateAddressLocationsSend(
 
 export async function _updateAddressLocationsDeserialize(
   result: PathUncheckedResponse,
-): Promise<NoContentResponse> {
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -255,7 +251,7 @@ export async function _updateAddressLocationsDeserialize(
     throw error;
   }
 
-  return noContentResponseDeserializer(result.body);
+  return;
 }
 
 /**
@@ -277,7 +273,7 @@ export function updateAddressLocations(
   serviceGatewayName: string,
   parameters: ServiceGatewayUpdateAddressLocationsRequest,
   options: ServiceGatewaysUpdateAddressLocationsOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<NoContentResponse>, NoContentResponse> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
     _updateAddressLocationsDeserialize,
@@ -296,7 +292,7 @@ export function updateAddressLocations(
       resourceLocationConfig: "location",
       apiVersion: "2025-05-01",
     },
-  ) as PollerLike<OperationState<NoContentResponse>, NoContentResponse>;
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listAllSend(

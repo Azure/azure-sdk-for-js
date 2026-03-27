@@ -94,6 +94,12 @@ import type {
 } from "../../models/microsoft/network/models.js";
 import type {
   ArmAcceptedLroResponse,
+  ArmAcceptedLroResponse1,
+  ArmAcceptedLroResponse2,
+  ArmAcceptedLroResponse3,
+  ArmAcceptedLroResponse4,
+  ArmAcceptedLroResponse5,
+  ArmAcceptedLroResponse6,
   VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse,
   VirtualNetworkGatewaysSupportedVpnDevicesResponse,
 } from "../../models/models.js";
@@ -239,78 +245,42 @@ export interface VirtualNetworkGatewaysOperations {
     virtualNetworkGatewayName: string,
     stopParameters: ExpressRouteFailoverStopApiParameters,
     options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6>;
   /** @deprecated use stopExpressRouteSiteFailoverSimulation instead */
   beginStopExpressRouteSiteFailoverSimulation: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     stopParameters: ExpressRouteFailoverStopApiParameters,
     options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6>>;
   /** @deprecated use stopExpressRouteSiteFailoverSimulation instead */
   beginStopExpressRouteSiteFailoverSimulationAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     stopParameters: ExpressRouteFailoverStopApiParameters,
     options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse6>;
   /** This operation starts failover simulation on the gateway for the specified peering location */
   startExpressRouteSiteFailoverSimulation: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     peeringLocation: string,
     options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5>;
   /** @deprecated use startExpressRouteSiteFailoverSimulation instead */
   beginStartExpressRouteSiteFailoverSimulation: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     peeringLocation: string,
     options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5>>;
   /** @deprecated use startExpressRouteSiteFailoverSimulation instead */
   beginStartExpressRouteSiteFailoverSimulationAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     peeringLocation: string,
     options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse5>;
   /** This operation retrieves the details of a particular failover test performed on the gateway based on the test Guid */
   getFailoverSingleTestDetails: (
     resourceGroupName: string,
@@ -381,75 +351,39 @@ export interface VirtualNetworkGatewaysOperations {
     virtualNetworkGatewayName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4>>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCaptureAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse4>;
   /** Starts packet capture on virtual network gateway in the specified resource group. */
   startPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3>>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCaptureAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse3>;
   /** The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
   getVpnclientIpsecParameters: (
     resourceGroupName: string,
@@ -607,97 +541,61 @@ export interface VirtualNetworkGatewaysOperations {
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2>;
   /** @deprecated use getVpnProfilePackageUrl instead */
   beginGetVpnProfilePackageUrl: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2>>;
   /** @deprecated use getVpnProfilePackageUrl instead */
   beginGetVpnProfilePackageUrlAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse2>;
   /** Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication. */
   generateVpnProfile: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1>;
   /** @deprecated use generateVpnProfile instead */
   beginGenerateVpnProfile: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>>;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1>>;
   /** @deprecated use generateVpnProfile instead */
   beginGenerateVpnProfileAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse>;
+  ) => Promise<ArmAcceptedLroResponse1>;
   /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
   generatevpnclientpackage: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams,
-  ) => PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  ) => PollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>;
   /** @deprecated use generatevpnclientpackage instead */
   beginGeneratevpnclientpackage: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<{
-        body: string;
-      }>,
-      {
-        body: string;
-      }
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>>;
   /** @deprecated use generatevpnclientpackage instead */
   beginGeneratevpnclientpackageAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
     parameters: VpnClientParameters,
     options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams,
-  ) => Promise<{
-    body: string;
-  }>;
+  ) => Promise<ArmAcceptedLroResponse>;
   /** Resets the VPN client shared key of the virtual network gateway in the specified resource group. */
   resetVpnClientSharedKey: (
     resourceGroupName: string,

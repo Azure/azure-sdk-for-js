@@ -14,10 +14,13 @@ import {
   vpnGatewayDeserializer,
   _listVpnGatewaysResultDeserializer,
   vpnGatewayPacketCaptureStartParametersSerializer,
-  _startPacketCaptureFinalResult2Deserializer,
   vpnGatewayPacketCaptureStopParametersSerializer,
-  _stopPacketCaptureFinalResult2Deserializer,
 } from "../../models/microsoft/network/models.js";
+import type { ArmAcceptedLroResponse10, ArmAcceptedLroResponse11 } from "../../models/models.js";
+import {
+  armAcceptedLroResponse10Deserializer,
+  armAcceptedLroResponse11Deserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -65,9 +68,9 @@ export function _stopPacketCaptureSend(
   });
 }
 
-export async function _stopPacketCaptureDeserialize(result: PathUncheckedResponse): Promise<{
-  body: string;
-}> {
+export async function _stopPacketCaptureDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ArmAcceptedLroResponse11> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -76,7 +79,7 @@ export async function _stopPacketCaptureDeserialize(result: PathUncheckedRespons
     throw error;
   }
 
-  return _stopPacketCaptureFinalResult2Deserializer(result.body);
+  return armAcceptedLroResponse11Deserializer(result.body);
 }
 
 /** Stops packet capture on vpn gateway in the specified resource group. */
@@ -85,14 +88,7 @@ export function stopPacketCapture(
   resourceGroupName: string,
   gatewayName: string,
   options: VpnGatewaysStopPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<{
-    body: string;
-  }>,
-  {
-    body: string;
-  }
-> {
+): PollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11> {
   return getLongRunningPoller(context, _stopPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -100,14 +96,7 @@ export function stopPacketCapture(
       _stopPacketCaptureSend(context, resourceGroupName, gatewayName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  }) as PollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11>;
 }
 
 export function _startPacketCaptureSend(
@@ -138,9 +127,9 @@ export function _startPacketCaptureSend(
   });
 }
 
-export async function _startPacketCaptureDeserialize(result: PathUncheckedResponse): Promise<{
-  body: string;
-}> {
+export async function _startPacketCaptureDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ArmAcceptedLroResponse10> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -149,7 +138,7 @@ export async function _startPacketCaptureDeserialize(result: PathUncheckedRespon
     throw error;
   }
 
-  return _startPacketCaptureFinalResult2Deserializer(result.body);
+  return armAcceptedLroResponse10Deserializer(result.body);
 }
 
 /** Starts packet capture on vpn gateway in the specified resource group. */
@@ -158,14 +147,7 @@ export function startPacketCapture(
   resourceGroupName: string,
   gatewayName: string,
   options: VpnGatewaysStartPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<{
-    body: string;
-  }>,
-  {
-    body: string;
-  }
-> {
+): PollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10> {
   return getLongRunningPoller(context, _startPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -173,14 +155,7 @@ export function startPacketCapture(
       _startPacketCaptureSend(context, resourceGroupName, gatewayName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<
-    OperationState<{
-      body: string;
-    }>,
-    {
-      body: string;
-    }
-  >;
+  }) as PollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10>;
 }
 
 export function _resetSend(

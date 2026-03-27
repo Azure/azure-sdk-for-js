@@ -14,7 +14,8 @@ async function getVirtualNetworkGatewayConnectionIkeSa() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  await client.virtualNetworkGatewayConnections.getIkeSas("rg1", "vpngwcn1");
+  const result = await client.virtualNetworkGatewayConnections.getIkeSas("rg1", "vpngwcn1");
+  console.log(result);
 }
 
 async function main() {

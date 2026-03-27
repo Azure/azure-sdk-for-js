@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type {
-  ExpressRouteProviderPort,
   ApplicationGateway,
   NetworkInterfaceIPConfiguration,
   VirtualNetworkTap,
@@ -150,7 +149,6 @@ import {
   virtualNetworkApplianceArrayDeserializer,
   serviceGatewayArrayDeserializer,
   applicationGatewayPrivateLinkResourceArrayDeserializer,
-  expressRouteProviderPortArrayDeserializer,
   customIpPrefixArrayDeserializer,
   dscpConfigurationArrayDeserializer,
   nspProfileArrayDeserializer,
@@ -1232,6 +1230,48 @@ export function armAcceptedLroResponseDeserializer(item: any): ArmAcceptedLroRes
   return item;
 }
 
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse1 {}
+
+export function armAcceptedLroResponse1Deserializer(item: any): ArmAcceptedLroResponse1 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse2 {}
+
+export function armAcceptedLroResponse2Deserializer(item: any): ArmAcceptedLroResponse2 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse3 {}
+
+export function armAcceptedLroResponse3Deserializer(item: any): ArmAcceptedLroResponse3 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse4 {}
+
+export function armAcceptedLroResponse4Deserializer(item: any): ArmAcceptedLroResponse4 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse5 {}
+
+export function armAcceptedLroResponse5Deserializer(item: any): ArmAcceptedLroResponse5 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse6 {}
+
+export function armAcceptedLroResponse6Deserializer(item: any): ArmAcceptedLroResponse6 {
+  return item;
+}
+
 /** The response of a VirtualNetworkGatewayConnection list operation. */
 export interface _VirtualNetworkGatewayConnectionListResult {
   /** The VirtualNetworkGatewayConnection items on this page */
@@ -1247,6 +1287,27 @@ export function _virtualNetworkGatewayConnectionListResultDeserializer(
     value: virtualNetworkGatewayConnectionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse7 {}
+
+export function armAcceptedLroResponse7Deserializer(item: any): ArmAcceptedLroResponse7 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse8 {}
+
+export function armAcceptedLroResponse8Deserializer(item: any): ArmAcceptedLroResponse8 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse9 {}
+
+export function armAcceptedLroResponse9Deserializer(item: any): ArmAcceptedLroResponse9 {
+  return item;
 }
 
 /** The response of a LocalNetworkGateway list operation. */
@@ -1313,6 +1374,20 @@ export function _virtualRouterPeeringListResultDeserializer(
   };
 }
 
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse10 {}
+
+export function armAcceptedLroResponse10Deserializer(item: any): ArmAcceptedLroResponse10 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse11 {}
+
+export function armAcceptedLroResponse11Deserializer(item: any): ArmAcceptedLroResponse11 {
+  return item;
+}
+
 /** The response of a VirtualNetworkAppliance list operation. */
 export interface _VirtualNetworkApplianceListResult {
   /** The VirtualNetworkAppliance items on this page */
@@ -1358,23 +1433,6 @@ export function _applicationGatewayPrivateLinkResourceListResultDeserializer(
 ): _ApplicationGatewayPrivateLinkResourceListResult {
   return {
     value: applicationGatewayPrivateLinkResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-/** The response of a ExpressRouteProviderPort list operation. */
-export interface ExpressRouteProviderPortListResult {
-  /** The ExpressRouteProviderPort items on this page */
-  value: ExpressRouteProviderPort[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function expressRouteProviderPortListResultDeserializer(
-  item: any,
-): ExpressRouteProviderPortListResult {
-  return {
-    value: expressRouteProviderPortArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -1501,6 +1559,27 @@ export function _networkVirtualApplianceSkuListResultDeserializer(
     value: networkVirtualApplianceSkuArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse12 {}
+
+export function armAcceptedLroResponse12Deserializer(item: any): ArmAcceptedLroResponse12 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse13 {}
+
+export function armAcceptedLroResponse13Deserializer(item: any): ArmAcceptedLroResponse13 {
+  return item;
+}
+
+/** Resource operation accepted. */
+export interface ArmAcceptedLroResponse14 {}
+
+export function armAcceptedLroResponse14Deserializer(item: any): ArmAcceptedLroResponse14 {
+  return item;
 }
 
 /** The response of a AzureFirewallFqdnTag list operation. */
