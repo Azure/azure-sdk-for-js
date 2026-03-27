@@ -15,6 +15,10 @@
  * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
  * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
  *
+ * It also demonstrates content range filtering to target specific pages:
+ * - "3-": Pages 3 onward
+ * - "1-3,5,9-": Pages 1-3, page 5, and pages 9 onward
+ *
  * @azsdk-weight 90
  */
 
