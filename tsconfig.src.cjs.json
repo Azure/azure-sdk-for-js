@@ -5,6 +5,7 @@
     "rootDir": "${configDir}/src",
     "module": "CommonJS",
     "moduleResolution": "Node10",
+    "ignoreDeprecations": "6.0", // "moduleResolution": "Node10", is deprecated in TypeScript 6.0, but we need it to compile to CommonJS.
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "skipLibCheck": true
