@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/containerregistry/
+      - sdk/containerregistry/ci.yml
     exclude:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry
@@ -24,6 +25,7 @@ pr:
   paths:
     include:
       - sdk/containerregistry/
+      - sdk/containerregistry/ci.yml
     exclude:
       - sdk/containerregistry/ci.mgmt.yml
       - sdk/containerregistry/arm-containerregistry

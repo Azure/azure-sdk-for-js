@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/textanalytics/
-
+      - sdk/textanalytics/ci.yml
 pr:
   branches:
     include:
@@ -20,7 +20,7 @@ pr:
   paths:
     include:
       - sdk/textanalytics/
-
+      - sdk/textanalytics/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -29,5 +29,5 @@ extends:
       - name: azure-ai-text-analytics
         safeName: azureaitextanalytics
         triggeringPaths:
-        - /sdk/test-utils/
-        - /sdk/identity/
+          - /sdk/test-utils/
+          - /sdk/identity/

@@ -3,30 +3,32 @@
 trigger:
   branches:
     include:
-    - main
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/translation/ci.yml
-    - sdk/translation/ai-translation-text-rest/
-    - sdk/translation/ai-translation-document-rest/
-
+      - sdk/translation/ci.yml
+      - sdk/translation/ai-translation-text-rest/
+      - sdk/translation/ai-translation-document-rest/
+      - sdk/translation/ai-translation-document-rest
+      - sdk/translation/ai-translation-text-rest
 pr:
   branches:
     include:
-    - main
-    - feature/*
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - feature/*
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/translation/ci.yml
-    - sdk/translation/ai-translation-text-rest/
-    - sdk/translation/ai-translation-document-rest/
-
+      - sdk/translation/ci.yml
+      - sdk/translation/ai-translation-text-rest/
+      - sdk/translation/ai-translation-document-rest/
+      - sdk/translation/ai-translation-document-rest
+      - sdk/translation/ai-translation-text-rest
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

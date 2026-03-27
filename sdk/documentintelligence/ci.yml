@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/documentintelligence/
+      - sdk/documentintelligence/ci.yml
 pr:
   branches:
     include:
@@ -21,11 +22,12 @@ pr:
   paths:
     include:
       - sdk/documentintelligence/ai-document-intelligence-rest/
-
+      - sdk/documentintelligence/ai-document-intelligence-rest
+      - sdk/documentintelligence/ci.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: documentintelligence
     Artifacts:
       - name: azure-rest-ai-document-intelligence
-        safeName: azurerestaidocumentintelligence       
+        safeName: azurerestaidocumentintelligence

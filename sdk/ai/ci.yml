@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -8,7 +8,10 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/ai/
+      - sdk/ai/ai-agents
+      - sdk/ai/ci.yml
+      - sdk/ai/ai-inference-rest
+      - sdk/ai/ai-projects
 pr:
   branches:
     include:
@@ -18,16 +21,18 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/ai/
+      - sdk/ai/ai-agents
+      - sdk/ai/ci.yml
+      - sdk/ai/ai-inference-rest
+      - sdk/ai/ai-projects
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: ai
     Artifacts:
+      - name: azure-ai-agents
+        safeName: azureaiagents
       - name: azure-rest-ai-inference
         safeName: azurerestaiinference
       - name: azure-ai-projects
-        safeName: azureaaiprojects
-      - name: azure-ai-agents
-        safeName: azureaaiagents
-
+        safeName: azureaiprojects

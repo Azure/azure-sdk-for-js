@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/openai/
+      - sdk/openai/ci.yml
 pr:
   branches:
     include:
@@ -19,6 +20,7 @@ pr:
   paths:
     include:
       - sdk/openai/
+      - sdk/openai/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -27,7 +29,4 @@ extends:
     Artifacts:
       - name: azure-openai
         safeName: azureopenai
-        # Disable publishing to learn.microsoft.com until support is added
-        # to type2docfx tooling for this kind of package layout
-        # https://github.com/Azure/azure-sdk-for-js/issues/31787
         skipPublishDocMs: true

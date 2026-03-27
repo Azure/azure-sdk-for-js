@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/web-pubsub/
+      - sdk/web-pubsub/ci.yml
     exclude:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub
@@ -24,6 +25,7 @@ pr:
   paths:
     include:
       - sdk/web-pubsub/
+      - sdk/web-pubsub/ci.yml
     exclude:
       - sdk/web-pubsub/ci.mgmt.yml
       - sdk/web-pubsub/arm-webpubsub

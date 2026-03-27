@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/formrecognizer/
+      - sdk/formrecognizer/ci.yml
 pr:
   branches:
     include:
@@ -22,11 +23,12 @@ pr:
     include:
       - sdk/formrecognizer/ci.mgmt.yml
       - sdk/formrecognizer/ai-form-recognizer/
-
+      - sdk/formrecognizer/ai-form-recognizer
+      - sdk/formrecognizer/ci.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: formrecognizer
     Artifacts:
       - name: azure-ai-form-recognizer
-        safeName: azureaiformrecognizer       
+        safeName: azureaiformrecognizer

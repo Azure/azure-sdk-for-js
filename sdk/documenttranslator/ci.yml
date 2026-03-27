@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/documenttranslator/
+      - sdk/documenttranslator/ci.yml
 pr:
   branches:
     include:
@@ -21,7 +22,8 @@ pr:
   paths:
     include:
       - sdk/documenttranslator/ai-document-translator-rest/
-
+      - sdk/documenttranslator/ai-document-translator-rest
+      - sdk/documenttranslator/ci.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

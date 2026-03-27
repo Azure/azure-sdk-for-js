@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/identity/
-
+      - sdk/identity/ci.yml
 pr:
   branches:
     include:
@@ -20,7 +20,7 @@ pr:
   paths:
     include:
       - sdk/identity/
-
+      - sdk/identity/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -29,21 +29,21 @@ extends:
       - name: azure-identity
         safeName: azureidentity
         triggeringPaths:
-        - /sdk/test-utils/
-        - /.config/
-        - /.devcontainer/
-        - /.github/
-        - /.scripts/
-        - /common/
-        - /eng/
+          - /sdk/test-utils/
+          - /.config/
+          - /.devcontainer/
+          - /.github/
+          - /.scripts/
+          - /common/
+          - /eng/
       - name: azure-identity-cache-persistence
         safeName: azureidentitycachepersistence
         triggeringPaths:
-        - /sdk/identity/
+          - /sdk/identity/
       - name: azure-identity-broker
         safeName: azureidentitybroker
       - name: azure-identity-vscode
         safeName: azureidentityvscode
         skipPublishDocMs: true
         triggeringPaths:
-        - /sdk/identity/
+          - /sdk/identity/

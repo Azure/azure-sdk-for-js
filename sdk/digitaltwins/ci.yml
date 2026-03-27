@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/digitaltwins/
+      - sdk/digitaltwins/ci.yml
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
       - sdk/digitaltwins/arm-digitaltwins/
@@ -25,6 +26,7 @@ pr:
   paths:
     include:
       - sdk/digitaltwins/
+      - sdk/digitaltwins/ci.yml
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
       - sdk/digitaltwins/arm-digitaltwins/

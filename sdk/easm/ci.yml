@@ -9,7 +9,8 @@ trigger:
   paths:
     include:
       - sdk/iot/
-
+      - sdk/easm/defender-easm-rest
+      - sdk/easm/ci.yml
 pr:
   branches:
     include:
@@ -20,7 +21,7 @@ pr:
   paths:
     include:
       - sdk/easm/
-
+      - sdk/easm/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

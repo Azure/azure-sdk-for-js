@@ -3,26 +3,26 @@
 trigger:
   branches:
     include:
-    - main
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/cognitivelanguage/
-
+      - sdk/cognitivelanguage/
+      - sdk/cognitivelanguage/ci.yml
 pr:
   branches:
     include:
-    - main
-    - feature/*
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - feature/*
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/cognitivelanguage/
-
+      - sdk/cognitivelanguage/
+      - sdk/cognitivelanguage/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

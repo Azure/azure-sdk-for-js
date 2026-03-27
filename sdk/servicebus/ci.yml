@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/servicebus/
+      - sdk/servicebus/ci.yml
     exclude:
       - sdk/servicebus-map/ci.mgmt.yml
       - sdk/servicebus/arm-servicebus
@@ -25,6 +26,7 @@ pr:
   paths:
     include:
       - sdk/servicebus/
+      - sdk/servicebus/ci.yml
     exclude:
       - sdk/servicebus-map/ci.mgmt.yml
       - sdk/servicebus/arm-servicebus
@@ -37,9 +39,9 @@ extends:
       - name: azure-service-bus
         safeName: azureservicebus
         triggeringPaths:
-        - /.config/
-        - /.devcontainer/
-        - /.github/
-        - /.scripts/
-        - /common/
-        - /eng/
+          - /.config/
+          - /.devcontainer/
+          - /.github/
+          - /.scripts/
+          - /common/
+          - /eng/

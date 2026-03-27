@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/voicelive/
+      - sdk/voicelive/ci.yml
 pr:
   branches:
     include:
@@ -19,6 +20,7 @@ pr:
   paths:
     include:
       - sdk/voicelive/
+      - sdk/voicelive/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -26,4 +28,3 @@ extends:
     Artifacts:
       - name: azure-ai-voicelive
         safeName: azureaivoicelive
-    

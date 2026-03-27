@@ -9,9 +9,8 @@ trigger:
   paths:
     include:
       - sdk/template/
-      # eng/common code changes trigger template pipeline for basic checking.
       - eng/common/
-
+      - sdk/template/ci.yml
 pr:
   branches:
     include:
@@ -22,19 +21,15 @@ pr:
   paths:
     include:
       - sdk/template/
-      # eng/common code changes trigger template pipeline for basic checking.
       - eng/common/
-
+      - sdk/template/ci.yml
 parameters:
-  # Switch to canary to test canary 1es branch. 1es template validation will set this parameter
-  # to canary on run.
   - name: oneESTemplateTag
     type: string
     default: release
     values:
       - release
       - canary
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -44,13 +39,13 @@ extends:
       - name: azure-template
         safeName: azuretemplate
         triggeringPaths:
-        - /sdk/test-utils/
-        - /sdk/identity/
-        - /.config/
-        - /.devcontainer/
-        - /.github/
-        - /.scripts/
-        - /common/
-        - /eng/
+          - /sdk/test-utils/
+          - /sdk/identity/
+          - /.config/
+          - /.devcontainer/
+          - /.github/
+          - /.scripts/
+          - /common/
+          - /eng/
       - name: azure-template-dpg
         safeName: azuretemplatedpg

@@ -8,8 +8,9 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/entra/functions-authentication-events/      
-
+      - sdk/entra/functions-authentication-events/
+      - sdk/entra/functions-authentication-events
+      - sdk/entra/ci.yml
 pr:
   branches:
     include:
@@ -20,7 +21,8 @@ pr:
   paths:
     include:
       - sdk/entra/functions-authentication-events/
-
+      - sdk/entra/functions-authentication-events
+      - sdk/entra/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

@@ -3,28 +3,28 @@
 trigger:
   branches:
     include:
-    - main
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/transcription/ci.yml
-    - sdk/transcription/ai-speech-transcription/
-
+      - sdk/transcription/ci.yml
+      - sdk/transcription/ai-speech-transcription/
+      - sdk/transcription/ai-speech-transcription
 pr:
   branches:
     include:
-    - main
-    - feature/*
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - feature/*
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/transcription/ci.yml
-    - sdk/transcription/ai-speech-transcription/
-
+      - sdk/transcription/ci.yml
+      - sdk/transcription/ai-speech-transcription/
+      - sdk/transcription/ai-speech-transcription
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

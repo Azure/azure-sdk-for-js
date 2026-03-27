@@ -1,3 +1,5 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
 trigger:
   branches:
     include:
@@ -7,10 +9,10 @@ trigger:
   paths:
     include:
       - sdk/maps/
+      - sdk/maps/ci.yml
     exclude:
       - sdk/maps/ci.mgmt.yml
       - sdk/maps/arm-maps
-
 pr:
   branches:
     include:
@@ -21,10 +23,10 @@ pr:
   paths:
     include:
       - sdk/maps/
+      - sdk/maps/ci.yml
     exclude:
       - sdk/maps/ci.mgmt.yml
       - sdk/maps/arm-maps
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

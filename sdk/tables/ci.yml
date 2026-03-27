@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/tables/
-
+      - sdk/tables/ci.yml
 pr:
   branches:
     include:
@@ -20,7 +20,7 @@ pr:
   paths:
     include:
       - sdk/tables/
-
+      - sdk/tables/ci.yml
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

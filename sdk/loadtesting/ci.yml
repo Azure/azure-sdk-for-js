@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/loadtesting/
+      - sdk/loadtesting/ci.yml
     exclude:
       - sdk/loadtesting/ci.mgmt.yml
       - sdk/loadtesting/arm-loadtesting
@@ -22,6 +23,7 @@ pr:
   paths:
     include:
       - sdk/loadtesting/
+      - sdk/loadtesting/ci.yml
     exclude:
       - sdk/loadtesting/ci.mgmt.yml
       - sdk/loadtesting/arm-loadtesting

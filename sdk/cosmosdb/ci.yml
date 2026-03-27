@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
+      - sdk/cosmosdb/cosmos
     exclude:
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
@@ -24,6 +25,7 @@ pr:
     include:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
+      - sdk/cosmosdb/cosmos
     exclude:
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb

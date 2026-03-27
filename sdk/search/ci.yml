@@ -10,6 +10,7 @@ trigger:
   paths:
     include:
       - sdk/search/
+      - sdk/search/ci.yml
     exclude:
       - sdk/search/ci.mgmt.yml
       - sdk/search/arm-search
@@ -26,6 +27,7 @@ pr:
   paths:
     include:
       - sdk/search/
+      - sdk/search/ci.yml
     exclude:
       - sdk/search/ci.mgmt.yml
       - sdk/search/arm-search
