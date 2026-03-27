@@ -1707,6 +1707,20 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/archie.md             @deyaaeldeen
+/.github/workflows/archie.lock.yml       @deyaaeldeen
+/.github/workflows/dash.md               @deyaaeldeen
+/.github/workflows/dash.lock.yml         @deyaaeldeen
+/.github/workflows/dexter.md             @deyaaeldeen
+/.github/workflows/dexter.lock.yml       @deyaaeldeen
+/.github/workflows/scribe.md             @deyaaeldeen
+/.github/workflows/scribe.lock.yml       @deyaaeldeen
+/.github/workflows/sentinel.md           @deyaaeldeen
+/.github/workflows/sentinel.lock.yml     @deyaaeldeen
+/.github/workflows/tester.md             @deyaaeldeen
+/.github/workflows/tester.lock.yml       @deyaaeldeen
+/.github/agents/                         @deyaaeldeen
+/.github/prompts/                        @deyaaeldeen
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
