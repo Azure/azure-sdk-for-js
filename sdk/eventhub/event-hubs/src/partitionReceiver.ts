@@ -104,6 +104,15 @@ interface ReceiverState {
   isConnecting: boolean;
 }
 
+interface QueueSignal {
+  notify(): void;
+  wait(options?: {
+    abortSignal?: AbortSignalLike;
+    cleanupBeforeAbort?: () => void;
+    abortErrorMsg?: string;
+  }): Promise<void>;
+}
+
 /** @internal */
 export function createReceiver(
   ctx: ConnectionContext,
@@ -119,6 +128,7 @@ export function createReceiver(
   const logPrefix = createReceiverLogPrefix(consumerId, ctx.connectionId, partitionId);
   const logger = createSimpleLogger(azureLogger, logPrefix);
   const queue: ReceivedEventData[] = [];
+  const queueSignal = createQueueSignal();
   const state: ReceiverState = {
     isConnecting: false,
   };
@@ -175,6 +185,7 @@ export function createReceiver(
               obj,
               state,
               queue,
+              queueSignal,
               eventPosition,
               logger,
               options,
@@ -253,6 +264,7 @@ export function createReceiver(
                         logger.info(
                           `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`,
                         ),
+                      queueSignal,
                     },
                   );
                 })
@@ -324,6 +336,36 @@ export function checkOnInterval(
 }
 
 /**
+ * @internal
+ */
+export function createQueueSignal(): QueueSignal {
+  const waiters = new Set<() => void>();
+
+  return {
+    notify(): void {
+      for (const resolve of waiters) {
+        resolve();
+      }
+      waiters.clear();
+    },
+    wait(options): Promise<void> {
+      let resolveWaiter: (() => void) | undefined;
+      return createAbortablePromise<void>((resolve) => {
+        resolveWaiter = () => {
+          waiters.delete(resolveWaiter!);
+          resolve();
+        };
+        waiters.add(resolveWaiter);
+      }, options).finally(() => {
+        if (resolveWaiter) {
+          waiters.delete(resolveWaiter);
+        }
+      });
+    },
+  };
+}
+
+/**
  * Returns a promise that will resolve when it is time to read from the queue
  * @param maxEventCount - The maximum number of events to receive.
  * @param maxWaitTimeInMs - The maximum time to wait in ms for the queue to contain any events.
@@ -344,6 +386,7 @@ export function waitForEvents(
     receivedAfterWait?: () => void;
     receivedAlready?: () => void;
     receivedNone?: () => void;
+    queueSignal?: QueueSignal;
   } = {},
 ): Promise<void> {
   const {
@@ -352,6 +395,7 @@ export function waitForEvents(
     receivedNone,
     receivedAfterWait,
     receivedAlready,
+    queueSignal,
   } = options;
 
   if (queue.length >= maxEventCount) {
@@ -380,8 +424,15 @@ export function waitForEvents(
       }
     },
   };
+
+  const waitForMessage = queue.length > 0
+    ? Promise.resolve()
+    : queueSignal
+      ? queueSignal.wait(updatedOptions)
+      : checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions);
+
   return Promise.race([
-    checkOnInterval(readIntervalWaitTimeInMs, () => queue.length > 0, updatedOptions)
+    waitForMessage
       .then(() => delay(readIntervalWaitTimeInMs, updatedOptions))
       .then(receivedAfterWait),
     delay(maxWaitTimeInMs, updatedOptions).then(receivedNone),
@@ -432,6 +483,7 @@ function onMessage(
   context: EventContext,
   obj: WritableReceiver,
   queue: ReceivedEventData[],
+  queueSignal: QueueSignal,
   options: PartitionReceiverOptions,
 ): void {
   if (!context.message) {
@@ -444,6 +496,7 @@ function onMessage(
     setEventProps(obj.lastEnqueuedEventProperties, data);
   }
   queue.push(receivedEventData);
+  queueSignal.notify();
 }
 
 function onError(
@@ -507,6 +560,7 @@ function createRheaOptions(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  queueSignal: QueueSignal,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: PartitionReceiverOptions,
@@ -525,7 +579,7 @@ function createRheaOptions(
     onClose: (context) => onClose(context, state, logger),
     onSessionClose: (context) => onSessionClose(context, state, logger),
     onError: (context) => onError(context, obj, state.link, logger),
-    onMessage: (context) => onMessage(context, obj, queue, options),
+    onMessage: (context) => onMessage(context, obj, queue, queueSignal, options),
     onSessionError: (context) => onSessionError(context, obj, logger),
   };
   const ownerLevel = options.ownerLevel;
@@ -553,6 +607,7 @@ async function setupLink(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  queueSignal: QueueSignal,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: PartitionReceiverOptions,
@@ -565,6 +620,7 @@ async function setupLink(
     obj,
     state,
     queue,
+    queueSignal,
     eventPosition,
     logger,
     options,
