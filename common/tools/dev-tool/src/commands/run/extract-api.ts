@@ -252,7 +252,6 @@ async function extractApiForEntry(
   }
 
   extractApi(newConfig, configPath, pkgPath);
-  await injectVersionIntoApiJson(apiJsonFilePath, version);
 
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
@@ -284,16 +283,6 @@ function getUnscopedPackageName(packageName: string): string {
 async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   const content = await readFile(fullPath, { encoding: "utf-8" });
   return JSON.parse(content) as ApiJson;
-}
-
-async function injectVersionIntoApiJson(filePath: string, version: string): Promise<void> {
-  if (!existsSync(filePath)) return;
-  const apiJson = JSON.parse(await readFile(filePath, "utf-8")) as ApiJson;
-  const packageMember = apiJson.members.find((m) => m.kind === "Package");
-  if (packageMember) {
-    packageMember.version = version;
-    await writeFile(filePath, JSON.stringify(apiJson, undefined, 2));
-  }
 }
 
 async function buildMergedApiJson(
@@ -392,7 +381,6 @@ export default leafCommand(commandInfo, async () => {
         configPath,
         pkgPath,
         projectInfo,
-        pkgJson["version"] || "",
       );
 
       runtimeApiFiles.node ??= {};
@@ -401,14 +389,7 @@ export default leafCommand(commandInfo, async () => {
       for (const e of entries) {
         const runtime = e.runtime;
         if (runtime === "node") continue;
-        const content = await extractApiForEntry(
-          e,
-          baseConfig,
-          configPath,
-          pkgPath,
-          projectInfo,
-          pkgJson["version"] || "",
-        );
+        const content = await extractApiForEntry(e, baseConfig, configPath, pkgPath, projectInfo);
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
         runtimeApiFiles[runtime] ??= {};
@@ -432,10 +413,6 @@ export default leafCommand(commandInfo, async () => {
     }
   } else {
     success = extractApi(baseConfig, configPath, pkgPath);
-    if (baseConfig.docModel?.enabled && baseConfig.docModel?.apiJsonFilePath) {
-      const apiJsonPath = resolveTemplate(baseConfig.docModel.apiJsonFilePath, projectInfo);
-      await injectVersionIntoApiJson(apiJsonPath, pkgJson["version"] || "");
-    }
   }
 
   return success;
