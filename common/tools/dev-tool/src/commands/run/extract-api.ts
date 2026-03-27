@@ -205,7 +205,6 @@ async function extractApiForEntry(
   configPath: string,
   pkgPath: string,
   projectInfo: ProjectInfo,
-  version: string,
 ): Promise<string> {
   const baseReportFolder = baseConfig.apiReport?.reportFolder || `<projectFolder>/review`;
   const reportFolder = resolveTemplate(baseReportFolder, projectInfo);
