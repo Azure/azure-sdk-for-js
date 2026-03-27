@@ -1,15 +1,63 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/modelCapacities": "src/api/modelCapacities/index.ts"
+  "./api/locationBasedModelCapacities": "src/api/locationBasedModelCapacities/index.ts"
+  "./api/models": "src/api/models/index.ts"
+  "./api/commitmentTiers": "src/api/commitmentTiers/index.ts"
+  "./api/usages": "src/api/usages/index.ts"
+  "./api/resourceSkus": "src/api/resourceSkus/index.ts"
+  "./api/agentDeployments": "src/api/agentDeployments/index.ts"
+  "./api/managedNetworkProvisions": "src/api/managedNetworkProvisions/index.ts"
+  "./api/outboundRules": "src/api/outboundRules/index.ts"
+  "./api/managedNetworkSettings": "src/api/managedNetworkSettings/index.ts"
+  "./api/outboundRule": "src/api/outboundRule/index.ts"
+  "./api/accountCapabilityHosts": "src/api/accountCapabilityHosts/index.ts"
+  "./api/accountConnections": "src/api/accountConnections/index.ts"
+  "./api/raiExternalSafetyProviders": "src/api/raiExternalSafetyProviders/index.ts"
+  "./api/raiExternalSafetyProvider": "src/api/raiExternalSafetyProvider/index.ts"
+  "./api/testRaiExternalSafetyProvider": "src/api/testRaiExternalSafetyProvider/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/computeOperations": "src/api/computeOperations/index.ts"
+  "./api/agentApplications": "src/api/agentApplications/index.ts"
+  "./api/quotaTiers": "src/api/quotaTiers/index.ts"
+  "./api/projectCapabilityHosts": "src/api/projectCapabilityHosts/index.ts"
+  "./api/projectConnections": "src/api/projectConnections/index.ts"
+  "./api/projects": "src/api/projects/index.ts"
+  "./api/defenderForAISettings": "src/api/defenderForAISettings/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/raiContentFilters": "src/api/raiContentFilters/index.ts"
+  "./api/raiToolLabels": "src/api/raiToolLabels/index.ts"
+  "./api/raiTopics": "src/api/raiTopics/index.ts"
+  "./api/raiBlocklists": "src/api/raiBlocklists/index.ts"
+  "./api/raiBlocklistItems": "src/api/raiBlocklistItems/index.ts"
+  "./api/subscriptionRaiPolicy": "src/api/subscriptionRaiPolicy/index.ts"
+  "./api/raiPolicies": "src/api/raiPolicies/index.ts"
+  "./api/encryptionScopes": "src/api/encryptionScopes/index.ts"
+  "./api/commitmentPlans": "src/api/commitmentPlans/index.ts"
+  "./api/deployments": "src/api/deployments/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/deletedAccounts": "src/api/deletedAccounts/index.ts"
+  "./api/accounts": "src/api/accounts/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
