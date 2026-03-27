@@ -1,5 +1,11 @@
 # Release History
 
+## 1.5.2 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed test recording utilities to use promise-based `node:fs/promises` API and `node:path` for reliable cross-platform path handling.
+
 ## 1.5.1 (2026-01-22)
 
 ### Bugs Fixed
