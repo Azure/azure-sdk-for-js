@@ -61,7 +61,7 @@
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
-/sdk/attestation/    @anilba06 @deyaaeldeen @gkostal @LarryOsterman @olkroshk
+/sdk/attestation/    @anilba06 @gkostal @olkroshk
 
 # ServiceLabel: %Attestation
 # ServiceOwners: @anilba06 @gkostal @olkroshk
