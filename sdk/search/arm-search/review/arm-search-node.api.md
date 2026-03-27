@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
@@ -16,6 +20,7 @@ export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 // @public
 export interface AccessRule {
     name?: string;
+    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -25,6 +30,7 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
+    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -51,31 +57,36 @@ export interface AdminKeyResult {
 }
 
 // @public
-export interface AdminKeys {
-    get(resourceGroupName: string, searchServiceName: string, options?: AdminKeysGetOptionalParams): Promise<AdminKeysGetResponse>;
-    regenerate(resourceGroupName: string, searchServiceName: string, keyKind: AdminKeyKind, options?: AdminKeysRegenerateOptionalParams): Promise<AdminKeysRegenerateResponse>;
+export interface AdminKeysGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface AdminKeysGetOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface AdminKeysOperations {
+    get: (resourceGroupName: string, searchServiceName: string, options?: AdminKeysGetOptionalParams) => Promise<AdminKeyResult>;
+    regenerate: (resourceGroupName: string, searchServiceName: string, keyKind: AdminKeyKind, options?: AdminKeysRegenerateOptionalParams) => Promise<AdminKeyResult>;
 }
 
 // @public
-export type AdminKeysGetResponse = AdminKeyResult;
-
-// @public
-export interface AdminKeysRegenerateOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type AdminKeysRegenerateResponse = AdminKeyResult;
+export interface AzureActiveDirectoryApplicationCredentials {
+    applicationId?: string;
+    applicationSecret?: string;
+}
 
 // @public
-export interface AsyncOperationResult {
-    status?: SharedPrivateLinkResourceAsyncOperationResult;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckNameAvailabilityInput {
@@ -108,7 +119,26 @@ export interface CloudErrorBody {
 export type ComputeType = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface DataIdentity {
+    odataType: string;
+}
+
+// @public
+export type DataIdentityUnion = DataNoneIdentity | DataUserAssignedIdentity | DataIdentity;
+
+// @public
+export interface DataNoneIdentity extends DataIdentity {
+    // (undocumented)
+    odataType: "#Microsoft.Azure.Search.DataNoneIdentity";
+}
 
 // @public
 export interface DataPlaneAadOrApiKeyAuthOption {
@@ -118,29 +148,38 @@ export interface DataPlaneAadOrApiKeyAuthOption {
 // @public
 export interface DataPlaneAuthOptions {
     aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
-    apiKeyOnly?: Record<string, unknown>;
+    apiKeyOnly?: any;
+}
+
+// @public
+export interface DataUserAssignedIdentity extends DataIdentity {
+    federatedIdentityClientId?: string;
+    // (undocumented)
+    odataType: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
+    userAssignedIdentity: string;
 }
 
 // @public
 export interface EncryptionWithCmk {
     readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
     enforcement?: SearchEncryptionWithCmk;
+    serviceLevelEncryptionKey?: SearchResourceEncryptionKey;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface FeatureOffering {
+    name?: string;
+}
 
 // @public
-export type HostingMode = "default" | "highDensity";
+export type HostingMode = "Default" | "HighDensity";
 
 // @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: IdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -155,6 +194,9 @@ export interface IpRule {
 export type IssueType = string;
 
 // @public
+export type KnowledgeRetrieval = string;
+
+// @public
 export enum KnownAccessRuleDirection {
     Inbound = "Inbound",
     Outbound = "Outbound"
@@ -167,8 +209,8 @@ export enum KnownActionType {
 
 // @public
 export enum KnownComputeType {
-    Confidential = "confidential",
-    Default = "default"
+    Confidential = "Confidential",
+    Default = "Default"
 }
 
 // @public
@@ -193,6 +235,12 @@ export enum KnownIssueType {
     MissingIdentityConfiguration = "MissingIdentityConfiguration",
     MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownKnowledgeRetrieval {
+    Free = "free",
+    Standard = "standard"
 }
 
 // @public
@@ -225,9 +273,9 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
 
 // @public
 export enum KnownPublicNetworkAccess {
-    Disabled = "disabled",
-    Enabled = "enabled",
-    SecuredByPerimeter = "securedByPerimeter"
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -239,6 +287,7 @@ export enum KnownResourceAssociationAccessMode {
 
 // @public
 export enum KnownSearchBypass {
+    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
 }
@@ -262,13 +311,6 @@ export enum KnownSeverity {
 }
 
 // @public
-export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
-    Failed = "Failed",
-    Running = "Running",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownSharedPrivateLinkResourceProvisioningState {
     Deleting = "Deleting",
     Failed = "Failed",
@@ -289,6 +331,7 @@ export enum KnownSharedPrivateLinkResourceStatus {
 export enum KnownSkuName {
     Basic = "basic",
     Free = "free",
+    Serverless = "serverless",
     Standard = "standard",
     Standard2 = "standard2",
     Standard3 = "standard3",
@@ -309,9 +352,9 @@ export enum KnownUpgradeAvailable {
 }
 
 // @public
-export interface ListQueryKeysResult {
-    readonly nextLink?: string;
-    readonly value?: QueryKey[];
+export enum KnownVersions {
+    V20250501 = "2025-05-01",
+    V20260301Preview = "2026-03-01-preview"
 }
 
 // @public
@@ -333,17 +376,15 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationListResult {
-    nextLink?: string;
-    value?: NetworkSecurityPerimeterConfiguration[];
-}
-
-// @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
+    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
+    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -351,48 +392,28 @@ export interface NetworkSecurityPerimeterConfigurationProperties {
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
 // @public
-export interface NetworkSecurityPerimeterConfigurations {
-    beginReconcile(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
-    beginReconcileAndWait(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
-    get(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
-    listByService(resourceGroupName: string, searchServiceName: string, options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams extends coreClient.OperationOptions {
+export interface NetworkSecurityPerimeterConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginReconcile: (resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginReconcileAndWait: (resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    listByService: (resourceGroupName: string, searchServiceName: string, options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    reconcile: (resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse = NetworkSecurityPerimeterConfigurationListResult;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkSecurityPerimeterConfigurationsListByServiceResponse = NetworkSecurityPerimeterConfigurationListResult;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
 
 // @public
 export interface NetworkSecurityProfile {
@@ -401,6 +422,28 @@ export interface NetworkSecurityProfile {
     diagnosticSettingsVersion?: number;
     enabledLogCategories?: string[];
     name?: string;
+}
+
+// @public
+export interface OfferingsByRegion {
+    features?: FeatureOffering[];
+    regionName?: string;
+    skus?: SkuOffering[];
+}
+
+// @public
+export interface OfferingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OfferingsListResult {
+    readonly nextLink?: string;
+    readonly value?: OfferingsByRegion[];
+}
+
+// @public
+export interface OfferingsOperations {
+    list: (options?: OfferingsListOptionalParams) => Promise<OfferingsListResult>;
 }
 
 // @public
@@ -421,35 +464,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    readonly value?: PrivateEndpointConnection[];
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
@@ -473,52 +513,32 @@ export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnection
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    delete(resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
-    get(resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByService(resourceGroupName: string, searchServiceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-    update(resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface PrivateEndpointConnectionsListByServiceOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface PrivateEndpointConnectionsOperations {
+    delete: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
+    get: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByService: (resourceGroupName: string, searchServiceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (resourceGroupName: string, searchServiceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
 }
 
 // @public
-export type PrivateEndpointConnectionsListByServiceNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsListByServiceOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
-
-// @public
-export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 // @public
 export interface PrivateLinkResource extends Resource {
@@ -534,21 +554,13 @@ export interface PrivateLinkResourceProperties {
 }
 
 // @public
-export interface PrivateLinkResources {
-    listSupported(resourceGroupName: string, searchServiceName: string, options?: PrivateLinkResourcesListSupportedOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export interface PrivateLinkResourcesListSupportedOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface PrivateLinkResourcesListSupportedOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type PrivateLinkResourcesListSupportedResponse = PrivateLinkResourcesResult;
-
-// @public
-export interface PrivateLinkResourcesResult {
-    readonly value?: PrivateLinkResource[];
+export interface PrivateLinkResourcesOperations {
+    listSupported: (resourceGroupName: string, searchServiceName: string, options?: PrivateLinkResourcesListSupportedOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
@@ -560,6 +572,7 @@ export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
+    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -589,40 +602,26 @@ export interface QueryKey {
 }
 
 // @public
-export interface QueryKeys {
-    create(resourceGroupName: string, searchServiceName: string, name: string, options?: QueryKeysCreateOptionalParams): Promise<QueryKeysCreateResponse>;
-    delete(resourceGroupName: string, searchServiceName: string, key: string, options?: QueryKeysDeleteOptionalParams): Promise<void>;
-    listBySearchService(resourceGroupName: string, searchServiceName: string, options?: QueryKeysListBySearchServiceOptionalParams): PagedAsyncIterableIterator<QueryKey>;
+export interface QueryKeysCreateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface QueryKeysCreateOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface QueryKeysDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type QueryKeysCreateResponse = QueryKey;
-
-// @public
-export interface QueryKeysDeleteOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface QueryKeysListBySearchServiceOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface QueryKeysListBySearchServiceNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface QueryKeysOperations {
+    create: (resourceGroupName: string, searchServiceName: string, name: string, options?: QueryKeysCreateOptionalParams) => Promise<QueryKey>;
+    delete: (resourceGroupName: string, searchServiceName: string, key: string, options?: QueryKeysDeleteOptionalParams) => Promise<void>;
+    listBySearchService: (resourceGroupName: string, searchServiceName: string, options?: QueryKeysListBySearchServiceOptionalParams) => PagedAsyncIterableIterator<QueryKey>;
 }
-
-// @public
-export type QueryKeysListBySearchServiceNextResponse = ListQueryKeysResult;
-
-// @public
-export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 // @public
 export interface QuotaUsageResult {
@@ -640,12 +639,6 @@ export interface QuotaUsageResultName {
 }
 
 // @public
-export interface QuotaUsagesListResult {
-    readonly nextLink?: string;
-    readonly value?: QuotaUsageResult[];
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -655,12 +648,23 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
+    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
 
 // @public
 export type ResourceAssociationAccessMode = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SearchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type SearchBypass = string;
@@ -675,45 +679,36 @@ export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 
 // @public (undocumented)
-export class SearchManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
-    // (undocumented)
-    adminKeys: AdminKeys;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    queryKeys: QueryKeys;
-    // (undocumented)
-    services: Services;
-    // (undocumented)
-    sharedPrivateLinkResources: SharedPrivateLinkResources;
-    // (undocumented)
-    subscriptionId: string;
-    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
-    // (undocumented)
-    usages: Usages;
+export class SearchManagementClient {
+    constructor(credential: TokenCredential, options?: SearchManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
+    readonly adminKeys: AdminKeysOperations;
+    readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
+    readonly offerings: OfferingsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly queryKeys: QueryKeysOperations;
+    readonly services: ServicesOperations;
+    readonly sharedPrivateLinkResources: SharedPrivateLinkResourcesOperations;
+    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<QuotaUsageResult>;
+    readonly usages: UsagesOperations;
 }
 
 // @public
-export interface SearchManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface SearchManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface SearchManagementRequestOptions {
-    clientRequestId?: string;
+export interface SearchResourceEncryptionKey {
+    accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+    identity?: DataIdentityUnion;
+    keyName?: string;
+    keyVersion?: string;
+    vaultUri?: string;
 }
 
 // @public
@@ -730,6 +725,7 @@ export interface SearchService extends TrackedResource {
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
+    knowledgeRetrieval?: KnowledgeRetrieval;
     networkRuleSet?: NetworkRuleSet;
     partitionCount?: number;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -746,9 +742,28 @@ export interface SearchService extends TrackedResource {
 }
 
 // @public
-export interface SearchServiceListResult {
-    readonly nextLink?: string;
-    readonly value?: SearchService[];
+export interface SearchServiceProperties {
+    authOptions?: DataPlaneAuthOptions;
+    computeType?: ComputeType;
+    dataExfiltrationProtections?: SearchDataExfiltrationProtection[];
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
+    endpoint?: string;
+    readonly eTag?: string;
+    hostingMode?: HostingMode;
+    knowledgeRetrieval?: KnowledgeRetrieval;
+    networkRuleSet?: NetworkRuleSet;
+    partitionCount?: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
+    readonly serviceUpgradedAt?: Date;
+    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    readonly status?: SearchServiceStatus;
+    readonly statusDetails?: string;
+    upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
@@ -765,6 +780,7 @@ export interface SearchServiceUpdate extends Resource {
     readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
+    knowledgeRetrieval?: KnowledgeRetrieval;
     location?: string;
     networkRuleSet?: NetworkRuleSet;
     partitionCount?: number;
@@ -778,111 +794,70 @@ export interface SearchServiceUpdate extends Resource {
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
-export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginUpgrade(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
-    beginUpgradeAndWait(resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams): Promise<ServicesUpgradeResponse>;
-    checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
-    delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SearchService>;
-    listBySubscription(options?: ServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SearchService>;
-    update(resourceGroupName: string, searchServiceName: string, service: SearchServiceUpdate, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
+export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
-
-// @public
-export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesCreateOrUpdateResponse = SearchService;
-
-// @public
-export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type ServicesGetResponse = SearchService;
-
-// @public
-export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type ServicesListByResourceGroupNextResponse = SearchServiceListResult;
-
-// @public
-export interface ServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type ServicesListByResourceGroupResponse = SearchServiceListResult;
-
-// @public
-export interface ServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SearchService>, SearchService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams) => Promise<SearchService>;
+    // @deprecated (undocumented)
+    beginUpgrade: (resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<SearchService>, SearchService>>;
+    // @deprecated (undocumented)
+    beginUpgradeAndWait: (resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams) => Promise<SearchService>;
+    checkNameAvailability: (checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: ServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
+    createOrUpdate: (resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SearchService>, SearchService>;
+    delete: (resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams) => Promise<SearchService>;
+    listByResourceGroup: (resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SearchService>;
+    listBySubscription: (options?: ServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SearchService>;
+    update: (resourceGroupName: string, searchServiceName: string, service: SearchServiceUpdate, options?: ServicesUpdateOptionalParams) => Promise<SearchService>;
+    upgrade: (resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams) => PollerLike<OperationState<SearchService>, SearchService>;
 }
 
 // @public
-export type ServicesListBySubscriptionNextResponse = SearchServiceListResult;
-
-// @public
-export interface ServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface ServicesUpdateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type ServicesListBySubscriptionResponse = SearchServiceListResult;
-
-// @public
-export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type ServicesUpdateResponse = SearchService;
-
-// @public
-export interface ServicesUpgradeHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ServicesUpgradeResponse = SearchService;
 
 // @public
 export type Severity = string;
@@ -901,17 +876,8 @@ export interface ShareablePrivateLinkResourceType {
 }
 
 // @public
-export interface SharedPrivateLinkResource extends Resource {
+export interface SharedPrivateLinkResource extends ProxyResource {
     properties?: SharedPrivateLinkResourceProperties;
-}
-
-// @public
-export type SharedPrivateLinkResourceAsyncOperationResult = string;
-
-// @public
-export interface SharedPrivateLinkResourceListResult {
-    nextLink?: string;
-    readonly value?: SharedPrivateLinkResource[];
 }
 
 // @public
@@ -928,58 +894,67 @@ export interface SharedPrivateLinkResourceProperties {
 export type SharedPrivateLinkResourceProvisioningState = string;
 
 // @public
-export interface SharedPrivateLinkResources {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>, SharedPrivateLinkResourcesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesGetOptionalParams): Promise<SharedPrivateLinkResourcesGetResponse>;
-    listByService(resourceGroupName: string, searchServiceName: string, options?: SharedPrivateLinkResourcesListByServiceOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
-}
-
-// @public
-export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
-
-// @public
-export interface SharedPrivateLinkResourcesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface SharedPrivateLinkResourcesDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type SharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
-
-// @public
-export interface SharedPrivateLinkResourcesListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type SharedPrivateLinkResourcesListByServiceNextResponse = SharedPrivateLinkResourceListResult;
-
-// @public
-export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface SharedPrivateLinkResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => Promise<SharedPrivateLinkResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
+    delete: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesGetOptionalParams) => Promise<SharedPrivateLinkResource>;
+    listByService: (resourceGroupName: string, searchServiceName: string, options?: SharedPrivateLinkResourcesListByServiceOptionalParams) => PagedAsyncIterableIterator<SharedPrivateLinkResource>;
 }
-
-// @public
-export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
 
 // @public
 export type SharedPrivateLinkResourceStatus = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface Sku {
@@ -987,7 +962,24 @@ export interface Sku {
 }
 
 // @public
+export interface SkuLimits {
+    indexers?: number;
+    indexes?: number;
+    partitions?: number;
+    partitionStorageInGigabytes?: number;
+    partitionVectorStorageInGigabytes?: number;
+    replicas?: number;
+    searchUnits?: number;
+}
+
+// @public
 export type SkuName = string;
+
+// @public
+export interface SkuOffering {
+    limits?: SkuLimits;
+    sku?: Sku;
+}
 
 // @public
 export interface SystemData {
@@ -1002,9 +994,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1014,33 +1004,19 @@ export type UnavailableNameReason = string;
 export type UpgradeAvailable = string;
 
 // @public
-export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface UsageBySubscriptionSkuOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
-
-// @public
-export interface Usages {
-    listBySubscription(location: string, options?: UsagesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaUsageResult>;
+export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
+export interface UsagesOperations {
+    listBySubscription: (location: string, options?: UsagesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<QuotaUsageResult>;
 }
-
-// @public
-export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
-
-// @public
-export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    searchManagementRequestOptions?: SearchManagementRequestOptions;
-}
-
-// @public
-export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 // @public
 export interface UserAssignedIdentity {
