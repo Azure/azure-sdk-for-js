@@ -65,7 +65,6 @@ interface ApiJson {
   members: {
     kind: string;
     name: string;
-    version?: string;
     canonicalReference: string;
     members: {
       kind: string;
