@@ -3,4 +3,3 @@
 ## PR #37610 @azure/arm-recoveryservices-siterecovery 6.0.0-beta.1 - 2 issues
 ## PR #37563 @azure/arm-alertrulerecommendations 1.0.0-beta.1 - 2 issues
 ## PR #37572 @azure/arm-standbypool 2.1.0 - 2 issues (AzureClouds missing Known* prefix; AzureSupportedClouds uses closed template literal instead of string)
-## PR #37531 @azure/arm-search 4.0.0-beta.2 - 3 issues (AzureClouds missing Known* prefix; AzureSupportedClouds uses closed template literal instead of string; autoPublish changed from true to false)
