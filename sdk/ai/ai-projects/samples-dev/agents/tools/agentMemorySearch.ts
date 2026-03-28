@@ -13,12 +13,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
+import type {
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
   MemorySearchPreviewTool,
 } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
