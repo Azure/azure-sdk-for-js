@@ -1,5 +1,51 @@
 # Release History
 
+## 7.0.0-beta.1 (2026-03-24)
+Compared with version 6.0.0
+
+### Features Added
+  - Added operation group SubscriptionsOperations
+  - Added operation AliasOperations.create
+  - Added operation SubscriptionOperations.acceptOwnership
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SubscriptionsAcceptTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsDeleteTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsGetTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsListTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsPutTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsTargetDirectoryStatusOptionalParams
+  - Added Interface TargetDirectoryRequest
+  - Added Interface TargetDirectoryRequestProperties
+  - Added Interface TargetDirectoryResult
+  - Added Interface TargetDirectoryResultProperties
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter origin
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ChangeDirectoryOperationStatus
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownChangeDirectoryOperationStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation Alias.list has a new signature
+  - Operation Subscription.beginAcceptOwnershipAndWait has a new signature
+  - Removed Interface ErrorResponseBody
+  - Removed Interface GetTenantPolicyListResponse
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+
 ## 6.0.0 (2025-10-30)
 
 ### Features Added
@@ -17,22 +63,13 @@
   - Added Type Alias SubscriptionOperationGetResponse
 
 ### Breaking Changes
-  - Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
-
-    ```diff
-    -import { SubscriptionClient } from "@azure/arm-subscriptions";
-    +import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
-    import { DefaultAzureCredential } from "@azure/identity";
-
-    const credential = new DefaultAzureCredential();
-
-    // Create a SubscriptionClient
-    const subscriptionClient = new SubscriptionClient(credential);
-
-    for await (const subscription of subscriptionClient.subscriptions.list()) {
-      // ....
-    }
-    ```
+  - Removed operation group SubscriptionOperations
+  - Removed operation group Subscriptions
+  - Removed operation group Tenants
+  - Class SubscriptionClient no longer has parameter subscriptionOperations
+  - Class SubscriptionClient no longer has parameter subscriptions
+  - Class SubscriptionClient no longer has parameter tenants
+  - Removed Interface Location_2
   - Removed Interface SubscriptionPolicies
   - Removed Interface SubscriptionsGetOptionalParams
   - Removed Interface SubscriptionsListLocationsOptionalParams
