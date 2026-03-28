@@ -1,15 +1,76 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/fleetspaceAccount": "src/api/fleetspaceAccount/index.ts"
+  "./api/fleetspace": "src/api/fleetspace/index.ts"
+  "./api/fleetAnalytics": "src/api/fleetAnalytics/index.ts"
+  "./api/fleet": "src/api/fleet/index.ts"
+  "./api/mongoMIResources": "src/api/mongoMIResources/index.ts"
+  "./api/throughputPoolAccounts": "src/api/throughputPoolAccounts/index.ts"
+  "./api/throughputPoolAccount": "src/api/throughputPoolAccount/index.ts"
+  "./api/throughputPools": "src/api/throughputPools/index.ts"
+  "./api/throughputPool": "src/api/throughputPool/index.ts"
+  "./api/service": "src/api/service/index.ts"
+  "./api/restorableTableResources": "src/api/restorableTableResources/index.ts"
+  "./api/restorableTables": "src/api/restorableTables/index.ts"
+  "./api/restorableGremlinResources": "src/api/restorableGremlinResources/index.ts"
+  "./api/restorableGremlinGraphs": "src/api/restorableGremlinGraphs/index.ts"
+  "./api/restorableGremlinDatabases": "src/api/restorableGremlinDatabases/index.ts"
+  "./api/restorableMongodbResources": "src/api/restorableMongodbResources/index.ts"
+  "./api/restorableMongodbCollections": "src/api/restorableMongodbCollections/index.ts"
+  "./api/restorableMongodbDatabases": "src/api/restorableMongodbDatabases/index.ts"
+  "./api/restorableSqlResources": "src/api/restorableSqlResources/index.ts"
+  "./api/restorableSqlContainers": "src/api/restorableSqlContainers/index.ts"
+  "./api/restorableSqlDatabases": "src/api/restorableSqlDatabases/index.ts"
+  "./api/restorableDatabaseAccounts": "src/api/restorableDatabaseAccounts/index.ts"
+  "./api/cassandraDataCenters": "src/api/cassandraDataCenters/index.ts"
+  "./api/cassandraClusters": "src/api/cassandraClusters/index.ts"
+  "./api/locations": "src/api/locations/index.ts"
+  "./api/partitionKeyRangeIdRegion": "src/api/partitionKeyRangeIdRegion/index.ts"
+  "./api/partitionKeyRangeId": "src/api/partitionKeyRangeId/index.ts"
+  "./api/collectionPartition": "src/api/collectionPartition/index.ts"
+  "./api/collectionPartitionRegion": "src/api/collectionPartitionRegion/index.ts"
+  "./api/percentile": "src/api/percentile/index.ts"
+  "./api/percentileTarget": "src/api/percentileTarget/index.ts"
+  "./api/percentileSourceTarget": "src/api/percentileSourceTarget/index.ts"
+  "./api/databaseAccountRegion": "src/api/databaseAccountRegion/index.ts"
+  "./api/collectionRegion": "src/api/collectionRegion/index.ts"
+  "./api/collection": "src/api/collection/index.ts"
+  "./api/database": "src/api/database/index.ts"
+  "./api/chaosFault": "src/api/chaosFault/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/notebookWorkspaces": "src/api/notebookWorkspaces/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/garnetClusters": "src/api/garnetClusters/index.ts"
+  "./api/dataTransferJobs": "src/api/dataTransferJobs/index.ts"
+  "./api/gremlinResources": "src/api/gremlinResources/index.ts"
+  "./api/cassandraResources": "src/api/cassandraResources/index.ts"
+  "./api/tableResources": "src/api/tableResources/index.ts"
+  "./api/mongoDBResources": "src/api/mongoDBResources/index.ts"
+  "./api/sqlResources": "src/api/sqlResources/index.ts"
+  "./api/graphResources": "src/api/graphResources/index.ts"
+  "./api/copyJobs": "src/api/copyJobs/index.ts"
+  "./api/databaseAccounts": "src/api/databaseAccounts/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"

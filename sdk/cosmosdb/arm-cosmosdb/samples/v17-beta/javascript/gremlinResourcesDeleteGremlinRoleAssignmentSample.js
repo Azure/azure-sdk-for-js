@@ -3,32 +3,26 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Gremlin Role Assignment.
  *
- * @summary Deletes an existing Azure Cosmos DB Gremlin Role Assignment.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/gremlinrbac/CosmosDBGremlinRoleAssignmentDelete.json
+ * @summary deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+ * x-ms-original-file: 2025-11-01-preview/gremlinrbac/CosmosDBGremlinRoleAssignmentDelete.json
  */
-async function cosmosDbGremlinRoleAssignmentDelete() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
-  const roleAssignmentId = "myRoleAssignmentId";
+async function cosmosDBGremlinRoleAssignmentDelete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginDeleteGremlinRoleAssignmentAndWait(
-    resourceGroupName,
-    accountName,
-    roleAssignmentId,
+  await client.gremlinResources.deleteGremlinRoleAssignment(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleAssignmentId",
   );
-  console.log(result);
 }
 
 async function main() {
-  await cosmosDbGremlinRoleAssignmentDelete();
+  await cosmosDBGremlinRoleAssignmentDelete();
 }
 
 main().catch(console.error);

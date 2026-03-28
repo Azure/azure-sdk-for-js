@@ -3,27 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Get the properties of a Garnet cache cluster.
+ * This sample demonstrates how to get the properties of a Garnet cache cluster.
  *
- * @summary Get the properties of a Garnet cache cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGarnetClusterGet.json
+ * @summary get the properties of a Garnet cache cluster.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterGet.json
  */
-async function cosmosDbGarnetClusterGet() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "garnet-prod-rg";
-  const clusterName = "garnet-prod";
+async function cosmosDBGarnetClusterGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.garnetClusters.get(resourceGroupName, clusterName);
+  const result = await client.garnetClusters.get("garnet-prod-rg", "garnet-prod");
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbGarnetClusterGet();
+  await cosmosDBGarnetClusterGet();
 }
 
 main().catch(console.error);

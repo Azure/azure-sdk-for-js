@@ -3,27 +3,21 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
+ * This sample demonstrates how to checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
  *
- * @summary Checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBDatabaseAccountCheckNameExists.json
+ * @summary checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountCheckNameExists.json
  */
-async function cosmosDbDatabaseAccountCheckNameExists(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const accountName = "ddb1";
+async function cosmosDBDatabaseAccountCheckNameExists(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.databaseAccounts.checkNameExists(accountName);
-  console.log(result);
+  const client = new CosmosDBManagementClient(credential);
+  await client.databaseAccounts.checkNameExists("ddb1");
 }
 
 async function main(): Promise<void> {
-  await cosmosDbDatabaseAccountCheckNameExists();
+  await cosmosDBDatabaseAccountCheckNameExists();
 }
 
 main().catch(console.error);

@@ -3,32 +3,27 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Migrate an Azure Cosmos DB Table from autoscale to manual throughput
+ * This sample demonstrates how to migrate an Azure Cosmos DB Table from autoscale to manual throughput
  *
- * @summary Migrate an Azure Cosmos DB Table from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBTableMigrateToManualThroughput.json
+ * @summary migrate an Azure Cosmos DB Table from autoscale to manual throughput
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBTableMigrateToManualThroughput.json
  */
-async function cosmosDbTableMigrateToManualThroughput(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const tableName = "tableName";
+async function cosmosDBTableMigrateToManualThroughput(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.tableResources.beginMigrateTableToManualThroughputAndWait(
-      resourceGroupName,
-      accountName,
-      tableName,
-    );
+  const result = await client.tableResources.migrateTableToManualThroughput(
+    "rg1",
+    "ddb1",
+    "tableName",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbTableMigrateToManualThroughput();
+  await cosmosDBTableMigrateToManualThroughput();
 }
 
 main().catch(console.error);

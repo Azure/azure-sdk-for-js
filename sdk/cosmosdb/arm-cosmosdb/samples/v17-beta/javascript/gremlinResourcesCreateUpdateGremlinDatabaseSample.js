@@ -3,38 +3,28 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB Gremlin database
+ * This sample demonstrates how to create or update an Azure Cosmos DB Gremlin database
  *
- * @summary Create or update an Azure Cosmos DB Gremlin database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinDatabaseCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB Gremlin database
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinDatabaseCreateUpdate.json
  */
-async function cosmosDbGremlinDatabaseCreateUpdate() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const createUpdateGremlinDatabaseParameters = {
-    location: "West US",
-    options: {},
-    resource: { id: "databaseName" },
-    tags: {},
-  };
+async function cosmosDBGremlinDatabaseCreateUpdate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginCreateUpdateGremlinDatabaseAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    createUpdateGremlinDatabaseParameters,
+  const result = await client.gremlinResources.createUpdateGremlinDatabase(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    { location: "West US", options: {}, resource: { id: "databaseName" }, tags: {} },
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbGremlinDatabaseCreateUpdate();
+  await cosmosDBGremlinDatabaseCreateUpdate();
 }
 
 main().catch(console.error);

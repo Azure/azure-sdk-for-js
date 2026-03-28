@@ -3,31 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Migrate an Azure Cosmos DB Gremlin database from autoscale to manual throughput
+ * This sample demonstrates how to migrate an Azure Cosmos DB Gremlin database from autoscale to manual throughput
  *
- * @summary Migrate an Azure Cosmos DB Gremlin database from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinDatabaseMigrateToManualThroughput.json
+ * @summary migrate an Azure Cosmos DB Gremlin database from autoscale to manual throughput
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinDatabaseMigrateToManualThroughput.json
  */
-async function cosmosDbGremlinDatabaseMigrateToManualThroughput() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
+async function cosmosDBGremlinDatabaseMigrateToManualThroughput() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginMigrateGremlinDatabaseToManualThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
+  const result = await client.gremlinResources.migrateGremlinDatabaseToManualThroughput(
+    "rg1",
+    "ddb1",
+    "databaseName",
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbGremlinDatabaseMigrateToManualThroughput();
+  await cosmosDBGremlinDatabaseMigrateToManualThroughput();
 }
 
 main().catch(console.error);

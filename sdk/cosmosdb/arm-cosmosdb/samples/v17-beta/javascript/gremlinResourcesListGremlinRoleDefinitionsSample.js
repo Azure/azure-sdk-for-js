@@ -3,33 +3,30 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
+ * This sample demonstrates how to retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
  *
- * @summary Retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/gremlinrbac/CosmosDBGremlinRoleDefinitionList.json
+ * @summary retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
+ * x-ms-original-file: 2025-11-01-preview/gremlinrbac/CosmosDBGremlinRoleDefinitionList.json
  */
-async function cosmosDbGremlinRoleDefinitionList() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
+async function cosmosDBGremlinRoleDefinitionList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.gremlinResources.listGremlinRoleDefinitions(
-    resourceGroupName,
-    accountName,
+    "myResourceGroupName",
+    "myAccountName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbGremlinRoleDefinitionList();
+  await cosmosDBGremlinRoleDefinitionList();
 }
 
 main().catch(console.error);

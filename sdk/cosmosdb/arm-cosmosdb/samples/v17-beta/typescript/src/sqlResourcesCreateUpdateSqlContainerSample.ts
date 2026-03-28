@@ -1,98 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SqlContainerCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
- * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerCreateUpdate.json
  */
-async function cosmosDbSqlContainerCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters =
+async function cosmosDBSqlContainerCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlContainer(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
     {
       location: "West US",
-      options: {},
+      tags: {},
       resource: {
-        clientEncryptionPolicy: {
-          includedPaths: [
-            {
-              path: "/path",
-              clientEncryptionKeyId: "keyId",
-              encryptionAlgorithm: "AEAD_AES_256_CBC_HMAC_SHA256",
-              encryptionType: "Deterministic",
-            },
-          ],
-          policyFormatVersion: 2,
-        },
-        computedProperties: [
-          { name: "cp_lowerName", query: "SELECT VALUE LOWER(c.name) FROM c" },
-        ],
-        conflictResolutionPolicy: {
-          conflictResolutionPath: "/path",
-          mode: "LastWriterWins",
-        },
-        dataMaskingPolicy: {
-          excludedPaths: [{ path: "/id" }],
-          includedPaths: [
-            { path: "/" },
-            {
-              path: "/contact/phones",
-              length: 10,
-              startPosition: 3,
-              strategy: "MaskSubstring",
-            },
-          ],
-          isPolicyEnabled: true,
-        },
-        defaultTtl: 100,
-        fullTextPolicy: {
-          defaultLanguage: "1033",
-          fullTextPaths: [
-            { path: "/ftPath1", language: "en-US" },
-            { path: "/ftPath2", language: "fr-FR" },
-            { path: "/ftPath3", language: "de-DE" },
-          ],
-        },
         id: "containerName",
         indexingPolicy: {
+          indexingMode: "consistent",
           automatic: true,
-          excludedPaths: [],
-          fullTextIndexes: [
-            { path: "/ftPath1" },
-            { path: "/ftPath2" },
-            { path: "/ftPath3" },
-          ],
           includedPaths: [
             {
               path: "/*",
               indexes: [
-                { dataType: "String", kind: "Range", precision: -1 },
-                { dataType: "Number", kind: "Range", precision: -1 },
+                { kind: "Range", dataType: "String", precision: -1 },
+                { kind: "Range", dataType: "Number", precision: -1 },
               ],
             },
           ],
-          indexingMode: "consistent",
+          excludedPaths: [],
           vectorIndexes: [
-            { type: "flat", path: "/vectorPath1" },
-            { type: "quantizedFlat", path: "/vectorPath2" },
-            { type: "diskANN", path: "/vectorPath3" },
+            { path: "/vectorPath1", type: "flat" },
+            { path: "/vectorPath2", type: "quantizedFlat" },
+            { path: "/vectorPath3", type: "diskANN" },
           ],
+          fullTextIndexes: [{ path: "/ftPath1" }, { path: "/ftPath2" }, { path: "/ftPath3" }],
         },
-        partitionKey: { kind: "Hash", paths: ["/AccountNumber"] },
-        uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/testPath"] }] },
         vectorEmbeddingPolicy: {
           vectorEmbeddings: [
             {
@@ -115,34 +66,60 @@ async function cosmosDbSqlContainerCreateUpdate(): Promise<void> {
             },
           ],
         },
+        fullTextPolicy: {
+          defaultLanguage: "1033",
+          fullTextPaths: [
+            { path: "/ftPath1", language: "en-US" },
+            { path: "/ftPath2", language: "fr-FR" },
+            { path: "/ftPath3", language: "de-DE" },
+          ],
+        },
+        partitionKey: { paths: ["/AccountNumber"], kind: "Hash" },
+        defaultTtl: 100,
+        uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/testPath"] }] },
+        conflictResolutionPolicy: { mode: "LastWriterWins", conflictResolutionPath: "/path" },
+        clientEncryptionPolicy: {
+          includedPaths: [
+            {
+              path: "/path",
+              clientEncryptionKeyId: "keyId",
+              encryptionAlgorithm: "AEAD_AES_256_CBC_HMAC_SHA256",
+              encryptionType: "Deterministic",
+            },
+          ],
+          policyFormatVersion: 2,
+        },
+        dataMaskingPolicy: {
+          includedPaths: [
+            { path: "/" },
+            { path: "/contact/phones", strategy: "MaskSubstring", startPosition: 3, length: 10 },
+          ],
+          excludedPaths: [{ path: "/id" }],
+          isPolicyEnabled: true,
+        },
+        computedProperties: [{ name: "cp_lowerName", query: "SELECT VALUE LOWER(c.name) FROM c" }],
       },
-      tags: {},
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlContainerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    createUpdateSqlContainerParameters,
+      options: {},
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
- * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerRestore.json
+ * @summary create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerRestore.json
  */
-async function cosmosDbSqlContainerRestore(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters =
+async function cosmosDBSqlContainerRestore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlContainer(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
     {
       location: "West US",
       options: {},
@@ -151,82 +128,68 @@ async function cosmosDbSqlContainerRestore(): Promise<void> {
         id: "containerName",
         restoreParameters: {
           restoreSource:
-            "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
+            "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
           restoreTimestampInUtc: new Date("2022-07-20T18:28:00Z"),
           restoreWithTtlDisabled: true,
         },
       },
       tags: {},
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlContainerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    createUpdateSqlContainerParameters,
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL container
  *
- * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlMaterializedViewCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB SQL container
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlMaterializedViewCreateUpdate.json
  */
-async function cosmosDbSqlMaterializedViewCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "mvContainerName";
-  const createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters =
+async function cosmosDBSqlMaterializedViewCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlContainer(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "mvContainerName",
     {
       location: "West US",
-      options: {},
+      tags: {},
       resource: {
         id: "mvContainerName",
         indexingPolicy: {
+          indexingMode: "consistent",
           automatic: true,
-          excludedPaths: [],
           includedPaths: [
             {
               path: "/*",
               indexes: [
-                { dataType: "String", kind: "Range", precision: -1 },
-                { dataType: "Number", kind: "Range", precision: -1 },
+                { kind: "Range", dataType: "String", precision: -1 },
+                { kind: "Range", dataType: "Number", precision: -1 },
               ],
             },
           ],
-          indexingMode: "consistent",
+          excludedPaths: [],
         },
+        partitionKey: { paths: ["/mvpk"], kind: "Hash" },
         materializedViewDefinition: {
-          definition: "select * from ROOT",
           sourceCollectionId: "sourceContainerName",
+          definition: "select * from ROOT",
           throughputBucketForBuild: 1,
         },
-        partitionKey: { kind: "Hash", paths: ["/mvpk"] },
       },
-      tags: {},
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlContainerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    createUpdateSqlContainerParameters,
+      options: {},
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlContainerCreateUpdate();
-  await cosmosDbSqlContainerRestore();
-  await cosmosDbSqlMaterializedViewCreateUpdate();
+  await cosmosDBSqlContainerCreateUpdate();
+  await cosmosDBSqlContainerRestore();
+  await cosmosDBSqlMaterializedViewCreateUpdate();
 }
 
 main().catch(console.error);

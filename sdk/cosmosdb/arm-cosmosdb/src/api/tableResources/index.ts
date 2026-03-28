@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listTableRoleAssignments,
+  deleteTableRoleAssignment,
+  createUpdateTableRoleAssignment,
+  getTableRoleAssignment,
+  listTableRoleDefinitions,
+  deleteTableRoleDefinition,
+  createUpdateTableRoleDefinition,
+  getTableRoleDefinition,
+  retrieveContinuousBackupInformation,
+  listTables,
+  deleteTable,
+  createUpdateTable,
+  getTable,
+  migrateTableToManualThroughput,
+  migrateTableToAutoscale,
+  updateTableThroughput,
+  getTableThroughput,
+} from "./operations.js";
+export type {
+  TableResourcesListTableRoleAssignmentsOptionalParams,
+  TableResourcesDeleteTableRoleAssignmentOptionalParams,
+  TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  TableResourcesGetTableRoleAssignmentOptionalParams,
+  TableResourcesListTableRoleDefinitionsOptionalParams,
+  TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  TableResourcesGetTableRoleDefinitionOptionalParams,
+  TableResourcesRetrieveContinuousBackupInformationOptionalParams,
+  TableResourcesListTablesOptionalParams,
+  TableResourcesDeleteTableOptionalParams,
+  TableResourcesCreateUpdateTableOptionalParams,
+  TableResourcesGetTableOptionalParams,
+  TableResourcesMigrateTableToManualThroughputOptionalParams,
+  TableResourcesMigrateTableToAutoscaleOptionalParams,
+  TableResourcesUpdateTableThroughputOptionalParams,
+  TableResourcesGetTableThroughputOptionalParams,
+} from "./options.js";

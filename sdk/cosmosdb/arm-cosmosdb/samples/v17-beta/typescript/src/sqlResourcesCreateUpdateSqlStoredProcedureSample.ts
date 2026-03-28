@@ -1,45 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SqlStoredProcedureCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL storedProcedure
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL storedProcedure
  *
- * @summary Create or update an Azure Cosmos DB SQL storedProcedure
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlStoredProcedureCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB SQL storedProcedure
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlStoredProcedureCreateUpdate.json
  */
-async function cosmosDbSqlStoredProcedureCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const storedProcedureName = "storedProcedureName";
-  const createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters =
-    { options: {}, resource: { body: "body", id: "storedProcedureName" } };
+async function cosmosDBSqlStoredProcedureCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginCreateUpdateSqlStoredProcedureAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      storedProcedureName,
-      createUpdateSqlStoredProcedureParameters,
-    );
+  const result = await client.sqlResources.createUpdateSqlStoredProcedure(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    "storedProcedureName",
+    { options: {}, resource: { body: "body", id: "storedProcedureName" } },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlStoredProcedureCreateUpdate();
+  await cosmosDBSqlStoredProcedureCreateUpdate();
 }
 
 main().catch(console.error);

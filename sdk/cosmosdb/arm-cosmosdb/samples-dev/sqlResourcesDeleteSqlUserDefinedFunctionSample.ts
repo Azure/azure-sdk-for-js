@@ -3,36 +3,28 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL userDefinedFunction.
  *
- * @summary Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlUserDefinedFunctionDelete.json
+ * @summary deletes an existing Azure Cosmos DB SQL userDefinedFunction.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlUserDefinedFunctionDelete.json
  */
-async function cosmosDbSqlUserDefinedFunctionDelete(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const userDefinedFunctionName = "userDefinedFunctionName";
+async function cosmosDBSqlUserDefinedFunctionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.sqlResources.beginDeleteSqlUserDefinedFunctionAndWait(
-      resourceGroupName,
-      accountName,
-      databaseName,
-      containerName,
-      userDefinedFunctionName,
-    );
-  console.log(result);
+  await client.sqlResources.deleteSqlUserDefinedFunction(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    "userDefinedFunctionName",
+  );
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlUserDefinedFunctionDelete();
+  await cosmosDBSqlUserDefinedFunctionDelete();
 }
 
 main().catch(console.error);

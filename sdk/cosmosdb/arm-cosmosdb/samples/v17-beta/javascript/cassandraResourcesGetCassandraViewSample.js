@@ -3,33 +3,28 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the Cassandra view under an existing Azure Cosmos DB database account.
+ * This sample demonstrates how to gets the Cassandra view under an existing Azure Cosmos DB database account.
  *
- * @summary Gets the Cassandra view under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraViewGet.json
+ * @summary gets the Cassandra view under an existing Azure Cosmos DB database account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewGet.json
  */
-async function cosmosDbCassandraViewGet() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspacename";
-  const viewName = "viewname";
+async function cosmosDBCassandraViewGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.cassandraResources.getCassandraView(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
+    "rg1",
+    "ddb1",
+    "keyspacename",
+    "viewname",
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbCassandraViewGet();
+  await cosmosDBCassandraViewGet();
 }
 
 main().catch(console.error);

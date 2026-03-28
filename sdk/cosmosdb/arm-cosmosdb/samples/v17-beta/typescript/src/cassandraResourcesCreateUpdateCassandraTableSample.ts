@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CassandraTableCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra Table
+ * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra Table
  *
- * @summary Create or update an Azure Cosmos DB Cassandra Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraTableCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB Cassandra Table
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraTableCreateUpdate.json
  */
-async function cosmosDbCassandraTableCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspaceName";
-  const tableName = "tableName";
-  const createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters =
+async function cosmosDBCassandraTableCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.cassandraResources.createUpdateCassandraTable(
+    "rg1",
+    "ddb1",
+    "keyspaceName",
+    "tableName",
     {
       location: "West US",
       options: {},
@@ -36,22 +33,13 @@ async function cosmosDbCassandraTableCreateUpdate(): Promise<void> {
         id: "tableName",
       },
       tags: {},
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.cassandraResources.beginCreateUpdateCassandraTableAndWait(
-      resourceGroupName,
-      accountName,
-      keyspaceName,
-      tableName,
-      createUpdateCassandraTableParameters,
-    );
+    },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCassandraTableCreateUpdate();
+  await cosmosDBCassandraTableCreateUpdate();
 }
 
 main().catch(console.error);

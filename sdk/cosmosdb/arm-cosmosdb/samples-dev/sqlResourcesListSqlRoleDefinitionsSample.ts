@@ -3,34 +3,30 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
+ * This sample demonstrates how to retrieves the list of all Azure Cosmos DB SQL Role Definitions.
  *
- * @summary Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlRoleDefinitionList.json
+ * @summary retrieves the list of all Azure Cosmos DB SQL Role Definitions.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlRoleDefinitionList.json
  */
-async function cosmosDbSqlRoleDefinitionList(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
+async function cosmosDBSqlRoleDefinitionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.sqlResources.listSqlRoleDefinitions(
-    resourceGroupName,
-    accountName,
+    "myResourceGroupName",
+    "myAccountName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlRoleDefinitionList();
+  await cosmosDBSqlRoleDefinitionList();
 }
 
 main().catch(console.error);
