@@ -32,7 +32,7 @@ export function _getSend(
       clusterName: clusterName,
       extensionName: extensionName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -13,6 +13,8 @@ import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop
 export interface Extension extends ProxyResource {
   /** Identity of the Extension resource */
   identity?: Identity;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
   /** Details of the resource plan. */
   plan?: Plan;
   /** Type of the Extension, of which this resource is an instance of.  It must be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher. */
@@ -45,6 +47,17 @@ export interface Extension extends ProxyResource {
   aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
   /** Flag to note if this extension is a system extension */
   readonly isSystemExtension?: boolean;
+  /**
+   * The upgrade mode for auto upgrade.
+   * The default is "compatible".
+   */
+  autoUpgradeMode?: AutoUpgradeMode;
+  /** Management details of the extension */
+  managementDetails?: ManagementDetails;
+  /** Additional details provided by the publisher of the extension. */
+  additionalDetails?: AdditionalDetails;
+  /** State of the extension on the cluster. */
+  readonly extensionState?: string;
 }
 
 export function extensionSerializer(item: Extension): any {
@@ -59,10 +72,14 @@ export function extensionSerializer(item: Extension): any {
       "configurationProtectedSettings",
       "statuses",
       "aksAssignedIdentity",
+      "autoUpgradeMode",
+      "managementDetails",
+      "additionalDetails",
     ])
       ? undefined
       : _extensionPropertiesSerializer(item),
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    managedBy: item["managedBy"],
     plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
   };
 }
@@ -79,6 +96,7 @@ export function extensionDeserializer(item: any): Extension {
       ? item["properties"]
       : _extensionPropertiesDeserializer(item["properties"])),
     identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+    managedBy: item["managedBy"],
     plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
   };
 }
@@ -115,6 +133,17 @@ export interface ExtensionProperties {
   aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
   /** Flag to note if this extension is a system extension */
   readonly isSystemExtension?: boolean;
+  /**
+   * The upgrade mode for auto upgrade.
+   * The default is "compatible".
+   */
+  autoUpgradeMode?: AutoUpgradeMode;
+  /** Management details of the extension */
+  managementDetails?: ManagementDetails;
+  /** Additional details provided by the publisher of the extension. */
+  additionalDetails?: AdditionalDetails;
+  /** State of the extension on the cluster. */
+  readonly extensionState?: string;
 }
 
 export function extensionPropertiesSerializer(item: ExtensionProperties): any {
@@ -132,6 +161,13 @@ export function extensionPropertiesSerializer(item: ExtensionProperties): any {
     aksAssignedIdentity: !item["aksAssignedIdentity"]
       ? item["aksAssignedIdentity"]
       : extensionPropertiesAksAssignedIdentitySerializer(item["aksAssignedIdentity"]),
+    autoUpgradeMode: item["autoUpgradeMode"],
+    managementDetails: !item["managementDetails"]
+      ? item["managementDetails"]
+      : managementDetailsSerializer(item["managementDetails"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : additionalDetailsSerializer(item["additionalDetails"]),
   };
 }
 
@@ -171,6 +207,14 @@ export function extensionPropertiesDeserializer(item: any): ExtensionProperties 
       ? item["aksAssignedIdentity"]
       : extensionPropertiesAksAssignedIdentityDeserializer(item["aksAssignedIdentity"]),
     isSystemExtension: item["isSystemExtension"],
+    autoUpgradeMode: item["autoUpgradeMode"],
+    managementDetails: !item["managementDetails"]
+      ? item["managementDetails"]
+      : managementDetailsDeserializer(item["managementDetails"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : additionalDetailsDeserializer(item["additionalDetails"]),
+    extensionState: item["extensionState"],
   };
 }
 
@@ -232,17 +276,17 @@ export function scopeNamespaceDeserializer(item: any): ScopeNamespace {
 
 /** The provisioning state of the resource. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Creating */
+  /** Resource is being created. */
   Creating = "Creating",
-  /** Updating */
+  /** Resource is being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** Resource is being deleted. */
   Deleting = "Deleting",
 }
 
@@ -251,12 +295,12 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Canceled**: Canceled \
- * **Creating**: Creating \
- * **Updating**: Updating \
- * **Deleting**: Deleting
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: Resource is being created. \
+ * **Updating**: Resource is being updated. \
+ * **Deleting**: Resource is being deleted.
  */
 export type ProvisioningState = string;
 
@@ -308,11 +352,11 @@ export function extensionStatusDeserializer(item: any): ExtensionStatus {
 
 /** Level of the status. */
 export enum KnownLevelType {
-  /** Error */
+  /** Indicates an error status from the extension. */
   Error = "Error",
-  /** Warning */
+  /** Indicates a warning status from the extension. */
   Warning = "Warning",
-  /** Information */
+  /** Indicates an informational status from the extension. */
   Information = "Information",
 }
 
@@ -321,9 +365,9 @@ export enum KnownLevelType {
  * {@link KnownLevelType} can be used interchangeably with LevelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Error**: Error \
- * **Warning**: Warning \
- * **Information**: Information
+ * **Error**: Indicates an error status from the extension. \
+ * **Warning**: Indicates a warning status from the extension. \
+ * **Information**: Indicates an informational status from the extension.
  */
 export type LevelType = string;
 
@@ -388,12 +432,23 @@ export interface ExtensionPropertiesAksAssignedIdentity {
   readonly tenantId?: string;
   /** The identity type. */
   type?: AKSIdentityType;
+  /** The object ID of resource identity. */
+  objectId?: string;
+  /** The client ID of resource identity. */
+  clientId?: string;
+  /** The ID of the resource identity. */
+  resourceId?: string;
 }
 
 export function extensionPropertiesAksAssignedIdentitySerializer(
   item: ExtensionPropertiesAksAssignedIdentity,
 ): any {
-  return { type: item["type"] };
+  return {
+    type: item["type"],
+    objectId: item["objectId"],
+    clientId: item["clientId"],
+    resourceId: item["resourceId"],
+  };
 }
 
 export function extensionPropertiesAksAssignedIdentityDeserializer(
@@ -403,11 +458,155 @@ export function extensionPropertiesAksAssignedIdentityDeserializer(
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
+    objectId: item["objectId"],
+    clientId: item["clientId"],
+    resourceId: item["resourceId"],
   };
 }
 
 /** The identity type. */
-export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
+export enum KnownAKSIdentityType {
+  /** SystemAssigned identity */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned identity */
+  UserAssigned = "UserAssigned",
+  /** Workload identity */
+  Workload = "Workload",
+}
+
+/**
+ * The identity type. \
+ * {@link KnownAKSIdentityType} can be used interchangeably with AKSIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: SystemAssigned identity \
+ * **UserAssigned**: UserAssigned identity \
+ * **Workload**: Workload identity
+ */
+export type AKSIdentityType = string;
+
+/**
+ * The upgrade mode for auto upgrade.
+ * The default is "compatible".
+ */
+export enum KnownAutoUpgradeMode {
+  /** The extension will not be automatically upgraded. */
+  None = "none",
+  /** The extension will be automatically upgraded to the latest patch version within the minor version. */
+  Patch = "patch",
+  /** The extension will be automatically upgraded to compatible versions as determined by the user. */
+  Compatible = "compatible",
+}
+
+/**
+ * The upgrade mode for auto upgrade.
+ * The default is "compatible". \
+ * {@link KnownAutoUpgradeMode} can be used interchangeably with AutoUpgradeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: The extension will not be automatically upgraded. \
+ * **patch**: The extension will be automatically upgraded to the latest patch version within the minor version. \
+ * **compatible**: The extension will be automatically upgraded to compatible versions as determined by the user.
+ */
+export type AutoUpgradeMode = string;
+
+/** Metadata about the managing entity of the extension and the permitted operations. */
+export interface ManagementDetails {
+  /** The category of the managing entity */
+  category?: string;
+  /** The list of access details of the managing entity */
+  accessDetails?: AccessDetail[];
+}
+
+export function managementDetailsSerializer(item: ManagementDetails): any {
+  return {
+    category: item["category"],
+    accessDetails: !item["accessDetails"]
+      ? item["accessDetails"]
+      : accessDetailArraySerializer(item["accessDetails"]),
+  };
+}
+
+export function managementDetailsDeserializer(item: any): ManagementDetails {
+  return {
+    category: item["category"],
+    accessDetails: !item["accessDetails"]
+      ? item["accessDetails"]
+      : accessDetailArrayDeserializer(item["accessDetails"]),
+  };
+}
+
+export function accessDetailArraySerializer(result: Array<AccessDetail>): any[] {
+  return result.map((item) => {
+    return accessDetailSerializer(item);
+  });
+}
+
+export function accessDetailArrayDeserializer(result: Array<AccessDetail>): any[] {
+  return result.map((item) => {
+    return accessDetailDeserializer(item);
+  });
+}
+
+/** Metadata about the access details of the managing entity of the extension */
+export interface AccessDetail {
+  /** The entity to which the access details apply */
+  entity?: string;
+  /** The list of allowed actions for the entity */
+  allowedActions?: string[];
+  /** The description of the entity */
+  description?: string;
+}
+
+export function accessDetailSerializer(item: AccessDetail): any {
+  return {
+    entity: item["entity"],
+    allowedActions: !item["allowedActions"]
+      ? item["allowedActions"]
+      : item["allowedActions"].map((p: any) => {
+          return p;
+        }),
+    description: item["description"],
+  };
+}
+
+export function accessDetailDeserializer(item: any): AccessDetail {
+  return {
+    entity: item["entity"],
+    allowedActions: !item["allowedActions"]
+      ? item["allowedActions"]
+      : item["allowedActions"].map((p: any) => {
+          return p;
+        }),
+    description: item["description"],
+  };
+}
+
+/** Additional details provided by the publisher of the extension. */
+export interface AdditionalDetails {
+  /** Documentation for the extension. */
+  docs?: string;
+  /** Release Notes of the extension. */
+  releaseNotes?: string;
+  /** Troubleshooting guide for the extension. */
+  troubleshootingGuide?: string;
+}
+
+export function additionalDetailsSerializer(item: AdditionalDetails): any {
+  return {
+    docs: item["docs"],
+    releaseNotes: item["releaseNotes"],
+    troubleshootingGuide: item["troubleshootingGuide"],
+  };
+}
+
+export function additionalDetailsDeserializer(item: any): AdditionalDetails {
+  return {
+    docs: item["docs"],
+    releaseNotes: item["releaseNotes"],
+    troubleshootingGuide: item["troubleshootingGuide"],
+  };
+}
 
 /** Identity for the resource. */
 export interface Identity {
@@ -582,6 +781,11 @@ export function errorResponseDeserializer(item: any): ErrorResponse {
 export interface PatchExtension {
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
   autoUpgradeMinorVersion?: boolean;
+  /**
+   * The upgrade mode for auto upgrade.
+   * The default is "compatible".
+   */
+  autoUpgradeMode?: AutoUpgradeMode;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
   releaseTrain?: string;
   /** Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'. */
@@ -596,6 +800,7 @@ export function patchExtensionSerializer(item: PatchExtension): any {
   return {
     properties: areAllPropsUndefined(item, [
       "autoUpgradeMinorVersion",
+      "autoUpgradeMode",
       "releaseTrain",
       "version",
       "configurationSettings",
@@ -610,6 +815,11 @@ export function patchExtensionSerializer(item: PatchExtension): any {
 export interface PatchExtensionProperties {
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
   autoUpgradeMinorVersion?: boolean;
+  /**
+   * The upgrade mode for auto upgrade.
+   * The default is "compatible".
+   */
+  autoUpgradeMode?: AutoUpgradeMode;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
   releaseTrain?: string;
   /** Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'. */
@@ -623,6 +833,7 @@ export interface PatchExtensionProperties {
 export function patchExtensionPropertiesSerializer(item: PatchExtensionProperties): any {
   return {
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
+    autoUpgradeMode: item["autoUpgradeMode"],
     releaseTrain: item["releaseTrain"],
     version: item["version"],
     configurationSettings: item["configurationSettings"],
@@ -689,6 +900,8 @@ export function operationStatusResultDeserializer(item: any): OperationStatusRes
 export enum KnownVersions {
   /** The 2024-11-01 API version. */
   V20241101 = "2024-11-01",
+  /** The 2025-03-01 API version. */
+  V20250301 = "2025-03-01",
 }
 
 export function _extensionPropertiesSerializer(item: Extension): any {
@@ -706,6 +919,13 @@ export function _extensionPropertiesSerializer(item: Extension): any {
     aksAssignedIdentity: !item["aksAssignedIdentity"]
       ? item["aksAssignedIdentity"]
       : extensionPropertiesAksAssignedIdentitySerializer(item["aksAssignedIdentity"]),
+    autoUpgradeMode: item["autoUpgradeMode"],
+    managementDetails: !item["managementDetails"]
+      ? item["managementDetails"]
+      : managementDetailsSerializer(item["managementDetails"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : additionalDetailsSerializer(item["additionalDetails"]),
   };
 }
 
@@ -745,12 +965,21 @@ export function _extensionPropertiesDeserializer(item: any) {
       ? item["aksAssignedIdentity"]
       : extensionPropertiesAksAssignedIdentityDeserializer(item["aksAssignedIdentity"]),
     isSystemExtension: item["isSystemExtension"],
+    autoUpgradeMode: item["autoUpgradeMode"],
+    managementDetails: !item["managementDetails"]
+      ? item["managementDetails"]
+      : managementDetailsDeserializer(item["managementDetails"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : additionalDetailsDeserializer(item["additionalDetails"]),
+    extensionState: item["extensionState"],
   };
 }
 
 export function _patchExtensionPropertiesSerializer(item: PatchExtension): any {
   return {
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
+    autoUpgradeMode: item["autoUpgradeMode"],
     releaseTrain: item["releaseTrain"],
     version: item["version"],
     configurationSettings: item["configurationSettings"],

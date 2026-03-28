@@ -5,7 +5,24 @@
 ```ts
 
 // @public
-export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
+export interface AccessDetail {
+    allowedActions?: string[];
+    description?: string;
+    entity?: string;
+}
+
+// @public
+export interface AdditionalDetails {
+    docs?: string;
+    releaseNotes?: string;
+    troubleshootingGuide?: string;
+}
+
+// @public
+export type AKSIdentityType = string;
+
+// @public
+export type AutoUpgradeMode = string;
 
 // @public
 export type CreatedByType = string;
@@ -32,16 +49,21 @@ export interface ErrorResponse {
 
 // @public
 export interface Extension extends ProxyResource {
+    additionalDetails?: AdditionalDetails;
     aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: Record<string, string>;
     configurationSettings?: Record<string, string>;
     readonly currentVersion?: string;
     readonly customLocationSettings?: Record<string, string>;
     readonly errorInfo?: ErrorDetail;
+    readonly extensionState?: string;
     extensionType?: string;
     identity?: Identity;
     readonly isSystemExtension?: boolean;
+    managedBy?: string;
+    managementDetails?: ManagementDetails;
     readonly packageUri?: string;
     plan?: Plan;
     readonly provisioningState?: ProvisioningState;
@@ -53,15 +75,19 @@ export interface Extension extends ProxyResource {
 
 // @public
 export interface ExtensionProperties {
+    additionalDetails?: AdditionalDetails;
     aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: Record<string, string>;
     configurationSettings?: Record<string, string>;
     readonly currentVersion?: string;
     readonly customLocationSettings?: Record<string, string>;
     readonly errorInfo?: ErrorDetail;
+    readonly extensionState?: string;
     extensionType?: string;
     readonly isSystemExtension?: boolean;
+    managementDetails?: ManagementDetails;
     readonly packageUri?: string;
     readonly provisioningState?: ProvisioningState;
     releaseTrain?: string;
@@ -72,7 +98,10 @@ export interface ExtensionProperties {
 
 // @public
 export interface ExtensionPropertiesAksAssignedIdentity {
+    clientId?: string;
+    objectId?: string;
     readonly principalId?: string;
+    resourceId?: string;
     readonly tenantId?: string;
     type?: AKSIdentityType;
 }
@@ -91,6 +120,20 @@ export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
+}
+
+// @public
+export enum KnownAKSIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned",
+    Workload = "Workload"
+}
+
+// @public
+export enum KnownAutoUpgradeMode {
+    Compatible = "compatible",
+    None = "none",
+    Patch = "patch"
 }
 
 // @public
@@ -120,11 +163,18 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241101 = "2024-11-01",
+    V20250301 = "2025-03-01"
 }
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagementDetails {
+    accessDetails?: AccessDetail[];
+    category?: string;
+}
 
 // @public
 export interface OperationStatusResult {
@@ -138,6 +188,7 @@ export interface OperationStatusResult {
 // @public
 export interface PatchExtension {
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: Record<string, string>;
     configurationSettings?: Record<string, string>;
     releaseTrain?: string;
@@ -147,6 +198,7 @@ export interface PatchExtension {
 // @public
 export interface PatchExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: Record<string, string>;
     configurationSettings?: Record<string, string>;
     releaseTrain?: string;
