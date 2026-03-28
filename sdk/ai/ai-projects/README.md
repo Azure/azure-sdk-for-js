@@ -20,7 +20,7 @@ resources in your Microsoft Foundry Project. Use it to:
   * Model Context Protocol (MCP)
   * OpenAPI
   * Microsoft SharePoint (Preview)
-  * Web Search (Preview)
+  * Web Search
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
@@ -354,7 +354,7 @@ const agent = await project.agents.createVersion("agent-web-search", {
   instructions: "You are a helpful assistant that can search the web",
   tools: [
     {
-      type: "web_search_preview",
+      type: "web_search",
       user_location: {
         type: "approximate",
         country: "GB",
