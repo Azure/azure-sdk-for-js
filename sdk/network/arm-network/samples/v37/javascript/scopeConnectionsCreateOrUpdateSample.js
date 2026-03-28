@@ -1,0 +1,34 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetworkManagementClient } = require("@azure/arm-network");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates scope connection from Network Manager
+ *
+ * @summary creates or updates scope connection from Network Manager
+ * x-ms-original-file: 2025-05-01/NetworkManagerScopeConnectionPut.json
+ */
+async function createOrUpdateNetworkManagerScopeConnection() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.scopeConnections.createOrUpdate(
+    "rg1",
+    "testNetworkManager",
+    "TestScopeConnection",
+    {
+      description: "This is a scope connection to a cross tenant subscription.",
+      resourceId: "subscriptions/f0dc2b34-dfad-40e4-83e0-2309fed8d00b",
+      tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f",
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await createOrUpdateNetworkManagerScopeConnection();
+}
+
+main().catch(console.error);
