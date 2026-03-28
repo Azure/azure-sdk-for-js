@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all bookmark relations.
- *
- * @summary Gets all bookmark relations.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/relations/GetAllBookmarkRelations.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all bookmark relations.
+ *
+ * @summary gets all bookmark relations.
+ * x-ms-original-file: 2025-07-01-preview/bookmarks/relations/GetAllBookmarkRelations.json
+ */
 async function getAllBookmarkRelations(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const bookmarkId = "2216d0e1-91e3-4902-89fd-d2df8c535096";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.bookmarkRelations.list(
-    resourceGroupName,
-    workspaceName,
-    bookmarkId,
+    "myRg",
+    "myWorkspace",
+    "2216d0e1-91e3-4902-89fd-d2df8c535096",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

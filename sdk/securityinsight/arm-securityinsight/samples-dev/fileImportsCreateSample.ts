@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates the file import.
- *
- * @summary Creates the file import.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/fileImports/CreateFileImport.json
- */
-
-import type { FileImport } from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates the file import.
+ *
+ * @summary creates the file import.
+ * x-ms-original-file: 2025-07-01-preview/fileImports/CreateFileImport.json
+ */
 async function createAFileImport(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const fileImportId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
-  const fileImport: FileImport = {
-    contentType: "StixIndicator",
-    importFile: { fileFormat: "JSON", fileName: "myFile.json", fileSize: 4653 },
-    ingestionMode: "IngestAnyValidRecords",
-    source: "mySource",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const result = await client.fileImports.create(
-    resourceGroupName,
-    workspaceName,
-    fileImportId,
-    fileImport,
+    "myRg",
+    "myWorkspace",
+    "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+    {
+      contentType: "StixIndicator",
+      importFile: { fileFormat: "JSON", fileName: "myFile.json", fileSize: 4653 },
+      ingestionMode: "IngestAnyValidRecords",
+      source: "mySource",
+    },
   );
   console.log(result);
 }
