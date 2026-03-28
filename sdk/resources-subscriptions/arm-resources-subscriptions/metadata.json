@@ -1,0 +1,52 @@
+{
+  "apiVersions": {
+    "Microsoft.Resources": "2022-12-01"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Resources",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-resources-subscriptions!ResourceName:interface": "Microsoft.Resources.ResourceName",
+      "@azure/arm-resources-subscriptions!CheckResourceNameResult:interface": "Microsoft.Resources.CheckResourceNameResult",
+      "@azure/arm-resources-subscriptions!CloudError:interface": "Microsoft.Resources.CloudError",
+      "@azure/arm-resources-subscriptions!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-resources-subscriptions!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-resources-subscriptions!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-resources-subscriptions!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-resources-subscriptions!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-resources-subscriptions!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-resources-subscriptions!LocationListResult:interface": "Microsoft.Resources.LocationListResult",
+      "@azure/arm-resources-subscriptions!Location:interface": "Microsoft.Resources.Location",
+      "@azure/arm-resources-subscriptions!LocationMetadata:interface": "Microsoft.Resources.LocationMetadata",
+      "@azure/arm-resources-subscriptions!PairedRegion:interface": "Microsoft.Resources.PairedRegion",
+      "@azure/arm-resources-subscriptions!AvailabilityZoneMappings:interface": "Microsoft.Resources.AvailabilityZoneMappings",
+      "@azure/arm-resources-subscriptions!Subscription:interface": "Microsoft.Resources.Subscription",
+      "@azure/arm-resources-subscriptions!SubscriptionPolicies:interface": "Microsoft.Resources.SubscriptionPolicies",
+      "@azure/arm-resources-subscriptions!ManagedByTenant:interface": "Microsoft.Resources.ManagedByTenant",
+      "@azure/arm-resources-subscriptions!SubscriptionListResult:interface": "Microsoft.Resources.SubscriptionListResult",
+      "@azure/arm-resources-subscriptions!CheckZonePeersRequest:interface": "Microsoft.Resources.CheckZonePeersRequest",
+      "@azure/arm-resources-subscriptions!CheckZonePeersResult:interface": "Microsoft.Resources.CheckZonePeersResult",
+      "@azure/arm-resources-subscriptions!AvailabilityZonePeers:interface": "Microsoft.Resources.AvailabilityZonePeers",
+      "@azure/arm-resources-subscriptions!Peers:interface": "Microsoft.Resources.Peers",
+      "@azure/arm-resources-subscriptions!TenantListResult:interface": "Microsoft.Resources.TenantListResult",
+      "@azure/arm-resources-subscriptions!TenantIdDescription:interface": "Microsoft.Resources.TenantIdDescription",
+      "@azure/arm-resources-subscriptions!KnownResourceNameStatus:enum": "Microsoft.Resources.ResourceNameStatus",
+      "@azure/arm-resources-subscriptions!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-resources-subscriptions!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-resources-subscriptions!KnownLocationType:enum": "Microsoft.Resources.LocationType",
+      "@azure/arm-resources-subscriptions!KnownRegionType:enum": "Microsoft.Resources.RegionType",
+      "@azure/arm-resources-subscriptions!KnownRegionCategory:enum": "Microsoft.Resources.RegionCategory",
+      "@azure/arm-resources-subscriptions!KnownSubscriptionState:enum": "Microsoft.Resources.SubscriptionState",
+      "@azure/arm-resources-subscriptions!KnownSpendingLimit:enum": "Microsoft.Resources.SpendingLimit",
+      "@azure/arm-resources-subscriptions!KnownTenantCategory:enum": "Microsoft.Resources.TenantCategory",
+      "@azure/arm-resources-subscriptions!KnownVersions:enum": "Microsoft.Resources.Versions",
+      "@azure/arm-resources-subscriptions!SubscriptionClient#checkResourceName:member(1)": "Microsoft.Resources.checkResourceName",
+      "@azure/arm-resources-subscriptions!TenantsOperations#list:member": "Microsoft.Resources.Tenants.list",
+      "@azure/arm-resources-subscriptions!SubscriptionsOperations#checkZonePeers:member": "Microsoft.Resources.Subscriptions.checkZonePeers",
+      "@azure/arm-resources-subscriptions!SubscriptionsOperations#list:member": "Microsoft.Resources.Subscriptions.list",
+      "@azure/arm-resources-subscriptions!SubscriptionsOperations#get:member": "Microsoft.Resources.Subscriptions.get",
+      "@azure/arm-resources-subscriptions!SubscriptionsOperations#listLocations:member": "Microsoft.Resources.Subscriptions.listLocations",
+      "@azure/arm-resources-subscriptions!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+    }
+  }
+}
