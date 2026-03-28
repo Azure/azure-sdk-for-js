@@ -4,8 +4,20 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CloudError {
@@ -21,35 +33,33 @@ export interface CloudErrorBody {
 }
 
 // @public
-export interface DisableConsoleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DisableConsoleResponse = DisableSerialConsoleResult;
+export type CreatedByType = string;
 
 // @public
 export interface DisableSerialConsoleResult {
+    // (undocumented)
+    properties?: DisableSerialConsoleResultProperties;
+}
+
+// @public
+export interface DisableSerialConsoleResultProperties {
     disabled?: boolean;
 }
-
-// @public
-export interface EnableConsoleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EnableConsoleResponse = EnableSerialConsoleResult;
 
 // @public
 export interface EnableSerialConsoleResult {
+    // (undocumented)
+    properties?: EnableSerialConsoleResultProperties;
+}
+
+// @public
+export interface EnableSerialConsoleResultProperties {
     disabled?: boolean;
 }
 
 // @public
-export interface GetConsoleStatusOptionalParams extends coreClient.OperationOptions {
+export interface GetConsoleStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type GetConsoleStatusResponse = SerialConsoleStatus;
 
 // @public
 export interface GetSerialConsoleSubscriptionNotFound {
@@ -58,34 +68,37 @@ export interface GetSerialConsoleSubscriptionNotFound {
 }
 
 // @public
-export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
-export type ListOperationsResponse = SerialConsoleOperations;
+export enum KnownVersions {
+    V20240701 = "2024-07-01"
+}
+
+// @public
+export interface ListOperationsOptionalParams extends OperationOptions {
+}
 
 // @public (undocumented)
-export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftSerialConsoleClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    disableConsole(defaultParam: string, options?: DisableConsoleOptionalParams): Promise<DisableConsoleResponse>;
-    enableConsole(defaultParam: string, options?: EnableConsoleOptionalParams): Promise<EnableConsoleResponse>;
-    getConsoleStatus(defaultParam: string, options?: GetConsoleStatusOptionalParams): Promise<GetConsoleStatusResponse>;
-    listOperations(options?: ListOperationsOptionalParams): Promise<ListOperationsResponse>;
-    // (undocumented)
-    serialPorts: SerialPorts;
-    // (undocumented)
-    subscriptionId: string;
+export class MicrosoftSerialConsoleClient {
+    constructor(credential: TokenCredential, options?: MicrosoftSerialConsoleClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MicrosoftSerialConsoleClientOptionalParams);
+    getConsoleStatus(defaultParam: string, options?: GetConsoleStatusOptionalParams): Promise<SerialConsoleStatus>;
+    listOperations(options?: ListOperationsOptionalParams): Promise<SerialConsoleOperations>;
+    readonly pipeline: Pipeline;
+    readonly serialConsoleOperationGroup: SerialConsoleOperationGroupOperations;
+    readonly serialPorts: SerialPortsOperations;
 }
 
 // @public
-export interface MicrosoftSerialConsoleClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface MicrosoftSerialConsoleClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -96,7 +109,22 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface SerialConsoleOperationGroupDisableConsoleOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SerialConsoleOperationGroupEnableConsoleOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SerialConsoleOperationGroupOperations {
+    disableConsole: (defaultParam: string, options?: SerialConsoleOperationGroupDisableConsoleOptionalParams) => Promise<DisableSerialConsoleResult>;
+    enableConsole: (defaultParam: string, options?: SerialConsoleOperationGroupEnableConsoleOptionalParams) => Promise<EnableSerialConsoleResult>;
 }
 
 // @public
@@ -104,7 +132,7 @@ export interface SerialConsoleOperations {
     value?: SerialConsoleOperationsValueItem[];
 }
 
-// @public (undocumented)
+// @public
 export interface SerialConsoleOperationsValueItem {
     // (undocumented)
     display?: SerialConsoleOperationsValueItemDisplay;
@@ -114,7 +142,7 @@ export interface SerialConsoleOperationsValueItem {
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SerialConsoleOperationsValueItemDisplay {
     // (undocumented)
     description?: string;
@@ -128,13 +156,23 @@ export interface SerialConsoleOperationsValueItemDisplay {
 
 // @public
 export interface SerialConsoleStatus {
+    // (undocumented)
+    properties?: SerialConsoleStatusProperties;
+}
+
+// @public
+export interface SerialConsoleStatusProperties {
     disabled?: boolean;
 }
 
 // @public
 export interface SerialPort extends ProxyResource {
+    connectionState?: SerialPortConnectionState;
     state?: SerialPortState;
 }
+
+// @public
+export type SerialPortConnectionState = "active" | "inactive";
 
 // @public
 export interface SerialPortConnectResult {
@@ -147,56 +185,52 @@ export interface SerialPortListResult {
 }
 
 // @public
-export interface SerialPorts {
-    connect(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsConnectOptionalParams): Promise<SerialPortsConnectResponse>;
-    create(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, parameters: SerialPort, options?: SerialPortsCreateOptionalParams): Promise<SerialPortsCreateResponse>;
-    delete(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsGetOptionalParams): Promise<SerialPortsGetResponse>;
-    list(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, options?: SerialPortsListOptionalParams): Promise<SerialPortsListResponse>;
-    listBySubscriptions(options?: SerialPortsListBySubscriptionsOptionalParams): Promise<SerialPortsListBySubscriptionsResponse>;
+export interface SerialPortProperties {
+    connectionState?: SerialPortConnectionState;
+    state?: SerialPortState;
 }
 
 // @public
-export interface SerialPortsConnectOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsConnectOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SerialPortsConnectResponse = SerialPortConnectResult;
-
-// @public
-export interface SerialPortsCreateOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SerialPortsCreateResponse = SerialPort;
-
-// @public
-export interface SerialPortsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SerialPortsGetOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsListBySubscriptionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SerialPortsGetResponse = SerialPort;
-
-// @public
-export interface SerialPortsListBySubscriptionsOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SerialPortsListBySubscriptionsResponse = SerialPortListResult;
-
-// @public
-export interface SerialPortsListOptionalParams extends coreClient.OperationOptions {
+export interface SerialPortsOperations {
+    connect: (resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsConnectOptionalParams) => Promise<SerialPortConnectResult>;
+    create: (resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, parameters: SerialPort, options?: SerialPortsCreateOptionalParams) => Promise<SerialPort>;
+    get: (resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsGetOptionalParams) => Promise<SerialPort>;
+    list: (resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, options?: SerialPortsListOptionalParams) => Promise<SerialPortListResult>;
+    listBySubscriptions: (options?: SerialPortsListBySubscriptionsOptionalParams) => Promise<SerialPortListResult>;
 }
-
-// @public
-export type SerialPortsListResponse = SerialPortListResult;
 
 // @public
 export type SerialPortState = "enabled" | "disabled";
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // (No @packageDocumentation comment for this package)
 

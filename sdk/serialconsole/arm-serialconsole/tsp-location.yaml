@@ -1,0 +1,4 @@
+directory: specification/serialconsole/resource-manager/Microsoft.SerialConsole/SerialConsole
+commit: 431a0488ba8f92835169ffd9d9cc352f6ae568be
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
