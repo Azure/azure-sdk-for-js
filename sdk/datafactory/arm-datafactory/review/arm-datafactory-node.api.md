@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicyResponse {
@@ -19,20 +22,20 @@ export interface AccessPolicyResponse {
 
 // @public
 export interface Activity {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
     onInactiveMarkAs?: ActivityOnInactiveMarkAs;
     state?: ActivityState;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
+    type: string;
     userProperties?: UserProperty[];
 }
 
 // @public
 export interface ActivityDependency {
-    [property: string]: any;
     activity: string;
+    additionalProperties?: Record<string, any>;
     dependencyConditions: DependencyCondition[];
 }
 
@@ -41,7 +44,7 @@ export type ActivityOnInactiveMarkAs = string;
 
 // @public
 export interface ActivityPolicy {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     retry?: any;
     retryIntervalInSeconds?: number;
     secureInput?: boolean;
@@ -51,12 +54,12 @@ export interface ActivityPolicy {
 
 // @public
 export interface ActivityRun {
-    [property: string]: any;
     readonly activityName?: string;
     readonly activityRunEnd?: Date;
     readonly activityRunId?: string;
     readonly activityRunStart?: Date;
     readonly activityType?: string;
+    additionalProperties?: Record<string, any>;
     readonly durationInMs?: number;
     readonly error?: any;
     readonly input?: any;
@@ -68,16 +71,13 @@ export interface ActivityRun {
 }
 
 // @public
-export interface ActivityRuns {
-    queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: RunFilterParameters, options?: ActivityRunsQueryByPipelineRunOptionalParams): Promise<ActivityRunsQueryByPipelineRunResponse>;
+export interface ActivityRunsOperations {
+    queryByPipelineRun: (resourceGroupName: string, factoryName: string, runId: string, filterParameters: RunFilterParameters, options?: ActivityRunsQueryByPipelineRunOptionalParams) => Promise<ActivityRunsQueryResponse>;
 }
 
 // @public
-export interface ActivityRunsQueryByPipelineRunOptionalParams extends coreClient.OperationOptions {
+export interface ActivityRunsQueryByPipelineRunOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ActivityRunsQueryByPipelineRunResponse = ActivityRunsQueryResponse;
 
 // @public
 export interface ActivityRunsQueryResponse {
@@ -88,18 +88,12 @@ export interface ActivityRunsQueryResponse {
 // @public
 export type ActivityState = string;
 
-// @public (undocumented)
-export type ActivityUnion = Activity | ControlActivityUnion | ExecutionActivityUnion | ExecuteWranglingDataflowActivity;
+// @public
+export type ActivityUnion = ControlActivityUnion | ExecutionActivityUnion | ExecuteWranglingDataflowActivity | Activity;
 
 // @public
 export interface AddDataFlowToDebugSessionResponse {
     jobVersion?: string;
-}
-
-// @public
-export interface AdditionalColumns {
-    name?: any;
-    value?: any;
 }
 
 // @public
@@ -118,6 +112,20 @@ export interface AmazonMWSLinkedService extends LinkedService {
 }
 
 // @public
+export interface AmazonMWSLinkedServiceTypeProperties {
+    accessKeyId: any;
+    encryptedCredential?: string;
+    endpoint: any;
+    marketplaceID: any;
+    mwsAuthToken?: SecretBaseUnion;
+    secretKey?: SecretBaseUnion;
+    sellerID: any;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
 export interface AmazonMWSObjectDataset extends Dataset {
     tableName?: any;
     type: "AmazonMWSObject";
@@ -130,15 +138,50 @@ export interface AmazonMWSSource extends TabularSource {
 }
 
 // @public
-export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: any;
+export interface AmazonRdsForLinkedServiceTypeProperties {
+    authenticationType?: AmazonRdsForOracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
     encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
     password?: SecretBaseUnion;
-    type: "AmazonRdsForOracle";
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
+    username?: any;
 }
 
 // @public
-export type AmazonRdsForOraclePartitionOption = string;
+export type AmazonRdsForOracleAuthenticationType = string;
+
+// @public
+export interface AmazonRdsForOracleLinkedService extends LinkedService {
+    authenticationType?: AmazonRdsForOracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
+    encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
+    type: "AmazonRdsForOracle";
+    username?: any;
+}
 
 // @public
 export interface AmazonRdsForOraclePartitionSettings {
@@ -151,6 +194,8 @@ export interface AmazonRdsForOraclePartitionSettings {
 // @public
 export interface AmazonRdsForOracleSource extends CopySource {
     additionalColumns?: any;
+    numberPrecision?: any;
+    numberScale?: any;
     oracleReaderQuery?: any;
     partitionOption?: any;
     partitionSettings?: AmazonRdsForOraclePartitionSettings;
@@ -163,6 +208,12 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
     schemaTypePropertiesSchema?: any;
     table?: any;
     type: "AmazonRdsForOracleTable";
+}
+
+// @public
+export interface AmazonRdsForOracleTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
 }
 
 // @public
@@ -228,6 +279,12 @@ export interface AmazonRdsForSqlServerTableDataset extends Dataset {
 }
 
 // @public
+export interface AmazonRdsForSqlServerTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+}
+
+// @public
 export interface AmazonRedshiftLinkedService extends LinkedService {
     database: any;
     encryptedCredential?: string;
@@ -235,6 +292,16 @@ export interface AmazonRedshiftLinkedService extends LinkedService {
     port?: any;
     server: any;
     type: "AmazonRedshift";
+    username?: any;
+}
+
+// @public
+export interface AmazonRedshiftLinkedServiceTypeProperties {
+    database: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    port?: any;
+    server: any;
     username?: any;
 }
 
@@ -254,6 +321,13 @@ export interface AmazonRedshiftTableDataset extends Dataset {
 }
 
 // @public
+export interface AmazonRedshiftTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface AmazonS3CompatibleLinkedService extends LinkedService {
     accessKeyId?: any;
     encryptedCredential?: string;
@@ -261,6 +335,15 @@ export interface AmazonS3CompatibleLinkedService extends LinkedService {
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     type: "AmazonS3Compatible";
+}
+
+// @public
+export interface AmazonS3CompatibleLinkedServiceTypeProperties {
+    accessKeyId?: any;
+    encryptedCredential?: string;
+    forcePathStyle?: any;
+    secretAccessKey?: SecretBaseUnion;
+    serviceUrl?: any;
 }
 
 // @public
@@ -299,6 +382,18 @@ export interface AmazonS3Dataset extends Dataset {
 }
 
 // @public
+export interface AmazonS3DatasetTypeProperties {
+    bucketName: any;
+    compression?: DatasetCompression;
+    format?: DatasetStorageFormatUnion;
+    key?: any;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    prefix?: any;
+    version?: any;
+}
+
+// @public
 export interface AmazonS3LinkedService extends LinkedService {
     accessKeyId?: any;
     authenticationType?: any;
@@ -307,6 +402,16 @@ export interface AmazonS3LinkedService extends LinkedService {
     serviceUrl?: any;
     sessionToken?: SecretBaseUnion;
     type: "AmazonS3";
+}
+
+// @public
+export interface AmazonS3LinkedServiceTypeProperties {
+    accessKeyId?: any;
+    authenticationType?: any;
+    encryptedCredential?: string;
+    secretAccessKey?: SecretBaseUnion;
+    serviceUrl?: any;
+    sessionToken?: SecretBaseUnion;
 }
 
 // @public
@@ -339,6 +444,12 @@ export interface AppendVariableActivity extends ControlActivity {
 }
 
 // @public
+export interface AppendVariableActivityTypeProperties {
+    value?: any;
+    variableName?: string;
+}
+
+// @public
 export interface AppFiguresLinkedService extends LinkedService {
     clientKey: SecretBaseUnion;
     password: SecretBaseUnion;
@@ -347,7 +458,15 @@ export interface AppFiguresLinkedService extends LinkedService {
 }
 
 // @public
+export interface AppFiguresLinkedServiceTypeProperties {
+    clientKey: SecretBaseUnion;
+    password: SecretBaseUnion;
+    userName: any;
+}
+
+// @public
 export interface ArmIdWrapper {
+    // (undocumented)
     readonly id?: string;
 }
 
@@ -359,7 +478,10 @@ export interface AsanaLinkedService extends LinkedService {
 }
 
 // @public
-export type AvroCompressionCodec = string;
+export interface AsanaLinkedServiceTypeProperties {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: string;
+}
 
 // @public
 export interface AvroDataset extends Dataset {
@@ -368,6 +490,14 @@ export interface AvroDataset extends Dataset {
     avroCompressionLevel?: number;
     location?: DatasetLocationUnion;
     type: "Avro";
+}
+
+// @public
+export interface AvroDatasetTypeProperties {
+    avroCompressionCodec?: any;
+    // (undocumented)
+    avroCompressionLevel?: number;
+    location: DatasetLocationUnion;
 }
 
 // @public
@@ -405,6 +535,11 @@ export interface AzPowerShellSetup extends CustomSetupBase {
 }
 
 // @public
+export interface AzPowerShellSetupTypeProperties {
+    version: string;
+}
+
+// @public
 export interface AzureBatchLinkedService extends LinkedService {
     accessKey?: SecretBaseUnion;
     accountName: any;
@@ -414,6 +549,17 @@ export interface AzureBatchLinkedService extends LinkedService {
     linkedServiceName: LinkedServiceReference;
     poolName: any;
     type: "AzureBatch";
+}
+
+// @public
+export interface AzureBatchLinkedServiceTypeProperties {
+    accessKey?: SecretBaseUnion;
+    accountName: any;
+    batchUri: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    linkedServiceName: LinkedServiceReference;
+    poolName: any;
 }
 
 // @public
@@ -429,12 +575,31 @@ export interface AzureBlobDataset extends Dataset {
 }
 
 // @public
+export interface AzureBlobDatasetTypeProperties {
+    compression?: DatasetCompression;
+    fileName?: any;
+    folderPath?: any;
+    format?: DatasetStorageFormatUnion;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+    tableRootLocation?: any;
+}
+
+// @public
 export interface AzureBlobFSDataset extends Dataset {
     compression?: DatasetCompression;
     fileName?: any;
     folderPath?: any;
     format?: DatasetStorageFormatUnion;
     type: "AzureBlobFSFile";
+}
+
+// @public
+export interface AzureBlobFSDatasetTypeProperties {
+    compression?: DatasetCompression;
+    fileName?: any;
+    folderPath?: any;
+    format?: DatasetStorageFormatUnion;
 }
 
 // @public
@@ -451,6 +616,22 @@ export interface AzureBlobFSLinkedService extends LinkedService {
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "AzureBlobFS";
+    url?: any;
+}
+
+// @public
+export interface AzureBlobFSLinkedServiceTypeProperties {
+    accountKey?: any;
+    azureCloudType?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    sasToken?: SecretBaseUnion;
+    sasUri?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
     url?: any;
 }
 
@@ -515,6 +696,24 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureBlobStorageLinkedServiceTypeProperties {
+    accountKey?: AzureKeyVaultSecretReference;
+    accountKind?: any;
+    authenticationType?: AzureStorageAuthenticationType;
+    azureCloudType?: any;
+    connectionString?: any;
+    containerUri?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    sasToken?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    serviceEndpoint?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+}
+
+// @public
 export interface AzureBlobStorageLocation extends DatasetLocation {
     container?: any;
     type: "AzureBlobStorageLocation";
@@ -542,10 +741,23 @@ export interface AzureBlobStorageWriteSettings extends StoreWriteSettings {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureDatabricksDeltaLakeDataset extends Dataset {
     database?: any;
     table?: any;
     type: "AzureDatabricksDeltaLakeDataset";
+}
+
+// @public
+export interface AzureDatabricksDeltaLakeDatasetTypeProperties {
+    database?: any;
+    table?: any;
 }
 
 // @public
@@ -588,32 +800,61 @@ export interface AzureDatabricksDeltaLakeSource extends CopySource {
 }
 
 // @public
+export interface AzureDatabricksDetltaLakeLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    clusterId?: any;
+    credential?: CredentialReference;
+    domain: any;
+    encryptedCredential?: string;
+    workspaceResourceId?: any;
+}
+
+// @public
 export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     authentication?: any;
     credential?: CredentialReference;
+    dataSecurityMode?: any;
     domain: any;
     encryptedCredential?: string;
     existingClusterId?: any;
     instancePoolId?: any;
-    newClusterCustomTags?: {
-        [propertyName: string]: any;
-    };
+    newClusterCustomTags?: Record<string, any>;
     newClusterDriverNodeType?: any;
     newClusterEnableElasticDisk?: any;
     newClusterInitScripts?: any;
     newClusterLogDestination?: any;
     newClusterNodeType?: any;
     newClusterNumOfWorker?: any;
-    newClusterSparkConf?: {
-        [propertyName: string]: any;
-    };
-    newClusterSparkEnvVars?: {
-        [propertyName: string]: any;
-    };
+    newClusterSparkConf?: Record<string, any>;
+    newClusterSparkEnvVars?: Record<string, any>;
     newClusterVersion?: any;
     policyId?: any;
     type: "AzureDatabricks";
+    workspaceResourceId?: any;
+}
+
+// @public
+export interface AzureDatabricksLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    authentication?: any;
+    credential?: CredentialReference;
+    dataSecurityMode?: any;
+    domain: any;
+    encryptedCredential?: string;
+    existingClusterId?: any;
+    instancePoolId?: any;
+    newClusterCustomTags?: Record<string, any>;
+    newClusterDriverNodeType?: any;
+    newClusterEnableElasticDisk?: any;
+    newClusterInitScripts?: any;
+    newClusterLogDestination?: any;
+    newClusterNodeType?: any;
+    newClusterNumOfWorker?: any;
+    newClusterSparkConf?: Record<string, any>;
+    newClusterSparkEnvVars?: Record<string, any>;
+    newClusterVersion?: any;
+    policyId?: any;
     workspaceResourceId?: any;
 }
 
@@ -625,6 +866,17 @@ export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
 }
 
 // @public
+export interface AzureDataExplorerCommandActivityTypeProperties {
+    command: any;
+    commandTimeout?: any;
+}
+
+// @public
+export interface AzureDataExplorerDatasetTypeProperties {
+    table?: any;
+}
+
+// @public
 export interface AzureDataExplorerLinkedService extends LinkedService {
     credential?: CredentialReference;
     database: any;
@@ -633,6 +885,16 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "AzureDataExplorer";
+}
+
+// @public
+export interface AzureDataExplorerLinkedServiceTypeProperties {
+    credential?: CredentialReference;
+    database: any;
+    endpoint: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
 }
 
 // @public
@@ -672,12 +934,32 @@ export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureDataLakeAnalyticsLinkedServiceTypeProperties {
+    accountName: any;
+    dataLakeAnalyticsUri?: any;
+    encryptedCredential?: string;
+    resourceGroupName?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    subscriptionId?: any;
+    tenant: any;
+}
+
+// @public
 export interface AzureDataLakeStoreDataset extends Dataset {
     compression?: DatasetCompression;
     fileName?: any;
     folderPath?: any;
     format?: DatasetStorageFormatUnion;
     type: "AzureDataLakeStoreFile";
+}
+
+// @public
+export interface AzureDataLakeStoreDatasetTypeProperties {
+    compression?: DatasetCompression;
+    fileName?: any;
+    folderPath?: any;
+    format?: DatasetStorageFormatUnion;
 }
 
 // @public
@@ -693,6 +975,20 @@ export interface AzureDataLakeStoreLinkedService extends LinkedService {
     subscriptionId?: any;
     tenant?: any;
     type: "AzureDataLakeStore";
+}
+
+// @public
+export interface AzureDataLakeStoreLinkedServiceTypeProperties {
+    accountName?: any;
+    azureCloudType?: any;
+    credential?: CredentialReference;
+    dataLakeStoreUri: any;
+    encryptedCredential?: string;
+    resourceGroupName?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    subscriptionId?: any;
+    tenant?: any;
 }
 
 // @public
@@ -753,6 +1049,22 @@ export interface AzureFileStorageLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureFileStorageLinkedServiceTypeProperties {
+    accountKey?: AzureKeyVaultSecretReference;
+    connectionString?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    fileShare?: any;
+    host?: any;
+    password?: SecretBaseUnion;
+    sasToken?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    serviceEndpoint?: any;
+    snapshot?: any;
+    userId?: any;
+}
+
+// @public
 export interface AzureFileStorageLocation extends DatasetLocation {
     type: "AzureFileStorageLocation";
 }
@@ -781,15 +1093,21 @@ export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
 export interface AzureFunctionActivity extends ExecutionActivity {
     body?: any;
     functionName: any;
-    headers?: {
-        [propertyName: string]: any;
-    };
+    headers?: Record<string, any>;
     method: AzureFunctionActivityMethod;
     type: "AzureFunctionActivity";
 }
 
 // @public
 export type AzureFunctionActivityMethod = string;
+
+// @public
+export interface AzureFunctionActivityTypeProperties {
+    body?: any;
+    functionName: any;
+    headers?: Record<string, any>;
+    method: AzureFunctionActivityMethod;
+}
 
 // @public
 export interface AzureFunctionLinkedService extends LinkedService {
@@ -803,10 +1121,26 @@ export interface AzureFunctionLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureFunctionLinkedServiceTypeProperties {
+    authentication?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    functionAppUrl: any;
+    functionKey?: SecretBaseUnion;
+    resourceId?: any;
+}
+
+// @public
 export interface AzureKeyVaultLinkedService extends LinkedService {
     baseUrl: any;
     credential?: CredentialReference;
     type: "AzureKeyVault";
+}
+
+// @public
+export interface AzureKeyVaultLinkedServiceTypeProperties {
+    baseUrl: any;
+    credential?: CredentialReference;
 }
 
 // @public
@@ -826,6 +1160,13 @@ export interface AzureMariaDBLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureMariaDBLinkedServiceTypeProperties {
+    connectionString?: any;
+    encryptedCredential?: string;
+    pwd?: AzureKeyVaultSecretReference;
+}
+
+// @public
 export interface AzureMariaDBSource extends TabularSource {
     query?: any;
     type: "AzureMariaDBSource";
@@ -839,16 +1180,17 @@ export interface AzureMariaDBTableDataset extends Dataset {
 
 // @public
 export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
-    globalParameters?: {
-        [propertyName: string]: any;
-    };
+    globalParameters?: Record<string, any>;
     type: "AzureMLBatchExecution";
-    webServiceInputs?: {
-        [propertyName: string]: AzureMLWebServiceFile;
-    };
-    webServiceOutputs?: {
-        [propertyName: string]: AzureMLWebServiceFile;
-    };
+    webServiceInputs?: Record<string, AzureMLWebServiceFile>;
+    webServiceOutputs?: Record<string, AzureMLWebServiceFile>;
+}
+
+// @public
+export interface AzureMLBatchExecutionActivityTypeProperties {
+    globalParameters?: Record<string, any>;
+    webServiceInputs?: Record<string, AzureMLWebServiceFile>;
+    webServiceOutputs?: Record<string, AzureMLWebServiceFile>;
 }
 
 // @public
@@ -861,6 +1203,18 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
     mlPipelineId?: any;
     mlPipelineParameters?: any;
     type: "AzureMLExecutePipeline";
+    version?: any;
+}
+
+// @public
+export interface AzureMLExecutePipelineActivityTypeProperties {
+    continueOnStepFailure?: any;
+    dataPathAssignments?: any;
+    experimentName?: any;
+    mlParentRunId?: any;
+    mlPipelineEndpointId?: any;
+    mlPipelineId?: any;
+    mlPipelineParameters?: any;
     version?: any;
 }
 
@@ -878,6 +1232,18 @@ export interface AzureMLLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureMLLinkedServiceTypeProperties {
+    apiKey: SecretBaseUnion;
+    authentication?: any;
+    encryptedCredential?: string;
+    mlEndpoint: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    updateResourceEndpoint?: any;
+}
+
+// @public
 export interface AzureMLServiceLinkedService extends LinkedService {
     authentication?: any;
     encryptedCredential?: string;
@@ -891,11 +1257,30 @@ export interface AzureMLServiceLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureMLServiceLinkedServiceTypeProperties {
+    authentication?: any;
+    encryptedCredential?: string;
+    mlWorkspaceName: any;
+    resourceGroupName: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    subscriptionId: any;
+    tenant?: any;
+}
+
+// @public
 export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
     trainedModelFilePath: any;
     trainedModelLinkedServiceName: LinkedServiceReference;
     trainedModelName: any;
     type: "AzureMLUpdateResource";
+}
+
+// @public
+export interface AzureMLUpdateResourceActivityTypeProperties {
+    trainedModelFilePath: any;
+    trainedModelLinkedServiceName: LinkedServiceReference;
+    trainedModelName: any;
 }
 
 // @public
@@ -910,6 +1295,13 @@ export interface AzureMySqlLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "AzureMySql";
+}
+
+// @public
+export interface AzureMySqlLinkedServiceTypeProperties {
+    connectionString: any;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
 }
 
 // @public
@@ -929,6 +1321,12 @@ export interface AzureMySqlTableDataset extends Dataset {
     table?: any;
     tableName?: any;
     type: "AzureMySqlTable";
+}
+
+// @public
+export interface AzureMySqlTableDatasetTypeProperties {
+    table?: any;
+    tableName?: any;
 }
 
 // @public
@@ -955,6 +1353,32 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
     timezone?: any;
     trustServerCertificate?: any;
     type: "AzurePostgreSql";
+    username?: any;
+}
+
+// @public
+export interface AzurePostgreSqlLinkedServiceTypeProperties {
+    azureCloudType?: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    credential?: CredentialReference;
+    database?: any;
+    encoding?: any;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    port?: any;
+    readBufferSize?: any;
+    server?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    sslMode?: any;
+    tenant?: any;
+    timeout?: any;
+    timezone?: any;
+    trustServerCertificate?: any;
     username?: any;
 }
 
@@ -986,6 +1410,13 @@ export interface AzurePostgreSqlTableDataset extends Dataset {
 }
 
 // @public
+export interface AzurePostgreSqlTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export type AzurePostgreSqlWriteMethodEnum = string;
 
 // @public
@@ -997,6 +1428,11 @@ export interface AzureQueueSink extends CopySink {
 export interface AzureSearchIndexDataset extends Dataset {
     indexName: any;
     type: "AzureSearchIndex";
+}
+
+// @public
+export interface AzureSearchIndexDatasetTypeProperties {
+    indexName: any;
 }
 
 // @public
@@ -1013,6 +1449,13 @@ export interface AzureSearchLinkedService extends LinkedService {
     encryptedCredential?: string;
     key?: SecretBaseUnion;
     type: "AzureSearch";
+    url: any;
+}
+
+// @public
+export interface AzureSearchLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    key?: SecretBaseUnion;
     url: any;
 }
 
@@ -1137,6 +1580,13 @@ export interface AzureSqlDWTableDataset extends Dataset {
 }
 
 // @public
+export interface AzureSqlDWTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export type AzureSqlMIAuthenticationType = string;
 
 // @public
@@ -1202,6 +1652,13 @@ export interface AzureSqlMITableDataset extends Dataset {
 }
 
 // @public
+export interface AzureSqlMITableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface AzureSqlSink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
@@ -1236,6 +1693,13 @@ export interface AzureSqlTableDataset extends Dataset {
 }
 
 // @public
+export interface AzureSqlTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export type AzureStorageAuthenticationType = string;
 
 // @public
@@ -1258,6 +1722,9 @@ export interface AzureStorageLinkedServiceTypeProperties {
 }
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface AzureSynapseArtifactsLinkedService extends LinkedService {
     authentication?: any;
     endpoint: any;
@@ -1266,9 +1733,21 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureSynapseArtifactsLinkedServiceTypeProperties {
+    authentication?: any;
+    endpoint: any;
+    workspaceResourceId?: any;
+}
+
+// @public
 export interface AzureTableDataset extends Dataset {
     tableName: any;
     type: "AzureTable";
+}
+
+// @public
+export interface AzureTableDatasetTypeProperties {
+    tableName: any;
 }
 
 // @public
@@ -1322,6 +1801,12 @@ export interface BinaryDataset extends Dataset {
 }
 
 // @public
+export interface BinaryDatasetTypeProperties {
+    compression?: DatasetCompression;
+    location: DatasetLocationUnion;
+}
+
+// @public
 export interface BinaryReadSettings extends FormatReadSettings {
     compressionProperties?: CompressionReadSettingsUnion;
     type: "BinaryReadSettings";
@@ -1348,6 +1833,15 @@ export interface BlobEventsTrigger extends MultiplePipelineTrigger {
     ignoreEmptyBlobs?: boolean;
     scope: string;
     type: "BlobEventsTrigger";
+}
+
+// @public
+export interface BlobEventsTriggerTypeProperties {
+    blobPathBeginsWith?: string;
+    blobPathEndsWith?: string;
+    events: BlobEventTypes[];
+    ignoreEmptyBlobs?: boolean;
+    scope: string;
 }
 
 // @public
@@ -1380,6 +1874,13 @@ export interface BlobTrigger extends MultiplePipelineTrigger {
 }
 
 // @public
+export interface BlobTriggerTypeProperties {
+    folderPath: string;
+    linkedService: LinkedServiceReference;
+    maxConcurrency: number;
+}
+
+// @public
 export interface CassandraLinkedService extends LinkedService {
     authenticationType?: any;
     encryptedCredential?: string;
@@ -1387,6 +1888,16 @@ export interface CassandraLinkedService extends LinkedService {
     password?: SecretBaseUnion;
     port?: any;
     type: "Cassandra";
+    username?: any;
+}
+
+// @public
+export interface CassandraLinkedServiceTypeProperties {
+    authenticationType?: any;
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
+    port?: any;
     username?: any;
 }
 
@@ -1408,6 +1919,12 @@ export interface CassandraTableDataset extends Dataset {
 }
 
 // @public
+export interface CassandraTableDatasetTypeProperties {
+    keyspace?: any;
+    tableName?: any;
+}
+
+// @public
 export interface ChainingTrigger extends Trigger {
     dependsOn: PipelineReference[];
     pipeline: TriggerPipelineReference;
@@ -1416,64 +1933,13 @@ export interface ChainingTrigger extends Trigger {
 }
 
 // @public
+export interface ChainingTriggerTypeProperties {
+    dependsOn: PipelineReference[];
+    runDimension: string;
+}
+
+// @public
 export interface ChangeDataCapture {
-    createOrUpdate(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, changeDataCapture: ChangeDataCaptureResource, options?: ChangeDataCaptureCreateOrUpdateOptionalParams): Promise<ChangeDataCaptureCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureGetOptionalParams): Promise<ChangeDataCaptureGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: ChangeDataCaptureListByFactoryOptionalParams): PagedAsyncIterableIterator<ChangeDataCaptureResource>;
-    start(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStartOptionalParams): Promise<void>;
-    status(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStatusOptionalParams): Promise<ChangeDataCaptureStatusResponse>;
-    stop(resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStopOptionalParams): Promise<void>;
-}
-
-// @public
-export interface ChangeDataCaptureCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type ChangeDataCaptureCreateOrUpdateResponse = ChangeDataCaptureResource;
-
-// @public
-export interface ChangeDataCaptureDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ChangeDataCaptureFolder {
-    name?: string;
-}
-
-// @public
-export interface ChangeDataCaptureGetOptionalParams extends coreClient.OperationOptions {
-    ifNoneMatch?: string;
-}
-
-// @public
-export type ChangeDataCaptureGetResponse = ChangeDataCaptureResource;
-
-// @public
-export interface ChangeDataCaptureListByFactoryNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChangeDataCaptureListByFactoryNextResponse = ChangeDataCaptureListResponse;
-
-// @public
-export interface ChangeDataCaptureListByFactoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ChangeDataCaptureListByFactoryResponse = ChangeDataCaptureListResponse;
-
-// @public
-export interface ChangeDataCaptureListResponse {
-    nextLink?: string;
-    value: ChangeDataCaptureResource[];
-}
-
-// @public
-export interface ChangeDataCaptureResource extends SubResource {
-    [property: string]: any;
     allowVNetOverride?: boolean;
     description?: string;
     folder?: ChangeDataCaptureFolder;
@@ -1484,24 +1950,79 @@ export interface ChangeDataCaptureResource extends SubResource {
 }
 
 // @public
-export interface ChangeDataCaptureStartOptionalParams extends coreClient.OperationOptions {
+export interface ChangeDataCaptureCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
 }
 
 // @public
-export interface ChangeDataCaptureStatusOptionalParams extends coreClient.OperationOptions {
+export interface ChangeDataCaptureDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ChangeDataCaptureFolder {
+    name?: string;
+}
+
+// @public
+export interface ChangeDataCaptureGetOptionalParams extends OperationOptions {
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface ChangeDataCaptureListByFactoryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, changeDataCapture: ChangeDataCaptureResource, options?: ChangeDataCaptureCreateOrUpdateOptionalParams) => Promise<ChangeDataCaptureResource>;
+    delete: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureGetOptionalParams) => Promise<ChangeDataCaptureResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: ChangeDataCaptureListByFactoryOptionalParams) => PagedAsyncIterableIterator<ChangeDataCaptureResource>;
+    start: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStartOptionalParams) => Promise<void>;
+    status: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStatusOptionalParams) => Promise<ChangeDataCaptureStatusResponse>;
+    stop: (resourceGroupName: string, factoryName: string, changeDataCaptureName: string, options?: ChangeDataCaptureStopOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface ChangeDataCaptureResource extends ProxyResource {
+    additionalProperties?: Record<string, any>;
+    allowVNetOverride?: boolean;
+    description?: string;
+    readonly etag?: string;
+    folder?: ChangeDataCaptureFolder;
+    policy: MapperPolicy;
+    sourceConnectionsInfo: MapperSourceConnectionsInfo[];
+    status?: string;
+    targetConnectionsInfo: MapperTargetConnectionsInfo[];
+}
+
+// @public
+export interface ChangeDataCaptureStartOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ChangeDataCaptureStatusOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
 export type ChangeDataCaptureStatusResponse = {
     body: string;
 };
 
 // @public
-export interface ChangeDataCaptureStopOptionalParams extends coreClient.OperationOptions {
+export interface ChangeDataCaptureStopOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface CloudError {
+    code: string;
+    details?: CloudError[];
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface CloudErrorBody {
     code: string;
     details?: CloudError[];
     message: string;
@@ -1517,6 +2038,13 @@ export interface CmdkeySetup extends CustomSetupBase {
 }
 
 // @public
+export interface CmdkeySetupTypeProperties {
+    password: SecretBaseUnion;
+    targetName: any;
+    userName: any;
+}
+
+// @public
 export interface CMKIdentityDefinition {
     userAssignedIdentity?: string;
 }
@@ -1525,6 +2053,11 @@ export interface CMKIdentityDefinition {
 export interface CommonDataServiceForAppsEntityDataset extends Dataset {
     entityName?: any;
     type: "CommonDataServiceForAppsEntity";
+}
+
+// @public
+export interface CommonDataServiceForAppsEntityDatasetTypeProperties {
+    entityName?: any;
 }
 
 // @public
@@ -1542,6 +2075,23 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
     servicePrincipalId?: any;
     serviceUri?: any;
     type: "CommonDataServiceForApps";
+    username?: any;
+}
+
+// @public
+export interface CommonDataServiceForAppsLinkedServiceTypeProperties {
+    authenticationType: any;
+    deploymentType: any;
+    domain?: any;
+    encryptedCredential?: string;
+    hostName?: any;
+    organizationName?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
     username?: any;
 }
 
@@ -1570,16 +2120,13 @@ export interface ComponentSetup extends CustomSetupBase {
 }
 
 // @public
-export type CompressionCodec = string;
-
-// @public
 export interface CompressionReadSettings {
-    [property: string]: any;
-    type: "ZipDeflateReadSettings" | "TarReadSettings" | "TarGZipReadSettings";
+    additionalProperties?: Record<string, any>;
+    type: string;
 }
 
-// @public (undocumented)
-export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings;
+// @public
+export type CompressionReadSettingsUnion = ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings | CompressionReadSettings;
 
 // @public
 export interface ConcurLinkedService extends LinkedService {
@@ -1588,6 +2135,18 @@ export interface ConcurLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Concur";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
+}
+
+// @public
+export interface ConcurLinkedServiceTypeProperties {
+    clientId: any;
+    connectionProperties?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -1620,6 +2179,11 @@ export interface ConnectionStateProperties {
 export type ConnectionType = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export interface ContinuationSettingsReference {
     continuationTtlInMinutes?: any;
     customizedCheckpointKey?: any;
@@ -1628,11 +2192,12 @@ export interface ContinuationSettingsReference {
 
 // @public
 export interface ControlActivity extends Activity {
+    // (undocumented)
     type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 }
 
-// @public (undocumented)
-export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | FailActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
+// @public
+export type ControlActivityUnion = ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | FailActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | ControlActivity;
 
 // @public
 export interface CopyActivity extends ExecutionActivity {
@@ -1663,51 +2228,58 @@ export interface CopyActivityLogSettings {
 }
 
 // @public
-export type CopyBehaviorType = string;
+export interface CopyActivityTypeProperties {
+    dataIntegrationUnits?: any;
+    enableSkipIncompatibleRow?: any;
+    enableStaging?: any;
+    logSettings?: LogSettings;
+    logStorageSettings?: LogStorageSettings;
+    parallelCopies?: any;
+    preserve?: any[];
+    preserveRules?: any[];
+    redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
+    sink: CopySinkUnion;
+    skipErrorFile?: SkipErrorFile;
+    source: CopySourceUnion;
+    stagingSettings?: StagingSettings;
+    translator?: any;
+    validateDataConsistency?: any;
+}
 
 // @public
 export interface CopyComputeScaleProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     dataIntegrationUnit?: number;
     timeToLive?: number;
 }
 
 // @public
 export interface CopySink {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
     sinkRetryCount?: any;
     sinkRetryWait?: any;
-    type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "TeradataSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink";
+    type: string;
     writeBatchSize?: any;
     writeBatchTimeout?: any;
 }
 
-// @public (undocumented)
-export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | RestSink | TeradataSink | AzurePostgreSqlSink | AzureMySqlSink | AzureDatabricksDeltaLakeSink | WarehouseSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | IcebergSink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | SnowflakeSink | SnowflakeV2Sink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | MongoDbAtlasSink | MongoDbV2Sink | CosmosDbMongoDbApiSink | LakeHouseTableSink | SalesforceV2Sink | SalesforceServiceCloudV2Sink;
+// @public
+export type CopySinkUnion = DelimitedTextSink | JsonSink | OrcSink | RestSink | TeradataSink | AzurePostgreSqlSink | AzureMySqlSink | AzureDatabricksDeltaLakeSink | WarehouseSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | IcebergSink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | SnowflakeSink | SnowflakeV2Sink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | MongoDbAtlasSink | MongoDbV2Sink | CosmosDbMongoDbApiSink | LakeHouseTableSink | SalesforceV2Sink | SalesforceServiceCloudV2Sink | CopySink;
 
 // @public
 export interface CopySource {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
     sourceRetryCount?: any;
     sourceRetryWait?: any;
-    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakeHouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source" | "ServiceNowV2Source";
+    type: string;
 }
-
-// @public (undocumented)
-export type CopySourceUnion = CopySource | AvroSource | ExcelSource | ParquetSource | DelimitedTextSource | JsonSource | XmlSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | AmazonRdsForOracleSource | WebSource | MongoDbSource | MongoDbAtlasSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource | LakeHouseTableSource | SnowflakeSource | SnowflakeV2Source | AzureDatabricksDeltaLakeSource | SharePointOnlineListSource | SalesforceServiceCloudV2Source;
 
 // @public
-export interface CopyTranslator {
-    [property: string]: any;
-    type: "TabularTranslator";
-}
-
-// @public (undocumented)
-export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
+export type CopySourceUnion = AvroSource | ExcelSource | ParquetSource | DelimitedTextSource | JsonSource | XmlSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | AmazonRdsForOracleSource | WebSource | MongoDbSource | MongoDbAtlasSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource | LakeHouseTableSource | SnowflakeSource | SnowflakeV2Source | AzureDatabricksDeltaLakeSource | SharePointOnlineListSource | SalesforceServiceCloudV2Source | CopySource;
 
 // @public
 export type CosmosDbConnectionMode = string;
@@ -1730,9 +2302,30 @@ export interface CosmosDbLinkedService extends LinkedService {
 }
 
 // @public
+export interface CosmosDbLinkedServiceTypeProperties {
+    accountEndpoint?: any;
+    accountKey?: SecretBaseUnion;
+    azureCloudType?: any;
+    connectionMode?: CosmosDbConnectionMode;
+    connectionString?: any;
+    credential?: CredentialReference;
+    database?: any;
+    encryptedCredential?: string;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    tenant?: any;
+}
+
+// @public
 export interface CosmosDbMongoDbApiCollectionDataset extends Dataset {
     collection: any;
     type: "CosmosDbMongoDbApiCollection";
+}
+
+// @public
+export interface CosmosDbMongoDbApiCollectionDatasetTypeProperties {
+    collection: any;
 }
 
 // @public
@@ -1741,6 +2334,13 @@ export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
     database: any;
     isServerVersionAbove32?: any;
     type: "CosmosDbMongoDbApi";
+}
+
+// @public
+export interface CosmosDbMongoDbApiLinkedServiceTypeProperties {
+    connectionString: any;
+    database: any;
+    isServerVersionAbove32?: any;
 }
 
 // @public
@@ -1766,6 +2366,11 @@ export interface CosmosDbSqlApiCollectionDataset extends Dataset {
 }
 
 // @public
+export interface CosmosDbSqlApiCollectionDatasetTypeProperties {
+    collectionName: any;
+}
+
+// @public
 export interface CosmosDbSqlApiSink extends CopySink {
     type: "CosmosDbSqlApiSink";
     writeBehavior?: any;
@@ -1787,6 +2392,13 @@ export interface CouchbaseLinkedService extends LinkedService {
     credString?: AzureKeyVaultSecretReference;
     encryptedCredential?: string;
     type: "Couchbase";
+}
+
+// @public
+export interface CouchbaseLinkedServiceTypeProperties {
+    connectionString?: any;
+    credString?: AzureKeyVaultSecretReference;
+    encryptedCredential?: string;
 }
 
 // @public
@@ -1816,6 +2428,9 @@ export interface CreateDataFlowDebugSessionResponse {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface CreateLinkedIntegrationRuntimeRequest {
     dataFactoryLocation?: string;
     dataFactoryName?: string;
@@ -1830,63 +2445,41 @@ export interface CreateRunResponse {
 
 // @public
 export interface Credential {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     annotations?: any[];
     description?: string;
-    type: "ServicePrincipal" | "ManagedIdentity";
+    type: string;
 }
 
 // @public
-export interface CredentialListResponse {
-    nextLink?: string;
-    value: CredentialResource[];
-}
-
-// @public
-export interface CredentialOperations {
-    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: CredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams): Promise<CredentialOperationsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<CredentialResource>;
-}
-
-// @public
-export interface CredentialOperationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CredentialOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
-
-// @public
-export interface CredentialOperationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface CredentialOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CredentialOperationsGetOptionalParams extends coreClient.OperationOptions {
+export interface CredentialOperationsGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type CredentialOperationsGetResponse = CredentialResource;
-
-// @public
-export interface CredentialOperationsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface CredentialOperationsListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
-
-// @public
-export interface CredentialOperationsListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface CredentialOperationsOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, credentialName: string, credential: CredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams) => Promise<CredentialResource>;
+    delete: (resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams) => Promise<CredentialResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams) => PagedAsyncIterableIterator<CredentialResource>;
 }
-
-// @public
-export type CredentialOperationsListByFactoryResponse = CredentialListResponse;
 
 // @public
 export interface CredentialReference {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     referenceName: string;
     type: CredentialReferenceType;
 }
@@ -1895,20 +2488,19 @@ export interface CredentialReference {
 export type CredentialReferenceType = string;
 
 // @public
-export interface CredentialResource extends SubResource {
+export interface CredentialResource extends ProxyResource {
+    readonly etag?: string;
     properties: CredentialUnion;
 }
 
-// @public (undocumented)
-export type CredentialUnion = Credential | ServicePrincipalCredential | ManagedIdentityCredential;
+// @public
+export type CredentialUnion = ServicePrincipalCredential | ManagedIdentityCredential | Credential;
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
     autoUserSpecification?: any;
     command: any;
-    extendedProperties?: {
-        [propertyName: string]: any;
-    };
+    extendedProperties?: Record<string, any>;
     folderPath?: any;
     referenceObjects?: CustomActivityReferenceObject;
     resourceLinkedService?: LinkedServiceReference;
@@ -1920,6 +2512,17 @@ export interface CustomActivity extends ExecutionActivity {
 export interface CustomActivityReferenceObject {
     datasets?: DatasetReference[];
     linkedServices?: LinkedServiceReference[];
+}
+
+// @public
+export interface CustomActivityTypeProperties {
+    autoUserSpecification?: any;
+    command: any;
+    extendedProperties?: Record<string, any>;
+    folderPath?: any;
+    referenceObjects?: CustomActivityReferenceObject;
+    resourceLinkedService?: LinkedServiceReference;
+    retentionTimeInDays?: any;
 }
 
 // @public
@@ -1944,107 +2547,114 @@ export interface CustomEventsTrigger extends MultiplePipelineTrigger {
 }
 
 // @public
-export interface CustomSetupBase {
-    type: "CmdkeySetup" | "EnvironmentVariableSetup" | "ComponentSetup" | "AzPowerShellSetup";
+export interface CustomEventsTriggerTypeProperties {
+    events: any[];
+    scope: string;
+    subjectBeginsWith?: string;
+    subjectEndsWith?: string;
 }
 
-// @public (undocumented)
-export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup | AzPowerShellSetup;
+// @public
+export interface CustomSetupBase {
+    type: string;
+}
+
+// @public
+export type CustomSetupBaseUnion = CmdkeySetup | EnvironmentVariableSetup | ComponentSetup | AzPowerShellSetup | CustomSetupBase;
+
+// @public
+export interface DatabricksJobActivity extends ExecutionActivity {
+    jobId: any;
+    jobParameters?: Record<string, any>;
+    type: "DatabricksJob";
+}
+
+// @public
+export interface DatabricksJobActivityTypeProperties {
+    jobId: any;
+    jobParameters?: Record<string, any>;
+}
 
 // @public
 export interface DatabricksNotebookActivity extends ExecutionActivity {
-    baseParameters?: {
-        [propertyName: string]: any;
-    };
-    libraries?: {
-        [propertyName: string]: any;
-    }[];
+    baseParameters?: Record<string, any>;
+    libraries?: Record<string, any>[];
     notebookPath: any;
     type: "DatabricksNotebook";
 }
 
 // @public
+export interface DatabricksNotebookActivityTypeProperties {
+    baseParameters?: Record<string, any>;
+    libraries?: Record<string, any>[];
+    notebookPath: any;
+}
+
+// @public
 export interface DatabricksSparkJarActivity extends ExecutionActivity {
-    libraries?: {
-        [propertyName: string]: any;
-    }[];
+    libraries?: Record<string, any>[];
     mainClassName: any;
     parameters?: any[];
     type: "DatabricksSparkJar";
 }
 
 // @public
+export interface DatabricksSparkJarActivityTypeProperties {
+    libraries?: Record<string, any>[];
+    mainClassName: any;
+    parameters?: any[];
+}
+
+// @public
 export interface DatabricksSparkPythonActivity extends ExecutionActivity {
-    libraries?: {
-        [propertyName: string]: any;
-    }[];
+    libraries?: Record<string, any>[];
     parameters?: any[];
     pythonFile: any;
     type: "DatabricksSparkPython";
 }
 
+// @public
+export interface DatabricksSparkPythonActivityTypeProperties {
+    libraries?: Record<string, any>[];
+    parameters?: any[];
+    pythonFile: any;
+}
+
 // @public (undocumented)
-export class DataFactoryManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
-    // (undocumented)
-    activityRuns: ActivityRuns;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    changeDataCapture: ChangeDataCapture;
-    // (undocumented)
-    credentialOperations: CredentialOperations;
-    // (undocumented)
-    dataFlowDebugSession: DataFlowDebugSession;
-    // (undocumented)
-    dataFlows: DataFlows;
-    // (undocumented)
-    datasets: Datasets;
-    // (undocumented)
-    exposureControl: ExposureControl;
-    // (undocumented)
-    factories: Factories;
-    // (undocumented)
-    globalParameters: GlobalParameters;
-    // (undocumented)
-    integrationRuntimeNodes: IntegrationRuntimeNodes;
-    // (undocumented)
-    integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
-    // (undocumented)
-    integrationRuntimes: IntegrationRuntimes;
-    // (undocumented)
-    linkedServices: LinkedServices;
-    // (undocumented)
-    managedPrivateEndpoints: ManagedPrivateEndpoints;
-    // (undocumented)
-    managedVirtualNetworks: ManagedVirtualNetworks;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    pipelineRuns: PipelineRuns;
-    // (undocumented)
-    pipelines: Pipelines;
-    // (undocumented)
-    privateEndpointConnection: PrivateEndpointConnection;
-    // (undocumented)
-    privateEndPointConnections: PrivateEndPointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    triggerRuns: TriggerRuns;
-    // (undocumented)
-    triggers: Triggers;
+export class DataFactoryManagementClient {
+    constructor(credential: TokenCredential, options?: DataFactoryManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
+    readonly activityRuns: ActivityRunsOperations;
+    readonly changeDataCapture: ChangeDataCaptureOperations;
+    readonly credentialOperations: CredentialOperationsOperations;
+    readonly dataFlowDebugSession: DataFlowDebugSessionOperations;
+    readonly dataFlows: DataFlowsOperations;
+    readonly datasets: DatasetsOperations;
+    readonly exposureControl: ExposureControlOperations;
+    readonly factories: FactoriesOperations;
+    readonly globalParameters: GlobalParametersOperations;
+    readonly integrationRuntime: IntegrationRuntimeOperations;
+    readonly integrationRuntimeNodes: IntegrationRuntimeNodesOperations;
+    readonly integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadataOperations;
+    readonly integrationRuntimes: IntegrationRuntimesOperations;
+    readonly linkedServices: LinkedServicesOperations;
+    readonly managedPrivateEndpoints: ManagedPrivateEndpointsOperations;
+    readonly managedVirtualNetworks: ManagedVirtualNetworksOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline_2;
+    readonly pipelineRuns: PipelineRunsOperations;
+    readonly pipelines: PipelinesOperations;
+    readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
+    readonly privateEndPointConnections: PrivateEndPointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly triggerRuns: TriggerRunsOperations;
+    readonly triggers: TriggersOperations;
 }
 
 // @public
-export interface DataFactoryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DataFactoryManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -2052,7 +2662,7 @@ export interface DataFlow {
     annotations?: any[];
     description?: string;
     folder?: DataFlowFolder;
-    type: "MappingDataFlow" | "Flowlet" | "WranglingDataFlow";
+    type: string;
 }
 
 // @public
@@ -2084,7 +2694,7 @@ export type DataFlowDebugCommandType = string;
 
 // @public
 export interface DataFlowDebugPackage {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     dataFlow?: DataFlowDebugResource;
     dataFlows?: DataFlowDebugResource[];
     datasets?: DatasetDebugResource[];
@@ -2097,9 +2707,7 @@ export interface DataFlowDebugPackage {
 // @public
 export interface DataFlowDebugPackageDebugSettings {
     datasetParameters?: any;
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     sourceSettings?: DataFlowSourceSetting[];
 }
 
@@ -2109,58 +2717,26 @@ export interface DataFlowDebugResource extends SubResourceDebugResource {
 }
 
 // @public
-export interface DataFlowDebugSession {
-    addDataFlow(resourceGroupName: string, factoryName: string, request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams): Promise<DataFlowDebugSessionAddDataFlowResponse>;
-    beginCreate(resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionCreateResponse>, DataFlowDebugSessionCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams): Promise<DataFlowDebugSessionCreateResponse>;
-    beginExecuteCommand(resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
-    beginExecuteCommandAndWait(resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<DataFlowDebugSessionExecuteCommandResponse>;
-    delete(resourceGroupName: string, factoryName: string, request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteOptionalParams): Promise<void>;
-    listQueryByFactory(resourceGroupName: string, factoryName: string, options?: DataFlowDebugSessionQueryByFactoryOptionalParams): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
+export interface DataFlowDebugSessionAddDataFlowOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataFlowDebugSessionAddDataFlowOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
-
-// @public
-export interface DataFlowDebugSessionCreateHeaders {
-    location?: string;
-}
-
-// @public
-export interface DataFlowDebugSessionCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DataFlowDebugSessionCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionResponse;
-
-// @public
-export interface DataFlowDebugSessionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowDebugSessionDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataFlowDebugSessionExecuteCommandHeaders {
-    location?: string;
-}
-
-// @public
-export interface DataFlowDebugSessionExecuteCommandOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DataFlowDebugSessionExecuteCommandOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
 
 // @public
 export interface DataFlowDebugSessionInfo {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     computeType?: string;
     coreCount?: number;
     dataFlowName?: string;
@@ -2173,18 +2749,17 @@ export interface DataFlowDebugSessionInfo {
 }
 
 // @public
-export interface DataFlowDebugSessionQueryByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowDebugSessionOperations {
+    addDataFlow: (resourceGroupName: string, factoryName: string, request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams) => Promise<AddDataFlowToDebugSessionResponse>;
+    create: (resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams) => PollerLike<OperationState<CreateDataFlowDebugSessionResponse>, CreateDataFlowDebugSessionResponse>;
+    delete: (resourceGroupName: string, factoryName: string, request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteOptionalParams) => Promise<void>;
+    executeCommand: (resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams) => PollerLike<OperationState<DataFlowDebugCommandResponse>, DataFlowDebugCommandResponse>;
+    queryByFactory: (resourceGroupName: string, factoryName: string, options?: DataFlowDebugSessionQueryByFactoryOptionalParams) => PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
 }
 
 // @public
-export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugSessionsResponse;
-
-// @public
-export interface DataFlowDebugSessionQueryByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowDebugSessionQueryByFactoryOptionalParams extends OperationOptions {
 }
-
-// @public
-export type DataFlowDebugSessionQueryByFactoryResponse = QueryDataFlowDebugSessionsResponse;
 
 // @public
 export interface DataFlowFolder {
@@ -2192,18 +2767,10 @@ export interface DataFlowFolder {
 }
 
 // @public
-export interface DataFlowListResponse {
-    nextLink?: string;
-    value: DataFlowResource[];
-}
-
-// @public
 export interface DataFlowReference {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     datasetParameters?: any;
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     referenceName: string;
     type: DataFlowReferenceType;
 }
@@ -2212,37 +2779,24 @@ export interface DataFlowReference {
 export type DataFlowReferenceType = string;
 
 // @public
-export interface DataFlowResource extends SubResource {
+export interface DataFlowResource extends ProxyResource {
+    readonly etag?: string;
     properties: DataFlowUnion;
 }
 
 // @public
-export interface DataFlows {
-    createOrUpdate(resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowsCreateOrUpdateOptionalParams): Promise<DataFlowsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: DataFlowsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: DataFlowsGetOptionalParams): Promise<DataFlowsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: DataFlowsListByFactoryOptionalParams): PagedAsyncIterableIterator<DataFlowResource>;
-}
-
-// @public
-export interface DataFlowsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type DataFlowsCreateOrUpdateResponse = DataFlowResource;
-
-// @public
-export interface DataFlowsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataFlowsGetOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowsGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
-
-// @public
-export type DataFlowsGetResponse = DataFlowResource;
 
 // @public
 export interface DataFlowSink extends Transformation {
@@ -2251,18 +2805,16 @@ export interface DataFlowSink extends Transformation {
 }
 
 // @public
-export interface DataFlowsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowsListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DataFlowsListByFactoryNextResponse = DataFlowListResponse;
-
-// @public
-export interface DataFlowsListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface DataFlowsOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowsCreateOrUpdateOptionalParams) => Promise<DataFlowResource>;
+    delete: (resourceGroupName: string, factoryName: string, dataFlowName: string, options?: DataFlowsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, dataFlowName: string, options?: DataFlowsGetOptionalParams) => Promise<DataFlowResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: DataFlowsListByFactoryOptionalParams) => PagedAsyncIterableIterator<DataFlowResource>;
 }
-
-// @public
-export type DataFlowsListByFactoryResponse = DataFlowListResponse;
 
 // @public
 export interface DataFlowSource extends Transformation {
@@ -2271,7 +2823,7 @@ export interface DataFlowSource extends Transformation {
 
 // @public
 export interface DataFlowSourceSetting {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     rowLimit?: number;
     sourceName?: string;
 }
@@ -2282,21 +2834,30 @@ export interface DataFlowStagingInfo {
     linkedService?: LinkedServiceReference;
 }
 
-// @public (undocumented)
-export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet | WranglingDataFlow;
+// @public
+export type DataFlowUnion = MappingDataFlow | Flowlet | WranglingDataFlow | DataFlow;
 
 // @public
 export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
     compilationMode?: any;
     degreeOfParallelism?: any;
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     priority?: any;
     runtimeVersion?: any;
     scriptLinkedService: LinkedServiceReference;
     scriptPath: any;
     type: "DataLakeAnalyticsU-SQL";
+}
+
+// @public
+export interface DataLakeAnalyticsUsqlActivityTypeProperties {
+    compilationMode?: any;
+    degreeOfParallelism?: any;
+    parameters?: Record<string, any>;
+    priority?: any;
+    runtimeVersion?: any;
+    scriptLinkedService: LinkedServiceReference;
+    scriptPath: any;
 }
 
 // @public
@@ -2310,33 +2871,22 @@ export interface DataMapperMapping {
 
 // @public
 export interface Dataset {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     annotations?: any[];
     description?: string;
     folder?: DatasetFolder;
     linkedServiceName: LinkedServiceReference;
-    parameters?: {
-        [propertyName: string]: ParameterSpecification;
-    };
+    parameters?: Record<string, ParameterSpecification>;
     schema?: any;
     structure?: any;
-    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "Iceberg" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakehouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object";
+    type: string;
 }
 
 // @public
 export interface DatasetCompression {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     level?: any;
     type: any;
-}
-
-// @public
-export type DatasetCompressionLevel = string;
-
-// @public
-export interface DatasetDataElement {
-    name?: any;
-    type?: any;
 }
 
 // @public
@@ -2350,104 +2900,83 @@ export interface DatasetFolder {
 }
 
 // @public
-export interface DatasetListResponse {
-    nextLink?: string;
-    value: DatasetResource[];
+export interface DatasetLocation {
+    additionalProperties?: Record<string, any>;
+    fileName?: any;
+    folderPath?: any;
+    type: string;
 }
 
 // @public
-export interface DatasetLocation {
-    [property: string]: any;
-    fileName?: any;
-    folderPath?: any;
-    type: "AzureBlobStorageLocation" | "AzureBlobFSLocation" | "AzureDataLakeStoreLocation" | "AmazonS3Location" | "FileServerLocation" | "AzureFileStorageLocation" | "AmazonS3CompatibleLocation" | "OracleCloudStorageLocation" | "GoogleCloudStorageLocation" | "FtpServerLocation" | "SftpLocation" | "HttpServerLocation" | "HdfsLocation" | "LakeHouseLocation";
-}
-
-// @public (undocumented)
-export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | AmazonS3CompatibleLocation | OracleCloudStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation | LakeHouseLocation;
+export type DatasetLocationUnion = AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | AmazonS3CompatibleLocation | OracleCloudStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation | LakeHouseLocation | DatasetLocation;
 
 // @public
 export interface DatasetReference {
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     referenceName: string;
-    type: "DatasetReference";
+    type: DatasetReferenceType;
 }
 
 // @public
-export interface DatasetResource extends SubResource {
+export type DatasetReferenceType = string;
+
+// @public
+export interface DatasetResource extends ProxyResource {
+    readonly etag?: string;
     properties: DatasetUnion;
 }
 
 // @public
-export interface Datasets {
-    createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: DatasetResource, options?: DatasetsCreateOrUpdateOptionalParams): Promise<DatasetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsGetOptionalParams): Promise<DatasetsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: DatasetsListByFactoryOptionalParams): PagedAsyncIterableIterator<DatasetResource>;
-}
-
-// @public
-export interface DatasetSchemaDataElement {
-    [property: string]: any;
-    name?: any;
-    type?: any;
-}
-
-// @public
-export interface DatasetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type DatasetsCreateOrUpdateResponse = DatasetResource;
-
-// @public
-export interface DatasetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatasetsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DatasetsGetOptionalParams extends coreClient.OperationOptions {
+export interface DatasetsGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type DatasetsGetResponse = DatasetResource;
-
-// @public
-export interface DatasetsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface DatasetsListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatasetsListByFactoryNextResponse = DatasetListResponse;
-
-// @public
-export interface DatasetsListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface DatasetsOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, datasetName: string, dataset: DatasetResource, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetResource>;
+    delete: (resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, datasetName: string, options?: DatasetsGetOptionalParams) => Promise<DatasetResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: DatasetsListByFactoryOptionalParams) => PagedAsyncIterableIterator<DatasetResource>;
 }
-
-// @public
-export type DatasetsListByFactoryResponse = DatasetListResponse;
 
 // @public
 export interface DatasetStorageFormat {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     deserializer?: any;
     serializer?: any;
-    type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
+    type: string;
 }
 
-// @public (undocumented)
-export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
+// @public
+export type DatasetStorageFormatUnion = TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat | DatasetStorageFormat;
 
-// @public (undocumented)
-export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | IcebergDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | PostgreSqlV2TableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GoogleBigQueryV2ObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SnowflakeV2Dataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset | LakeHouseTableDataset | SalesforceV2ObjectDataset | SalesforceServiceCloudV2ObjectDataset | WarehouseTableDataset | ServiceNowV2ObjectDataset;
+// @public
+export type DatasetUnion = AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | IcebergDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | PostgreSqlV2TableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GoogleBigQueryV2ObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SnowflakeV2Dataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset | LakeHouseTableDataset | SalesforceV2ObjectDataset | SalesforceServiceCloudV2ObjectDataset | WarehouseTableDataset | ServiceNowV2ObjectDataset | Dataset;
 
 // @public
 export interface DataworldLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
     encryptedCredential?: string;
     type: "Dataworld";
+}
+
+// @public
+export interface DataworldLinkedServiceTypeProperties {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: string;
 }
 
 // @public
@@ -2474,6 +3003,19 @@ export interface Db2LinkedService extends LinkedService {
 }
 
 // @public
+export interface Db2LinkedServiceTypeProperties {
+    authenticationType?: Db2AuthenticationType;
+    certificateCommonName?: any;
+    connectionString?: any;
+    database?: any;
+    encryptedCredential?: string;
+    packageCollection?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    username?: any;
+}
+
+// @public
 export interface Db2Source extends TabularSource {
     query?: any;
     type: "Db2Source";
@@ -2488,6 +3030,13 @@ export interface Db2TableDataset extends Dataset {
 }
 
 // @public
+export interface Db2TableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface DeleteActivity extends ExecutionActivity {
     dataset: DatasetReference;
     enableLogging?: any;
@@ -2496,6 +3045,16 @@ export interface DeleteActivity extends ExecutionActivity {
     recursive?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "Delete";
+}
+
+// @public
+export interface DeleteActivityTypeProperties {
+    dataset: DatasetReference;
+    enableLogging?: any;
+    logStorageSettings?: LogStorageSettings;
+    maxConcurrentConnections?: number;
+    recursive?: any;
+    storeSettings?: StoreReadSettingsUnion;
 }
 
 // @public
@@ -2516,6 +3075,20 @@ export interface DelimitedTextDataset extends Dataset {
     quoteChar?: any;
     rowDelimiter?: any;
     type: "DelimitedText";
+}
+
+// @public
+export interface DelimitedTextDatasetTypeProperties {
+    columnDelimiter?: any;
+    compressionCodec?: any;
+    compressionLevel?: any;
+    encodingName?: any;
+    escapeChar?: any;
+    firstRowAsHeader?: any;
+    location: DatasetLocationUnion;
+    nullValue?: any;
+    quoteChar?: any;
+    rowDelimiter?: any;
 }
 
 // @public
@@ -2554,11 +3127,11 @@ export type DependencyCondition = string;
 
 // @public
 export interface DependencyReference {
-    type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference" | "SelfDependencyTumblingWindowTriggerReference";
+    type: string;
 }
 
-// @public (undocumented)
-export type DependencyReferenceUnion = DependencyReference | TriggerDependencyReferenceUnion | SelfDependencyTumblingWindowTriggerReference;
+// @public
+export type DependencyReferenceUnion = TriggerDependencyReferenceUnion | SelfDependencyTumblingWindowTriggerReference | DependencyReference;
 
 // @public
 export interface DistcpSettings {
@@ -2571,6 +3144,11 @@ export interface DistcpSettings {
 export interface DocumentDbCollectionDataset extends Dataset {
     collectionName: any;
     type: "DocumentDbCollection";
+}
+
+// @public
+export interface DocumentDbCollectionDatasetTypeProperties {
+    collectionName: any;
 }
 
 // @public
@@ -2590,11 +3168,25 @@ export interface DocumentDbCollectionSource extends CopySource {
 }
 
 // @public
+export interface DrillDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface DrillLinkedService extends LinkedService {
     connectionString?: any;
     encryptedCredential?: string;
     pwd?: AzureKeyVaultSecretReference;
     type: "Drill";
+}
+
+// @public
+export interface DrillLinkedServiceTypeProperties {
+    connectionString?: any;
+    encryptedCredential?: string;
+    pwd?: AzureKeyVaultSecretReference;
 }
 
 // @public
@@ -2619,14 +3211,9 @@ export interface DWCopyCommandDefaultValue {
 
 // @public
 export interface DWCopyCommandSettings {
-    additionalOptions?: {
-        [propertyName: string]: string;
-    };
+    additionalOptions?: Record<string, string>;
     defaultValues?: DWCopyCommandDefaultValue[];
 }
-
-// @public
-export type DynamicsAuthenticationType = string;
 
 // @public
 export interface DynamicsAXLinkedService extends LinkedService {
@@ -2640,9 +3227,24 @@ export interface DynamicsAXLinkedService extends LinkedService {
 }
 
 // @public
+export interface DynamicsAXLinkedServiceTypeProperties {
+    aadResourceId: any;
+    encryptedCredential?: string;
+    servicePrincipalId: any;
+    servicePrincipalKey: SecretBaseUnion;
+    tenant: any;
+    url: any;
+}
+
+// @public
 export interface DynamicsAXResourceDataset extends Dataset {
     path: any;
     type: "DynamicsAXResource";
+}
+
+// @public
+export interface DynamicsAXResourceDatasetTypeProperties {
+    path: any;
 }
 
 // @public
@@ -2656,6 +3258,11 @@ export interface DynamicsAXSource extends TabularSource {
 export interface DynamicsCrmEntityDataset extends Dataset {
     entityName?: any;
     type: "DynamicsCrmEntity";
+}
+
+// @public
+export interface DynamicsCrmEntityDatasetTypeProperties {
+    entityName?: any;
 }
 
 // @public
@@ -2678,6 +3285,24 @@ export interface DynamicsCrmLinkedService extends LinkedService {
 }
 
 // @public
+export interface DynamicsCrmLinkedServiceTypeProperties {
+    authenticationType: any;
+    credential?: CredentialReference;
+    deploymentType: any;
+    domain?: any;
+    encryptedCredential?: string;
+    hostName?: any;
+    organizationName?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
+    username?: any;
+}
+
+// @public
 export interface DynamicsCrmSink extends CopySink {
     alternateKeyName?: any;
     bypassBusinessLogicExecution?: any;
@@ -2695,12 +3320,14 @@ export interface DynamicsCrmSource extends CopySource {
 }
 
 // @public
-export type DynamicsDeploymentType = string;
-
-// @public
 export interface DynamicsEntityDataset extends Dataset {
     entityName?: any;
     type: "DynamicsEntity";
+}
+
+// @public
+export interface DynamicsEntityDatasetTypeProperties {
+    entityName?: any;
 }
 
 // @public
@@ -2719,6 +3346,24 @@ export interface DynamicsLinkedService extends LinkedService {
     servicePrincipalId?: any;
     serviceUri?: any;
     type: "Dynamics";
+    username?: any;
+}
+
+// @public
+export interface DynamicsLinkedServiceTypeProperties {
+    authenticationType: any;
+    credential?: CredentialReference;
+    deploymentType: any;
+    domain?: any;
+    encryptedCredential?: string;
+    hostName?: any;
+    organizationName?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    serviceUri?: any;
     username?: any;
 }
 
@@ -2755,6 +3400,17 @@ export interface EloquaLinkedService extends LinkedService {
 }
 
 // @public
+export interface EloquaLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    endpoint: any;
+    password?: SecretBaseUnion;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
+}
+
+// @public
 export interface EloquaObjectDataset extends Dataset {
     tableName?: any;
     type: "EloquaObject";
@@ -2764,6 +3420,11 @@ export interface EloquaObjectDataset extends Dataset {
 export interface EloquaSource extends TabularSource {
     query?: any;
     type: "EloquaSource";
+}
+
+// @public
+export interface EnableInteractiveQueryRequest {
+    autoTerminationMinutes?: number;
 }
 
 // @public
@@ -2788,6 +3449,32 @@ export interface EnvironmentVariableSetup extends CustomSetupBase {
 }
 
 // @public
+export interface EnvironmentVariableSetupTypeProperties {
+    variableName: string;
+    variableValue: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EventSubscriptionStatus = string;
 
 // @public
@@ -2800,6 +3487,17 @@ export interface ExcelDataset extends Dataset {
     sheetIndex?: any;
     sheetName?: any;
     type: "Excel";
+}
+
+// @public
+export interface ExcelDatasetTypeProperties {
+    compression?: DatasetCompression;
+    firstRowAsHeader?: any;
+    location: DatasetLocationUnion;
+    nullValue?: any;
+    range?: any;
+    sheetIndex?: any;
+    sheetName?: any;
 }
 
 // @public
@@ -2844,9 +3542,7 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
 
 // @public
 export interface ExecutePipelineActivity extends ControlActivity {
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     pipeline: PipelineReference;
     policy?: ExecutePipelineActivityPolicy;
     type: "ExecutePipeline";
@@ -2855,16 +3551,21 @@ export interface ExecutePipelineActivity extends ControlActivity {
 
 // @public
 export interface ExecutePipelineActivityPolicy {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     secureInput?: boolean;
+}
+
+// @public
+export interface ExecutePipelineActivityTypeProperties {
+    parameters?: Record<string, any>;
+    pipeline: PipelineReference;
+    waitOnCompletion?: boolean;
 }
 
 // @public
 export interface ExecutePowerQueryActivityTypeProperties extends ExecuteDataFlowActivityTypeProperties {
     queries?: PowerQuerySinkMapping[];
-    sinks?: {
-        [propertyName: string]: PowerQuerySink;
-    };
+    sinks?: Record<string, PowerQuerySink>;
 }
 
 // @public
@@ -2874,28 +3575,30 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
     executionCredential?: SsisExecutionCredential;
     loggingLevel?: any;
     logLocation?: SsisLogLocation;
-    packageConnectionManagers?: {
-        [propertyName: string]: {
-            [propertyName: string]: SsisExecutionParameter;
-        };
-    };
+    packageConnectionManagers?: Record<string, Record<string, SsisExecutionParameter>>;
     packageLocation: SsisPackageLocation;
-    packageParameters?: {
-        [propertyName: string]: SsisExecutionParameter;
-    };
-    projectConnectionManagers?: {
-        [propertyName: string]: {
-            [propertyName: string]: SsisExecutionParameter;
-        };
-    };
-    projectParameters?: {
-        [propertyName: string]: SsisExecutionParameter;
-    };
-    propertyOverrides?: {
-        [propertyName: string]: SsisPropertyOverride;
-    };
+    packageParameters?: Record<string, SsisExecutionParameter>;
+    projectConnectionManagers?: Record<string, Record<string, SsisExecutionParameter>>;
+    projectParameters?: Record<string, SsisExecutionParameter>;
+    propertyOverrides?: Record<string, SsisPropertyOverride>;
     runtime?: any;
     type: "ExecuteSSISPackage";
+}
+
+// @public
+export interface ExecuteSsisPackageActivityTypeProperties {
+    connectVia: IntegrationRuntimeReference;
+    environmentPath?: any;
+    executionCredential?: SsisExecutionCredential;
+    loggingLevel?: any;
+    logLocation?: SsisLogLocation;
+    packageConnectionManagers?: Record<string, Record<string, SsisExecutionParameter>>;
+    packageLocation: SsisPackageLocation;
+    packageParameters?: Record<string, SsisExecutionParameter>;
+    projectConnectionManagers?: Record<string, Record<string, SsisExecutionParameter>>;
+    projectParameters?: Record<string, SsisExecutionParameter>;
+    propertyOverrides?: Record<string, SsisPropertyOverride>;
+    runtime?: any;
 }
 
 // @public
@@ -2908,9 +3611,7 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
     policy?: ActivityPolicy;
     queries?: PowerQuerySinkMapping[];
     runConcurrently?: any;
-    sinks?: {
-        [propertyName: string]: PowerQuerySink;
-    };
+    sinks?: Record<string, PowerQuerySink>;
     sourceStagingConcurrency?: any;
     staging?: DataFlowStagingInfo;
     traceLevel?: any;
@@ -2921,27 +3622,21 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
 export interface ExecutionActivity extends Activity {
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
+    // (undocumented)
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
 }
 
-// @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
+// @public
+export type ExecutionActivityUnion = CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | DatabricksJobActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity | ExecutionActivity;
 
 // @public
 export interface ExportSettings {
-    [property: string]: any;
-    type: "SnowflakeExportCopyCommand" | "AzureDatabricksDeltaLakeExportCommand";
+    additionalProperties?: Record<string, any>;
+    type: string;
 }
-
-// @public (undocumented)
-export type ExportSettingsUnion = ExportSettings | SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand;
 
 // @public
-export interface ExposureControl {
-    getFeatureValue(locationId: string, exposureControlRequest: ExposureControlRequest, options?: ExposureControlGetFeatureValueOptionalParams): Promise<ExposureControlGetFeatureValueResponse>;
-    getFeatureValueByFactory(resourceGroupName: string, factoryName: string, exposureControlRequest: ExposureControlRequest, options?: ExposureControlGetFeatureValueByFactoryOptionalParams): Promise<ExposureControlGetFeatureValueByFactoryResponse>;
-    queryFeatureValuesByFactory(resourceGroupName: string, factoryName: string, exposureControlBatchRequest: ExposureControlBatchRequest, options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams): Promise<ExposureControlQueryFeatureValuesByFactoryResponse>;
-}
+export type ExportSettingsUnion = SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand | ExportSettings;
 
 // @public
 export interface ExposureControlBatchRequest {
@@ -2954,25 +3649,23 @@ export interface ExposureControlBatchResponse {
 }
 
 // @public
-export interface ExposureControlGetFeatureValueByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface ExposureControlGetFeatureValueByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlResponse;
-
-// @public
-export interface ExposureControlGetFeatureValueOptionalParams extends coreClient.OperationOptions {
+export interface ExposureControlGetFeatureValueOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExposureControlGetFeatureValueResponse = ExposureControlResponse;
-
-// @public
-export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface ExposureControlOperations {
+    getFeatureValue: (locationId: string, exposureControlRequest: ExposureControlRequest, options?: ExposureControlGetFeatureValueOptionalParams) => Promise<ExposureControlResponse>;
+    getFeatureValueByFactory: (resourceGroupName: string, factoryName: string, exposureControlRequest: ExposureControlRequest, options?: ExposureControlGetFeatureValueByFactoryOptionalParams) => Promise<ExposureControlResponse>;
+    queryFeatureValuesByFactory: (resourceGroupName: string, factoryName: string, exposureControlBatchRequest: ExposureControlBatchRequest, options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams) => Promise<ExposureControlBatchResponse>;
 }
 
 // @public
-export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse;
+export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface ExposureControlRequest {
@@ -2988,123 +3681,89 @@ export interface ExposureControlResponse {
 
 // @public
 export interface Expression {
-    type: "Expression";
+    type: ExpressionType;
     value: string;
 }
+
+// @public
+export type ExpressionType = string;
 
 // @public
 export interface ExpressionV2 {
     operands?: ExpressionV2[];
     operators?: string[];
     type?: ExpressionV2Type;
-    value?: string;
+    value?: any;
 }
 
 // @public
 export type ExpressionV2Type = string;
 
 // @public
-export interface Factories {
-    configureFactoryRepo(locationId: string, factoryRepoUpdate: FactoryRepoUpdate, options?: FactoriesConfigureFactoryRepoOptionalParams): Promise<FactoriesConfigureFactoryRepoResponse>;
-    createOrUpdate(resourceGroupName: string, factoryName: string, factory: Factory, options?: FactoriesCreateOrUpdateOptionalParams): Promise<FactoriesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, options?: FactoriesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, options?: FactoriesGetOptionalParams): Promise<FactoriesGetResponse>;
-    getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: UserAccessPolicy, options?: FactoriesGetDataPlaneAccessOptionalParams): Promise<FactoriesGetDataPlaneAccessResponse>;
-    getGitHubAccessToken(resourceGroupName: string, factoryName: string, gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: FactoriesGetGitHubAccessTokenOptionalParams): Promise<FactoriesGetGitHubAccessTokenResponse>;
-    list(options?: FactoriesListOptionalParams): PagedAsyncIterableIterator<Factory>;
-    listByResourceGroup(resourceGroupName: string, options?: FactoriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Factory>;
-    update(resourceGroupName: string, factoryName: string, factoryUpdateParameters: FactoryUpdateParameters, options?: FactoriesUpdateOptionalParams): Promise<FactoriesUpdateResponse>;
+export interface FactoriesConfigureFactoryRepoOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FactoriesConfigureFactoryRepoOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FactoriesConfigureFactoryRepoResponse = Factory;
-
-// @public
-export interface FactoriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type FactoriesCreateOrUpdateResponse = Factory;
-
-// @public
-export interface FactoriesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FactoriesGetDataPlaneAccessOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesGetDataPlaneAccessOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
-
-// @public
-export interface FactoriesGetGitHubAccessTokenOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesGetGitHubAccessTokenOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
-
-// @public
-export interface FactoriesGetOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type FactoriesGetResponse = Factory;
-
-// @public
-export interface FactoriesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FactoriesListByResourceGroupNextResponse = FactoryListResponse;
-
-// @public
-export interface FactoriesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FactoriesListByResourceGroupResponse = FactoryListResponse;
-
-// @public
-export interface FactoriesListNextOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesOperations {
+    configureFactoryRepo: (locationId: string, factoryRepoUpdate: FactoryRepoUpdate, options?: FactoriesConfigureFactoryRepoOptionalParams) => Promise<Factory>;
+    createOrUpdate: (resourceGroupName: string, factoryName: string, factory: Factory, options?: FactoriesCreateOrUpdateOptionalParams) => Promise<Factory>;
+    delete: (resourceGroupName: string, factoryName: string, options?: FactoriesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, options?: FactoriesGetOptionalParams) => Promise<Factory>;
+    getDataPlaneAccess: (resourceGroupName: string, factoryName: string, policy: UserAccessPolicy, options?: FactoriesGetDataPlaneAccessOptionalParams) => Promise<AccessPolicyResponse>;
+    getGitHubAccessToken: (resourceGroupName: string, factoryName: string, gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: FactoriesGetGitHubAccessTokenOptionalParams) => Promise<GitHubAccessTokenResponse>;
+    list: (options?: FactoriesListOptionalParams) => PagedAsyncIterableIterator<Factory>;
+    listByResourceGroup: (resourceGroupName: string, options?: FactoriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Factory>;
+    update: (resourceGroupName: string, factoryName: string, factoryUpdateParameters: FactoryUpdateParameters, options?: FactoriesUpdateOptionalParams) => Promise<Factory>;
 }
 
 // @public
-export type FactoriesListNextResponse = FactoryListResponse;
-
-// @public
-export interface FactoriesListOptionalParams extends coreClient.OperationOptions {
+export interface FactoriesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type FactoriesListResponse = FactoryListResponse;
-
-// @public
-export interface FactoriesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FactoriesUpdateResponse = Factory;
 
 // @public
 export interface Factory extends Resource {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly createTime?: Date;
     encryption?: EncryptionConfiguration;
-    globalParameters?: {
-        [propertyName: string]: GlobalParameterSpecification;
-    };
+    readonly eTag?: string;
+    globalParameters?: Record<string, GlobalParameterSpecification>;
     identity?: FactoryIdentity;
+    location?: string;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     purviewConfiguration?: PurviewConfiguration;
     repoConfiguration?: FactoryRepoConfigurationUnion;
+    tags?: Record<string, string>;
     readonly version?: string;
 }
 
@@ -3121,18 +3780,22 @@ export interface FactoryIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: FactoryIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: any;
-    };
+    userAssignedIdentities?: Record<string, any>;
 }
 
 // @public
 export type FactoryIdentityType = string;
 
 // @public
-export interface FactoryListResponse {
-    nextLink?: string;
-    value: Factory[];
+export interface FactoryProperties {
+    readonly createTime?: Date;
+    encryption?: EncryptionConfiguration;
+    globalParameters?: Record<string, GlobalParameterSpecification>;
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    purviewConfiguration?: PurviewConfiguration;
+    repoConfiguration?: FactoryRepoConfigurationUnion;
+    readonly version?: string;
 }
 
 // @public
@@ -3143,11 +3806,11 @@ export interface FactoryRepoConfiguration {
     lastCommitId?: string;
     repositoryName: string;
     rootFolder: string;
-    type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
+    type: string;
 }
 
-// @public (undocumented)
-export type FactoryRepoConfigurationUnion = FactoryRepoConfiguration | FactoryVstsConfiguration | FactoryGitHubConfiguration;
+// @public
+export type FactoryRepoConfigurationUnion = FactoryVstsConfiguration | FactoryGitHubConfiguration | FactoryRepoConfiguration;
 
 // @public
 export interface FactoryRepoUpdate {
@@ -3159,9 +3822,12 @@ export interface FactoryRepoUpdate {
 export interface FactoryUpdateParameters {
     identity?: FactoryIdentity;
     publicNetworkAccess?: PublicNetworkAccess;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FactoryUpdateProperties {
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
@@ -3179,11 +3845,25 @@ export interface FailActivity extends ControlActivity {
 }
 
 // @public
+export interface FailActivityTypeProperties {
+    errorCode: any;
+    message: any;
+}
+
+// @public
 export interface FileServerLinkedService extends LinkedService {
     encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     type: "FileServer";
+    userId?: any;
+}
+
+// @public
+export interface FileServerLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
     userId?: any;
 }
 
@@ -3225,6 +3905,17 @@ export interface FileShareDataset extends Dataset {
 }
 
 // @public
+export interface FileShareDatasetTypeProperties {
+    compression?: DatasetCompression;
+    fileFilter?: any;
+    fileName?: any;
+    folderPath?: any;
+    format?: DatasetStorageFormatUnion;
+    modifiedDatetimeEnd?: any;
+    modifiedDatetimeStart?: any;
+}
+
+// @public
 export interface FileSystemSink extends CopySink {
     copyBehavior?: any;
     type: "FileSystemSink";
@@ -3245,6 +3936,12 @@ export interface FilterActivity extends ControlActivity {
 }
 
 // @public
+export interface FilterActivityTypeProperties {
+    condition: Expression;
+    items: Expression;
+}
+
+// @public
 export interface Flowlet extends DataFlow {
     script?: string;
     scriptLines?: string[];
@@ -3252,6 +3949,15 @@ export interface Flowlet extends DataFlow {
     sources?: DataFlowSource[];
     transformations?: Transformation[];
     type: "Flowlet";
+}
+
+// @public
+export interface FlowletTypeProperties {
+    script?: string;
+    scriptLines?: string[];
+    sinks?: DataFlowSink[];
+    sources?: DataFlowSource[];
+    transformations?: Transformation[];
 }
 
 // @public
@@ -3264,22 +3970,30 @@ export interface ForEachActivity extends ControlActivity {
 }
 
 // @public
-export interface FormatReadSettings {
-    [property: string]: any;
-    type: "ParquetReadSettings" | "DelimitedTextReadSettings" | "JsonReadSettings" | "XmlReadSettings" | "BinaryReadSettings";
+export interface ForEachActivityTypeProperties {
+    activities: ActivityUnion[];
+    batchCount?: number;
+    isSequential?: boolean;
+    items: Expression;
 }
 
-// @public (undocumented)
-export type FormatReadSettingsUnion = FormatReadSettings | ParquetReadSettings | DelimitedTextReadSettings | JsonReadSettings | XmlReadSettings | BinaryReadSettings;
+// @public
+export interface FormatReadSettings {
+    additionalProperties?: Record<string, any>;
+    type: string;
+}
+
+// @public
+export type FormatReadSettingsUnion = ParquetReadSettings | DelimitedTextReadSettings | JsonReadSettings | XmlReadSettings | BinaryReadSettings | FormatReadSettings;
 
 // @public
 export interface FormatWriteSettings {
-    [property: string]: any;
-    type: "AvroWriteSettings" | "OrcWriteSettings" | "ParquetWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings" | "IcebergWriteSettings";
+    additionalProperties?: Record<string, any>;
+    type: string;
 }
 
-// @public (undocumented)
-export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings | OrcWriteSettings | ParquetWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings | IcebergWriteSettings;
+// @public
+export type FormatWriteSettingsUnion = AvroWriteSettings | OrcWriteSettings | ParquetWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings | IcebergWriteSettings | FormatWriteSettings;
 
 // @public
 export type FrequencyType = string;
@@ -3315,17 +4029,25 @@ export interface FtpServerLinkedService extends LinkedService {
 }
 
 // @public
+export interface FtpServerLinkedServiceTypeProperties {
+    authenticationType?: FtpAuthenticationType;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    userName?: any;
+}
+
+// @public
 export interface FtpServerLocation extends DatasetLocation {
     type: "FtpServerLocation";
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetDataFactoryOperationStatusResponse {
-    [property: string]: any;
-    status?: string;
+export interface GenericDatasetTypeProperties {
+    tableName?: any;
 }
 
 // @public
@@ -3335,6 +4057,14 @@ export interface GetMetadataActivity extends ExecutionActivity {
     formatSettings?: FormatReadSettingsUnion;
     storeSettings?: StoreReadSettingsUnion;
     type: "GetMetadata";
+}
+
+// @public
+export interface GetMetadataActivityTypeProperties {
+    dataset: DatasetReference;
+    fieldList?: any[];
+    formatSettings?: FormatReadSettingsUnion;
+    storeSettings?: StoreReadSettingsUnion;
 }
 
 // @public
@@ -3362,57 +4092,34 @@ export interface GitHubClientSecret {
 }
 
 // @public
-export interface GlobalParameterListResponse {
-    nextLink?: string;
-    value: GlobalParameterResource[];
+export interface GlobalParameterResource extends ProxyResource {
+    readonly etag?: string;
+    properties: Record<string, GlobalParameterSpecification>;
 }
 
 // @public
-export interface GlobalParameterResource extends SubResource {
-    properties: {
-        [propertyName: string]: GlobalParameterSpecification;
-    };
+export interface GlobalParametersCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GlobalParameters {
-    createOrUpdate(resourceGroupName: string, factoryName: string, globalParameterName: string, defaultParam: GlobalParameterResource, options?: GlobalParametersCreateOrUpdateOptionalParams): Promise<GlobalParametersCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersGetOptionalParams): Promise<GlobalParametersGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: GlobalParametersListByFactoryOptionalParams): PagedAsyncIterableIterator<GlobalParameterResource>;
+export interface GlobalParametersDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GlobalParametersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface GlobalParametersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
-
-// @public
-export interface GlobalParametersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GlobalParametersListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GlobalParametersGetOptionalParams extends coreClient.OperationOptions {
+export interface GlobalParametersOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, globalParameterName: string, defaultParam: GlobalParameterResource, options?: GlobalParametersCreateOrUpdateOptionalParams) => Promise<GlobalParameterResource>;
+    delete: (resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersGetOptionalParams) => Promise<GlobalParameterResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: GlobalParametersListByFactoryOptionalParams) => PagedAsyncIterableIterator<GlobalParameterResource>;
 }
-
-// @public
-export type GlobalParametersGetResponse = GlobalParameterResource;
-
-// @public
-export interface GlobalParametersListByFactoryNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
-
-// @public
-export interface GlobalParametersListByFactoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
 
 // @public
 export interface GlobalParameterSpecification {
@@ -3448,6 +4155,26 @@ export interface GoogleAdWordsLinkedService extends LinkedService {
 }
 
 // @public
+export interface GoogleAdWordsLinkedServiceTypeProperties {
+    authenticationType?: GoogleAdWordsAuthenticationType;
+    clientCustomerID?: any;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    connectionProperties?: any;
+    developerToken?: SecretBaseUnion;
+    email?: any;
+    encryptedCredential?: string;
+    googleAdsApiVersion?: any;
+    keyFilePath?: any;
+    loginCustomerID?: any;
+    privateKey?: SecretBaseUnion;
+    refreshToken?: SecretBaseUnion;
+    supportLegacyDataTypes?: any;
+    trustedCertPath?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
 export interface GoogleAdWordsObjectDataset extends Dataset {
     tableName?: any;
     type: "GoogleAdWordsObject";
@@ -3463,6 +4190,13 @@ export interface GoogleAdWordsSource extends TabularSource {
 export type GoogleBigQueryAuthenticationType = string;
 
 // @public
+export interface GoogleBigQueryDatasetTypeProperties {
+    dataset?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface GoogleBigQueryLinkedService extends LinkedService {
     additionalProjects?: any;
     authenticationType: GoogleBigQueryAuthenticationType;
@@ -3476,6 +4210,22 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
     requestGoogleDriveScope?: any;
     trustedCertPath?: any;
     type: "GoogleBigQuery";
+    useSystemTrustStore?: any;
+}
+
+// @public
+export interface GoogleBigQueryLinkedServiceTypeProperties {
+    additionalProjects?: any;
+    authenticationType: GoogleBigQueryAuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    email?: any;
+    encryptedCredential?: string;
+    keyFilePath?: any;
+    project: any;
+    refreshToken?: SecretBaseUnion;
+    requestGoogleDriveScope?: any;
+    trustedCertPath?: any;
     useSystemTrustStore?: any;
 }
 
@@ -3497,6 +4247,12 @@ export interface GoogleBigQuerySource extends TabularSource {
 export type GoogleBigQueryV2AuthenticationType = string;
 
 // @public
+export interface GoogleBigQueryV2DatasetTypeProperties {
+    dataset?: any;
+    table?: any;
+}
+
+// @public
 export interface GoogleBigQueryV2LinkedService extends LinkedService {
     authenticationType: GoogleBigQueryV2AuthenticationType;
     clientId?: any;
@@ -3506,6 +4262,17 @@ export interface GoogleBigQueryV2LinkedService extends LinkedService {
     projectId: any;
     refreshToken?: SecretBaseUnion;
     type: "GoogleBigQueryV2";
+}
+
+// @public
+export interface GoogleBigQueryV2LinkedServiceTypeProperties {
+    authenticationType: GoogleBigQueryV2AuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    keyFileContent?: SecretBaseUnion;
+    projectId: any;
+    refreshToken?: SecretBaseUnion;
 }
 
 // @public
@@ -3528,6 +4295,14 @@ export interface GoogleCloudStorageLinkedService extends LinkedService {
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     type: "GoogleCloudStorage";
+}
+
+// @public
+export interface GoogleCloudStorageLinkedServiceTypeProperties {
+    accessKeyId?: any;
+    encryptedCredential?: string;
+    secretAccessKey?: SecretBaseUnion;
+    serviceUrl?: any;
 }
 
 // @public
@@ -3560,7 +4335,20 @@ export interface GoogleSheetsLinkedService extends LinkedService {
 }
 
 // @public
+export interface GoogleSheetsLinkedServiceTypeProperties {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: string;
+}
+
+// @public
 export type GreenplumAuthenticationType = string;
+
+// @public
+export interface GreenplumDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface GreenplumLinkedService extends LinkedService {
@@ -3575,6 +4363,21 @@ export interface GreenplumLinkedService extends LinkedService {
     pwd?: AzureKeyVaultSecretReference;
     sslMode?: any;
     type: "Greenplum";
+    username?: any;
+}
+
+// @public
+export interface GreenplumLinkedServiceTypeProperties {
+    authenticationType?: GreenplumAuthenticationType;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectionTimeout?: any;
+    database?: any;
+    encryptedCredential?: string;
+    host?: any;
+    port?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    sslMode?: any;
     username?: any;
 }
 
@@ -3612,6 +4415,21 @@ export interface HBaseLinkedService extends LinkedService {
 }
 
 // @public
+export interface HBaseLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: HBaseAuthenticationType;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    httpPath?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    trustedCertPath?: any;
+    username?: any;
+}
+
+// @public
 export interface HBaseObjectDataset extends Dataset {
     tableName?: any;
     type: "HBaseObject";
@@ -3629,6 +4447,15 @@ export interface HdfsLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Hdfs";
+    url: any;
+    userName?: any;
+}
+
+// @public
+export interface HdfsLinkedServiceTypeProperties {
+    authenticationType?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
     url: any;
     userName?: any;
 }
@@ -3661,31 +4488,41 @@ export interface HdfsSource extends CopySource {
 }
 
 // @public
-export type HdiNodeTypes = string;
+export type HDInsightActivityDebugInfoOption = string;
 
 // @public
-export type HDInsightActivityDebugInfoOption = string;
+export type HDInsightClusterAuthenticationType = string;
 
 // @public
 export interface HDInsightHiveActivity extends ExecutionActivity {
     arguments?: any[];
-    defines?: {
-        [propertyName: string]: any;
-    };
+    defines?: Record<string, any>;
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     queryTimeout?: number;
     scriptLinkedService?: LinkedServiceReference;
     scriptPath?: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightHive";
-    variables?: {
-        [propertyName: string]: any;
-    };
+    variables?: Record<string, any>;
+}
+
+// @public
+export interface HDInsightHiveActivityTypeProperties {
+    arguments?: any[];
+    defines?: Record<string, any>;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    queryTimeout?: number;
+    scriptLinkedService?: LinkedServiceReference;
+    scriptPath?: any;
+    storageLinkedServices?: LinkedServiceReference[];
+    variables?: Record<string, any>;
 }
 
 // @public
 export interface HDInsightLinkedService extends LinkedService {
+    clusterAuthType?: HDInsightClusterAuthenticationType;
     clusterUri: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     fileSystem?: any;
     hcatalogLinkedServiceName?: LinkedServiceReference;
@@ -3697,12 +4534,24 @@ export interface HDInsightLinkedService extends LinkedService {
 }
 
 // @public
+export interface HDInsightLinkedServiceTypeProperties {
+    clusterAuthType?: HDInsightClusterAuthenticationType;
+    clusterUri: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    fileSystem?: any;
+    hcatalogLinkedServiceName?: LinkedServiceReference;
+    isEspEnabled?: any;
+    linkedServiceName?: LinkedServiceReference;
+    password?: SecretBaseUnion;
+    userName?: any;
+}
+
+// @public
 export interface HDInsightMapReduceActivity extends ExecutionActivity {
     arguments?: any[];
     className: any;
-    defines?: {
-        [propertyName: string]: any;
-    };
+    defines?: Record<string, any>;
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     jarFilePath: any;
     jarLibs?: any[];
@@ -3712,11 +4561,27 @@ export interface HDInsightMapReduceActivity extends ExecutionActivity {
 }
 
 // @public
+export interface HDInsightMapReduceActivityTypeProperties {
+    arguments?: any[];
+    className: any;
+    defines?: Record<string, any>;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    jarFilePath: any;
+    jarLibs?: any[];
+    jarLinkedService?: LinkedServiceReference;
+    storageLinkedServices?: LinkedServiceReference[];
+}
+
+// @public
+export type HDInsightOndemandClusterResourceGroupAuthenticationType = string;
+
+// @public
 export interface HDInsightOnDemandLinkedService extends LinkedService {
     additionalLinkedServiceNames?: LinkedServiceReference[];
     clusterNamePrefix?: any;
     clusterPassword?: SecretBaseUnion;
     clusterResourceGroup: any;
+    clusterResourceGroupAuthType?: HDInsightOndemandClusterResourceGroupAuthenticationType;
     clusterSize: any;
     clusterSshPassword?: SecretBaseUnion;
     clusterSshUserName?: any;
@@ -3751,16 +4616,63 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
 }
 
 // @public
+export interface HDInsightOnDemandLinkedServiceTypeProperties {
+    additionalLinkedServiceNames?: LinkedServiceReference[];
+    clusterNamePrefix?: any;
+    clusterPassword?: SecretBaseUnion;
+    clusterResourceGroup: any;
+    clusterResourceGroupAuthType?: HDInsightOndemandClusterResourceGroupAuthenticationType;
+    clusterSize: any;
+    clusterSshPassword?: SecretBaseUnion;
+    clusterSshUserName?: any;
+    clusterType?: any;
+    clusterUserName?: any;
+    coreConfiguration?: any;
+    credential?: CredentialReference;
+    dataNodeSize?: any;
+    encryptedCredential?: string;
+    hBaseConfiguration?: any;
+    hcatalogLinkedServiceName?: LinkedServiceReference;
+    hdfsConfiguration?: any;
+    headNodeSize?: any;
+    hiveConfiguration?: any;
+    hostSubscriptionId: any;
+    linkedServiceName: LinkedServiceReference;
+    mapReduceConfiguration?: any;
+    oozieConfiguration?: any;
+    scriptActions?: ScriptAction[];
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    sparkVersion?: any;
+    stormConfiguration?: any;
+    subnetName?: any;
+    tenant: any;
+    timeToLive: any;
+    version: any;
+    virtualNetworkId?: any;
+    yarnConfiguration?: any;
+    zookeeperNodeSize?: any;
+}
+
+// @public
 export interface HDInsightPigActivity extends ExecutionActivity {
     arguments?: any;
-    defines?: {
-        [propertyName: string]: any;
-    };
+    defines?: Record<string, any>;
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     scriptLinkedService?: LinkedServiceReference;
     scriptPath?: any;
     storageLinkedServices?: LinkedServiceReference[];
     type: "HDInsightPig";
+}
+
+// @public
+export interface HDInsightPigActivityTypeProperties {
+    arguments?: any;
+    defines?: Record<string, any>;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    scriptLinkedService?: LinkedServiceReference;
+    scriptPath?: any;
+    storageLinkedServices?: LinkedServiceReference[];
 }
 
 // @public
@@ -3771,11 +4683,21 @@ export interface HDInsightSparkActivity extends ExecutionActivity {
     getDebugInfo?: HDInsightActivityDebugInfoOption;
     proxyUser?: any;
     rootPath: any;
-    sparkConfig?: {
-        [propertyName: string]: any;
-    };
+    sparkConfig?: Record<string, any>;
     sparkJobLinkedService?: LinkedServiceReference;
     type: "HDInsightSpark";
+}
+
+// @public
+export interface HDInsightSparkActivityTypeProperties {
+    arguments?: any[];
+    className?: string;
+    entryFilePath: any;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    proxyUser?: any;
+    rootPath: any;
+    sparkConfig?: Record<string, any>;
+    sparkJobLinkedService?: LinkedServiceReference;
 }
 
 // @public
@@ -3783,9 +4705,7 @@ export interface HDInsightStreamingActivity extends ExecutionActivity {
     arguments?: any[];
     combiner?: any;
     commandEnvironment?: any[];
-    defines?: {
-        [propertyName: string]: any;
-    };
+    defines?: Record<string, any>;
     fileLinkedService?: LinkedServiceReference;
     filePaths: any[];
     getDebugInfo?: HDInsightActivityDebugInfoOption;
@@ -3798,13 +4718,37 @@ export interface HDInsightStreamingActivity extends ExecutionActivity {
 }
 
 // @public
+export interface HDInsightStreamingActivityTypeProperties {
+    arguments?: any[];
+    combiner?: any;
+    commandEnvironment?: any[];
+    defines?: Record<string, any>;
+    fileLinkedService?: LinkedServiceReference;
+    filePaths: any[];
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    input: any;
+    mapper: any;
+    output: any;
+    reducer: any;
+    storageLinkedServices?: LinkedServiceReference[];
+}
+
+// @public
 export type HiveAuthenticationType = string;
+
+// @public
+export interface HiveDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface HiveLinkedService extends LinkedService {
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
     authenticationType: HiveAuthenticationType;
+    enableServerCertificateValidation?: any;
     enableSsl?: any;
     encryptedCredential?: string;
     host: any;
@@ -3816,6 +4760,28 @@ export interface HiveLinkedService extends LinkedService {
     thriftTransportProtocol?: HiveThriftTransportProtocol;
     trustedCertPath?: any;
     type: "Hive";
+    useNativeQuery?: any;
+    username?: any;
+    useSystemTrustStore?: any;
+    zooKeeperNameSpace?: any;
+}
+
+// @public
+export interface HiveLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: HiveAuthenticationType;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    httpPath?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    serverType?: HiveServerType;
+    serviceDiscoveryMode?: any;
+    thriftTransportProtocol?: HiveThriftTransportProtocol;
+    trustedCertPath?: any;
     useNativeQuery?: any;
     username?: any;
     useSystemTrustStore?: any;
@@ -3857,6 +4823,16 @@ export interface HttpDataset extends Dataset {
 }
 
 // @public
+export interface HttpDatasetTypeProperties {
+    additionalHeaders?: any;
+    compression?: DatasetCompression;
+    format?: DatasetStorageFormatUnion;
+    relativeUrl?: any;
+    requestBody?: any;
+    requestMethod?: any;
+}
+
+// @public
 export interface HttpLinkedService extends LinkedService {
     authenticationType?: HttpAuthenticationType;
     authHeaders?: any;
@@ -3866,6 +4842,19 @@ export interface HttpLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "HttpServer";
+    url: any;
+    userName?: any;
+}
+
+// @public
+export interface HttpLinkedServiceTypeProperties {
+    authenticationType?: HttpAuthenticationType;
+    authHeaders?: any;
+    certThumbprint?: any;
+    embeddedCertData?: any;
+    enableServerCertificateValidation?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
     url: any;
     userName?: any;
 }
@@ -3906,6 +4895,18 @@ export interface HubspotLinkedService extends LinkedService {
 }
 
 // @public
+export interface HubspotLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    clientId: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    refreshToken?: SecretBaseUnion;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
 export interface HubspotObjectDataset extends Dataset {
     tableName?: any;
     type: "HubspotObject";
@@ -3921,6 +4922,11 @@ export interface HubspotSource extends TabularSource {
 export interface IcebergDataset extends Dataset {
     location?: DatasetLocationUnion;
     type: "Iceberg";
+}
+
+// @public
+export interface IcebergDatasetTypeProperties {
+    location: DatasetLocationUnion;
 }
 
 // @public
@@ -3944,20 +4950,53 @@ export interface IfConditionActivity extends ControlActivity {
 }
 
 // @public
+export interface IfConditionActivityTypeProperties {
+    expression: Expression;
+    ifFalseActivities?: ActivityUnion[];
+    ifTrueActivities?: ActivityUnion[];
+}
+
+// @public
 export type ImpalaAuthenticationType = string;
+
+// @public
+export interface ImpalaDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface ImpalaLinkedService extends LinkedService {
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
     authenticationType: ImpalaAuthenticationType;
+    enableServerCertificateValidation?: any;
     enableSsl?: any;
     encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
+    thriftTransportProtocol?: ImpalaThriftTransportProtocol;
     trustedCertPath?: any;
     type: "Impala";
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
+export interface ImpalaLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: ImpalaAuthenticationType;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    thriftTransportProtocol?: ImpalaThriftTransportProtocol;
+    trustedCertPath?: any;
     username?: any;
     useSystemTrustStore?: any;
 }
@@ -3977,13 +5016,16 @@ export interface ImpalaSource extends TabularSource {
 }
 
 // @public
+export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
+
+// @public
 export interface ImportSettings {
-    [property: string]: any;
-    type: "TeradataImportCommand" | "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
+    additionalProperties?: Record<string, any>;
+    type: string;
 }
 
-// @public (undocumented)
-export type ImportSettingsUnion = ImportSettings | TeradataImportCommand | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
+// @public
+export type ImportSettingsUnion = TeradataImportCommand | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand | ImportSettings;
 
 // @public
 export interface InformixLinkedService extends LinkedService {
@@ -3993,6 +5035,16 @@ export interface InformixLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "Informix";
+    userName?: any;
+}
+
+// @public
+export interface InformixLinkedServiceTypeProperties {
+    authenticationType?: any;
+    connectionString: any;
+    credential?: SecretBaseUnion;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
     userName?: any;
 }
 
@@ -4015,10 +5067,15 @@ export interface InformixTableDataset extends Dataset {
 }
 
 // @public
+export interface InformixTableDatasetTypeProperties {
+    tableName?: any;
+}
+
+// @public
 export interface IntegrationRuntime {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     description?: string;
-    type: "Managed" | "SelfHosted";
+    type: IntegrationRuntimeType;
 }
 
 // @public
@@ -4035,7 +5092,7 @@ export type IntegrationRuntimeAutoUpdate = string;
 
 // @public
 export interface IntegrationRuntimeComputeProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     copyComputeScaleProperties?: CopyComputeScaleProperties;
     dataFlowProperties?: IntegrationRuntimeDataFlowProperties;
     location?: string;
@@ -4048,7 +5105,7 @@ export interface IntegrationRuntimeComputeProperties {
 
 // @public
 export interface IntegrationRuntimeConnectionInfo {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly hostServiceUri?: string;
     readonly identityCertThumbprint?: string;
     readonly isIdentityCertExprired?: boolean;
@@ -4070,7 +5127,7 @@ export interface IntegrationRuntimeCustomSetupScriptProperties {
 
 // @public
 export interface IntegrationRuntimeDataFlowProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     cleanup?: boolean;
     computeType?: DataFlowComputeType;
     coreCount?: number;
@@ -4078,7 +5135,7 @@ export interface IntegrationRuntimeDataFlowProperties {
     timeToLive?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
     name?: string;
     value?: string;
@@ -4097,7 +5154,17 @@ export interface IntegrationRuntimeDebugResource extends SubResourceDebugResourc
 }
 
 // @public
+export interface IntegrationRuntimeDisableInteractiveQueryOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type IntegrationRuntimeEdition = string;
+
+// @public
+export interface IntegrationRuntimeEnableInteractiveQueryOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type IntegrationRuntimeEntityReferenceType = string;
@@ -4107,12 +5174,6 @@ export type IntegrationRuntimeInternalChannelEncryptionMode = string;
 
 // @public
 export type IntegrationRuntimeLicenseType = string;
-
-// @public
-export interface IntegrationRuntimeListResponse {
-    nextLink?: string;
-    value: IntegrationRuntimeResource[];
-}
 
 // @public
 export interface IntegrationRuntimeMonitoringData {
@@ -4127,7 +5188,7 @@ export interface IntegrationRuntimeNodeIpAddress {
 
 // @public
 export interface IntegrationRuntimeNodeMonitoringData {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly availableMemoryInMB?: number;
     readonly concurrentJobsLimit?: number;
     readonly concurrentJobsRunning?: number;
@@ -4139,61 +5200,50 @@ export interface IntegrationRuntimeNodeMonitoringData {
 }
 
 // @public
-export interface IntegrationRuntimeNodes {
-    delete(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesGetOptionalParams): Promise<IntegrationRuntimeNodesGetResponse>;
-    getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesGetIpAddressOptionalParams): Promise<IntegrationRuntimeNodesGetIpAddressResponse>;
-    update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest, options?: IntegrationRuntimeNodesUpdateOptionalParams): Promise<IntegrationRuntimeNodesUpdateResponse>;
+export interface IntegrationRuntimeNodesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IntegrationRuntimeNodesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimeNodesGetIpAddressOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IntegrationRuntimeNodesGetIpAddressOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimeNodesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimeNodesGetIpAddressResponse = IntegrationRuntimeNodeIpAddress;
-
-// @public
-export interface IntegrationRuntimeNodesGetOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimeNodesOperations {
+    delete: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesGetOptionalParams) => Promise<SelfHostedIntegrationRuntimeNode>;
+    getIpAddress: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: IntegrationRuntimeNodesGetIpAddressOptionalParams) => Promise<IntegrationRuntimeNodeIpAddress>;
+    update: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest, options?: IntegrationRuntimeNodesUpdateOptionalParams) => Promise<SelfHostedIntegrationRuntimeNode>;
 }
 
 // @public
-export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode;
-
-// @public
-export interface IntegrationRuntimeNodesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimeNodesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode;
-
-// @public
-export interface IntegrationRuntimeObjectMetadata {
-    beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>, IntegrationRuntimeObjectMetadataRefreshResponse>>;
-    beginRefreshAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<IntegrationRuntimeObjectMetadataRefreshResponse>;
-    get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataGetOptionalParams): Promise<IntegrationRuntimeObjectMetadataGetResponse>;
-}
-
-// @public
-export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends OperationOptions {
     getMetadataRequest?: GetSsisObjectMetadataRequest;
 }
 
 // @public
-export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse;
+export interface IntegrationRuntimeObjectMetadataOperations {
+    get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataGetOptionalParams) => Promise<SsisObjectMetadataListResponse>;
+    refresh: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams) => PollerLike<OperationState<SsisObjectMetadataStatusResponse>, SsisObjectMetadataStatusResponse>;
+}
 
 // @public
-export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
+export interface IntegrationRuntimeOperations {
+    disableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeDisableInteractiveQueryOptionalParams) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
+    enableInteractiveQuery: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryRequest: EnableInteractiveQueryRequest, options?: IntegrationRuntimeEnableInteractiveQueryOptionalParams) => PollerLike<OperationState<IntegrationRuntimeResource>, IntegrationRuntimeResource>;
+}
 
 // @public
 export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
@@ -4219,12 +5269,13 @@ export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse 
 
 // @public
 export interface IntegrationRuntimeReference {
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     referenceName: string;
-    type: "IntegrationRuntimeReference";
+    type: IntegrationRuntimeReferenceType;
 }
+
+// @public
+export type IntegrationRuntimeReferenceType = string;
 
 // @public
 export interface IntegrationRuntimeRegenerateKeyParameters {
@@ -4232,123 +5283,85 @@ export interface IntegrationRuntimeRegenerateKeyParameters {
 }
 
 // @public
-export interface IntegrationRuntimeResource extends SubResource {
+export interface IntegrationRuntimeResource extends ProxyResource {
+    readonly etag?: string;
     properties: IntegrationRuntimeUnion;
 }
 
 // @public
-export interface IntegrationRuntimes {
-    beginStart(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimesStartResponse>, IntegrationRuntimesStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<IntegrationRuntimesStartResponse>;
-    beginStop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<void>;
-    createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams): Promise<IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse>;
-    createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOrUpdateOptionalParams): Promise<IntegrationRuntimesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams): Promise<IntegrationRuntimesGetResponse>;
-    getConnectionInfo(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetConnectionInfoOptionalParams): Promise<IntegrationRuntimesGetConnectionInfoResponse>;
-    getMonitoringData(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetMonitoringDataOptionalParams): Promise<IntegrationRuntimesGetMonitoringDataResponse>;
-    getStatus(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetStatusOptionalParams): Promise<IntegrationRuntimesGetStatusResponse>;
-    listAuthKeys(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesListAuthKeysOptionalParams): Promise<IntegrationRuntimesListAuthKeysResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: IntegrationRuntimesListByFactoryOptionalParams): PagedAsyncIterableIterator<IntegrationRuntimeResource>;
-    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams): Promise<IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
-    regenerateAuthKey(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: IntegrationRuntimeRegenerateKeyParameters, options?: IntegrationRuntimesRegenerateAuthKeyOptionalParams): Promise<IntegrationRuntimesRegenerateAuthKeyResponse>;
-    removeLinks(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: LinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesRemoveLinksOptionalParams): Promise<void>;
-    syncCredentials(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesSyncCredentialsOptionalParams): Promise<void>;
-    update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: UpdateIntegrationRuntimeRequest, options?: IntegrationRuntimesUpdateOptionalParams): Promise<IntegrationRuntimesUpdateResponse>;
-    upgrade(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesUpgradeOptionalParams): Promise<void>;
+export interface IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse = IntegrationRuntimeStatusResponse;
-
-// @public
-export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type IntegrationRuntimesCreateOrUpdateResponse = IntegrationRuntimeResource;
-
-// @public
-export interface IntegrationRuntimesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IntegrationRuntimesGetConnectionInfoOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesGetConnectionInfoOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesGetConnectionInfoResponse = IntegrationRuntimeConnectionInfo;
-
-// @public
-export interface IntegrationRuntimesGetMonitoringDataOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesGetMonitoringDataOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesGetMonitoringDataResponse = IntegrationRuntimeMonitoringData;
-
-// @public
-export interface IntegrationRuntimesGetOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource;
-
-// @public
-export interface IntegrationRuntimesGetStatusOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesGetStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesGetStatusResponse = IntegrationRuntimeStatusResponse;
-
-// @public
-export interface IntegrationRuntimesListAuthKeysOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesListAuthKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesListAuthKeysResponse = IntegrationRuntimeAuthKeys;
-
-// @public
-export interface IntegrationRuntimesListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeListResponse;
-
-// @public
-export interface IntegrationRuntimesListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesListByFactoryResponse = IntegrationRuntimeListResponse;
-
-// @public
-export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesOperations {
+    createLinkedIntegrationRuntime: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
+    createOrUpdate: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOrUpdateOptionalParams) => Promise<IntegrationRuntimeResource>;
+    delete: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetOptionalParams) => Promise<IntegrationRuntimeResource>;
+    getConnectionInfo: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetConnectionInfoOptionalParams) => Promise<IntegrationRuntimeConnectionInfo>;
+    getMonitoringData: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetMonitoringDataOptionalParams) => Promise<IntegrationRuntimeMonitoringData>;
+    getStatus: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesGetStatusOptionalParams) => Promise<IntegrationRuntimeStatusResponse>;
+    listAuthKeys: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesListAuthKeysOptionalParams) => Promise<IntegrationRuntimeAuthKeys>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: IntegrationRuntimesListByFactoryOptionalParams) => PagedAsyncIterableIterator<IntegrationRuntimeResource>;
+    listOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams) => Promise<IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>;
+    regenerateAuthKey: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, regenerateKeyParameters: IntegrationRuntimeRegenerateKeyParameters, options?: IntegrationRuntimesRegenerateAuthKeyOptionalParams) => Promise<IntegrationRuntimeAuthKeys>;
+    removeLinks: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, linkedIntegrationRuntimeRequest: LinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesRemoveLinksOptionalParams) => Promise<void>;
+    start: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams) => PollerLike<OperationState<IntegrationRuntimeStatusResponse>, IntegrationRuntimeStatusResponse>;
+    stop: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams) => PollerLike<OperationState<void>, void>;
+    syncCredentials: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesSyncCredentialsOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, updateIntegrationRuntimeRequest: UpdateIntegrationRuntimeRequest, options?: IntegrationRuntimesUpdateOptionalParams) => Promise<IntegrationRuntimeResource>;
+    upgrade: (resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesUpgradeOptionalParams) => Promise<void>;
 }
 
 // @public
-export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse = IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
-
-// @public
-export interface IntegrationRuntimesRegenerateAuthKeyOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesRegenerateAuthKeyOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesRegenerateAuthKeyResponse = IntegrationRuntimeAuthKeys;
-
-// @public
-export interface IntegrationRuntimesRemoveLinksOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesRemoveLinksOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface IntegrationRuntimeSsisCatalogInfo {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     catalogAdminPassword?: SecureString;
     catalogAdminUserName?: string;
     catalogPricingTier?: IntegrationRuntimeSsisCatalogPricingTier;
@@ -4361,7 +5374,7 @@ export type IntegrationRuntimeSsisCatalogPricingTier = string;
 
 // @public
 export interface IntegrationRuntimeSsisProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     catalogInfo?: IntegrationRuntimeSsisCatalogInfo;
     credential?: CredentialReference;
     customSetupScriptProperties?: IntegrationRuntimeCustomSetupScriptProperties;
@@ -4373,22 +5386,17 @@ export interface IntegrationRuntimeSsisProperties {
 }
 
 // @public
-export interface IntegrationRuntimesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IntegrationRuntimesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse;
-
-// @public
-export interface IntegrationRuntimesStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IntegrationRuntimesStopOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface IntegrationRuntimesSyncCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesSyncCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -4396,16 +5404,10 @@ export type IntegrationRuntimeState = string;
 
 // @public
 export interface IntegrationRuntimeStatus {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly dataFactoryName?: string;
     readonly state?: IntegrationRuntimeState;
-    type: "Managed" | "SelfHosted";
-}
-
-// @public
-export interface IntegrationRuntimeStatusListResponse {
-    nextLink?: string;
-    value: IntegrationRuntimeStatusResponse[];
+    type: IntegrationRuntimeType;
 }
 
 // @public
@@ -4414,36 +5416,42 @@ export interface IntegrationRuntimeStatusResponse {
     properties: IntegrationRuntimeStatusUnion;
 }
 
-// @public (undocumented)
-export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus;
+// @public
+export type IntegrationRuntimeStatusUnion = ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus | IntegrationRuntimeStatus;
 
 // @public
-export interface IntegrationRuntimesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource;
-
-// @public
-export interface IntegrationRuntimesUpgradeOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationRuntimesUpgradeOptionalParams extends OperationOptions {
 }
 
 // @public
 export type IntegrationRuntimeType = string;
 
-// @public (undocumented)
-export type IntegrationRuntimeUnion = IntegrationRuntime | ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
+// @public
+export type IntegrationRuntimeUnion = ManagedIntegrationRuntime | SelfHostedIntegrationRuntime | IntegrationRuntime;
 
 // @public
 export type IntegrationRuntimeUpdateResult = string;
 
 // @public
 export interface IntegrationRuntimeVNetProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     publicIPs?: string[];
     subnet?: string;
     subnetId?: string;
     vNetId?: string;
+}
+
+// @public
+export type InteractiveCapabilityStatus = string;
+
+// @public
+export interface InteractiveQueryProperties {
+    readonly autoTerminationMinutes?: number;
+    readonly status?: InteractiveCapabilityStatus;
 }
 
 // @public
@@ -4460,7 +5468,21 @@ export interface JiraLinkedService extends LinkedService {
 }
 
 // @public
+export interface JiraLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
+}
+
+// @public
 export interface JiraObjectDataset extends Dataset {
+    schemaTypePropertiesSchema?: any;
+    table?: any;
     tableName?: any;
     type: "JiraObject";
 }
@@ -4472,11 +5494,25 @@ export interface JiraSource extends TabularSource {
 }
 
 // @public
+export interface JiraTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface JsonDataset extends Dataset {
     compression?: DatasetCompression;
     encodingName?: any;
     location?: DatasetLocationUnion;
     type: "Json";
+}
+
+// @public
+export interface JsonDatasetTypeProperties {
+    compression?: DatasetCompression;
+    encodingName?: any;
+    location: DatasetLocationUnion;
 }
 
 // @public
@@ -4488,9 +5524,6 @@ export interface JsonFormat extends DatasetStorageFormat {
     nestingSeparator?: any;
     type: "JsonFormat";
 }
-
-// @public
-export type JsonFormatFilePattern = string;
 
 // @public
 export interface JsonReadSettings extends FormatReadSettings {
@@ -4514,9 +5547,6 @@ export interface JsonSource extends CopySource {
 }
 
 // @public
-export type JsonWriteFilePattern = string;
-
-// @public
 export interface JsonWriteSettings extends FormatWriteSettings {
     filePattern?: any;
     type: "JsonWriteSettings";
@@ -4536,25 +5566,14 @@ export enum KnownActivityState {
 }
 
 // @public
-export enum KnownAmazonRdsForOraclePartitionOption {
-    DynamicRange = "DynamicRange",
-    None = "None",
-    PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
+export enum KnownAmazonRdsForOracleAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
 export enum KnownAmazonRdsForSqlAuthenticationType {
     SQL = "SQL",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownAvroCompressionCodec {
-    Bzip2 = "bzip2",
-    Deflate = "deflate",
-    None = "none",
-    Snappy = "snappy",
-    Xz = "xz"
 }
 
 // @public
@@ -4640,20 +5659,6 @@ export enum KnownCassandraSourceReadConsistencyLevels {
 }
 
 // @public
-export enum KnownCompressionCodec {
-    Bzip2 = "bzip2",
-    Deflate = "deflate",
-    Gzip = "gzip",
-    Lz4 = "lz4",
-    Lzo = "lzo",
-    None = "none",
-    Snappy = "snappy",
-    Tar = "tar",
-    TarGZip = "tarGZip",
-    ZipDeflate = "zipDeflate"
-}
-
-// @public
 export enum KnownConfigurationType {
     Artifact = "Artifact",
     Customized = "Customized",
@@ -4666,16 +5671,17 @@ export enum KnownConnectionType {
 }
 
 // @public
-export enum KnownCopyBehaviorType {
-    FlattenHierarchy = "FlattenHierarchy",
-    MergeFiles = "MergeFiles",
-    PreserveHierarchy = "PreserveHierarchy"
-}
-
-// @public
 export enum KnownCosmosDbConnectionMode {
     Direct = "Direct",
     Gateway = "Gateway"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -4703,9 +5709,8 @@ export enum KnownDataFlowReferenceType {
 }
 
 // @public
-export enum KnownDatasetCompressionLevel {
-    Fastest = "Fastest",
-    Optimal = "Optimal"
+export enum KnownDatasetReferenceType {
+    DatasetReference = "DatasetReference"
 }
 
 // @public
@@ -4722,20 +5727,6 @@ export enum KnownDependencyCondition {
 }
 
 // @public
-export enum KnownDynamicsAuthenticationType {
-    AADServicePrincipal = "AADServicePrincipal",
-    ActiveDirectory = "Active Directory",
-    Ifd = "Ifd",
-    Office365 = "Office365"
-}
-
-// @public
-export enum KnownDynamicsDeploymentType {
-    Online = "Online",
-    OnPremisesWithIfd = "OnPremisesWithIfd"
-}
-
-// @public
 export enum KnownDynamicsSinkWriteBehavior {
     Upsert = "Upsert"
 }
@@ -4747,6 +5738,11 @@ export enum KnownEventSubscriptionStatus {
     Enabled = "Enabled",
     Provisioning = "Provisioning",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownExpressionType {
+    Expression = "Expression"
 }
 
 // @public
@@ -4818,17 +5814,24 @@ export enum KnownHBaseAuthenticationType {
 }
 
 // @public
-export enum KnownHdiNodeTypes {
-    Headnode = "Headnode",
-    Workernode = "Workernode",
-    Zookeeper = "Zookeeper"
-}
-
-// @public
 export enum KnownHDInsightActivityDebugInfoOption {
     Always = "Always",
     Failure = "Failure",
     None = "None"
+}
+
+// @public
+export enum KnownHDInsightClusterAuthenticationType {
+    BasicAuth = "BasicAuth",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownHDInsightOndemandClusterResourceGroupAuthenticationType {
+    ServicePrincipalKey = "ServicePrincipalKey",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
@@ -4907,6 +5910,11 @@ export enum KnownIntegrationRuntimeLicenseType {
 }
 
 // @public
+export enum KnownIntegrationRuntimeReferenceType {
+    IntegrationRuntimeReference = "IntegrationRuntimeReference"
+}
+
+// @public
 export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
     Basic = "Basic",
     Premium = "Premium",
@@ -4942,15 +5950,18 @@ export enum KnownIntegrationRuntimeUpdateResult {
 }
 
 // @public
-export enum KnownJsonFormatFilePattern {
-    ArrayOfObjects = "arrayOfObjects",
-    SetOfObjects = "setOfObjects"
+export enum KnownInteractiveCapabilityStatus {
+    Disabled = "Disabled",
+    Disabling = "Disabling",
+    Enabled = "Enabled",
+    Enabling = "Enabling"
 }
 
 // @public
-export enum KnownJsonWriteFilePattern {
-    ArrayOfObjects = "arrayOfObjects",
-    SetOfObjects = "setOfObjects"
+export enum KnownLakehouseAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
@@ -4980,10 +5991,9 @@ export enum KnownMongoDbAuthenticationType {
 }
 
 // @public
-export enum KnownNetezzaPartitionOption {
-    DataSlice = "DataSlice",
-    DynamicRange = "DynamicRange",
-    None = "None"
+export enum KnownNetezzaSecurityLevelType {
+    OnlyUnSecured = "OnlyUnSecured",
+    PreferredUnSecured = "PreferredUnSecured"
 }
 
 // @public
@@ -5020,21 +6030,6 @@ export enum KnownOracleAuthenticationType {
 }
 
 // @public
-export enum KnownOraclePartitionOption {
-    DynamicRange = "DynamicRange",
-    None = "None",
-    PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
-}
-
-// @public
-export enum KnownOrcCompressionCodec {
-    Lzo = "lzo",
-    None = "none",
-    Snappy = "snappy",
-    Zlib = "zlib"
-}
-
-// @public
 export enum KnownParameterType {
     Array = "Array",
     Bool = "Bool",
@@ -5050,6 +6045,11 @@ export enum KnownPhoenixAuthenticationType {
     Anonymous = "Anonymous",
     UsernameAndPassword = "UsernameAndPassword",
     WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+}
+
+// @public
+export enum KnownPipelineReferenceType {
+    PipelineReference = "PipelineReference"
 }
 
 // @public
@@ -5140,12 +6140,6 @@ export enum KnownSalesforceSinkWriteBehavior {
 }
 
 // @public
-export enum KnownSalesforceSourceReadBehavior {
-    Query = "Query",
-    QueryAll = "QueryAll"
-}
-
-// @public
 export enum KnownSalesforceV2SinkWriteBehavior {
     Insert = "Insert",
     Upsert = "Upsert"
@@ -5161,23 +6155,6 @@ export enum KnownSapCloudForCustomerSinkWriteBehavior {
 export enum KnownSapHanaAuthenticationType {
     Basic = "Basic",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownSapHanaPartitionOption {
-    None = "None",
-    PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-    SapHanaDynamicRange = "SapHanaDynamicRange"
-}
-
-// @public
-export enum KnownSapTablePartitionOption {
-    None = "None",
-    PartitionOnCalendarDate = "PartitionOnCalendarDate",
-    PartitionOnCalendarMonth = "PartitionOnCalendarMonth",
-    PartitionOnCalendarYear = "PartitionOnCalendarYear",
-    PartitionOnInt = "PartitionOnInt",
-    PartitionOnTime = "PartitionOnTime"
 }
 
 // @public
@@ -5210,12 +6187,6 @@ export enum KnownScriptActivityParameterType {
 }
 
 // @public
-export enum KnownScriptType {
-    NonQuery = "NonQuery",
-    Query = "Query"
-}
-
-// @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
     InitializeFailed = "InitializeFailed",
     Initializing = "Initializing",
@@ -5236,12 +6207,6 @@ export enum KnownServiceNowAuthenticationType {
 export enum KnownServiceNowV2AuthenticationType {
     Basic = "Basic",
     OAuth2 = "OAuth2"
-}
-
-// @public
-export enum KnownServicePrincipalCredentialType {
-    ServicePrincipalCert = "ServicePrincipalCert",
-    ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
@@ -5298,30 +6263,10 @@ export enum KnownSqlAlwaysEncryptedAkvAuthType {
 }
 
 // @public
-export enum KnownSqlDWWriteBehaviorEnum {
-    Insert = "Insert",
-    Upsert = "Upsert"
-}
-
-// @public
-export enum KnownSqlPartitionOption {
-    DynamicRange = "DynamicRange",
-    None = "None",
-    PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
-}
-
-// @public
 export enum KnownSqlServerAuthenticationType {
     SQL = "SQL",
     UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownSqlWriteBehaviorEnum {
-    Insert = "Insert",
-    StoredProcedure = "StoredProcedure",
-    Upsert = "Upsert"
 }
 
 // @public
@@ -5346,17 +6291,6 @@ export enum KnownSsisPackageLocationType {
 }
 
 // @public
-export enum KnownStoredProcedureParameterType {
-    Boolean = "Boolean",
-    Date = "Date",
-    Decimal = "Decimal",
-    Guid = "Guid",
-    Int = "Int",
-    Int64 = "Int64",
-    String = "String"
-}
-
-// @public
 export enum KnownSybaseAuthenticationType {
     Basic = "Basic",
     Windows = "Windows"
@@ -5372,13 +6306,6 @@ export enum KnownTeamDeskAuthenticationType {
 export enum KnownTeradataAuthenticationType {
     Basic = "Basic",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownTeradataPartitionOption {
-    DynamicRange = "DynamicRange",
-    Hash = "Hash",
-    None = "None"
 }
 
 // @public
@@ -5426,6 +6353,18 @@ export enum KnownVariableType {
 }
 
 // @public
+export enum KnownVersions {
+    V20180601 = "2018-06-01"
+}
+
+// @public
+export enum KnownWarehouseAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownWebActivityMethod {
     Delete = "DELETE",
     GET = "GET",
@@ -5452,8 +6391,13 @@ export enum KnownZendeskAuthenticationType {
 }
 
 // @public
+export type LakehouseAuthenticationType = string;
+
+// @public
 export interface LakeHouseLinkedService extends LinkedService {
     artifactId?: any;
+    authenticationType?: LakehouseAuthenticationType;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     servicePrincipalCredential?: SecretBaseUnion;
     servicePrincipalCredentialType?: any;
@@ -5461,6 +6405,20 @@ export interface LakeHouseLinkedService extends LinkedService {
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "Lakehouse";
+    workspaceId?: any;
+}
+
+// @public
+export interface LakeHouseLinkedServiceTypeProperties {
+    artifactId?: any;
+    authenticationType?: LakehouseAuthenticationType;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
     workspaceId?: any;
 }
 
@@ -5491,6 +6449,12 @@ export interface LakeHouseTableDataset extends Dataset {
 }
 
 // @public
+export interface LakeHouseTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+}
+
+// @public
 export interface LakeHouseTableSink extends CopySink {
     partitionNameList?: any;
     partitionOption?: any;
@@ -5509,6 +6473,12 @@ export interface LakeHouseTableSource extends CopySource {
 // @public
 export interface LakeHouseWriteSettings extends StoreWriteSettings {
     type: "LakeHouseWriteSettings";
+}
+
+// @public
+export interface LicensedComponentSetupTypeProperties {
+    componentName: string;
+    licenseKey?: SecretBaseUnion;
 }
 
 // @public
@@ -5540,22 +6510,20 @@ export interface LinkedIntegrationRuntimeRequest {
 
 // @public
 export interface LinkedIntegrationRuntimeType {
-    authorizationType: "Key" | "RBAC";
+    authorizationType: string;
 }
 
-// @public (undocumented)
-export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
+// @public
+export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization | LinkedIntegrationRuntimeType;
 
 // @public
 export interface LinkedService {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     annotations?: any[];
     connectVia?: IntegrationRuntimeReference;
     description?: string;
-    parameters?: {
-        [propertyName: string]: ParameterSpecification;
-    };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "Lakehouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2";
+    parameters?: Record<string, ParameterSpecification>;
+    type: string;
     version?: string;
 }
 
@@ -5565,69 +6533,46 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
 }
 
 // @public
-export interface LinkedServiceListResponse {
-    nextLink?: string;
-    value: LinkedServiceResource[];
-}
-
-// @public
 export interface LinkedServiceReference {
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     referenceName: string;
     type: Type;
 }
 
 // @public
-export interface LinkedServiceResource extends SubResource {
+export interface LinkedServiceResource extends ProxyResource {
+    readonly etag?: string;
     properties: LinkedServiceUnion;
 }
 
 // @public
-export interface LinkedServices {
-    createOrUpdate(resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServicesCreateOrUpdateOptionalParams): Promise<LinkedServicesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams): Promise<LinkedServicesGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: LinkedServicesListByFactoryOptionalParams): PagedAsyncIterableIterator<LinkedServiceResource>;
-}
-
-// @public
-export interface LinkedServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServicesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type LinkedServicesCreateOrUpdateResponse = LinkedServiceResource;
-
-// @public
-export interface LinkedServicesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServicesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LinkedServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServicesGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type LinkedServicesGetResponse = LinkedServiceResource;
-
-// @public
-export interface LinkedServicesListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServicesListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LinkedServicesListByFactoryNextResponse = LinkedServiceListResponse;
-
-// @public
-export interface LinkedServicesListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface LinkedServicesOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServicesCreateOrUpdateOptionalParams) => Promise<LinkedServiceResource>;
+    delete: (resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, linkedServiceName: string, options?: LinkedServicesGetOptionalParams) => Promise<LinkedServiceResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: LinkedServicesListByFactoryOptionalParams) => PagedAsyncIterableIterator<LinkedServiceResource>;
 }
 
 // @public
-export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
-
-// @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | PostgreSqlV2LinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GoogleBigQueryV2LinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SnowflakeV2LinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService | LakeHouseLinkedService | SalesforceV2LinkedService | SalesforceServiceCloudV2LinkedService | WarehouseLinkedService | ServiceNowV2LinkedService;
+export type LinkedServiceUnion = AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | PostgreSqlV2LinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GoogleBigQueryV2LinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SnowflakeV2LinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService | LakeHouseLinkedService | SalesforceV2LinkedService | SalesforceServiceCloudV2LinkedService | WarehouseLinkedService | ServiceNowV2LinkedService | LinkedService;
 
 // @public
 export interface LogLocationSettings {
@@ -5644,7 +6589,7 @@ export interface LogSettings {
 
 // @public
 export interface LogStorageSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     enableReliableLogging?: any;
     linkedServiceName: LinkedServiceReference;
     logLevel?: any;
@@ -5656,7 +6601,16 @@ export interface LookupActivity extends ExecutionActivity {
     dataset: DatasetReference;
     firstRowOnly?: any;
     source: CopySourceUnion;
+    treatDecimalAsString?: any;
     type: "Lookup";
+}
+
+// @public
+export interface LookupActivityTypeProperties {
+    dataset: DatasetReference;
+    firstRowOnly?: any;
+    source: CopySourceUnion;
+    treatDecimalAsString?: any;
 }
 
 // @public
@@ -5665,6 +6619,16 @@ export interface MagentoLinkedService extends LinkedService {
     encryptedCredential?: string;
     host: any;
     type: "Magento";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface MagentoLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    encryptedCredential?: string;
+    host: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -5689,9 +6653,15 @@ export interface ManagedIdentityCredential extends Credential {
 }
 
 // @public
+export interface ManagedIdentityTypeProperties {
+    resourceId?: string;
+}
+
+// @public
 export interface ManagedIntegrationRuntime extends IntegrationRuntime {
     computeProperties?: IntegrationRuntimeComputeProperties;
     customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
+    interactiveQuery?: InteractiveQueryProperties;
     managedVirtualNetwork?: ManagedVirtualNetworkReference;
     ssisProperties?: IntegrationRuntimeSsisProperties;
     readonly state?: IntegrationRuntimeState;
@@ -5700,7 +6670,7 @@ export interface ManagedIntegrationRuntime extends IntegrationRuntime {
 
 // @public
 export interface ManagedIntegrationRuntimeError {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly code?: string;
     readonly message?: string;
     readonly parameters?: string[];
@@ -5709,7 +6679,7 @@ export interface ManagedIntegrationRuntimeError {
 
 // @public
 export interface ManagedIntegrationRuntimeNode {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     errors?: ManagedIntegrationRuntimeError[];
     readonly nodeId?: string;
     readonly status?: ManagedIntegrationRuntimeNodeStatus;
@@ -5720,8 +6690,8 @@ export type ManagedIntegrationRuntimeNodeStatus = string;
 
 // @public
 export interface ManagedIntegrationRuntimeOperationResult {
-    [property: string]: any;
     readonly activityId?: string;
+    additionalProperties?: Record<string, any>;
     readonly errorCode?: string;
     readonly parameters?: string[];
     readonly result?: string;
@@ -5739,8 +6709,24 @@ export interface ManagedIntegrationRuntimeStatus extends IntegrationRuntimeStatu
 }
 
 // @public
+export interface ManagedIntegrationRuntimeStatusTypeProperties {
+    readonly createTime?: Date;
+    readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
+    readonly nodes?: ManagedIntegrationRuntimeNode[];
+    readonly otherErrors?: ManagedIntegrationRuntimeError[];
+}
+
+// @public
+export interface ManagedIntegrationRuntimeTypeProperties {
+    computeProperties?: IntegrationRuntimeComputeProperties;
+    customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
+    interactiveQuery?: InteractiveQueryProperties;
+    ssisProperties?: IntegrationRuntimeSsisProperties;
+}
+
+// @public
 export interface ManagedPrivateEndpoint {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     connectionState?: ConnectionStateProperties;
     fqdns?: string[];
     groupId?: string;
@@ -5750,69 +6736,42 @@ export interface ManagedPrivateEndpoint {
 }
 
 // @public
-export interface ManagedPrivateEndpointListResponse {
-    nextLink?: string;
-    value: ManagedPrivateEndpointResource[];
-}
-
-// @public
-export interface ManagedPrivateEndpointResource extends SubResource {
+export interface ManagedPrivateEndpointResource extends ProxyResource {
+    readonly etag?: string;
     properties: ManagedPrivateEndpoint;
 }
 
 // @public
-export interface ManagedPrivateEndpoints {
-    createOrUpdate(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpointResource, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, options?: ManagedPrivateEndpointsListByFactoryOptionalParams): PagedAsyncIterableIterator<ManagedPrivateEndpointResource>;
-}
-
-// @public
-export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource;
-
-// @public
-export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource;
-
-// @public
-export interface ManagedPrivateEndpointsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse;
-
-// @public
-export interface ManagedPrivateEndpointsListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointsOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpointResource, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams) => Promise<ManagedPrivateEndpointResource>;
+    delete: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams) => Promise<ManagedPrivateEndpointResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, options?: ManagedPrivateEndpointsListByFactoryOptionalParams) => PagedAsyncIterableIterator<ManagedPrivateEndpointResource>;
 }
-
-// @public
-export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse;
 
 // @public
 export interface ManagedVirtualNetwork {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly alias?: string;
     readonly vNetId?: string;
-}
-
-// @public
-export interface ManagedVirtualNetworkListResponse {
-    nextLink?: string;
-    value: ManagedVirtualNetworkResource[];
 }
 
 // @public
@@ -5825,46 +6784,31 @@ export interface ManagedVirtualNetworkReference {
 export type ManagedVirtualNetworkReferenceType = string;
 
 // @public
-export interface ManagedVirtualNetworkResource extends SubResource {
+export interface ManagedVirtualNetworkResource extends ProxyResource {
+    readonly etag?: string;
     properties: ManagedVirtualNetwork;
 }
 
 // @public
-export interface ManagedVirtualNetworks {
-    createOrUpdate(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedVirtualNetwork: ManagedVirtualNetworkResource, options?: ManagedVirtualNetworksCreateOrUpdateOptionalParams): Promise<ManagedVirtualNetworksCreateOrUpdateResponse>;
-    get(resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, options?: ManagedVirtualNetworksGetOptionalParams): Promise<ManagedVirtualNetworksGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: ManagedVirtualNetworksListByFactoryOptionalParams): PagedAsyncIterableIterator<ManagedVirtualNetworkResource>;
-}
-
-// @public
-export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource;
-
-// @public
-export interface ManagedVirtualNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedVirtualNetworksGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type ManagedVirtualNetworksGetResponse = ManagedVirtualNetworkResource;
-
-// @public
-export interface ManagedVirtualNetworksListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedVirtualNetworksListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse;
-
-// @public
-export interface ManagedVirtualNetworksListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface ManagedVirtualNetworksOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, managedVirtualNetwork: ManagedVirtualNetworkResource, options?: ManagedVirtualNetworksCreateOrUpdateOptionalParams) => Promise<ManagedVirtualNetworkResource>;
+    get: (resourceGroupName: string, factoryName: string, managedVirtualNetworkName: string, options?: ManagedVirtualNetworksGetOptionalParams) => Promise<ManagedVirtualNetworkResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: ManagedVirtualNetworksListByFactoryOptionalParams) => PagedAsyncIterableIterator<ManagedVirtualNetworkResource>;
 }
-
-// @public
-export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse;
 
 // @public
 export interface MapperAttributeMapping {
@@ -5935,6 +6879,12 @@ export interface MapperTable {
 }
 
 // @public
+export interface MapperTableProperties {
+    dslConnectorProperties?: MapperDslConnectorProperties[];
+    schema?: MapperTableSchema[];
+}
+
+// @public
 export interface MapperTableSchema {
     dataType?: string;
     name?: string;
@@ -5959,6 +6909,15 @@ export interface MappingDataFlow extends DataFlow {
 }
 
 // @public
+export interface MappingDataFlowTypeProperties {
+    script?: string;
+    scriptLines?: string[];
+    sinks?: DataFlowSink[];
+    sources?: DataFlowSource[];
+    transformations?: Transformation[];
+}
+
+// @public
 export type MappingType = string;
 
 // @public
@@ -5972,6 +6931,20 @@ export interface MariaDBLinkedService extends LinkedService {
     server?: any;
     sslMode?: any;
     type: "MariaDB";
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
+export interface MariaDBLinkedServiceTypeProperties {
+    connectionString?: any;
+    database?: any;
+    driverVersion?: any;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    port?: any;
+    server?: any;
+    sslMode?: any;
     username?: any;
     useSystemTrustStore?: any;
 }
@@ -5995,6 +6968,17 @@ export interface MarketoLinkedService extends LinkedService {
     encryptedCredential?: string;
     endpoint: any;
     type: "Marketo";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface MarketoLinkedServiceTypeProperties {
+    clientId: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -6030,6 +7014,16 @@ export interface MicrosoftAccessLinkedService extends LinkedService {
 }
 
 // @public
+export interface MicrosoftAccessLinkedServiceTypeProperties {
+    authenticationType?: any;
+    connectionString: any;
+    credential?: SecretBaseUnion;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    userName?: any;
+}
+
+// @public
 export interface MicrosoftAccessSink extends CopySink {
     preCopyScript?: any;
     type: "MicrosoftAccessSink";
@@ -6049,9 +7043,19 @@ export interface MicrosoftAccessTableDataset extends Dataset {
 }
 
 // @public
+export interface MicrosoftAccessTableDatasetTypeProperties {
+    tableName?: any;
+}
+
+// @public
 export interface MongoDbAtlasCollectionDataset extends Dataset {
     collection: any;
     type: "MongoDbAtlasCollection";
+}
+
+// @public
+export interface MongoDbAtlasCollectionDatasetTypeProperties {
+    collection: any;
 }
 
 // @public
@@ -6060,6 +7064,13 @@ export interface MongoDbAtlasLinkedService extends LinkedService {
     database: any;
     driverVersion?: any;
     type: "MongoDbAtlas";
+}
+
+// @public
+export interface MongoDbAtlasLinkedServiceTypeProperties {
+    connectionString: any;
+    database: any;
+    driverVersion?: any;
 }
 
 // @public
@@ -6088,8 +7099,13 @@ export interface MongoDbCollectionDataset extends Dataset {
 }
 
 // @public
+export interface MongoDbCollectionDatasetTypeProperties {
+    collectionName: any;
+}
+
+// @public
 export interface MongoDbCursorMethodsProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     limit?: any;
     project?: any;
     skip?: any;
@@ -6112,6 +7128,20 @@ export interface MongoDbLinkedService extends LinkedService {
 }
 
 // @public
+export interface MongoDbLinkedServiceTypeProperties {
+    allowSelfSignedServerCert?: any;
+    authenticationType?: MongoDbAuthenticationType;
+    authSource?: any;
+    databaseName: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    port?: any;
+    server: any;
+    username?: any;
+}
+
+// @public
 export interface MongoDbSource extends CopySource {
     additionalColumns?: any;
     query?: any;
@@ -6125,10 +7155,21 @@ export interface MongoDbV2CollectionDataset extends Dataset {
 }
 
 // @public
+export interface MongoDbV2CollectionDatasetTypeProperties {
+    collection: any;
+}
+
+// @public
 export interface MongoDbV2LinkedService extends LinkedService {
     connectionString: any;
     database: any;
     type: "MongoDbV2";
+}
+
+// @public
+export interface MongoDbV2LinkedServiceTypeProperties {
+    connectionString: any;
+    database: any;
 }
 
 // @public
@@ -6150,11 +7191,12 @@ export interface MongoDbV2Source extends CopySource {
 // @public
 export interface MultiplePipelineTrigger extends Trigger {
     pipelines?: TriggerPipelineReference[];
+    // (undocumented)
     type: "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger";
 }
 
-// @public (undocumented)
-export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger;
+// @public
+export type MultiplePipelineTriggerUnion = ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger | MultiplePipelineTrigger;
 
 // @public
 export interface MySqlLinkedService extends LinkedService {
@@ -6179,6 +7221,27 @@ export interface MySqlLinkedService extends LinkedService {
 }
 
 // @public
+export interface MySqlLinkedServiceTypeProperties {
+    allowZeroDateTime?: any;
+    connectionString?: any;
+    connectionTimeout?: any;
+    convertZeroDateTime?: any;
+    database?: any;
+    driverVersion?: any;
+    encryptedCredential?: string;
+    guidFormat?: any;
+    password?: AzureKeyVaultSecretReference;
+    port?: any;
+    server?: any;
+    sslCert?: any;
+    sslKey?: any;
+    sslMode?: any;
+    treatTinyAsBoolean?: any;
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
 export interface MySqlSource extends TabularSource {
     query?: any;
     type: "MySqlSource";
@@ -6191,15 +7254,34 @@ export interface MySqlTableDataset extends Dataset {
 }
 
 // @public
-export interface NetezzaLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: string;
-    pwd?: AzureKeyVaultSecretReference;
-    type: "Netezza";
+export interface MySqlTableDatasetTypeProperties {
+    tableName?: any;
 }
 
 // @public
-export type NetezzaPartitionOption = string;
+export interface NetezzaLinkedService extends LinkedService {
+    connectionString?: any;
+    database?: any;
+    encryptedCredential?: string;
+    port?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    securityLevel?: NetezzaSecurityLevelType;
+    server?: any;
+    type: "Netezza";
+    uid?: any;
+}
+
+// @public
+export interface NetezzaLinkedServiceTypeProperties {
+    connectionString?: any;
+    database?: any;
+    encryptedCredential?: string;
+    port?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    securityLevel?: NetezzaSecurityLevelType;
+    server?: any;
+    uid?: any;
+}
 
 // @public
 export interface NetezzaPartitionSettings {
@@ -6207,6 +7289,9 @@ export interface NetezzaPartitionSettings {
     partitionLowerBound?: any;
     partitionUpperBound?: any;
 }
+
+// @public
+export type NetezzaSecurityLevelType = string;
 
 // @public
 export interface NetezzaSource extends TabularSource {
@@ -6222,6 +7307,13 @@ export interface NetezzaTableDataset extends Dataset {
     table?: any;
     tableName?: any;
     type: "NetezzaTable";
+}
+
+// @public
+export interface NetezzaTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
 }
 
 // @public
@@ -6262,9 +7354,32 @@ export interface ODataLinkedService extends LinkedService {
 }
 
 // @public
+export interface ODataLinkedServiceTypeProperties {
+    aadResourceId?: any;
+    aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
+    authenticationType?: ODataAuthenticationType;
+    authHeaders?: any;
+    azureCloudType?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    url: any;
+    userName?: any;
+}
+
+// @public
 export interface ODataResourceDataset extends Dataset {
     path?: any;
     type: "ODataResource";
+}
+
+// @public
+export interface ODataResourceDatasetTypeProperties {
+    path?: any;
 }
 
 // @public
@@ -6287,6 +7402,16 @@ export interface OdbcLinkedService extends LinkedService {
 }
 
 // @public
+export interface OdbcLinkedServiceTypeProperties {
+    authenticationType?: any;
+    connectionString: any;
+    credential?: SecretBaseUnion;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    userName?: any;
+}
+
+// @public
 export interface OdbcSink extends CopySink {
     preCopyScript?: any;
     type: "OdbcSink";
@@ -6305,10 +7430,21 @@ export interface OdbcTableDataset extends Dataset {
 }
 
 // @public
+export interface OdbcTableDatasetTypeProperties {
+    tableName?: any;
+}
+
+// @public
 export interface Office365Dataset extends Dataset {
     predicate?: any;
     tableName: any;
     type: "Office365Table";
+}
+
+// @public
+export interface Office365DatasetTypeProperties {
+    predicate?: any;
+    tableName: any;
 }
 
 // @public
@@ -6322,6 +7458,18 @@ export interface Office365LinkedService extends LinkedService {
     servicePrincipalKey: SecretBaseUnion;
     servicePrincipalTenantId: any;
     type: "Office365";
+}
+
+// @public
+export interface Office365LinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    office365TenantId: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId: any;
+    servicePrincipalKey: SecretBaseUnion;
+    servicePrincipalTenantId: any;
 }
 
 // @public
@@ -6349,12 +7497,6 @@ export interface OperationDisplay {
     operation?: string;
     provider?: string;
     resource?: string;
-}
-
-// @public
-export interface OperationListResponse {
-    nextLink?: string;
-    value?: Operation[];
 }
 
 // @public
@@ -6392,8 +7534,8 @@ export interface OperationMetricSpecification {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationProperties {
+    serviceSpecification?: OperationServiceSpecification;
 }
 
 // @public
@@ -6403,18 +7545,13 @@ export interface OperationServiceSpecification {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResponse;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResponse;
 
 // @public
 export type OracleAuthenticationType = string;
@@ -6426,6 +7563,14 @@ export interface OracleCloudStorageLinkedService extends LinkedService {
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     type: "OracleCloudStorage";
+}
+
+// @public
+export interface OracleCloudStorageLinkedServiceTypeProperties {
+    accessKeyId?: any;
+    encryptedCredential?: string;
+    secretAccessKey?: SecretBaseUnion;
+    serviceUrl?: any;
 }
 
 // @public
@@ -6473,7 +7618,25 @@ export interface OracleLinkedService extends LinkedService {
 }
 
 // @public
-export type OraclePartitionOption = string;
+export interface OracleLinkedServiceTypeProperties {
+    authenticationType?: OracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
+    encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
+    password?: AzureKeyVaultSecretReference;
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
+    username?: any;
+}
 
 // @public
 export interface OraclePartitionSettings {
@@ -6489,6 +7652,17 @@ export interface OracleServiceCloudLinkedService extends LinkedService {
     host: any;
     password: SecretBaseUnion;
     type: "OracleServiceCloud";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username: any;
+}
+
+// @public
+export interface OracleServiceCloudLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    host: any;
+    password: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -6516,6 +7690,8 @@ export interface OracleSink extends CopySink {
 // @public
 export interface OracleSource extends CopySource {
     additionalColumns?: any;
+    numberPrecision?: any;
+    numberScale?: any;
     oracleReaderQuery?: any;
     partitionOption?: any;
     partitionSettings?: OraclePartitionSettings;
@@ -6532,13 +7708,23 @@ export interface OracleTableDataset extends Dataset {
 }
 
 // @public
-export type OrcCompressionCodec = string;
+export interface OracleTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface OrcDataset extends Dataset {
     location?: DatasetLocationUnion;
     orcCompressionCodec?: any;
     type: "Orc";
+}
+
+// @public
+export interface OrcDatasetTypeProperties {
+    location: DatasetLocationUnion;
+    orcCompressionCodec?: any;
 }
 
 // @public
@@ -6568,14 +7754,21 @@ export interface OrcWriteSettings extends FormatWriteSettings {
 }
 
 // @public
-export interface OutputColumn {
-    name?: string;
-}
-
-// @public
 export interface PackageStore {
     name: string;
     packageStoreLinkedService: EntityReference;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -6592,6 +7785,12 @@ export interface ParquetDataset extends Dataset {
     compressionCodec?: any;
     location?: DatasetLocationUnion;
     type: "Parquet";
+}
+
+// @public
+export interface ParquetDatasetTypeProperties {
+    compressionCodec?: any;
+    location: DatasetLocationUnion;
 }
 
 // @public
@@ -6640,6 +7839,17 @@ export interface PaypalLinkedService extends LinkedService {
 }
 
 // @public
+export interface PaypalLinkedServiceTypeProperties {
+    clientId: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    host: any;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
 export interface PaypalObjectDataset extends Dataset {
     tableName?: any;
     type: "PaypalObject";
@@ -6653,6 +7863,13 @@ export interface PaypalSource extends TabularSource {
 
 // @public
 export type PhoenixAuthenticationType = string;
+
+// @public
+export interface PhoenixDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface PhoenixLinkedService extends LinkedService {
@@ -6672,6 +7889,22 @@ export interface PhoenixLinkedService extends LinkedService {
 }
 
 // @public
+export interface PhoenixLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: PhoenixAuthenticationType;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    httpPath?: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    trustedCertPath?: any;
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
 export interface PhoenixObjectDataset extends Dataset {
     schemaTypePropertiesSchema?: any;
     table?: any;
@@ -6686,13 +7919,26 @@ export interface PhoenixSource extends TabularSource {
 }
 
 // @public
+export interface Pipeline {
+    activities?: ActivityUnion[];
+    annotations?: any[];
+    concurrency?: number;
+    description?: string;
+    folder?: PipelineFolder;
+    parameters?: Record<string, ParameterSpecification>;
+    policy?: PipelinePolicy;
+    runDimensions?: Record<string, any>;
+    variables?: Record<string, VariableSpecification>;
+}
+
+// @public
 export interface PipelineElapsedTimeMetricPolicy {
     duration?: any;
 }
 
 // @public
 export interface PipelineExternalComputeScaleProperties {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     numberOfExternalNodes?: number;
     numberOfPipelineNodes?: number;
     timeToLive?: number;
@@ -6704,12 +7950,6 @@ export interface PipelineFolder {
 }
 
 // @public
-export interface PipelineListResponse {
-    nextLink?: string;
-    value: PipelineResource[];
-}
-
-// @public
 export interface PipelinePolicy {
     elapsedTimeMetric?: PipelineElapsedTimeMetricPolicy;
 }
@@ -6718,44 +7958,38 @@ export interface PipelinePolicy {
 export interface PipelineReference {
     name?: string;
     referenceName: string;
-    type: "PipelineReference";
+    type: PipelineReferenceType;
 }
 
 // @public
-export interface PipelineResource extends SubResource {
-    [property: string]: any;
+export type PipelineReferenceType = string;
+
+// @public
+export interface PipelineResource extends ProxyResource {
     activities?: ActivityUnion[];
+    additionalProperties?: Record<string, any>;
     annotations?: any[];
     concurrency?: number;
     description?: string;
+    readonly etag?: string;
     folder?: PipelineFolder;
-    parameters?: {
-        [propertyName: string]: ParameterSpecification;
-    };
+    parameters?: Record<string, ParameterSpecification>;
     policy?: PipelinePolicy;
-    runDimensions?: {
-        [propertyName: string]: any;
-    };
-    variables?: {
-        [propertyName: string]: VariableSpecification;
-    };
+    runDimensions?: Record<string, any>;
+    variables?: Record<string, VariableSpecification>;
 }
 
 // @public
 export interface PipelineRun {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     readonly durationInMs?: number;
     readonly invokedBy?: PipelineRunInvokedBy;
     readonly isLatest?: boolean;
     readonly lastUpdated?: Date;
     readonly message?: string;
-    readonly parameters?: {
-        [propertyName: string]: string;
-    };
+    readonly parameters?: Record<string, string>;
     readonly pipelineName?: string;
-    readonly runDimensions?: {
-        [propertyName: string]: string;
-    };
+    readonly runDimensions?: Record<string, string>;
     readonly runEnd?: Date;
     readonly runGroupId?: string;
     readonly runId?: string;
@@ -6773,30 +8007,24 @@ export interface PipelineRunInvokedBy {
 }
 
 // @public
-export interface PipelineRuns {
-    cancel(resourceGroupName: string, factoryName: string, runId: string, options?: PipelineRunsCancelOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, runId: string, options?: PipelineRunsGetOptionalParams): Promise<PipelineRunsGetResponse>;
-    queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: RunFilterParameters, options?: PipelineRunsQueryByFactoryOptionalParams): Promise<PipelineRunsQueryByFactoryResponse>;
-}
-
-// @public
-export interface PipelineRunsCancelOptionalParams extends coreClient.OperationOptions {
+export interface PipelineRunsCancelOptionalParams extends OperationOptions {
     isRecursive?: boolean;
 }
 
 // @public
-export interface PipelineRunsGetOptionalParams extends coreClient.OperationOptions {
+export interface PipelineRunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PipelineRunsGetResponse = PipelineRun;
-
-// @public
-export interface PipelineRunsQueryByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface PipelineRunsOperations {
+    cancel: (resourceGroupName: string, factoryName: string, runId: string, options?: PipelineRunsCancelOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, runId: string, options?: PipelineRunsGetOptionalParams) => Promise<PipelineRun>;
+    queryByFactory: (resourceGroupName: string, factoryName: string, filterParameters: RunFilterParameters, options?: PipelineRunsQueryByFactoryOptionalParams) => Promise<PipelineRunsQueryResponse>;
 }
 
 // @public
-export type PipelineRunsQueryByFactoryResponse = PipelineRunsQueryResponse;
+export interface PipelineRunsQueryByFactoryOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface PipelineRunsQueryResponse {
@@ -6805,65 +8033,44 @@ export interface PipelineRunsQueryResponse {
 }
 
 // @public
-export interface Pipelines {
-    createOrUpdate(resourceGroupName: string, factoryName: string, pipelineName: string, pipeline: PipelineResource, options?: PipelinesCreateOrUpdateOptionalParams): Promise<PipelinesCreateOrUpdateResponse>;
-    createRun(resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesCreateRunOptionalParams): Promise<PipelinesCreateRunResponse>;
-    delete(resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesGetOptionalParams): Promise<PipelinesGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: PipelinesListByFactoryOptionalParams): PagedAsyncIterableIterator<PipelineResource>;
-}
-
-// @public
-export interface PipelinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type PipelinesCreateOrUpdateResponse = PipelineResource;
-
-// @public
-export interface PipelinesCreateRunOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesCreateRunOptionalParams extends OperationOptions {
     isRecovery?: boolean;
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     referencePipelineRunId?: string;
     startActivityName?: string;
     startFromFailure?: boolean;
 }
 
 // @public
-export type PipelinesCreateRunResponse = CreateRunResponse;
-
-// @public
-export interface PipelinesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PipelinesGetOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type PipelinesGetResponse = PipelineResource;
-
-// @public
-export interface PipelinesListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PipelinesListByFactoryNextResponse = PipelineListResponse;
-
-// @public
-export interface PipelinesListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface PipelinesOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, pipelineName: string, pipeline: PipelineResource, options?: PipelinesCreateOrUpdateOptionalParams) => Promise<PipelineResource>;
+    createRun: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesCreateRunOptionalParams) => Promise<CreateRunResponse>;
+    delete: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, pipelineName: string, options?: PipelinesGetOptionalParams) => Promise<PipelineResource>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: PipelinesListByFactoryOptionalParams) => PagedAsyncIterableIterator<PipelineResource>;
 }
-
-// @public
-export type PipelinesListByFactoryResponse = PipelineListResponse;
 
 // @public
 export interface PolybaseSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     rejectSampleValue?: any;
     rejectType?: PolybaseSettingsRejectType;
     rejectValue?: any;
@@ -6882,6 +8089,13 @@ export interface PostgreSqlLinkedService extends LinkedService {
 }
 
 // @public
+export interface PostgreSqlLinkedServiceTypeProperties {
+    connectionString: any;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+}
+
+// @public
 export interface PostgreSqlSource extends TabularSource {
     query?: any;
     type: "PostgreSqlSource";
@@ -6893,6 +8107,13 @@ export interface PostgreSqlTableDataset extends Dataset {
     table?: any;
     tableName?: any;
     type: "PostgreSqlTable";
+}
+
+// @public
+export interface PostgreSqlTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
 }
 
 // @public
@@ -6921,6 +8142,30 @@ export interface PostgreSqlV2LinkedService extends LinkedService {
 }
 
 // @public
+export interface PostgreSqlV2LinkedServiceTypeProperties {
+    authenticationType: any;
+    commandTimeout?: any;
+    connectionTimeout?: any;
+    database: any;
+    encoding?: any;
+    encryptedCredential?: string;
+    logParameters?: any;
+    password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    port?: any;
+    readBufferSize?: any;
+    schema?: any;
+    server: any;
+    sslCertificate?: any;
+    sslKey?: any;
+    sslMode: any;
+    sslPassword?: any;
+    timezone?: any;
+    trustServerCertificate?: any;
+    username: any;
+}
+
+// @public
 export interface PostgreSqlV2Source extends TabularSource {
     query?: any;
     type: "PostgreSqlV2Source";
@@ -6931,6 +8176,12 @@ export interface PostgreSqlV2TableDataset extends Dataset {
     schemaTypePropertiesSchema?: any;
     table?: any;
     type: "PostgreSqlV2Table";
+}
+
+// @public
+export interface PostgreSqlV2TableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
 }
 
 // @public
@@ -6950,7 +8201,21 @@ export interface PowerQuerySource extends DataFlowSource {
 }
 
 // @public
+export interface PowerQueryTypeProperties {
+    documentLocale?: string;
+    script?: string;
+    sources?: PowerQuerySource[];
+}
+
+// @public
 export type PrestoAuthenticationType = string;
+
+// @public
+export interface PrestoDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
 
 // @public
 export interface PrestoLinkedService extends LinkedService {
@@ -6968,6 +8233,25 @@ export interface PrestoLinkedService extends LinkedService {
     timeZoneID?: any;
     trustedCertPath?: any;
     type: "Presto";
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
+export interface PrestoLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: PrestoAuthenticationType;
+    catalog: any;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    password?: SecretBaseUnion;
+    port?: any;
+    serverVersion?: any;
+    timeZoneID?: any;
+    trustedCertPath?: any;
     username?: any;
     useSystemTrustStore?: any;
 }
@@ -6992,61 +8276,40 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection {
-    createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnectionResource;
-
-// @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource;
-
-// @public
-export interface PrivateEndpointConnectionListResponse {
-    nextLink?: string;
-    value: PrivateEndpointConnectionResource[];
+export interface PrivateEndpointConnectionOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnectionResource>;
+    delete: (resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
 }
 
 // @public
-export interface PrivateEndpointConnectionResource extends SubResource {
+export interface PrivateEndpointConnectionResource extends ProxyResource {
+    readonly etag?: string;
     properties?: RemotePrivateEndpointConnection;
 }
 
 // @public
-export interface PrivateEndPointConnections {
-    listByFactory(resourceGroupName: string, factoryName: string, options?: PrivateEndPointConnectionsListByFactoryOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+export interface PrivateEndPointConnectionsListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndPointConnectionsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndPointConnectionsOperations {
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: PrivateEndPointConnectionsListByFactoryOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 }
-
-// @public
-export type PrivateEndPointConnectionsListByFactoryNextResponse = PrivateEndpointConnectionListResponse;
-
-// @public
-export interface PrivateEndPointConnectionsListByFactoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointConnectionListResponse;
 
 // @public
 export interface PrivateLinkConnectionApprovalRequest {
@@ -7079,21 +8342,22 @@ export interface PrivateLinkResourceProperties {
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, factoryName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, factoryName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
 }
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper;
 
 // @public
 export interface PrivateLinkResourcesWrapper {
     // (undocumented)
     value: PrivateLinkResource[];
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -7105,15 +8369,16 @@ export interface PurviewConfiguration {
 }
 
 // @public
-export interface QueryDataFlowDebugSessionsResponse {
-    nextLink?: string;
-    value?: DataFlowDebugSessionInfo[];
-}
-
-// @public
 export interface QuickbaseLinkedService extends LinkedService {
     encryptedCredential?: string;
     type: "Quickbase";
+    url: any;
+    userToken: SecretBaseUnion;
+}
+
+// @public
+export interface QuickbaseLinkedServiceTypeProperties {
+    encryptedCredential?: string;
     url: any;
     userToken: SecretBaseUnion;
 }
@@ -7128,7 +8393,22 @@ export interface QuickBooksLinkedService extends LinkedService {
     consumerSecret?: SecretBaseUnion;
     encryptedCredential?: string;
     endpoint?: any;
+    refreshToken?: SecretBaseUnion;
     type: "QuickBooks";
+    useEncryptedEndpoints?: any;
+}
+
+// @public
+export interface QuickBooksLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    accessTokenSecret?: SecretBaseUnion;
+    companyId?: any;
+    connectionProperties?: any;
+    consumerKey?: any;
+    consumerSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint?: any;
+    refreshToken?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
 }
 
@@ -7149,7 +8429,7 @@ export type RecurrenceFrequency = string;
 
 // @public
 export interface RecurrenceSchedule {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     hours?: number[];
     minutes?: number[];
     monthDays?: number[];
@@ -7159,14 +8439,14 @@ export interface RecurrenceSchedule {
 
 // @public
 export interface RecurrenceScheduleOccurrence {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     day?: DayOfWeek;
     occurrence?: number;
 }
 
 // @public
 export interface RedirectIncompatibleRowSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     linkedServiceName: any;
     path?: any;
 }
@@ -7191,9 +8471,15 @@ export interface RelationalTableDataset extends Dataset {
 }
 
 // @public
+export interface RelationalTableDatasetTypeProperties {
+    tableName?: any;
+}
+
+// @public
 export interface RemotePrivateEndpointConnection {
     privateEndpoint?: ArmIdWrapper;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+    // (undocumented)
     readonly provisioningState?: string;
 }
 
@@ -7207,14 +8493,18 @@ export interface RerunTumblingWindowTrigger extends Trigger {
 }
 
 // @public
+export interface RerunTumblingWindowTriggerTypeProperties {
+    parentTrigger: any;
+    requestedEndTime: Date;
+    requestedStartTime: Date;
+    rerunConcurrency: number;
+}
+
+// @public
 export interface Resource {
-    readonly eTag?: string;
     readonly id?: string;
-    location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -7225,6 +8515,17 @@ export interface ResponsysLinkedService extends LinkedService {
     encryptedCredential?: string;
     endpoint: any;
     type: "Responsys";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface ResponsysLinkedServiceTypeProperties {
+    clientId: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -7243,17 +8544,32 @@ export interface ResponsysSource extends TabularSource {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataFactoryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface RestResourceDataset extends Dataset {
-    additionalHeaders?: {
-        [propertyName: string]: any;
-    };
-    paginationRules?: {
-        [propertyName: string]: any;
-    };
+    additionalHeaders?: Record<string, any>;
+    paginationRules?: Record<string, any>;
     relativeUrl?: any;
     requestBody?: any;
     requestMethod?: any;
     type: "RestResource";
+}
+
+// @public
+export interface RestResourceDatasetTypeProperties {
+    additionalHeaders?: Record<string, any>;
+    paginationRules?: Record<string, any>;
+    relativeUrl?: any;
+    requestBody?: any;
+    requestMethod?: any;
 }
 
 // @public
@@ -7281,6 +8597,31 @@ export interface RestServiceLinkedService extends LinkedService {
     tenant?: any;
     tokenEndpoint?: any;
     type: "RestService";
+    url: any;
+    userName?: any;
+}
+
+// @public
+export interface RestServiceLinkedServiceTypeProperties {
+    aadResourceId?: any;
+    authenticationType: RestServiceAuthenticationType;
+    authHeaders?: any;
+    azureCloudType?: any;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    credential?: CredentialReference;
+    enableServerCertificateValidation?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    resource?: any;
+    scope?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    tokenEndpoint?: any;
     url: any;
     userName?: any;
 }
@@ -7359,12 +8700,33 @@ export interface SalesforceLinkedService extends LinkedService {
 }
 
 // @public
+export interface SalesforceLinkedServiceTypeProperties {
+    apiVersion?: any;
+    encryptedCredential?: string;
+    environmentUrl?: any;
+    password?: SecretBaseUnion;
+    securityToken?: SecretBaseUnion;
+    username?: any;
+}
+
+// @public
 export interface SalesforceMarketingCloudLinkedService extends LinkedService {
     clientId?: any;
     clientSecret?: SecretBaseUnion;
     connectionProperties?: any;
     encryptedCredential?: string;
     type: "SalesforceMarketingCloud";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface SalesforceMarketingCloudLinkedServiceTypeProperties {
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    connectionProperties?: any;
+    encryptedCredential?: string;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -7389,6 +8751,11 @@ export interface SalesforceObjectDataset extends Dataset {
 }
 
 // @public
+export interface SalesforceObjectDatasetTypeProperties {
+    objectApiName?: any;
+}
+
+// @public
 export interface SalesforceServiceCloudLinkedService extends LinkedService {
     apiVersion?: any;
     encryptedCredential?: string;
@@ -7401,9 +8768,25 @@ export interface SalesforceServiceCloudLinkedService extends LinkedService {
 }
 
 // @public
+export interface SalesforceServiceCloudLinkedServiceTypeProperties {
+    apiVersion?: any;
+    encryptedCredential?: string;
+    environmentUrl?: any;
+    extendedProperties?: any;
+    password?: SecretBaseUnion;
+    securityToken?: SecretBaseUnion;
+    username?: any;
+}
+
+// @public
 export interface SalesforceServiceCloudObjectDataset extends Dataset {
     objectApiName?: any;
     type: "SalesforceServiceCloudObject";
+}
+
+// @public
+export interface SalesforceServiceCloudObjectDatasetTypeProperties {
+    objectApiName?: any;
 }
 
 // @public
@@ -7434,10 +8817,26 @@ export interface SalesforceServiceCloudV2LinkedService extends LinkedService {
 }
 
 // @public
+export interface SalesforceServiceCloudV2LinkedServiceTypeProperties {
+    apiVersion?: any;
+    authenticationType?: any;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    environmentUrl?: any;
+}
+
+// @public
 export interface SalesforceServiceCloudV2ObjectDataset extends Dataset {
     objectApiName?: any;
     reportId?: any;
     type: "SalesforceServiceCloudV2Object";
+}
+
+// @public
+export interface SalesforceServiceCloudV2ObjectDatasetTypeProperties {
+    objectApiName?: any;
+    reportId?: any;
 }
 
 // @public
@@ -7476,9 +8875,6 @@ export interface SalesforceSource extends TabularSource {
 }
 
 // @public
-export type SalesforceSourceReadBehavior = string;
-
-// @public
 export interface SalesforceV2LinkedService extends LinkedService {
     apiVersion?: any;
     authenticationType?: any;
@@ -7490,10 +8886,26 @@ export interface SalesforceV2LinkedService extends LinkedService {
 }
 
 // @public
+export interface SalesforceV2LinkedServiceTypeProperties {
+    apiVersion?: any;
+    authenticationType?: any;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    environmentUrl?: any;
+}
+
+// @public
 export interface SalesforceV2ObjectDataset extends Dataset {
     objectApiName?: any;
     reportId?: any;
     type: "SalesforceV2Object";
+}
+
+// @public
+export interface SalesforceV2ObjectDatasetTypeProperties {
+    objectApiName?: any;
+    reportId?: any;
 }
 
 // @public
@@ -7511,6 +8923,7 @@ export type SalesforceV2SinkWriteBehavior = string;
 export interface SalesforceV2Source extends TabularSource {
     includeDeletedObjects?: any;
     pageSize?: any;
+    partitionOption?: any;
     query?: any;
     soqlQuery?: any;
     type: "SalesforceV2Source";
@@ -7533,6 +8946,16 @@ export interface SapBWLinkedService extends LinkedService {
 }
 
 // @public
+export interface SapBWLinkedServiceTypeProperties {
+    clientId: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    server: any;
+    systemNumber: any;
+    userName?: any;
+}
+
+// @public
 export interface SapBwSource extends TabularSource {
     query?: any;
     type: "SapBwSource";
@@ -7548,9 +8971,22 @@ export interface SapCloudForCustomerLinkedService extends LinkedService {
 }
 
 // @public
+export interface SapCloudForCustomerLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    url: any;
+    username?: any;
+}
+
+// @public
 export interface SapCloudForCustomerResourceDataset extends Dataset {
     path: any;
     type: "SapCloudForCustomerResource";
+}
+
+// @public
+export interface SapCloudForCustomerResourceDatasetTypeProperties {
+    path: any;
 }
 
 // @public
@@ -7580,9 +9016,22 @@ export interface SapEccLinkedService extends LinkedService {
 }
 
 // @public
+export interface SapEccLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    url: any;
+    username?: any;
+}
+
+// @public
 export interface SapEccResourceDataset extends Dataset {
     path: any;
     type: "SapEccResource";
+}
+
+// @public
+export interface SapEccResourceDatasetTypeProperties {
+    path: any;
 }
 
 // @public
@@ -7607,7 +9056,14 @@ export interface SapHanaLinkedService extends LinkedService {
 }
 
 // @public
-export type SapHanaPartitionOption = string;
+export interface SapHanaLinkedServiceProperties {
+    authenticationType?: SapHanaAuthenticationType;
+    connectionString?: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    server?: any;
+    userName?: any;
+}
 
 // @public
 export interface SapHanaPartitionSettings {
@@ -7628,6 +9084,12 @@ export interface SapHanaTableDataset extends Dataset {
     schemaTypePropertiesSchema?: any;
     table?: any;
     type: "SapHanaTable";
+}
+
+// @public
+export interface SapHanaTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
 }
 
 // @public
@@ -7654,10 +9116,38 @@ export interface SapOdpLinkedService extends LinkedService {
 }
 
 // @public
+export interface SapOdpLinkedServiceTypeProperties {
+    clientId?: any;
+    encryptedCredential?: string;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    sncLibraryPath?: any;
+    sncMode?: any;
+    sncMyName?: any;
+    sncPartnerName?: any;
+    sncQop?: any;
+    subscriberName?: any;
+    systemId?: any;
+    systemNumber?: any;
+    userName?: any;
+    x509CertificatePath?: any;
+}
+
+// @public
 export interface SapOdpResourceDataset extends Dataset {
     context: any;
     objectName: any;
     type: "SapOdpResource";
+}
+
+// @public
+export interface SapOdpResourceDatasetTypeProperties {
+    context: any;
+    objectName: any;
 }
 
 // @public
@@ -7686,6 +9176,21 @@ export interface SapOpenHubLinkedService extends LinkedService {
 }
 
 // @public
+export interface SapOpenHubLinkedServiceTypeProperties {
+    clientId?: any;
+    encryptedCredential?: string;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    systemId?: any;
+    systemNumber?: any;
+    userName?: any;
+}
+
+// @public
 export interface SapOpenHubSource extends TabularSource {
     baseRequestId?: any;
     customRfcReadTableFunctionModule?: any;
@@ -7700,6 +9205,13 @@ export interface SapOpenHubTableDataset extends Dataset {
     excludeLastRequest?: any;
     openHubDestinationName: any;
     type: "SapOpenHubTable";
+}
+
+// @public
+export interface SapOpenHubTableDatasetTypeProperties {
+    baseRequestId?: any;
+    excludeLastRequest?: any;
+    openHubDestinationName: any;
 }
 
 // @public
@@ -7724,7 +9236,24 @@ export interface SapTableLinkedService extends LinkedService {
 }
 
 // @public
-export type SapTablePartitionOption = string;
+export interface SapTableLinkedServiceTypeProperties {
+    clientId?: any;
+    encryptedCredential?: string;
+    language?: any;
+    logonGroup?: any;
+    messageServer?: any;
+    messageServerService?: any;
+    password?: SecretBaseUnion;
+    server?: any;
+    sncLibraryPath?: any;
+    sncMode?: any;
+    sncMyName?: any;
+    sncPartnerName?: any;
+    sncQop?: any;
+    systemId?: any;
+    systemNumber?: any;
+    userName?: any;
+}
 
 // @public
 export interface SapTablePartitionSettings {
@@ -7738,6 +9267,11 @@ export interface SapTablePartitionSettings {
 export interface SapTableResourceDataset extends Dataset {
     tableName: any;
     type: "SapTableResource";
+}
+
+// @public
+export interface SapTableResourceDatasetTypeProperties {
+    tableName: any;
 }
 
 // @public
@@ -7762,13 +9296,18 @@ export interface ScheduleTrigger extends MultiplePipelineTrigger {
 
 // @public
 export interface ScheduleTriggerRecurrence {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     endTime?: Date;
     frequency?: RecurrenceFrequency;
     interval?: number;
     schedule?: RecurrenceSchedule;
     startTime?: Date;
     timeZone?: string;
+}
+
+// @public
+export interface ScheduleTriggerTypeProperties {
+    recurrence: ScheduleTriggerRecurrence;
 }
 
 // @public
@@ -7785,6 +9324,7 @@ export interface ScriptActivity extends ExecutionActivity {
     returnMultistatementResult?: any;
     scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
+    treatDecimalAsString?: any;
     type: "Script";
 }
 
@@ -7814,21 +9354,27 @@ export interface ScriptActivityScriptBlock {
 }
 
 // @public
+export interface ScriptActivityTypeProperties {
+    logSettings?: ScriptActivityTypePropertiesLogSettings;
+    returnMultistatementResult?: any;
+    scriptBlockExecutionTimeout?: any;
+    scripts?: ScriptActivityScriptBlock[];
+    treatDecimalAsString?: any;
+}
+
+// @public
 export interface ScriptActivityTypePropertiesLogSettings {
     logDestination: ScriptActivityLogDestination;
     logLocationSettings?: LogLocationSettings;
 }
 
 // @public
-export type ScriptType = string;
-
-// @public
 export interface SecretBase {
-    type: "SecureString" | "AzureKeyVaultSecret";
+    type: string;
 }
 
-// @public (undocumented)
-export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
+// @public
+export type SecretBaseUnion = SecureString | AzureKeyVaultSecretReference | SecretBase;
 
 // @public
 export interface SecureInputOutputPolicy {
@@ -7858,10 +9404,8 @@ export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
 
 // @public
 export interface SelfHostedIntegrationRuntimeNode {
-    [property: string]: any;
-    readonly capabilities?: {
-        [propertyName: string]: string;
-    };
+    additionalProperties?: Record<string, any>;
+    readonly capabilities?: Record<string, string>;
     readonly concurrentJobsLimit?: number;
     readonly expiryTime?: Date;
     readonly hostServiceUri?: string;
@@ -7888,9 +9432,7 @@ export type SelfHostedIntegrationRuntimeNodeStatus = string;
 export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
     readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
     readonly autoUpdateETA?: Date;
-    readonly capabilities?: {
-        [propertyName: string]: string;
-    };
+    readonly capabilities?: Record<string, string>;
     readonly createTime?: Date;
     readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
     readonly latestVersion?: string;
@@ -7909,6 +9451,33 @@ export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeSt
 }
 
 // @public
+export interface SelfHostedIntegrationRuntimeStatusTypeProperties {
+    readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
+    readonly autoUpdateETA?: Date;
+    readonly capabilities?: Record<string, string>;
+    readonly createTime?: Date;
+    readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
+    readonly latestVersion?: string;
+    links?: LinkedIntegrationRuntime[];
+    readonly localTimeZoneOffset?: string;
+    nodes?: SelfHostedIntegrationRuntimeNode[];
+    readonly pushedVersion?: string;
+    readonly scheduledUpdateDate?: Date;
+    readonly selfContainedInteractiveAuthoringEnabled?: boolean;
+    readonly serviceUrls?: string[];
+    readonly taskQueueId?: string;
+    readonly updateDelayOffset?: string;
+    readonly version?: string;
+    readonly versionStatus?: string;
+}
+
+// @public
+export interface SelfHostedIntegrationRuntimeTypeProperties {
+    linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+    selfContainedInteractiveAuthoringEnabled?: boolean;
+}
+
+// @public
 export type ServiceNowAuthenticationType = string;
 
 // @public
@@ -7920,6 +9489,20 @@ export interface ServiceNowLinkedService extends LinkedService {
     endpoint: any;
     password?: SecretBaseUnion;
     type: "ServiceNow";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+    username?: any;
+}
+
+// @public
+export interface ServiceNowLinkedServiceTypeProperties {
+    authenticationType: ServiceNowAuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint: any;
+    password?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -7942,6 +9525,12 @@ export interface ServiceNowSource extends TabularSource {
 export type ServiceNowV2AuthenticationType = string;
 
 // @public
+export interface ServiceNowV2DatasetTypeProperties {
+    tableName?: any;
+    valueType?: ValueType;
+}
+
+// @public
 export interface ServiceNowV2LinkedService extends LinkedService {
     authenticationType: ServiceNowV2AuthenticationType;
     clientId?: any;
@@ -7951,6 +9540,18 @@ export interface ServiceNowV2LinkedService extends LinkedService {
     grantType?: any;
     password?: SecretBaseUnion;
     type: "ServiceNowV2";
+    username?: any;
+}
+
+// @public
+export interface ServiceNowV2LinkedServiceTypeProperties {
+    authenticationType: ServiceNowV2AuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    encryptedCredential?: string;
+    endpoint: any;
+    grantType?: any;
+    password?: SecretBaseUnion;
     username?: any;
 }
 
@@ -7977,13 +9578,24 @@ export interface ServicePrincipalCredential extends Credential {
 }
 
 // @public
-export type ServicePrincipalCredentialType = string;
+export interface ServicePrincipalCredentialTypeProperties {
+    servicePrincipalId?: any;
+    servicePrincipalKey?: AzureKeyVaultSecretReference;
+    tenant?: any;
+}
 
 // @public
 export interface SetVariableActivity extends ControlActivity {
     policy?: SecureInputOutputPolicy;
     setSystemVariable?: boolean;
     type: "SetVariable";
+    value?: any;
+    variableName?: string;
+}
+
+// @public
+export interface SetVariableActivityTypeProperties {
+    setSystemVariable?: boolean;
     value?: any;
     variableName?: string;
 }
@@ -8028,10 +9640,30 @@ export interface SftpServerLinkedService extends LinkedService {
 }
 
 // @public
+export interface SftpServerLinkedServiceTypeProperties {
+    authenticationType?: SftpAuthenticationType;
+    encryptedCredential?: string;
+    host: any;
+    hostKeyFingerprint?: any;
+    passPhrase?: SecretBaseUnion;
+    password?: SecretBaseUnion;
+    port?: any;
+    privateKeyContent?: SecretBaseUnion;
+    privateKeyPath?: any;
+    skipHostKeyValidation?: any;
+    userName?: any;
+}
+
+// @public
 export interface SftpWriteSettings extends StoreWriteSettings {
     operationTimeout?: any;
     type: "SftpWriteSettings";
     useTempFileRename?: any;
+}
+
+// @public
+export interface SharePointOnlineListDatasetTypeProperties {
+    listName?: any;
 }
 
 // @public
@@ -8045,6 +9677,18 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
     siteUrl: any;
     tenantId: any;
     type: "SharePointOnlineList";
+}
+
+// @public
+export interface SharePointOnlineListLinkedServiceTypeProperties {
+    encryptedCredential?: string;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    siteUrl: any;
+    tenantId: any;
 }
 
 // @public
@@ -8066,6 +9710,16 @@ export interface ShopifyLinkedService extends LinkedService {
     encryptedCredential?: string;
     host: any;
     type: "Shopify";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface ShopifyLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    encryptedCredential?: string;
+    host: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -8097,6 +9751,12 @@ export interface SmartsheetLinkedService extends LinkedService {
 }
 
 // @public
+export interface SmartsheetLinkedServiceTypeProperties {
+    apiToken: SecretBaseUnion;
+    encryptedCredential?: string;
+}
+
+// @public
 export type SnowflakeAuthenticationType = string;
 
 // @public
@@ -8107,25 +9767,23 @@ export interface SnowflakeDataset extends Dataset {
 }
 
 // @public
+export interface SnowflakeDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+}
+
+// @public
 export interface SnowflakeExportCopyCommand extends ExportSettings {
-    additionalCopyOptions?: {
-        [propertyName: string]: any;
-    };
-    additionalFormatOptions?: {
-        [propertyName: string]: any;
-    };
+    additionalCopyOptions?: Record<string, any>;
+    additionalFormatOptions?: Record<string, any>;
     storageIntegration?: any;
     type: "SnowflakeExportCopyCommand";
 }
 
 // @public
 export interface SnowflakeImportCopyCommand extends ImportSettings {
-    additionalCopyOptions?: {
-        [propertyName: string]: any;
-    };
-    additionalFormatOptions?: {
-        [propertyName: string]: any;
-    };
+    additionalCopyOptions?: Record<string, any>;
+    additionalFormatOptions?: Record<string, any>;
     storageIntegration?: any;
     type: "SnowflakeImportCopyCommand";
 }
@@ -8136,6 +9794,34 @@ export interface SnowflakeLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
     type: "Snowflake";
+}
+
+// @public
+export interface SnowflakeLinkedServiceTypeProperties {
+    connectionString: any;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+}
+
+// @public
+export interface SnowflakeLinkedV2ServiceTypeProperties {
+    accountIdentifier: any;
+    authenticationType?: SnowflakeAuthenticationType;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    database: any;
+    encryptedCredential?: string;
+    host?: any;
+    password?: SecretBaseUnion;
+    privateKey?: SecretBaseUnion;
+    privateKeyPassphrase?: SecretBaseUnion;
+    role?: any;
+    schema?: any;
+    scope?: any;
+    tenantId?: any;
+    user?: any;
+    useUtcTimestamps?: any;
+    warehouse: any;
 }
 
 // @public
@@ -8177,6 +9863,7 @@ export interface SnowflakeV2LinkedService extends LinkedService {
     tenantId?: any;
     type: "SnowflakeV2";
     user?: any;
+    useUtcTimestamps?: any;
     warehouse: any;
 }
 
@@ -8207,6 +9894,13 @@ export interface SparkConfigurationParametrizationReference {
 export type SparkConfigurationReferenceType = string;
 
 // @public
+export interface SparkDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export type SparkJobReferenceType = string;
 
 // @public
@@ -8214,6 +9908,7 @@ export interface SparkLinkedService extends LinkedService {
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
     authenticationType: SparkAuthenticationType;
+    enableServerCertificateValidation?: any;
     enableSsl?: any;
     encryptedCredential?: string;
     host: any;
@@ -8224,6 +9919,25 @@ export interface SparkLinkedService extends LinkedService {
     thriftTransportProtocol?: SparkThriftTransportProtocol;
     trustedCertPath?: any;
     type: "Spark";
+    username?: any;
+    useSystemTrustStore?: any;
+}
+
+// @public
+export interface SparkLinkedServiceTypeProperties {
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    authenticationType: SparkAuthenticationType;
+    enableServerCertificateValidation?: any;
+    enableSsl?: any;
+    encryptedCredential?: string;
+    host: any;
+    httpPath?: any;
+    password?: SecretBaseUnion;
+    port: any;
+    serverType?: SparkServerType;
+    thriftTransportProtocol?: SparkThriftTransportProtocol;
+    trustedCertPath?: any;
     username?: any;
     useSystemTrustStore?: any;
 }
@@ -8291,9 +10005,6 @@ export interface SqlDWUpsertSettings {
 }
 
 // @public
-export type SqlDWWriteBehaviorEnum = string;
-
-// @public
 export interface SqlMISink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
@@ -8318,9 +10029,6 @@ export interface SqlMISource extends TabularSource {
     storedProcedureParameters?: any;
     type: "SqlMISource";
 }
-
-// @public
-export type SqlPartitionOption = string;
 
 // @public
 export interface SqlPartitionSettings {
@@ -8431,11 +10139,24 @@ export interface SqlServerStoredProcedureActivity extends ExecutionActivity {
 }
 
 // @public
+export interface SqlServerStoredProcedureActivityTypeProperties {
+    storedProcedureName: any;
+    storedProcedureParameters?: any;
+}
+
+// @public
 export interface SqlServerTableDataset extends Dataset {
     schemaTypePropertiesSchema?: any;
     table?: any;
     tableName?: any;
     type: "SqlServerTable";
+}
+
+// @public
+export interface SqlServerTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
 }
 
 // @public
@@ -8471,9 +10192,6 @@ export interface SqlUpsertSettings {
 }
 
 // @public
-export type SqlWriteBehaviorEnum = string;
-
-// @public
 export interface SquareLinkedService extends LinkedService {
     clientId?: any;
     clientSecret?: SecretBaseUnion;
@@ -8482,6 +10200,19 @@ export interface SquareLinkedService extends LinkedService {
     host?: any;
     redirectUri?: any;
     type: "Square";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface SquareLinkedServiceTypeProperties {
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
+    connectionProperties?: any;
+    encryptedCredential?: string;
+    host?: any;
+    redirectUri?: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
@@ -8558,17 +10289,23 @@ export interface SsisLogLocation {
 export type SsisLogLocationType = string;
 
 // @public
+export interface SsisLogLocationTypeProperties {
+    accessCredential?: SsisAccessCredential;
+    logRefreshInterval?: any;
+}
+
+// @public
 export interface SsisObjectMetadata {
     description?: string;
     id?: number;
     name?: string;
-    type: "Folder" | "Project" | "Package" | "Environment";
+    type: SsisObjectMetadataType;
 }
 
 // @public
 export interface SsisObjectMetadataListResponse {
     nextLink?: string;
-    value?: SsisObjectMetadataUnion[];
+    value: SsisObjectMetadataUnion[];
 }
 
 // @public
@@ -8582,8 +10319,8 @@ export interface SsisObjectMetadataStatusResponse {
 // @public
 export type SsisObjectMetadataType = string;
 
-// @public (undocumented)
-export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
+// @public
+export type SsisObjectMetadataUnion = SsisFolder | SsisProject | SsisPackage | SsisEnvironment | SsisObjectMetadata;
 
 // @public
 export interface SsisPackage extends SsisObjectMetadata {
@@ -8610,6 +10347,18 @@ export interface SsisPackageLocation {
 
 // @public
 export type SsisPackageLocationType = string;
+
+// @public
+export interface SsisPackageLocationTypeProperties {
+    accessCredential?: SsisAccessCredential;
+    childPackages?: SsisChildPackage[];
+    configurationAccessCredential?: SsisAccessCredential;
+    configurationPath?: any;
+    packageContent?: any;
+    packageLastModifiedDate?: string;
+    packageName?: string;
+    packagePassword?: SecretBaseUnion;
+}
 
 // @public
 export interface SsisParameter {
@@ -8655,44 +10404,35 @@ export interface SsisVariable {
 
 // @public
 export interface StagingSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     enableCompression?: any;
     linkedServiceName: LinkedServiceReference;
     path?: any;
 }
 
 // @public
-export interface StoredProcedureParameter {
-    type?: StoredProcedureParameterType;
-    value?: any;
-}
-
-// @public
-export type StoredProcedureParameterType = string;
-
-// @public
 export interface StoreReadSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
-    type: "AzureBlobStorageReadSettings" | "AzureBlobFSReadSettings" | "AzureDataLakeStoreReadSettings" | "AmazonS3ReadSettings" | "FileServerReadSettings" | "AzureFileStorageReadSettings" | "AmazonS3CompatibleReadSettings" | "OracleCloudStorageReadSettings" | "GoogleCloudStorageReadSettings" | "FtpReadSettings" | "SftpReadSettings" | "HttpReadSettings" | "HdfsReadSettings" | "LakeHouseReadSettings";
+    type: string;
 }
 
-// @public (undocumented)
-export type StoreReadSettingsUnion = StoreReadSettings | AzureBlobStorageReadSettings | AzureBlobFSReadSettings | AzureDataLakeStoreReadSettings | AmazonS3ReadSettings | FileServerReadSettings | AzureFileStorageReadSettings | AmazonS3CompatibleReadSettings | OracleCloudStorageReadSettings | GoogleCloudStorageReadSettings | FtpReadSettings | SftpReadSettings | HttpReadSettings | HdfsReadSettings | LakeHouseReadSettings;
+// @public
+export type StoreReadSettingsUnion = AzureBlobStorageReadSettings | AzureBlobFSReadSettings | AzureDataLakeStoreReadSettings | AmazonS3ReadSettings | FileServerReadSettings | AzureFileStorageReadSettings | AmazonS3CompatibleReadSettings | OracleCloudStorageReadSettings | GoogleCloudStorageReadSettings | FtpReadSettings | SftpReadSettings | HttpReadSettings | HdfsReadSettings | LakeHouseReadSettings | StoreReadSettings;
 
 // @public
 export interface StoreWriteSettings {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     copyBehavior?: any;
     disableMetricsCollection?: any;
     maxConcurrentConnections?: any;
     metadata?: MetadataItem[];
-    type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakeHouseWriteSettings";
+    type: string;
 }
 
-// @public (undocumented)
-export type StoreWriteSettingsUnion = StoreWriteSettings | SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings | AzureFileStorageWriteSettings | LakeHouseWriteSettings;
+// @public
+export type StoreWriteSettingsUnion = SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings | AzureFileStorageWriteSettings | LakeHouseWriteSettings | StoreWriteSettings;
 
 // @public
 export interface SubResource {
@@ -8713,6 +10453,13 @@ export interface SwitchActivity extends ControlActivity {
     defaultActivities?: ActivityUnion[];
     on: Expression;
     type: "Switch";
+}
+
+// @public
+export interface SwitchActivityTypeProperties {
+    cases?: SwitchCase[];
+    defaultActivities?: ActivityUnion[];
+    on: Expression;
 }
 
 // @public
@@ -8737,6 +10484,17 @@ export interface SybaseLinkedService extends LinkedService {
 }
 
 // @public
+export interface SybaseLinkedServiceTypeProperties {
+    authenticationType?: SybaseAuthenticationType;
+    database: any;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    schema?: any;
+    server: any;
+    username?: any;
+}
+
+// @public
 export interface SybaseSource extends TabularSource {
     query?: any;
     type: "SybaseSource";
@@ -8749,6 +10507,11 @@ export interface SybaseTableDataset extends Dataset {
 }
 
 // @public
+export interface SybaseTableDatasetTypeProperties {
+    tableName?: any;
+}
+
+// @public
 export interface SynapseNotebookActivity extends ExecutionActivity {
     conf?: any;
     configurationType?: ConfigurationType;
@@ -8756,21 +10519,51 @@ export interface SynapseNotebookActivity extends ExecutionActivity {
     executorSize?: any;
     notebook: SynapseNotebookReference;
     numExecutors?: any;
-    parameters?: {
-        [propertyName: string]: NotebookParameter;
-    };
-    sparkConfig?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, NotebookParameter>;
+    sparkConfig?: Record<string, any>;
     sparkPool?: BigDataPoolParametrizationReference;
     targetSparkConfiguration?: SparkConfigurationParametrizationReference;
     type: "SynapseNotebook";
 }
 
 // @public
+export interface SynapseNotebookActivityTypeProperties {
+    conf?: any;
+    configurationType?: ConfigurationType;
+    driverSize?: any;
+    executorSize?: any;
+    notebook: SynapseNotebookReference;
+    numExecutors?: any;
+    parameters?: Record<string, NotebookParameter>;
+    sparkConfig?: Record<string, any>;
+    sparkPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
+}
+
+// @public
 export interface SynapseNotebookReference {
     referenceName: any;
     type: NotebookReferenceType;
+}
+
+// @public
+export interface SynapseSparkJobActivityTypeProperties {
+    arguments?: any[];
+    className?: any;
+    conf?: any;
+    configurationType?: ConfigurationType;
+    driverSize?: any;
+    executorSize?: any;
+    file?: any;
+    files?: any[];
+    filesV2?: any[];
+    numExecutors?: any;
+    pythonCodeReference?: any[];
+    scanFolder?: any;
+    sparkConfig?: Record<string, any>;
+    sparkJob: SynapseSparkJobReference;
+    targetBigDataPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
 }
 
 // @public
@@ -8787,9 +10580,7 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
     numExecutors?: any;
     pythonCodeReference?: any[];
     scanFolder?: any;
-    sparkConfig?: {
-        [propertyName: string]: any;
-    };
+    sparkConfig?: Record<string, any>;
     sparkJob: SynapseSparkJobReference;
     targetBigDataPool?: BigDataPoolParametrizationReference;
     targetSparkConfiguration?: SparkConfigurationParametrizationReference;
@@ -8803,26 +10594,25 @@ export interface SynapseSparkJobReference {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TabularSource extends CopySource {
     additionalColumns?: any;
     queryTimeout?: any;
+    // (undocumented)
     type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "WarehouseSource" | "SalesforceV2Source" | "ServiceNowV2Source";
 }
 
-// @public (undocumented)
-export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | PostgreSqlV2Source | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GoogleBigQueryV2Source | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource | WarehouseSource | SalesforceV2Source | ServiceNowV2Source;
-
 // @public
-export interface TabularTranslator extends CopyTranslator {
-    collectionReference?: any;
-    columnMappings?: any;
-    mapComplexValuesToString?: any;
-    mappings?: any;
-    schemaMapping?: any;
-    type: "TabularTranslator";
-    typeConversion?: any;
-    typeConversionSettings?: TypeConversionSettings;
-}
+export type TabularSourceUnion = AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | PostgreSqlV2Source | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GoogleBigQueryV2Source | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource | WarehouseSource | SalesforceV2Source | ServiceNowV2Source | TabularSource;
 
 // @public
 export interface TarGZipReadSettings extends CompressionReadSettings {
@@ -8846,6 +10636,16 @@ export interface TeamDeskLinkedService extends LinkedService {
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     type: "TeamDesk";
+    url: any;
+    userName?: any;
+}
+
+// @public
+export interface TeamDeskLinkedServiceTypeProperties {
+    apiToken?: SecretBaseUnion;
+    authenticationType: TeamDeskAuthenticationType;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
     url: any;
     userName?: any;
 }
@@ -8877,7 +10677,20 @@ export interface TeradataLinkedService extends LinkedService {
 }
 
 // @public
-export type TeradataPartitionOption = string;
+export interface TeradataLinkedServiceTypeProperties {
+    authenticationType?: TeradataAuthenticationType;
+    characterSet?: any;
+    connectionString?: any;
+    encryptedCredential?: string;
+    httpsPortNumber?: any;
+    maxRespSize?: any;
+    password?: SecretBaseUnion;
+    portNumber?: any;
+    server?: any;
+    sslMode?: any;
+    useDataEncryption?: any;
+    username?: any;
+}
 
 // @public
 export interface TeradataPartitionSettings {
@@ -8908,6 +10721,12 @@ export interface TeradataTableDataset extends Dataset {
 }
 
 // @public
+export interface TeradataTableDatasetTypeProperties {
+    database?: any;
+    table?: any;
+}
+
+// @public
 export interface TextFormat extends DatasetStorageFormat {
     columnDelimiter?: any;
     encodingName?: any;
@@ -8932,21 +10751,22 @@ export interface Transformation {
 
 // @public
 export interface Trigger {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     annotations?: any[];
     description?: string;
     readonly runtimeState?: TriggerRuntimeState;
-    type: "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger" | "TumblingWindowTrigger" | "RerunTumblingWindowTrigger" | "ChainingTrigger";
+    type: string;
 }
 
 // @public
 export interface TriggerDependencyReference extends DependencyReference {
     referenceTrigger: TriggerReference;
+    // (undocumented)
     type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
 }
 
-// @public (undocumented)
-export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
+// @public
+export type TriggerDependencyReferenceUnion = TumblingWindowTriggerDependencyReference | TriggerDependencyReference;
 
 // @public
 export interface TriggerFilterParameters {
@@ -8955,16 +10775,8 @@ export interface TriggerFilterParameters {
 }
 
 // @public
-export interface TriggerListResponse {
-    nextLink?: string;
-    value: TriggerResource[];
-}
-
-// @public
 export interface TriggerPipelineReference {
-    parameters?: {
-        [propertyName: string]: any;
-    };
+    parameters?: Record<string, any>;
     pipelineReference?: PipelineReference;
 }
 
@@ -8984,27 +10796,20 @@ export interface TriggerReference {
 export type TriggerReferenceType = string;
 
 // @public
-export interface TriggerResource extends SubResource {
+export interface TriggerResource extends ProxyResource {
+    readonly etag?: string;
     properties: TriggerUnion;
 }
 
 // @public
 export interface TriggerRun {
-    [property: string]: any;
-    readonly dependencyStatus?: {
-        [propertyName: string]: any;
-    };
+    additionalProperties?: Record<string, any>;
+    readonly dependencyStatus?: Record<string, any>;
     readonly message?: string;
-    readonly properties?: {
-        [propertyName: string]: string;
-    };
-    readonly runDimension?: {
-        [propertyName: string]: string;
-    };
+    readonly properties?: Record<string, string>;
+    readonly runDimension?: Record<string, string>;
     readonly status?: TriggerRunStatus;
-    readonly triggeredPipelines?: {
-        [propertyName: string]: string;
-    };
+    readonly triggeredPipelines?: Record<string, string>;
     readonly triggerName?: string;
     readonly triggerRunId?: string;
     readonly triggerRunTimestamp?: Date;
@@ -9012,22 +10817,19 @@ export interface TriggerRun {
 }
 
 // @public
-export interface TriggerRuns {
-    cancel(resourceGroupName: string, factoryName: string, triggerName: string, runId: string, options?: TriggerRunsCancelOptionalParams): Promise<void>;
-    queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: RunFilterParameters, options?: TriggerRunsQueryByFactoryOptionalParams): Promise<TriggerRunsQueryByFactoryResponse>;
-    rerun(resourceGroupName: string, factoryName: string, triggerName: string, runId: string, options?: TriggerRunsRerunOptionalParams): Promise<void>;
+export interface TriggerRunsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TriggerRunsCancelOptionalParams extends coreClient.OperationOptions {
+export interface TriggerRunsOperations {
+    cancel: (resourceGroupName: string, factoryName: string, triggerName: string, runId: string, options?: TriggerRunsCancelOptionalParams) => Promise<void>;
+    queryByFactory: (resourceGroupName: string, factoryName: string, filterParameters: RunFilterParameters, options?: TriggerRunsQueryByFactoryOptionalParams) => Promise<TriggerRunsQueryResponse>;
+    rerun: (resourceGroupName: string, factoryName: string, triggerName: string, runId: string, options?: TriggerRunsRerunOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface TriggerRunsQueryByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface TriggerRunsQueryByFactoryOptionalParams extends OperationOptions {
 }
-
-// @public
-export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse;
 
 // @public
 export interface TriggerRunsQueryResponse {
@@ -9036,7 +10838,7 @@ export interface TriggerRunsQueryResponse {
 }
 
 // @public
-export interface TriggerRunsRerunOptionalParams extends coreClient.OperationOptions {
+export interface TriggerRunsRerunOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -9046,91 +10848,59 @@ export type TriggerRunStatus = string;
 export type TriggerRuntimeState = string;
 
 // @public
-export interface Triggers {
-    beginStart(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams): Promise<void>;
-    beginSubscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggersSubscribeToEventsResponse>, TriggersSubscribeToEventsResponse>>;
-    beginSubscribeToEventsAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams): Promise<TriggersSubscribeToEventsResponse>;
-    beginUnsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggersUnsubscribeFromEventsResponse>, TriggersUnsubscribeFromEventsResponse>>;
-    beginUnsubscribeFromEventsAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams): Promise<TriggersUnsubscribeFromEventsResponse>;
-    createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: TriggerResource, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetOptionalParams): Promise<TriggersGetResponse>;
-    getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetEventSubscriptionStatusOptionalParams): Promise<TriggersGetEventSubscriptionStatusResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: TriggersListByFactoryOptionalParams): PagedAsyncIterableIterator<TriggerResource>;
-    queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: TriggerFilterParameters, options?: TriggersQueryByFactoryOptionalParams): Promise<TriggersQueryByFactoryResponse>;
-}
-
-// @public
-export interface TriggersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TriggersCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type TriggersCreateOrUpdateResponse = TriggerResource;
-
-// @public
-export interface TriggersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TriggersDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TriggersGetEventSubscriptionStatusOptionalParams extends coreClient.OperationOptions {
+export interface TriggersGetEventSubscriptionStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TriggersGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
-
-// @public
-export interface TriggersGetOptionalParams extends coreClient.OperationOptions {
+export interface TriggersGetOptionalParams extends OperationOptions {
     ifNoneMatch?: string;
 }
 
 // @public
-export type TriggersGetResponse = TriggerResource;
-
-// @public
-export interface TriggersListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+export interface TriggersListByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TriggersListByFactoryNextResponse = TriggerListResponse;
-
-// @public
-export interface TriggersListByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface TriggersOperations {
+    createOrUpdate: (resourceGroupName: string, factoryName: string, triggerName: string, trigger: TriggerResource, options?: TriggersCreateOrUpdateOptionalParams) => Promise<TriggerResource>;
+    delete: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetOptionalParams) => Promise<TriggerResource>;
+    getEventSubscriptionStatus: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersGetEventSubscriptionStatusOptionalParams) => Promise<TriggerSubscriptionOperationStatus>;
+    listByFactory: (resourceGroupName: string, factoryName: string, options?: TriggersListByFactoryOptionalParams) => PagedAsyncIterableIterator<TriggerResource>;
+    queryByFactory: (resourceGroupName: string, factoryName: string, filterParameters: TriggerFilterParameters, options?: TriggersQueryByFactoryOptionalParams) => Promise<TriggerQueryResponse>;
+    start: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams) => PollerLike<OperationState<void>, void>;
+    subscribeToEvents: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams) => PollerLike<OperationState<TriggerSubscriptionOperationStatus>, TriggerSubscriptionOperationStatus>;
+    unsubscribeFromEvents: (resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams) => PollerLike<OperationState<TriggerSubscriptionOperationStatus>, TriggerSubscriptionOperationStatus>;
 }
 
 // @public
-export type TriggersListByFactoryResponse = TriggerListResponse;
-
-// @public
-export interface TriggersQueryByFactoryOptionalParams extends coreClient.OperationOptions {
+export interface TriggersQueryByFactoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TriggersQueryByFactoryResponse = TriggerQueryResponse;
-
-// @public
-export interface TriggersStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TriggersStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersStopOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TriggersSubscribeToEventsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersSubscribeToEventsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type TriggersSubscribeToEventsResponse = TriggerSubscriptionOperationStatus;
 
 // @public
 export interface TriggerSubscriptionOperationStatus {
@@ -9139,16 +10909,12 @@ export interface TriggerSubscriptionOperationStatus {
 }
 
 // @public
-export interface TriggersUnsubscribeFromEventsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TriggersUnsubscribeFromEventsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TriggersUnsubscribeFromEventsResponse = TriggerSubscriptionOperationStatus;
-
-// @public (undocumented)
-export type TriggerUnion = Trigger | MultiplePipelineTriggerUnion | TumblingWindowTrigger | RerunTumblingWindowTrigger | ChainingTrigger;
+export type TriggerUnion = MultiplePipelineTriggerUnion | TumblingWindowTrigger | RerunTumblingWindowTrigger | ChainingTrigger | Trigger;
 
 // @public
 export type TumblingWindowFrequency = string;
@@ -9175,6 +10941,18 @@ export interface TumblingWindowTriggerDependencyReference extends TriggerDepende
 }
 
 // @public
+export interface TumblingWindowTriggerTypeProperties {
+    delay?: any;
+    dependsOn?: DependencyReferenceUnion[];
+    endTime?: Date;
+    frequency: TumblingWindowFrequency;
+    interval: number;
+    maxConcurrency: number;
+    retryPolicy?: RetryPolicy;
+    startTime: Date;
+}
+
+// @public
 export interface TwilioLinkedService extends LinkedService {
     password: SecretBaseUnion;
     type: "Twilio";
@@ -9182,19 +10960,13 @@ export interface TwilioLinkedService extends LinkedService {
 }
 
 // @public
-export type Type = string;
+export interface TwilioLinkedServiceTypeProperties {
+    password: SecretBaseUnion;
+    userName: any;
+}
 
 // @public
-export interface TypeConversionSettings {
-    allowDataTruncation?: any;
-    culture?: any;
-    dateFormat?: any;
-    dateTimeFormat?: any;
-    dateTimeOffsetFormat?: any;
-    timeFormat?: any;
-    timeSpanFormat?: any;
-    treatBooleanAsNumber?: any;
-}
+export type Type = string;
 
 // @public
 export interface UntilActivity extends ControlActivity {
@@ -9202,6 +10974,13 @@ export interface UntilActivity extends ControlActivity {
     expression: Expression;
     timeout?: any;
     type: "Until";
+}
+
+// @public
+export interface UntilActivityTypeProperties {
+    activities: ActivityUnion[];
+    expression: Expression;
+    timeout?: any;
 }
 
 // @public
@@ -9241,6 +11020,15 @@ export interface ValidationActivity extends ControlActivity {
 }
 
 // @public
+export interface ValidationActivityTypeProperties {
+    childItems?: any;
+    dataset: DatasetReference;
+    minimumSize?: any;
+    sleep?: any;
+    timeout?: any;
+}
+
+// @public
 export type ValueType = string;
 
 // @public
@@ -9253,6 +11041,13 @@ export interface VariableSpecification {
 export type VariableType = string;
 
 // @public
+export interface VerticaDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+    tableName?: any;
+}
+
+// @public
 export interface VerticaLinkedService extends LinkedService {
     connectionString?: any;
     database?: any;
@@ -9261,6 +11056,17 @@ export interface VerticaLinkedService extends LinkedService {
     pwd?: AzureKeyVaultSecretReference;
     server?: any;
     type: "Vertica";
+    uid?: any;
+}
+
+// @public
+export interface VerticaLinkedServiceTypeProperties {
+    connectionString?: any;
+    database?: any;
+    encryptedCredential?: string;
+    port?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    server?: any;
     uid?: any;
 }
 
@@ -9285,8 +11091,18 @@ export interface WaitActivity extends ControlActivity {
 }
 
 // @public
+export interface WaitActivityTypeProperties {
+    waitTimeInSeconds: any;
+}
+
+// @public
+export type WarehouseAuthenticationType = string;
+
+// @public
 export interface WarehouseLinkedService extends LinkedService {
     artifactId: any;
+    authenticationType?: WarehouseAuthenticationType;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     endpoint: any;
     servicePrincipalCredential?: SecretBaseUnion;
@@ -9295,6 +11111,21 @@ export interface WarehouseLinkedService extends LinkedService {
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "Warehouse";
+    workspaceId?: any;
+}
+
+// @public
+export interface WarehouseLinkedServiceTypeProperties {
+    artifactId: any;
+    authenticationType?: WarehouseAuthenticationType;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    endpoint: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
     workspaceId?: any;
 }
 
@@ -9327,15 +11158,19 @@ export interface WarehouseTableDataset extends Dataset {
 }
 
 // @public
+export interface WarehouseTableDatasetTypeProperties {
+    schema?: any;
+    table?: any;
+}
+
+// @public
 export interface WebActivity extends ExecutionActivity {
     authentication?: WebActivityAuthentication;
     body?: any;
     connectVia?: IntegrationRuntimeReference;
     datasets?: DatasetReference[];
     disableCertValidation?: boolean;
-    headers?: {
-        [propertyName: string]: any;
-    };
+    headers?: Record<string, any>;
     httpRequestTimeout?: any;
     linkedServices?: LinkedServiceReference[];
     method: WebActivityMethod;
@@ -9357,6 +11192,21 @@ export interface WebActivityAuthentication {
 
 // @public
 export type WebActivityMethod = string;
+
+// @public
+export interface WebActivityTypeProperties {
+    authentication?: WebActivityAuthentication;
+    body?: any;
+    connectVia?: IntegrationRuntimeReference;
+    datasets?: DatasetReference[];
+    disableCertValidation?: boolean;
+    headers?: Record<string, any>;
+    httpRequestTimeout?: any;
+    linkedServices?: LinkedServiceReference[];
+    method: WebActivityMethod;
+    turnOffAsync?: boolean;
+    url: any;
+}
 
 // @public
 export interface WebAnonymousAuthentication extends WebLinkedServiceTypeProperties {
@@ -9384,9 +11234,7 @@ export interface WebClientCertificateAuthentication extends WebLinkedServiceType
 export interface WebHookActivity extends ControlActivity {
     authentication?: WebActivityAuthentication;
     body?: any;
-    headers?: {
-        [propertyName: string]: any;
-    };
+    headers?: Record<string, any>;
     method: WebHookActivityMethod;
     policy?: SecureInputOutputPolicy;
     reportStatusOnCallBack?: any;
@@ -9399,6 +11247,17 @@ export interface WebHookActivity extends ControlActivity {
 export type WebHookActivityMethod = string;
 
 // @public
+export interface WebHookActivityTypeProperties {
+    authentication?: WebActivityAuthentication;
+    body?: any;
+    headers?: Record<string, any>;
+    method: WebHookActivityMethod;
+    reportStatusOnCallBack?: any;
+    timeout?: string;
+    url: any;
+}
+
+// @public
 export interface WebLinkedService extends LinkedService {
     type: "Web";
     typeProperties: WebLinkedServiceTypePropertiesUnion;
@@ -9406,12 +11265,12 @@ export interface WebLinkedService extends LinkedService {
 
 // @public
 export interface WebLinkedServiceTypeProperties {
-    authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
+    authenticationType: WebAuthenticationType;
     url: any;
 }
 
-// @public (undocumented)
-export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties | WebAnonymousAuthentication | WebBasicAuthentication | WebClientCertificateAuthentication;
+// @public
+export type WebLinkedServiceTypePropertiesUnion = WebAnonymousAuthentication | WebBasicAuthentication | WebClientCertificateAuthentication | WebLinkedServiceTypeProperties;
 
 // @public
 export interface WebSource extends CopySource {
@@ -9424,6 +11283,12 @@ export interface WebTableDataset extends Dataset {
     index: any;
     path?: any;
     type: "WebTable";
+}
+
+// @public
+export interface WebTableDatasetTypeProperties {
+    index: any;
+    path?: any;
 }
 
 // @public
@@ -9448,6 +11313,18 @@ export interface XeroLinkedService extends LinkedService {
 }
 
 // @public
+export interface XeroLinkedServiceTypeProperties {
+    connectionProperties?: any;
+    consumerKey?: SecretBaseUnion;
+    encryptedCredential?: string;
+    host?: any;
+    privateKey?: SecretBaseUnion;
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
 export interface XeroObjectDataset extends Dataset {
     tableName?: any;
     type: "XeroObject";
@@ -9466,6 +11343,14 @@ export interface XmlDataset extends Dataset {
     location?: DatasetLocationUnion;
     nullValue?: any;
     type: "Xml";
+}
+
+// @public
+export interface XmlDatasetTypeProperties {
+    compression?: DatasetCompression;
+    encodingName?: any;
+    location: DatasetLocationUnion;
+    nullValue?: any;
 }
 
 // @public
@@ -9501,6 +11386,16 @@ export interface ZendeskLinkedService extends LinkedService {
 }
 
 // @public
+export interface ZendeskLinkedServiceTypeProperties {
+    apiToken?: SecretBaseUnion;
+    authenticationType: ZendeskAuthenticationType;
+    encryptedCredential?: string;
+    password?: SecretBaseUnion;
+    url: any;
+    userName?: any;
+}
+
+// @public
 export interface ZipDeflateReadSettings extends CompressionReadSettings {
     preserveZipFileNameAsFolder?: any;
     type: "ZipDeflateReadSettings";
@@ -9513,6 +11408,17 @@ export interface ZohoLinkedService extends LinkedService {
     encryptedCredential?: string;
     endpoint?: any;
     type: "Zoho";
+    useEncryptedEndpoints?: any;
+    useHostVerification?: any;
+    usePeerVerification?: any;
+}
+
+// @public
+export interface ZohoLinkedServiceTypeProperties {
+    accessToken?: SecretBaseUnion;
+    connectionProperties?: any;
+    encryptedCredential?: string;
+    endpoint?: any;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
