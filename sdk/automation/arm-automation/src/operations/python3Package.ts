@@ -6,35 +6,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ModuleOperations } from "../operationsInterfaces/index.js";
+import { Python3Package } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
 import {
   Module,
-  ModuleListByAutomationAccountNextOptionalParams,
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleListByAutomationAccountResponse,
-  ModuleDeleteOptionalParams,
-  ModuleGetOptionalParams,
-  ModuleGetResponse,
-  ModuleCreateOrUpdateParameters,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleCreateOrUpdateResponse,
-  ModuleUpdateParameters,
-  ModuleUpdateOptionalParams,
-  ModuleUpdateResponse,
-  ModuleListByAutomationAccountNextResponse,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ModuleOperations operations. */
-export class ModuleOperationsImpl implements ModuleOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class ModuleOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -42,7 +42,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
@@ -81,10 +81,10 @@ export class ModuleOperationsImpl implements ModuleOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Module[]> {
-    let result: ModuleListByAutomationAccountResponse;
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -114,7 +114,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
@@ -126,63 +126,63 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Delete the module by name.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleDeleteOptionalParams,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, moduleName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve the module identified by module name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleGetOptionalParams,
-  ): Promise<ModuleGetResponse> {
+    packageName: string,
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, moduleName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or Update the module identified by module name.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The create or update parameters for module.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
-  ): Promise<ModuleCreateOrUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        moduleName,
+        packageName,
         parameters,
         options,
       },
@@ -191,25 +191,25 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Update the module identified by module name.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The update parameters for module.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams,
-  ): Promise<ModuleUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        moduleName,
+        packageName,
         parameters,
         options,
       },
@@ -218,7 +218,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -226,8 +226,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
-  ): Promise<ModuleListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -246,8 +246,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: ModuleListByAutomationAccountNextOptionalParams,
-  ): Promise<ModuleListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -258,10 +258,11 @@ export class ModuleOperationsImpl implements ModuleOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -272,13 +273,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -294,13 +295,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -313,21 +314,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -337,21 +338,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {

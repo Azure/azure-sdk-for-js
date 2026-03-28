@@ -6,35 +6,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ModuleOperations } from "../operationsInterfaces/index.js";
+import { PackageOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
 import {
-  Module,
-  ModuleListByAutomationAccountNextOptionalParams,
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleListByAutomationAccountResponse,
-  ModuleDeleteOptionalParams,
-  ModuleGetOptionalParams,
-  ModuleGetResponse,
-  ModuleCreateOrUpdateParameters,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleCreateOrUpdateResponse,
-  ModuleUpdateParameters,
-  ModuleUpdateOptionalParams,
-  ModuleUpdateResponse,
-  ModuleListByAutomationAccountNextResponse,
+  Package,
+  PackageListByRuntimeEnvironmentNextOptionalParams,
+  PackageListByRuntimeEnvironmentOptionalParams,
+  PackageListByRuntimeEnvironmentResponse,
+  PackageDeleteOptionalParams,
+  PackageGetOptionalParams,
+  PackageGetResponse,
+  PackageCreateOrUpdateParameters,
+  PackageCreateOrUpdateOptionalParams,
+  PackageCreateOrUpdateResponse,
+  PackageUpdateParameters,
+  PackageUpdateOptionalParams,
+  PackageUpdateResponse,
+  PackageListByRuntimeEnvironmentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ModuleOperations operations. */
-export class ModuleOperationsImpl implements ModuleOperations {
+/** Class containing PackageOperations operations. */
+export class PackageOperationsImpl implements PackageOperations {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class ModuleOperations class.
+   * Initialize a new instance of the class PackageOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -42,19 +42,22 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
+   * Retrieve the a list of Packages
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
-  public listByAutomationAccount(
+  public listByRuntimeEnvironment(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Module> {
-    const iter = this.listByAutomationAccountPagingAll(
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): PagedAsyncIterableIterator<Package> {
+    const iter = this.listByRuntimeEnvironmentPagingAll(
       resourceGroupName,
       automationAccountName,
+      runtimeEnvironmentName,
       options,
     );
     return {
@@ -68,9 +71,10 @@ export class ModuleOperationsImpl implements ModuleOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByAutomationAccountPagingPage(
+        return this.listByRuntimeEnvironmentPagingPage(
           resourceGroupName,
           automationAccountName,
+          runtimeEnvironmentName,
           options,
           settings,
         );
@@ -78,18 +82,20 @@ export class ModuleOperationsImpl implements ModuleOperations {
     };
   }
 
-  private async *listByAutomationAccountPagingPage(
+  private async *listByRuntimeEnvironmentPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Module[]> {
-    let result: ModuleListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Package[]> {
+    let result: PackageListByRuntimeEnvironmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAutomationAccount(
+      result = await this._listByRuntimeEnvironment(
         resourceGroupName,
         automationAccountName,
+        runtimeEnvironmentName,
         options,
       );
       let page = result.value || [];
@@ -98,9 +104,10 @@ export class ModuleOperationsImpl implements ModuleOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByAutomationAccountNext(
+      result = await this._listByRuntimeEnvironmentNext(
         resourceGroupName,
         automationAccountName,
+        runtimeEnvironmentName,
         continuationToken,
         options,
       );
@@ -111,14 +118,16 @@ export class ModuleOperationsImpl implements ModuleOperations {
     }
   }
 
-  private async *listByAutomationAccountPagingAll(
+  private async *listByRuntimeEnvironmentPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Module> {
-    for await (const page of this.listByAutomationAccountPagingPage(
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): AsyncIterableIterator<Package> {
+    for await (const page of this.listByRuntimeEnvironmentPagingPage(
       resourceGroupName,
       automationAccountName,
+      runtimeEnvironmentName,
       options,
     )) {
       yield* page;
@@ -126,63 +135,82 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Delete the module by name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Delete the package by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleDeleteOptionalParams,
+    runtimeEnvironmentName: string,
+    packageName: string,
+    options?: PackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, moduleName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        packageName,
+        options,
+      },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve the module identified by module name.
+   * Retrieve the Package identified by Package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The Package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleGetOptionalParams,
-  ): Promise<ModuleGetResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    options?: PackageGetOptionalParams,
+  ): Promise<PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, moduleName, options },
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        packageName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or Update the module identified by module name.
+   * Create or update the package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The create or update parameters for module.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The name of Package.
+   * @param parameters The create or update parameters for Package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
-  ): Promise<ModuleCreateOrUpdateResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    parameters: PackageCreateOrUpdateParameters,
+    options?: PackageCreateOrUpdateOptionalParams,
+  ): Promise<PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        moduleName,
+        runtimeEnvironmentName,
+        packageName,
         parameters,
         options,
       },
@@ -191,25 +219,28 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Update the module identified by module name.
+   * Update the Package identified by Package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The update parameters for module.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param packageName The name of Package.
+   * @param parameters The update parameters for Package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams,
-  ): Promise<ModuleUpdateResponse> {
+    runtimeEnvironmentName: string,
+    packageName: string,
+    parameters: PackageUpdateParameters,
+    options?: PackageUpdateOptionalParams,
+  ): Promise<PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        moduleName,
+        runtimeEnvironmentName,
+        packageName,
         parameters,
         options,
       },
@@ -218,39 +249,54 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
+   * Retrieve the a list of Packages
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
    * @param options The options parameters.
    */
-  private _listByAutomationAccount(
+  private _listByRuntimeEnvironment(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
-  ): Promise<ModuleListByAutomationAccountResponse> {
+    runtimeEnvironmentName: string,
+    options?: PackageListByRuntimeEnvironmentOptionalParams,
+  ): Promise<PackageListByRuntimeEnvironmentResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec,
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options,
+      },
+      listByRuntimeEnvironmentOperationSpec,
     );
   }
 
   /**
-   * ListByAutomationAccountNext
+   * ListByRuntimeEnvironmentNext
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param nextLink The nextLink from the previous successful call to the ListByAutomationAccount
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param nextLink The nextLink from the previous successful call to the ListByRuntimeEnvironment
    *                 method.
    * @param options The options parameters.
    */
-  private _listByAutomationAccountNext(
+  private _listByRuntimeEnvironmentNext(
     resourceGroupName: string,
     automationAccountName: string,
+    runtimeEnvironmentName: string,
     nextLink: string,
-    options?: ModuleListByAutomationAccountNextOptionalParams,
-  ): Promise<ModuleListByAutomationAccountNextResponse> {
+    options?: PackageListByRuntimeEnvironmentNextOptionalParams,
+  ): Promise<PackageListByRuntimeEnvironmentNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec,
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        nextLink,
+        options,
+      },
+      listByRuntimeEnvironmentNextOperationSpec,
     );
   }
 }
@@ -258,10 +304,11 @@ export class ModuleOperationsImpl implements ModuleOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -269,20 +316,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.resourceGroupName1,
+    Parameters.runtimeEnvironmentName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Module,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -294,68 +342,71 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.runtimeEnvironmentName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Module,
+      bodyMapper: Mappers.Package,
     },
     201: {
-      bodyMapper: Mappers.Module,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.runtimeEnvironmentName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Module,
+      bodyMapper: Mappers.Package,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.moduleName,
+    Parameters.runtimeEnvironmentName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules",
+const listByRuntimeEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}/packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModuleListResult,
+      bodyMapper: Mappers.PackageListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -367,16 +418,17 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
+const listByRuntimeEnvironmentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModuleListResult,
+      bodyMapper: Mappers.PackageListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -388,6 +440,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
     Parameters.automationAccountName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
