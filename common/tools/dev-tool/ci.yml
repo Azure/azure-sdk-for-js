@@ -1,3 +1,12 @@
+parameters:
+  - name: SpecCommitId
+    type: string
+    default: 'main'
+    displayName: 'Spec commit id'
+  - name: TspConfigRelativePath
+    type: string
+    default: 'specification/widget/data-plane/WidgetAnalytics/tspconfig.yaml'
+    displayName: 'Relative path to tspconfig.yaml in spec repo'
 trigger:
   branches:
     include:
@@ -57,3 +66,99 @@ jobs:
       - script: |
           pnpm --filter @azure/dev-tool... test
         displayName: "Run dev-tool unit tests"
+
+  - job: 'SDKAutomation'
+    displayName: 'SDK Automation validation'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
+      - name: NodeVersion
+        value: $(NODE_VERSION_LTS_MAINTENANCE)
+      - name: PythonVersion
+        value: '3.13'
+
+    pool:
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
+    steps:
+      - checkout: none
+
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          Paths:
+            - '/*'
+            - '!sdk/**/test-recordings/*'
+            - '!sdk/**/recordings/*'
+            - '!sdk/**/SessionRecords/*'
+            - '!sdk/**/session-records/*'
+          Repositories:
+            - Name: Azure/azure-rest-api-specs
+              Commitish: main
+              WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-rest-api-specs
+            - Name: Azure/azure-sdk-for-js
+              Commitish: $(Build.SourceVersion)
+              WorkingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-for-js
+          SkipCheckoutNone: true
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: $(NodeVersion)
+        displayName: 'Install Node.js'
+
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(PythonVersion)
+
+      - script: |
+          npm install -g pnpm
+        displayName: "Install Pnpm"
+
+      - script: |
+          pnpm install --prod --filter @azure/dev-tool
+        workingDirectory: $(System.DefaultWorkingDirectory)/azure-sdk-for-js
+        displayName: "Install library dependencies"
+
+      - script: |
+          cd $(System.DefaultWorkingDirectory)/azure-rest-api-specs
+
+          echo "##[group]Run npm ci"
+          npm ci
+          echo "##[endgroup]"
+
+          echo "##[group]Synthesize spec-gen-sdk-artifact.json"
+          echo "$(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json"
+          $(System.DefaultWorkingDirectory)/azure-sdk-for-js/common/tools/dev-tool/ci-synth-spec-gen-artifacts.js ${{ parameters.TspConfigRelativePath }} > $(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json
+          echo "##[endgroup]"
+
+          node $(System.DefaultWorkingDirectory)/azure-rest-api-specs/eng/tools/spec-gen-sdk-runner/cmd/spec-gen-sdk-runner.js \
+            --scp $(System.DefaultWorkingDirectory)/azure-rest-api-specs \
+            --sdp $(System.DefaultWorkingDirectory)/azure-sdk-for-js \
+            --wf $(System.DefaultWorkingDirectory) \
+            --lang azure-sdk-for-js \
+            --commit ${{ parameters.SpecCommitId }} \
+            --spec-repo-url https://github.com/Azure/azure-rest-api-specs \
+            --tsp-config-relative-path ${{ parameters.TspConfigRelativePath }} \
+            --sdk-release-type beta \
+            --rm local
+        displayName: 'Generate SDK'
+
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactName: $(PipelineArtifactsName)
+          ArtifactPath: $(StagedArtifactsFolder)
+          CustomCondition: and(succeededOrFailed(), ne(variables['StagedArtifactsFolder'], ''))
+
+      - ${{ if in(variables['Build.Reason'], 'PullRequest') }}:
+        - pwsh: |
+            . $(SpecRepoDirectory)/eng/common/scripts/Helpers/ApiView-Helpers.ps1
+            Create-API-Review `
+              -specGenSDKArtifactPath "$(System.DefaultWorkingDirectory)/spec-gen-sdk-artifact.json" `
+              -apiviewArtifactName "$(PipelineArtifactsName)" `
+              -buildId "$(Build.BuildId)" `
+              -commitish "$(System.PullRequest.SourceCommitId)" `
+              -repoName "Azure/azure-sdk-for-js" `
+              -pullRequestNumber "$(System.PullRequest.PullRequestNumber)"
+          displayName: 'Detect API Change and Create API Review'
+          condition: succeeded()
