@@ -98,6 +98,13 @@ export {
   type SharePointSensitivityLabelInfo,
   type WebKnowledgeSourceParams,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
+export type {
+  ScoreExplanation,
+  ScoreComponentKind,
+  ExplainDocumentsResult,
+  ExplainVerbosity,
+} from "./models/models.js";
+export { KnownScoreComponentKind, KnownExplainVerbosity } from "./models/models.js";
 export {
   type AIFoundryModelCatalogName,
   type AIServicesAccountKey,
@@ -363,6 +370,7 @@ export type {
   ExtractDocumentKey,
   ExtractiveQueryAnswer,
   ExtractiveQueryCaption,
+  ExplainOptions,
   GenerativeQueryRewrites,
   GetDocumentOptions,
   IndexDocumentsAction,

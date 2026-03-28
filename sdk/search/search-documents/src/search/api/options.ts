@@ -20,6 +20,14 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ExplainPostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
   autocompleteMode?: AutocompleteMode;
@@ -201,6 +209,8 @@ export interface SearchPostOptionalParams extends OperationOptions {
   vectorFilterMode?: VectorFilterMode;
   /** The query parameters to configure hybrid search behaviors. */
   hybridSearch?: HybridSearch;
+  /** A value indicating whether to return scoring explanations for each search result. When set to true, the response includes a detailed breakdown of how each document's relevance score was computed. Default is false. */
+  explainResults?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -271,6 +281,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
   speller?: QuerySpellerType;
   /** The list of field names used for semantic ranking. */
   semanticFields?: string[];
+  /** A value indicating whether to return scoring explanations for each search result. When set to true, the response includes a detailed breakdown of how each document's relevance score was computed. Default is false. */
+  explainResults?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }

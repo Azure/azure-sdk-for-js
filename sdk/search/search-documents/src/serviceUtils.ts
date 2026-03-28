@@ -678,6 +678,7 @@ export function generatedSearchResultToPublicSearchResult<
         rerankerBoostedScore,
         captions,
         documentDebugInfo,
+        explanation,
         additionalProperties,
       } = result;
       const obj = {
@@ -687,6 +688,7 @@ export function generatedSearchResultToPublicSearchResult<
         rerankerBoostedScore,
         captions: convertGeneratedCaptionsToPublic(captions),
         documentDebugInfo,
+        explanation,
         // The generated code puts document fields in additionalProperties
         document: additionalProperties ?? {},
       };

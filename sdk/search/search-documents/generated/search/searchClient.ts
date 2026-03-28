@@ -11,6 +11,12 @@ import {
   AutocompleteResult,
 } from "../models/azure/search/documents/models.js";
 import {
+  ExplainRequest,
+  ExplainDocumentsResult,
+  GetDocumentCountResponse,
+} from "../models/models.js";
+import {
+  explainPost,
   autocompletePost,
   autocompleteGet,
   index,
@@ -22,6 +28,7 @@ import {
   getDocumentCount,
 } from "./api/operations.js";
 import {
+  ExplainPostOptionalParams,
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
@@ -57,6 +64,14 @@ export class SearchClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Explains how a specific document is scored for a given search query. Returns a detailed breakdown of the scoring components that contribute to the document's relevance score. */
+  explainPost(
+    body: ExplainRequest,
+    options: ExplainPostOptionalParams = { requestOptions: {} },
+  ): Promise<ExplainDocumentsResult> {
+    return explainPost(this._client, body, options);
   }
 
   /** Autocompletes incomplete query terms based on input text and matching terms in the index. */
@@ -128,7 +143,7 @@ export class SearchClient {
   /** Queries the number of documents in the index. */
   getDocumentCount(
     options: GetDocumentCountOptionalParams = { requestOptions: {} },
-  ): Promise<number> {
+  ): Promise<GetDocumentCountResponse> {
     return getDocumentCount(this._client, options);
   }
 }
