@@ -53,6 +53,12 @@ Follow the guidelines in [performance-review-guidelines.md](../prompts/performan
   Scribe for documentation, Tester for test coverage).
 - Focus on production source code in `src/` directories.
 - Do **not** flag micro-optimizations with no measurable impact.
+- When reviewing PRs that claim performance improvements, **verify
+  claims with micro-benchmarks** (see Step 2.5) before accepting or
+  rejecting them. Use the bash tool to run quick Node.js benchmarks.
+- **Confirm high-impact changes positively** — not every comment needs
+  to be negative. If a change delivers a measurable large improvement,
+  say so with benchmark data (use ✅ **Confirmed** severity).
 - Do **not** comment on generated code under `src/generated/` unless
   it introduces an obvious hot-path regression.
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation
@@ -85,6 +91,53 @@ For each changed file, apply the full performance review checklist from
 the guidelines document. Cover all categories: pagination, AbortSignal,
 memory allocation, streaming, HTTP efficiency, retry/polling, sync
 blocking, bundle size, async patterns, caching, and TypeScript patterns.
+
+## Step 2.5 — Micro-Benchmark Verification
+
+For any finding that involves a **performance optimization** (new or
+modified), write and run a quick Node.js micro-benchmark using `bash`
+to **measure** the actual impact before posting the finding. This
+includes changes you want to flag AND changes you want to confirm as
+beneficial. Follow the micro-benchmark methodology in the guidelines
+(Section 12).
+
+**When to benchmark:**
+
+- The PR adds a fast path, cache, or heuristic to skip expensive work
+- The PR replaces a polling mechanism with an event-driven approach
+- You identify an allocation pattern and want to suggest an alternative
+- You want to verify whether an optimization is net-positive or
+  net-negative across representative inputs
+
+**When NOT to benchmark:**
+
+- The issue is structural (missing AbortSignal, unbounded buffer, no
+  pagination) — these are correctness/design issues, not speed claims
+- The change is self-evidently beneficial (removing dead code, fixing
+  a quadratic loop to linear)
+- The affected code path is not hot (called fewer than 1,000 times per
+  second in typical usage)
+
+**How to benchmark:**
+
+1. Write a standalone `bench.mjs` file using the template from the
+   guidelines document (Section 12).
+2. Run it with `node bench.mjs` via the bash tool.
+3. Include the benchmark results as a markdown table in your review
+   comment for that finding.
+4. **Assess materiality**: compare the absolute per-operation cost
+   to the I/O overhead on the same code path. A 100 ns saving on a
+   path that includes a 5 ms network call is noise.
+5. Clean up: remove the benchmark file after collecting results.
+
+**Optimization justification:**
+
+Before endorsing or only suggesting improvements to a new optimization, also apply the
+optimization justification checklist from the guidelines (Section 13):
+- Search for existing alternatives that already solve the same problem
+- Assess complexity vs measured benefit
+- Check for regressions across different input classes
+- Question module-level state (caches, memoization)
 
 ## Step 3 — Submit Review
 
