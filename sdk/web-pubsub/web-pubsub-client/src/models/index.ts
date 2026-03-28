@@ -8,6 +8,9 @@ import type {
   DisconnectedMessage,
   GroupDataMessage,
   ServerDataMessage,
+  StreamDataError,
+  StreamInfo,
+  StreamEndUserError,
   WebPubSubDataType,
 } from "./messages.js";
 
@@ -127,7 +130,7 @@ export interface LeaveGroupOptions {
  */
 export interface SendToGroupOptions {
   /**
-   * Whether the message needs to echo to sender
+   * Whether the message should not be echoed back to the sender.
    */
   noEcho?: boolean;
   /**
@@ -174,6 +177,90 @@ export interface InvokeEventOptions {
    * Optional abort signal to cancel the invocation.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * stream operation options.
+ */
+export interface StreamOptions {
+  /**
+   * Optional stream identifier. If not specified, client will generate one.
+   */
+  streamId?: string;
+  /**
+   * Whether the stream start message should not be echoed back to the sender.
+   * Default: false.
+   */
+  noEcho?: boolean;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutMs?: number;
+}
+
+/**
+ * Send stream data options.
+ */
+export interface SendStreamDataOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send stream keepalive options.
+ */
+export interface SendStreamKeepaliveOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * End stream options.
+ */
+export interface EndStreamOptions {
+  /**
+   * Optional stream end error.
+   */
+  error?: StreamEndUserError;
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Stream publisher abstraction for sending one logical stream.
+ */
+export interface StreamPublisher {
+  /**
+   * Stream identifier.
+   */
+  readonly streamId: string;
+  /**
+   * Publish a stream fragment.
+   */
+  publish(
+    content: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    options?: SendStreamDataOptions,
+  ): Promise<void>;
+  /**
+   * Send stream keepalive.
+   */
+  keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  /**
+   * Complete the stream.
+   */
+  complete(options?: EndStreamOptions): Promise<void>;
+  /**
+   * Register outbound stream error callback.
+   * Returns a function to unregister this callback.
+   */
+  onError(listener: (error: StreamDataError) => void): () => void;
 }
 
 /**
@@ -241,6 +328,102 @@ export interface OnRejoinGroupFailedArgs {
    * The failure error
    */
   error: Error;
+}
+
+/**
+ * Stream message delivered to a stream handler.
+ */
+export interface OnStreamDataArgs {
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Sender user id.
+   */
+  fromUserId: string;
+  /**
+   * Connection-scoped reliable sequence id.
+   */
+  sequenceId?: number;
+  /**
+   * Message data type.
+   */
+  dataType: WebPubSubDataType;
+  /**
+   * Message payload.
+   */
+  data: JSONTypes | ArrayBuffer;
+  /**
+   * Stream metadata.
+   */
+  stream: StreamInfo;
+}
+
+/**
+ * Stream terminal event.
+ */
+export interface OnStreamEndArgs {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Optional terminal error.
+   */
+  error?: StreamDataError;
+}
+
+/**
+ * Callback contract for consuming one logical stream.
+ */
+export interface StreamHandler {
+  /**
+   * Called for every stream fragment.
+   */
+  onMessage?: (args: OnStreamDataArgs) => void;
+  /**
+   * Called when the stream completes without error.
+   */
+  onComplete?: (args: OnStreamEndArgs) => void;
+  /**
+   * Called when the stream ends with error.
+   */
+  onError?: (args: OnStreamEndArgs) => void;
+}
+
+/**
+ * onStream operation options.
+ */
+export interface OnStreamOptions {
+  /**
+   * Inactivity timeout in milliseconds for a stream handler in the client-side registry.
+   * The timer is reset whenever a new stream fragment is received.
+   * If no fragment arrives within this duration, the stream handler is evicted.
+   * Default: 300000 (5 minutes).
+   */
+  ttlInMs?: number;
+  /**
+   * Whether to require the first observed fragment for a stream to start at `streamSequenceId === 1`.
+   * If true and the first observed fragment is mid-stream, that stream is ignored until its terminal
+   * frame arrives.
+   * Default: false.
+   */
+  handleFromStart?: boolean;
+}
+
+/**
+ * Stream subscription handle returned by `onStream`.
+ */
+export interface StreamSubscription {
+  /**
+   * Unregister this stream subscription.
+   */
+  close(): void;
 }
 
 /**
