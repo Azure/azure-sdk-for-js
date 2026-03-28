@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface APIServerProfile {
@@ -17,37 +21,33 @@ export interface APIServerProfile {
     visibility?: Visibility;
 }
 
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
 // @public (undocumented)
-export class AzureRedHatOpenShiftClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureRedHatOpenShiftClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    machinePools: MachinePools;
-    // (undocumented)
-    openShiftClusters: OpenShiftClusters;
-    // (undocumented)
-    openShiftVersions: OpenShiftVersions;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    secrets: Secrets;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    syncIdentityProviders: SyncIdentityProviders;
-    // (undocumented)
-    syncSets: SyncSets;
+export class AzureRedHatOpenShiftClient {
+    constructor(credential: TokenCredential, options?: AzureRedHatOpenShiftClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureRedHatOpenShiftClientOptionalParams);
+    readonly openShiftClusters: OpenShiftClustersOperations;
+    readonly openShiftVersions: OpenShiftVersionsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly platformWorkloadIdentityRoleSet: PlatformWorkloadIdentityRoleSetOperations;
+    readonly platformWorkloadIdentityRoleSets: PlatformWorkloadIdentityRoleSetsOperations;
 }
 
 // @public
-export interface AzureRedHatOpenShiftClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureRedHatOpenShiftClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CloudError {
@@ -66,6 +66,7 @@ export interface CloudErrorBody {
 export interface ClusterProfile {
     domain?: string;
     fipsValidatedModules?: FipsValidatedModules;
+    readonly oidcIssuer?: string;
     pullSecret?: string;
     resourceGroupId?: string;
     version?: string;
@@ -75,6 +76,11 @@ export interface ClusterProfile {
 export interface ConsoleProfile {
     readonly url?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -97,9 +103,6 @@ export type EncryptionAtHost = string;
 
 // @public
 export type FipsValidatedModules = string;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface IngressProfile {
@@ -129,6 +132,14 @@ export enum KnownFipsValidatedModules {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOutboundType {
     Loadbalancer = "Loadbalancer",
     UserDefinedRouting = "UserDefinedRouting"
@@ -152,6 +163,11 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownVersions {
+    V20250725 = "2025-07-25"
+}
+
+// @public
 export enum KnownVisibility {
     Private = "Private",
     Public = "Public"
@@ -164,76 +180,20 @@ export interface LoadBalancerProfile {
 }
 
 // @public
-export interface MachinePool extends ProxyResource {
-    // (undocumented)
-    resources?: string;
-}
-
-// @public
-export interface MachinePoolList {
-    nextLink?: string;
-    value?: MachinePool[];
-}
-
-// @public
-export interface MachinePools {
-    createOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: MachinePool, options?: MachinePoolsCreateOrUpdateOptionalParams): Promise<MachinePoolsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: MachinePoolsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: MachinePoolsGetOptionalParams): Promise<MachinePoolsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: MachinePoolsListOptionalParams): PagedAsyncIterableIterator<MachinePool>;
-    update(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: MachinePoolUpdate, options?: MachinePoolsUpdateOptionalParams): Promise<MachinePoolsUpdateResponse>;
-}
-
-// @public
-export interface MachinePoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinePoolsCreateOrUpdateResponse = MachinePool;
-
-// @public
-export interface MachinePoolsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MachinePoolsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinePoolsGetResponse = MachinePool;
-
-// @public
-export interface MachinePoolsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinePoolsListNextResponse = MachinePoolList;
-
-// @public
-export interface MachinePoolsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinePoolsListResponse = MachinePoolList;
-
-// @public
-export interface MachinePoolsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MachinePoolsUpdateResponse = MachinePool;
-
-// @public
-export interface MachinePoolUpdate {
-    // (undocumented)
-    resources?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
 export interface ManagedOutboundIPs {
     count?: number;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MasterProfile {
@@ -257,9 +217,11 @@ export interface OpenShiftCluster extends TrackedResource {
     apiserverProfile?: APIServerProfile;
     clusterProfile?: ClusterProfile;
     consoleProfile?: ConsoleProfile;
+    identity?: ManagedServiceIdentity;
     ingressProfiles?: IngressProfile[];
     masterProfile?: MasterProfile;
     networkProfile?: NetworkProfile;
+    platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
     provisioningState?: ProvisioningState;
     servicePrincipalProfile?: ServicePrincipalProfile;
     workerProfiles?: WorkerProfile[];
@@ -278,113 +240,92 @@ export interface OpenShiftClusterCredentials {
 }
 
 // @public
-export interface OpenShiftClusterList {
-    nextLink?: string;
-    value?: OpenShiftCluster[];
-}
-
-// @public
-export interface OpenShiftClusters {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: OpenShiftCluster, options?: OpenShiftClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OpenShiftClustersCreateOrUpdateResponse>, OpenShiftClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: OpenShiftCluster, options?: OpenShiftClustersCreateOrUpdateOptionalParams): Promise<OpenShiftClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: OpenShiftClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: OpenShiftClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, parameters: OpenShiftClusterUpdate, options?: OpenShiftClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OpenShiftClustersUpdateResponse>, OpenShiftClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: OpenShiftClusterUpdate, options?: OpenShiftClustersUpdateOptionalParams): Promise<OpenShiftClustersUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: OpenShiftClustersGetOptionalParams): Promise<OpenShiftClustersGetResponse>;
-    list(options?: OpenShiftClustersListOptionalParams): PagedAsyncIterableIterator<OpenShiftCluster>;
-    listAdminCredentials(resourceGroupName: string, resourceName: string, options?: OpenShiftClustersListAdminCredentialsOptionalParams): Promise<OpenShiftClustersListAdminCredentialsResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: OpenShiftClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OpenShiftCluster>;
-    listCredentials(resourceGroupName: string, resourceName: string, options?: OpenShiftClustersListCredentialsOptionalParams): Promise<OpenShiftClustersListCredentialsResponse>;
-}
-
-// @public
-export interface OpenShiftClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type OpenShiftClustersCreateOrUpdateResponse = OpenShiftCluster;
-
-// @public
-export interface OpenShiftClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OpenShiftClustersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersGetResponse = OpenShiftCluster;
-
-// @public
-export interface OpenShiftClustersListAdminCredentialsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListAdminCredentialsResponse = OpenShiftClusterAdminKubeconfig;
-
-// @public
-export interface OpenShiftClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListByResourceGroupNextResponse = OpenShiftClusterList;
-
-// @public
-export interface OpenShiftClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListByResourceGroupResponse = OpenShiftClusterList;
-
-// @public
-export interface OpenShiftClustersListCredentialsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListCredentialsResponse = OpenShiftClusterCredentials;
-
-// @public
-export interface OpenShiftClustersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListNextResponse = OpenShiftClusterList;
-
-// @public
-export interface OpenShiftClustersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OpenShiftClustersListResponse = OpenShiftClusterList;
-
-// @public
-export interface OpenShiftClustersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type OpenShiftClustersUpdateResponse = OpenShiftCluster;
-
-// @public
-export interface OpenShiftClusterUpdate {
+export interface OpenShiftClusterProperties {
     apiserverProfile?: APIServerProfile;
     clusterProfile?: ClusterProfile;
     consoleProfile?: ConsoleProfile;
     ingressProfiles?: IngressProfile[];
     masterProfile?: MasterProfile;
     networkProfile?: NetworkProfile;
+    platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
     provisioningState?: ProvisioningState;
     servicePrincipalProfile?: ServicePrincipalProfile;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    workerProfiles?: WorkerProfile[];
+    readonly workerProfilesStatus?: WorkerProfile[];
+}
+
+// @public
+export interface OpenShiftClustersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OpenShiftClustersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OpenShiftClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OpenShiftClustersListAdminCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OpenShiftClustersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OpenShiftClustersListCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OpenShiftClustersListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OpenShiftClustersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, parameters: OpenShiftCluster, options?: OpenShiftClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OpenShiftCluster>, OpenShiftCluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: OpenShiftCluster, options?: OpenShiftClustersCreateOrUpdateOptionalParams) => Promise<OpenShiftCluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, parameters: OpenShiftClusterUpdate, options?: OpenShiftClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OpenShiftCluster>, OpenShiftCluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: OpenShiftClusterUpdate, options?: OpenShiftClustersUpdateOptionalParams) => Promise<OpenShiftCluster>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: OpenShiftCluster, options?: OpenShiftClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<OpenShiftCluster>, OpenShiftCluster>;
+    delete: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersGetOptionalParams) => Promise<OpenShiftCluster>;
+    list: (options?: OpenShiftClustersListOptionalParams) => PagedAsyncIterableIterator<OpenShiftCluster>;
+    listAdminCredentials: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersListAdminCredentialsOptionalParams) => Promise<OpenShiftClusterAdminKubeconfig>;
+    listByResourceGroup: (resourceGroupName: string, options?: OpenShiftClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OpenShiftCluster>;
+    listCredentials: (resourceGroupName: string, resourceName: string, options?: OpenShiftClustersListCredentialsOptionalParams) => Promise<OpenShiftClusterCredentials>;
+    update: (resourceGroupName: string, resourceName: string, parameters: OpenShiftClusterUpdate, options?: OpenShiftClustersUpdateOptionalParams) => PollerLike<OperationState<OpenShiftCluster>, OpenShiftCluster>;
+}
+
+// @public
+export interface OpenShiftClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OpenShiftClusterUpdate {
+    apiserverProfile?: APIServerProfile;
+    clusterProfile?: ClusterProfile;
+    consoleProfile?: ConsoleProfile;
+    identity?: ManagedServiceIdentity;
+    ingressProfiles?: IngressProfile[];
+    masterProfile?: MasterProfile;
+    networkProfile?: NetworkProfile;
+    platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
+    provisioningState?: ProvisioningState;
+    servicePrincipalProfile?: ServicePrincipalProfile;
+    tags?: Record<string, string>;
     workerProfiles?: WorkerProfile[];
     readonly workerProfilesStatus?: WorkerProfile[];
 }
@@ -395,29 +336,23 @@ export interface OpenShiftVersion extends ProxyResource {
 }
 
 // @public
-export interface OpenShiftVersionList {
-    nextLink?: string;
-    value?: OpenShiftVersion[];
+export interface OpenShiftVersionProperties {
+    version?: string;
 }
 
 // @public
-export interface OpenShiftVersions {
-    list(location: string, options?: OpenShiftVersionsListOptionalParams): PagedAsyncIterableIterator<OpenShiftVersion>;
+export interface OpenShiftVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OpenShiftVersionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OpenShiftVersionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OpenShiftVersionsListNextResponse = OpenShiftVersionList;
-
-// @public
-export interface OpenShiftVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface OpenShiftVersionsOperations {
+    get: (location: string, openShiftVersion: string, options?: OpenShiftVersionsGetOptionalParams) => Promise<OpenShiftVersion>;
+    list: (location: string, options?: OpenShiftVersionsListOptionalParams) => PagedAsyncIterableIterator<OpenShiftVersion>;
 }
-
-// @public
-export type OpenShiftVersionsListResponse = OpenShiftVersionList;
 
 // @public
 export interface Operation {
@@ -427,32 +362,78 @@ export interface Operation {
 }
 
 // @public
-export interface OperationList {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationList;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationList;
 
 // @public
 export type OutboundType = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PlatformWorkloadIdentity {
+    readonly clientId?: string;
+    readonly objectId?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface PlatformWorkloadIdentityProfile {
+    platformWorkloadIdentities?: Record<string, PlatformWorkloadIdentity>;
+    upgradeableTo?: string;
+}
+
+// @public
+export interface PlatformWorkloadIdentityRole {
+    operatorName?: string;
+    roleDefinitionId?: string;
+    roleDefinitionName?: string;
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSet extends ProxyResource {
+    openShiftVersion?: string;
+    platformWorkloadIdentityRoles?: PlatformWorkloadIdentityRole[];
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSetGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSetOperations {
+    get: (location: string, openShiftMinorVersion: string, options?: PlatformWorkloadIdentityRoleSetGetOptionalParams) => Promise<PlatformWorkloadIdentityRoleSet>;
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSetProperties {
+    openShiftVersion?: string;
+    platformWorkloadIdentityRoles?: PlatformWorkloadIdentityRole[];
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSetsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PlatformWorkloadIdentityRoleSetsOperations {
+    list: (location: string, options?: PlatformWorkloadIdentityRoleSetsListOptionalParams) => PagedAsyncIterableIterator<PlatformWorkloadIdentityRoleSet>;
+}
 
 // @public
 export type PreconfiguredNSG = string;
@@ -473,68 +454,13 @@ export interface Resource {
 }
 
 // @public
-export interface Secret extends ProxyResource {
-    secretResources?: string;
-}
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureRedHatOpenShiftClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
-// @public
-export interface SecretList {
-    nextLink?: string;
-    value?: Secret[];
-}
-
-// @public
-export interface Secrets {
-    createOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: Secret, options?: SecretsCreateOrUpdateOptionalParams): Promise<SecretsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SecretsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SecretsGetOptionalParams): Promise<SecretsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: SecretsListOptionalParams): PagedAsyncIterableIterator<Secret>;
-    update(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: SecretUpdate, options?: SecretsUpdateOptionalParams): Promise<SecretsUpdateResponse>;
-}
-
-// @public
-export interface SecretsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecretsCreateOrUpdateResponse = Secret;
-
-// @public
-export interface SecretsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SecretsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecretsGetResponse = Secret;
-
-// @public
-export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecretsListNextResponse = SecretList;
-
-// @public
-export interface SecretsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecretsListResponse = SecretList;
-
-// @public
-export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecretsUpdateResponse = Secret;
-
-// @public
-export interface SecretUpdate {
-    secretResources?: string;
-    readonly systemData?: SystemData;
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -544,135 +470,25 @@ export interface ServicePrincipalProfile {
 }
 
 // @public
-export interface SyncIdentityProvider extends ProxyResource {
-    // (undocumented)
-    resources?: string;
-}
-
-// @public
-export interface SyncIdentityProviderList {
-    nextLink?: string;
-    value?: SyncIdentityProvider[];
-}
-
-// @public
-export interface SyncIdentityProviders {
-    createOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: SyncIdentityProvider, options?: SyncIdentityProvidersCreateOrUpdateOptionalParams): Promise<SyncIdentityProvidersCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SyncIdentityProvidersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SyncIdentityProvidersGetOptionalParams): Promise<SyncIdentityProvidersGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: SyncIdentityProvidersListOptionalParams): PagedAsyncIterableIterator<SyncIdentityProvider>;
-    update(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: SyncIdentityProviderUpdate, options?: SyncIdentityProvidersUpdateOptionalParams): Promise<SyncIdentityProvidersUpdateResponse>;
-}
-
-// @public
-export interface SyncIdentityProvidersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncIdentityProvidersCreateOrUpdateResponse = SyncIdentityProvider;
-
-// @public
-export interface SyncIdentityProvidersDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SyncIdentityProvidersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncIdentityProvidersGetResponse = SyncIdentityProvider;
-
-// @public
-export interface SyncIdentityProvidersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncIdentityProvidersListNextResponse = SyncIdentityProviderList;
-
-// @public
-export interface SyncIdentityProvidersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncIdentityProvidersListResponse = SyncIdentityProviderList;
-
-// @public
-export interface SyncIdentityProvidersUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncIdentityProvidersUpdateResponse = SyncIdentityProvider;
-
-// @public
-export interface SyncIdentityProviderUpdate {
-    // (undocumented)
-    resources?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface SyncSet extends ProxyResource {
-    resources?: string;
-}
-
-// @public
-export interface SyncSetList {
-    nextLink?: string;
-    value?: SyncSet[];
-}
-
-// @public
-export interface SyncSets {
-    createOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: SyncSet, options?: SyncSetsCreateOrUpdateOptionalParams): Promise<SyncSetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SyncSetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: SyncSetsGetOptionalParams): Promise<SyncSetsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: SyncSetsListOptionalParams): PagedAsyncIterableIterator<SyncSet>;
-    update(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: SyncSetUpdate, options?: SyncSetsUpdateOptionalParams): Promise<SyncSetsUpdateResponse>;
-}
-
-// @public
-export interface SyncSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncSetsCreateOrUpdateResponse = SyncSet;
-
-// @public
-export interface SyncSetsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SyncSetsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncSetsGetResponse = SyncSet;
-
-// @public
-export interface SyncSetsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncSetsListNextResponse = SyncSetList;
-
-// @public
-export interface SyncSetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncSetsListResponse = SyncSetList;
-
-// @public
-export interface SyncSetsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncSetsUpdateResponse = SyncSet;
-
-// @public
-export interface SyncSetUpdate {
-    resources?: string;
-    readonly systemData?: SystemData;
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -688,9 +504,13 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
