@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AzureMachineLearningServicesManagementClient } = require("@azure/arm-machinelearning");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to lists keys of Azure Machine Learning Workspace's storage account.
+ *
+ * @summary lists keys of Azure Machine Learning Workspace's storage account.
+ * x-ms-original-file: 2025-12-01/Workspace/listStorageAccountKeys.json
+ */
+async function listWorkspaceKeys() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+  const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
+  const result = await client.workspaces.listStorageAccountKeys("testrg123", "workspaces123");
+  console.log(result);
+}
+
+async function main() {
+  await listWorkspaceKeys();
+}
+
+main().catch(console.error);

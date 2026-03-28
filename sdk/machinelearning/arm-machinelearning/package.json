@@ -1,96 +1,16 @@
 {
   "name": "@azure/arm-machinelearning",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "4.0.0-beta.1",
   "description": "A generated SDK for AzureMachineLearningServicesManagementClient.",
-  "version": "3.0.0",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/azureMachineLearningServicesManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview"
-  },
-  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "exports": {
@@ -112,6 +32,1010 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/quotas": {
+      "browser": {
+        "types": "./dist/browser/api/quotas/index.d.ts",
+        "default": "./dist/browser/api/quotas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/quotas/index.d.ts",
+        "default": "./dist/react-native/api/quotas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/quotas/index.d.ts",
+        "default": "./dist/esm/api/quotas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/quotas/index.d.ts",
+        "default": "./dist/commonjs/api/quotas/index.js"
+      }
+    },
+    "./api/virtualMachineSizes": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/browser/api/virtualMachineSizes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/react-native/api/virtualMachineSizes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/esm/api/virtualMachineSizes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachineSizes/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachineSizes/index.js"
+      }
+    },
+    "./api/usages": {
+      "browser": {
+        "types": "./dist/browser/api/usages/index.d.ts",
+        "default": "./dist/browser/api/usages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/usages/index.d.ts",
+        "default": "./dist/react-native/api/usages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usages/index.d.ts",
+        "default": "./dist/esm/api/usages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usages/index.d.ts",
+        "default": "./dist/commonjs/api/usages/index.js"
+      }
+    },
+    "./api/managedNetworkSettingsRule": {
+      "browser": {
+        "types": "./dist/browser/api/managedNetworkSettingsRule/index.d.ts",
+        "default": "./dist/browser/api/managedNetworkSettingsRule/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedNetworkSettingsRule/index.d.ts",
+        "default": "./dist/react-native/api/managedNetworkSettingsRule/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedNetworkSettingsRule/index.d.ts",
+        "default": "./dist/esm/api/managedNetworkSettingsRule/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedNetworkSettingsRule/index.d.ts",
+        "default": "./dist/commonjs/api/managedNetworkSettingsRule/index.js"
+      }
+    },
+    "./api/workspaceConnections": {
+      "browser": {
+        "types": "./dist/browser/api/workspaceConnections/index.d.ts",
+        "default": "./dist/browser/api/workspaceConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workspaceConnections/index.d.ts",
+        "default": "./dist/react-native/api/workspaceConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaceConnections/index.d.ts",
+        "default": "./dist/esm/api/workspaceConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaceConnections/index.d.ts",
+        "default": "./dist/commonjs/api/workspaceConnections/index.js"
+      }
+    },
+    "./api/jobs": {
+      "browser": {
+        "types": "./dist/browser/api/jobs/index.d.ts",
+        "default": "./dist/browser/api/jobs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobs/index.d.ts",
+        "default": "./dist/react-native/api/jobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobs/index.d.ts",
+        "default": "./dist/esm/api/jobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobs/index.d.ts",
+        "default": "./dist/commonjs/api/jobs/index.js"
+      }
+    },
+    "./api/registryModelVersions": {
+      "browser": {
+        "types": "./dist/browser/api/registryModelVersions/index.d.ts",
+        "default": "./dist/browser/api/registryModelVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryModelVersions/index.d.ts",
+        "default": "./dist/react-native/api/registryModelVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryModelVersions/index.d.ts",
+        "default": "./dist/esm/api/registryModelVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryModelVersions/index.d.ts",
+        "default": "./dist/commonjs/api/registryModelVersions/index.js"
+      }
+    },
+    "./api/registryModelContainers": {
+      "browser": {
+        "types": "./dist/browser/api/registryModelContainers/index.d.ts",
+        "default": "./dist/browser/api/registryModelContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryModelContainers/index.d.ts",
+        "default": "./dist/react-native/api/registryModelContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryModelContainers/index.d.ts",
+        "default": "./dist/esm/api/registryModelContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryModelContainers/index.d.ts",
+        "default": "./dist/commonjs/api/registryModelContainers/index.js"
+      }
+    },
+    "./api/registryEnvironmentVersions": {
+      "browser": {
+        "types": "./dist/browser/api/registryEnvironmentVersions/index.d.ts",
+        "default": "./dist/browser/api/registryEnvironmentVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryEnvironmentVersions/index.d.ts",
+        "default": "./dist/react-native/api/registryEnvironmentVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryEnvironmentVersions/index.d.ts",
+        "default": "./dist/esm/api/registryEnvironmentVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryEnvironmentVersions/index.d.ts",
+        "default": "./dist/commonjs/api/registryEnvironmentVersions/index.js"
+      }
+    },
+    "./api/registryEnvironmentContainers": {
+      "browser": {
+        "types": "./dist/browser/api/registryEnvironmentContainers/index.d.ts",
+        "default": "./dist/browser/api/registryEnvironmentContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryEnvironmentContainers/index.d.ts",
+        "default": "./dist/react-native/api/registryEnvironmentContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryEnvironmentContainers/index.d.ts",
+        "default": "./dist/esm/api/registryEnvironmentContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryEnvironmentContainers/index.d.ts",
+        "default": "./dist/commonjs/api/registryEnvironmentContainers/index.js"
+      }
+    },
+    "./api/registryDataVersions": {
+      "browser": {
+        "types": "./dist/browser/api/registryDataVersions/index.d.ts",
+        "default": "./dist/browser/api/registryDataVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryDataVersions/index.d.ts",
+        "default": "./dist/react-native/api/registryDataVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryDataVersions/index.d.ts",
+        "default": "./dist/esm/api/registryDataVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryDataVersions/index.d.ts",
+        "default": "./dist/commonjs/api/registryDataVersions/index.js"
+      }
+    },
+    "./api/registryDataContainers": {
+      "browser": {
+        "types": "./dist/browser/api/registryDataContainers/index.d.ts",
+        "default": "./dist/browser/api/registryDataContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryDataContainers/index.d.ts",
+        "default": "./dist/react-native/api/registryDataContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryDataContainers/index.d.ts",
+        "default": "./dist/esm/api/registryDataContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryDataContainers/index.d.ts",
+        "default": "./dist/commonjs/api/registryDataContainers/index.js"
+      }
+    },
+    "./api/registryComponentVersions": {
+      "browser": {
+        "types": "./dist/browser/api/registryComponentVersions/index.d.ts",
+        "default": "./dist/browser/api/registryComponentVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryComponentVersions/index.d.ts",
+        "default": "./dist/react-native/api/registryComponentVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryComponentVersions/index.d.ts",
+        "default": "./dist/esm/api/registryComponentVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryComponentVersions/index.d.ts",
+        "default": "./dist/commonjs/api/registryComponentVersions/index.js"
+      }
+    },
+    "./api/registryComponentContainers": {
+      "browser": {
+        "types": "./dist/browser/api/registryComponentContainers/index.d.ts",
+        "default": "./dist/browser/api/registryComponentContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryComponentContainers/index.d.ts",
+        "default": "./dist/react-native/api/registryComponentContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryComponentContainers/index.d.ts",
+        "default": "./dist/esm/api/registryComponentContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryComponentContainers/index.d.ts",
+        "default": "./dist/commonjs/api/registryComponentContainers/index.js"
+      }
+    },
+    "./api/registryCodeVersions": {
+      "browser": {
+        "types": "./dist/browser/api/registryCodeVersions/index.d.ts",
+        "default": "./dist/browser/api/registryCodeVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryCodeVersions/index.d.ts",
+        "default": "./dist/react-native/api/registryCodeVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryCodeVersions/index.d.ts",
+        "default": "./dist/esm/api/registryCodeVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryCodeVersions/index.d.ts",
+        "default": "./dist/commonjs/api/registryCodeVersions/index.js"
+      }
+    },
+    "./api/registryDataReferences": {
+      "browser": {
+        "types": "./dist/browser/api/registryDataReferences/index.d.ts",
+        "default": "./dist/browser/api/registryDataReferences/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryDataReferences/index.d.ts",
+        "default": "./dist/react-native/api/registryDataReferences/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryDataReferences/index.d.ts",
+        "default": "./dist/esm/api/registryDataReferences/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryDataReferences/index.d.ts",
+        "default": "./dist/commonjs/api/registryDataReferences/index.js"
+      }
+    },
+    "./api/registryCodeContainers": {
+      "browser": {
+        "types": "./dist/browser/api/registryCodeContainers/index.d.ts",
+        "default": "./dist/browser/api/registryCodeContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registryCodeContainers/index.d.ts",
+        "default": "./dist/react-native/api/registryCodeContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registryCodeContainers/index.d.ts",
+        "default": "./dist/esm/api/registryCodeContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registryCodeContainers/index.d.ts",
+        "default": "./dist/commonjs/api/registryCodeContainers/index.js"
+      }
+    },
+    "./api/managedNetworkProvisions": {
+      "browser": {
+        "types": "./dist/browser/api/managedNetworkProvisions/index.d.ts",
+        "default": "./dist/browser/api/managedNetworkProvisions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedNetworkProvisions/index.d.ts",
+        "default": "./dist/react-native/api/managedNetworkProvisions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedNetworkProvisions/index.d.ts",
+        "default": "./dist/esm/api/managedNetworkProvisions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedNetworkProvisions/index.d.ts",
+        "default": "./dist/commonjs/api/managedNetworkProvisions/index.js"
+      }
+    },
+    "./api/privateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateLinkResources/index.d.ts",
+        "default": "./dist/react-native/api/privateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/workspaceFeatures": {
+      "browser": {
+        "types": "./dist/browser/api/workspaceFeatures/index.d.ts",
+        "default": "./dist/browser/api/workspaceFeatures/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workspaceFeatures/index.d.ts",
+        "default": "./dist/react-native/api/workspaceFeatures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaceFeatures/index.d.ts",
+        "default": "./dist/esm/api/workspaceFeatures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaceFeatures/index.d.ts",
+        "default": "./dist/commonjs/api/workspaceFeatures/index.js"
+      }
+    },
+    "./api/compute": {
+      "browser": {
+        "types": "./dist/browser/api/compute/index.d.ts",
+        "default": "./dist/browser/api/compute/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/compute/index.d.ts",
+        "default": "./dist/react-native/api/compute/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/compute/index.d.ts",
+        "default": "./dist/esm/api/compute/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/compute/index.d.ts",
+        "default": "./dist/commonjs/api/compute/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/serverlessEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/serverlessEndpoints/index.d.ts",
+        "default": "./dist/browser/api/serverlessEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverlessEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/serverlessEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverlessEndpoints/index.d.ts",
+        "default": "./dist/esm/api/serverlessEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverlessEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/serverlessEndpoints/index.js"
+      }
+    },
+    "./api/schedules": {
+      "browser": {
+        "types": "./dist/browser/api/schedules/index.d.ts",
+        "default": "./dist/browser/api/schedules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/schedules/index.d.ts",
+        "default": "./dist/react-native/api/schedules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/schedules/index.d.ts",
+        "default": "./dist/esm/api/schedules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/schedules/index.d.ts",
+        "default": "./dist/commonjs/api/schedules/index.js"
+      }
+    },
+    "./api/onlineDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/onlineDeployments/index.d.ts",
+        "default": "./dist/browser/api/onlineDeployments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/onlineDeployments/index.d.ts",
+        "default": "./dist/react-native/api/onlineDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/onlineDeployments/index.d.ts",
+        "default": "./dist/esm/api/onlineDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/onlineDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/onlineDeployments/index.js"
+      }
+    },
+    "./api/onlineEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/onlineEndpoints/index.d.ts",
+        "default": "./dist/browser/api/onlineEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/onlineEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/onlineEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/onlineEndpoints/index.d.ts",
+        "default": "./dist/esm/api/onlineEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/onlineEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/onlineEndpoints/index.js"
+      }
+    },
+    "./api/marketplaceSubscriptions": {
+      "browser": {
+        "types": "./dist/browser/api/marketplaceSubscriptions/index.d.ts",
+        "default": "./dist/browser/api/marketplaceSubscriptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/marketplaceSubscriptions/index.d.ts",
+        "default": "./dist/react-native/api/marketplaceSubscriptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/marketplaceSubscriptions/index.d.ts",
+        "default": "./dist/esm/api/marketplaceSubscriptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/marketplaceSubscriptions/index.d.ts",
+        "default": "./dist/commonjs/api/marketplaceSubscriptions/index.js"
+      }
+    },
+    "./api/featurestoreEntityVersions": {
+      "browser": {
+        "types": "./dist/browser/api/featurestoreEntityVersions/index.d.ts",
+        "default": "./dist/browser/api/featurestoreEntityVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/featurestoreEntityVersions/index.d.ts",
+        "default": "./dist/react-native/api/featurestoreEntityVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/featurestoreEntityVersions/index.d.ts",
+        "default": "./dist/esm/api/featurestoreEntityVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/featurestoreEntityVersions/index.d.ts",
+        "default": "./dist/commonjs/api/featurestoreEntityVersions/index.js"
+      }
+    },
+    "./api/featurestoreEntityContainers": {
+      "browser": {
+        "types": "./dist/browser/api/featurestoreEntityContainers/index.d.ts",
+        "default": "./dist/browser/api/featurestoreEntityContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/featurestoreEntityContainers/index.d.ts",
+        "default": "./dist/react-native/api/featurestoreEntityContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/featurestoreEntityContainers/index.d.ts",
+        "default": "./dist/esm/api/featurestoreEntityContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/featurestoreEntityContainers/index.d.ts",
+        "default": "./dist/commonjs/api/featurestoreEntityContainers/index.js"
+      }
+    },
+    "./api/featuresetVersions": {
+      "browser": {
+        "types": "./dist/browser/api/featuresetVersions/index.d.ts",
+        "default": "./dist/browser/api/featuresetVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/featuresetVersions/index.d.ts",
+        "default": "./dist/react-native/api/featuresetVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/featuresetVersions/index.d.ts",
+        "default": "./dist/esm/api/featuresetVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/featuresetVersions/index.d.ts",
+        "default": "./dist/commonjs/api/featuresetVersions/index.js"
+      }
+    },
+    "./api/features": {
+      "browser": {
+        "types": "./dist/browser/api/features/index.d.ts",
+        "default": "./dist/browser/api/features/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/features/index.d.ts",
+        "default": "./dist/react-native/api/features/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/features/index.d.ts",
+        "default": "./dist/esm/api/features/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/features/index.d.ts",
+        "default": "./dist/commonjs/api/features/index.js"
+      }
+    },
+    "./api/featuresetContainers": {
+      "browser": {
+        "types": "./dist/browser/api/featuresetContainers/index.d.ts",
+        "default": "./dist/browser/api/featuresetContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/featuresetContainers/index.d.ts",
+        "default": "./dist/react-native/api/featuresetContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/featuresetContainers/index.d.ts",
+        "default": "./dist/esm/api/featuresetContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/featuresetContainers/index.d.ts",
+        "default": "./dist/commonjs/api/featuresetContainers/index.js"
+      }
+    },
+    "./api/datastores": {
+      "browser": {
+        "types": "./dist/browser/api/datastores/index.d.ts",
+        "default": "./dist/browser/api/datastores/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/datastores/index.d.ts",
+        "default": "./dist/react-native/api/datastores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/datastores/index.d.ts",
+        "default": "./dist/esm/api/datastores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/datastores/index.d.ts",
+        "default": "./dist/commonjs/api/datastores/index.js"
+      }
+    },
+    "./api/capabilityHosts": {
+      "browser": {
+        "types": "./dist/browser/api/capabilityHosts/index.d.ts",
+        "default": "./dist/browser/api/capabilityHosts/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/capabilityHosts/index.d.ts",
+        "default": "./dist/react-native/api/capabilityHosts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capabilityHosts/index.d.ts",
+        "default": "./dist/esm/api/capabilityHosts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capabilityHosts/index.d.ts",
+        "default": "./dist/commonjs/api/capabilityHosts/index.js"
+      }
+    },
+    "./api/batchDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/batchDeployments/index.d.ts",
+        "default": "./dist/browser/api/batchDeployments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/batchDeployments/index.d.ts",
+        "default": "./dist/react-native/api/batchDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/batchDeployments/index.d.ts",
+        "default": "./dist/esm/api/batchDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/batchDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/batchDeployments/index.js"
+      }
+    },
+    "./api/batchEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/batchEndpoints/index.d.ts",
+        "default": "./dist/browser/api/batchEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/batchEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/batchEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/batchEndpoints/index.d.ts",
+        "default": "./dist/esm/api/batchEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/batchEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/batchEndpoints/index.js"
+      }
+    },
+    "./api/modelVersions": {
+      "browser": {
+        "types": "./dist/browser/api/modelVersions/index.d.ts",
+        "default": "./dist/browser/api/modelVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/modelVersions/index.d.ts",
+        "default": "./dist/react-native/api/modelVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/modelVersions/index.d.ts",
+        "default": "./dist/esm/api/modelVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/modelVersions/index.d.ts",
+        "default": "./dist/commonjs/api/modelVersions/index.js"
+      }
+    },
+    "./api/modelContainers": {
+      "browser": {
+        "types": "./dist/browser/api/modelContainers/index.d.ts",
+        "default": "./dist/browser/api/modelContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/modelContainers/index.d.ts",
+        "default": "./dist/react-native/api/modelContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/modelContainers/index.d.ts",
+        "default": "./dist/esm/api/modelContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/modelContainers/index.d.ts",
+        "default": "./dist/commonjs/api/modelContainers/index.js"
+      }
+    },
+    "./api/environmentVersions": {
+      "browser": {
+        "types": "./dist/browser/api/environmentVersions/index.d.ts",
+        "default": "./dist/browser/api/environmentVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/environmentVersions/index.d.ts",
+        "default": "./dist/react-native/api/environmentVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/environmentVersions/index.d.ts",
+        "default": "./dist/esm/api/environmentVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/environmentVersions/index.d.ts",
+        "default": "./dist/commonjs/api/environmentVersions/index.js"
+      }
+    },
+    "./api/environmentContainers": {
+      "browser": {
+        "types": "./dist/browser/api/environmentContainers/index.d.ts",
+        "default": "./dist/browser/api/environmentContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/environmentContainers/index.d.ts",
+        "default": "./dist/react-native/api/environmentContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/environmentContainers/index.d.ts",
+        "default": "./dist/esm/api/environmentContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/environmentContainers/index.d.ts",
+        "default": "./dist/commonjs/api/environmentContainers/index.js"
+      }
+    },
+    "./api/dataVersions": {
+      "browser": {
+        "types": "./dist/browser/api/dataVersions/index.d.ts",
+        "default": "./dist/browser/api/dataVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataVersions/index.d.ts",
+        "default": "./dist/react-native/api/dataVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataVersions/index.d.ts",
+        "default": "./dist/esm/api/dataVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataVersions/index.d.ts",
+        "default": "./dist/commonjs/api/dataVersions/index.js"
+      }
+    },
+    "./api/dataContainers": {
+      "browser": {
+        "types": "./dist/browser/api/dataContainers/index.d.ts",
+        "default": "./dist/browser/api/dataContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataContainers/index.d.ts",
+        "default": "./dist/react-native/api/dataContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataContainers/index.d.ts",
+        "default": "./dist/esm/api/dataContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataContainers/index.d.ts",
+        "default": "./dist/commonjs/api/dataContainers/index.js"
+      }
+    },
+    "./api/componentVersions": {
+      "browser": {
+        "types": "./dist/browser/api/componentVersions/index.d.ts",
+        "default": "./dist/browser/api/componentVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/componentVersions/index.d.ts",
+        "default": "./dist/react-native/api/componentVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentVersions/index.d.ts",
+        "default": "./dist/esm/api/componentVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentVersions/index.d.ts",
+        "default": "./dist/commonjs/api/componentVersions/index.js"
+      }
+    },
+    "./api/componentContainers": {
+      "browser": {
+        "types": "./dist/browser/api/componentContainers/index.d.ts",
+        "default": "./dist/browser/api/componentContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/componentContainers/index.d.ts",
+        "default": "./dist/react-native/api/componentContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/componentContainers/index.d.ts",
+        "default": "./dist/esm/api/componentContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/componentContainers/index.d.ts",
+        "default": "./dist/commonjs/api/componentContainers/index.js"
+      }
+    },
+    "./api/codeVersions": {
+      "browser": {
+        "types": "./dist/browser/api/codeVersions/index.d.ts",
+        "default": "./dist/browser/api/codeVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/codeVersions/index.d.ts",
+        "default": "./dist/react-native/api/codeVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/codeVersions/index.d.ts",
+        "default": "./dist/esm/api/codeVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/codeVersions/index.d.ts",
+        "default": "./dist/commonjs/api/codeVersions/index.js"
+      }
+    },
+    "./api/registries": {
+      "browser": {
+        "types": "./dist/browser/api/registries/index.d.ts",
+        "default": "./dist/browser/api/registries/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/registries/index.d.ts",
+        "default": "./dist/react-native/api/registries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/registries/index.d.ts",
+        "default": "./dist/esm/api/registries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/registries/index.d.ts",
+        "default": "./dist/commonjs/api/registries/index.js"
+      }
+    },
+    "./api/codeContainers": {
+      "browser": {
+        "types": "./dist/browser/api/codeContainers/index.d.ts",
+        "default": "./dist/browser/api/codeContainers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/codeContainers/index.d.ts",
+        "default": "./dist/react-native/api/codeContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/codeContainers/index.d.ts",
+        "default": "./dist/esm/api/codeContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/codeContainers/index.d.ts",
+        "default": "./dist/commonjs/api/codeContainers/index.js"
+      }
+    },
+    "./api/workspaces": {
+      "browser": {
+        "types": "./dist/browser/api/workspaces/index.d.ts",
+        "default": "./dist/browser/api/workspaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workspaces/index.d.ts",
+        "default": "./dist/react-native/api/workspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaces/index.d.ts",
+        "default": "./dist/esm/api/workspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaces/index.d.ts",
+        "default": "./dist/commonjs/api/workspaces/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/azureMachineLearningServicesManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-machinelearning",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview"
   }
 }
