@@ -1,4 +1,4 @@
-# warp.config.yml — @azure/batch build configuration
+# warp.config.yml — build configuration
 
 exports:
   "./package.json": "./package.json"

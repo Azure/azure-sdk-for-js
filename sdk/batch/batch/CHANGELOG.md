@@ -1,10 +1,30 @@
 # Release History
 
+## 13.0.0 (2026-03-05)
+
+This stable release includes all features, breaking changes, and bug fixes from the 13.0.0-beta.1 and 13.0.0-beta.2 releases. Refer to the sections below for full details.
+
+For a detailed guide on migrating from v12 to v13, see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch/MigrationGuide.md).
+
 ## 13.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
+- Added new response types `GetNodeFileResponse` and `GetTaskFileResponse` with `blobBody` and `readableStreamBody` properties for streaming file downloads.
+
 ### Breaking Changes
+
+- `getNodeFile` now returns `Promise<GetNodeFileResponse>` instead of `Promise<Uint8Array>`.
+- `getTaskFile` now returns `Promise<GetTaskFileResponse>` instead of `Promise<Uint8Array>`.
+- Renamed `CifsMountConfiguration` to `BatchCifsMountConfiguration`. The `cifsMountConfiguration` property in `MountConfiguration` now uses the renamed type.
+- Renamed `BatchSupportedImage.batchSupportEndOfLife` to `supportEndDate`.
+- Renamed `BatchNodeDeallocateOptions.nodeDeallocateOption` to `nodeDeallocationOption`.
+- Renamed `ExitConditions.default` to `defaultOptions`.
+- Renamed `VMExtension.type` to `extensionType`.
+- Renamed optional parameters across all operation options for consistent casing:
+  - `ocpdate` → `ocpDate`
+  - `timeOutInSeconds` → `timeoutInSeconds`
+  - `maxresults` → `maxResults`
 
 ### Bugs Fixed
 

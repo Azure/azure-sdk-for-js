@@ -9,7 +9,7 @@ export type AllocationState = "steady" | "resizing" | "stopping";
 
 // @public
 export interface AuthenticationTokenSettings {
-    access?: BatchAccessScope[];
+    scopes?: BatchAccessScope[];
 }
 
 // @public
@@ -93,6 +93,15 @@ export interface BatchAutoPoolSpecification {
     keepAlive?: boolean;
     pool?: BatchPoolSpecification;
     poolLifetimeOption: BatchPoolLifetimeOption;
+}
+
+// @public
+export interface BatchCifsMountConfiguration {
+    mountOptions?: string;
+    password: string;
+    relativeMountPath: string;
+    source: string;
+    username: string;
 }
 
 // @public
@@ -514,7 +523,7 @@ export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletio
 
 // @public
 export interface BatchNodeDeallocateOptions {
-    nodeDeallocateOption?: BatchNodeDeallocateOption;
+    nodeDeallocationOption?: BatchNodeDeallocateOption;
 }
 
 // @public
@@ -904,11 +913,11 @@ export type BatchSubtaskState = "preparing" | "running" | "completed";
 
 // @public
 export interface BatchSupportedImage {
-    batchSupportEndOfLife?: Date;
     capabilities?: string[];
     imageReference: BatchVmImageReference;
     nodeAgentSkuId: string;
     osType: OSType;
+    supportEndDate?: Date;
     verificationType: ImageVerificationType;
 }
 
@@ -1136,15 +1145,6 @@ export interface BatchVmImageReference {
 export type CachingType = "none" | "readonly" | "readwrite";
 
 // @public
-export interface CifsMountConfiguration {
-    mountOptions?: string;
-    password: string;
-    relativeMountPath: string;
-    source: string;
-    username: string;
-}
-
-// @public
 export interface ContainerHostBatchBindMountEntry {
     isReadOnly?: boolean;
     source?: ContainerHostDataPath;
@@ -1232,7 +1232,7 @@ export interface ExitCodeRangeMapping {
 
 // @public
 export interface ExitConditions {
-    default?: ExitOptions;
+    defaultOptions?: ExitOptions;
     exitCodeRanges?: ExitCodeRangeMapping[];
     exitCodes?: ExitCodeMapping[];
     fileUploadError?: ExitOptions;
@@ -1253,6 +1253,18 @@ export interface FileProperties {
     fileMode?: string;
     lastModified: Date;
 }
+
+// @public (undocumented)
+export type GetNodeFileResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public (undocumented)
+export type GetTaskFileResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 // @public
 export interface HostEndpointSettings {
@@ -1326,7 +1338,7 @@ export interface ManagedDisk {
 export interface MountConfiguration {
     azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfiguration;
     azureFileShareConfiguration?: AzureFileShareConfiguration;
-    cifsMountConfiguration?: CifsMountConfiguration;
+    cifsMountConfiguration?: BatchCifsMountConfiguration;
     nfsMountConfiguration?: NfsMountConfiguration;
 }
 
@@ -1542,12 +1554,12 @@ export interface VirtualMachineInfo {
 export interface VMExtension {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
+    extensionType: string;
     name: string;
     protectedSettings?: Record<string, string>;
     provisionAfterExtensions?: string[];
     publisher: string;
     settings?: Record<string, string>;
-    type: string;
     typeHandlerVersion?: string;
 }
 
