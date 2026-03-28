@@ -4,9 +4,20 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BgpSession {
@@ -33,28 +44,21 @@ export interface CdnPeeringPrefix extends Resource {
 }
 
 // @public
-export interface CdnPeeringPrefixes {
-    list(peeringLocation: string, options?: CdnPeeringPrefixesListOptionalParams): PagedAsyncIterableIterator<CdnPeeringPrefix>;
+export interface CdnPeeringPrefixesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CdnPeeringPrefixesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CdnPeeringPrefixesOperations {
+    list: (peeringLocation: string, options?: CdnPeeringPrefixesListOptionalParams) => PagedAsyncIterableIterator<CdnPeeringPrefix>;
 }
 
 // @public
-export type CdnPeeringPrefixesListNextResponse = CdnPeeringPrefixListResult;
-
-// @public
-export interface CdnPeeringPrefixesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CdnPeeringPrefixesListResponse = CdnPeeringPrefixListResult;
-
-// @public
-export interface CdnPeeringPrefixListResult {
-    nextLink?: string;
-    value?: CdnPeeringPrefix[];
+export interface CdnPeeringPrefixProperties {
+    readonly azureRegion?: string;
+    readonly azureService?: string;
+    readonly bgpCommunity?: string;
+    readonly isPrimaryRegion?: boolean;
+    readonly prefix?: string;
 }
 
 // @public
@@ -64,10 +68,10 @@ export interface CheckServiceProviderAvailabilityInput {
 }
 
 // @public
-export interface CheckServiceProviderAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface CheckServiceProviderAvailabilityOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type CheckServiceProviderAvailabilityResponse = {
     body: Enum0;
 };
@@ -76,7 +80,7 @@ export type CheckServiceProviderAvailabilityResponse = {
 export type Command = string;
 
 // @public
-export interface ConnectionMonitorTest extends Resource {
+export interface ConnectionMonitorTest extends ProxyResource {
     destination?: string;
     destinationPort?: number;
     readonly isTestSuccessful?: boolean;
@@ -87,53 +91,50 @@ export interface ConnectionMonitorTest extends Resource {
 }
 
 // @public
-export interface ConnectionMonitorTestListResult {
-    nextLink?: string;
-    value?: ConnectionMonitorTest[];
+export interface ConnectionMonitorTestProperties {
+    destination?: string;
+    destinationPort?: number;
+    readonly isTestSuccessful?: boolean;
+    readonly path?: string[];
+    readonly provisioningState?: ProvisioningState;
+    sourceAgent?: string;
+    testFrequencyInSec?: number;
 }
 
 // @public
-export interface ConnectionMonitorTests {
-    createOrUpdate(resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, connectionMonitorTest: ConnectionMonitorTest, options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams): Promise<ConnectionMonitorTestsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, options?: ConnectionMonitorTestsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, options?: ConnectionMonitorTestsGetOptionalParams): Promise<ConnectionMonitorTestsGetResponse>;
-    listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams): PagedAsyncIterableIterator<ConnectionMonitorTest>;
+export interface ConnectionMonitorTestsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionMonitorTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConnectionMonitorTestsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectionMonitorTestsCreateOrUpdateResponse = ConnectionMonitorTest;
-
-// @public
-export interface ConnectionMonitorTestsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConnectionMonitorTestsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectionMonitorTestsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectionMonitorTestsListByPeeringServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectionMonitorTestsGetResponse = ConnectionMonitorTest;
-
-// @public
-export interface ConnectionMonitorTestsListByPeeringServiceNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectionMonitorTestsOperations {
+    createOrUpdate: (resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, connectionMonitorTest: ConnectionMonitorTest, options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams) => Promise<ConnectionMonitorTest>;
+    delete: (resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, options?: ConnectionMonitorTestsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringServiceName: string, connectionMonitorTestName: string, options?: ConnectionMonitorTestsGetOptionalParams) => Promise<ConnectionMonitorTest>;
+    listByPeeringService: (resourceGroupName: string, peeringServiceName: string, options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams) => PagedAsyncIterableIterator<ConnectionMonitorTest>;
 }
-
-// @public
-export type ConnectionMonitorTestsListByPeeringServiceNextResponse = ConnectionMonitorTestListResult;
-
-// @public
-export interface ConnectionMonitorTestsListByPeeringServiceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectionMonitorTestsListByPeeringServiceResponse = ConnectionMonitorTestListResult;
 
 // @public
 export type ConnectionState = string;
+
+// @public
+export interface ConnectivityProbe {
+    azureRegion?: string;
+    endpoint?: string;
+    readonly prefixesToAccesslist?: string[];
+    protocol?: Protocol;
+}
 
 // @public
 export interface ContactDetail {
@@ -141,6 +142,14 @@ export interface ContactDetail {
     phone?: string;
     role?: Role;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DirectConnection {
@@ -171,9 +180,18 @@ export type DirectPeeringType = string;
 export type Enum0 = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
 export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
+    readonly details?: ErrorDetail[];
     readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -206,9 +224,6 @@ export interface ExchangePeeringFacility {
 export type Family = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export type Kind = string;
 
 // @public
@@ -222,21 +237,34 @@ export enum KnownCommand {
 export enum KnownConnectionState {
     Active = "Active",
     Approved = "Approved",
+    ExternalBlocker = "ExternalBlocker",
     None = "None",
     PendingApproval = "PendingApproval",
     ProvisioningCompleted = "ProvisioningCompleted",
     ProvisioningFailed = "ProvisioningFailed",
     ProvisioningStarted = "ProvisioningStarted",
+    TypeChangeInProgress = "TypeChangeInProgress",
+    TypeChangeRequested = "TypeChangeRequested",
     Validating = "Validating"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
 export enum KnownDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
+    PeerProp = "PeerProp",
     Transit = "Transit",
     Voice = "Voice"
 }
@@ -289,9 +317,11 @@ export enum KnownLookingGlassSourceType {
 export enum KnownPeeringLocationsDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
+    PeerProp = "PeerProp",
     Transit = "Transit",
     Voice = "Voice"
 }
@@ -314,7 +344,15 @@ export enum KnownPrefixValidationState {
 }
 
 // @public
+export enum KnownProtocol {
+    Icmp = "ICMP",
+    None = "None",
+    TCP = "TCP"
+}
+
+// @public
 export enum KnownProvisioningState {
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -389,31 +427,26 @@ export enum KnownValidationState {
 }
 
 // @public
-export type LearnedType = string;
+export enum KnownVersions {
+    V20250501 = "2025-05-01"
+}
 
 // @public
-export interface LegacyPeerings {
-    list(peeringLocation: string, kind: LegacyPeeringsKind, options?: LegacyPeeringsListOptionalParams): PagedAsyncIterableIterator<Peering>;
-}
+export type LearnedType = string;
 
 // @public
 export type LegacyPeeringsKind = string;
 
 // @public
-export interface LegacyPeeringsListNextOptionalParams extends coreClient.OperationOptions {
+export interface LegacyPeeringsListOptionalParams extends OperationOptions {
     asn?: number;
+    directPeeringType?: DirectPeeringType;
 }
 
 // @public
-export type LegacyPeeringsListNextResponse = PeeringListResult;
-
-// @public
-export interface LegacyPeeringsListOptionalParams extends coreClient.OperationOptions {
-    asn?: number;
+export interface LegacyPeeringsOperations {
+    list: (peeringLocation: string, kind: LegacyPeeringsKind, options?: LegacyPeeringsListOptionalParams) => PagedAsyncIterableIterator<Peering>;
 }
-
-// @public
-export type LegacyPeeringsListResponse = PeeringListResult;
 
 // @public
 export interface LogAnalyticsWorkspaceProperties {
@@ -423,19 +456,16 @@ export interface LogAnalyticsWorkspaceProperties {
 }
 
 // @public
-export interface LookingGlass {
-    invoke(command: LookingGlassCommand, sourceType: LookingGlassSourceType, sourceLocation: string, destinationIP: string, options?: LookingGlassInvokeOptionalParams): Promise<LookingGlassInvokeResponse>;
-}
-
-// @public
 export type LookingGlassCommand = string;
 
 // @public
-export interface LookingGlassInvokeOptionalParams extends coreClient.OperationOptions {
+export interface LookingGlassInvokeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LookingGlassInvokeResponse = LookingGlassOutput;
+export interface LookingGlassOperations {
+    invoke: (command: LookingGlassCommand, sourceType: LookingGlassSourceType, sourceLocation: string, destinationIP: string, options?: LookingGlassInvokeOptionalParams) => Promise<LookingGlassOutput>;
+}
 
 // @public
 export interface LookingGlassOutput {
@@ -480,32 +510,33 @@ export interface OperationDisplayInfo {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationProperties {
+    readonly serviceSpecification?: ServiceSpecification;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
-export interface PeerAsn extends Resource {
+export interface PeerAsn extends ProxyResource {
     readonly errorMessage?: string;
     peerAsn?: number;
     peerContactDetail?: ContactDetail[];
@@ -514,75 +545,53 @@ export interface PeerAsn extends Resource {
 }
 
 // @public
-export interface PeerAsnListResult {
-    nextLink?: string;
-    value?: PeerAsn[];
+export interface PeerAsnProperties {
+    readonly errorMessage?: string;
+    peerAsn?: number;
+    peerContactDetail?: ContactDetail[];
+    peerName?: string;
+    readonly validationState?: ValidationState;
 }
 
 // @public
-export interface PeerAsns {
-    createOrUpdate(peerAsnName: string, peerAsn: PeerAsn, options?: PeerAsnsCreateOrUpdateOptionalParams): Promise<PeerAsnsCreateOrUpdateResponse>;
-    delete(peerAsnName: string, options?: PeerAsnsDeleteOptionalParams): Promise<void>;
-    get(peerAsnName: string, options?: PeerAsnsGetOptionalParams): Promise<PeerAsnsGetResponse>;
-    listBySubscription(options?: PeerAsnsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PeerAsn>;
+export interface PeerAsnsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeerAsnsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PeerAsnsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeerAsnsCreateOrUpdateResponse = PeerAsn;
-
-// @public
-export interface PeerAsnsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface PeerAsnsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeerAsnsGetOptionalParams extends coreClient.OperationOptions {
+export interface PeerAsnsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeerAsnsGetResponse = PeerAsn;
-
-// @public
-export interface PeerAsnsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PeerAsnsOperations {
+    createOrUpdate: (peerAsnName: string, peerAsn: PeerAsn, options?: PeerAsnsCreateOrUpdateOptionalParams) => Promise<PeerAsn>;
+    delete: (peerAsnName: string, options?: PeerAsnsDeleteOptionalParams) => Promise<void>;
+    get: (peerAsnName: string, options?: PeerAsnsGetOptionalParams) => Promise<PeerAsn>;
+    listBySubscription: (options?: PeerAsnsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PeerAsn>;
 }
 
 // @public
-export type PeerAsnsListBySubscriptionNextResponse = PeerAsnListResult;
-
-// @public
-export interface PeerAsnsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PeerAsnsListBySubscriptionResponse = PeerAsnListResult;
-
-// @public
-export interface Peering extends Resource {
+export interface Peering extends TrackedResource {
+    connectivityProbes?: ConnectivityProbe[];
     direct?: PeeringPropertiesDirect;
     exchange?: PeeringPropertiesExchange;
     kind: Kind;
-    location: string;
     peeringLocation?: string;
     readonly provisioningState?: ProvisioningState;
     sku: PeeringSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface PeeringBandwidthOffer {
     offerName?: string;
     valueInMbps?: number;
-}
-
-// @public
-export interface PeeringListResult {
-    nextLink?: string;
-    value?: Peering[];
 }
 
 // @public
@@ -596,9 +605,12 @@ export interface PeeringLocation extends Resource {
 }
 
 // @public
-export interface PeeringLocationListResult {
-    nextLink?: string;
-    value?: PeeringLocation[];
+export interface PeeringLocationProperties {
+    azureRegion?: string;
+    country?: string;
+    direct?: PeeringLocationPropertiesDirect;
+    exchange?: PeeringLocationPropertiesExchange;
+    peeringLocation?: string;
 }
 
 // @public
@@ -613,81 +625,59 @@ export interface PeeringLocationPropertiesExchange {
 }
 
 // @public
-export interface PeeringLocations {
-    list(kind: PeeringLocationsKind, options?: PeeringLocationsListOptionalParams): PagedAsyncIterableIterator<PeeringLocation>;
-}
-
-// @public
 export type PeeringLocationsDirectPeeringType = string;
 
 // @public
 export type PeeringLocationsKind = string;
 
 // @public
-export interface PeeringLocationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringLocationsListOptionalParams extends OperationOptions {
     directPeeringType?: PeeringLocationsDirectPeeringType;
 }
 
 // @public
-export type PeeringLocationsListNextResponse = PeeringLocationListResult;
-
-// @public
-export interface PeeringLocationsListOptionalParams extends coreClient.OperationOptions {
-    directPeeringType?: PeeringLocationsDirectPeeringType;
+export interface PeeringLocationsOperations {
+    list: (kind: PeeringLocationsKind, options?: PeeringLocationsListOptionalParams) => PagedAsyncIterableIterator<PeeringLocation>;
 }
-
-// @public
-export type PeeringLocationsListResponse = PeeringLocationListResult;
 
 // @public (undocumented)
-export class PeeringManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PeeringManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    cdnPeeringPrefixes: CdnPeeringPrefixes;
+export class PeeringManagementClient {
+    constructor(credential: TokenCredential, options?: PeeringManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PeeringManagementClientOptionalParams);
+    readonly cdnPeeringPrefixes: CdnPeeringPrefixesOperations;
     checkServiceProviderAvailability(checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput, options?: CheckServiceProviderAvailabilityOptionalParams): Promise<CheckServiceProviderAvailabilityResponse>;
-    // (undocumented)
-    connectionMonitorTests: ConnectionMonitorTests;
-    // (undocumented)
-    legacyPeerings: LegacyPeerings;
-    // (undocumented)
-    lookingGlass: LookingGlass;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    peerAsns: PeerAsns;
-    // (undocumented)
-    peeringLocations: PeeringLocations;
-    // (undocumented)
-    peerings: Peerings;
-    // (undocumented)
-    peeringServiceCountries: PeeringServiceCountries;
-    // (undocumented)
-    peeringServiceLocations: PeeringServiceLocations;
-    // (undocumented)
-    peeringServiceProviders: PeeringServiceProviders;
-    // (undocumented)
-    peeringServices: PeeringServices;
-    // (undocumented)
-    prefixes: Prefixes;
-    // (undocumented)
-    receivedRoutes: ReceivedRoutes;
-    // (undocumented)
-    registeredAsns: RegisteredAsns;
-    // (undocumented)
-    registeredPrefixes: RegisteredPrefixes;
-    // (undocumented)
-    subscriptionId: string;
+    readonly connectionMonitorTests: ConnectionMonitorTestsOperations;
+    readonly legacyPeerings: LegacyPeeringsOperations;
+    readonly lookingGlass: LookingGlassOperations;
+    readonly operations: OperationsOperations;
+    readonly peerAsns: PeerAsnsOperations;
+    readonly peeringLocations: PeeringLocationsOperations;
+    readonly peerings: PeeringsOperations;
+    readonly peeringServiceCountries: PeeringServiceCountriesOperations;
+    readonly peeringServiceLocations: PeeringServiceLocationsOperations;
+    readonly peeringServiceProviders: PeeringServiceProvidersOperations;
+    readonly peeringServices: PeeringServicesOperations;
+    readonly pipeline: Pipeline;
+    readonly prefixes: PrefixesOperations;
+    readonly receivedRoutes: ReceivedRoutesOperations;
+    readonly registeredAsns: RegisteredAsnsOperations;
+    readonly registeredPrefixes: RegisteredPrefixesOperations;
+    readonly rpUnbilledPrefixes: RpUnbilledPrefixesOperations;
 }
 
 // @public
-export interface PeeringManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PeeringManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface PeeringProperties {
+    connectivityProbes?: ConnectivityProbe[];
+    direct?: PeeringPropertiesDirect;
+    exchange?: PeeringPropertiesExchange;
+    peeringLocation?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -716,26 +706,21 @@ export interface PeeringReceivedRoute {
 }
 
 // @public
-export interface PeeringReceivedRouteListResult {
-    nextLink?: string;
-    value?: PeeringReceivedRoute[];
-}
-
-// @public
-export interface PeeringRegisteredAsn extends Resource {
+export interface PeeringRegisteredAsn extends ProxyResource {
     asn?: number;
     readonly peeringServicePrefixKey?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface PeeringRegisteredAsnListResult {
-    nextLink?: string;
-    value?: PeeringRegisteredAsn[];
+export interface PeeringRegisteredAsnProperties {
+    asn?: number;
+    readonly peeringServicePrefixKey?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface PeeringRegisteredPrefix extends Resource {
+export interface PeeringRegisteredPrefix extends ProxyResource {
     readonly errorMessage?: string;
     readonly peeringServicePrefixKey?: string;
     prefix?: string;
@@ -744,35 +729,24 @@ export interface PeeringRegisteredPrefix extends Resource {
 }
 
 // @public
-export interface PeeringRegisteredPrefixListResult {
-    nextLink?: string;
-    value?: PeeringRegisteredPrefix[];
+export interface PeeringRegisteredPrefixProperties {
+    readonly errorMessage?: string;
+    readonly peeringServicePrefixKey?: string;
+    prefix?: string;
+    readonly prefixValidationState?: PrefixValidationState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface Peerings {
-    createOrUpdate(resourceGroupName: string, peeringName: string, peering: Peering, options?: PeeringsCreateOrUpdateOptionalParams): Promise<PeeringsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringName: string, options?: PeeringsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringName: string, options?: PeeringsGetOptionalParams): Promise<PeeringsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: PeeringsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Peering>;
-    listBySubscription(options?: PeeringsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Peering>;
-    update(resourceGroupName: string, peeringName: string, tags: ResourceTags, options?: PeeringsUpdateOptionalParams): Promise<PeeringsUpdateResponse>;
+export interface PeeringsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeeringsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringsCreateOrUpdateResponse = Peering;
-
-// @public
-export interface PeeringsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PeeringService extends Resource {
-    location: string;
+export interface PeeringService extends TrackedResource {
     logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
     peeringServiceLocation?: string;
     peeringServiceProvider?: string;
@@ -780,44 +754,19 @@ export interface PeeringService extends Resource {
     providerPrimaryPeeringLocation?: string;
     readonly provisioningState?: ProvisioningState;
     sku?: PeeringServiceSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
-export interface PeeringServiceCountries {
-    list(options?: PeeringServiceCountriesListOptionalParams): PagedAsyncIterableIterator<PeeringServiceCountry>;
+export interface PeeringServiceCountriesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeeringServiceCountriesListNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServiceCountriesOperations {
+    list: (options?: PeeringServiceCountriesListOptionalParams) => PagedAsyncIterableIterator<PeeringServiceCountry>;
 }
-
-// @public
-export type PeeringServiceCountriesListNextResponse = PeeringServiceCountryListResult;
-
-// @public
-export interface PeeringServiceCountriesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PeeringServiceCountriesListResponse = PeeringServiceCountryListResult;
 
 // @public
 export interface PeeringServiceCountry extends Resource {
-}
-
-// @public
-export interface PeeringServiceCountryListResult {
-    nextLink?: string;
-    value?: PeeringServiceCountry[];
-}
-
-// @public
-export interface PeeringServiceListResult {
-    nextLink?: string;
-    value?: PeeringService[];
 }
 
 // @public
@@ -828,34 +777,24 @@ export interface PeeringServiceLocation extends Resource {
 }
 
 // @public
-export interface PeeringServiceLocationListResult {
-    nextLink?: string;
-    value?: PeeringServiceLocation[];
+export interface PeeringServiceLocationProperties {
+    azureRegion?: string;
+    country?: string;
+    state?: string;
 }
 
 // @public
-export interface PeeringServiceLocations {
-    list(options?: PeeringServiceLocationsListOptionalParams): PagedAsyncIterableIterator<PeeringServiceLocation>;
-}
-
-// @public
-export interface PeeringServiceLocationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServiceLocationsListOptionalParams extends OperationOptions {
     country?: string;
 }
 
 // @public
-export type PeeringServiceLocationsListNextResponse = PeeringServiceLocationListResult;
-
-// @public
-export interface PeeringServiceLocationsListOptionalParams extends coreClient.OperationOptions {
-    country?: string;
+export interface PeeringServiceLocationsOperations {
+    list: (options?: PeeringServiceLocationsListOptionalParams) => PagedAsyncIterableIterator<PeeringServiceLocation>;
 }
 
 // @public
-export type PeeringServiceLocationsListResponse = PeeringServiceLocationListResult;
-
-// @public
-export interface PeeringServicePrefix extends Resource {
+export interface PeeringServicePrefix extends ProxyResource {
     readonly errorMessage?: string;
     readonly events?: PeeringServicePrefixEvent[];
     readonly learnedType?: LearnedType;
@@ -875,9 +814,24 @@ export interface PeeringServicePrefixEvent {
 }
 
 // @public
-export interface PeeringServicePrefixListResult {
-    nextLink?: string;
-    value?: PeeringServicePrefix[];
+export interface PeeringServicePrefixProperties {
+    readonly errorMessage?: string;
+    readonly events?: PeeringServicePrefixEvent[];
+    readonly learnedType?: LearnedType;
+    peeringServicePrefixKey?: string;
+    prefix?: string;
+    readonly prefixValidationState?: PrefixValidationState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PeeringServiceProperties {
+    logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
+    peeringServiceLocation?: string;
+    peeringServiceProvider?: string;
+    providerBackupPeeringLocation?: string;
+    providerPrimaryPeeringLocation?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -887,61 +841,34 @@ export interface PeeringServiceProvider extends Resource {
 }
 
 // @public
-export interface PeeringServiceProviderListResult {
-    nextLink?: string;
-    value?: PeeringServiceProvider[];
+export interface PeeringServiceProviderProperties {
+    peeringLocations?: string[];
+    serviceProviderName?: string;
 }
 
 // @public
-export interface PeeringServiceProviders {
-    list(options?: PeeringServiceProvidersListOptionalParams): PagedAsyncIterableIterator<PeeringServiceProvider>;
+export interface PeeringServiceProvidersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeeringServiceProvidersListNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServiceProvidersOperations {
+    list: (options?: PeeringServiceProvidersListOptionalParams) => PagedAsyncIterableIterator<PeeringServiceProvider>;
 }
 
 // @public
-export type PeeringServiceProvidersListNextResponse = PeeringServiceProviderListResult;
-
-// @public
-export interface PeeringServiceProvidersListOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringServiceProvidersListResponse = PeeringServiceProviderListResult;
-
-// @public
-export interface PeeringServices {
-    createOrUpdate(resourceGroupName: string, peeringServiceName: string, peeringService: PeeringService, options?: PeeringServicesCreateOrUpdateOptionalParams): Promise<PeeringServicesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringServiceName: string, options?: PeeringServicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringServiceName: string, options?: PeeringServicesGetOptionalParams): Promise<PeeringServicesGetResponse>;
-    initializeConnectionMonitor(options?: PeeringServicesInitializeConnectionMonitorOptionalParams): Promise<void>;
-    listByResourceGroup(resourceGroupName: string, options?: PeeringServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PeeringService>;
-    listBySubscription(options?: PeeringServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PeeringService>;
-    update(resourceGroupName: string, peeringServiceName: string, tags: ResourceTags, options?: PeeringServicesUpdateOptionalParams): Promise<PeeringServicesUpdateResponse>;
+export interface PeeringServicesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PeeringServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringServicesCreateOrUpdateResponse = PeeringService;
-
-// @public
-export interface PeeringServicesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PeeringServicesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PeeringServicesGetResponse = PeeringService;
-
-// @public
-export interface PeeringServicesInitializeConnectionMonitorOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesInitializeConnectionMonitorOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -950,46 +877,31 @@ export interface PeeringServiceSku {
 }
 
 // @public
-export interface PeeringServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringServicesListByResourceGroupNextResponse = PeeringServiceListResult;
-
-// @public
-export interface PeeringServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringServicesListByResourceGroupResponse = PeeringServiceListResult;
-
-// @public
-export interface PeeringServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesOperations {
+    createOrUpdate: (resourceGroupName: string, peeringServiceName: string, peeringService: PeeringService, options?: PeeringServicesCreateOrUpdateOptionalParams) => Promise<PeeringService>;
+    delete: (resourceGroupName: string, peeringServiceName: string, options?: PeeringServicesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringServiceName: string, options?: PeeringServicesGetOptionalParams) => Promise<PeeringService>;
+    initializeConnectionMonitor: (options?: PeeringServicesInitializeConnectionMonitorOptionalParams) => Promise<void>;
+    listByResourceGroup: (resourceGroupName: string, options?: PeeringServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PeeringService>;
+    listBySubscription: (options?: PeeringServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PeeringService>;
+    update: (resourceGroupName: string, peeringServiceName: string, tags: ResourceTags, options?: PeeringServicesUpdateOptionalParams) => Promise<PeeringService>;
 }
 
 // @public
-export type PeeringServicesListBySubscriptionNextResponse = PeeringServiceListResult;
-
-// @public
-export interface PeeringServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface PeeringServicesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringServicesListBySubscriptionResponse = PeeringServiceListResult;
-
-// @public
-export interface PeeringServicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type PeeringServicesUpdateResponse = PeeringService;
-
-// @public
-export interface PeeringsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PeeringsGetResponse = Peering;
 
 // @public
 export interface PeeringSku {
@@ -1000,96 +912,68 @@ export interface PeeringSku {
 }
 
 // @public
-export interface PeeringsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringsListByResourceGroupNextResponse = PeeringListResult;
-
-// @public
-export interface PeeringsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringsListByResourceGroupResponse = PeeringListResult;
-
-// @public
-export interface PeeringsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsOperations {
+    createOrUpdate: (resourceGroupName: string, peeringName: string, peering: Peering, options?: PeeringsCreateOrUpdateOptionalParams) => Promise<Peering>;
+    delete: (resourceGroupName: string, peeringName: string, options?: PeeringsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringName: string, options?: PeeringsGetOptionalParams) => Promise<Peering>;
+    listByResourceGroup: (resourceGroupName: string, options?: PeeringsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Peering>;
+    listBySubscription: (options?: PeeringsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Peering>;
+    update: (resourceGroupName: string, peeringName: string, tags: ResourceTags, options?: PeeringsUpdateOptionalParams) => Promise<Peering>;
 }
 
 // @public
-export type PeeringsListBySubscriptionNextResponse = PeeringListResult;
-
-// @public
-export interface PeeringsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface PeeringsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringsListBySubscriptionResponse = PeeringListResult;
-
-// @public
-export interface PeeringsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PrefixesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PeeringsUpdateResponse = Peering;
-
-// @public
-export interface Prefixes {
-    createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: PeeringServicePrefix, options?: PrefixesCreateOrUpdateOptionalParams): Promise<PrefixesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: PrefixesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: PrefixesGetOptionalParams): Promise<PrefixesGetResponse>;
-    listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: PrefixesListByPeeringServiceOptionalParams): PagedAsyncIterableIterator<PeeringServicePrefix>;
+export interface PrefixesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrefixesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrefixesCreateOrUpdateResponse = PeeringServicePrefix;
-
-// @public
-export interface PrefixesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PrefixesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrefixesGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type PrefixesGetResponse = PeeringServicePrefix;
-
-// @public
-export interface PrefixesListByPeeringServiceNextOptionalParams extends coreClient.OperationOptions {
+export interface PrefixesListByPeeringServiceOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type PrefixesListByPeeringServiceNextResponse = PeeringServicePrefixListResult;
-
-// @public
-export interface PrefixesListByPeeringServiceOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
+export interface PrefixesOperations {
+    createOrUpdate: (resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: PeeringServicePrefix, options?: PrefixesCreateOrUpdateOptionalParams) => Promise<PeeringServicePrefix>;
+    delete: (resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: PrefixesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: PrefixesGetOptionalParams) => Promise<PeeringServicePrefix>;
+    listByPeeringService: (resourceGroupName: string, peeringServiceName: string, options?: PrefixesListByPeeringServiceOptionalParams) => PagedAsyncIterableIterator<PeeringServicePrefix>;
 }
-
-// @public
-export type PrefixesListByPeeringServiceResponse = PeeringServicePrefixListResult;
 
 // @public
 export type PrefixValidationState = string;
 
 // @public
+export type Protocol = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
-export interface ReceivedRoutes {
-    listByPeering(resourceGroupName: string, peeringName: string, options?: ReceivedRoutesListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringReceivedRoute>;
+export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface ReceivedRoutesListByPeeringNextOptionalParams extends coreClient.OperationOptions {
+export interface ReceivedRoutesListByPeeringOptionalParams extends OperationOptions {
     asPath?: string;
     originAsValidationState?: string;
     prefix?: string;
@@ -1098,116 +982,95 @@ export interface ReceivedRoutesListByPeeringNextOptionalParams extends coreClien
 }
 
 // @public
-export type ReceivedRoutesListByPeeringNextResponse = PeeringReceivedRouteListResult;
-
-// @public
-export interface ReceivedRoutesListByPeeringOptionalParams extends coreClient.OperationOptions {
-    asPath?: string;
-    originAsValidationState?: string;
-    prefix?: string;
-    rpkiValidationState?: string;
-    skipToken?: string;
+export interface ReceivedRoutesOperations {
+    listByPeering: (resourceGroupName: string, peeringName: string, options?: ReceivedRoutesListByPeeringOptionalParams) => PagedAsyncIterableIterator<PeeringReceivedRoute>;
 }
 
 // @public
-export type ReceivedRoutesListByPeeringResponse = PeeringReceivedRouteListResult;
-
-// @public
-export interface RegisteredAsns {
-    createOrUpdate(resourceGroupName: string, peeringName: string, registeredAsnName: string, registeredAsn: PeeringRegisteredAsn, options?: RegisteredAsnsCreateOrUpdateOptionalParams): Promise<RegisteredAsnsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringName: string, registeredAsnName: string, options?: RegisteredAsnsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringName: string, registeredAsnName: string, options?: RegisteredAsnsGetOptionalParams): Promise<RegisteredAsnsGetResponse>;
-    listByPeering(resourceGroupName: string, peeringName: string, options?: RegisteredAsnsListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringRegisteredAsn>;
+export interface RegisteredAsnsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisteredAsnsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredAsnsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RegisteredAsnsCreateOrUpdateResponse = PeeringRegisteredAsn;
-
-// @public
-export interface RegisteredAsnsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredAsnsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisteredAsnsGetOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredAsnsListByPeeringOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RegisteredAsnsGetResponse = PeeringRegisteredAsn;
-
-// @public
-export interface RegisteredAsnsListByPeeringNextOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredAsnsOperations {
+    createOrUpdate: (resourceGroupName: string, peeringName: string, registeredAsnName: string, registeredAsn: PeeringRegisteredAsn, options?: RegisteredAsnsCreateOrUpdateOptionalParams) => Promise<PeeringRegisteredAsn>;
+    delete: (resourceGroupName: string, peeringName: string, registeredAsnName: string, options?: RegisteredAsnsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringName: string, registeredAsnName: string, options?: RegisteredAsnsGetOptionalParams) => Promise<PeeringRegisteredAsn>;
+    listByPeering: (resourceGroupName: string, peeringName: string, options?: RegisteredAsnsListByPeeringOptionalParams) => PagedAsyncIterableIterator<PeeringRegisteredAsn>;
 }
 
 // @public
-export type RegisteredAsnsListByPeeringNextResponse = PeeringRegisteredAsnListResult;
-
-// @public
-export interface RegisteredAsnsListByPeeringOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredPrefixesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RegisteredAsnsListByPeeringResponse = PeeringRegisteredAsnListResult;
-
-// @public
-export interface RegisteredPrefixes {
-    createOrUpdate(resourceGroupName: string, peeringName: string, registeredPrefixName: string, registeredPrefix: PeeringRegisteredPrefix, options?: RegisteredPrefixesCreateOrUpdateOptionalParams): Promise<RegisteredPrefixesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesGetOptionalParams): Promise<RegisteredPrefixesGetResponse>;
-    listByPeering(resourceGroupName: string, peeringName: string, options?: RegisteredPrefixesListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
+export interface RegisteredPrefixesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisteredPrefixesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredPrefixesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RegisteredPrefixesCreateOrUpdateResponse = PeeringRegisteredPrefix;
-
-// @public
-export interface RegisteredPrefixesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredPrefixesListByPeeringOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisteredPrefixesGetOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredPrefixesOperations {
+    createOrUpdate: (resourceGroupName: string, peeringName: string, registeredPrefixName: string, registeredPrefix: PeeringRegisteredPrefix, options?: RegisteredPrefixesCreateOrUpdateOptionalParams) => Promise<PeeringRegisteredPrefix>;
+    delete: (resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesGetOptionalParams) => Promise<PeeringRegisteredPrefix>;
+    listByPeering: (resourceGroupName: string, peeringName: string, options?: RegisteredPrefixesListByPeeringOptionalParams) => PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
+    validate: (resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesValidateOptionalParams) => Promise<PeeringRegisteredPrefix>;
 }
 
 // @public
-export type RegisteredPrefixesGetResponse = PeeringRegisteredPrefix;
-
-// @public
-export interface RegisteredPrefixesListByPeeringNextOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredPrefixesValidateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type RegisteredPrefixesListByPeeringNextResponse = PeeringRegisteredPrefixListResult;
-
-// @public
-export interface RegisteredPrefixesListByPeeringOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceTags {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export type Role = string;
+
+// @public
+export interface RpUnbilledPrefix {
+    readonly azureRegion?: string;
+    readonly peerAsn?: number;
+    readonly prefix?: string;
+}
+
+// @public
+export interface RpUnbilledPrefixesListOptionalParams extends OperationOptions {
+    consolidate?: boolean;
+}
+
+// @public
+export interface RpUnbilledPrefixesOperations {
+    list: (resourceGroupName: string, peeringName: string, options?: RpUnbilledPrefixesListOptionalParams) => PagedAsyncIterableIterator<RpUnbilledPrefix>;
+}
 
 // @public
 export interface ServiceSpecification {
@@ -1232,7 +1095,23 @@ export interface SubResource {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export type Tier = string;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
 
 // @public
 export type ValidationState = string;
