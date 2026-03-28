@@ -3,7 +3,7 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
-import { type PipelineOptions } from "@azure/core-rest-pipeline";
+import type { Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers.js";
 import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
 import {
@@ -49,16 +49,21 @@ export function getClient(
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
   clientOptions: ClientOptions = {},
 ): Client {
-  let credentials: TokenCredential | KeyCredential | undefined;
-  if (credentialsOrPipelineOptions) {
-    if (isCredential(credentialsOrPipelineOptions)) {
-      credentials = credentialsOrPipelineOptions;
-    } else {
-      clientOptions = credentialsOrPipelineOptions ?? {};
+  let pipeline: Pipeline | undefined;
+  if ((clientOptions as any)["pipeline"]) {
+    pipeline = (clientOptions as any)["pipeline"] as Pipeline;
+  } else {
+    let credentials: TokenCredential | KeyCredential | undefined;
+    if (credentialsOrPipelineOptions) {
+      if (isCredential(credentialsOrPipelineOptions)) {
+        credentials = credentialsOrPipelineOptions;
+      } else {
+        clientOptions = credentialsOrPipelineOptions ?? {};
+      }
     }
-  }
 
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+    pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+  }
   const tspClient = tspGetClient(endpoint, {
     ...clientOptions,
     pipeline,
