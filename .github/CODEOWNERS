@@ -834,6 +834,11 @@
 # PRLabel: %Mgmt
 /sdk/policyinsights/arm-policyinsights/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Postgresql
+
+- /sdk/postgresql/postgresql-auth/ @mattboentoro @alexfen @nasc @nehrao @rmendizabal
+
+
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao @JialinHuang803
 
