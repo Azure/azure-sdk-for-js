@@ -1,0 +1,4 @@
+directory: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/AlertsManagement
+commit: a70ea17296458ae312003e2c583c4da08cb7b384
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
