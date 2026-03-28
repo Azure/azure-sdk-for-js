@@ -1,0 +1,33 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiManagementClient } = require("@azure/arm-apimanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to lists all revisions of an API.
+ *
+ * @summary lists all revisions of an API.
+ * x-ms-original-file: 2025-03-01-preview/ApiManagementListApiRevisions.json
+ */
+async function apiManagementListApiRevisions() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.apiRevision.listByService(
+    "rg1",
+    "apimService1",
+    "57d2ef278aa04f0888cba3f3",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await apiManagementListApiRevisions();
+}
+
+main().catch(console.error);

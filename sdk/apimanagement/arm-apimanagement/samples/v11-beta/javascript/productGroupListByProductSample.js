@@ -1,0 +1,33 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiManagementClient } = require("@azure/arm-apimanagement");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to lists the collection of developer groups associated with the specified product.
+ *
+ * @summary lists the collection of developer groups associated with the specified product.
+ * x-ms-original-file: 2025-03-01-preview/ApiManagementListProductGroups.json
+ */
+async function apiManagementListProductGroups() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.productGroup.listByProduct(
+    "rg1",
+    "apimService1",
+    "5600b57e7e8880006a060002",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await apiManagementListProductGroups();
+}
+
+main().catch(console.error);

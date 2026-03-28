@@ -1,4 +1,564 @@
 # Release History
+
+## 11.0.0-beta.1 (2026-03-24)
+Compared with version 10.0.0
+
+### Features Added
+  - Added operation group ApiGatewayHostnameBindingOperations
+  - Added operation group ApiManagementOperationsOperations
+  - Added operation group ApiManagementServiceResourcesOperations
+  - Added operation group ApiToolOperations
+  - Added operation group CacheOperations
+  - Added operation group ClientApplicationOperations
+  - Added operation group ClientApplicationProductLinkOperations
+  - Added operation group NotificationOperations
+  - Added operation ApiOperations.createOrUpdate
+  - Added operation ApiOperations.delete
+  - Added operation ApiGatewayOperations.createOrUpdate
+  - Added operation ApiGatewayOperations.delete
+  - Added operation ApiGatewayOperations.update
+  - Added operation ApiGatewayConfigConnectionOperations.createOrUpdate
+  - Added operation ApiGatewayConfigConnectionOperations.delete
+  - Added operation ApiManagementServiceOperations.applyNetworkConfigurationUpdates
+  - Added operation ApiManagementServiceOperations.backup
+  - Added operation ApiManagementServiceOperations.createOrUpdate
+  - Added operation ApiManagementServiceOperations.delete
+  - Added operation ApiManagementServiceOperations.migrateToStv2
+  - Added operation ApiManagementServiceOperations.refreshHostnames
+  - Added operation ApiManagementServiceOperations.restore
+  - Added operation ApiManagementServiceOperations.update
+  - Added operation ApiSchemaOperations.createOrUpdate
+  - Added operation AuthorizationProviderOperations.refreshSecret
+  - Added operation DeletedServicesOperations.purge
+  - Added operation GlobalSchemaOperations.createOrUpdate
+  - Added operation NamedValueOperations.createOrUpdate
+  - Added operation NamedValueOperations.refreshSecret
+  - Added operation NamedValueOperations.update
+  - Added operation PolicyFragmentOperations.createOrUpdate
+  - Added operation PolicyRestrictionValidationsOperations.byService
+  - Added operation PortalRevisionOperations.createOrUpdate
+  - Added operation PortalRevisionOperations.update
+  - Added operation PrivateEndpointConnectionOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionOperations.delete
+  - Added operation TenantConfigurationOperations.deploy
+  - Added operation TenantConfigurationOperations.save
+  - Added operation TenantConfigurationOperations.validate
+  - Added operation UserOperations.delete
+  - Added operation WorkspaceApiOperations.createOrUpdate
+  - Added operation WorkspaceApiSchemaOperations.createOrUpdate
+  - Added operation WorkspaceGlobalSchemaOperations.createOrUpdate
+  - Added operation WorkspaceNamedValueOperations.createOrUpdate
+  - Added operation WorkspaceNamedValueOperations.refreshSecret
+  - Added operation WorkspaceNamedValueOperations.update
+  - Added operation WorkspacePolicyFragmentOperations.createOrUpdate
+  - Added Interface AccessInformationContractProperties
+  - Added Interface AccessInformationCreateParameterProperties
+  - Added Interface AccessInformationUpdateParameterProperties
+  - Added Interface AllPoliciesContractProperties
+  - Added Interface ApiGatewayHostnameBindingCreateOrUpdateOptionalParams
+  - Added Interface ApiGatewayHostnameBindingDeleteOptionalParams
+  - Added Interface ApiGatewayHostnameBindingGetOptionalParams
+  - Added Interface ApiGatewayHostnameBindingListByGatewayOptionalParams
+  - Added Interface ApiGatewayHostnameBindingRefreshSecretOptionalParams
+  - Added Interface ApiManagementServiceRefreshHostnamesOptionalParams
+  - Added Interface ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams
+  - Added Interface ApiReleaseContractProperties
+  - Added Interface ApiToolCreateOrUpdateOptionalParams
+  - Added Interface ApiToolDeleteOptionalParams
+  - Added Interface ApiToolGetEntityTagOptionalParams
+  - Added Interface ApiToolGetOptionalParams
+  - Added Interface ApiToolListByApiOptionalParams
+  - Added Interface ApiToolUpdateOptionalParams
+  - Added Interface AssociationContractProperties
+  - Added Interface AuthorizationAccessPolicyContractProperties
+  - Added Interface AuthorizationContractProperties
+  - Added Interface AuthorizationProviderContractProperties
+  - Added Interface AuthorizationProviderKeyVaultContract
+  - Added Interface AuthorizationProviderKeyVaultCreateProperties
+  - Added Interface AuthorizationProviderRefreshSecretOptionalParams
+  - Added Interface BackendFailureResponse
+  - Added Interface BackendReconnectProperties
+  - Added Interface BackendSessionAffinity
+  - Added Interface BackendSessionId
+  - Added Interface CacheContractProperties
+  - Added Interface CacheUpdateProperties
+  - Added Interface CertificateContractProperties
+  - Added Interface CertificateCreateOrUpdateProperties
+  - Added Interface ClientApplicationContract
+  - Added Interface ClientApplicationContractProperties
+  - Added Interface ClientApplicationCreateOrUpdateOptionalParams
+  - Added Interface ClientApplicationDeleteOptionalParams
+  - Added Interface ClientApplicationGetEntityTagOptionalParams
+  - Added Interface ClientApplicationGetOptionalParams
+  - Added Interface ClientApplicationListByServiceOptionalParams
+  - Added Interface ClientApplicationListSecretsOptionalParams
+  - Added Interface ClientApplicationProductLinkContract
+  - Added Interface ClientApplicationProductLinkContractProperties
+  - Added Interface ClientApplicationProductLinkCreateOptionalParams
+  - Added Interface ClientApplicationProductLinkDeleteOptionalParams
+  - Added Interface ClientApplicationProductLinkGetOptionalParams
+  - Added Interface ClientApplicationProductLinkListByClientApplicationsOptionalParams
+  - Added Interface ClientApplicationSecretsContract
+  - Added Interface ClientApplicationSecretsContractEntra
+  - Added Interface ContentTypeContractProperties
+  - Added Interface DeletedServiceContractProperties
+  - Added Interface DeployConfigurationParameterProperties
+  - Added Interface DiagnosticContractProperties
+  - Added Interface DiagnosticContractUpdateProperties
+  - Added Interface DocumentationContractProperties
+  - Added Interface EmailTemplateContractProperties
+  - Added Interface EmailTemplateUpdateParameterProperties
+  - Added Interface GatewayCertificateAuthorityContractProperties
+  - Added Interface GatewayConfigConnectionBaseProperties
+  - Added Interface GatewayContractProperties
+  - Added Interface GatewayHostnameBindingBaseProperties
+  - Added Interface GatewayHostnameBindingCertificate
+  - Added Interface GatewayHostnameBindingKeyVault
+  - Added Interface GatewayHostnameBindingKeyVaultLastStatus
+  - Added Interface GatewayHostnameBindingResource
+  - Added Interface GatewayHostnameConfigurationContractProperties
+  - Added Interface GlobalSchemaContractProperties
+  - Added Interface GroupCreateParametersProperties
+  - Added Interface GroupUpdateParametersProperties
+  - Added Interface IssueAttachmentContractProperties
+  - Added Interface IssueCommentContractProperties
+  - Added Interface LLMDiagnosticSettings
+  - Added Interface LLMMessageDiagnosticSettings
+  - Added Interface LoggerContractProperties
+  - Added Interface LoggerUpdateParameters
+  - Added Interface ManagedServiceIdentity
+  - Added Interface NotificationContractProperties
+  - Added Interface OpenidConnectProviderContractProperties
+  - Added Interface OpenidConnectProviderUpdateContractProperties
+  - Added Interface OperationResultContractProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyContractProperties
+  - Added Interface PolicyDescriptionContractProperties
+  - Added Interface PolicyFragmentContractProperties
+  - Added Interface PolicyRestrictionContractProperties
+  - Added Interface PortalConfigProperties
+  - Added Interface PortalDelegationSettingsProperties
+  - Added Interface PortalRevisionContractProperties
+  - Added Interface PortalSettingsContractProperties
+  - Added Interface PortalSigninSettingProperties
+  - Added Interface PortalSignupSettingsProperties
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionWrapperProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProductApiLinkContractProperties
+  - Added Interface ProductApplicationContract
+  - Added Interface ProductApplicationContractEntra
+  - Added Interface ProductEntityBaseParametersApplication
+  - Added Interface ProductGroupLinkContractProperties
+  - Added Interface RecipientEmailContractProperties
+  - Added Interface RecipientUsersContractProperties
+  - Added Interface ResolverEntityBaseContract
+  - Added Interface ResolverUpdateContractProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SaveConfigurationParameterProperties
+  - Added Interface SchemaContractProperties
+  - Added Interface SchemaDocumentProperties
+  - Added Interface SubscriptionContractProperties
+  - Added Interface SubscriptionCreateParameterProperties
+  - Added Interface SubscriptionUpdateParameterProperties
+  - Added Interface TagApiLinkContractProperties
+  - Added Interface TagContractProperties
+  - Added Interface TagOperationLinkContractProperties
+  - Added Interface TagProductLinkContractProperties
+  - Added Interface TagTagResourceContractProperties
+  - Added Interface TenantConfigurationSyncStateContractProperties
+  - Added Interface TenantSettingsContractProperties
+  - Added Interface ToolContract
+  - Added Interface ToolContractProperties
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserTokenParameterProperties
+  - Added Interface WikiContractProperties
+  - Added Interface WorkspaceContractProperties
+  - Interface AccessInformationContract has a new optional parameter systemData
+  - Interface AllPoliciesContract has a new optional parameter systemData
+  - Interface ApiContract has a new optional parameter systemData
+  - Interface ApiManagementGatewayConfigConnectionResource has a new optional parameter systemData
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceBaseProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceResource has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceResource has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceUpdateParameters has a new optional parameter zoneRedundant
+  - Interface ApiManagementServiceUpdateProperties has a new optional parameter releaseChannel
+  - Interface ApiManagementServiceUpdateProperties has a new optional parameter zoneRedundant
+  - Interface ApiManagementWorkspaceLinksResource has a new optional parameter systemData
+  - Interface ApiReleaseContract has a new optional parameter systemData
+  - Interface ApiVersionSetContract has a new optional parameter systemData
+  - Interface AssociationContract has a new optional parameter systemData
+  - Interface AuthorizationAccessPolicyContract has a new optional parameter systemData
+  - Interface AuthorizationContract has a new optional parameter systemData
+  - Interface AuthorizationProviderContract has a new optional parameter systemData
+  - Interface AuthorizationProviderOAuth2Settings has a new optional parameter keyVault
+  - Interface AuthorizationServerContract has a new optional parameter systemData
+  - Interface AuthorizationServerUpdateContract has a new optional parameter systemData
+  - Interface BackendBaseParameters has a new optional parameter azureRegion
+  - Interface BackendBaseParametersPool has a new optional parameter failureResponse
+  - Interface BackendBaseParametersPool has a new optional parameter sessionAffinity
+  - Interface BackendContract has a new optional parameter azureRegion
+  - Interface BackendContract has a new optional parameter systemData
+  - Interface BackendContractProperties has a new optional parameter azureRegion
+  - Interface BackendPool has a new optional parameter failureResponse
+  - Interface BackendPool has a new optional parameter sessionAffinity
+  - Interface BackendPoolItem has a new optional parameter preferredCarbonEmission
+  - Interface BackendReconnectContract has a new optional parameter systemData
+  - Interface BackendTlsProperties has a new optional parameter serverCertificateThumbprints
+  - Interface BackendTlsProperties has a new optional parameter serverX509Names
+  - Interface BackendUpdateParameterProperties has a new optional parameter azureRegion
+  - Interface BackendUpdateParameters has a new optional parameter azureRegion
+  - Interface CacheContract has a new optional parameter systemData
+  - Interface CertificateContract has a new optional parameter systemData
+  - Interface CircuitBreakerRule has a new optional parameter failureResponse
+  - Interface ContentItemContract has a new optional parameter systemData
+  - Interface ContentTypeContract has a new optional parameter systemData
+  - Interface DeletedServiceContract has a new optional parameter systemData
+  - Interface DiagnosticContract has a new optional parameter largeLanguageModel
+  - Interface DiagnosticContract has a new optional parameter systemData
+  - Interface DiagnosticUpdateContract has a new optional parameter systemData
+  - Interface DocumentationContract has a new optional parameter systemData
+  - Interface EmailTemplateContract has a new optional parameter systemData
+  - Interface GatewayCertificateAuthorityContract has a new optional parameter systemData
+  - Interface GatewayContract has a new optional parameter identity
+  - Interface GatewayContract has a new optional parameter systemData
+  - Interface GatewayHostnameConfigurationContract has a new optional parameter systemData
+  - Interface GlobalSchemaContract has a new optional parameter systemData
+  - Interface GroupContract has a new optional parameter systemData
+  - Interface IdentityProviderContract has a new optional parameter certificateId
+  - Interface IdentityProviderContract has a new optional parameter systemData
+  - Interface IdentityProviderContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContract has a new optional parameter certificateId
+  - Interface IdentityProviderCreateContract has a new optional parameter systemData
+  - Interface IdentityProviderCreateContractProperties has a new optional parameter certificateId
+  - Interface IdentityProviderUpdateParameters has a new optional parameter certificateId
+  - Interface IdentityProviderUpdateProperties has a new optional parameter certificateId
+  - Interface IssueAttachmentContract has a new optional parameter systemData
+  - Interface IssueCommentContract has a new optional parameter systemData
+  - Interface IssueContract has a new optional parameter systemData
+  - Interface LoggerContract has a new optional parameter systemData
+  - Interface NamedValueContract has a new optional parameter systemData
+  - Interface NamedValueCreateContract has a new optional parameter systemData
+  - Interface NotificationContract has a new optional parameter systemData
+  - Interface OpenidConnectProviderContract has a new optional parameter systemData
+  - Interface OperationContract has a new optional parameter systemData
+  - Interface OperationResultContract has a new optional parameter systemData
+  - Interface PolicyContract has a new optional parameter systemData
+  - Interface PolicyDescriptionContract has a new optional parameter systemData
+  - Interface PolicyFragmentContract has a new optional parameter systemData
+  - Interface PolicyRestrictionContract has a new optional parameter systemData
+  - Interface PortalConfigContract has a new optional parameter systemData
+  - Interface PortalDelegationSettings has a new optional parameter systemData
+  - Interface PortalRevisionContract has a new optional parameter systemData
+  - Interface PortalSettingsContract has a new optional parameter systemData
+  - Interface PortalSigninSettings has a new optional parameter systemData
+  - Interface PortalSignupSettings has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface PrivateLinkResourceListResult has a new optional parameter nextLink
+  - Interface ProductApiLinkContract has a new optional parameter systemData
+  - Interface ProductContract has a new optional parameter application
+  - Interface ProductContract has a new optional parameter authenticationType
+  - Interface ProductContract has a new optional parameter systemData
+  - Interface ProductContractProperties has a new optional parameter application
+  - Interface ProductContractProperties has a new optional parameter authenticationType
+  - Interface ProductEntityBaseParameters has a new optional parameter application
+  - Interface ProductEntityBaseParameters has a new optional parameter authenticationType
+  - Interface ProductGroupLinkContract has a new optional parameter systemData
+  - Interface ProductTagResourceContractProperties has a new optional parameter application
+  - Interface ProductTagResourceContractProperties has a new optional parameter authenticationType
+  - Interface ProductUpdateParameters has a new optional parameter application
+  - Interface ProductUpdateParameters has a new optional parameter authenticationType
+  - Interface ProductUpdateProperties has a new optional parameter application
+  - Interface ProductUpdateProperties has a new optional parameter authenticationType
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RecipientEmailContract has a new optional parameter systemData
+  - Interface RecipientUserContract has a new optional parameter systemData
+  - Interface ResolverContract has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceCollectionValueItem has a new optional parameter systemData
+  - Interface SchemaContract has a new optional parameter document
+  - Interface SchemaContract has a new optional parameter systemData
+  - Interface SubscriptionContract has a new optional parameter systemData
+  - Interface TagApiLinkContract has a new optional parameter systemData
+  - Interface TagContract has a new optional parameter systemData
+  - Interface TagDescriptionContract has a new optional parameter systemData
+  - Interface TagOperationLinkContract has a new optional parameter systemData
+  - Interface TagProductLinkContract has a new optional parameter systemData
+  - Interface TenantConfigurationSyncStateContract has a new optional parameter systemData
+  - Interface TenantSettingsContract has a new optional parameter systemData
+  - Interface UserContract has a new optional parameter systemData
+  - Interface WikiContract has a new optional parameter systemData
+  - Interface WorkspaceContract has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackendSessionIdSource
+  - Added Type Alias CarbonEmissionCategory
+  - Added Type Alias ClientApplicationState
+  - Added Type Alias KeyType
+  - Added Type Alias KeyVaultFetchCode
+  - Added Type Alias LlmDiagnosticSettings
+  - Added Type Alias LlmMessageLogTypes
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ProductAuthType
+  - Added Type Alias ReleaseChannel
+  - Added Enum AzureClouds
+  - Added Enum KnownBackendSessionIdSource
+  - Added Enum KnownCarbonEmissionCategory
+  - Added Enum KnownClientApplicationState
+  - Added Enum KnownLlmDiagnosticSettings
+  - Added Enum KnownLlmMessageLogTypes
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownProductAuthType
+  - Added Enum KnownReleaseChannel
+  - Added Enum KnownVersions
+  - Enum KnownSkuType has a new value PremiumV2
+
+### Breaking Changes
+  - Removed operation Api.beginCreateOrUpdate
+  - Removed operation Api.beginCreateOrUpdateAndWait
+  - Removed operation Api.beginDelete
+  - Removed operation Api.beginDeleteAndWait
+  - Removed operation ApiGateway.beginCreateOrUpdate
+  - Removed operation ApiGateway.beginCreateOrUpdateAndWait
+  - Removed operation ApiGateway.beginDelete
+  - Removed operation ApiGateway.beginDeleteAndWait
+  - Removed operation ApiGateway.beginUpdate
+  - Removed operation ApiGateway.beginUpdateAndWait
+  - Removed operation ApiGatewayConfigConnection.beginCreateOrUpdate
+  - Removed operation ApiGatewayConfigConnection.beginCreateOrUpdateAndWait
+  - Removed operation ApiGatewayConfigConnection.beginDelete
+  - Removed operation ApiGatewayConfigConnection.beginDeleteAndWait
+  - Removed operation ApiManagementService.beginApplyNetworkConfigurationUpdates
+  - Removed operation ApiManagementService.beginApplyNetworkConfigurationUpdatesAndWait
+  - Removed operation ApiManagementService.beginBackup
+  - Removed operation ApiManagementService.beginBackupAndWait
+  - Removed operation ApiManagementService.beginCreateOrUpdate
+  - Removed operation ApiManagementService.beginCreateOrUpdateAndWait
+  - Removed operation ApiManagementService.beginDelete
+  - Removed operation ApiManagementService.beginDeleteAndWait
+  - Removed operation ApiManagementService.beginMigrateToStv2
+  - Removed operation ApiManagementService.beginMigrateToStv2AndWait
+  - Removed operation ApiManagementService.beginRestore
+  - Removed operation ApiManagementService.beginRestoreAndWait
+  - Removed operation ApiManagementService.beginUpdate
+  - Removed operation ApiManagementService.beginUpdateAndWait
+  - Removed operation ApiSchema.beginCreateOrUpdate
+  - Removed operation ApiSchema.beginCreateOrUpdateAndWait
+  - Removed operation DeletedServices.beginPurge
+  - Removed operation DeletedServices.beginPurgeAndWait
+  - Removed operation GlobalSchema.beginCreateOrUpdate
+  - Removed operation GlobalSchema.beginCreateOrUpdateAndWait
+  - Removed operation NamedValue.beginCreateOrUpdate
+  - Removed operation NamedValue.beginCreateOrUpdateAndWait
+  - Removed operation NamedValue.beginRefreshSecret
+  - Removed operation NamedValue.beginRefreshSecretAndWait
+  - Removed operation NamedValue.beginUpdate
+  - Removed operation NamedValue.beginUpdateAndWait
+  - Removed operation PolicyFragment.beginCreateOrUpdate
+  - Removed operation PolicyFragment.beginCreateOrUpdateAndWait
+  - Removed operation PolicyRestrictionValidations.beginByService
+  - Removed operation PolicyRestrictionValidations.beginByServiceAndWait
+  - Removed operation PortalRevision.beginCreateOrUpdate
+  - Removed operation PortalRevision.beginCreateOrUpdateAndWait
+  - Removed operation PortalRevision.beginUpdate
+  - Removed operation PortalRevision.beginUpdateAndWait
+  - Removed operation PrivateEndpointConnection.beginCreateOrUpdate
+  - Removed operation PrivateEndpointConnection.beginCreateOrUpdateAndWait
+  - Removed operation PrivateEndpointConnection.beginDelete
+  - Removed operation PrivateEndpointConnection.beginDeleteAndWait
+  - Removed operation TenantConfiguration.beginDeploy
+  - Removed operation TenantConfiguration.beginDeployAndWait
+  - Removed operation TenantConfiguration.beginSave
+  - Removed operation TenantConfiguration.beginSaveAndWait
+  - Removed operation TenantConfiguration.beginValidate
+  - Removed operation TenantConfiguration.beginValidateAndWait
+  - Removed operation User.beginDelete
+  - Removed operation User.beginDeleteAndWait
+  - Removed operation WorkspaceApi.beginCreateOrUpdate
+  - Removed operation WorkspaceApi.beginCreateOrUpdateAndWait
+  - Removed operation WorkspaceApiSchema.beginCreateOrUpdate
+  - Removed operation WorkspaceApiSchema.beginCreateOrUpdateAndWait
+  - Removed operation WorkspaceGlobalSchema.beginCreateOrUpdate
+  - Removed operation WorkspaceGlobalSchema.beginCreateOrUpdateAndWait
+  - Removed operation WorkspaceNamedValue.beginCreateOrUpdate
+  - Removed operation WorkspaceNamedValue.beginCreateOrUpdateAndWait
+  - Removed operation WorkspaceNamedValue.beginRefreshSecret
+  - Removed operation WorkspaceNamedValue.beginRefreshSecretAndWait
+  - Removed operation WorkspaceNamedValue.beginUpdate
+  - Removed operation WorkspaceNamedValue.beginUpdateAndWait
+  - Removed operation WorkspacePolicyFragment.beginCreateOrUpdate
+  - Removed operation WorkspacePolicyFragment.beginCreateOrUpdateAndWait
+  - Operation Api.getEntityTag has a new signature
+  - Operation ApiDiagnostic.getEntityTag has a new signature
+  - Operation ApiIssue.getEntityTag has a new signature
+  - Operation ApiIssueAttachment.getEntityTag has a new signature
+  - Operation ApiIssueComment.getEntityTag has a new signature
+  - Operation ApiOperation.getEntityTag has a new signature
+  - Operation ApiOperationPolicy.getEntityTag has a new signature
+  - Operation ApiPolicy.getEntityTag has a new signature
+  - Operation ApiRelease.getEntityTag has a new signature
+  - Operation ApiSchema.getEntityTag has a new signature
+  - Operation ApiTagDescription.getEntityTag has a new signature
+  - Operation ApiVersionSet.getEntityTag has a new signature
+  - Operation ApiWiki.getEntityTag has a new signature
+  - Operation Authorization.confirmConsentCode has a new signature
+  - Operation AuthorizationServer.getEntityTag has a new signature
+  - Operation Backend.getEntityTag has a new signature
+  - Operation Certificate.getEntityTag has a new signature
+  - Operation ContentItem.getEntityTag has a new signature
+  - Operation DelegationSettings.getEntityTag has a new signature
+  - Operation Diagnostic.getEntityTag has a new signature
+  - Operation Documentation.getEntityTag has a new signature
+  - Operation EmailTemplate.getEntityTag has a new signature
+  - Operation Gateway.getEntityTag has a new signature
+  - Operation GatewayApi.getEntityTag has a new signature
+  - Operation GatewayCertificateAuthority.getEntityTag has a new signature
+  - Operation GatewayHostnameConfiguration.getEntityTag has a new signature
+  - Operation GlobalSchema.getEntityTag has a new signature
+  - Operation GraphQLApiResolver.getEntityTag has a new signature
+  - Operation GraphQLApiResolverPolicy.getEntityTag has a new signature
+  - Operation Group.getEntityTag has a new signature
+  - Operation GroupUser.checkEntityExists has a new signature
+  - Operation IdentityProvider.getEntityTag has a new signature
+  - Operation Logger.getEntityTag has a new signature
+  - Operation NamedValue.getEntityTag has a new signature
+  - Operation NetworkStatus.listByService has a new signature
+  - Operation NotificationRecipientEmail.checkEntityExists has a new signature
+  - Operation NotificationRecipientUser.checkEntityExists has a new signature
+  - Operation OpenIdConnectProvider.getEntityTag has a new signature
+  - Operation OperationsResults.get has a new signature
+  - Operation Policy.getEntityTag has a new signature
+  - Operation PolicyFragment.getEntityTag has a new signature
+  - Operation PolicyRestriction.getEntityTag has a new signature
+  - Operation PortalConfig.getEntityTag has a new signature
+  - Operation PortalRevision.getEntityTag has a new signature
+  - Operation Product.getEntityTag has a new signature
+  - Operation ProductApi.checkEntityExists has a new signature
+  - Operation ProductGroup.checkEntityExists has a new signature
+  - Operation ProductPolicy.getEntityTag has a new signature
+  - Operation ProductWiki.getEntityTag has a new signature
+  - Operation SignInSettings.getEntityTag has a new signature
+  - Operation SignUpSettings.getEntityTag has a new signature
+  - Operation Subscription.getEntityTag has a new signature
+  - Operation Tag.getEntityState has a new signature
+  - Operation Tag.getEntityStateByApi has a new signature
+  - Operation Tag.getEntityStateByOperation has a new signature
+  - Operation Tag.getEntityStateByProduct has a new signature
+  - Operation TenantAccess.getEntityTag has a new signature
+  - Operation User.getEntityTag has a new signature
+  - Operation Workspace.getEntityTag has a new signature
+  - Operation WorkspaceApi.getEntityTag has a new signature
+  - Operation WorkspaceApiDiagnostic.getEntityTag has a new signature
+  - Operation WorkspaceApiOperation.getEntityTag has a new signature
+  - Operation WorkspaceApiOperationPolicy.getEntityTag has a new signature
+  - Operation WorkspaceApiPolicy.getEntityTag has a new signature
+  - Operation WorkspaceApiRelease.getEntityTag has a new signature
+  - Operation WorkspaceApiSchema.getEntityTag has a new signature
+  - Operation WorkspaceApiVersionSet.getEntityTag has a new signature
+  - Operation WorkspaceBackend.getEntityTag has a new signature
+  - Operation WorkspaceCertificate.getEntityTag has a new signature
+  - Operation WorkspaceDiagnostic.getEntityTag has a new signature
+  - Operation WorkspaceGlobalSchema.getEntityTag has a new signature
+  - Operation WorkspaceGroup.getEntityTag has a new signature
+  - Operation WorkspaceGroupUser.checkEntityExists has a new signature
+  - Operation WorkspaceLogger.getEntityTag has a new signature
+  - Operation WorkspaceNamedValue.getEntityTag has a new signature
+  - Operation WorkspaceNotificationRecipientEmail.checkEntityExists has a new signature
+  - Operation WorkspaceNotificationRecipientUser.checkEntityExists has a new signature
+  - Operation WorkspacePolicy.getEntityTag has a new signature
+  - Operation WorkspacePolicyFragment.getEntityTag has a new signature
+  - Operation WorkspaceProduct.getEntityTag has a new signature
+  - Operation WorkspaceProductPolicy.getEntityTag has a new signature
+  - Operation WorkspaceSubscription.getEntityTag has a new signature
+  - Operation WorkspaceTag.getEntityState has a new signature
+  - Removed Interface AccessInformationCollection
+  - Removed Interface AllPoliciesCollection
+  - Removed Interface ApiCollection
+  - Removed Interface ApiManagementOperations
+  - Removed Interface ApiReleaseCollection
+  - Removed Interface ApiRevisionCollection
+  - Removed Interface ApiRevisionInfoContract
+  - Removed Interface ApiVersionSetCollection
+  - Removed Interface AuthorizationAccessPolicyCollection
+  - Removed Interface AuthorizationCollection
+  - Removed Interface AuthorizationProviderCollection
+  - Removed Interface AuthorizationServerCollection
+  - Removed Interface BackendCollection
+  - Removed Interface Cache_2Operations
+  - Removed Interface CacheCollection
+  - Removed Interface CertificateCollection
+  - Removed Interface ContentItemCollection
+  - Removed Interface ContentTypeCollection
+  - Removed Interface DeletedServicesCollection
+  - Removed Interface DiagnosticCollection
+  - Removed Interface DocumentationCollection
+  - Removed Interface EmailTemplateCollection
+  - Removed Interface GatewayCertificateAuthorityCollection
+  - Removed Interface GatewayCollection
+  - Removed Interface GatewayHostnameConfigurationCollection
+  - Removed Interface GatewayResourceSkuResults
+  - Removed Interface GlobalSchemaCollection
+  - Removed Interface GroupCollection
+  - Removed Interface IdentityProviderList
+  - Removed Interface IssueAttachmentCollection
+  - Removed Interface IssueCollection
+  - Removed Interface IssueCommentCollection
+  - Removed Interface LoggerCollection
+  - Removed Interface NamedValueCollection
+  - Removed Interface Notification_2Operations
+  - Removed Interface NotificationCollection
+  - Removed Interface OpenIdConnectProviderCollection
+  - Removed Interface OperationCollection
+  - Removed Interface PerformConnectivityCheckAsyncOptionalParams
+  - Removed Interface PolicyCollection
+  - Removed Interface PolicyFragmentCollection
+  - Removed Interface PolicyRestrictionCollection
+  - Removed Interface PolicyWithComplianceCollection
+  - Removed Interface PolicyWithComplianceContract
+  - Removed Interface PortalConfigCollection
+  - Removed Interface PortalRevisionCollection
+  - Removed Interface ProductApiLinkCollection
+  - Removed Interface ProductCollection
+  - Removed Interface ProductGroupLinkCollection
+  - Removed Interface QuotaCounterValueContract
+  - Removed Interface ReportCollection
+  - Removed Interface RequestReportCollection
+  - Removed Interface ResolverCollection
+  - Removed Interface ResolverResultContract
+  - Removed Interface ResolverResultLogItemContract
+  - Removed Interface ResourceSkuResults
+  - Removed Interface SchemaCollection
+  - Removed Interface SubscriptionCollection
+  - Removed Interface TagApiLinkCollection
+  - Removed Interface TagCollection
+  - Removed Interface TagDescriptionCollection
+  - Removed Interface TagOperationLinkCollection
+  - Removed Interface TagProductLinkCollection
+  - Removed Interface TagResourceCollection
+  - Removed Interface TagResourceContractProperties
+  - Removed Interface TenantSettingsCollection
+  - Removed Interface UserCollection
+  - Removed Interface UserIdentityCollection
+  - Removed Interface WikiCollection
+  - Removed Interface WorkspaceCollection
+  - Interface SchemaContract no longer has parameter components
+  - Interface SchemaContract no longer has parameter definitions
+  - Interface SchemaContract no longer has parameter value
+  - Parameter value of interface PrivateLinkResourceListResult is now required
+  - Parameter protocol of interface BackendContractProperties is now optional
+  - Parameter url of interface BackendContractProperties is now optional
+  - Removed Type Alias ApiVersionSetContractDetailsVersioningScheme
+  - Removed Type Alias AsyncResolverStatus
+  - Removed Type Alias KeyType_2
+  - Type alias "NetworkStatusListByServiceResponse" has been changed
+  - Removed Enum KnownApiVersionSetContractDetailsVersioningScheme
+
     
 ## 10.0.0 (2025-04-17)
     
