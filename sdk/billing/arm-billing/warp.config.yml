@@ -1,15 +1,54 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/address": "src/api/address/index.ts"
+  "./api/billingSubscriptionsAliases": "src/api/billingSubscriptionsAliases/index.ts"
+  "./api/savingsPlanOrders": "src/api/savingsPlanOrders/index.ts"
+  "./api/billingRoleDefinition": "src/api/billingRoleDefinition/index.ts"
+  "./api/billingProperty": "src/api/billingProperty/index.ts"
+  "./api/savingsPlans": "src/api/savingsPlans/index.ts"
+  "./api/billingPermissions": "src/api/billingPermissions/index.ts"
+  "./api/transactions": "src/api/transactions/index.ts"
+  "./api/recipientTransfers": "src/api/recipientTransfers/index.ts"
+  "./api/partnerTransfers": "src/api/partnerTransfers/index.ts"
+  "./api/transfers": "src/api/transfers/index.ts"
+  "./api/reservationOrders": "src/api/reservationOrders/index.ts"
+  "./api/paymentMethods": "src/api/paymentMethods/index.ts"
+  "./api/invoiceSections": "src/api/invoiceSections/index.ts"
+  "./api/enrollmentAccounts": "src/api/enrollmentAccounts/index.ts"
+  "./api/departments": "src/api/departments/index.ts"
+  "./api/customers": "src/api/customers/index.ts"
+  "./api/policies": "src/api/policies/index.ts"
+  "./api/billingSubscriptions": "src/api/billingSubscriptions/index.ts"
+  "./api/billingProfiles": "src/api/billingProfiles/index.ts"
+  "./api/products": "src/api/products/index.ts"
+  "./api/availableBalances": "src/api/availableBalances/index.ts"
+  "./api/associatedTenants": "src/api/associatedTenants/index.ts"
+  "./api/billingAccounts": "src/api/billingAccounts/index.ts"
+  "./api/reservations": "src/api/reservations/index.ts"
+  "./api/invoices": "src/api/invoices/index.ts"
+  "./api/billingRoleAssignments": "src/api/billingRoleAssignments/index.ts"
+  "./api/billingRequests": "src/api/billingRequests/index.ts"
+  "./api/agreements": "src/api/agreements/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
