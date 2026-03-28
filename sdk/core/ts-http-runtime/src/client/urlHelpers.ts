@@ -92,7 +92,9 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   // This is to maintain compatibility with old behavior for cases where the endpoint has been provided with extra forward slashes,
   // while still allowing for intentional consecutive forward slashes in the path to be preserved.
   const baseEndpoint = endpointParts[0].replace(/(^[^:]+:\/\/[^/]+)\/\/+/, "$1/");
-  const basePathToAppend = pathParts[0];
+  // Replace the leading consecutive forward slashes in the path to append with a single forward slash to prevent issues with double slashes when appending to the endpoint.
+  const basePathToAppend = pathParts[0].replace(/^\/+/, "/");
+
   let combinedUrl = baseEndpoint;
   if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
     combinedUrl += `/${basePathToAppend}`;

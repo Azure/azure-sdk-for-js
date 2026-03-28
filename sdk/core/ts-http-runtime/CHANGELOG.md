@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Remove duplicate `/` between request host and path.
+
 ## 0.3.4 (2026-03-05)
 
 ### Features Added

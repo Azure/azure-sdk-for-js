@@ -13,6 +13,19 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo/one`);
   });
 
+  it("should remove consecutive forward slashes in path", () => {
+    const result = buildRequestUrl(
+      `${mockBaseUrl}/`,
+      "///providers/Microsoft.Authorization/roleDefinitions?api%2Dversion=7.6",
+      [],
+    );
+
+    assert.equal(
+      result,
+      `https://example.org/providers/Microsoft.Authorization/roleDefinitions?api%2Dversion=7.6`,
+    );
+  });
+
   it("should remove extra consecutive forward slashes between host and path in endpoint", () => {
     const result = buildRequestUrl(`${mockBaseUrl}//container///blob`, "", []);
 
