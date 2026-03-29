@@ -86,5 +86,16 @@ describe("Transformations", () => {
     assert.equal(secret.recoveryId, "recovery_id");
     assert.equal(secret.deletedOn, date);
     assert.equal(secret.scheduledPurgeDate, date);
+    assert.isUndefined(secret.properties.previousVersion);
+  });
+
+  it("correctly assigns previousVersion when present in a deleted secret bundle", () => {
+    const bundle: DeletedSecretBundle = {
+      id: "https://azure_keyvault.vault.azure.net/keys/abc123/2",
+      previousVersion: "1",
+    };
+
+    const secret: DeletedSecret = getSecretFromSecretBundle(bundle);
+    assert.equal(secret.properties.previousVersion, "1");
   });
 });
