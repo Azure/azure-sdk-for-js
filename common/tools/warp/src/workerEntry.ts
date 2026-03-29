@@ -28,8 +28,6 @@ export interface CompileMessage {
   target: WarpTarget;
   typeCheck: boolean;
   skipEmit?: boolean;
-  /** @deprecated Use skipEmit instead. Removed in a later commit. */
-  skipDeclarations?: boolean;
   /**
    * Pre-discovered polyfill map entries (original → polyfill path pairs).
    * When provided, the worker skips filesystem-based polyfill discovery.
@@ -116,7 +114,6 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
   const result = await compileTarget(parsed, host, {
     typeCheck: msg.typeCheck,
     skipEmit: msg.skipEmit,
-    skipDeclarations: msg.skipDeclarations,
   });
 
   let diagnosticText = "";
