@@ -188,7 +188,7 @@ function makeCompileMsg(name = "test-target"): CompileMessage {
     packageRoot: "/tmp",
     target: { name, condition: "import", tsconfig: "./tsconfig.json" },
     typeCheck: false,
-    skipDeclarations: false,
+    skipEmit: false,
   };
 }
 
