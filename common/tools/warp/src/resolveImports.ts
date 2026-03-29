@@ -542,6 +542,311 @@ export async function resolveImportsInDir(
 }
 
 // ---------------------------------------------------------------------------
+// Direct import bypass validation
+// ---------------------------------------------------------------------------
+
+/** A direct import that bypasses the `#imports` mechanism. */
+export interface DirectImportViolation {
+  /** Absolute path of the source file containing the violation. */
+  file: string;
+  /** The relative import specifier that bypasses `#imports`. */
+  specifier: string;
+  /** The `#`-prefixed key that should be used instead. */
+  suggestedImport: string;
+  /** 1-based line number of the offending import. */
+  line: number;
+}
+
+/**
+ * A pattern entry from a wildcard imports map target.
+ * The `*` in the target is replaced with a regex capture group.
+ */
+interface WildcardPattern {
+  /** Regex that matches absolute file paths for this target pattern. */
+  regex: RegExp;
+  /** The `#`-prefixed key (with `*`) from the imports map, e.g., `#platform/*`. */
+  key: string;
+}
+
+/**
+ * Build lookup structures for matching resolved file paths against an imports map.
+ *
+ * Returns:
+ * - `exactPaths`: Map from absolute path → `#key` for non-wildcard entries
+ * - `wildcardPatterns`: Array of regex patterns for wildcard (`*`) entries
+ */
+export function buildImportTargetIndex(
+  importsMap: ImportsMap,
+  packageRoot: string,
+): { exactPaths: Map<string, string>; wildcardPatterns: WildcardPattern[] } {
+  const exactPaths = new Map<string, string>();
+  const wildcardPatterns: WildcardPattern[] = [];
+  // Deduplicate wildcard regexes by their source string
+  const seenPatterns = new Set<string>();
+
+  function collectFromTarget(target: PackageTarget, key: string, hasWildcard: boolean): void {
+    if (target === null || target === undefined) return;
+    if (typeof target === "string") {
+      if (hasWildcard && target.includes("*")) {
+        // Convert wildcard target to regex: "./src/*-browser.mts" → /^\/abs\/src\/(.+)-browser\.mts$/
+        const abs = path.resolve(packageRoot, target);
+        const escaped = abs.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regexSource = "^" + escaped.replace("\\*", "(.+)") + "$";
+        if (!seenPatterns.has(regexSource)) {
+          seenPatterns.add(regexSource);
+          wildcardPatterns.push({ regex: new RegExp(regexSource), key });
+        }
+      } else {
+        const abs = path.resolve(packageRoot, target);
+        exactPaths.set(abs, key);
+      }
+      return;
+    }
+    if (Array.isArray(target)) {
+      for (const item of target) collectFromTarget(item, key, hasWildcard);
+      return;
+    }
+    // Conditional object — recurse into all branches
+    for (const nested of Object.values(target)) {
+      collectFromTarget(nested, key, hasWildcard);
+    }
+  }
+
+  for (const [key, target] of Object.entries(importsMap)) {
+    const asteriskCount = (key.match(/\*/g) || []).length;
+    if (asteriskCount > 1) {
+      throw new Error(`Invalid imports key "${key}": must contain at most one asterisk`);
+    }
+    collectFromTarget(target, key, asteriskCount === 1);
+  }
+
+  return { exactPaths, wildcardPatterns };
+}
+
+/**
+ * Look up a resolved file path in the import target index.
+ * Returns the `#`-prefixed key if the path is a target, or undefined.
+ *
+ * For wildcard matches, the `*` in the returned key is replaced with the
+ * matched portion (e.g., `#platform/*` → `#platform/sha256`).
+ */
+function lookupImportTarget(
+  resolvedPath: string,
+  exactPaths: Map<string, string>,
+  wildcardPatterns: WildcardPattern[],
+): string | undefined {
+  // Fast exact check first
+  const exactKey = exactPaths.get(resolvedPath);
+  if (exactKey) return exactKey;
+
+  // Try wildcard patterns
+  for (const { regex, key } of wildcardPatterns) {
+    const match = resolvedPath.match(regex);
+    if (match && match[1]) {
+      // Replace * in key with matched portion
+      return key.replace("*", match[1]);
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Collect all concrete file paths that appear as targets in an imports map.
+ *
+ * Returns a map from the normalized absolute path of each target file to the
+ * `#`-prefixed key that maps to it. Only includes non-wildcard entries.
+ *
+ * For wildcard-aware validation, use {@link buildImportTargetIndex} instead.
+ */
+export function collectImportTargetPaths(
+  importsMap: ImportsMap,
+  packageRoot: string,
+): Map<string, string> {
+  return buildImportTargetIndex(importsMap, packageRoot).exactPaths;
+}
+
+/**
+ * Walk a parsed source file and collect every relative module specifier
+ * (starting with `.`).
+ */
+function collectRelativeSpecifiers(sourceFile: ts.SourceFile): { text: string; line: number }[] {
+  const specifiers: { text: string; line: number }[] = [];
+
+  function visit(node: ts.Node): void {
+    let specNode: ts.StringLiteral | undefined;
+
+    if (
+      ts.isImportDeclaration(node) &&
+      node.moduleSpecifier &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
+      specNode = node.moduleSpecifier;
+    } else if (
+      ts.isExportDeclaration(node) &&
+      node.moduleSpecifier &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
+      specNode = node.moduleSpecifier;
+    } else if (ts.isCallExpression(node)) {
+      const expr = node.expression;
+      const firstArg = node.arguments[0];
+      if (
+        (expr.kind === ts.SyntaxKind.ImportKeyword ||
+          (ts.isIdentifier(expr) && expr.text === "require")) &&
+        firstArg &&
+        ts.isStringLiteral(firstArg)
+      ) {
+        specNode = firstArg;
+      }
+    }
+
+    if (specNode && specNode.text.startsWith(".")) {
+      const { line } = sourceFile.getLineAndCharacterOfPosition(specNode.getStart(sourceFile));
+      specifiers.push({ text: specNode.text, line: line + 1 });
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(sourceFile);
+  return specifiers;
+}
+
+/**
+ * Resolve a relative import specifier to an absolute file path, trying
+ * TypeScript's extension resolution order.
+ */
+function resolveRelativeSpecifier(specifier: string, fromFile: string): string | undefined {
+  const dir = path.dirname(fromFile);
+  const base = path.resolve(dir, specifier);
+  const ext = path.extname(base);
+
+  // If the specifier already has an extension recognized by TS, resolve directly
+  if (ext === ".js" || ext === ".mjs" || ext === ".cjs") {
+    // .js → .ts, .mjs → .mts, .cjs → .cts
+    const tsExt = ext === ".js" ? ".ts" : ext === ".mjs" ? ".mts" : ".cts";
+    return base.slice(0, -ext.length) + tsExt;
+  }
+  if (ext === ".ts" || ext === ".mts" || ext === ".cts") {
+    return base;
+  }
+
+  // No extension — try TypeScript extensions in order
+  if (ts.sys.fileExists(base + ".ts")) return base + ".ts";
+  // Directory import → index.ts
+  const indexPath = path.join(base, "index.ts");
+  if (ts.sys.fileExists(indexPath)) return indexPath;
+  return undefined;
+}
+
+/**
+ * Validate that no source file directly imports a file that should be accessed
+ * via the `#imports` mechanism.
+ *
+ * Scans the provided source files for relative imports and checks whether any
+ * of them resolve to a file that is a target in the package's imports map.
+ *
+ * @param sourceFiles - Absolute paths of source files to scan
+ * @param importsMap - The package.json `imports` field
+ * @param packageRoot - Absolute path to the package root
+ * @returns Array of violations found
+ */
+export function validateNoDirectImports(
+  sourceFiles: readonly string[],
+  importsMap: ImportsMap,
+  packageRoot: string,
+): DirectImportViolation[] {
+  const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, packageRoot);
+  const violations: DirectImportViolation[] = [];
+
+  for (const filePath of sourceFiles) {
+    // Skip platform implementation files — files that are behind import targets
+    // and have platform-specific variants on disk. These files only run in their
+    // respective platform builds, so their direct imports to other defaults are
+    // correct (e.g., Node default importing another Node default).
+    const selfKey = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
+    if (selfKey) {
+      // Check whether this file has platform divergence (a variant for browser/react-native).
+      // If it does, it's a platform implementation file and should be skipped.
+      const selfDefault = resolveSubpathImport(selfKey, importsMap, new Set(["default"]));
+      let hasSelfVariant = false;
+      for (const platform of ["browser", "react-native"]) {
+        const variant = resolveSubpathImport(selfKey, importsMap, new Set([platform, "default"]));
+        if (
+          variant !== selfDefault &&
+          variant !== undefined &&
+          ts.sys.fileExists(path.resolve(packageRoot, variant))
+        ) {
+          hasSelfVariant = true;
+          break;
+        }
+      }
+      if (hasSelfVariant) continue;
+    }
+
+    const content = ts.sys.readFile(filePath);
+    if (!content) continue;
+
+    // Quick check: skip files without any relative import
+    if (!content.includes("./") && !content.includes("../")) continue;
+
+    const sourceFile = ts.createSourceFile(
+      path.basename(filePath),
+      content,
+      ts.ScriptTarget.Latest,
+      /* setParentNodes */ false,
+    );
+
+    const relativeSpecifiers = collectRelativeSpecifiers(sourceFile);
+
+    for (const { text: specifier, line } of relativeSpecifiers) {
+      const resolved = resolveRelativeSpecifier(specifier, filePath);
+      if (!resolved) continue;
+
+      const key = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
+      if (!key) continue;
+
+      // Check whether the imported file has actual platform divergence.
+      // Only flag if a platform variant exists that differs from the default.
+      // For example, importing `./helper.js` is fine if `#platform/helper`
+      // has only a `default` entry and no browser/react-native variant.
+      const isWildcard = key !== exactPaths.get(resolved);
+      const defaultConditions = new Set(["default"]);
+      const defaultResolved = resolveSubpathImport(key, importsMap, defaultConditions);
+      const defaultAbsPath = defaultResolved ? path.resolve(packageRoot, defaultResolved) : null;
+
+      if (resolved === defaultAbsPath || !isWildcard) {
+        // Imported file is the default (or an exact match) — only flag if a variant exists.
+        // For exact imports map entries, the variant is explicitly declared — trust it.
+        // For wildcard entries, the variant path is pattern-generated, so check existence.
+        let hasDivergence = false;
+        for (const platform of ["browser", "react-native"]) {
+          const platformConditions = new Set([platform, "default"]);
+          const platformResolved = resolveSubpathImport(key, importsMap, platformConditions);
+          if (platformResolved !== defaultResolved && platformResolved !== undefined) {
+            if (!isWildcard || ts.sys.fileExists(path.resolve(packageRoot, platformResolved))) {
+              hasDivergence = true;
+              break;
+            }
+          }
+        }
+        if (!hasDivergence) continue;
+      }
+      // else (wildcard match, imported file IS a platform variant) — always flag
+
+      violations.push({
+        file: filePath,
+        specifier,
+        suggestedImport: key,
+        line,
+      });
+    }
+  }
+
+  return violations;
+}
+
+// ---------------------------------------------------------------------------
 // Package.json imports reading
 // ---------------------------------------------------------------------------
 
