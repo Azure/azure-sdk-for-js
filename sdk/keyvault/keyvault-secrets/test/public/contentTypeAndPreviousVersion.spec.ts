@@ -79,32 +79,23 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
     }
   });
 
-  it("previousVersion property is accessible on SecretProperties", async function (ctx) {
+  it("previousVersion is undefined for non-certificate-backed secrets", async function (ctx) {
+    // `previousVersion` is a 2025-07-01 API feature. The service populates it only for
+    // secrets that back a Key Vault Certificate when a newer certificate version exists.
+    // For a plain secret created via setSecret(), the service never returns this field,
+    // so it is always undefined at runtime.
+    //
+    // The mapping of `previousVersion` from the service response to SecretProperties is
+    // verified by the unit test "correctly assigns previousVersion when present in the bundle"
+    // in test/internal/transformations.spec.ts.
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     try {
       const result = await client.getSecret(secretName);
-      // For a regular (non-certificate) secret, previousVersion should be undefined.
-      // The property is only populated for certificate-backed secrets in API 2025-07-01+.
-      assert.isUndefined(
-        result.properties.previousVersion,
-        "previousVersion should be undefined for a regular secret.",
-      );
-    } finally {
-      await testClient.flushSecret(secretName);
-    }
-  });
-
-  it("previousVersion is accessible and typed correctly on SecretProperties", async function (ctx) {
-    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
-    await client.setSecret(secretName, secretValue);
-    try {
-      const result = await client.getSecret(secretName);
-      // Verify the property type is string | undefined (TypeScript check)
       const previousVersion: string | undefined = result.properties.previousVersion;
       assert.isUndefined(
         previousVersion,
-        "previousVersion should be undefined for regular secrets.",
+        "previousVersion should be undefined for a plain (non-certificate-backed) secret.",
       );
     } finally {
       await testClient.flushSecret(secretName);
