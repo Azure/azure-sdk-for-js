@@ -152,9 +152,9 @@ export interface CompileResult {
   success: boolean;
   outDir: string;
   rootDir: string;
-  /** Time in milliseconds spent compiling this target (0 for dedup copies). */
+  /** Time in milliseconds spent compiling this target (0 for dedup copies/transforms). */
   compileTimeMs: number;
-  /** Whether this target was produced by copying a dedup primary. */
+  /** Whether this target reused output from another target (copy or ESM→CJS transform). */
   deduped: boolean;
 }
 
