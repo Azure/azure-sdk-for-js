@@ -115,7 +115,7 @@ importers:
     dependencies:
       '@_ts/max':
         specifier: npm:typescript@latest
-        version: typescript@5.9.3
+        version: typescript@6.0.2
       '@_ts/min':
         specifier: npm:typescript@~5.4.2
         version: typescript@5.4.5
@@ -16403,15 +16403,30 @@ importers:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^2.7.2
+        version: 2.7.2
+      '@azure/core-paging':
+        specifier: ^1.6.2
+        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-tracing':
+        specifier: ^1.2.0
+        version: link:../../core/core-tracing
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
+      '@azure/keyvault-common':
+        specifier: ^2.0.0
+        version: link:../keyvault-common
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -16437,15 +16452,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
+      '@azure/keyvault-secrets':
+        specifier: ^4.9.0
+        version: link:../keyvault-secrets
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.0(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.0)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.0(vitest@4.1.0)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
@@ -16455,6 +16485,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.0(@opentelemetry/api@1.9.0)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.0)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
 
   sdk/keyvault/keyvault-certificates-perf-tests:
     dependencies:
@@ -32591,15 +32624,15 @@ packages:
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@16.4.0':
-    resolution: {integrity: sha512-twXt09PYtj1PffNNIAzQlrBd0DS91cdA6i1gAfzJ6BnPM4xNk5k9q/5xna7jLIjU3Jnp0slKYtucshGM8OGNAw==}
+    resolution: {integrity: sha1-8oxeAI0CPwobuFgN4diazrWFL6w=}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-node-extensions@5.1.1':
-    resolution: {integrity: sha512-CHrR+b0V7r2uK+MH72tcfKtWD7c/Q9KDTygni7c3vbIEy/FXmZ+ySdz5JmpbsBJ1wbIpPTBmUFUwepu6BSSQyA==}
+    resolution: {integrity: sha1-aWSqEyEKABpaQSWYuOB6odhafJo=}
     engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.1':
-    resolution: {integrity: sha512-WVbMedbJHjt9M+qeZMH/6U1UmjXsKaMB6fN8OZUtGY7UVNYofrowZNx4nVvWN/ajPKBQCEW4Rr/MwcRuA8HGcQ==}
+    resolution: {integrity: sha1-iGqqCYEetHPo4IsjbwGxTGid43s=}
 
   '@azure/msal-node@2.16.3':
     resolution: {integrity: sha1-i4BRUq14CwSNbCszsdTibXtGM2g=}
@@ -32610,7 +32643,7 @@ packages:
     engines: {node: '>=16'}
 
   '@azure/msal-node@5.1.1':
-    resolution: {integrity: sha512-71grXU6+5hl+3CL3joOxlj/AW6rmhthuTlG0fRqsTrhPArQBpZuUFzCIlKOGdcafLUa/i1hBdV78ZxJdlvRA+g==}
+    resolution: {integrity: sha1-ksWRXpUrSfCQaYOoodgb1XaCqAI=}
     engines: {node: '>=20'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -35204,10 +35237,10 @@ packages:
     resolution: {integrity: sha1-wK4/OYLQYcPWV+yScZb7tH4i/mQ=}
 
   fast-xml-builder@1.1.4:
-    resolution: {integrity: sha512-f2jhpN4Eccy0/Uz9csxh3Nu6q4ErKxf0XIsasomfOihuSUa3/xw6w8dnOtCDgEItQFJG8KyXPzQXzcODDrrbOg==}
+    resolution: {integrity: sha1-DEB6HZ1ZljNsDNdvf/eFysZBMBc=}
 
   fast-xml-parser@5.5.9:
-    resolution: {integrity: sha512-jldvxr1MC6rtiZKgrFnDSvT8xuH+eJqxqOBThUVjYrxssYTo1avZLGql5l0a0BAERR01CadYzZ83kVEkbyDg+g==}
+    resolution: {integrity: sha1-5ZY3q+vsPb+7QFO1MteHr26hFSc=}
     hasBin: true
 
   fastify-plugin@5.1.0:
@@ -36181,7 +36214,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   path-expression-matcher@1.2.0:
-    resolution: {integrity: sha512-DwmPWeFn+tq7TiyJ2CxezCAirXjFxvaiD03npak3cRjlP9+OjTmSy1EpIrEbh+l6JgUundniloMLDQ/6VTdhLQ==}
+    resolution: {integrity: sha1-m9rjeH9DsIV7AmnpyqpYbBLIq+4=}
     engines: {node: '>=14.0.0'}
 
   path-is-absolute@1.0.1:
@@ -36732,7 +36765,7 @@ packages:
     engines: {node: '>=14.16'}
 
   strnum@2.2.2:
-    resolution: {integrity: sha512-DnR90I+jtXNSTXWdwrEy9FakW7UX+qUZg28gj5fk2vxxl7uS/3bpI4fjFYVmdK9etptYBPNkpahuQnEwhwECqA==}
+    resolution: {integrity: sha1-8R/ZSrYrU2ui7MYVhY83R8KIGz8=}
 
   supports-color@7.2.0:
     resolution: {integrity: sha1-G33NyzK4E4gBs+R4umpRyqiWSNo=}
@@ -36918,6 +36951,11 @@ packages:
 
   typescript@5.9.3:
     resolution: {integrity: sha1-W09Z4VMQqxeiFvXWz1PuR27eZw8=}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@6.0.2:
+    resolution: {integrity: sha1-Cxv7FfaMZLlwMvPXirv5i9u6UB8=}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -42616,6 +42654,8 @@ snapshots:
   typescript@5.8.3: {}
 
   typescript@5.9.3: {}
+
+  typescript@6.0.2: {}
 
   uc.micro@2.1.0: {}
 
