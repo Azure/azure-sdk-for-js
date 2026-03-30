@@ -33,7 +33,7 @@ describe("runAllWithDirection two-pass resolution", () => {
       "should not call pnpm list for short commands",
     );
     const call = vi.mocked(spawnPnpm).mock.calls[0];
-    assert.ok(call.includes("--filter"));
+    assert.ok(call.includes("-F"));
     assert.ok(call.includes("@azure/app-configuration"));
   });
 
@@ -76,7 +76,7 @@ describe("runAllWithDirection two-pass resolution", () => {
     );
 
     // No ...P or !P patterns in final command
-    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "--filter");
+    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "-F");
     for (const f of finalFilters) {
       assert.ok(!f.startsWith("..."), `should not have ...prefix: ${f}`);
       assert.ok(!f.startsWith("!"), `should not have !exclusion: ${f}`);
@@ -183,7 +183,7 @@ describe("runAllWithDirection two-pass resolution", () => {
 
     // Verify pnpm list only got inclusion filters
     const listCall = vi.mocked(spawnPnpmWithOutput).mock.calls[0];
-    const listFilterCount = listCall.filter((a) => a === "--filter").length;
+    const listFilterCount = listCall.filter((a) => a === "-F").length;
     assert.strictEqual(listFilterCount, 3, "pnpm list should have exactly 3 inclusion filters");
 
     // Verify final command is short (exclude cwd argument at index 0)
@@ -220,7 +220,7 @@ describe("runAllWithDirection two-pass resolution", () => {
     runAllWithDirection("test:node", filters, [], false);
 
     const testCall = vi.mocked(spawnPnpm).mock.calls[0];
-    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "--filter");
+    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "-F");
     assert.deepStrictEqual(finalFilters, ["@azure/app-configuration"]);
   });
 

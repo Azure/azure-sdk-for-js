@@ -27,13 +27,13 @@ const CMD_LENGTH_THRESHOLD = 7000;
  * exclusions in JavaScript, and return short `--filter name` args.
  *
  * @param {string[]} filters - The full filter list from getFilteredPackages (may contain `!pkg` exclusions)
- * @returns {string[]} - flat `["--filter", "name", ...]` args safe for any shell
+ * @returns {string[]} - flat `["-F", "name", ...]` args safe for any shell
  */
 function resolveFiltersToConcreteNames(filters) {
   const inclusionFilters = filters.filter((f) => !f.startsWith("!"));
   const exclusionSet = new Set(filters.filter((f) => f.startsWith("!")).map((f) => f.slice(1)));
 
-  const inclusionArgs = inclusionFilters.flatMap((f) => ["--filter", f]);
+  const inclusionArgs = inclusionFilters.flatMap((f) => ["-F", f]);
 
   let resolvedNames;
   try {
@@ -49,7 +49,7 @@ function resolveFiltersToConcreteNames(filters) {
     resolvedNames = parsed.map((/** @type {{ name: string }} */ p) => p.name);
   } catch (e) {
     console.error("Failed to resolve packages via pnpm list, falling back to original filters", e);
-    return filters.flatMap((f) => ["--filter", f]);
+    return filters.flatMap((f) => ["-F", f]);
   }
 
   const filtered = resolvedNames.filter((/** @type {string} */ name) => !exclusionSet.has(name));
@@ -62,7 +62,7 @@ function resolveFiltersToConcreteNames(filters) {
     console.warn(
       "Filter resolution produced no concrete packages; falling back to original filter list",
     );
-    return filters.flatMap((f) => ["--filter", f]);
+    return filters.flatMap((f) => ["-F", f]);
   }
 
   console.log(
@@ -70,7 +70,7 @@ function resolveFiltersToConcreteNames(filters) {
       `excluded ${resolvedNames.length - filtered.length}, testing ${filtered.length}`,
   );
 
-  return filtered.flatMap((/** @type {string} */ name) => ["--filter", name]);
+  return filtered.flatMap((/** @type {string} */ name) => ["-F", name]);
 }
 
 /**
@@ -89,7 +89,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
   });
 
   let packages = filters.flatMap((pkg) => {
-    return ["--filter", pkg];
+    return ["-F", pkg];
   });
 
   // If the command line would exceed the Windows cmd.exe 8191-char limit,
