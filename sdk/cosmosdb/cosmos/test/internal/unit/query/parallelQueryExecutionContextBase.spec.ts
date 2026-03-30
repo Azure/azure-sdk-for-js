@@ -442,9 +442,10 @@ describe("parallelQueryExecutionContextBase", () => {
         assert.equal(context["err"].code, 404);
         // drainBufferedItems acquires the semaphore with take() then releases
         // it once with leave() on the error path. The constructor's async
-        // initialization may also call leave(), but that is captured and
-        // cleared above to keep the assertion deterministic.
-        expect(releaseSpy).toHaveBeenCalled();
+        // initialization may also call leave() concurrently.
+        const leaveCallCount = releaseSpy.mock.calls.length;
+        expect(leaveCallCount).toBeGreaterThanOrEqual(1);
+        expect(leaveCallCount).toBeLessThanOrEqual(2);
         assert.equal(context["buffer"].length, 0);
       }
     });
