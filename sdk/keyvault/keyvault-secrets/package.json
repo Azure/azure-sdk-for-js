@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-secrets",
-  "version": "4.10.2",
+  "version": "4.11.0",
   "description": "Azure Key Vault Secrets",
   "engines": {
     "node": ">=20.0.0"
