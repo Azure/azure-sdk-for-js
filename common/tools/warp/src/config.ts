@@ -297,6 +297,16 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
     };
 
+    // Backward compat: infer moduleType from condition for targets that haven't
+    // been updated yet. Remove this once all packages specify moduleType explicitly.
+    if (!target.moduleType && target.condition === "require") {
+      target.moduleType = "commonjs";
+      getLogger().warn(
+        `[warp] Warning: target "${target.name}" has condition "require" but no moduleType. ` +
+          `Inferring moduleType: "commonjs". Please add explicit moduleType to your warp config.`,
+      );
+    }
+
     if (seenNames.has(target.name)) {
       throw new WarpError(
         "VALIDATION_ERROR",

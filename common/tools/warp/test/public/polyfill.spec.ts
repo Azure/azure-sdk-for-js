@@ -488,7 +488,7 @@ describe("polyfill substitution build", () => {
       path.join(tmpDir, "src/state.ts"),
       [
         "// ESM version — imports from CJS output (tshy module-local-state pattern)",
-        '// @ts-expect-error cross-module import',
+        "// @ts-expect-error cross-module import",
         'import { state as cjsState } from "../commonjs/state.js";',
         "export const state = cjsState as { value: number };",
       ].join("\n"),
