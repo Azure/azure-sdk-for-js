@@ -12,6 +12,9 @@ import {
   resolveImportsInDir,
   sourcePathToOutputPath,
   buildConditionsSet,
+  collectImportTargetPaths,
+  buildImportTargetIndex,
+  validateNoDirectImports,
   build,
 } from "../../src/index.ts";
 import type { ImportsMap } from "../../src/index.ts";
@@ -882,6 +885,443 @@ describe("build fails on unresolved # specifiers", () => {
           type: "module",
           imports: {
             "#platform/*": { default: "./src/*.ts" },
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.esm.json"),
+      JSON.stringify({
+        compilerOptions: {
+          target: "ES2022",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          declaration: true,
+          outDir: "./dist/esm",
+          rootDir: "./src",
+          lib: ["ES2022"],
+          types: ["node"],
+          skipLibCheck: true,
+        },
+        include: ["./src/**/*.ts"],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          {
+            name: "esm",
+            condition: "import",
+            tsconfig: "./tsconfig.esm.json",
+          },
+        ],
+      }),
+    );
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Unit tests: collectImportTargetPaths
+// ---------------------------------------------------------------------------
+
+describe("collectImportTargetPaths", () => {
+  it("collects all target file paths from an imports map", () => {
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        "react-native": "./src/nodeTypes-react-native.mts",
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const result = collectImportTargetPaths(importsMap, "/pkg");
+    expect(result.size).toBe(3);
+    expect(result.get(path.resolve("/pkg", "./src/nodeTypes-browser.mts"))).toBe(
+      "#platform/nodeTypes",
+    );
+    expect(result.get(path.resolve("/pkg", "./src/nodeTypes-react-native.mts"))).toBe(
+      "#platform/nodeTypes",
+    );
+    expect(result.get(path.resolve("/pkg", "./src/nodeTypes.ts"))).toBe("#platform/nodeTypes");
+  });
+
+  it("handles wildcard patterns — returns only exact paths", () => {
+    const importsMap: ImportsMap = {
+      "#platform/*": {
+        browser: "./src/*-browser.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const result = collectImportTargetPaths(importsMap, "/pkg");
+    // Wildcard targets are not included in the exact paths map
+    expect(result.size).toBe(0);
+  });
+
+  it("handles null targets (unmapped)", () => {
+    const importsMap: ImportsMap = {
+      "#internal": null,
+      "#mapped": "./src/mapped.ts",
+    };
+
+    const result = collectImportTargetPaths(importsMap, "/pkg");
+    expect(result.size).toBe(1);
+    expect(result.get(path.resolve("/pkg", "./src/mapped.ts"))).toBe("#mapped");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Unit tests: buildImportTargetIndex
+// ---------------------------------------------------------------------------
+
+describe("buildImportTargetIndex", () => {
+  it("separates exact and wildcard entries", () => {
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        default: "./src/nodeTypes.ts",
+      },
+      "#platform/*": {
+        browser: "./src/*-browser.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, "/pkg");
+
+    // Exact: nodeTypes entries
+    expect(exactPaths.size).toBe(2);
+    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes-browser.mts"))).toBe(
+      "#platform/nodeTypes",
+    );
+    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes.ts"))).toBe("#platform/nodeTypes");
+
+    // Wildcard: 2 patterns (browser + default)
+    expect(wildcardPatterns.length).toBe(2);
+  });
+
+  it("wildcard patterns match concrete file paths", () => {
+    const importsMap: ImportsMap = {
+      "#platform/*": {
+        browser: "./src/*-browser.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const { wildcardPatterns } = buildImportTargetIndex(importsMap, "/pkg");
+
+    // The browser pattern should match a concrete browser file
+    const browserPattern = wildcardPatterns.find((p) => p.regex.source.includes("browser"));
+    expect(browserPattern).toBeDefined();
+    const browserMatch = path
+      .resolve("/pkg", "./src/sha256-browser.mts")
+      .match(browserPattern!.regex);
+    expect(browserMatch).toBeTruthy();
+    expect(browserMatch![1]).toBe("sha256");
+
+    // The default pattern should match a concrete ts file
+    const defaultPattern = wildcardPatterns.find((p) => !p.regex.source.includes("browser"));
+    expect(defaultPattern).toBeDefined();
+    const defaultMatch = path.resolve("/pkg", "./src/sha256.ts").match(defaultPattern!.regex);
+    expect(defaultMatch).toBeTruthy();
+    expect(defaultMatch![1]).toBe("sha256");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Unit tests: validateNoDirectImports
+// ---------------------------------------------------------------------------
+
+describe("validateNoDirectImports", () => {
+  let tmpDir: string;
+
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+  });
+
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
+  });
+
+  it("detects direct imports of files behind the imports map", async () => {
+    // Create files
+    await fs.writeFile(
+      path.join(tmpDir, "src/nodeTypes.ts"),
+      "export type NodeReadableStream = NodeJS.ReadableStream;\n",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'import type { NodeReadableStream } from "./nodeTypes.js";\nexport type { NodeReadableStream };\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].specifier).toBe("./nodeTypes.js");
+    expect(violations[0].suggestedImport).toBe("#platform/nodeTypes");
+    expect(violations[0].line).toBe(1);
+  });
+
+  it("does not flag imports that are not in the imports map", async () => {
+    await fs.writeFile(path.join(tmpDir, "src/utils.ts"), "export function foo() { return 42; }\n");
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'import { foo } from "./utils.js";\nexport { foo };\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(0);
+  });
+
+  it("skips files that are themselves import targets (platform impl files)", async () => {
+    // nodeTypes.ts is a target — its internal imports are platform-specific
+    // and should not be flagged (the platform condition ensures correctness).
+    await fs.writeFile(
+      path.join(tmpDir, "src/nodeTypes.ts"),
+      'import { helper } from "./helper.js";\nexport type NodeReadableStream = NodeJS.ReadableStream;\n',
+    );
+    await fs.writeFile(path.join(tmpDir, "src/helper.ts"), "export function helper() {}\n");
+
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        default: "./src/nodeTypes.ts",
+      },
+      "#platform/helper": {
+        default: "./src/helper.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/nodeTypes.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(0);
+  });
+
+  it("skips wildcard platform files that have platform variants", async () => {
+    // createPipelineFromOptions.ts is a Node-only file behind #platform/*,
+    // and has a -web.mts variant. It should be allowed to import other defaults directly.
+    await fs.writeFile(
+      path.join(tmpDir, "src/createPipelineFromOptions.ts"),
+      'import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";\nexport { decompressResponsePolicy };\n',
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/createPipelineFromOptions-web.mts"),
+      "export const decompressResponsePolicy = undefined;\n",
+    );
+    await fs.mkdir(path.join(tmpDir, "src/policies"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/policies/decompressResponsePolicy.ts"),
+      "export function decompressResponsePolicy() {}\n",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/policies/decompressResponsePolicy-web.mts"),
+      "export function decompressResponsePolicy() {}\n",
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/*": {
+        browser: "./src/*-web.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/createPipelineFromOptions.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(0);
+  });
+
+  it("detects .mts extension imports", async () => {
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'import { foo } from "./nodeTypes-browser.mjs";\nexport { foo };\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].specifier).toBe("./nodeTypes-browser.mjs");
+    expect(violations[0].suggestedImport).toBe("#platform/nodeTypes");
+  });
+
+  it("detects dynamic imports", async () => {
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'const mod = await import("./nodeTypes.js");\nexport default mod;\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/nodeTypes": {
+        browser: "./src/nodeTypes-browser.mts",
+        default: "./src/nodeTypes.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].suggestedImport).toBe("#platform/nodeTypes");
+  });
+
+  it("detects violations against wildcard imports map entries", async () => {
+    await fs.writeFile(path.join(tmpDir, "src/sha256.ts"), "export function sha256() {}\n");
+    await fs.writeFile(
+      path.join(tmpDir, "src/sha256-browser.mts"),
+      "export function sha256() {}\n",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'import { sha256 } from "./sha256.js";\nexport { sha256 };\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/*": {
+        browser: "./src/*-browser.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].specifier).toBe("./sha256.js");
+    expect(violations[0].suggestedImport).toBe("#platform/sha256");
+  });
+
+  it("detects violations against wildcard browser variant imports", async () => {
+    await fs.writeFile(
+      path.join(tmpDir, "src/sha256-browser.mts"),
+      "export function sha256() {}\n",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/consumer.ts"),
+      'import { sha256 } from "./sha256-browser.mjs";\nexport { sha256 };\n',
+    );
+
+    const importsMap: ImportsMap = {
+      "#platform/*": {
+        browser: "./src/*-browser.mts",
+        default: "./src/*.ts",
+      },
+    };
+
+    const violations = validateNoDirectImports(
+      [path.join(tmpDir, "src/consumer.ts")],
+      importsMap,
+      tmpDir,
+    );
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].specifier).toBe("./sha256-browser.mjs");
+    expect(violations[0].suggestedImport).toBe("#platform/sha256");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Integration test: build fails on direct import bypass
+// ---------------------------------------------------------------------------
+
+describe("build fails on direct imports bypassing #imports", () => {
+  let tmpDir: string;
+
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
+  });
+
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
+  });
+
+  it("fails the build when a source file directly imports a file behind #imports", async () => {
+    const srcDir = path.join(tmpDir, "src");
+    await fs.mkdir(srcDir, { recursive: true });
+
+    await fs.writeFile(
+      path.join(srcDir, "nodeTypes.ts"),
+      "export type NodeReadableStream = NodeJS.ReadableStream;\n",
+    );
+    await fs.writeFile(
+      path.join(srcDir, "nodeTypes-browser.mts"),
+      "export type NodeReadableStream = never;\n",
+    );
+    // Bad import — directly references nodeTypes.ts instead of #platform/nodeTypes
+    await fs.writeFile(
+      path.join(srcDir, "index.ts"),
+      [
+        'import type { NodeReadableStream } from "./nodeTypes.js";',
+        "export type { NodeReadableStream };",
+        "",
+      ].join("\n"),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify(
+        {
+          name: "test-direct-import-bypass",
+          type: "module",
+          imports: {
+            "#platform/nodeTypes": {
+              browser: "./src/nodeTypes-browser.mts",
+              default: "./src/nodeTypes.ts",
+            },
           },
         },
         null,
