@@ -847,25 +847,24 @@ export async function compileTarget(
       dir = parent;
     }
 
-    // Create a fresh host that intercepts package.json reads.
+    // Layer virtual package.json overrides on top of the existing host
+    // (which may be a polyfill host). We must NOT replace the host entirely
+    // or we lose polyfill source-file substitution.
     //
-    // IMPORTANT: We do NOT use the shared SourceFile cache here. Under Node16,
-    // TypeScript embeds `impliedNodeFormat` (CJS vs ESM) in each SourceFile
-    // based on the nearest package.json. Our virtual {"type":"commonjs"}
-    // override changes that format, so cached SourceFiles from ESM targets
-    // would poison CJS output (and vice versa).
-    const baseHost = ts.createCompilerHost(effectiveOptions);
-
+    // NOTE: CJS targets with polyfills already receive an isolated
+    // SharedSourceFileCache (see compileAllTargets) to prevent
+    // impliedNodeFormat poisoning from ESM SourceFile entries.
+    const existingHost = host!;
     effectiveHost = {
-      ...baseHost,
+      ...existingHost,
       fileExists(fileName: string) {
         if (overridePaths.has(path.resolve(fileName))) return true;
-        return baseHost.fileExists(fileName);
+        return existingHost.fileExists(fileName);
       },
       readFile(fileName: string) {
         const override = overridePaths.get(path.resolve(fileName));
         if (override !== undefined) return override;
-        return baseHost.readFile(fileName);
+        return existingHost.readFile(fileName);
       },
     };
   }
@@ -960,9 +959,19 @@ export async function compileAllTargets(
       log.info(
         `[warp] [${parsed.target.name}] ${polyfillMap.size} polyfill(s) via "${parsed.target.polyfillSuffix}"`,
       );
-      ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, cache));
+      // CJS targets get an isolated cache to avoid impliedNodeFormat poisoning:
+      // under Node16, TypeScript embeds CJS vs ESM format in each SourceFile
+      // based on the nearest package.json. Our virtual {"type":"commonjs"}
+      // override changes that format, so sharing cache with ESM targets would
+      // produce wrong output.
+      const hostCache =
+        parsed.target.moduleType === "commonjs" ? new SharedSourceFileCache() : cache;
+      ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, hostCache));
     } else {
-      host = createCachedHost(parsed.parsedConfig.options, cache);
+      // CJS targets get an isolated cache for the same impliedNodeFormat reason.
+      const hostCache =
+        parsed.target.moduleType === "commonjs" ? new SharedSourceFileCache() : cache;
+      host = createCachedHost(parsed.parsedConfig.options, hostCache);
     }
 
     const typeCheckId = optionsSignature(
