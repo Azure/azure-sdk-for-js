@@ -109,7 +109,7 @@ export class KeyVaultClient {
   /** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
   getKeyAttestation(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     options: GetKeyAttestationOptionalParams = { requestOptions: {} },
   ): Promise<KeyBundle> {
     return getKeyAttestation(this._client, keyName, keyVersion, options);

@@ -780,7 +780,7 @@ export class KeyClient {
       async (updatedOptions) => {
         const response = await this.client.getKeyAttestation(
           name,
-          updatedOptions.version ?? "",
+          updatedOptions.version,
           updatedOptions,
         );
         return getKeyFromKeyBundle(response);
