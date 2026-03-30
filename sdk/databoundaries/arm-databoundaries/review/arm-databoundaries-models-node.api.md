@@ -4,64 +4,11 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
 
 // @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
-
-// @public
-export interface DataBoundariesGetScopeOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DataBoundariesGetTenantOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export class DataboundariesManegementClient {
-    constructor(credential: TokenCredential, options?: DataboundariesManegementClientOptionalParams);
-    readonly dataBoundaries: DataBoundariesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface DataboundariesManegementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
-// @public
-export interface DataBoundariesOperations {
-    getScope: (scope: string, defaultParam: DefaultName, options?: DataBoundariesGetScopeOptionalParams) => Promise<DataBoundaryDefinition>;
-    getTenant: (defaultParam: DefaultName, options?: DataBoundariesGetTenantOptionalParams) => Promise<DataBoundaryDefinition>;
-    put: (defaultParam: DefaultName, dataBoundaryDefinition: DataBoundaryDefinition, options?: DataBoundariesPutOptionalParams) => Promise<DataBoundaryDefinition>;
-}
-
-// @public
-export interface DataBoundariesPutOptionalParams extends OperationOptions {
-}
 
 // @public
 export type DataBoundary = string;
@@ -166,28 +113,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;

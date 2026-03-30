@@ -1,0 +1,33 @@
+{
+  "apiVersions": {
+    "Microsoft.Resources": "2024-08-01"
+  },
+  "emitterVersion": "0.51.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Resources",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-databoundaries!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-databoundaries!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-databoundaries!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-databoundaries!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-databoundaries!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-databoundaries!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-databoundaries!DataBoundaryDefinition:interface": "Microsoft.Resources.DataBoundaryDefinition",
+      "@azure/arm-databoundaries!DataBoundaryProperties:interface": "Microsoft.Resources.DataBoundaryProperties",
+      "@azure/arm-databoundaries!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-databoundaries!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-databoundaries!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-databoundaries!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-databoundaries!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-databoundaries!KnownDefaultName:enum": "Microsoft.Resources.DefaultName",
+      "@azure/arm-databoundaries!KnownDataBoundary:enum": "Microsoft.Resources.DataBoundary",
+      "@azure/arm-databoundaries!KnownProvisioningState:enum": "Microsoft.Resources.ProvisioningState",
+      "@azure/arm-databoundaries!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-databoundaries!KnownVersions:enum": "Microsoft.Resources.Versions",
+      "@azure/arm-databoundaries!DataBoundariesOperations#put:member": "Microsoft.Resources.DataBoundaryDefinitions.put",
+      "@azure/arm-databoundaries!DataBoundariesOperations#getTenant:member": "Microsoft.Resources.DataBoundaryDefinitions.getTenant",
+      "@azure/arm-databoundaries!DataBoundariesOperations#getScope:member": "Microsoft.Resources.DataBoundaries.getScope",
+      "@azure/arm-databoundaries!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
