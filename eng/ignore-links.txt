@@ -79,3 +79,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-
 https://www.npmjs.com/package/@azure/arm-discovery
 https://learn.microsoft.com/javascript/api/@azure/arm-appnetwork?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-appnetwork
+https://learn.microsoft.com/javascript/api/@azure/arm-horizondb?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-horizondb

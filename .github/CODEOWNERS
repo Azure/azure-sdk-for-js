@@ -1654,6 +1654,9 @@ sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/horizondb/arm-horizondb/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
