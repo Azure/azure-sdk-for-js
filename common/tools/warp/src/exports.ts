@@ -165,7 +165,8 @@ async function writeModuleTypeShims(results: CompileResult[]): Promise<void> {
       const shimPath = path.join(result.outDir, "package.json");
       await fsp.mkdir(path.dirname(shimPath), { recursive: true });
 
-      const moduleType: ModuleType = result.target.moduleType ?? "module";
+      const moduleType: ModuleType =
+        result.target.moduleType ?? (result.target.condition === "require" ? "commonjs" : "module");
 
       await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
     }),

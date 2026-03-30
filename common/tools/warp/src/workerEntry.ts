@@ -78,7 +78,7 @@ port.on("message", (msg: CompileMessage) => {
           diagnosticText: `Worker crash: ${errorText}`,
           errorCount: 1,
           timeMs: 0,
-          outDir: msg.target.tsconfig,
+          outDir: msg.packageRoot ?? "",
         } satisfies ResultMessage);
       }
     })();

@@ -696,6 +696,7 @@ export async function transformEsmToCjs(src: string, dest: string): Promise<void
         loader: "js",
         sourcemap: "external",
         sourcefile: path.basename(srcPath),
+        platform: "node",
       });
       await Promise.all([
         fsp.writeFile(destPath, result.code),
