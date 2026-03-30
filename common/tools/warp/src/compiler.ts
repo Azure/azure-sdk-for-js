@@ -492,68 +492,6 @@ export function programIdentity(
   return hash.digest("hex").slice(0, 16);
 }
 
-// ── Backward-compatible aliases (consumed by parallel.ts, removed in a later commit) ──
-
-/** @deprecated Use optionsSignature + programIdentity instead. */
-export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
-  const filesHash = crypto
-    .createHash("sha256")
-    .update([...fileNames].sort().join("\0"))
-    .digest("hex")
-    .slice(0, 16);
-  return polyfillSuffix ? `${filesHash}\0polyfill:${polyfillSuffix}` : filesHash;
-}
-
-interface DedupGroup {
-  primary: ParsedTargetConfig;
-  copies: ParsedTargetConfig[];
-}
-
-/** @deprecated Use per-target dedup with optionsSignature + programIdentity. */
-export function groupBySignature(
-  configs: ParsedTargetConfig[],
-  getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
-): DedupGroup[] {
-  const map = new Map<string, DedupGroup>();
-  for (const pc of configs) {
-    const suffix = getEffectiveSuffix ? getEffectiveSuffix(pc) : pc.target.polyfillSuffix;
-    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames, suffix);
-    const existing = map.get(sig);
-    if (existing) {
-      existing.copies.push(pc);
-    } else {
-      map.set(sig, { primary: pc, copies: [] });
-    }
-  }
-  return [...map.values()];
-}
-
-/** @deprecated Use copyDir instead. */
-export async function copyDtsFiles(src: string, dest: string): Promise<void> {
-  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
-  const copies: { srcPath: string; destPath: string }[] = [];
-  const dirs = new Set<string>([dest]);
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith(".d.ts") && !entry.name.endsWith(".d.ts.map")) continue;
-    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
-    const srcPath = path.join(parentPath, entry.name);
-    const relPath = path.relative(src, srcPath);
-    const destPath = path.join(dest, relPath);
-    dirs.add(path.dirname(destPath));
-    copies.push({ srcPath, destPath });
-  }
-  if (copies.length === 0) return;
-  await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
-    fsp.mkdir(d, { recursive: true }),
-  );
-  await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
-    fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
-  );
-}
-
-// ── End backward-compatible aliases ──
-
 /**
  * Remove a directory and its contents if it exists.
  */
@@ -743,8 +681,6 @@ interface CompileTargetOptions {
    * Used when output will be copied from another target with the same emit identity.
    */
   skipEmit?: boolean;
-  /** @deprecated When true, emit JS only — suppress .d.ts/.d.ts.map. Kept for compat. */
-  skipDeclarations?: boolean;
 }
 
 /**
@@ -769,7 +705,6 @@ export async function compileTarget(
   const t0 = performance.now();
   const doTypeCheck = compileOptions?.typeCheck ?? true;
   const skipEmit = compileOptions?.skipEmit ?? false;
-  const skipDecl = compileOptions?.skipDeclarations ?? false;
 
   let rootNames: readonly string[] = parsed.parsedConfig.fileNames;
 
@@ -787,9 +722,6 @@ export async function compileTarget(
     effectiveOptions.declaration = false;
     effectiveOptions.declarationMap = false;
     effectiveOptions.noEmit = true;
-  } else if (skipDecl) {
-    effectiveOptions.declaration = false;
-    effectiveOptions.declarationMap = false;
   }
 
   // Inject virtual {"type":"commonjs"} package.json when the target
