@@ -74,7 +74,7 @@ describe("InteractiveBrowserCredential (internal)", () => {
       assert.exists(accessToken.token);
       expect(doGetTokenSpy).toHaveBeenCalledOnce();
       expect(doGetTokenSpy.mock.results[0].value).toEqual(
-        expect.objectContaining({ fromNativeBroker: true }),
+        expect.objectContaining({ fromPlatformBroker: true }),
       );
     } catch (e) {
       console.log(e);
