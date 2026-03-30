@@ -1,4 +1,4 @@
-# warp.config.yml — build configuration
+# warp.config.yml — @azure/search-documents build configuration
 
 exports:
   "./package.json": "./package.json"
