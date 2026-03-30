@@ -30,14 +30,12 @@ describe("configureEntraAuthentication", () => {
       expect(typeof mock.capturedCallback).toBe("function");
     });
 
-    it("should return the same sequelize instance for chaining", () => {
+    it("should not throw when called with valid arguments", () => {
       const mock = createMockSequelizeInstance();
       const token = createValidJwtToken(TEST_USERS.ENTRA_USER);
       const credential = new TestTokenCredential(token);
 
-      const result = configureEntraAuthentication(mock, credential);
-
-      expect(result).toBe(mock);
+      configureEntraAuthentication(mock, credential);
     });
 
     it("should throw when credential is not provided", () => {

@@ -7,7 +7,7 @@ import { logger } from "./logger.js";
 /**
  * Options for {@link entraTokenProvider}.
  */
-export interface GetEntraAccessTokenOptions {
+export interface EntraTokenProviderOptions  {
   /**
    * The OAuth scope to request. Defaults to the Azure Database for
    * PostgreSQL scope (`https://ossrdbms-aad.database.windows.net/.default`).
@@ -101,7 +101,6 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
  * @param credential - An Azure {@link TokenCredential} used to acquire tokens
  *   (e.g., `DefaultAzureCredential`).
  * @param options - Optional configuration for the authentication behavior.
- * @returns The same Sequelize instance, for chaining.
  *
  * @example
  * ```ts snippet:configureEntraAuthentication
@@ -124,7 +123,7 @@ export function configureEntraAuthentication(
   sequelizeInstance: SequelizeBeforeConnectHook,
   credential: TokenCredential,
   options: ConfigureEntraAuthenticationOptions = {},
-): typeof sequelizeInstance {
+): void {
   if (!credential) {
     throw new Error("credential is required");
   }
@@ -133,7 +132,7 @@ export function configureEntraAuthentication(
   // Runs before every new connection is created by Sequelize
   sequelizeInstance.beforeConnect(async (config: { username?: string; password?: string }) => {
     logger.info("Fetching Entra ID access token...");
-    const token = await entraTokenProvider(credential);
+    const token = await entraTokenProvider(credential)();
 
     // Derive username from token if you want (optional):
     const claims = decodeJwtToken(token);
@@ -145,22 +144,21 @@ export function configureEntraAuthentication(
     config.username = derivedUser; // must match an AAD-mapped role in Postgres
     config.password = token; // raw token, no "Bearer "
   });
-
-  return sequelizeInstance;
 }
 
 /**
- * Acquires an Entra ID access token suitable for use as a PostgreSQL password.
+ * Creates a password provider function that acquires an Entra ID access token
+ * suitable for use as a PostgreSQL password.
  *
- * This function requests a token from the provided {@link TokenCredential} using
- * the Azure Database for PostgreSQL scope. The returned token string can be used
- * directly as the `password` parameter for `pg.Client`, `pg.Pool`, or similar
- * PostgreSQL client configurations.
+ * This function returns a callback that, when invoked, requests a token from the
+ * provided {@link TokenCredential} using the Azure Database for PostgreSQL scope.
+ * The returned callback can be passed directly as the `password` option for
+ * `pg.Client`, `pg.Pool`, or similar PostgreSQL client configurations.
  *
  * @param credential - An Azure {@link TokenCredential} used to acquire tokens
  *   (e.g., `DefaultAzureCredential`).
  * @param options - Optional settings such as a custom OAuth scope.
- * @returns A promise that resolves to the access token string.
+ * @returns A function that, when called, returns a promise resolving to the access token string.
  *
  * @example
  * ```ts snippet:entraTokenProvider
@@ -174,28 +172,30 @@ export function configureEntraAuthentication(
  *   port: Number(process.env.PGPORT || 5432),
  *   database: process.env.PGDATABASE,
  *   user: process.env.PGUSER,
- *   password: () => entraTokenProvider(credential),
+ *   password: entraTokenProvider(credential),
  *   ssl: { rejectUnauthorized: true },
  * });
  * ```
  */
-export async function entraTokenProvider(
+export function entraTokenProvider(
   credential: TokenCredential,
   options: GetEntraAccessTokenOptions = {},
-): Promise<string> {
-  if (!credential) {
-    throw new Error("credential is required");
-  }
+): () => Promise<string> {
   const { scope = DEFAULT_SCOPE } = options;
-  try {
-    const t = await credential.getToken(scope);
-    if (!t?.token) {
-      throw new Error("Failed to acquire Entra ID token");
+  return async () => {
+    if (!credential) {
+      throw new Error("credential is required");
     }
-    return t.token;
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    logger.error(`Token acquisition failed: ${message}`);
-    throw error;
-  }
+    try {
+      const t = await credential.getToken(scope);
+      if (!t?.token) {
+        throw new Error("Failed to acquire Entra ID token");
+      }
+      return t.token;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      logger.error(`Token acquisition failed: ${message}`);
+      throw error;
+    }
+  };
 }

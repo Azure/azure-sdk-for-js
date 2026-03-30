@@ -42,7 +42,7 @@ npm install @azure/identity sequelize pg
 
 This library provides two functions for integrating Entra ID authentication with PostgreSQL:
 
-- **`entraTokenProvider`** — Acquires an Entra ID access token and returns it as a string suitable for use as a PostgreSQL password. Use this with `pg.Pool` or `pg.Client`.
+- **`entraTokenProvider`** — Returns a password provider function that acquires an Entra ID access token suitable for use as a PostgreSQL password. Use this with `pg.Pool` or `pg.Client`.
 - **`configureEntraAuthentication`** — Registers a `beforeConnect` hook on a Sequelize instance that automatically acquires a fresh token and sets the username/password before each new connection.
 
 Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and handle token acquisition against the Azure Database for PostgreSQL scope.
@@ -62,7 +62,7 @@ const pool = new pg.Pool({
   port: Number(process.env.PGPORT || 5432),
   database: process.env.PGDATABASE,
   user: process.env.PGUSER,
-  password: () => entraTokenProvider(credential),
+  password: entraTokenProvider(credential),
   ssl: { rejectUnauthorized: true },
 });
 ```

@@ -21,12 +21,13 @@ async function main(): Promise<void> {
   // Create a connection pool that uses Entra ID tokens as the password.
   // The `password` option accepts a function that returns a Promise<string>,
   // so the token is refreshed automatically on each new connection.
+  // `entraTokenProvider` returns such a function directly.
   const pool = new Pool({
     host: process.env.PGHOST,
     port: Number(process.env.PGPORT || 5432),
     database: process.env.PGDATABASE,
     user: process.env.PGUSER,
-    password: () => entraTokenProvider(credential),
+    password: entraTokenProvider(credential),
     ssl: { rejectUnauthorized: true },
     connectionTimeoutMillis: 20000,
     idleTimeoutMillis: 30000,

@@ -16,7 +16,7 @@ describe("snippets", () => {
       port: Number(process.env.PGPORT || 5432),
       database: process.env.PGDATABASE,
       user: process.env.PGUSER,
-      password: () => entraTokenProvider(credential),
+      password: entraTokenProvider(credential),
       ssl: { rejectUnauthorized: true },
     });
   });
