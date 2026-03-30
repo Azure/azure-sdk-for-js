@@ -299,12 +299,18 @@ for (const [label, input] of inputs) {
 
 After benchmarking, assess whether the difference matters in context:
 
-- **Compare absolute cost to I/O overhead.** If the operation being
-  optimized sits on a path that includes network I/O (HTTP request,
-  AMQP send/receive, WebSocket frame), and the optimization saves less
-  than 1 µs per operation while the I/O costs milliseconds, the
-  optimization adds complexity without meaningful throughput improvement.
-  Note this in your review.
+- **Distinguish latency vs CPU goals.** The optimization goal affects
+  what counts as material:
+  - *Latency reduction:* If the operation sits on a path that includes
+    network I/O (HTTP request, AMQP send/receive, WebSocket frame), and
+    the optimization saves less than 1 µs per operation while the I/O
+    costs milliseconds, the optimization adds complexity without
+    meaningful latency improvement. Note this in your review.
+  - *CPU reduction:* If the goal is to reduce CPU consumption (e.g., to
+    handle more concurrent connections or lower compute costs),
+    per-operation savings accumulate at scale even when each one is
+    dwarfed by I/O wait time. In this case, compare the saving against
+    the total CPU budget per operation, not the I/O latency.
 - **Flag net-negative optimizations.** If the benchmark shows the
   "optimization" is slower for common input patterns, flag it as a
   regression even if it's faster for some inputs. Use a table to show
