@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-08-01-preview/Operations_List.json
  */
-async function listTheOperationsForTheProvider(): Promise<void> {
+async function listTheOperationsForTheProvider() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function listTheOperationsForTheProvider(): Promise<void> {
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-08-01-preview/Operations_List_MaximumSet_Gen.json
  */
-async function listTheOperationsForTheProviderGeneratedByMaximumSetRule(): Promise<void> {
+async function listTheOperationsForTheProviderGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function listTheOperationsForTheProviderGeneratedByMaximumSetRule(): Promi
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-08-01-preview/Operations_List_MinimumSet_Gen.json
  */
-async function listTheOperationsForTheProviderGeneratedByMinimumSetRule(): Promise<void> {
+async function listTheOperationsForTheProviderGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -58,7 +58,7 @@ async function listTheOperationsForTheProviderGeneratedByMinimumSetRule(): Promi
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listTheOperationsForTheProvider();
   await listTheOperationsForTheProviderGeneratedByMaximumSetRule();
   await listTheOperationsForTheProviderGeneratedByMinimumSetRule();
