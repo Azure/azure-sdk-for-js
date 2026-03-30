@@ -20,18 +20,20 @@ async function createsAFleetResourceWithALongRunningOperation() {
     {
       tags: {},
       location: "East US",
-      hubProfile: {
-        dnsPrefix: "dnsprefix1",
-        agentProfile: {
-          vmSize: "Standard_DS1",
-          subnetId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.Network/virtualNetwork/myvnet/subnets/mysubnet1",
-        },
-        apiServerAccessProfile: {
-          enablePrivateCluster: true,
-          enableVnetIntegration: true,
-          subnetId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.Network/virtualNetwork/myvnet/subnets/mysubnet1",
+      properties: {
+        hubProfile: {
+          dnsPrefix: "dnsprefix1",
+          agentProfile: {
+            vmSize: "Standard_DS1",
+            subnetId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.Network/virtualNetwork/myvnet/subnets/mysubnet1",
+          },
+          apiServerAccessProfile: {
+            enablePrivateCluster: true,
+            enableVnetIntegration: true,
+            subnetId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.Network/virtualNetwork/myvnet/subnets/mysubnet1",
+          },
         },
       },
       identity: { type: "None", userAssignedIdentities: { key126: {} } },

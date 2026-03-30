@@ -50,15 +50,8 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
-    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
-    channel?: UpgradeChannel;
-    disabled?: boolean;
     readonly eTag?: string;
-    longTermSupport?: boolean;
-    nodeImageSelection?: AutoUpgradeNodeImageSelection;
-    readonly provisioningState?: AutoUpgradeProfileProvisioningState;
-    targetKubernetesVersion?: string;
-    updateStrategyId?: string;
+    properties?: AutoUpgradeProfileProperties;
 }
 
 // @public
@@ -211,10 +204,8 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
-    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
-    readonly provisioningState?: FleetProvisioningState;
-    readonly status?: FleetStatus;
+    properties?: FleetProperties;
 }
 
 // @public
@@ -313,12 +304,8 @@ export interface FleetManagedNamespacesUpdateOptionalParams extends OperationOpt
 
 // @public
 export interface FleetMember extends ProxyResource {
-    clusterResourceId?: string;
     readonly eTag?: string;
-    group?: string;
-    labels?: Record<string, string>;
-    readonly provisioningState?: FleetMemberProvisioningState;
-    readonly status?: FleetMemberStatus;
+    properties?: FleetMemberProperties;
 }
 
 // @public
@@ -380,8 +367,7 @@ export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions 
 
 // @public
 export interface FleetMemberUpdate {
-    group?: string;
-    labels?: Record<string, string>;
+    properties?: FleetMemberUpdateProperties;
 }
 
 // @public
@@ -494,8 +480,7 @@ export interface FleetUpdateStrategiesOperations {
 // @public
 export interface FleetUpdateStrategy extends ProxyResource {
     readonly eTag?: string;
-    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
-    strategy?: UpdateRunStrategy;
+    properties?: FleetUpdateStrategyProperties;
 }
 
 // @public
@@ -509,12 +494,8 @@ export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
 export interface Gate extends ProxyResource {
-    displayName?: string;
     readonly eTag?: string;
-    gateType?: GateType;
-    readonly provisioningState?: GateProvisioningState;
-    state?: GateState;
-    target?: GateTarget;
+    properties?: GateProperties;
 }
 
 // @public
@@ -1086,13 +1067,8 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
-    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
-    managedClusterUpdate?: ManagedClusterUpdate;
-    readonly provisioningState?: UpdateRunProvisioningState;
-    readonly status?: UpdateRunStatus;
-    strategy?: UpdateRunStrategy;
-    updateStrategyId?: string;
+    properties?: UpdateRunProperties;
 }
 
 // @public

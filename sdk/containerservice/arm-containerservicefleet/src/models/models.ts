@@ -179,25 +179,21 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** The Fleet resource. */
 export interface Fleet extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FleetProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
   /** Managed identity. */
   identity?: ManagedServiceIdentity;
-  /** The status of the last operation. */
-  readonly provisioningState?: FleetProvisioningState;
-  /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfile;
-  /** Status information for the fleet. */
-  readonly status?: FleetStatus;
 }
 
 export function fleetSerializer(item: Fleet): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: areAllPropsUndefined(item, ["hubProfile"])
-      ? undefined
-      : _fleetPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetPropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -216,9 +212,9 @@ export function fleetDeserializer(item: any): Fleet {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _fleetPropertiesDeserializer(item["properties"])),
+      : fleetPropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
     identity: !item["identity"]
       ? item["identity"]
@@ -678,25 +674,17 @@ export function fleetCredentialResultDeserializer(item: any): FleetCredentialRes
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
 export interface FleetMember extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FleetMemberProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
-  /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
-  clusterResourceId?: string;
-  /** The group this member belongs to for multi-cluster update management. */
-  group?: string;
-  /** The status of the last operation. */
-  readonly provisioningState?: FleetMemberProvisioningState;
-  /** The labels for the fleet member. */
-  labels?: Record<string, string>;
-  /** Status information of the last operation for fleet member. */
-  readonly status?: FleetMemberStatus;
 }
 
 export function fleetMemberSerializer(item: FleetMember): any {
   return {
-    properties: areAllPropsUndefined(item, ["clusterResourceId", "group", "labels"])
-      ? undefined
-      : _fleetMemberPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetMemberPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -708,9 +696,9 @@ export function fleetMemberDeserializer(item: any): FleetMember {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _fleetMemberPropertiesDeserializer(item["properties"])),
+      : fleetMemberPropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
   };
 }
@@ -816,17 +804,15 @@ export function proxyResourceDeserializer(item: any): ProxyResource {
 
 /** The type used for update operations of the FleetMember. */
 export interface FleetMemberUpdate {
-  /** The group this member belongs to for multi-cluster update management. */
-  group?: string;
-  /** The labels for the fleet member. */
-  labels?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: FleetMemberUpdateProperties;
 }
 
 export function fleetMemberUpdateSerializer(item: FleetMemberUpdate): any {
   return {
-    properties: areAllPropsUndefined(item, ["group", "labels"])
-      ? undefined
-      : _fleetMemberUpdatePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetMemberUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1735,18 +1721,10 @@ export function fleetManagedNamespacePatchSerializer(item: FleetManagedNamespace
 
 /** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
 export interface Gate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GateProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
-  /** The provisioning state of the Gate resource. */
-  readonly provisioningState?: GateProvisioningState;
-  /** The human-readable display name of the Gate. */
-  displayName?: string;
-  /** The type of the Gate determines how it is completed. */
-  gateType?: GateType;
-  /** The target that the Gate is controlling, e.g. an Update Run. */
-  target?: GateTarget;
-  /** The state of the Gate. */
-  state?: GateState;
 }
 
 export function gateDeserializer(item: any): Gate {
@@ -1757,7 +1735,9 @@ export function gateDeserializer(item: any): Gate {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"] ? item["properties"] : _gatePropertiesDeserializer(item["properties"])),
+    properties: !item["properties"]
+      ? item["properties"]
+      : gatePropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
   };
 }
@@ -1944,44 +1924,17 @@ export function gateArrayDeserializer(result: Array<Gate>): any[] {
 
 /** A multi-stage process to perform update operations across members of a Fleet. */
 export interface UpdateRun extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: UpdateRunProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
-  /** The provisioning state of the UpdateRun resource. */
-  readonly provisioningState?: UpdateRunProvisioningState;
-  /**
-   * The resource id of the FleetUpdateStrategy resource to reference.
-   *
-   * When creating a new run, there are three ways to define a strategy for the run:
-   * 1. Define a new strategy in place: Set the "strategy" field.
-   * 2. Use an existing strategy: Set the "updateStrategyId" field. (since 2023-08-15-preview)
-   * 3. Use the default strategy to update all the members one by one: Leave both "updateStrategyId" and "strategy" unset. (since 2023-08-15-preview)
-   *
-   * Setting both "updateStrategyId" and "strategy" is invalid.
-   *
-   * UpdateRuns created by "updateStrategyId" snapshot the referenced UpdateStrategy at the time of creation and store it in the "strategy" field.
-   * Subsequent changes to the referenced FleetUpdateStrategy resource do not propagate.
-   * UpdateRunStrategy changes can be made directly on the "strategy" field before launching the UpdateRun.
-   */
-  updateStrategyId?: string;
-  /**
-   * The strategy defines the order in which the clusters will be updated.
-   * If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members.
-   * The strategy of the UpdateRun can be modified until the run is started.
-   */
-  strategy?: UpdateRunStrategy;
-  /** The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started. */
-  managedClusterUpdate?: ManagedClusterUpdate;
-  /** The status of the UpdateRun. */
-  readonly status?: UpdateRunStatus;
-  /** AutoUpgradeProfileId is the id of an auto upgrade profile resource. */
-  readonly autoUpgradeProfileId?: string;
 }
 
 export function updateRunSerializer(item: UpdateRun): any {
   return {
-    properties: areAllPropsUndefined(item, ["updateStrategyId", "strategy", "managedClusterUpdate"])
-      ? undefined
-      : _updateRunPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : updateRunPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1993,9 +1946,9 @@ export function updateRunDeserializer(item: any): UpdateRun {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _updateRunPropertiesDeserializer(item["properties"])),
+      : updateRunPropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
   };
 }
@@ -2735,19 +2688,17 @@ export type TargetType = string;
 
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */
 export interface FleetUpdateStrategy extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FleetUpdateStrategyProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
-  /** The provisioning state of the UpdateStrategy resource. */
-  readonly provisioningState?: FleetUpdateStrategyProvisioningState;
-  /** Defines the update sequence of the clusters. */
-  strategy?: UpdateRunStrategy;
 }
 
 export function fleetUpdateStrategySerializer(item: FleetUpdateStrategy): any {
   return {
-    properties: areAllPropsUndefined(item, ["strategy"])
-      ? undefined
-      : _fleetUpdateStrategyPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fleetUpdateStrategyPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -2759,9 +2710,9 @@ export function fleetUpdateStrategyDeserializer(item: any): FleetUpdateStrategy 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _fleetUpdateStrategyPropertiesDeserializer(item["properties"])),
+      : fleetUpdateStrategyPropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
   };
 }
@@ -2839,55 +2790,17 @@ export function fleetUpdateStrategyArrayDeserializer(result: Array<FleetUpdateSt
 
 /** The AutoUpgradeProfile resource. */
 export interface AutoUpgradeProfile extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AutoUpgradeProfileProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
-  /** The provisioning state of the AutoUpgradeProfile resource. */
-  readonly provisioningState?: AutoUpgradeProfileProvisioningState;
-  /** The resource id of the UpdateStrategy resource to reference. If not specified, the auto upgrade will run on all clusters which are members of the fleet. */
-  updateStrategyId?: string;
-  /** Configures how auto-upgrade will be run. */
-  channel?: UpgradeChannel;
-  /** The node image upgrade to be applied to the target clusters in auto upgrade. */
-  nodeImageSelection?: AutoUpgradeNodeImageSelection;
-  /**
-   * If set to False: the auto upgrade has effect - target managed clusters will be upgraded on schedule.
-   * If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed clusters.
-   * This is a boolean and not an enum because enabled/disabled are all available states of the auto upgrade profile.
-   * By default, this is set to False.
-   */
-  disabled?: boolean;
-  /** The status of the auto upgrade profile. */
-  autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
-  /**
-   *   This is the target Kubernetes version for auto-upgrade. The format must be `{major version}.{minor version}`. For example, "1.30".
-   *   By default, this is empty.
-   *   If upgrade channel is set to TargetKubernetesVersion, this field must not be empty.
-   *   If upgrade channel is Rapid, Stable or NodeImage, this field must be empty.
-   */
-  targetKubernetesVersion?: string;
-  /**
-   *   If upgrade channel is not TargetKubernetesVersion, this field must be False.
-   *   If set to True: Fleet auto upgrade will continue generate update runs for patches of minor versions earlier than N-2
-   *   (where N is the latest supported minor version) if those minor versions support Long-Term Support (LTS).
-   *   By default, this is set to False.
-   *   For more information on AKS LTS, please see https://learn.microsoft.com/en-us/azure/aks/long-term-support
-   */
-  longTermSupport?: boolean;
 }
 
 export function autoUpgradeProfileSerializer(item: AutoUpgradeProfile): any {
   return {
-    properties: areAllPropsUndefined(item, [
-      "updateStrategyId",
-      "channel",
-      "nodeImageSelection",
-      "disabled",
-      "autoUpgradeProfileStatus",
-      "targetKubernetesVersion",
-      "longTermSupport",
-    ])
-      ? undefined
-      : _autoUpgradeProfilePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : autoUpgradeProfilePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -2899,9 +2812,9 @@ export function autoUpgradeProfileDeserializer(item: any): AutoUpgradeProfile {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _autoUpgradeProfilePropertiesDeserializer(item["properties"])),
+      : autoUpgradeProfilePropertiesDeserializer(item["properties"]),
     eTag: item["eTag"],
   };
 }
@@ -3186,48 +3099,6 @@ export enum KnownVersions {
   V20260201Preview = "2026-02-01-preview",
 }
 
-export function _fleetPropertiesSerializer(item: Fleet): any {
-  return {
-    hubProfile: !item["hubProfile"]
-      ? item["hubProfile"]
-      : fleetHubProfileSerializer(item["hubProfile"]),
-  };
-}
-
-export function _fleetPropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    hubProfile: !item["hubProfile"]
-      ? item["hubProfile"]
-      : fleetHubProfileDeserializer(item["hubProfile"]),
-    status: !item["status"] ? item["status"] : fleetStatusDeserializer(item["status"]),
-  };
-}
-
-export function _fleetMemberPropertiesSerializer(item: FleetMember): any {
-  return {
-    clusterResourceId: item["clusterResourceId"],
-    group: item["group"],
-    labels: item["labels"],
-  };
-}
-
-export function _fleetMemberPropertiesDeserializer(item: any) {
-  return {
-    clusterResourceId: item["clusterResourceId"],
-    group: item["group"],
-    provisioningState: item["provisioningState"],
-    labels: !item["labels"]
-      ? item["labels"]
-      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
-    status: !item["status"] ? item["status"] : fleetMemberStatusDeserializer(item["status"]),
-  };
-}
-
-export function _fleetMemberUpdatePropertiesSerializer(item: FleetMemberUpdate): any {
-  return { group: item["group"], labels: item["labels"] };
-}
-
 export function _fleetManagedNamespacePropertiesSerializer(item: FleetManagedNamespace): any {
   return {
     managedNamespaceProperties: !item["managedNamespaceProperties"]
@@ -3256,88 +3127,5 @@ export function _fleetManagedNamespacePropertiesDeserializer(item: any) {
       ? item["status"]
       : fleetManagedNamespaceStatusDeserializer(item["status"]),
     portalFqdn: item["portalFqdn"],
-  };
-}
-
-export function _gatePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    displayName: item["displayName"],
-    gateType: item["gateType"],
-    target: !item["target"] ? item["target"] : gateTargetDeserializer(item["target"]),
-    state: item["state"],
-  };
-}
-
-export function _updateRunPropertiesSerializer(item: UpdateRun): any {
-  return {
-    updateStrategyId: item["updateStrategyId"],
-    strategy: !item["strategy"] ? item["strategy"] : updateRunStrategySerializer(item["strategy"]),
-    managedClusterUpdate: !item["managedClusterUpdate"]
-      ? item["managedClusterUpdate"]
-      : managedClusterUpdateSerializer(item["managedClusterUpdate"]),
-  };
-}
-
-export function _updateRunPropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    updateStrategyId: item["updateStrategyId"],
-    strategy: !item["strategy"]
-      ? item["strategy"]
-      : updateRunStrategyDeserializer(item["strategy"]),
-    managedClusterUpdate: !item["managedClusterUpdate"]
-      ? item["managedClusterUpdate"]
-      : managedClusterUpdateDeserializer(item["managedClusterUpdate"]),
-    status: !item["status"] ? item["status"] : updateRunStatusDeserializer(item["status"]),
-    autoUpgradeProfileId: item["autoUpgradeProfileId"],
-  };
-}
-
-export function _fleetUpdateStrategyPropertiesSerializer(item: FleetUpdateStrategy): any {
-  return {
-    strategy: !item["strategy"] ? item["strategy"] : updateRunStrategySerializer(item["strategy"]),
-  };
-}
-
-export function _fleetUpdateStrategyPropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    strategy: !item["strategy"]
-      ? item["strategy"]
-      : updateRunStrategyDeserializer(item["strategy"]),
-  };
-}
-
-export function _autoUpgradeProfilePropertiesSerializer(item: AutoUpgradeProfile): any {
-  return {
-    updateStrategyId: item["updateStrategyId"],
-    channel: item["channel"],
-    nodeImageSelection: !item["nodeImageSelection"]
-      ? item["nodeImageSelection"]
-      : autoUpgradeNodeImageSelectionSerializer(item["nodeImageSelection"]),
-    disabled: item["disabled"],
-    autoUpgradeProfileStatus: !item["autoUpgradeProfileStatus"]
-      ? item["autoUpgradeProfileStatus"]
-      : autoUpgradeProfileStatusSerializer(item["autoUpgradeProfileStatus"]),
-    targetKubernetesVersion: item["targetKubernetesVersion"],
-    longTermSupport: item["longTermSupport"],
-  };
-}
-
-export function _autoUpgradeProfilePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    updateStrategyId: item["updateStrategyId"],
-    channel: item["channel"],
-    nodeImageSelection: !item["nodeImageSelection"]
-      ? item["nodeImageSelection"]
-      : autoUpgradeNodeImageSelectionDeserializer(item["nodeImageSelection"]),
-    disabled: item["disabled"],
-    autoUpgradeProfileStatus: !item["autoUpgradeProfileStatus"]
-      ? item["autoUpgradeProfileStatus"]
-      : autoUpgradeProfileStatusDeserializer(item["autoUpgradeProfileStatus"]),
-    targetKubernetesVersion: item["targetKubernetesVersion"],
-    longTermSupport: item["longTermSupport"],
   };
 }

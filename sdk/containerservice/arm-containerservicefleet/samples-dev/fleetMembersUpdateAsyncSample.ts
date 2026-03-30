@@ -15,7 +15,7 @@ async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const result = await client.fleetMembers.updateAsync("rg1", "fleet1", "member-1", {
-    group: "staging",
+    properties: { group: "staging" },
   });
   console.log(result);
 }

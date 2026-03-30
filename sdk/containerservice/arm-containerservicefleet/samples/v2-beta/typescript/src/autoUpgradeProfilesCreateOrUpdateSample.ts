@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to create a AutoUpgradeProfile
@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary create a AutoUpgradeProfile
  * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfiles_CreateOrUpdate.json
  */
-async function createAnAutoUpgradeProfile() {
+async function createAnAutoUpgradeProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -19,18 +19,20 @@ async function createAnAutoUpgradeProfile() {
     "fleet1",
     "autoupgradeprofile1",
     {
-      channel: "Stable",
-      updateStrategyId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
-      nodeImageSelection: { type: "Latest" },
-      disabled: true,
+      properties: {
+        channel: "Stable",
+        updateStrategyId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
+        nodeImageSelection: { type: "Latest" },
+        disabled: true,
+      },
     },
     { ifMatch: "uktvayathbu", ifNoneMatch: "vdjolwxnefqamimybcvxxva" },
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAnAutoUpgradeProfile();
 }
 

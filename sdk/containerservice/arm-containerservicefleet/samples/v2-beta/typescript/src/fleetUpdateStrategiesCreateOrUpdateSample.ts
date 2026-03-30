@@ -15,24 +15,26 @@ async function createAFleetUpdateStrategy(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const result = await client.fleetUpdateStrategies.createOrUpdate("rg1", "fleet1", "strategy1", {
-    strategy: {
-      stages: [
-        {
-          name: "stage1",
-          maxConcurrency: "20%",
-          groups: [
-            {
-              name: "group-a",
-              maxConcurrency: "5",
-              beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
-              afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
-            },
-          ],
-          beforeGates: [{ displayName: "gate before stage1", type: "Approval" }],
-          afterGates: [{ displayName: "gate after stage1", type: "Approval" }],
-          afterStageWaitInSeconds: 3600,
-        },
-      ],
+    properties: {
+      strategy: {
+        stages: [
+          {
+            name: "stage1",
+            maxConcurrency: "20%",
+            groups: [
+              {
+                name: "group-a",
+                maxConcurrency: "5",
+                beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
+                afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
+              },
+            ],
+            beforeGates: [{ displayName: "gate before stage1", type: "Approval" }],
+            afterGates: [{ displayName: "gate after stage1", type: "Approval" }],
+            afterStageWaitInSeconds: 3600,
+          },
+        ],
+      },
     },
   });
   console.log(result);

@@ -19,11 +19,13 @@ async function createAnAutoUpgradeProfile(): Promise<void> {
     "fleet1",
     "autoupgradeprofile1",
     {
-      channel: "Stable",
-      updateStrategyId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
-      nodeImageSelection: { type: "Latest" },
-      disabled: true,
+      properties: {
+        channel: "Stable",
+        updateStrategyId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
+        nodeImageSelection: { type: "Latest" },
+        disabled: true,
+      },
     },
     { ifMatch: "uktvayathbu", ifNoneMatch: "vdjolwxnefqamimybcvxxva" },
   );
