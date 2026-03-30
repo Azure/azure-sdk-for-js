@@ -230,12 +230,15 @@ function optimized(input) {
   return JSON.stringify(input);
 }
 
+// Prevent V8 from optimizing away unused return values.
+let blackhole;
+
 function bench(label, fn, input) {
   // Warm up
-  for (let i = 0; i < WARMUP; i++) fn(input);
+  for (let i = 0; i < WARMUP; i++) blackhole = fn(input);
 
   const start = performance.now();
-  for (let i = 0; i < ITERATIONS; i++) fn(input);
+  for (let i = 0; i < ITERATIONS; i++) blackhole = fn(input);
   const elapsed = performance.now() - start;
 
   const nsPerOp = (elapsed * 1e6) / ITERATIONS;
@@ -351,7 +354,8 @@ For each finding, include:
 - The estimated impact (latency, memory, bundle size, CPU)
 - A concrete suggested fix
 - **Benchmark data** (when you ran a micro-benchmark): include a
-  markdown table with input, baseline ns/op, optimized ns/op, and delta
+  markdown table that clearly compares baseline vs optimized measurements,
+  with units and a delta or speedup (e.g., ns/op, µs, percentiles)
 
 Severity guide:
 - 🔴 **Critical** — unbounded memory growth, event loop blocking,
