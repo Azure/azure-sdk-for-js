@@ -1637,6 +1637,9 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
