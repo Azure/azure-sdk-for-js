@@ -174,7 +174,7 @@ export class KeyVaultClient {
   /** The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. */
   release(
     keyName: string,
-    keyVersion: string,
+    keyVersion: string | undefined,
     parameters: KeyReleaseParameters,
     options: ReleaseOptionalParams = { requestOptions: {} },
   ): Promise<KeyReleaseResult> {

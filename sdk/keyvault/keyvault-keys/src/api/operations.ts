@@ -469,12 +469,12 @@ export function getDeletedKeys(
 export function _releaseSend(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/keys/{key-name}/{key-version}/release{?api%2Dversion}",
+    "/keys/{key-name}{/key-version}/release{?api%2Dversion}",
     {
       "key-name": keyName,
       "key-version": keyVersion,
@@ -512,7 +512,7 @@ export async function _releaseDeserialize(
 export async function release(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): Promise<KeyReleaseResult> {

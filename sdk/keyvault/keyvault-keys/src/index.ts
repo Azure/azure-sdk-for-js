@@ -1078,7 +1078,7 @@ export class KeyClient {
       const { nonce, algorithm, ...rest } = updatedOptions;
       const result = await this.client.release(
         name,
-        options?.version || "",
+        options?.version,
         {
           targetAttestationToken,
           enc: algorithm,
