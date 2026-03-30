@@ -120,7 +120,7 @@ Be direct and efficient. When you reach the search results page, read and descri
       console.log("Incomplete computer call, skipping...");
       continue;
     }
-    const action: ComputerAction = computerCall.action;
+    const action = computerCall.action as ComputerAction;
     const callId: string = computerCall.call_id;
 
     console.log(`Processing computer call (ID: ${callId})`);
