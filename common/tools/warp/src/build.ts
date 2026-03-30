@@ -12,7 +12,12 @@ import {
   getExportsDiff,
   verifyDistFiles,
 } from "./exports.ts";
-import { readPackageImports, resolveImportsInDir, buildConditionsSet } from "./resolveImports.ts";
+import {
+  readPackageImports,
+  resolveImportsInDir,
+  buildConditionsSet,
+  validateNoDirectImports,
+} from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -139,6 +144,7 @@ async function compileStep(
   } else {
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,
+      packageRoot,
     });
   }
 
@@ -244,6 +250,37 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     return { success: true, config, totalTimeMs: performance.now() - buildStart };
   }
 
+  // Read imports map once — used for validation (step 1b) and post-compile resolution (step 2b)
+  const importsMap = await readPackageImports(packageRoot);
+
+  // Step 1b: Validate no direct imports bypassing #imports
+  if (importsMap) {
+    const allSourceFiles = new Set<string>();
+    for (const pc of parsedConfigs) {
+      for (const f of pc.parsedConfig.fileNames) allSourceFiles.add(f);
+    }
+    const violations = validateNoDirectImports([...allSourceFiles], importsMap, packageRoot);
+    if (violations.length > 0) {
+      log.error(
+        `\n[warp] Found ${violations.length} direct import(s) bypassing the #imports mechanism:`,
+      );
+      for (const v of violations) {
+        log.error(
+          `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+        );
+      }
+      log.error(
+        `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
+      );
+      log.flush();
+      return {
+        success: false,
+        config,
+        totalTimeMs: performance.now() - buildStart,
+      };
+    }
+  }
+
   // Step 2: Compile
   const { results, compileTimeMs } = await compileStep(parsedConfigs, options, packageRoot);
 
@@ -271,7 +308,6 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   // Step 2b: Resolve #-prefixed imports in output.
   // Automatic: when package.json has an "imports" field, all targets get
   // their #-prefixed specifiers resolved to concrete relative paths.
-  const importsMap = await readPackageImports(packageRoot);
 
   if (importsMap) {
     let hasResolveErrors = false;
