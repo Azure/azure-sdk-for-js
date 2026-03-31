@@ -180,17 +180,17 @@ export interface GenerateClientTokenOptionalParams extends OperationOptions {
   /** User Id. */
   userId?: string;
   /** Roles that the connection with the generated token will have. */
-  roles?: string[];
+  role?: string[];
   /** The expire time of the generated token. */
   minutesToExpire?: number;
   /** Groups that the connection will join when it connects. */
-  groups?: string[];
+  group?: string[];
   /**
    * The type of client. Case-insensitive. If not set, it's "Default". For Web
    * PubSub for Socket.IO, only the default value is supported. For Web PubSub, the
    * valid values are 'Default' and 'MQTT'.
    */
-  clientProtocol?: WebPubSubClientType;
+  clientType?: WebPubSubClientType;
 }
 
 /** Optional parameters. */

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubContext, WebPubSubClientOptionalParams, createWebPubSub } from "./api/index.js";
+import {
+  WebPubSubServiceContext,
+  WebPubSubServiceClientOptionalParams,
+  createWebPubSubService,
+} from "./api/index.js";
 import {
   addUserToGroup,
   removeUserFromGroup,
@@ -68,10 +72,10 @@ import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { WebPubSubClientOptionalParams } from "./api/webPubSubContext.js";
+export { WebPubSubServiceClientOptionalParams } from "./api/webPubSubServiceContext.js";
 
-export class WebPubSubClient {
-  private _client: WebPubSubContext;
+export class WebPubSubServiceClient {
+  private _client: WebPubSubServiceContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -80,13 +84,13 @@ export class WebPubSubClient {
     endpointParam: string,
     credential: TokenCredential,
     hub: string,
-    options: WebPubSubClientOptionalParams = {},
+    options: WebPubSubServiceClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createWebPubSub(endpointParam, credential, hub, {
+    this._client = createWebPubSubService(endpointParam, credential, hub, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubClient } from "@azure/web-pubsub";
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -11,9 +11,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: 2024-12-01/HealthApi_GetServiceStatus.json
  */
 async function getServiceStatus(): Promise<void> {
-  const endpoint = process.env.WEB_PUB_SUB_ENDPOINT || "";
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
   const credential = new DefaultAzureCredential();
-  const client = new WebPubSubClient(endpoint, credential);
+  const client = new WebPubSubServiceClient(endpoint, credential);
   await client.getServiceStatus();
 }
 

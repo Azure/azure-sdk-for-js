@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubClient } from "../src/index.js";
+import { WebPubSubServiceClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new WebPubSubClient("<endpoint>", new DefaultAzureCredential());
+    const client = new WebPubSubServiceClient("<endpoint>", new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -16,7 +16,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new WebPubSubClient("<endpoint>", credential);
+    const client = new WebPubSubServiceClient("<endpoint>", credential);
   });
 
   it("SetLogLevel", async () => {

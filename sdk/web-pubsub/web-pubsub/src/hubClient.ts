@@ -480,18 +480,22 @@ export class WebPubSubServiceClient {
     message: RequestBodyType | JSONTypes,
     options: HubSendToAllOptions | HubSendTextToAllOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("WebPubSubServiceClient.sendToAll", options, async (updatedOptions) => {
-      const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      await generatedSendToAll(
-        this._context,
-        contentType as MessageContentType,
-        payload as any,
-        {
-          ...updatedOptions,
-          excluded: updatedOptions.excludedConnections,
-        } as any,
-      );
-    });
+    return tracingClient.withSpan(
+      "WebPubSubServiceClient.sendToAll",
+      options,
+      async (updatedOptions) => {
+        const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        await generatedSendToAll(
+          this._context,
+          contentType as MessageContentType,
+          payload as any,
+          {
+            ...updatedOptions,
+            excluded: updatedOptions.excludedConnections,
+          } as any,
+        );
+      },
+    );
   }
 
   /**
@@ -819,11 +823,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.groupExists",
       options,
       async (updatedOptions) => {
-        const result = await _groupExistsSend(
-          this._context,
-          groupName,
-          updatedOptions as any,
-        );
+        const result = await _groupExistsSend(this._context, groupName, updatedOptions as any);
 
         if (result.status === "200") {
           return true;
@@ -847,11 +847,7 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.userExists",
       options,
       async (updatedOptions) => {
-        const result = await _userExistsSend(
-          this._context,
-          username,
-          updatedOptions as any,
-        );
+        const result = await _userExistsSend(this._context, username, updatedOptions as any);
 
         if (result.status === "200") {
           return true;

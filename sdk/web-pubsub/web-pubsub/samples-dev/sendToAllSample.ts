@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubClient } from "@azure/web-pubsub";
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -11,10 +11,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: 2024-12-01/WebPubSub_SendToAll.json
  */
 async function sendToAll(): Promise<void> {
-  const endpoint = process.env.WEB_PUB_SUB_ENDPOINT || "";
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
   const credential = new DefaultAzureCredential();
   const hub = "hub1";
-  const client = new WebPubSubClient(endpoint, credential, hub);
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
   await client.sendToAll(Buffer.from("TWVzc2FnZSB0byBzZW5k", "base64"), {
     filter: "startswith(userId, 'listener-')",
     messageTtlSeconds: 15,

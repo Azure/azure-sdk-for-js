@@ -314,11 +314,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       "WebPubSubGroupClient.closeAllConnections",
       options,
       (updatedOptions) => {
-        return generatedCloseGroupConnections(
-          this.client,
-          this.groupName,
-          updatedOptions as any,
-        );
+        return generatedCloseGroupConnections(this.client, this.groupName, updatedOptions as any);
       },
     );
   }
@@ -330,12 +326,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<void> {
     return tracingClient.withSpan("WebPubSubGroupClient.addUser", options, (updatedOptions) => {
-      return generatedAddUserToGroup(
-        this.client,
-        this.groupName,
-        username,
-        updatedOptions as any,
-      );
+      return generatedAddUserToGroup(this.client, this.groupName, username, updatedOptions as any);
     });
   }
 
@@ -382,19 +373,23 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("WebPubSubGroupClient.sendToAll", options, async (updatedOptions) => {
-      const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-      await generatedSendToGroup(
-        this.client,
-        this.groupName,
-        contentType as MessageContentType,
-        payload as any,
-        {
-          ...updatedOptions,
-          excluded: (updatedOptions as any).excludedConnections,
-        } as any,
-      );
-    });
+    return tracingClient.withSpan(
+      "WebPubSubGroupClient.sendToAll",
+      options,
+      async (updatedOptions) => {
+        const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        await generatedSendToGroup(
+          this.client,
+          this.groupName,
+          contentType as MessageContentType,
+          payload as any,
+          {
+            ...updatedOptions,
+            excluded: (updatedOptions as any).excludedConnections,
+          } as any,
+        );
+      },
+    );
   }
 
   /**

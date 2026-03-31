@@ -55,5 +55,8 @@ export type {
   AddConnectionsToGroupsOptionalParams,
   GetServiceStatusOptionalParams,
 } from "./options.js";
-export type { WebPubSubContext, WebPubSubClientOptionalParams } from "./webPubSubContext.js";
-export { createWebPubSub } from "./webPubSubContext.js";
+export type {
+  WebPubSubServiceContext,
+  WebPubSubServiceClientOptionalParams,
+} from "./webPubSubServiceContext.js";
+export { createWebPubSubService } from "./webPubSubServiceContext.js";

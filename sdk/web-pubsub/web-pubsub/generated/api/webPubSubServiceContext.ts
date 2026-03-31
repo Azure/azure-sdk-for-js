@@ -7,7 +7,7 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** WebPubSubServiceClient */
-export interface WebPubSubContext extends Client {
+export interface WebPubSubServiceContext extends Client {
   /**
    * Target hub name, which should start with alphabetic characters and only contain
    *      alpha-numeric characters or underscore.
@@ -19,19 +19,19 @@ export interface WebPubSubContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface WebPubSubClientOptionalParams extends ClientOptions {
+export interface WebPubSubServiceClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** WebPubSubServiceClient */
-export function createWebPubSub(
+export function createWebPubSubService(
   endpointParam: string,
   credential: TokenCredential,
   hub: string,
-  options: WebPubSubClientOptionalParams = {},
-): WebPubSubContext {
+  options: WebPubSubServiceClientOptionalParams = {},
+): WebPubSubServiceContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-web-pubsub/1.2.0`;
@@ -48,5 +48,5 @@ export function createWebPubSub(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, hub } as WebPubSubContext;
+  return { ...clientContext, apiVersion, hub } as WebPubSubServiceContext;
 }

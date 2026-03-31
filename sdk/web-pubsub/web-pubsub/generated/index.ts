@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { WebPubSubClient } from "./webPubSubClient.js";
+export { WebPubSubServiceClient } from "./webPubSubServiceClient.js";
 export type {
   AddToGroupsRequest,
   ClientTokenResponse,
@@ -45,6 +45,6 @@ export type {
   CloseAllConnectionsOptionalParams,
   AddConnectionsToGroupsOptionalParams,
   GetServiceStatusOptionalParams,
-  WebPubSubClientOptionalParams,
+  WebPubSubServiceClientOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

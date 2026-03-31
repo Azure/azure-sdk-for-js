@@ -198,13 +198,11 @@ export function _sendToUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
-      body: message,
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    body: message,
+  });
 }
 
 export async function _sendToUserDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -543,12 +541,10 @@ export function _listConnectionsInGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listConnectionsInGroupDeserialize(
@@ -602,13 +598,11 @@ export function _sendToGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
-      body: message,
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    body: message,
+  });
 }
 
 export async function _sendToGroupDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -775,13 +769,11 @@ export function _sendToConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
-      body: message,
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    body: message,
+  });
 }
 
 export async function _sendToConnectionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -905,13 +897,11 @@ export function _sendToAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
-      body: message,
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: contentType,
+    body: message,
+  });
 }
 
 export async function _sendToAllDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -949,13 +939,11 @@ export function _removeConnectionsFromGroupsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      body: removeFromGroupsRequestSerializer(groupsToRemove),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: removeFromGroupsRequestSerializer(groupsToRemove),
+  });
 }
 
 export async function _removeConnectionsFromGroupsDeserialize(
@@ -1087,13 +1075,11 @@ export function _addConnectionsToGroupsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      body: addToGroupsRequestSerializer(groupsToAdd),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: addToGroupsRequestSerializer(groupsToAdd),
+  });
 }
 
 export async function _addConnectionsToGroupsDeserialize(

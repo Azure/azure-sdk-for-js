@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubContext as Client } from "./index.js";
+import { WebPubSubServiceContext as Client } from "./index.js";
 import {
   AddToGroupsRequest,
   addToGroupsRequestSerializer,
@@ -208,7 +208,7 @@ export function _sendToUserSend(
 }
 
 export async function _sendToUserDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -234,7 +234,7 @@ export function _closeUserConnectionsSend(
   options: CloseUserConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/users/{userId}/:closeConnections{?api%2Dversion,excluded,reason}",
+    "/api/hubs/{hub}/users/{userId}/:closeConnections{?api%2Dversion,excluded*,reason}",
     {
       hub: context.hub,
       userId: userId,
@@ -585,7 +585,7 @@ export function _sendToGroupSend(
   options: SendToGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/groups/{group}/:send{?api%2Dversion,excluded,filter,messageTtlSeconds}",
+    "/api/hubs/{hub}/groups/{group}/:send{?api%2Dversion,excluded*,filter,messageTtlSeconds}",
     {
       hub: context.hub,
       group: group,
@@ -612,7 +612,7 @@ export function _sendToGroupSend(
 }
 
 export async function _sendToGroupDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -638,7 +638,7 @@ export function _closeGroupConnectionsSend(
   options: CloseGroupConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/groups/{group}/:closeConnections{?api%2Dversion,excluded,reason}",
+    "/api/hubs/{hub}/groups/{group}/:closeConnections{?api%2Dversion,excluded*,reason}",
     {
       hub: context.hub,
       group: group,
@@ -785,7 +785,7 @@ export function _sendToConnectionSend(
 }
 
 export async function _sendToConnectionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -889,7 +889,7 @@ export function _sendToAllSend(
   options: SendToAllOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/:send{?api%2Dversion,excluded,filter,messageTtlSeconds}",
+    "/api/hubs/{hub}/:send{?api%2Dversion,excluded*,filter,messageTtlSeconds}",
     {
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2024-12-01",
@@ -915,7 +915,7 @@ export function _sendToAllSend(
 }
 
 export async function _sendToAllDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -961,7 +961,7 @@ export function _removeConnectionsFromGroupsSend(
 export async function _removeConnectionsFromGroupsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -984,23 +984,23 @@ export function _generateClientTokenSend(
   options: GenerateClientTokenOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/:generateToken{?api%2Dversion,userId,roles,minutesToExpire,groups,clientProtocol}",
+    "/api/hubs/{hub}/:generateToken{?api%2Dversion,userId,role*,minutesToExpire,group*,clientType}",
     {
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2024-12-01",
       userId: options?.userId,
-      roles: !options?.roles
-        ? options?.roles
-        : options?.roles.map((p: any) => {
+      role: !options?.role
+        ? options?.role
+        : options?.role.map((p: any) => {
             return p;
           }),
       minutesToExpire: options?.minutesToExpire,
-      groups: !options?.groups
-        ? options?.groups
-        : options?.groups.map((p: any) => {
+      group: !options?.group
+        ? options?.group
+        : options?.group.map((p: any) => {
             return p;
           }),
-      clientProtocol: options?.clientProtocol,
+      clientType: options?.clientType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1034,7 +1034,7 @@ export function _closeAllConnectionsSend(
   options: CloseAllConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/api/hubs/{hub}/:closeConnections{?api%2Dversion,excluded,reason}",
+    "/api/hubs/{hub}/:closeConnections{?api%2Dversion,excluded*,reason}",
     {
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2024-12-01",
@@ -1099,7 +1099,7 @@ export function _addConnectionsToGroupsSend(
 export async function _addConnectionsToGroupsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -1134,7 +1134,7 @@ export function _getServiceStatusSend(
 }
 
 export async function _getServiceStatusDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
