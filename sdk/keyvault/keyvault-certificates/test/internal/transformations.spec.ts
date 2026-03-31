@@ -142,48 +142,48 @@ describe("transformations", function () {
       });
     });
 
-    describe("uniformResourceIdentifiers", function () {
-      it("toCorePolicy maps uniformResourceIdentifiers to the core model", () => {
+    describe("uris", function () {
+      it("toCorePolicy maps uris to the core model", () => {
         const corePolicy = toCorePolicy(undefined, {
           issuerName: "Self",
           subject: "cn=Test",
           subjectAlternativeNames: {
-            uniformResourceIdentifiers: ["https://example.com", "https://contoso.com"],
+            uris: ["https://example.com", "https://contoso.com"],
           },
         });
         const sans = corePolicy.x509CertificateProperties!.subjectAlternativeNames!;
-        assert.deepEqual(sans.uniformResourceIdentifiers, [
+        assert.deepEqual(sans.uris, [
           "https://example.com",
           "https://contoso.com",
         ]);
       });
 
-      it("toPublicPolicy maps uniformResourceIdentifiers back from the core model", () => {
+      it("toPublicPolicy maps uris back from the core model", () => {
         const corePolicy: CoreCertificatePolicy = {
           x509CertificateProperties: {
             subjectAlternativeNames: {
-              uniformResourceIdentifiers: ["https://example.com"],
+              uris: ["https://example.com"],
             },
           },
         };
         const publicPolicy = toPublicPolicy(corePolicy);
-        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uniformResourceIdentifiers, [
+        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uris, [
           "https://example.com",
         ]);
       });
 
-      it("round-trips uniformResourceIdentifiers through toCorePolicy and toPublicPolicy", () => {
+      it("round-trips uris through toCorePolicy and toPublicPolicy", () => {
         const uris: [string, ...string[]] = ["https://example.com", "https://contoso.com"];
         const corePolicy = toCorePolicy(undefined, {
           issuerName: "Self",
           subject: "cn=Test",
-          subjectAlternativeNames: { uniformResourceIdentifiers: uris },
+          subjectAlternativeNames: { uris },
         });
         const publicPolicy = toPublicPolicy(corePolicy);
-        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uniformResourceIdentifiers, uris);
+        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uris, uris);
       });
 
-      it("toPublicPolicy omits uniformResourceIdentifiers when empty or absent", () => {
+      it("toPublicPolicy omits uris when empty or absent", () => {
         const corePolicy: CoreCertificatePolicy = {
           x509CertificateProperties: {
             subjectAlternativeNames: {
@@ -192,7 +192,7 @@ describe("transformations", function () {
           },
         };
         const publicPolicy = toPublicPolicy(corePolicy);
-        assert.isUndefined(publicPolicy.subjectAlternativeNames!.uniformResourceIdentifiers);
+        assert.isUndefined(publicPolicy.subjectAlternativeNames!.uris);
       });
     });
 
@@ -205,7 +205,7 @@ describe("transformations", function () {
             emails: ["test@example.com"],
             dnsNames: ["example.com"],
             userPrincipalNames: ["user@example.com"],
-            uniformResourceIdentifiers: ["https://example.com"],
+            uris: ["https://example.com"],
             ipAddresses: ["10.0.0.1"],
           },
         });
@@ -214,7 +214,7 @@ describe("transformations", function () {
         assert.deepEqual(san.emails, ["test@example.com"]);
         assert.deepEqual(san.dnsNames, ["example.com"]);
         assert.deepEqual(san.userPrincipalNames, ["user@example.com"]);
-        assert.deepEqual(san.uniformResourceIdentifiers, ["https://example.com"]);
+        assert.deepEqual(san.uris, ["https://example.com"]);
         assert.deepEqual(san.ipAddresses, ["10.0.0.1"]);
       });
 
@@ -225,7 +225,7 @@ describe("transformations", function () {
             x509CertificateProperties: {
               subjectAlternativeNames: {
                 ipAddresses: ["10.0.0.1"],
-                uniformResourceIdentifiers: ["https://example.com"],
+                uris: ["https://example.com"],
               },
             },
           },
@@ -233,7 +233,7 @@ describe("transformations", function () {
         const result = getCertificateWithPolicyFromCertificateBundle(bundle);
         const san = result.policy!.subjectAlternativeNames!;
         assert.deepEqual(san.ipAddresses, ["10.0.0.1"]);
-        assert.deepEqual(san.uniformResourceIdentifiers, ["https://example.com"]);
+        assert.deepEqual(san.uris, ["https://example.com"]);
       });
     });
   });

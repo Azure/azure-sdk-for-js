@@ -210,8 +210,8 @@ export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
     ipAddresses?: string[];
-    uniformResourceIdentifiers?: string[];
     upns?: string[];
+    uris?: string[];
 }
 
 // @public
@@ -487,7 +487,7 @@ export interface SubjectAlternativeNamesAll {
     dnsNames: ArrayOneOrMore<string>;
     emails: ArrayOneOrMore<string>;
     ipAddresses: ArrayOneOrMore<string>;
-    uniformResourceIdentifiers: ArrayOneOrMore<string>;
+    uris: ArrayOneOrMore<string>;
     userPrincipalNames: ArrayOneOrMore<string>;
 }
 

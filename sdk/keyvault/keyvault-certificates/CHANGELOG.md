@@ -4,11 +4,15 @@
 
 ### Features Added
 
+- Added `uris` and `ipAddresses` properties to `SubjectAlternativeNames` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated TypeSpec-generated code. This is an internal change that should not affect customers.
 
 ## 4.10.0 (2025-06-10)
 
