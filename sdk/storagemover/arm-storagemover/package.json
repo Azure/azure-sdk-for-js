@@ -95,7 +95,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagemover?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagemover"
   },
   "exports": {
     "./package.json": "./package.json",
