@@ -27,11 +27,9 @@ safe-outputs:
     max: 10
     side: "RIGHT"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
-  create-pull-request:
-    title-prefix: "[mgmt-fix] "
-    labels: [automated]
   push-to-pull-request-branch:
-    allowed-files: ["pnpm-lock.yaml"]
+    max: 3
+    allowed-files: ["pnpm-lock.yaml", "sdk/", "eng/"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -80,70 +78,56 @@ These are the Azure DevOps and GitHub checks that run on SDK PRs. The check name
 
 These are exact strings/patterns to search for in CI logs and PR status. They are specific to this repo's scripts and not inferrable from general knowledge.
 
-| Log symptom | Root cause | Category | Auto Fix |
-|---|---|---|
-| `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update or add the correct test recordings so the tests pass with the new service behavior. Only if recordings cannot be updated in time, and with explicit justification and SDK maintainer approval, consider temporarily marking the affected tests as skipped. | No |
-| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings | Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to create or update the browser test recordings and restore passing browser tests. As a last-resort temporary workaround that requires clear justification and SDK maintainer approval, you may adjust the browser test configuration to skip the affected tests until a proper fix is merged. | No|
-| `Build FAILED` | Compilation failure | Build failure | No|
-| `Check-format FAILED` | Need to format the code | Run `pnpm format` to fix | Yes|
-| `verify-links` broken URL | Broken markdown links | Add the broken links into eng/ignore-links.txt file to bypass this verification | Yes|
-| `Merging is blocking` by pnpm-lock merge conflicts| pnpm-lock file is a shared file and easy to conflict | Follow [the guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to resolve conflicts| Yes|
+| Log symptom | Root cause | Action | Auto Fix |
+|---|---|---|---|
+| `UnitTest FAILED` request url mismatch | Stale test recordings | Update recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). Only skip tests with maintainer approval. | No |
+| `UnitTest FAILED` missing browser recordings | Missing browser recordings | Update browser recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). | No |
+| `Build FAILED` | Compilation failure | Fix compile errors | No |
+| `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
+| `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | Yes |
+| `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
 
-Besides above cases and please also pay attention to followings:
-- Only log one failure case if `UnitTest` failed with different environment with same errors
-- Always provide [guidance](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) if this is a test recording relevant failure
-- Check [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other CI failures
-- Review [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md) for more advice on pipeline hangs
+Besides above cases also:
+- Only log one failure case if `UnitTest` failed with same errors across environments
+- Provide [test guidance](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for recording-related failures
+- Check [CI troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other failures
 - Provide general guidance if merging conflict exists
 
 ### 3. Auto-fix failures if possible
 
-If one or more failures have `Auto Fix: Yes` in the table above, attempt to fix them.
+For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch via `push-to-pull-request-branch`.
 
 #### 3a. pnpm-lock.yaml merge conflict
 
-If the PR has `mergeable_state: dirty` and `pnpm-lock.yaml` is the **only** conflicting file, resolve it directly on the PR branch:
+If `mergeable_state: dirty` and `pnpm-lock.yaml` is the **only** conflicting file:
 
-1. Install pnpm: `npm install -g pnpm@v10` with env var `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
-2. Fetch the latest upstream main: `git fetch https://github.com/Azure/azure-sdk-for-js main`
-3. Merge latest main: `git merge FETCH_HEAD`
-4. Verify via `git status` that only `pnpm-lock.yaml` has conflicts. If other files also conflict, **stop** and only post guidance instead.
-5. Check out the main branch lockfile: `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
-6. Regenerate: `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
-7. Stage and commit: `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
-8. Push the commit to the PR branch.
-
-If any step fails, stop and report the error in the comment instead.
+1. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
+2. `git fetch https://github.com/Azure/azure-sdk-for-js main`
+3. `git merge FETCH_HEAD` — if files other than pnpm-lock.yaml conflict, **stop**.
+4. `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
+5. `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
+6. `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
+7. Push via `push-to-pull-request-branch`. If any step fails, stop and report in comment.
 
 #### 3b. Check-format failure
 
-Run `bash` with `cd <package-dir> && npx prettier --write .` (or the appropriate format command) to fix formatting.
+Run `cd <package-dir> && npx prettier --write .` then push via `push-to-pull-request-branch`.
 
 #### 3c. verify-links broken URL
 
-Use `edit` to append the broken URL(s) to `eng/ignore-links.txt`.
-
-#### 3d. Create a fix PR for non-conflict fixes
-
-For fixes from 3b and 3c above, call `create-pull-request` to open a PR that targets the **source branch** of the original PR. In the PR body, reference the original PR number and explain which failures are addressed.
+Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-request-branch`.
 
 ### 4. Post a comment
 
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- **Scope**: include ONLY currently failing or blocking checks; do NOT include passed checks, resolved issues, summaries, or extra background.
-- **Per-failure bullet** (not auto-fixed): `- ❌ <Check name>: <1-line failure reason>. Action: <1-2 concrete steps/commands>.`
-- **Per-failure bullet** (auto-fixed via commit, e.g. pnpm-lock): `- ✅ <Check name>: <1-line failure reason>. Auto-fixed in commit <commit-sha-link>.`
-- **Per-failure bullet** (auto-fixed via PR, e.g. format/links): `- ✅ <Check name>: <1-line failure reason>. Auto-fix PR: <PR-link>.`
-- **Length rule**: keep the full comment concise (target <= 12 lines unless there are many distinct failed checks).
-- **No extra sections**: do NOT add sections such as "Previously identified issues", "Pending", "PR summary", or non-blocking notes.
-- **If nothing is blocking and no auto-fixes were made**: comment only `## PR is ready to merge`.
+- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections.
+- Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>.`
+- Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
+- Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. To avoid duplicates across reruns:
-- rely on safe output `add-comment` with `hide-older-comments: true` so older comments from this workflow are hidden automatically
-- include a stable marker in the body, e.g. `<!-- gh-aw-workflow-id: sdk-release-agent -->`
-- always publish the latest full guidance in the new comment body
+Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: sdk-release-agent -->` in the body.
 
 ### Required Output Template
 
@@ -155,7 +139,6 @@ Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 - ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
-- ✅ <auto-fixed check name>: <short failure reason>. Auto-fix PR: [#<number>](<pr-url>).
 ```
 
 
@@ -176,11 +159,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 
 ### Step 1 — Context Gathering
 
-1. **Check CI status** — use the Actions toolset to check whether CI checks are 
-  passing on this PR. If the build is failing, note it but proceed with the 
-  review (management SDK review issues exist regardless of build).
-2. **Recall past context** — use `cache-memory` to check whether this PR or
-   package has been reviewed before.
+1. **Recall past context** — use `cache-memory` to check whether this PR or package has been reviewed before.
 
 ### Step 2 - Validate any tool issues
 
@@ -241,5 +220,4 @@ body confirming that the API surface looks good.
 
 ### Step 6 — Update Memory
 
-After posting, store a brief summary in `cache-memory` (PR number,
-package, outcome) so future runs can detect repeat patterns.
+Store a brief summary in `cache-memory` (PR number, package, outcome) so future runs can detect repeat patterns.
