@@ -1,4 +1,17 @@
 # Release History
+
+## 2.1.0 (2026-03-10)
+
+### Features Added
+  - Added Interface DynamicSizing
+  - Interface StandbyContainerGroupPoolElasticityProfile has a new optional parameter dynamicSizing
+  - Interface StandbyPoolManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Interface StandbyVirtualMachinePoolElasticityProfile has a new optional parameter dynamicSizing
+  - Interface StandbyVirtualMachinePoolElasticityProfile has a new optional parameter postProvisioningDelay
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Enum KnownVersions has a new value _20251001
+
     
 ## 2.0.0 (2025-04-16)
     

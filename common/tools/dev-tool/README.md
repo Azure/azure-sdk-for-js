@@ -33,6 +33,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `--fix` to automatically fix some issues
 - `package`
   - `resolve` (display information about the project that owns a directory)
+  - `increment-version` (increment a package version by major, minor, or patch; requires PowerShell for changelog updates)
 - `samples`
   - `dev` (link samples to local sources for access to IntelliSense during development)
   - `prep` (prepare samples for local source-linked execution)
