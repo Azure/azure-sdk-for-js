@@ -71,7 +71,7 @@ try {
 }
 catch {
   Write-Host ""
-  Write-Host "Update metadata failed: $($_.Exception.Message)" -ForegroundColor Red
+  Write-Error "Update metadata failed: $($_.Exception.Message)" -ForegroundColor Red
   exit 1
 }
 finally {
