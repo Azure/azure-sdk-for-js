@@ -11,6 +11,8 @@ import type {
 } from "../../api/projectCapabilityHosts/options.js";
 import type { ProjectCapabilityHost } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProjectCapabilityHosts operations. */
@@ -35,6 +37,22 @@ export interface ProjectCapabilityHostsOperations {
     capabilityHostName: string,
     options?: ProjectCapabilityHostsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    capabilityHostName: string,
+    options?: ProjectCapabilityHostsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    capabilityHostName: string,
+    options?: ProjectCapabilityHostsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create or update project capabilityHost. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -44,6 +62,24 @@ export interface ProjectCapabilityHostsOperations {
     capabilityHost: ProjectCapabilityHost,
     options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ProjectCapabilityHost>, ProjectCapabilityHost>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    capabilityHostName: string,
+    capabilityHost: ProjectCapabilityHost,
+    options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ProjectCapabilityHost>, ProjectCapabilityHost>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    capabilityHostName: string,
+    capabilityHost: ProjectCapabilityHost,
+    options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
+  ) => Promise<ProjectCapabilityHost>;
   /** Get project capabilityHost. */
   get: (
     resourceGroupName: string,
@@ -69,6 +105,40 @@ function _getProjectCapabilityHosts(context: CognitiveServicesManagementContext)
       capabilityHostName: string,
       options?: ProjectCapabilityHostsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, projectName, capabilityHostName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      capabilityHostName: string,
+      options?: ProjectCapabilityHostsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        capabilityHostName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      capabilityHostName: string,
+      options?: ProjectCapabilityHostsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        capabilityHostName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
@@ -86,6 +156,44 @@ function _getProjectCapabilityHosts(context: CognitiveServicesManagementContext)
         capabilityHost,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      capabilityHostName: string,
+      capabilityHost: ProjectCapabilityHost,
+      options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        capabilityHostName,
+        capabilityHost,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      capabilityHostName: string,
+      capabilityHost: ProjectCapabilityHost,
+      options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        capabilityHostName,
+        capabilityHost,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       accountName: string,

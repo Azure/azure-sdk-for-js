@@ -11,6 +11,8 @@ import type {
 } from "../../api/raiToolLabels/options.js";
 import type { RaiToolLabel } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiToolLabels operations. */
@@ -33,6 +35,20 @@ export interface RaiToolLabelsOperations {
     raiToolConnectionName: string,
     options?: RaiToolLabelsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    raiToolConnectionName: string,
+    options?: RaiToolLabelsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    raiToolConnectionName: string,
+    options?: RaiToolLabelsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates the RAI Tool Label associated with the Azure OpenAI account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +79,30 @@ function _getRaiToolLabels(context: CognitiveServicesManagementContext) {
       raiToolConnectionName: string,
       options?: RaiToolLabelsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, raiToolConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiToolConnectionName: string,
+      options?: RaiToolLabelsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        raiToolConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiToolConnectionName: string,
+      options?: RaiToolLabelsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, raiToolConnectionName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

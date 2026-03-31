@@ -9,6 +9,8 @@ import type {
   SubscriptionRaiPolicyGetOptionalParams,
 } from "../../api/subscriptionRaiPolicy/options.js";
 import type { RaiPolicy } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SubscriptionRaiPolicy operations. */
@@ -23,6 +25,16 @@ export interface SubscriptionRaiPolicyOperations {
     raiPolicyName: string,
     options?: SubscriptionRaiPolicyDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    raiPolicyName: string,
+    options?: SubscriptionRaiPolicyDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    raiPolicyName: string,
+    options?: SubscriptionRaiPolicyDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified Content Filters associated with the subscription. */
   createOrUpdate: (
     raiPolicyName: string,
@@ -40,6 +52,20 @@ function _getSubscriptionRaiPolicy(context: CognitiveServicesManagementContext) 
   return {
     delete: (raiPolicyName: string, options?: SubscriptionRaiPolicyDeleteOptionalParams) =>
       $delete(context, raiPolicyName, options),
+    beginDelete: async (
+      raiPolicyName: string,
+      options?: SubscriptionRaiPolicyDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, raiPolicyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      raiPolicyName: string,
+      options?: SubscriptionRaiPolicyDeleteOptionalParams,
+    ) => {
+      return await $delete(context, raiPolicyName, options);
+    },
     createOrUpdate: (
       raiPolicyName: string,
       raiPolicy: RaiPolicy,

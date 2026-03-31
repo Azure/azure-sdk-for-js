@@ -11,6 +11,8 @@ import type {
 } from "../../api/raiBlocklists/options.js";
 import type { RaiBlocklist } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiBlocklists operations. */
@@ -33,6 +35,20 @@ export interface RaiBlocklistsOperations {
     raiBlocklistName: string,
     options?: RaiBlocklistsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    raiBlocklistName: string,
+    options?: RaiBlocklistsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    raiBlocklistName: string,
+    options?: RaiBlocklistsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified blocklist associated with the Azure OpenAI account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +79,24 @@ function _getRaiBlocklists(context: CognitiveServicesManagementContext) {
       raiBlocklistName: string,
       options?: RaiBlocklistsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, raiBlocklistName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiBlocklistName: string,
+      options?: RaiBlocklistsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, accountName, raiBlocklistName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiBlocklistName: string,
+      options?: RaiBlocklistsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, raiBlocklistName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

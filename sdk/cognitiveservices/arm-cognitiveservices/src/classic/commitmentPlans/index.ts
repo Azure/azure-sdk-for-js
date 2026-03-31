@@ -40,6 +40,8 @@ import type {
   CommitmentPlanAccountAssociation,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CommitmentPlans operations. */
@@ -57,6 +59,20 @@ export interface CommitmentPlansOperations {
     commitmentPlanAssociationName: string,
     options?: CommitmentPlansDeleteAssociationOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteAssociation instead */
+  beginDeleteAssociation: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteAssociation instead */
+  beginDeleteAssociationAndWait: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
+  ) => Promise<void>;
   /** Create or update the association of the Cognitive Services commitment plan. */
   createOrUpdateAssociation: (
     resourceGroupName: string,
@@ -68,6 +84,27 @@ export interface CommitmentPlansOperations {
     OperationState<CommitmentPlanAccountAssociation>,
     CommitmentPlanAccountAssociation
   >;
+  /** @deprecated use createOrUpdateAssociation instead */
+  beginCreateOrUpdateAssociation: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<CommitmentPlanAccountAssociation>,
+      CommitmentPlanAccountAssociation
+    >
+  >;
+  /** @deprecated use createOrUpdateAssociation instead */
+  beginCreateOrUpdateAssociationAndWait: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlanAssociationName: string,
+    association: CommitmentPlanAccountAssociation,
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+  ) => Promise<CommitmentPlanAccountAssociation>;
   /** Gets the association of the Cognitive Services commitment plan. */
   getAssociation: (
     resourceGroupName: string,
@@ -90,6 +127,18 @@ export interface CommitmentPlansOperations {
     commitmentPlanName: string,
     options?: CommitmentPlansDeletePlanOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deletePlan instead */
+  beginDeletePlan: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deletePlan instead */
+  beginDeletePlanAndWait: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeletePlanOptionalParams,
+  ) => Promise<void>;
   /** Create Cognitive Services commitment plan. */
   updatePlan: (
     resourceGroupName: string,
@@ -97,6 +146,20 @@ export interface CommitmentPlansOperations {
     commitmentPlan: PatchResourceTagsAndSku,
     options?: CommitmentPlansUpdatePlanOptionalParams,
   ) => PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
+  /** @deprecated use updatePlan instead */
+  beginUpdatePlan: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CommitmentPlan>, CommitmentPlan>>;
+  /** @deprecated use updatePlan instead */
+  beginUpdatePlanAndWait: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: PatchResourceTagsAndSku,
+    options?: CommitmentPlansUpdatePlanOptionalParams,
+  ) => Promise<CommitmentPlan>;
   /** Create Cognitive Services commitment plan. */
   createOrUpdatePlan: (
     resourceGroupName: string,
@@ -104,6 +167,20 @@ export interface CommitmentPlansOperations {
     commitmentPlan: CommitmentPlan,
     options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
   ) => PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
+  /** @deprecated use createOrUpdatePlan instead */
+  beginCreateOrUpdatePlan: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CommitmentPlan>, CommitmentPlan>>;
+  /** @deprecated use createOrUpdatePlan instead */
+  beginCreateOrUpdatePlanAndWait: (
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentPlan: CommitmentPlan,
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
+  ) => Promise<CommitmentPlan>;
   /** Returns a Cognitive Services commitment plan specified by the parameters. */
   getPlan: (
     resourceGroupName: string,
@@ -128,6 +205,20 @@ export interface CommitmentPlansOperations {
     commitmentPlanName: string,
     options?: CommitmentPlansDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    commitmentPlanName: string,
+    options?: CommitmentPlansDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified commitmentPlans associated with the Cognitive Services account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -165,6 +256,36 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
         commitmentPlanAssociationName,
         options,
       ),
+    beginDeleteAssociation: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlanAssociationName: string,
+      options?: CommitmentPlansDeleteAssociationOptionalParams,
+    ) => {
+      const poller = deleteAssociation(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAssociationAndWait: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlanAssociationName: string,
+      options?: CommitmentPlansDeleteAssociationOptionalParams,
+    ) => {
+      return await deleteAssociation(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        options,
+      );
+    },
     createOrUpdateAssociation: (
       resourceGroupName: string,
       commitmentPlanName: string,
@@ -180,6 +301,40 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
         association,
         options,
       ),
+    beginCreateOrUpdateAssociation: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlanAssociationName: string,
+      association: CommitmentPlanAccountAssociation,
+      options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+    ) => {
+      const poller = createOrUpdateAssociation(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        association,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAssociationAndWait: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlanAssociationName: string,
+      association: CommitmentPlanAccountAssociation,
+      options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
+    ) => {
+      return await createOrUpdateAssociation(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlanAssociationName,
+        association,
+        options,
+      );
+    },
     getAssociation: (
       resourceGroupName: string,
       commitmentPlanName: string,
@@ -204,12 +359,58 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
       commitmentPlanName: string,
       options?: CommitmentPlansDeletePlanOptionalParams,
     ) => deletePlan(context, resourceGroupName, commitmentPlanName, options),
+    beginDeletePlan: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      options?: CommitmentPlansDeletePlanOptionalParams,
+    ) => {
+      const poller = deletePlan(context, resourceGroupName, commitmentPlanName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeletePlanAndWait: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      options?: CommitmentPlansDeletePlanOptionalParams,
+    ) => {
+      return await deletePlan(context, resourceGroupName, commitmentPlanName, options);
+    },
     updatePlan: (
       resourceGroupName: string,
       commitmentPlanName: string,
       commitmentPlan: PatchResourceTagsAndSku,
       options?: CommitmentPlansUpdatePlanOptionalParams,
     ) => updatePlan(context, resourceGroupName, commitmentPlanName, commitmentPlan, options),
+    beginUpdatePlan: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlan: PatchResourceTagsAndSku,
+      options?: CommitmentPlansUpdatePlanOptionalParams,
+    ) => {
+      const poller = updatePlan(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlan,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdatePlanAndWait: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlan: PatchResourceTagsAndSku,
+      options?: CommitmentPlansUpdatePlanOptionalParams,
+    ) => {
+      return await updatePlan(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlan,
+        options,
+      );
+    },
     createOrUpdatePlan: (
       resourceGroupName: string,
       commitmentPlanName: string,
@@ -217,6 +418,36 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
       options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
     ) =>
       createOrUpdatePlan(context, resourceGroupName, commitmentPlanName, commitmentPlan, options),
+    beginCreateOrUpdatePlan: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlan: CommitmentPlan,
+      options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
+    ) => {
+      const poller = createOrUpdatePlan(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlan,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdatePlanAndWait: async (
+      resourceGroupName: string,
+      commitmentPlanName: string,
+      commitmentPlan: CommitmentPlan,
+      options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
+    ) => {
+      return await createOrUpdatePlan(
+        context,
+        resourceGroupName,
+        commitmentPlanName,
+        commitmentPlan,
+        options,
+      );
+    },
     getPlan: (
       resourceGroupName: string,
       commitmentPlanName: string,
@@ -233,6 +464,24 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
       commitmentPlanName: string,
       options?: CommitmentPlansDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, commitmentPlanName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      commitmentPlanName: string,
+      options?: CommitmentPlansDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, accountName, commitmentPlanName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      commitmentPlanName: string,
+      options?: CommitmentPlansDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, commitmentPlanName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

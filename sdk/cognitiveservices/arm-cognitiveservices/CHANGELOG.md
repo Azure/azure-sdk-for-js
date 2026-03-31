@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.1 (2026-03-26)
+## 9.0.0-beta.1 (2026-03-31)
 Compared with version 8.1.0
 
 ### Features Added
@@ -130,6 +130,7 @@ Compared with version 8.1.0
   - Added Interface SafetyProviderConfig
   - Added Interface ServiceTagOutboundRule
   - Added Interface ServiceTagOutboundRuleDestination
+  - Added Interface SimplePollerLike
   - Added Interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams
   - Added Interface SubscriptionRaiPolicyDeleteOptionalParams
   - Added Interface SubscriptionRaiPolicyGetOptionalParams
@@ -234,69 +235,20 @@ Compared with version 8.1.0
   - Enum KnownRaiPolicyContentSource has a new value PreToolCall
 
 ### Breaking Changes
-  - Removed operation AccountCapabilityHosts.beginCreateOrUpdate
-  - Removed operation AccountCapabilityHosts.beginCreateOrUpdateAndWait
-  - Removed operation AccountCapabilityHosts.beginDelete
-  - Removed operation AccountCapabilityHosts.beginDeleteAndWait
-  - Removed operation Accounts.beginCreate
-  - Removed operation Accounts.beginCreateAndWait
-  - Removed operation Accounts.beginDelete
-  - Removed operation Accounts.beginDeleteAndWait
-  - Removed operation Accounts.beginUpdate
-  - Removed operation Accounts.beginUpdateAndWait
-  - Removed operation CommitmentPlans.beginCreateOrUpdateAssociation
-  - Removed operation CommitmentPlans.beginCreateOrUpdateAssociationAndWait
-  - Removed operation CommitmentPlans.beginCreateOrUpdatePlan
-  - Removed operation CommitmentPlans.beginCreateOrUpdatePlanAndWait
-  - Removed operation CommitmentPlans.beginDelete
-  - Removed operation CommitmentPlans.beginDeleteAndWait
-  - Removed operation CommitmentPlans.beginDeleteAssociation
-  - Removed operation CommitmentPlans.beginDeleteAssociationAndWait
-  - Removed operation CommitmentPlans.beginDeletePlan
-  - Removed operation CommitmentPlans.beginDeletePlanAndWait
-  - Removed operation CommitmentPlans.beginUpdatePlan
-  - Removed operation CommitmentPlans.beginUpdatePlanAndWait
-  - Removed operation DeletedAccounts.beginPurge
-  - Removed operation DeletedAccounts.beginPurgeAndWait
-  - Removed operation Deployments.beginCreateOrUpdate
-  - Removed operation Deployments.beginCreateOrUpdateAndWait
-  - Removed operation Deployments.beginDelete
-  - Removed operation Deployments.beginDeleteAndWait
-  - Removed operation Deployments.beginUpdate
-  - Removed operation Deployments.beginUpdateAndWait
-  - Removed operation EncryptionScopes.beginDelete
-  - Removed operation EncryptionScopes.beginDeleteAndWait
-  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcile
-  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait
-  - Removed operation PrivateEndpointConnections.beginCreateOrUpdate
-  - Removed operation PrivateEndpointConnections.beginCreateOrUpdateAndWait
-  - Removed operation PrivateEndpointConnections.beginDelete
-  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation ProjectCapabilityHosts.beginCreateOrUpdate
-  - Removed operation ProjectCapabilityHosts.beginCreateOrUpdateAndWait
-  - Removed operation ProjectCapabilityHosts.beginDelete
-  - Removed operation ProjectCapabilityHosts.beginDeleteAndWait
-  - Removed operation Projects.beginCreate
-  - Removed operation Projects.beginCreateAndWait
-  - Removed operation Projects.beginDelete
-  - Removed operation Projects.beginDeleteAndWait
-  - Removed operation Projects.beginUpdate
-  - Removed operation Projects.beginUpdateAndWait
-  - Removed operation RaiBlocklistItems.beginDelete
-  - Removed operation RaiBlocklistItems.beginDeleteAndWait
-  - Removed operation RaiBlocklists.beginDelete
-  - Removed operation RaiBlocklists.beginDeleteAndWait
-  - Removed operation RaiPolicies.beginDelete
-  - Removed operation RaiPolicies.beginDeleteAndWait
-  - Removed operation RaiTopics.beginDelete
-  - Removed operation RaiTopics.beginDeleteAndWait
+  - Operation AccountCapabilityHosts.beginDeleteAndWait has a new signature
   - Operation AccountConnections.create has a new signature
   - Operation AccountConnections.get has a new signature
   - Operation AccountConnections.update has a new signature
   - Operation Accounts.regenerateKey has a new signature
+  - Operation EncryptionScopes.beginDeleteAndWait has a new signature
+  - Operation ProjectCapabilityHosts.beginDeleteAndWait has a new signature
   - Operation ProjectConnections.create has a new signature
   - Operation ProjectConnections.get has a new signature
   - Operation ProjectConnections.update has a new signature
+  - Operation RaiBlocklistItems.beginDeleteAndWait has a new signature
+  - Operation RaiBlocklists.beginDeleteAndWait has a new signature
+  - Operation RaiPolicies.beginDeleteAndWait has a new signature
+  - Operation RaiTopics.beginDeleteAndWait has a new signature
   - Removed Interface AzureEntityResource
   - Removed Interface NetworkSecurityPerimeterConfigurationList
   - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType

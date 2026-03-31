@@ -11,6 +11,8 @@ import type {
 } from "../../api/accountCapabilityHosts/options.js";
 import type { CapabilityHost } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccountCapabilityHosts operations. */
@@ -33,6 +35,20 @@ export interface AccountCapabilityHostsOperations {
     capabilityHostName: string,
     options?: AccountCapabilityHostsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    capabilityHostName: string,
+    options?: AccountCapabilityHostsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    capabilityHostName: string,
+    options?: AccountCapabilityHostsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create or update account capabilityHost. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -41,6 +57,22 @@ export interface AccountCapabilityHostsOperations {
     capabilityHost: CapabilityHost,
     options?: AccountCapabilityHostsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CapabilityHost>, CapabilityHost>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    accountName: string,
+    capabilityHostName: string,
+    capabilityHost: CapabilityHost,
+    options?: AccountCapabilityHostsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CapabilityHost>, CapabilityHost>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    capabilityHostName: string,
+    capabilityHost: CapabilityHost,
+    options?: AccountCapabilityHostsCreateOrUpdateOptionalParams,
+  ) => Promise<CapabilityHost>;
   /** Get account capabilityHost. */
   get: (
     resourceGroupName: string,
@@ -63,6 +95,24 @@ function _getAccountCapabilityHosts(context: CognitiveServicesManagementContext)
       capabilityHostName: string,
       options?: AccountCapabilityHostsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, capabilityHostName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      capabilityHostName: string,
+      options?: AccountCapabilityHostsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, accountName, capabilityHostName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      capabilityHostName: string,
+      options?: AccountCapabilityHostsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, capabilityHostName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
@@ -78,6 +128,40 @@ function _getAccountCapabilityHosts(context: CognitiveServicesManagementContext)
         capabilityHost,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      accountName: string,
+      capabilityHostName: string,
+      capabilityHost: CapabilityHost,
+      options?: AccountCapabilityHostsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        capabilityHostName,
+        capabilityHost,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      capabilityHostName: string,
+      capabilityHost: CapabilityHost,
+      options?: AccountCapabilityHostsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        capabilityHostName,
+        capabilityHost,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       accountName: string,

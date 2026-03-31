@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -66,6 +67,14 @@ export interface AccountCapabilityHostsListOptionalParams extends OperationOptio
 
 // @public
 export interface AccountCapabilityHostsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CapabilityHost>, CapabilityHost>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams) => Promise<CapabilityHost>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CapabilityHost>, CapabilityHost>;
     delete: (resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsGetOptionalParams) => Promise<CapabilityHost>;
@@ -225,6 +234,18 @@ export interface AccountsListUsagesOptionalParams extends OperationOptions {
 
 // @public
 export interface AccountsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Account>, Account>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams) => Promise<Account>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Account>, Account>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams) => Promise<Account>;
     create: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams) => PollerLike<OperationState<Account>, Account>;
     delete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) => Promise<Account>;
@@ -295,6 +316,14 @@ export interface AgentApplicationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentApplicationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, name: string, body: AgentApplication, options?: AgentApplicationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AgentApplication>, AgentApplication>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, projectName: string, name: string, body: AgentApplication, options?: AgentApplicationsCreateOrUpdateOptionalParams) => Promise<AgentApplication>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, projectName: string, name: string, options?: AgentApplicationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, projectName: string, name: string, options?: AgentApplicationsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, name: string, body: AgentApplication, options?: AgentApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AgentApplication>, AgentApplication>;
     delete: (resourceGroupName: string, accountName: string, projectName: string, name: string, options?: AgentApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     disable: (resourceGroupName: string, accountName: string, projectName: string, name: string, options?: AgentApplicationsDisableOptionalParams) => Promise<void>;
@@ -351,6 +380,14 @@ export interface AgentDeploymentsListOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentDeploymentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, body: AgentDeployment, options?: AgentDeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AgentDeployment>, AgentDeployment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, body: AgentDeployment, options?: AgentDeploymentsCreateOrUpdateOptionalParams) => Promise<AgentDeployment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, options?: AgentDeploymentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, options?: AgentDeploymentsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, body: AgentDeployment, options?: AgentDeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AgentDeployment>, AgentDeployment>;
     delete: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, options?: AgentDeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, projectName: string, appName: string, deploymentName: string, options?: AgentDeploymentsGetOptionalParams) => Promise<AgentDeployment>;
@@ -767,6 +804,30 @@ export interface CommitmentPlansListPlansBySubscriptionOptionalParams extends Op
 
 // @public
 export interface CommitmentPlansOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAssociation: (resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams) => Promise<SimplePollerLike<OperationState<CommitmentPlanAccountAssociation>, CommitmentPlanAccountAssociation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAssociationAndWait: (resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams) => Promise<CommitmentPlanAccountAssociation>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdatePlan: (resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams) => Promise<SimplePollerLike<OperationState<CommitmentPlan>, CommitmentPlan>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdatePlanAndWait: (resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams) => Promise<CommitmentPlan>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAssociation: (resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAssociationAndWait: (resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePlan: (resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePlanAndWait: (resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdatePlan: (resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams) => Promise<SimplePollerLike<OperationState<CommitmentPlan>, CommitmentPlan>>;
+    // @deprecated (undocumented)
+    beginUpdatePlanAndWait: (resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams) => Promise<CommitmentPlan>;
     createOrUpdate: (resourceGroupName: string, accountName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdateOptionalParams) => Promise<CommitmentPlan>;
     createOrUpdateAssociation: (resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams) => PollerLike<OperationState<CommitmentPlanAccountAssociation>, CommitmentPlanAccountAssociation>;
     createOrUpdatePlan: (resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams) => PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
@@ -1038,6 +1099,10 @@ export interface DeletedAccountsListOptionalParams extends OperationOptions {
 
 // @public
 export interface DeletedAccountsOperations {
+    // @deprecated (undocumented)
+    beginPurge: (location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams) => Promise<void>;
     get: (location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsGetOptionalParams) => Promise<Account>;
     list: (options?: DeletedAccountsListOptionalParams) => PagedAsyncIterableIterator<Account>;
     purge: (location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1140,6 +1205,18 @@ export interface DeploymentsListSkusOptionalParams extends OperationOptions {
 
 // @public
 export interface DeploymentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Deployment>, Deployment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<Deployment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, deployment: PatchResourceTagsAndSku, options?: DeploymentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Deployment>, Deployment>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, deployment: PatchResourceTagsAndSku, options?: DeploymentsUpdateOptionalParams) => Promise<Deployment>;
     createOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Deployment>, Deployment>;
     delete: (resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsGetOptionalParams) => Promise<Deployment>;
@@ -1219,6 +1296,10 @@ export interface EncryptionScopesListOptionalParams extends OperationOptions {
 
 // @public
 export interface EncryptionScopesOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: EncryptionScope, options?: EncryptionScopesCreateOrUpdateOptionalParams) => Promise<EncryptionScope>;
     delete: (resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesGetOptionalParams) => Promise<EncryptionScope>;
@@ -2002,6 +2083,10 @@ export interface ManagedNetworkProvisionOptions {
 
 // @public
 export interface ManagedNetworkProvisionsOperations {
+    // @deprecated (undocumented)
+    beginProvisionManagedNetwork: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>>;
+    // @deprecated (undocumented)
+    beginProvisionManagedNetworkAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams) => Promise<ManagedNetworkProvisionStatus>;
     provisionManagedNetwork: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams) => PollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>;
 }
 
@@ -2055,6 +2140,18 @@ export interface ManagedNetworkSettingsListOptionalParams extends OperationOptio
 
 // @public
 export interface ManagedNetworkSettingsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPatch: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsPatchOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedNetworkSettingsPropertiesBasicResource>, ManagedNetworkSettingsPropertiesBasicResource>>;
+    // @deprecated (undocumented)
+    beginPatchAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsPatchOptionalParams) => Promise<ManagedNetworkSettingsPropertiesBasicResource>;
+    // @deprecated (undocumented)
+    beginPut: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsPropertiesBasicResource, options?: ManagedNetworkSettingsPutOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedNetworkSettingsPropertiesBasicResource>, ManagedNetworkSettingsPropertiesBasicResource>>;
+    // @deprecated (undocumented)
+    beginPutAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsPropertiesBasicResource, options?: ManagedNetworkSettingsPutOptionalParams) => Promise<ManagedNetworkSettingsPropertiesBasicResource>;
     delete: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, managedNetworkName: string, options?: ManagedNetworkSettingsGetOptionalParams) => Promise<ManagedNetworkSettingsPropertiesBasicResource>;
     list: (resourceGroupName: string, accountName: string, options?: ManagedNetworkSettingsListOptionalParams) => PagedAsyncIterableIterator<ManagedNetworkSettingsPropertiesBasicResource>;
@@ -2256,6 +2353,10 @@ export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extend
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginReconcile: (resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>>;
+    // @deprecated (undocumented)
+    beginReconcileAndWait: (resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
     get: (resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
     list: (resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcile: (resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams) => PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
@@ -2359,6 +2460,14 @@ export interface OutboundRuleListOptionalParams extends OperationOptions {
 
 // @public
 export interface OutboundRuleOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, body: OutboundRuleBasicResource, options?: OutboundRuleCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<OutboundRuleBasicResource>, OutboundRuleBasicResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, body: OutboundRuleBasicResource, options?: OutboundRuleCreateOrUpdateOptionalParams) => Promise<OutboundRuleBasicResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, body: OutboundRuleBasicResource, options?: OutboundRuleCreateOrUpdateOptionalParams) => PollerLike<OperationState<OutboundRuleBasicResource>, OutboundRuleBasicResource>;
     delete: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, managedNetworkName: string, ruleName: string, options?: OutboundRuleGetOptionalParams) => Promise<OutboundRuleBasicResource>;
@@ -2367,6 +2476,10 @@ export interface OutboundRuleOperations {
 
 // @public
 export interface OutboundRulesOperations {
+    // @deprecated (undocumented)
+    beginPost: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => Promise<SimplePollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>>;
+    // @deprecated (undocumented)
+    beginPostAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => Promise<_OutboundRuleListResult>;
     // Warning: (ae-forgotten-export) The symbol "_OutboundRuleListResult" needs to be exported by the entry point index.d.ts
     post: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>;
 }
@@ -2456,6 +2569,14 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
@@ -2555,6 +2676,14 @@ export interface ProjectCapabilityHostsListOptionalParams extends OperationOptio
 
 // @public
 export interface ProjectCapabilityHostsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: ProjectCapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ProjectCapabilityHost>, ProjectCapabilityHost>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: ProjectCapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams) => Promise<ProjectCapabilityHost>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: ProjectCapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ProjectCapabilityHost>, ProjectCapabilityHost>;
     delete: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsGetOptionalParams) => Promise<ProjectCapabilityHost>;
@@ -2624,6 +2753,18 @@ export interface ProjectsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ProjectsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Project>, Project>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsCreateOptionalParams) => Promise<Project>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Project>, Project>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsUpdateOptionalParams) => Promise<Project>;
     create: (resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsCreateOptionalParams) => PollerLike<OperationState<Project>, Project>;
     delete: (resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
@@ -2787,6 +2928,10 @@ export interface RaiBlocklistItemsListOptionalParams extends OperationOptions {
 export interface RaiBlocklistItemsOperations {
     batchAdd: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItems: RaiBlocklistItemBulkRequest[], options?: RaiBlocklistItemsBatchAddOptionalParams) => Promise<RaiBlocklist>;
     batchDelete: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemsNames: string[], options?: RaiBlocklistItemsBatchDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, raiBlocklistItem: RaiBlocklistItem, options?: RaiBlocklistItemsCreateOrUpdateOptionalParams) => Promise<RaiBlocklistItem>;
     delete: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsGetOptionalParams) => Promise<RaiBlocklistItem>;
@@ -2817,6 +2962,10 @@ export interface RaiBlocklistsListOptionalParams extends OperationOptions {
 
 // @public
 export interface RaiBlocklistsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklist: RaiBlocklist, options?: RaiBlocklistsCreateOrUpdateOptionalParams) => Promise<RaiBlocklist>;
     delete: (resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsGetOptionalParams) => Promise<RaiBlocklist>;
@@ -2876,6 +3025,10 @@ export interface RaiExternalSafetyProviderGetOptionalParams extends OperationOpt
 
 // @public
 export interface RaiExternalSafetyProviderOperations {
+    // @deprecated (undocumented)
+    beginDelete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (safetyProviderName: string, safetyProvider: RaiExternalSafetyProviderSchema, options?: RaiExternalSafetyProviderCreateOrUpdateOptionalParams) => Promise<RaiExternalSafetyProviderCreateOrUpdateResponse>;
     delete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (safetyProviderName: string, options?: RaiExternalSafetyProviderGetOptionalParams) => Promise<RaiExternalSafetyProviderSchema>;
@@ -2945,6 +3098,10 @@ export interface RaiPoliciesListOptionalParams extends OperationOptions {
 
 // @public
 export interface RaiPoliciesOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, raiPolicyName: string, raiPolicy: RaiPolicy, options?: RaiPoliciesCreateOrUpdateOptionalParams) => Promise<RaiPolicy>;
     delete: (resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesGetOptionalParams) => Promise<RaiPolicy>;
@@ -3038,6 +3195,10 @@ export interface RaiToolLabelsListOptionalParams extends OperationOptions {
 
 // @public
 export interface RaiToolLabelsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, raiToolConnectionName: string, options?: RaiToolLabelsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, raiToolConnectionName: string, options?: RaiToolLabelsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, raiToolConnectionName: string, raiToolLabel: RaiToolLabel, options?: RaiToolLabelsCreateOrUpdateOptionalParams) => Promise<RaiToolLabel>;
     delete: (resourceGroupName: string, accountName: string, raiToolConnectionName: string, options?: RaiToolLabelsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, raiToolConnectionName: string, options?: RaiToolLabelsGetOptionalParams) => Promise<RaiToolLabel>;
@@ -3088,6 +3249,10 @@ export interface RaiTopicsListOptionalParams extends OperationOptions {
 
 // @public
 export interface RaiTopicsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, accountName: string, raiTopicName: string, raiTopic: RaiTopic, options?: RaiTopicsCreateOrUpdateOptionalParams) => Promise<RaiTopic>;
     delete: (resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, raiTopicName: string, options?: RaiTopicsGetOptionalParams) => Promise<RaiTopic>;
@@ -3252,6 +3417,28 @@ export interface ServiceTagOutboundRuleDestination {
 export type ServiceTier = string;
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -3313,6 +3500,10 @@ export interface SubscriptionRaiPolicyGetOptionalParams extends OperationOptions
 
 // @public
 export interface SubscriptionRaiPolicyOperations {
+    // @deprecated (undocumented)
+    beginDelete: (raiPolicyName: string, options?: SubscriptionRaiPolicyDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (raiPolicyName: string, options?: SubscriptionRaiPolicyDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (raiPolicyName: string, raiPolicy: RaiPolicy, options?: SubscriptionRaiPolicyCreateOrUpdateOptionalParams) => Promise<RaiPolicy>;
     delete: (raiPolicyName: string, options?: SubscriptionRaiPolicyDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (raiPolicyName: string, options?: SubscriptionRaiPolicyGetOptionalParams) => Promise<RaiPolicy>;

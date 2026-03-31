@@ -11,6 +11,8 @@ import type {
 } from "../../api/raiPolicies/options.js";
 import type { RaiPolicy } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiPolicies operations. */
@@ -33,6 +35,20 @@ export interface RaiPoliciesOperations {
     raiPolicyName: string,
     options?: RaiPoliciesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    raiPolicyName: string,
+    options?: RaiPoliciesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    raiPolicyName: string,
+    options?: RaiPoliciesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified Content Filters associated with the Azure OpenAI account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +79,24 @@ function _getRaiPolicies(context: CognitiveServicesManagementContext) {
       raiPolicyName: string,
       options?: RaiPoliciesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, raiPolicyName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiPolicyName: string,
+      options?: RaiPoliciesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, accountName, raiPolicyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiPolicyName: string,
+      options?: RaiPoliciesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, raiPolicyName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

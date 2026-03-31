@@ -24,6 +24,8 @@ import type {
   RaiBlocklist,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiBlocklistItems operations. */
@@ -64,6 +66,22 @@ export interface RaiBlocklistItemsOperations {
     raiBlocklistItemName: string,
     options?: RaiBlocklistItemsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    raiBlocklistName: string,
+    raiBlocklistItemName: string,
+    options?: RaiBlocklistItemsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    raiBlocklistName: string,
+    raiBlocklistItemName: string,
+    options?: RaiBlocklistItemsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified blocklist item associated with the Azure OpenAI account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -136,6 +154,40 @@ function _getRaiBlocklistItems(context: CognitiveServicesManagementContext) {
         raiBlocklistItemName,
         options,
       ),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiBlocklistName: string,
+      raiBlocklistItemName: string,
+      options?: RaiBlocklistItemsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        raiBlocklistName,
+        raiBlocklistItemName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      raiBlocklistName: string,
+      raiBlocklistItemName: string,
+      options?: RaiBlocklistItemsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        raiBlocklistName,
+        raiBlocklistItemName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

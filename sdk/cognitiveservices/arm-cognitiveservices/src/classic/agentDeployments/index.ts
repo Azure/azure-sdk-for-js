@@ -20,6 +20,8 @@ import type {
 } from "../../api/agentDeployments/options.js";
 import type { AgentDeployment } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgentDeployments operations. */
@@ -64,6 +66,24 @@ export interface AgentDeploymentsOperations {
     deploymentName: string,
     options?: AgentDeploymentsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    appName: string,
+    deploymentName: string,
+    options?: AgentDeploymentsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    appName: string,
+    deploymentName: string,
+    options?: AgentDeploymentsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates an Agent Deployment (asynchronous). */
   createOrUpdate: (
     resourceGroupName: string,
@@ -74,6 +94,26 @@ export interface AgentDeploymentsOperations {
     body: AgentDeployment,
     options?: AgentDeploymentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AgentDeployment>, AgentDeployment>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    appName: string,
+    deploymentName: string,
+    body: AgentDeployment,
+    options?: AgentDeploymentsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AgentDeployment>, AgentDeployment>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    projectName: string,
+    appName: string,
+    deploymentName: string,
+    body: AgentDeployment,
+    options?: AgentDeploymentsCreateOrUpdateOptionalParams,
+  ) => Promise<AgentDeployment>;
   /** Gets an Agent Deployment by name. */
   get: (
     resourceGroupName: string,
@@ -129,6 +169,44 @@ function _getAgentDeployments(context: CognitiveServicesManagementContext) {
         deploymentName,
         options,
       ),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      appName: string,
+      deploymentName: string,
+      options?: AgentDeploymentsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        appName,
+        deploymentName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      appName: string,
+      deploymentName: string,
+      options?: AgentDeploymentsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        appName,
+        deploymentName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
@@ -148,6 +226,48 @@ function _getAgentDeployments(context: CognitiveServicesManagementContext) {
         body,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      appName: string,
+      deploymentName: string,
+      body: AgentDeployment,
+      options?: AgentDeploymentsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        appName,
+        deploymentName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      projectName: string,
+      appName: string,
+      deploymentName: string,
+      body: AgentDeployment,
+      options?: AgentDeploymentsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        accountName,
+        projectName,
+        appName,
+        deploymentName,
+        body,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       accountName: string,

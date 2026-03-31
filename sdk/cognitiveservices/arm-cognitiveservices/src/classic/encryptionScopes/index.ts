@@ -11,6 +11,8 @@ import type {
 } from "../../api/encryptionScopes/options.js";
 import type { EncryptionScope } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EncryptionScopes operations. */
@@ -33,6 +35,20 @@ export interface EncryptionScopesOperations {
     encryptionScopeName: string,
     options?: EncryptionScopesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options?: EncryptionScopesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options?: EncryptionScopesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update the state of specified encryptionScope associated with the Cognitive Services account. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +79,24 @@ function _getEncryptionScopes(context: CognitiveServicesManagementContext) {
       encryptionScopeName: string,
       options?: EncryptionScopesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, accountName, encryptionScopeName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      accountName: string,
+      encryptionScopeName: string,
+      options?: EncryptionScopesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, accountName, encryptionScopeName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      accountName: string,
+      encryptionScopeName: string,
+      options?: EncryptionScopesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, accountName, encryptionScopeName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,

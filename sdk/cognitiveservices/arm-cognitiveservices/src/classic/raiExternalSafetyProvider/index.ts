@@ -12,6 +12,8 @@ import type {
   RaiExternalSafetyProviderSchema,
   RaiExternalSafetyProviderCreateOrUpdateResponse,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RaiExternalSafetyProvider operations. */
@@ -26,6 +28,16 @@ export interface RaiExternalSafetyProviderOperations {
     safetyProviderName: string,
     options?: RaiExternalSafetyProviderDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    safetyProviderName: string,
+    options?: RaiExternalSafetyProviderDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    safetyProviderName: string,
+    options?: RaiExternalSafetyProviderDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create the rai safety provider associated with the subscription. */
   createOrUpdate: (
     safetyProviderName: string,
@@ -43,6 +55,20 @@ function _getRaiExternalSafetyProvider(context: CognitiveServicesManagementConte
   return {
     delete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) =>
       $delete(context, safetyProviderName, options),
+    beginDelete: async (
+      safetyProviderName: string,
+      options?: RaiExternalSafetyProviderDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, safetyProviderName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      safetyProviderName: string,
+      options?: RaiExternalSafetyProviderDeleteOptionalParams,
+    ) => {
+      return await $delete(context, safetyProviderName, options);
+    },
     createOrUpdate: (
       safetyProviderName: string,
       safetyProvider: RaiExternalSafetyProviderSchema,
