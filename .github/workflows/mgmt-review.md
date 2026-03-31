@@ -45,9 +45,9 @@ timeout-minutes: 25
 
 ---
 
-# SDK Release Agent
+# Management Release Assistant
 
-You are an SDK release agent that helps 
+You are an SDK release assistant that helps 
 - provide next-step guidance with merging status 
 - and review the PR and provide review comments
 
