@@ -186,7 +186,9 @@ export function verifyPackages(packageNames, packageDirs) {
       for (const file of relevantFiles) {
         console.error(`    - ${file}`);
       }
-      console.error(`  Please bump the version in ${packageJsonPath}`);
+      console.error(
+        `  Please bump the version in ${packageJsonPath}. You can do this using "dev-tool package increment-version" from the package folder.`,
+      );
       exitCode = 1;
     }
   }

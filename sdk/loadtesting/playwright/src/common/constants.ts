@@ -68,11 +68,6 @@ export const Constants = {
   HTTP_CALL_TIMEOUT: 10000,
 };
 
-export const ArmConstants = {
-  TenantsApiUrl: "https://management.azure.com/tenants",
-  TenantsApiVersion: "2025-04-01",
-};
-
 export const UrlConstants = {
   AzurePortalBaseUrl: "https://ms.portal.azure.com",
   ReportingApiSubdomain: "reporting.api",
@@ -87,6 +82,7 @@ export const UrlConstants = {
   SubscriptionsPath: "/subscriptions",
   ResourceGroupsUrlPath: "/resourceGroups",
   ProvidersPath: "/providers",
+  TestReportViewPath: "#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView",
 };
 
 export const InternalEnvironmentVariables = {

@@ -12,6 +12,7 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
+    min-integrity: unapproved
   bash: true
   cache-memory:
   repo-memory:
@@ -19,9 +20,11 @@ safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> 🧪 *Tested by [{workflow_name}]({run_url})*"
     run-started: "🧪 [{workflow_name}]({run_url}) is reviewing test coverage and quality…"
