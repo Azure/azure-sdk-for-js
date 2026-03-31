@@ -12,7 +12,7 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
-    lockdown: true
+    min-integrity: unapproved
   bash: true
   cache-memory:
   repo-memory:
@@ -20,9 +20,11 @@ safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> 🏗️ *Reviewed by [{workflow_name}]({run_url})*"
     run-started: "🏗️ [{workflow_name}]({run_url}) is reviewing this PR for API design issues…"
@@ -75,6 +77,11 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
    API surface looks good and stop.
 
 ## Step 2 — Check Against Guidelines
+
+Before checking for breaking changes, use `bash` to find the last GA
+release tag for the package and retrieve its API report. This establishes
+the stable baseline — only flag removals as breaking if the API existed
+in the GA release.
 
 For each changed public API element, apply the full checklist from the
 architecture review guidelines. Focus on breaking changes, naming
