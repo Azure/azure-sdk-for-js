@@ -131,17 +131,16 @@ For fixes from 3b and 3c above, call `create-pull-request` to open a PR that tar
 
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
-- **Message**: `Only failed checks and required actions are listed below.`
+- **Message**: `Only failed checks and required actions are listed below:`
 - **Scope**: include ONLY currently failing or blocking checks; do NOT include passed checks, resolved issues, summaries, or extra background.
-- **Per-failure bullet**: `- ❌ <Check name>: <1-line failure reason>. Action: <1-2 concrete steps/commands>.`
+- **Per-failure bullet** (not auto-fixed): `- ❌ <Check name>: <1-line failure reason>. Action: <1-2 concrete steps/commands>.`
+- **Per-failure bullet** (auto-fixed via commit, e.g. pnpm-lock): `- ✅ <Check name>: <1-line failure reason>. Auto-fixed in commit <commit-sha-link>.`
+- **Per-failure bullet** (auto-fixed via PR, e.g. format/links): `- ✅ <Check name>: <1-line failure reason>. Auto-fix PR: <PR-link>.`
 - **Length rule**: keep the full comment concise (target <= 12 lines unless there are many distinct failed checks).
-- **AutoFix PR**: put the autofix PR if existing with guidance in step 3.
 - **No extra sections**: do NOT add sections such as "Previously identified issues", "Pending", "PR summary", or non-blocking notes.
-- **If nothing is blocking**: comment only `## PR is ready to merge`.
+- **If nothing is blocking and no auto-fixes were made**: comment only `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. Do not use `create_pull_request_review_comment` or `submit_pull_request_review`.
-
-To avoid duplicates across reruns:
+Post via `add_comment` exactly once. To avoid duplicates across reruns:
 - rely on safe output `add-comment` with `hide-older-comments: true` so older comments from this workflow are hidden automatically
 - include a stable marker in the body, e.g. `<!-- gh-aw-workflow-id: sdk-release-agent -->`
 - always publish the latest full guidance in the new comment body
@@ -155,7 +154,8 @@ Use this exact shape and keep it short:
 Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
-- ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
+- ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
+- ✅ <auto-fixed check name>: <short failure reason>. Auto-fix PR: [#<number>](<pr-url>).
 ```
 
 
