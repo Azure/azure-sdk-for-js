@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-15",
-  "emitterVersion": "0.46.0",
+  "apiVersions": {
+    "Microsoft.ComputeLimit": "2026-03-20"
+  },
+  "emitterVersion": "0.51.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ComputeLimit",
     "CrossLanguageDefinitionId": {
@@ -20,11 +22,20 @@
       "@azure/arm-computelimit!SharedLimitProperties:interface": "Microsoft.ComputeLimit.SharedLimitProperties",
       "@azure/arm-computelimit!LimitName:interface": "Microsoft.ComputeLimit.LimitName",
       "@azure/arm-computelimit!SharedLimitListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!Feature:interface": "Microsoft.ComputeLimit.Feature",
+      "@azure/arm-computelimit!FeatureProperties:interface": "Microsoft.ComputeLimit.FeatureProperties",
+      "@azure/arm-computelimit!FeatureListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!OperationStatusResult:interface": "Azure.ResourceManager.CommonTypes.OperationStatusResult",
+      "@azure/arm-computelimit!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-computelimit!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-computelimit!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-computelimit!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-computelimit!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-computelimit!KnownFeatureState:enum": "Microsoft.ComputeLimit.FeatureState",
       "@azure/arm-computelimit!KnownVersions:enum": "Microsoft.ComputeLimit.Versions",
+      "@azure/arm-computelimit!FeaturesOperations#enable:member": "Microsoft.ComputeLimit.Features.enable",
+      "@azure/arm-computelimit!FeaturesOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.Features.listBySubscriptionLocationResource",
+      "@azure/arm-computelimit!FeaturesOperations#get:member": "Microsoft.ComputeLimit.Features.get",
       "@azure/arm-computelimit!SharedLimitsOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.SharedLimits.listBySubscriptionLocationResource",
       "@azure/arm-computelimit!SharedLimitsOperations#delete:member": "Microsoft.ComputeLimit.SharedLimits.delete",
       "@azure/arm-computelimit!SharedLimitsOperations#create:member": "Microsoft.ComputeLimit.SharedLimits.create",

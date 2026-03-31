@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createComputeLimit,
-  type ComputeLimitContext,
-  type ComputeLimitClientOptionalParams,
+export type {
+  ComputeLimitContext,
+  ComputeLimitClientOptionalParams,
 } from "./computeLimitContext.js";
+export { createComputeLimit } from "./computeLimitContext.js";

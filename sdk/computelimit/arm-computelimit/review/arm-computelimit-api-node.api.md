@@ -16,7 +16,7 @@ export interface ComputeLimitClientOptionalParams extends ClientOptions {
 
 // @public
 export interface ComputeLimitContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

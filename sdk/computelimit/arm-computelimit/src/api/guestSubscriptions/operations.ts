@@ -33,7 +33,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,10 +41,7 @@ export function _listBySubscriptionLocationResourceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -55,6 +52,7 @@ export async function _listBySubscriptionLocationResourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -74,7 +72,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-20" },
   );
 }
 
@@ -90,7 +88,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,6 +102,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -139,7 +138,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,10 +147,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: guestSubscriptionSerializer(resource),
   });
 }
@@ -163,6 +159,7 @@ export async function _createDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -193,7 +190,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-20",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,10 +198,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -213,6 +207,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gu
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
