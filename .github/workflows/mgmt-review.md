@@ -30,6 +30,8 @@ safe-outputs:
   create-pull-request:
     title-prefix: "[mgmt-fix] "
     labels: [automated]
+  push-to-pull-request-branch:
+    allowed-files: ["pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -39,7 +41,7 @@ safe-outputs:
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."
     run-success: "⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
-timeout-minutes: 15
+timeout-minutes: 25
 
 ---
 
@@ -94,9 +96,36 @@ Besides above cases and please also pay attention to followings:
 - Review [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md) for more advice on pipeline hangs
 - Provide general guidance if merging conflict exists
 
-### 3. Create a PR to fix if possible
+### 3. Auto-fix failures if possible
 
-If the above failed message show this is a auto-fix one, prepare a PR based on source branch to fix the failure with guidance.
+If one or more failures have `Auto Fix: Yes` in the table above, attempt to fix them.
+
+#### 3a. pnpm-lock.yaml merge conflict
+
+If the PR has `mergeable_state: dirty` and `pnpm-lock.yaml` is the **only** conflicting file, resolve it directly on the PR branch:
+
+1. Install pnpm: `npm install -g pnpm@v10` with env var `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
+2. Fetch the latest upstream main: `git fetch https://github.com/Azure/azure-sdk-for-js main`
+3. Merge latest main: `git merge FETCH_HEAD`
+4. Verify via `git status` that only `pnpm-lock.yaml` has conflicts. If other files also conflict, **stop** and only post guidance instead.
+5. Check out the main branch lockfile: `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
+6. Regenerate: `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
+7. Stage and commit: `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
+8. Push the commit to the PR branch.
+
+If any step fails, stop and report the error in the comment instead.
+
+#### 3b. Check-format failure
+
+Run `bash` with `cd <package-dir> && npx prettier --write .` (or the appropriate format command) to fix formatting.
+
+#### 3c. verify-links broken URL
+
+Use `edit` to append the broken URL(s) to `eng/ignore-links.txt`.
+
+#### 3d. Create a fix PR for non-conflict fixes
+
+For fixes from 3b and 3c above, call `create-pull-request` to open a PR that targets the **source branch** of the original PR. In the PR body, reference the original PR number and explain which failures are addressed.
 
 ### 4. Post a comment
 
@@ -130,7 +159,7 @@ Only failed checks and required actions are listed below.
 ```
 
 
-## Workflow to review the PR
+## Workflow to review the management PR
 
 Review Azure SDK for JS management library pull request #${{ github.event.pull_request.number }} against the official API review guidelines.
 
