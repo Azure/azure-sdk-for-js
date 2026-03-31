@@ -3253,8 +3253,8 @@ importers:
         specifier: workspace:^
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
-        specifier: catalog:arm
-        version: 5.2.0
+        specifier: workspace:^
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
