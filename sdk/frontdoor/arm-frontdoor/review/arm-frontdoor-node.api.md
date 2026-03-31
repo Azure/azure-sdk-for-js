@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -20,11 +24,14 @@ export type AggregationInterval = string;
 export type Availability = string;
 
 // @public
-export interface AzureAsyncOperationResult {
-    // (undocumented)
-    error?: ErrorModel;
-    status?: NetworkOperationStatus;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface Backend {
@@ -56,12 +63,6 @@ export interface BackendPool extends SubResource {
 }
 
 // @public
-export interface BackendPoolListResult {
-    nextLink?: string;
-    readonly value?: BackendPool[];
-}
-
-// @public
 export interface BackendPoolProperties extends BackendPoolUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
 }
@@ -77,6 +78,20 @@ export interface BackendPoolUpdateParameters {
     backends?: Backend[];
     healthProbeSettings?: SubResource;
     loadBalancingSettings?: SubResource;
+}
+
+// @public
+export interface BasicResource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface BasicResourceWithSettableIDName {
+    id?: string;
+    name?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -99,6 +114,11 @@ export interface CheckNameAvailabilityOutput {
     readonly nameAvailability?: Availability;
     readonly reason?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CustomHttpsConfiguration {
@@ -159,14 +179,16 @@ export interface Endpoint {
 }
 
 // @public
-export interface Endpoints {
-    beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPurgeContentAndWait(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<void>;
+export interface EndpointsOperations {
+    // @deprecated (undocumented)
+    beginPurgeContent: (resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeContentAndWait: (resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams) => Promise<void>;
+    purgeContent: (resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface EndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface EndpointsPurgeContentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -176,35 +198,20 @@ export type EndpointType = string;
 // @public
 export type EnforceCertificateNameCheckEnabledState = string;
 
-// @public (undocumented)
-export interface ErrorDetails {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    message?: string;
-    // (undocumented)
-    target?: string;
-}
-
-// @public (undocumented)
-export interface ErrorModel {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    details?: ErrorDetails[];
-    // (undocumented)
-    innerError?: string;
-    // (undocumented)
-    message?: string;
-    // (undocumented)
-    target?: string;
-}
-
 // @public
 export interface ErrorResponse {
     readonly code?: string;
     readonly message?: string;
 }
+
+// @public
+export type ExceptionMatchVariable = string;
+
+// @public
+export type ExceptionSelectorMatchOperator = string;
+
+// @public
+export type ExceptionValueMatchOperator = string;
 
 // @public
 export interface Experiment extends Resource {
@@ -218,75 +225,71 @@ export interface Experiment extends Resource {
 }
 
 // @public
-export interface ExperimentList {
-    nextLink?: string;
-    readonly value?: Experiment[];
+export interface ExperimentProperties {
+    description?: string;
+    enabledState?: State;
+    endpointA?: Endpoint;
+    endpointB?: Endpoint;
+    readonly resourceState?: NetworkExperimentResourceState;
+    readonly scriptFileUri?: string;
+    readonly status?: string;
 }
 
 // @public
-export interface Experiments {
-    beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: ExperimentsListByProfileOptionalParams): PagedAsyncIterableIterator<Experiment>;
-}
-
-// @public
-export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExperimentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ExperimentsCreateOrUpdateResponse = Experiment;
-
-// @public
-export interface ExperimentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExperimentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExperimentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExperimentsGetResponse = Experiment;
-
-// @public
-export interface ExperimentsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsListByProfileOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExperimentsListByProfileNextResponse = ExperimentList;
-
-// @public
-export interface ExperimentsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Experiment>, Experiment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams) => Promise<Experiment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Experiment>, Experiment>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams) => Promise<Experiment>;
+    createOrUpdate: (resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Experiment>, Experiment>;
+    delete: (resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsGetOptionalParams) => Promise<Experiment>;
+    listByProfile: (resourceGroupName: string, profileName: string, options?: ExperimentsListByProfileOptionalParams) => PagedAsyncIterableIterator<Experiment>;
+    update: (resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams) => PollerLike<OperationState<Experiment>, Experiment>;
 }
 
 // @public
-export type ExperimentsListByProfileResponse = ExperimentList;
-
-// @public
-export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExperimentsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ExperimentsUpdateResponse = Experiment;
 
 // @public
 export interface ExperimentUpdateModel {
     description?: string;
     enabledState?: State;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ExperimentUpdateProperties {
+    description?: string;
+    enabledState?: State;
 }
 
 // @public
@@ -295,6 +298,7 @@ export interface ForwardingConfiguration extends RouteConfiguration {
     cacheConfiguration?: CacheConfiguration;
     customForwardingPath?: string;
     forwardingProtocol?: FrontDoorForwardingProtocol;
+    // (undocumented)
     odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
 }
 
@@ -304,9 +308,7 @@ export interface FrontDoor extends Resource {
     backendPoolsSettings?: BackendPoolsSettings;
     readonly cname?: string;
     enabledState?: FrontDoorEnabledState;
-    readonly extendedProperties?: {
-        [propertyName: string]: string;
-    };
+    readonly extendedProperties?: Record<string, string>;
     friendlyName?: string;
     readonly frontdoorId?: string;
     frontendEndpoints?: FrontendEndpoint[];
@@ -322,6 +324,11 @@ export interface FrontDoor extends Resource {
 export type FrontDoorCertificateSource = string;
 
 // @public
+export interface FrontDoorCertificateSourceParameters {
+    certificateType?: FrontDoorCertificateType;
+}
+
+// @public
 export type FrontDoorCertificateType = string;
 
 // @public
@@ -333,82 +340,53 @@ export type FrontDoorForwardingProtocol = string;
 // @public
 export type FrontDoorHealthProbeMethod = string;
 
-// @public
-export interface FrontDoorListResult {
-    nextLink?: string;
-    readonly value?: FrontDoor[];
-}
-
 // @public (undocumented)
-export class FrontDoorManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FrontDoorManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: FrontDoorManagementClientOptionalParams);
-    // (undocumented)
-    endpoints: Endpoints;
-    // (undocumented)
-    experiments: Experiments;
-    // (undocumented)
-    frontDoorNameAvailability: FrontDoorNameAvailability;
-    // (undocumented)
-    frontDoorNameAvailabilityWithSubscription: FrontDoorNameAvailabilityWithSubscription;
-    // (undocumented)
-    frontDoors: FrontDoors;
-    // (undocumented)
-    frontendEndpoints: FrontendEndpoints;
-    // (undocumented)
-    managedRuleSets: ManagedRuleSets;
-    // (undocumented)
-    networkExperimentProfiles: NetworkExperimentProfiles;
-    // (undocumented)
-    policies: Policies;
-    // (undocumented)
-    preconfiguredEndpoints: PreconfiguredEndpoints;
-    // (undocumented)
-    reports: Reports;
-    // (undocumented)
-    rulesEngines: RulesEngines;
-    // (undocumented)
-    subscriptionId?: string;
+export class FrontDoorManagementClient {
+    constructor(credential: TokenCredential, options?: FrontDoorManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: FrontDoorManagementClientOptionalParams);
+    readonly endpoints: EndpointsOperations;
+    readonly experiments: ExperimentsOperations;
+    readonly frontDoorNameAvailability: FrontDoorNameAvailabilityOperations;
+    readonly frontDoorNameAvailabilityWithSubscription: FrontDoorNameAvailabilityWithSubscriptionOperations;
+    readonly frontDoors: FrontDoorsOperations;
+    readonly frontendEndpoints: FrontendEndpointsOperations;
+    readonly managedRuleSets: ManagedRuleSetsOperations;
+    readonly networkExperimentProfiles: NetworkExperimentProfilesOperations;
+    readonly pipeline: Pipeline;
+    readonly policies: PoliciesOperations;
+    readonly preconfiguredEndpoints: PreconfiguredEndpointsOperations;
+    readonly reports: ReportsOperations;
+    readonly rulesEngines: RulesEnginesOperations;
 }
 
 // @public
-export interface FrontDoorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    endpoint?: string;
+export interface FrontDoorManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface FrontDoorNameAvailability {
-    check(checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput, options?: FrontDoorNameAvailabilityCheckOptionalParams): Promise<FrontDoorNameAvailabilityCheckResponse>;
+export interface FrontDoorNameAvailabilityCheckOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FrontDoorNameAvailabilityCheckOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorNameAvailabilityOperations {
+    check: (checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput, options?: FrontDoorNameAvailabilityCheckOptionalParams) => Promise<CheckNameAvailabilityOutput>;
 }
 
 // @public
-export type FrontDoorNameAvailabilityCheckResponse = CheckNameAvailabilityOutput;
-
-// @public
-export interface FrontDoorNameAvailabilityWithSubscription {
-    check(checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput, options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams): Promise<FrontDoorNameAvailabilityWithSubscriptionCheckResponse>;
+export interface FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorNameAvailabilityWithSubscriptionOperations {
+    check: (checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput, options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams) => Promise<CheckNameAvailabilityOutput>;
 }
-
-// @public
-export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAvailabilityOutput;
 
 // @public
 export interface FrontDoorProperties extends FrontDoorUpdateParameters {
     readonly cname?: string;
-    readonly extendedProperties?: {
-        [propertyName: string]: string;
-    };
+    readonly extendedProperties?: Record<string, string>;
     readonly frontdoorId?: string;
     readonly provisioningState?: string;
     readonly resourceState?: FrontDoorResourceState;
@@ -431,73 +409,48 @@ export type FrontDoorRedirectType = string;
 export type FrontDoorResourceState = string;
 
 // @public
-export interface FrontDoors {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FrontDoorsCreateOrUpdateResponse>, FrontDoorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<FrontDoorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsGetOptionalParams): Promise<FrontDoorsGetResponse>;
-    list(options?: FrontDoorsListOptionalParams): PagedAsyncIterableIterator<FrontDoor>;
-    listByResourceGroup(resourceGroupName: string, options?: FrontDoorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FrontDoor>;
-    validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: ValidateCustomDomainInput, options?: FrontDoorsValidateCustomDomainOptionalParams): Promise<FrontDoorsValidateCustomDomainResponse>;
-}
-
-// @public
-export interface FrontDoorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FrontDoorsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FrontDoorsCreateOrUpdateResponse = FrontDoor;
-
-// @public
-export interface FrontDoorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FrontDoorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FrontDoorsGetOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FrontDoorsGetResponse = FrontDoor;
-
-// @public
-export interface FrontDoorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FrontDoorsListByResourceGroupNextResponse = FrontDoorListResult;
-
-// @public
-export interface FrontDoorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FrontDoorsListByResourceGroupResponse = FrontDoorListResult;
-
-// @public
-export interface FrontDoorsListNextOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FrontDoor>, FrontDoor>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams) => Promise<FrontDoor>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FrontDoor>, FrontDoor>;
+    delete: (resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, frontDoorName: string, options?: FrontDoorsGetOptionalParams) => Promise<FrontDoor>;
+    list: (options?: FrontDoorsListOptionalParams) => PagedAsyncIterableIterator<FrontDoor>;
+    listByResourceGroup: (resourceGroupName: string, options?: FrontDoorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FrontDoor>;
+    validateCustomDomain: (resourceGroupName: string, frontDoorName: string, customDomainProperties: ValidateCustomDomainInput, options?: FrontDoorsValidateCustomDomainOptionalParams) => Promise<ValidateCustomDomainOutput>;
 }
 
 // @public
-export type FrontDoorsListNextResponse = FrontDoorListResult;
-
-// @public
-export interface FrontDoorsListOptionalParams extends coreClient.OperationOptions {
+export interface FrontDoorsValidateCustomDomainOptionalParams extends OperationOptions {
 }
-
-// @public
-export type FrontDoorsListResponse = FrontDoorListResult;
-
-// @public
-export interface FrontDoorsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FrontDoorsValidateCustomDomainResponse = ValidateCustomDomainOutput;
 
 // @public
 export type FrontDoorTlsProtocolType = string;
@@ -515,16 +468,14 @@ export interface FrontDoorUpdateParameters {
 }
 
 // @public
-export interface FrontendEndpoint extends SubResource {
+export interface FrontendEndpoint extends BasicResourceWithSettableIDName {
     readonly customHttpsConfiguration?: CustomHttpsConfiguration;
     readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
     readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
     hostName?: string;
-    name?: string;
     readonly resourceState?: FrontDoorResourceState;
     sessionAffinityEnabledState?: SessionAffinityEnabledState;
     sessionAffinityTtlSeconds?: number;
-    readonly type?: string;
     webApplicationFirewallPolicyLink?: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink;
 }
 
@@ -542,52 +493,37 @@ export interface FrontendEndpointProperties extends FrontendEndpointUpdateParame
 }
 
 // @public
-export interface FrontendEndpoints {
-    beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDisableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<void>;
-    beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginEnableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<void>;
-    get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsGetOptionalParams): Promise<FrontendEndpointsGetResponse>;
-    listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: FrontendEndpointsListByFrontDoorOptionalParams): PagedAsyncIterableIterator<FrontendEndpoint>;
-}
-
-// @public
-export interface FrontendEndpointsDisableHttpsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FrontendEndpointsDisableHttpsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FrontendEndpointsEnableHttpsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FrontendEndpointsEnableHttpsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FrontendEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface FrontendEndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FrontendEndpointsGetResponse = FrontendEndpoint;
-
-// @public
-export interface FrontendEndpointsListByFrontDoorNextOptionalParams extends coreClient.OperationOptions {
+export interface FrontendEndpointsListByFrontDoorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FrontendEndpointsListByFrontDoorNextResponse = FrontendEndpointsListResult;
-
-// @public
-export interface FrontendEndpointsListByFrontDoorOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FrontendEndpointsListByFrontDoorResponse = FrontendEndpointsListResult;
-
-// @public
-export interface FrontendEndpointsListResult {
-    nextLink?: string;
-    readonly value?: FrontendEndpoint[];
+export interface FrontendEndpointsOperations {
+    // @deprecated (undocumented)
+    beginDisableHttps: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDisableHttpsAndWait: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginEnableHttps: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginEnableHttpsAndWait: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams) => Promise<void>;
+    disableHttps: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams) => PollerLike<OperationState<void>, void>;
+    enableHttps: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsGetOptionalParams) => Promise<FrontendEndpoint>;
+    listByFrontDoor: (resourceGroupName: string, frontDoorName: string, options?: FrontendEndpointsListByFrontDoorOptionalParams) => PagedAsyncIterableIterator<FrontendEndpoint>;
 }
 
 // @public
@@ -602,9 +538,6 @@ export interface FrontendEndpointUpdateParameters {
 export interface FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink {
     id?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GroupByVariable {
@@ -623,12 +556,6 @@ export type HeaderActionType = string;
 
 // @public
 export type HealthProbeEnabled = string;
-
-// @public
-export interface HealthProbeSettingsListResult {
-    nextLink?: string;
-    readonly value?: HealthProbeSettingsModel[];
-}
 
 // @public
 export interface HealthProbeSettingsModel extends SubResource {
@@ -657,6 +584,13 @@ export interface HealthProbeSettingsUpdateParameters {
 }
 
 // @public
+export interface KeyVaultCertificateSourceParameters {
+    secretName?: string;
+    secretVersion?: string;
+    vault?: KeyVaultCertificateSourceParametersVault;
+}
+
+// @public
 export interface KeyVaultCertificateSourceParametersVault {
     id?: string;
 }
@@ -666,6 +600,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    Captcha = "CAPTCHA",
     JSChallenge = "JSChallenge",
     Log = "Log",
     Redirect = "Redirect"
@@ -736,6 +671,28 @@ export enum KnownEndpointType {
 export enum KnownEnforceCertificateNameCheckEnabledState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownExceptionMatchVariable {
+    RequestHeaderNames = "RequestHeaderNames",
+    RequestUri = "RequestUri",
+    SocketAddr = "SocketAddr"
+}
+
+// @public
+export enum KnownExceptionSelectorMatchOperator {
+    Equals = "Equals"
+}
+
+// @public
+export enum KnownExceptionValueMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    EqualsAny = "EqualsAny",
+    IPMatch = "IPMatch",
+    StartsWith = "StartsWith"
 }
 
 // @public
@@ -874,6 +831,7 @@ export enum KnownMatchProcessingBehavior {
 // @public
 export enum KnownMatchVariable {
     Cookies = "Cookies",
+    JA4 = "JA4",
     PostArgs = "PostArgs",
     QueryString = "QueryString",
     RemoteAddr = "RemoteAddr",
@@ -901,16 +859,11 @@ export enum KnownNetworkExperimentResourceState {
 }
 
 // @public
-export enum KnownNetworkOperationStatus {
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded"
-}
-
-// @public
 export enum KnownOperator {
     Any = "Any",
+    AsnMatch = "AsnMatch",
     BeginsWith = "BeginsWith",
+    ClientFingerprint = "ClientFingerprint",
     Contains = "Contains",
     EndsWith = "EndsWith",
     Equal = "Equal",
@@ -920,7 +873,8 @@ export enum KnownOperator {
     IPMatch = "IPMatch",
     LessThan = "LessThan",
     LessThanOrEqual = "LessThanOrEqual",
-    RegEx = "RegEx"
+    RegEx = "RegEx",
+    ServiceTagMatch = "ServiceTagMatch"
 }
 
 // @public
@@ -1027,6 +981,13 @@ export enum KnownScrubbingRuleEntryState {
 }
 
 // @public
+export enum KnownSensitivityType {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownSessionAffinityEnabledState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1087,6 +1048,12 @@ export enum KnownVariableName {
 }
 
 // @public
+export enum KnownVersions {
+    V20251001 = "2025-10-01",
+    V20251101 = "2025-11-01"
+}
+
+// @public
 export enum KnownWebApplicationFirewallScrubbingState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1123,9 +1090,16 @@ export interface LatencyScorecard extends Resource {
 export type LatencyScorecardAggregationInterval = string;
 
 // @public
-export interface LoadBalancingSettingsListResult {
-    nextLink?: string;
-    readonly value?: LoadBalancingSettingsModel[];
+export interface LatencyScorecardProperties {
+    readonly country?: string;
+    readonly description?: string;
+    readonly endDateTimeUTC?: Date;
+    readonly endpointA?: string;
+    readonly endpointB?: string;
+    readonly id?: string;
+    latencyMetrics?: LatencyMetric[];
+    readonly name?: string;
+    readonly startDateTimeUTC?: Date;
 }
 
 // @public
@@ -1153,6 +1127,7 @@ export interface LoadBalancingSettingsUpdateParameters {
 // @public
 export interface ManagedRuleDefinition {
     readonly defaultAction?: ActionType;
+    readonly defaultSensitivity?: SensitivityType;
     readonly defaultState?: ManagedRuleEnabledState;
     readonly description?: string;
     readonly ruleId?: string;
@@ -1194,6 +1169,7 @@ export interface ManagedRuleOverride {
     enabledState?: ManagedRuleEnabledState;
     exclusions?: ManagedRuleExclusion[];
     ruleId: string;
+    sensitivity?: SensitivityType;
 }
 
 // @public
@@ -1218,34 +1194,50 @@ export interface ManagedRuleSetDefinition extends Resource {
 }
 
 // @public
-export interface ManagedRuleSetDefinitionList {
-    nextLink?: string;
-    readonly value?: ManagedRuleSetDefinition[];
+export interface ManagedRuleSetDefinitionProperties {
+    readonly provisioningState?: string;
+    readonly ruleGroups?: ManagedRuleGroupDefinition[];
+    readonly ruleSetId?: string;
+    readonly ruleSetType?: string;
+    readonly ruleSetVersion?: string;
+}
+
+// @public
+export interface ManagedRuleSetException {
+    matchValues: string[];
+    matchVariable: ExceptionMatchVariable;
+    scopes: ManagedRuleSetScope[];
+    selector?: string;
+    selectorMatchOperator?: ExceptionSelectorMatchOperator;
+    valueMatchOperator: ExceptionValueMatchOperator;
+}
+
+// @public
+export interface ManagedRuleSetExceptionList {
+    exceptions?: ManagedRuleSetException[];
 }
 
 // @public
 export interface ManagedRuleSetList {
+    exceptionsList?: ManagedRuleSetExceptionList;
     managedRuleSets?: ManagedRuleSet[];
 }
 
 // @public
-export interface ManagedRuleSets {
-    list(options?: ManagedRuleSetsListOptionalParams): PagedAsyncIterableIterator<ManagedRuleSetDefinition>;
+export interface ManagedRuleSetScope {
+    ruleGroupScopes?: RuleGroupScope[];
+    ruleSetType: string;
+    ruleSetVersion: string;
 }
 
 // @public
-export interface ManagedRuleSetsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedRuleSetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList;
-
-// @public
-export interface ManagedRuleSetsListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedRuleSetsOperations {
+    list: (options?: ManagedRuleSetsListOptionalParams) => PagedAsyncIterableIterator<ManagedRuleSetDefinition>;
 }
-
-// @public
-export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
 
 // @public
 export interface MatchCondition {
@@ -1267,157 +1259,120 @@ export type MatchVariable = string;
 export type MinimumTLSVersion = string;
 
 // @public
-export interface NetworkExperimentProfiles {
-    beginCreateOrUpdate(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>, NetworkExperimentProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<NetworkExperimentProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesUpdateResponse>, NetworkExperimentProfilesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<NetworkExperimentProfilesUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesGetOptionalParams): Promise<NetworkExperimentProfilesGetResponse>;
-    list(options?: NetworkExperimentProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
-    listByResourceGroup(resourceGroupName: string, options?: NetworkExperimentProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Profile>;
-}
-
-// @public
-export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NetworkExperimentProfilesCreateOrUpdateResponse = Profile;
-
-// @public
-export interface NetworkExperimentProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NetworkExperimentProfilesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NetworkExperimentProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkExperimentProfilesGetResponse = Profile;
-
-// @public
-export interface NetworkExperimentProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileList;
-
-// @public
-export interface NetworkExperimentProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkExperimentProfilesListByResourceGroupResponse = ProfileList;
-
-// @public
-export interface NetworkExperimentProfilesListNextOptionalParams extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Profile>, Profile>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams) => Promise<Profile>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Profile>, Profile>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams) => Promise<Profile>;
+    createOrUpdate: (profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Profile>, Profile>;
+    delete: (resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesGetOptionalParams) => Promise<Profile>;
+    list: (options?: NetworkExperimentProfilesListOptionalParams) => PagedAsyncIterableIterator<Profile>;
+    listByResourceGroup: (resourceGroupName: string, options?: NetworkExperimentProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Profile>;
+    update: (resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams) => PollerLike<OperationState<Profile>, Profile>;
 }
 
 // @public
-export type NetworkExperimentProfilesListNextResponse = ProfileList;
-
-// @public
-export interface NetworkExperimentProfilesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkExperimentProfilesListResponse = ProfileList;
-
-// @public
-export interface NetworkExperimentProfilesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NetworkExperimentProfilesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type NetworkExperimentProfilesUpdateResponse = Profile;
 
 // @public
 export type NetworkExperimentResourceState = string;
 
 // @public
-export type NetworkOperationStatus = string;
-
-// @public
 export type Operator = string;
 
 // @public
-export interface Policies {
-    beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PoliciesUpdateResponse>;
-    get(resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams): Promise<PoliciesGetResponse>;
-    list(resourceGroupName: string, options?: PoliciesListOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
-    listBySubscription(options?: PoliciesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface PoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PoliciesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy;
-
-// @public
-export interface PoliciesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoliciesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PoliciesGetOptionalParams extends coreClient.OperationOptions {
+export interface PoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoliciesGetResponse = WebApplicationFirewallPolicy;
-
-// @public
-export interface PoliciesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PoliciesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface PoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
+export interface PoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<WebApplicationFirewallPolicy>, WebApplicationFirewallPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams) => Promise<WebApplicationFirewallPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<WebApplicationFirewallPolicy>, WebApplicationFirewallPolicy>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams) => Promise<WebApplicationFirewallPolicy>;
+    createOrUpdate: (resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<WebApplicationFirewallPolicy>, WebApplicationFirewallPolicy>;
+    delete: (resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams) => Promise<WebApplicationFirewallPolicy>;
+    list: (resourceGroupName: string, options?: PoliciesListOptionalParams) => PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
+    listBySubscription: (options?: PoliciesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
+    update: (resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams) => PollerLike<OperationState<WebApplicationFirewallPolicy>, WebApplicationFirewallPolicy>;
 }
 
 // @public
-export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoliciesListResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoliciesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 // @public
 export type PolicyEnabledState = string;
@@ -1433,6 +1388,7 @@ export type PolicyResourceState = string;
 
 // @public
 export interface PolicySettings {
+    captchaExpirationInMinutes?: number;
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     enabledState?: PolicyEnabledState;
@@ -1445,7 +1401,13 @@ export interface PolicySettings {
 }
 
 // @public
-export interface PreconfiguredEndpoint extends Resource {
+export interface PolicySettingsLogScrubbing {
+    scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+    state?: WebApplicationFirewallScrubbingState;
+}
+
+// @public
+export interface PreconfiguredEndpoint extends ResourcewithSettableName {
     backend?: string;
     description?: string;
     endpoint?: string;
@@ -1453,52 +1415,47 @@ export interface PreconfiguredEndpoint extends Resource {
 }
 
 // @public
-export interface PreconfiguredEndpointList {
-    nextLink?: string;
-    readonly value?: PreconfiguredEndpoint[];
+export interface PreconfiguredEndpointProperties {
+    backend?: string;
+    description?: string;
+    endpoint?: string;
+    endpointType?: EndpointType;
 }
 
 // @public
-export interface PreconfiguredEndpoints {
-    list(resourceGroupName: string, profileName: string, options?: PreconfiguredEndpointsListOptionalParams): PagedAsyncIterableIterator<PreconfiguredEndpoint>;
+export interface PreconfiguredEndpointsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PreconfiguredEndpointsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PreconfiguredEndpointsOperations {
+    list: (resourceGroupName: string, profileName: string, options?: PreconfiguredEndpointsListOptionalParams) => PagedAsyncIterableIterator<PreconfiguredEndpoint>;
 }
-
-// @public
-export type PreconfiguredEndpointsListNextResponse = PreconfiguredEndpointList;
-
-// @public
-export interface PreconfiguredEndpointsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList;
 
 // @public
 export type PrivateEndpointStatus = string;
 
 // @public
-export interface Profile extends Resource {
+export interface Profile extends ResourcewithSettableName {
     enabledState?: State;
     etag?: string;
     readonly resourceState?: NetworkExperimentResourceState;
 }
 
 // @public
-export interface ProfileList {
-    nextLink?: string;
-    readonly value?: Profile[];
+export interface ProfileProperties {
+    enabledState?: State;
+    readonly resourceState?: NetworkExperimentResourceState;
 }
 
 // @public
 export interface ProfileUpdateModel {
     enabledState?: State;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ProfileUpdateProperties {
+    enabledState?: State;
 }
 
 // @public
@@ -1512,43 +1469,36 @@ export interface RedirectConfiguration extends RouteConfiguration {
     customHost?: string;
     customPath?: string;
     customQueryString?: string;
+    // (undocumented)
     odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
     redirectProtocol?: FrontDoorRedirectProtocol;
     redirectType?: FrontDoorRedirectType;
 }
 
 // @public
-export interface Reports {
-    getLatencyScorecards(resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: LatencyScorecardAggregationInterval, options?: ReportsGetLatencyScorecardsOptionalParams): Promise<ReportsGetLatencyScorecardsResponse>;
-    getTimeseries(resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date, endDateTimeUTC: Date, aggregationInterval: TimeseriesAggregationInterval, timeseriesType: TimeseriesType, options?: ReportsGetTimeseriesOptionalParams): Promise<ReportsGetTimeseriesResponse>;
-}
-
-// @public
-export interface ReportsGetLatencyScorecardsOptionalParams extends coreClient.OperationOptions {
+export interface ReportsGetLatencyScorecardsOptionalParams extends OperationOptions {
     country?: string;
     endDateTimeUTC?: string;
 }
 
 // @public
-export type ReportsGetLatencyScorecardsResponse = LatencyScorecard;
-
-// @public
-export interface ReportsGetTimeseriesOptionalParams extends coreClient.OperationOptions {
+export interface ReportsGetTimeseriesOptionalParams extends OperationOptions {
     country?: string;
-    endpoint?: string;
+    endpointParam?: string;
 }
 
 // @public
-export type ReportsGetTimeseriesResponse = Timeseries;
+export interface ReportsOperations {
+    getLatencyScorecards: (resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: LatencyScorecardAggregationInterval, options?: ReportsGetLatencyScorecardsOptionalParams) => Promise<LatencyScorecard>;
+    getTimeseries: (resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date, endDateTimeUTC: Date, aggregationInterval: TimeseriesAggregationInterval, timeseriesType: TimeseriesType, options?: ReportsGetTimeseriesOptionalParams) => Promise<Timeseries>;
+}
 
 // @public
 export interface Resource {
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
@@ -1556,12 +1506,32 @@ export interface Resource {
 export type ResourceType = "Microsoft.Network/frontDoors" | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 // @public
-export interface RouteConfiguration {
-    odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration" | "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
+export interface ResourcewithSettableName {
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: Record<string, string>;
+    readonly type?: string;
 }
 
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FrontDoorManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
 // @public (undocumented)
-export type RouteConfigurationUnion = RouteConfiguration | ForwardingConfiguration | RedirectConfiguration;
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RouteConfiguration {
+    // (undocumented)
+    odataType: string;
+}
+
+// @public
+export type RouteConfigurationUnion = ForwardingConfiguration | RedirectConfiguration | RouteConfiguration;
 
 // @public
 export interface RoutingRule extends SubResource {
@@ -1586,12 +1556,6 @@ export interface RoutingRuleLink {
 }
 
 // @public
-export interface RoutingRuleListResult {
-    nextLink?: string;
-    readonly value?: RoutingRule[];
-}
-
-// @public
 export interface RoutingRuleProperties extends RoutingRuleUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
 }
@@ -1613,12 +1577,20 @@ export interface RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink {
 }
 
 // @public
-export interface RulesEngine {
-    readonly id?: string;
-    readonly name?: string;
+export interface RuleGroupScope {
+    ruleGroupName: string;
+    ruleScopes?: RuleScope[];
+}
+
+// @public
+export interface RuleScope {
+    ruleId: string;
+}
+
+// @public
+export interface RulesEngine extends BasicResource {
     readonly resourceState?: FrontDoorResourceState;
     rules?: RulesEngineRule[];
-    readonly type?: string;
 }
 
 // @public
@@ -1626,12 +1598,6 @@ export interface RulesEngineAction {
     requestHeaderActions?: HeaderAction[];
     responseHeaderActions?: HeaderAction[];
     routeConfigurationOverride?: RouteConfigurationUnion;
-}
-
-// @public
-export interface RulesEngineListResult {
-    nextLink?: string;
-    readonly value?: RulesEngine[];
 }
 
 // @public
@@ -1665,50 +1631,38 @@ export interface RulesEngineRule {
 }
 
 // @public
-export interface RulesEngines {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RulesEnginesCreateOrUpdateResponse>, RulesEnginesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<RulesEnginesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesGetOptionalParams): Promise<RulesEnginesGetResponse>;
-    listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: RulesEnginesListByFrontDoorOptionalParams): PagedAsyncIterableIterator<RulesEngine>;
-}
-
-// @public
-export interface RulesEnginesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RulesEnginesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RulesEnginesCreateOrUpdateResponse = RulesEngine;
-
-// @public
-export interface RulesEnginesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RulesEnginesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RulesEnginesGetOptionalParams extends coreClient.OperationOptions {
+export interface RulesEnginesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RulesEnginesGetResponse = RulesEngine;
-
-// @public
-export interface RulesEnginesListByFrontDoorNextOptionalParams extends coreClient.OperationOptions {
+export interface RulesEnginesListByFrontDoorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RulesEnginesListByFrontDoorNextResponse = RulesEngineListResult;
-
-// @public
-export interface RulesEnginesListByFrontDoorOptionalParams extends coreClient.OperationOptions {
+export interface RulesEnginesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RulesEngine>, RulesEngine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams) => Promise<RulesEngine>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams) => PollerLike<OperationState<RulesEngine>, RulesEngine>;
+    delete: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesGetOptionalParams) => Promise<RulesEngine>;
+    listByFrontDoor: (resourceGroupName: string, frontDoorName: string, options?: RulesEnginesListByFrontDoorOptionalParams) => PagedAsyncIterableIterator<RulesEngine>;
 }
-
-// @public
-export type RulesEnginesListByFrontDoorResponse = RulesEngineListResult;
 
 // @public
 export interface RulesEngineUpdateParameters {
@@ -1733,7 +1687,32 @@ export interface SecurityPolicyLink {
 }
 
 // @public
+export type SensitivityType = string;
+
+// @public
 export type SessionAffinityEnabledState = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface Sku {
@@ -1753,9 +1732,7 @@ export interface SubResource {
 
 // @public
 export interface TagsObject {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1776,6 +1753,17 @@ export type TimeseriesAggregationInterval = string;
 export interface TimeseriesDataPoint {
     dateTimeUTC?: string;
     value?: number;
+}
+
+// @public
+export interface TimeseriesProperties {
+    aggregationInterval?: AggregationInterval;
+    country?: string;
+    endDateTimeUTC?: string;
+    endpoint?: string;
+    startDateTimeUTC?: string;
+    timeseriesData?: TimeseriesDataPoint[];
+    timeseriesType?: TimeseriesType;
 }
 
 // @public
@@ -1817,9 +1805,15 @@ export interface WebApplicationFirewallPolicy extends Resource {
 }
 
 // @public
-export interface WebApplicationFirewallPolicyList {
-    nextLink?: string;
-    readonly value?: WebApplicationFirewallPolicy[];
+export interface WebApplicationFirewallPolicyProperties {
+    customRules?: CustomRuleList;
+    readonly frontendEndpointLinks?: FrontendEndpointLink[];
+    managedRules?: ManagedRuleSetList;
+    policySettings?: PolicySettings;
+    readonly provisioningState?: string;
+    readonly resourceState?: PolicyResourceState;
+    readonly routingRuleLinks?: RoutingRuleLink[];
+    readonly securityPolicyLinks?: SecurityPolicyLink[];
 }
 
 // @public

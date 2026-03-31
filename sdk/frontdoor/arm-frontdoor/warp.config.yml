@@ -1,15 +1,36 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/frontDoorNameAvailabilityWithSubscription": "src/api/frontDoorNameAvailabilityWithSubscription/index.ts"
+  "./api/frontDoorNameAvailability": "src/api/frontDoorNameAvailability/index.ts"
+  "./api/managedRuleSets": "src/api/managedRuleSets/index.ts"
+  "./api/reports": "src/api/reports/index.ts"
+  "./api/preconfiguredEndpoints": "src/api/preconfiguredEndpoints/index.ts"
+  "./api/networkExperimentProfiles": "src/api/networkExperimentProfiles/index.ts"
+  "./api/endpoints": "src/api/endpoints/index.ts"
+  "./api/policies": "src/api/policies/index.ts"
+  "./api/experiments": "src/api/experiments/index.ts"
+  "./api/rulesEngines": "src/api/rulesEngines/index.ts"
+  "./api/frontendEndpoints": "src/api/frontendEndpoints/index.ts"
+  "./api/frontDoors": "src/api/frontDoors/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
