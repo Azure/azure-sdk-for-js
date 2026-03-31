@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-03-24)
+## 4.0.0-beta.1 (2026-03-31)
 Compared with version 3.1.0
 
 ### Features Added
@@ -67,7 +67,6 @@ Compared with version 3.1.0
   - Removed Interface MetricSpecification
   - Removed Interface OperationDetail
   - Removed Interface ServiceSpecification
-  - Removed Type Alias KeyType_2
   - Enum KnownKind no longer has value Gen1
   - Enum KnownName no longer has value S0
   - Enum KnownName no longer has value S1
