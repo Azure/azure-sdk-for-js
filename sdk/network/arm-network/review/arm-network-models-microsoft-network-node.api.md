@@ -1688,7 +1688,7 @@ export interface BastionActiveSession {
     readonly resourceType?: string;
     readonly sessionDurationInMins?: number;
     readonly sessionId?: string;
-    readonly startTime?: any;
+    readonly startTime?: Record<string, unknown>;
     readonly targetHostName?: string;
     readonly targetIpAddress?: string;
     readonly targetResourceGroup?: string;
@@ -1917,7 +1917,7 @@ export type CommissionedState = string;
 
 // @public
 export interface CommonErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 

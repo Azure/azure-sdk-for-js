@@ -12,7 +12,6 @@ import {
   nspAssociationDeserializer,
   _nspAssociationsListResultDeserializer,
 } from "../../models/microsoft/network/models.js";
-import type { NetworkSecurityPerimeterAssociationsReconcileResponse } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -33,7 +32,7 @@ export function _reconcileSend(
   resourceGroupName: string,
   networkSecurityPerimeterName: string,
   associationName: string,
-  parameters: any,
+  parameters: Record<string, unknown>,
   options: NetworkSecurityPerimeterAssociationsReconcileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -59,7 +58,7 @@ export function _reconcileSend(
 
 export async function _reconcileDeserialize(
   result: PathUncheckedResponse,
-): Promise<NetworkSecurityPerimeterAssociationsReconcileResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -68,7 +67,7 @@ export async function _reconcileDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Reconcile NSP association */
@@ -77,9 +76,9 @@ export async function reconcile(
   resourceGroupName: string,
   networkSecurityPerimeterName: string,
   associationName: string,
-  parameters: any,
+  parameters: Record<string, unknown>,
   options: NetworkSecurityPerimeterAssociationsReconcileOptionalParams = { requestOptions: {} },
-): Promise<NetworkSecurityPerimeterAssociationsReconcileResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _reconcileSend(
     context,
     resourceGroupName,

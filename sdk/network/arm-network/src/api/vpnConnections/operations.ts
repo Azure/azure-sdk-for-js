@@ -14,11 +14,6 @@ import {
   vpnConnectionPacketCaptureStopParametersSerializer,
   _listVpnConnectionsResultDeserializer,
 } from "../../models/microsoft/network/models.js";
-import type { ArmAcceptedLroResponse12, ArmAcceptedLroResponse13 } from "../../models/models.js";
-import {
-  armAcceptedLroResponse12Deserializer,
-  armAcceptedLroResponse13Deserializer,
-} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -121,7 +116,7 @@ export function _stopPacketCaptureSend(
 
 export async function _stopPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse13> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -130,7 +125,7 @@ export async function _stopPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse13Deserializer(result.body);
+  return result.body;
 }
 
 /** Stops packet capture on Vpn connection in the specified resource group. */
@@ -140,7 +135,7 @@ export function stopPacketCapture(
   gatewayName: string,
   vpnConnectionName: string,
   options: VpnConnectionsStopPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _stopPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -148,7 +143,7 @@ export function stopPacketCapture(
       _stopPacketCaptureSend(context, resourceGroupName, gatewayName, vpnConnectionName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _startPacketCaptureSend(
@@ -183,7 +178,7 @@ export function _startPacketCaptureSend(
 
 export async function _startPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse12> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -192,7 +187,7 @@ export async function _startPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse12Deserializer(result.body);
+  return result.body;
 }
 
 /** Starts packet capture on Vpn connection in the specified resource group. */
@@ -202,7 +197,7 @@ export function startPacketCapture(
   gatewayName: string,
   vpnConnectionName: string,
   options: VpnConnectionsStartPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _startPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -210,7 +205,7 @@ export function startPacketCapture(
       _startPacketCaptureSend(context, resourceGroupName, gatewayName, vpnConnectionName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _$deleteSend(

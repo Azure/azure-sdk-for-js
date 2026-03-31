@@ -17,7 +17,6 @@ import type {
   NetworkSecurityPerimeterAssociationsGetOptionalParams,
 } from "../../api/networkSecurityPerimeterAssociations/options.js";
 import type { NspAssociation } from "../../models/microsoft/network/models.js";
-import type { NetworkSecurityPerimeterAssociationsReconcileResponse } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -30,9 +29,9 @@ export interface NetworkSecurityPerimeterAssociationsOperations {
     resourceGroupName: string,
     networkSecurityPerimeterName: string,
     associationName: string,
-    parameters: any,
+    parameters: Record<string, unknown>,
     options?: NetworkSecurityPerimeterAssociationsReconcileOptionalParams,
-  ) => Promise<NetworkSecurityPerimeterAssociationsReconcileResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Lists the NSP resource associations. */
   list: (
     resourceGroupName: string,
@@ -104,7 +103,7 @@ function _getNetworkSecurityPerimeterAssociations(context: NetworkManagementCont
       resourceGroupName: string,
       networkSecurityPerimeterName: string,
       associationName: string,
-      parameters: any,
+      parameters: Record<string, unknown>,
       options?: NetworkSecurityPerimeterAssociationsReconcileOptionalParams,
     ) =>
       reconcile(

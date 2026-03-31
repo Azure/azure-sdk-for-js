@@ -50,26 +50,10 @@ import {
 } from "../../models/microsoft/network/models.js";
 import type {
   _VirtualNetworkGatewayListResult,
-  ArmAcceptedLroResponse,
-  ArmAcceptedLroResponse1,
-  ArmAcceptedLroResponse2,
-  ArmAcceptedLroResponse3,
-  ArmAcceptedLroResponse4,
-  ArmAcceptedLroResponse5,
-  ArmAcceptedLroResponse6,
   VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse,
   VirtualNetworkGatewaysSupportedVpnDevicesResponse,
 } from "../../models/models.js";
-import {
-  _virtualNetworkGatewayListResultDeserializer,
-  armAcceptedLroResponseDeserializer,
-  armAcceptedLroResponse1Deserializer,
-  armAcceptedLroResponse2Deserializer,
-  armAcceptedLroResponse3Deserializer,
-  armAcceptedLroResponse4Deserializer,
-  armAcceptedLroResponse5Deserializer,
-  armAcceptedLroResponse6Deserializer,
-} from "../../models/models.js";
+import { _virtualNetworkGatewayListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -575,7 +559,7 @@ export function _stopExpressRouteSiteFailoverSimulationSend(
 
 export async function _stopExpressRouteSiteFailoverSimulationDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse6> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -584,7 +568,7 @@ export async function _stopExpressRouteSiteFailoverSimulationDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse6Deserializer(result.body);
+  return result.body;
 }
 
 /** This operation stops failover simulation on the gateway for the specified peering location */
@@ -596,7 +580,7 @@ export function stopExpressRouteSiteFailoverSimulation(
   options: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(
     context,
     _stopExpressRouteSiteFailoverSimulationDeserialize,
@@ -615,7 +599,7 @@ export function stopExpressRouteSiteFailoverSimulation(
       resourceLocationConfig: "location",
       apiVersion: "2025-05-01",
     },
-  ) as PollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6>;
+  ) as PollerLike<OperationState<string>, string>;
 }
 
 export function _startExpressRouteSiteFailoverSimulationSend(
@@ -648,7 +632,7 @@ export function _startExpressRouteSiteFailoverSimulationSend(
 
 export async function _startExpressRouteSiteFailoverSimulationDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse5> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -657,7 +641,7 @@ export async function _startExpressRouteSiteFailoverSimulationDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse5Deserializer(result.body);
+  return result.body;
 }
 
 /** This operation starts failover simulation on the gateway for the specified peering location */
@@ -669,7 +653,7 @@ export function startExpressRouteSiteFailoverSimulation(
   options: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(
     context,
     _startExpressRouteSiteFailoverSimulationDeserialize,
@@ -688,7 +672,7 @@ export function startExpressRouteSiteFailoverSimulation(
       resourceLocationConfig: "location",
       apiVersion: "2025-05-01",
     },
-  ) as PollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5>;
+  ) as PollerLike<OperationState<string>, string>;
 }
 
 export function _getFailoverSingleTestDetailsSend(
@@ -882,7 +866,7 @@ export function _stopPacketCaptureSend(
 
 export async function _stopPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse4> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -891,7 +875,7 @@ export async function _stopPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse4Deserializer(result.body);
+  return result.body;
 }
 
 /** Stops packet capture on virtual network gateway in the specified resource group. */
@@ -901,7 +885,7 @@ export function stopPacketCapture(
   virtualNetworkGatewayName: string,
   parameters: VpnPacketCaptureStopParameters,
   options: VirtualNetworkGatewaysStopPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _stopPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -915,7 +899,7 @@ export function stopPacketCapture(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _startPacketCaptureSend(
@@ -948,7 +932,7 @@ export function _startPacketCaptureSend(
 
 export async function _startPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse3> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -957,7 +941,7 @@ export async function _startPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse3Deserializer(result.body);
+  return result.body;
 }
 
 /** Starts packet capture on virtual network gateway in the specified resource group. */
@@ -966,7 +950,7 @@ export function startPacketCapture(
   resourceGroupName: string,
   virtualNetworkGatewayName: string,
   options: VirtualNetworkGatewaysStartPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _startPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -974,7 +958,7 @@ export function startPacketCapture(
       _startPacketCaptureSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _getVpnclientIpsecParametersSend(
@@ -1543,7 +1527,7 @@ export function _getVpnProfilePackageUrlSend(
 
 export async function _getVpnProfilePackageUrlDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse2> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1552,7 +1536,7 @@ export async function _getVpnProfilePackageUrlDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse2Deserializer(result.body);
+  return result.body;
 }
 
 /** Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile. */
@@ -1561,7 +1545,7 @@ export function getVpnProfilePackageUrl(
   resourceGroupName: string,
   virtualNetworkGatewayName: string,
   options: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _getVpnProfilePackageUrlDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -1569,7 +1553,7 @@ export function getVpnProfilePackageUrl(
       _getVpnProfilePackageUrlSend(context, resourceGroupName, virtualNetworkGatewayName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _generateVpnProfileSend(
@@ -1601,7 +1585,7 @@ export function _generateVpnProfileSend(
 
 export async function _generateVpnProfileDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse1> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1610,7 +1594,7 @@ export async function _generateVpnProfileDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse1Deserializer(result.body);
+  return result.body;
 }
 
 /** Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication. */
@@ -1620,7 +1604,7 @@ export function generateVpnProfile(
   virtualNetworkGatewayName: string,
   parameters: VpnClientParameters,
   options: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _generateVpnProfileDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -1634,7 +1618,7 @@ export function generateVpnProfile(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _generatevpnclientpackageSend(
@@ -1666,7 +1650,7 @@ export function _generatevpnclientpackageSend(
 
 export async function _generatevpnclientpackageDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1675,7 +1659,7 @@ export async function _generatevpnclientpackageDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponseDeserializer(result.body);
+  return result.body;
 }
 
 /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
@@ -1685,7 +1669,7 @@ export function generatevpnclientpackage(
   virtualNetworkGatewayName: string,
   parameters: VpnClientParameters,
   options: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(
     context,
     _generatevpnclientpackageDeserialize,
@@ -1704,7 +1688,7 @@ export function generatevpnclientpackage(
       resourceLocationConfig: "location",
       apiVersion: "2025-05-01",
     },
-  ) as PollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>;
+  ) as PollerLike<OperationState<string>, string>;
 }
 
 export function _resetVpnClientSharedKeySend(

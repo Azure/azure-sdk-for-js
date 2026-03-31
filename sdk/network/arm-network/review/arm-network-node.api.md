@@ -1561,66 +1561,6 @@ export interface ApplicationSecurityGroupsUpdateTagsOptionalParams extends Opera
 }
 
 // @public
-export interface ArmAcceptedLroResponse {
-}
-
-// @public
-export interface ArmAcceptedLroResponse1 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse10 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse11 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse12 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse13 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse14 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse2 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse3 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse4 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse5 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse6 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse7 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse8 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse9 {
-}
-
-// @public
 export type AssociationAccessMode = string;
 
 // @public
@@ -2216,7 +2156,7 @@ export interface BastionActiveSession {
     readonly resourceType?: string;
     readonly sessionDurationInMins?: number;
     readonly sessionId?: string;
-    readonly startTime?: any;
+    readonly startTime?: Record<string, unknown>;
     readonly targetHostName?: string;
     readonly targetIpAddress?: string;
     readonly targetResourceGroup?: string;
@@ -2507,7 +2447,7 @@ export type CommissionedState = string;
 
 // @public
 export interface CommonErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -3671,7 +3611,7 @@ export type EndpointType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -10066,17 +10006,12 @@ export interface NetworkSecurityPerimeterAccessRulesOperations {
     delete: (resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, options?: NetworkSecurityPerimeterAccessRulesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, options?: NetworkSecurityPerimeterAccessRulesGetOptionalParams) => Promise<NspAccessRule>;
     list: (resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, options?: NetworkSecurityPerimeterAccessRulesListOptionalParams) => PagedAsyncIterableIterator<NspAccessRule>;
-    reconcile: (resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, parameters: any, options?: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams) => Promise<NetworkSecurityPerimeterAccessRulesReconcileResponse>;
+    reconcile: (resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, parameters: Record<string, unknown>, options?: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams) => Promise<Record<string, unknown>>;
 }
 
 // @public
 export interface NetworkSecurityPerimeterAccessRulesReconcileOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type NetworkSecurityPerimeterAccessRulesReconcileResponse = {
-    body: any;
-};
 
 // @public
 export interface NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams extends OperationOptions {
@@ -10121,17 +10056,12 @@ export interface NetworkSecurityPerimeterAssociationsOperations {
     delete: (resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, options?: NetworkSecurityPerimeterAssociationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, options?: NetworkSecurityPerimeterAssociationsGetOptionalParams) => Promise<NspAssociation>;
     list: (resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterAssociationsListOptionalParams) => PagedAsyncIterableIterator<NspAssociation>;
-    reconcile: (resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, parameters: any, options?: NetworkSecurityPerimeterAssociationsReconcileOptionalParams) => Promise<NetworkSecurityPerimeterAssociationsReconcileResponse>;
+    reconcile: (resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, parameters: Record<string, unknown>, options?: NetworkSecurityPerimeterAssociationsReconcileOptionalParams) => Promise<Record<string, unknown>>;
 }
 
 // @public
 export interface NetworkSecurityPerimeterAssociationsReconcileOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type NetworkSecurityPerimeterAssociationsReconcileResponse = {
-    body: any;
-};
 
 // @public
 export interface NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams extends OperationOptions {
@@ -15325,9 +15255,9 @@ export interface VirtualNetworkGatewayConnectionsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginGetIkeSas: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9>>;
+    beginGetIkeSas: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginGetIkeSasAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => Promise<ArmAcceptedLroResponse9>;
+    beginGetIkeSasAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginResetConnection: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsResetConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -15341,13 +15271,13 @@ export interface VirtualNetworkGatewayConnectionsOperations {
     // @deprecated (undocumented)
     beginSetSharedKeyAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: ConnectionSharedKey, options?: VirtualNetworkGatewayConnectionsSetSharedKeyOptionalParams) => Promise<ConnectionSharedKey>;
     // @deprecated (undocumented)
-    beginStartPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7>>;
+    beginStartPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStartPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse7>;
+    beginStartPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8>>;
+    beginStopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStopPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse8>;
+    beginStopPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginUpdateTags: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: TagsObject, options?: VirtualNetworkGatewayConnectionsUpdateTagsOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkGatewayConnection>, VirtualNetworkGatewayConnection>>;
     // @deprecated (undocumented)
@@ -15355,14 +15285,14 @@ export interface VirtualNetworkGatewayConnectionsOperations {
     createOrUpdate: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VirtualNetworkGatewayConnection, options?: VirtualNetworkGatewayConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkGatewayConnection>, VirtualNetworkGatewayConnection>;
     delete: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetOptionalParams) => Promise<VirtualNetworkGatewayConnection>;
-    getIkeSas: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9>;
+    getIkeSas: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams) => PollerLike<OperationState<string>, string>;
     getSharedKey: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsGetSharedKeyOptionalParams) => Promise<ConnectionSharedKey>;
     list: (resourceGroupName: string, options?: VirtualNetworkGatewayConnectionsListOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkGatewayConnection>;
     resetConnection: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsResetConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
     resetSharedKey: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: ConnectionResetSharedKey, options?: VirtualNetworkGatewayConnectionsResetSharedKeyOptionalParams) => PollerLike<OperationState<ConnectionResetSharedKey>, ConnectionResetSharedKey>;
     setSharedKey: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: ConnectionSharedKey, options?: VirtualNetworkGatewayConnectionsSetSharedKeyOptionalParams) => PollerLike<OperationState<ConnectionSharedKey>, ConnectionSharedKey>;
-    startPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7>;
-    stopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8>;
+    startPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
+    stopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
     updateTags: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: TagsObject, options?: VirtualNetworkGatewayConnectionsUpdateTagsOptionalParams) => PollerLike<OperationState<VirtualNetworkGatewayConnection>, VirtualNetworkGatewayConnection>;
 }
 
@@ -15707,13 +15637,13 @@ export interface VirtualNetworkGatewaysOperations {
     // @deprecated (undocumented)
     beginDisconnectVirtualNetworkGatewayVpnConnectionsAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, request: P2SVpnConnectionRequest, options?: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginGeneratevpnclientpackage: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>>;
+    beginGeneratevpnclientpackage: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginGeneratevpnclientpackageAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => Promise<ArmAcceptedLroResponse>;
+    beginGeneratevpnclientpackageAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginGenerateVpnProfile: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1>>;
+    beginGenerateVpnProfile: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginGenerateVpnProfileAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => Promise<ArmAcceptedLroResponse1>;
+    beginGenerateVpnProfileAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginGetAdvertisedRoutes: (resourceGroupName: string, virtualNetworkGatewayName: string, peer: string, options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams) => Promise<SimplePollerLike<OperationState<GatewayRouteListResult>, GatewayRouteListResult>>;
     // @deprecated (undocumented)
@@ -15751,9 +15681,9 @@ export interface VirtualNetworkGatewaysOperations {
     // @deprecated (undocumented)
     beginGetVpnclientIpsecParametersAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams) => Promise<VpnClientIPsecParameters>;
     // @deprecated (undocumented)
-    beginGetVpnProfilePackageUrl: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2>>;
+    beginGetVpnProfilePackageUrl: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginGetVpnProfilePackageUrlAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => Promise<ArmAcceptedLroResponse2>;
+    beginGetVpnProfilePackageUrlAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginInvokeAbortMigration: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -15783,21 +15713,21 @@ export interface VirtualNetworkGatewaysOperations {
     // @deprecated (undocumented)
     beginSetVpnclientIpsecParametersAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, vpnclientIpsecParams: VpnClientIPsecParameters, options?: VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams) => Promise<VpnClientIPsecParameters>;
     // @deprecated (undocumented)
-    beginStartExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5>>;
+    beginStartExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStartExpressRouteSiteFailoverSimulationAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => Promise<ArmAcceptedLroResponse5>;
+    beginStartExpressRouteSiteFailoverSimulationAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStartPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3>>;
+    beginStartPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStartPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse3>;
+    beginStartPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStopExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6>>;
+    beginStopExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStopExpressRouteSiteFailoverSimulationAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => Promise<ArmAcceptedLroResponse6>;
+    beginStopExpressRouteSiteFailoverSimulationAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4>>;
+    beginStopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStopPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse4>;
+    beginStopPacketCaptureAndWait: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginUpdateTags: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: TagsObject, options?: VirtualNetworkGatewaysUpdateTagsOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>>;
     // @deprecated (undocumented)
@@ -15805,8 +15735,8 @@ export interface VirtualNetworkGatewaysOperations {
     createOrUpdate: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VirtualNetworkGateway, options?: VirtualNetworkGatewaysCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
     delete: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     disconnectVirtualNetworkGatewayVpnConnections: (resourceGroupName: string, virtualNetworkGatewayName: string, request: P2SVpnConnectionRequest, options?: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams) => PollerLike<OperationState<void>, void>;
-    generatevpnclientpackage: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse>, ArmAcceptedLroResponse>;
-    generateVpnProfile: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse1>, ArmAcceptedLroResponse1>;
+    generatevpnclientpackage: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams) => PollerLike<OperationState<string>, string>;
+    generateVpnProfile: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams) => PollerLike<OperationState<string>, string>;
     get: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetOptionalParams) => Promise<VirtualNetworkGateway>;
     getAdvertisedRoutes: (resourceGroupName: string, virtualNetworkGatewayName: string, peer: string, options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams) => PollerLike<OperationState<GatewayRouteListResult>, GatewayRouteListResult>;
     getBgpPeerStatus: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams) => PollerLike<OperationState<BgpPeerStatusListResult>, BgpPeerStatusListResult>;
@@ -15817,7 +15747,7 @@ export interface VirtualNetworkGatewaysOperations {
     getRoutesInformation: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams) => PollerLike<OperationState<GatewayRouteSetsInformation>, GatewayRouteSetsInformation>;
     getVpnclientConnectionHealth: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams) => PollerLike<OperationState<VpnClientConnectionHealthDetailListResult>, VpnClientConnectionHealthDetailListResult>;
     getVpnclientIpsecParameters: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams) => PollerLike<OperationState<VpnClientIPsecParameters>, VpnClientIPsecParameters>;
-    getVpnProfilePackageUrl: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse2>, ArmAcceptedLroResponse2>;
+    getVpnProfilePackageUrl: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams) => PollerLike<OperationState<string>, string>;
     invokeAbortMigration: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams) => PollerLike<OperationState<void>, void>;
     invokeCommitMigration: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams) => PollerLike<OperationState<void>, void>;
     invokeExecuteMigration: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -15828,10 +15758,10 @@ export interface VirtualNetworkGatewaysOperations {
     reset: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetOptionalParams) => PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
     resetVpnClientSharedKey: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams) => PollerLike<OperationState<void>, void>;
     setVpnclientIpsecParameters: (resourceGroupName: string, virtualNetworkGatewayName: string, vpnclientIpsecParams: VpnClientIPsecParameters, options?: VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams) => PollerLike<OperationState<VpnClientIPsecParameters>, VpnClientIPsecParameters>;
-    startExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse5>, ArmAcceptedLroResponse5>;
-    startPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse3>, ArmAcceptedLroResponse3>;
-    stopExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse6>, ArmAcceptedLroResponse6>;
-    stopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse4>, ArmAcceptedLroResponse4>;
+    startExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams) => PollerLike<OperationState<string>, string>;
+    startPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
+    stopExpressRouteSiteFailoverSimulation: (resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams) => PollerLike<OperationState<string>, string>;
+    stopPacketCapture: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
     supportedVpnDevices: (resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams) => Promise<VirtualNetworkGatewaysSupportedVpnDevicesResponse>;
     updateTags: (resourceGroupName: string, virtualNetworkGatewayName: string, parameters: TagsObject, options?: VirtualNetworkGatewaysUpdateTagsOptionalParams) => PollerLike<OperationState<VirtualNetworkGateway>, VirtualNetworkGateway>;
     vpnDeviceConfigurationScript: (resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnDeviceScriptParameters, options?: VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams) => Promise<VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse>;
@@ -16585,19 +16515,19 @@ export interface VpnConnectionsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnConnectionsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginStartPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12>>;
+    beginStartPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStartPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse12>;
+    beginStartPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStopPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13>>;
+    beginStopPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStopPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse13>;
+    beginStopPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => Promise<string>;
     createOrUpdate: (resourceGroupName: string, gatewayName: string, connectionName: string, vpnConnectionParameters: VpnConnection, options?: VpnConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VpnConnection>, VpnConnection>;
     delete: (resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnConnectionsGetOptionalParams) => Promise<VpnConnection>;
     listByVpnGateway: (resourceGroupName: string, gatewayName: string, options?: VpnConnectionsListByVpnGatewayOptionalParams) => PagedAsyncIterableIterator<VpnConnection>;
-    startPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse12>, ArmAcceptedLroResponse12>;
-    stopPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse13>, ArmAcceptedLroResponse13>;
+    startPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStartPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
+    stopPacketCapture: (resourceGroupName: string, gatewayName: string, vpnConnectionName: string, options?: VpnConnectionsStopPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
 }
 
 // @public
@@ -16731,13 +16661,13 @@ export interface VpnGatewaysOperations {
     // @deprecated (undocumented)
     beginResetAndWait: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysResetOptionalParams) => Promise<VpnGateway>;
     // @deprecated (undocumented)
-    beginStartPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10>>;
+    beginStartPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStartPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse10>;
+    beginStartPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
-    beginStopPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11>>;
+    beginStopPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginStopPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => Promise<ArmAcceptedLroResponse11>;
+    beginStopPacketCaptureAndWait: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginUpdateTags: (resourceGroupName: string, gatewayName: string, vpnGatewayParameters: TagsObject, options?: VpnGatewaysUpdateTagsOptionalParams) => Promise<SimplePollerLike<OperationState<VpnGateway>, VpnGateway>>;
     // @deprecated (undocumented)
@@ -16748,8 +16678,8 @@ export interface VpnGatewaysOperations {
     list: (options?: VpnGatewaysListOptionalParams) => PagedAsyncIterableIterator<VpnGateway>;
     listByResourceGroup: (resourceGroupName: string, options?: VpnGatewaysListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VpnGateway>;
     reset: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysResetOptionalParams) => PollerLike<OperationState<VpnGateway>, VpnGateway>;
-    startPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10>;
-    stopPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11>;
+    startPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStartPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
+    stopPacketCapture: (resourceGroupName: string, gatewayName: string, options?: VpnGatewaysStopPacketCaptureOptionalParams) => PollerLike<OperationState<string>, string>;
     updateTags: (resourceGroupName: string, gatewayName: string, vpnGatewayParameters: TagsObject, options?: VpnGatewaysUpdateTagsOptionalParams) => PollerLike<OperationState<VpnGateway>, VpnGateway>;
 }
 
@@ -16812,9 +16742,9 @@ export interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams extends Op
 // @public
 export interface VpnLinkConnectionsOperations {
     // @deprecated (undocumented)
-    beginGetIkeSas: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14>>;
+    beginGetIkeSas: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => Promise<SimplePollerLike<OperationState<string>, string>>;
     // @deprecated (undocumented)
-    beginGetIkeSasAndWait: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => Promise<ArmAcceptedLroResponse14>;
+    beginGetIkeSasAndWait: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => Promise<string>;
     // @deprecated (undocumented)
     beginResetConnection: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -16824,7 +16754,7 @@ export interface VpnLinkConnectionsOperations {
     // @deprecated (undocumented)
     beginSetOrInitDefaultSharedKeyAndWait: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, connectionSharedKeyParameters: ConnectionSharedKeyResult, options?: VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams) => Promise<ConnectionSharedKeyResult>;
     getDefaultSharedKey: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetDefaultSharedKeyOptionalParams) => Promise<ConnectionSharedKeyResult>;
-    getIkeSas: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => PollerLike<OperationState<ArmAcceptedLroResponse14>, ArmAcceptedLroResponse14>;
+    getIkeSas: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams) => PollerLike<OperationState<string>, string>;
     listAllSharedKeys: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsListAllSharedKeysOptionalParams) => PagedAsyncIterableIterator<ConnectionSharedKeyResult>;
     listByVpnConnection: (resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnLinkConnectionsListByVpnConnectionOptionalParams) => PagedAsyncIterableIterator<VpnSiteLinkConnection>;
     listDefaultSharedKey: (resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsListDefaultSharedKeyOptionalParams) => Promise<ConnectionSharedKeyResult>;

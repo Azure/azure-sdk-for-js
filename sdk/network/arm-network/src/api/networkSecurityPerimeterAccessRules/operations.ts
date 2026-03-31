@@ -8,10 +8,7 @@ import {
   nspAccessRuleSerializer,
   nspAccessRuleDeserializer,
 } from "../../models/microsoft/network/models.js";
-import type {
-  _NspAccessRuleListResult,
-  NetworkSecurityPerimeterAccessRulesReconcileResponse,
-} from "../../models/models.js";
+import type { _NspAccessRuleListResult } from "../../models/models.js";
 import { _nspAccessRuleListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -32,7 +29,7 @@ export function _reconcileSend(
   networkSecurityPerimeterName: string,
   profileName: string,
   accessRuleName: string,
-  parameters: any,
+  parameters: Record<string, unknown>,
   options: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -59,7 +56,7 @@ export function _reconcileSend(
 
 export async function _reconcileDeserialize(
   result: PathUncheckedResponse,
-): Promise<NetworkSecurityPerimeterAccessRulesReconcileResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -68,7 +65,7 @@ export async function _reconcileDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Reconcile NSP access rules */
@@ -78,9 +75,9 @@ export async function reconcile(
   networkSecurityPerimeterName: string,
   profileName: string,
   accessRuleName: string,
-  parameters: any,
+  parameters: Record<string, unknown>,
   options: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams = { requestOptions: {} },
-): Promise<NetworkSecurityPerimeterAccessRulesReconcileResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _reconcileSend(
     context,
     resourceGroupName,

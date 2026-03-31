@@ -17,7 +17,6 @@ import type {
   NetworkSecurityPerimeterAccessRulesGetOptionalParams,
 } from "../../api/networkSecurityPerimeterAccessRules/options.js";
 import type { NspAccessRule } from "../../models/microsoft/network/models.js";
-import type { NetworkSecurityPerimeterAccessRulesReconcileResponse } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterAccessRules operations. */
@@ -28,9 +27,9 @@ export interface NetworkSecurityPerimeterAccessRulesOperations {
     networkSecurityPerimeterName: string,
     profileName: string,
     accessRuleName: string,
-    parameters: any,
+    parameters: Record<string, unknown>,
     options?: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams,
-  ) => Promise<NetworkSecurityPerimeterAccessRulesReconcileResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Lists the NSP access rules in the specified NSP profile. */
   list: (
     resourceGroupName: string,
@@ -77,7 +76,7 @@ function _getNetworkSecurityPerimeterAccessRules(context: NetworkManagementConte
       networkSecurityPerimeterName: string,
       profileName: string,
       accessRuleName: string,
-      parameters: any,
+      parameters: Record<string, unknown>,
       options?: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams,
     ) =>
       reconcile(

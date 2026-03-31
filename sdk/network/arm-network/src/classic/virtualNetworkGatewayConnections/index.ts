@@ -37,11 +37,6 @@ import type {
   ConnectionSharedKey,
   ConnectionResetSharedKey,
 } from "../../models/microsoft/network/models.js";
-import type {
-  ArmAcceptedLroResponse7,
-  ArmAcceptedLroResponse8,
-  ArmAcceptedLroResponse9,
-} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -72,58 +67,58 @@ export interface VirtualNetworkGatewayConnectionsOperations {
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9>;
+  ) => PollerLike<OperationState<string>, string>;
   /** @deprecated use getIkeSas instead */
   beginGetIkeSas: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9>>;
+  ) => Promise<SimplePollerLike<OperationState<string>, string>>;
   /** @deprecated use getIkeSas instead */
   beginGetIkeSasAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse9>;
+  ) => Promise<string>;
   /** Stops packet capture on virtual network gateway connection in the specified resource group. */
   stopPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8>;
+  ) => PollerLike<OperationState<string>, string>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8>>;
+  ) => Promise<SimplePollerLike<OperationState<string>, string>>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCaptureAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse8>;
+  ) => Promise<string>;
   /** Starts packet capture on virtual network gateway connection in the specified resource group. */
   startPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7>;
+  ) => PollerLike<OperationState<string>, string>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCapture: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7>>;
+  ) => Promise<SimplePollerLike<OperationState<string>, string>>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCaptureAndWait: (
     resourceGroupName: string,
     virtualNetworkGatewayConnectionName: string,
     options?: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse7>;
+  ) => Promise<string>;
   /** The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
   resetSharedKey: (
     resourceGroupName: string,

@@ -25,7 +25,6 @@ import type {
   VpnGatewaysGetOptionalParams,
 } from "../../api/vpnGateways/options.js";
 import type { TagsObject, VpnGateway } from "../../models/microsoft/network/models.js";
-import type { ArmAcceptedLroResponse10, ArmAcceptedLroResponse11 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -38,41 +37,37 @@ export interface VpnGatewaysOperations {
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11>;
+  ) => PollerLike<OperationState<string>, string>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCapture: (
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ArmAcceptedLroResponse11>, ArmAcceptedLroResponse11>
-  >;
+  ) => Promise<SimplePollerLike<OperationState<string>, string>>;
   /** @deprecated use stopPacketCapture instead */
   beginStopPacketCaptureAndWait: (
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse11>;
+  ) => Promise<string>;
   /** Starts packet capture on vpn gateway in the specified resource group. */
   startPacketCapture: (
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams,
-  ) => PollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10>;
+  ) => PollerLike<OperationState<string>, string>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCapture: (
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ArmAcceptedLroResponse10>, ArmAcceptedLroResponse10>
-  >;
+  ) => Promise<SimplePollerLike<OperationState<string>, string>>;
   /** @deprecated use startPacketCapture instead */
   beginStartPacketCaptureAndWait: (
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams,
-  ) => Promise<ArmAcceptedLroResponse10>;
+  ) => Promise<string>;
   /** Resets the primary of the vpn gateway in the specified resource group. */
   reset: (
     resourceGroupName: string,

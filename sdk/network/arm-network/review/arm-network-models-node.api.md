@@ -20,71 +20,11 @@ export type ApplicationGatewaysListAvailableServerVariablesResponse = {
 };
 
 // @public
-export interface ArmAcceptedLroResponse {
-}
-
-// @public
-export interface ArmAcceptedLroResponse1 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse10 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse11 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse12 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse13 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse14 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse2 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse3 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse4 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse5 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse6 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse7 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse8 {
-}
-
-// @public
-export interface ArmAcceptedLroResponse9 {
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -104,16 +44,6 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     User = "User"
 }
-
-// @public (undocumented)
-export type NetworkSecurityPerimeterAccessRulesReconcileResponse = {
-    body: any;
-};
-
-// @public (undocumented)
-export type NetworkSecurityPerimeterAssociationsReconcileResponse = {
-    body: any;
-};
 
 // @public
 export interface OperationStatusResult {

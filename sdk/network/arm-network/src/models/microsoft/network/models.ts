@@ -211,7 +211,7 @@ export interface BastionActiveSession {
   /** A unique id for the session. */
   readonly sessionId?: string;
   /** The time when the session started. */
-  readonly startTime?: any;
+  readonly startTime?: Record<string, unknown>;
   /** The subscription id for the target virtual machine. */
   readonly targetSubscriptionId?: string;
   /** The type of the resource. */
@@ -19774,7 +19774,7 @@ export interface CommonErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: any;
+  readonly info?: Record<string, unknown>;
 }
 
 export function commonErrorAdditionalInfoDeserializer(item: any): CommonErrorAdditionalInfo {

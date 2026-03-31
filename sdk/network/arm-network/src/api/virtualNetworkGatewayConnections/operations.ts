@@ -23,18 +23,8 @@ import {
   connectionResetSharedKeySerializer,
   connectionResetSharedKeyDeserializer,
 } from "../../models/microsoft/network/models.js";
-import type {
-  _VirtualNetworkGatewayConnectionListResult,
-  ArmAcceptedLroResponse7,
-  ArmAcceptedLroResponse8,
-  ArmAcceptedLroResponse9,
-} from "../../models/models.js";
-import {
-  _virtualNetworkGatewayConnectionListResultDeserializer,
-  armAcceptedLroResponse7Deserializer,
-  armAcceptedLroResponse8Deserializer,
-  armAcceptedLroResponse9Deserializer,
-} from "../../models/models.js";
+import type { _VirtualNetworkGatewayConnectionListResult } from "../../models/models.js";
+import { _virtualNetworkGatewayConnectionListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -136,9 +126,7 @@ export function _getIkeSasSend(
   });
 }
 
-export async function _getIkeSasDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse9> {
+export async function _getIkeSasDeserialize(result: PathUncheckedResponse): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -147,7 +135,7 @@ export async function _getIkeSasDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse9Deserializer(result.body);
+  return result.body;
 }
 
 /** Lists IKE Security Associations for the virtual network gateway connection in the specified resource group. */
@@ -156,7 +144,7 @@ export function getIkeSas(
   resourceGroupName: string,
   virtualNetworkGatewayConnectionName: string,
   options: VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _getIkeSasDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -164,7 +152,7 @@ export function getIkeSas(
       _getIkeSasSend(context, resourceGroupName, virtualNetworkGatewayConnectionName, options),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse9>, ArmAcceptedLroResponse9>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _stopPacketCaptureSend(
@@ -196,7 +184,7 @@ export function _stopPacketCaptureSend(
 
 export async function _stopPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse8> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -205,7 +193,7 @@ export async function _stopPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse8Deserializer(result.body);
+  return result.body;
 }
 
 /** Stops packet capture on virtual network gateway connection in the specified resource group. */
@@ -215,7 +203,7 @@ export function stopPacketCapture(
   virtualNetworkGatewayConnectionName: string,
   parameters: VpnPacketCaptureStopParameters,
   options: VirtualNetworkGatewayConnectionsStopPacketCaptureOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _stopPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -229,7 +217,7 @@ export function stopPacketCapture(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse8>, ArmAcceptedLroResponse8>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _startPacketCaptureSend(
@@ -264,7 +252,7 @@ export function _startPacketCaptureSend(
 
 export async function _startPacketCaptureDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmAcceptedLroResponse7> {
+): Promise<string> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -273,7 +261,7 @@ export async function _startPacketCaptureDeserialize(
     throw error;
   }
 
-  return armAcceptedLroResponse7Deserializer(result.body);
+  return result.body;
 }
 
 /** Starts packet capture on virtual network gateway connection in the specified resource group. */
@@ -284,7 +272,7 @@ export function startPacketCapture(
   options: VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7> {
+): PollerLike<OperationState<string>, string> {
   return getLongRunningPoller(context, _startPacketCaptureDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -297,7 +285,7 @@ export function startPacketCapture(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2025-05-01",
-  }) as PollerLike<OperationState<ArmAcceptedLroResponse7>, ArmAcceptedLroResponse7>;
+  }) as PollerLike<OperationState<string>, string>;
 }
 
 export function _resetSharedKeySend(
