@@ -179,7 +179,7 @@ export function configureEntraAuthentication(
  */
 export function entraTokenProvider(
   credential: TokenCredential,
-  options: GetEntraAccessTokenOptions = {},
+  options: EntraTokenProviderOptions = {},
 ): () => Promise<string> {
   const { scope = DEFAULT_SCOPE } = options;
   return async () => {

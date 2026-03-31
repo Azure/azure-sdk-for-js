@@ -15,7 +15,7 @@ export interface ConfigureEntraAuthenticationOptions {
 }
 
 // @public
-export function entraTokenProvider(credential: TokenCredential, options?: GetEntraTokenPasswEntraTokenProviderOptionsordOptions): () => Promise<string>;
+export function entraTokenProvider(credential: TokenCredential, options?: EntraTokenProviderOptions): () => Promise<string>;
 
 // @public
 export interface EntraTokenProviderOptions {
