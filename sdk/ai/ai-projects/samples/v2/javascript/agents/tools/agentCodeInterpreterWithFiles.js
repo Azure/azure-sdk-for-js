@@ -14,12 +14,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const { fileURLToPath } = require("node:url");
 require("dotenv/config");
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
