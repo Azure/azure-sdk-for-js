@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AccessTokenClaims,
-  VersionInfo,
-  JwtPayload,
-  RunConfig,
-  WorkspaceMetaData,
-  TenantInfo,
-} from "../common/types.js";
+import type { AccessTokenClaims, VersionInfo, JwtPayload, RunConfig } from "../common/types.js";
 import {
   Constants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  BrowserSessionSourceType,
   UrlConstants,
+  UploadConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -32,7 +27,6 @@ import { exec } from "child_process";
 import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
-import { UploadConstants } from "../common/constants.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -135,7 +129,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&api-version=${apiVersion}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {
@@ -476,44 +470,16 @@ export function collectAllFiles(
   return files;
 }
 
-export function resolveTenantDomain(
-  tenantId: string | undefined,
-  tenants: TenantInfo[],
-): string | undefined {
-  if (!tenantId || tenants.length === 0) {
-    return undefined;
+export function getPortalTestRunUrl(resourceId: string): string {
+  if (!resourceId) {
+    throw new Error("Missing required parameter: resourceId is required");
   }
-  const matchingTenant = tenants.find((t) => t.tenantId === tenantId);
-  coreLogger.info(
-    `Resolved tenant domain: ${JSON.stringify(matchingTenant?.defaultDomain)} for tenant ID: ${tenantId}`,
-  );
-  return matchingTenant?.defaultDomain;
-}
-
-export function getPortalTestRunUrl(
-  workspaceMetadata: WorkspaceMetaData | null,
-  tenantDomain?: string,
-): string {
-  const { subscriptionId, resourceId, name } = workspaceMetadata ?? {};
-  if (!subscriptionId || !resourceId || !name) {
-    throw new Error(
-      "Missing required workspace metadata: subscriptionId, resourceId, and name are required",
-    );
+  const runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+  if (!runId) {
+    throw new Error("Run ID is required but not found in environment variables");
   }
 
-  // Extract resource group from resourceId
-  const resourceIdParts = resourceId.split("/");
-  const resourceGroupIndex = resourceIdParts.findIndex(
-    (part) => part.toLowerCase() === UrlConstants.ResourceGroupsPath,
-  );
-
-  if (resourceGroupIndex === -1 || resourceGroupIndex + 1 >= resourceIdParts.length) {
-    throw new Error("Invalid resourceId format: could not extract resource group name");
-  }
-
-  const resourceGroupName = resourceIdParts[resourceGroupIndex + 1];
-  const tenantFragment = tenantDomain ? `#@${tenantDomain}` : "#";
-  return `${UrlConstants.AzurePortalBaseUrl}/${tenantFragment}${UrlConstants.ResourcePath}${UrlConstants.SubscriptionsPath}/${encodeURIComponent(subscriptionId)}${UrlConstants.ResourceGroupsUrlPath}/${encodeURIComponent(resourceGroupName!)}${UrlConstants.ProvidersPath}/${UrlConstants.LoadTestServiceProvider}/${UrlConstants.PlaywrightWorkspacesResourceType}/${encodeURIComponent(name)}/${UrlConstants.TestRunsRoute}`;
+  return `${UrlConstants.AzurePortalBaseUrl}/${UrlConstants.TestReportViewPath}/testRunId/${encodeURIComponent(runId)}/resourceId/${encodeURIComponent(resourceId)}`;
 }
 
 export const getStorageAccountNameFromUri = (storageUri: string): string | null => {

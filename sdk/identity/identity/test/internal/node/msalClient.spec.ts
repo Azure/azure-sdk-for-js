@@ -4,11 +4,7 @@
 import * as msalClient from "$internal/msal/nodeFlows/msalClient.js";
 
 import type { AuthenticationResult } from "@azure/msal-node";
-import {
-  ClientApplication,
-  ConfidentialClientApplication,
-  PublicClientApplication,
-} from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -332,7 +328,7 @@ describe("MsalClient", function () {
         });
 
         const silentAuthSpy = vi
-          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .spyOn(PublicClientApplication.prototype, "acquireTokenSilent")
           .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
@@ -353,7 +349,7 @@ describe("MsalClient", function () {
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
         const silentAuthStub = vi
-          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .spyOn(PublicClientApplication.prototype, "acquireTokenSilent")
           .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
@@ -402,7 +398,7 @@ describe("MsalClient", function () {
           },
         });
 
-        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+        vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
           new AbortError("operation has been aborted"),
         ); // AbortErrors should get re-thrown
 
@@ -415,7 +411,7 @@ describe("MsalClient", function () {
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
         const scopes = ["https://vault.azure.net/.default"];
-        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+        vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
           new AuthenticationRequiredError({ scopes }),
         );
 

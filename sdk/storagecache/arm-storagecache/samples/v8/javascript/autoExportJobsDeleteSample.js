@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Schedules an auto export job for deletion.
  *
  * @summary Schedules an auto export job for deletion.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/autoExportJobs_Delete.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/autoExportJobs_Delete.json
  */
 async function autoExportJobsDelete() {
   const subscriptionId =

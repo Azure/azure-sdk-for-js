@@ -803,7 +803,7 @@ importers:
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.7
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -906,7 +906,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../../monitor/monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -1822,6 +1822,85 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
+
+  sdk/appnetwork/arm-appnetwork:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.35
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.35)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.0.18(vitest@4.0.18)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3051,24 +3130,27 @@ importers:
 
   sdk/batch/arm-batch:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.7.2
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3082,18 +3164,21 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-resources':
+        specifier: catalog:arm
+        version: 5.2.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -3109,9 +3194,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7230,24 +7321,27 @@ importers:
 
   sdk/containerservice/arm-containerservice:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7264,12 +7358,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -8453,8 +8547,8 @@ importers:
   sdk/core/core-xml:
     dependencies:
       fast-xml-parser:
-        specifier: ^5.3.7
-        version: 5.4.1
+        specifier: ^5.5.9
+        version: 5.5.9
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11219,6 +11313,85 @@ importers:
         specifier: catalog:testing
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
 
+  sdk/discovery/arm-discovery:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.35
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.35)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.0.18(vitest@4.0.18)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
+
   sdk/dns/arm-dns:
     dependencies:
       '@azure/abort-controller':
@@ -12395,24 +12568,27 @@ importers:
 
   sdk/eventgrid/arm-eventgrid:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12429,12 +12605,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -12450,9 +12626,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14920,11 +15102,11 @@ importers:
         specifier: ^1.0.0
         version: link:../../core/logger
       '@azure/msal-browser':
-        specifier: ^4.2.0
-        version: 4.29.0
+        specifier: ^5.5.0
+        version: 5.6.2
       '@azure/msal-node':
-        specifier: ^3.5.0
-        version: 3.8.8
+        specifier: ^5.1.0
+        version: 5.1.1
       open:
         specifier: ^11.0.0
         version: 11.0.0
@@ -15005,11 +15187,11 @@ importers:
         specifier: ^4.7.0
         version: 4.13.0
       '@azure/msal-node':
-        specifier: ^3.2.2
-        version: 3.8.8
+        specifier: ^5.1.0
+        version: 5.1.1
       '@azure/msal-node-extensions':
-        specifier: ^1.5.24
-        version: 1.5.30
+        specifier: ^5.1.0
+        version: 5.1.1
       tslib:
         specifier: ^2.2.0
         version: 2.8.1
@@ -15078,11 +15260,11 @@ importers:
         specifier: ^4.7.0
         version: 4.13.0
       '@azure/msal-node':
-        specifier: ^3.2.2
-        version: 3.8.8
+        specifier: ^5.1.0
+        version: 5.1.1
       '@azure/msal-node-extensions':
-        specifier: ^1.5.20
-        version: 1.5.30
+        specifier: ^5.1.0
+        version: 5.1.1
       keytar:
         specifier: ^7.6.0
         version: 7.9.0
@@ -15191,11 +15373,11 @@ importers:
         specifier: ^4.11.0
         version: 4.13.0
       '@azure/msal-node':
-        specifier: ^3.2.2
-        version: 3.8.8
+        specifier: ^5.1.0
+        version: 5.1.1
       '@azure/msal-node-extensions':
-        specifier: ^1.5.24
-        version: 1.5.30
+        specifier: ^5.1.0
+        version: 5.1.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15987,24 +16169,27 @@ importers:
 
   sdk/keyvault/arm-keyvault:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16021,12 +16206,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -16225,7 +16410,7 @@ importers:
   sdk/keyvault/keyvault-certificates:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.3
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -16240,19 +16425,19 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/keyvault-common':
         specifier: ^2.0.0
         version: link:../keyvault-common
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -16757,24 +16942,27 @@ importers:
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.4
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16791,12 +16979,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -16812,9 +17000,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16827,18 +17021,21 @@ importers:
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.4
-        version: link:../../core/core-client
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16855,12 +17052,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -16876,9 +17073,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16891,24 +17094,27 @@ importers:
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.4
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16925,12 +17131,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -16946,9 +17152,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16961,24 +17173,27 @@ importers:
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16995,12 +17210,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -17016,9 +17231,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17823,19 +18044,16 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^2.7.2
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -17868,9 +18086,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.0.18(vitest@4.0.18)
-      autorest:
-        specifier: 'catalog:'
-        version: 3.8.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -19561,6 +19776,79 @@ importers:
         specifier: catalog:testing
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
 
+  sdk/marketplace/arm-marketplace:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.35
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.35)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.0.18(vitest@4.0.18)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
+
   sdk/marketplaceordering/arm-marketplaceordering:
     dependencies:
       '@azure/core-auth':
@@ -20278,12 +20566,15 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: ^1.22.2
         version: link:../../core/core-rest-pipeline
+      '@azure/functions-opentelemetry-instrumentation':
+        specifier: ^0.3.0
+        version: 0.3.0(@opentelemetry/api@1.9.0)
       '@azure/logger':
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.9
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -20372,6 +20663,9 @@ importers:
       '@opentelemetry/exporter-metrics-otlp-http':
         specifier: ^0.204.0
         version: 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http':
+        specifier: ^0.204.0
+        version: 0.204.0(@opentelemetry/api@1.9.0)
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -20405,6 +20699,9 @@ importers:
 
   sdk/monitor/monitor-opentelemetry-exporter:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.5.2
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -20605,7 +20902,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -20693,7 +20990,7 @@ importers:
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.39
-        version: link:../monitor-opentelemetry-exporter
+        version: 1.0.0-beta.39
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -20928,85 +21225,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.58.2
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
-
-  sdk/neonpostgres/arm-neonpostgres:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-lro':
-        specifier: ^3.1.0
-        version: link:../../core/core-lro
-      '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.11.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.35
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.35)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.0.18(vitest@4.0.18)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.3
-      playwright:
-        specifier: catalog:testing
-        version: 1.58.2
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22740,18 +22958,21 @@ importers:
 
   sdk/policy/arm-policy:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22765,18 +22986,15 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
-      '@azure/arm-managementgroups':
-        specifier: ^2.0.1
-        version: link:../../managementgroups/arm-managementgroups
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -22792,6 +23010,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
@@ -24246,24 +24467,27 @@ importers:
 
   sdk/recoveryservicesbackup/arm-recoveryservicesbackup:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24283,12 +24507,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -24304,9 +24528,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28716,7 +28946,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -28733,6 +28963,9 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
@@ -32296,11 +32529,11 @@ packages:
     engines: {node: '>=20.0.0'}
 
   '@azure/core-auth@1.10.1':
-    resolution: {integrity: sha512-ykRMW8PjVAn+RS6ww5cmK9U2CyH9p4Q88YJwvUslfuMmN98w/2rdGRLPqJYObapBCdzBVeDgYWdJnFPFb7qzpg==}
+    resolution: {integrity: sha1-aKF/qGHr0U9v0xQFV5g1Xva+3xs=}
     engines: {node: '>=20.0.0'}
 
   '@azure/core-client@1.10.1':
-    resolution: {integrity: sha512-Nh5PhEOeY6PrnxNPsEHRr9eimxLwgLlpmguQaHKBinFYA/RU9+kOYVOQqOrTsCL+KSxrLLl1gD8Dk5BFW/7l/w==}
+    resolution: {integrity: sha1-g9ePl9ZHqyLmgRp6aLtCI+eh0Bk=}
     engines: {node: '>=20.0.0'}
 
   '@azure/core-http-compat@2.3.2':
@@ -32322,6 +32555,10 @@ packages:
     resolution: {integrity: sha512-MzHym+wOi8CLUlKCQu12de0nwcq9k9Kuv43j4Wa++CsCpJwps2eeBQwD2Bu8snkxTtDKDx4GwjuR9E8yC8LNrg==}
     engines: {node: '>=20.0.0'}
 
+  '@azure/core-rest-pipeline@1.23.0':
+    resolution: {integrity: sha1-NfFuHBgMqVRcJgrBJLdRvh2pwIw=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/core-sse@2.3.0':
     resolution: {integrity: sha512-jKhPpdDbVS5GlpadSKIC7V6Q4P2vEcwXi1c4CLTXs01Q/PAITES9v5J/S73+RtCMqQpsX0jGa2yPWwXi9JzdgA==}
     engines: {node: '>=20.0.0'}
@@ -32341,6 +32578,12 @@ packages:
   '@azure/functions-extensions-base@0.2.0':
     resolution: {integrity: sha512-ncCkHBNQYJa93dBIh+toH0v1iSgCzSo9tr94s6SMBe7DPWREkaWh8cq33A5P4rPSFX1g5W+3SPvIzDr/6/VOWQ==}
     engines: {node: '>=18.0'}
+
+  '@azure/functions-opentelemetry-instrumentation@0.3.0':
+    resolution: {integrity: sha1-HucaUrbhq71ltyIdCQEWK1hhnh4=}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
 
   '@azure/functions@3.5.1':
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
@@ -32373,8 +32616,16 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    resolution: {integrity: sha1-s7A+yKgRlkxXsxdEIsmHqsfouOA=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/msal-browser@4.29.0':
     resolution: {integrity: sha512-/f3eHkSNUTl6DLQHm+bKecjBKcRQxbd/XLx8lvSYp8Nl/HRyPuIPOijt9Dt0sH50/SxOwQ62RnFCmFlGK+bR/w==}
+    engines: {node: '>=0.8.0'}
+
+  '@azure/msal-browser@5.6.2':
+    resolution: {integrity: sha1-ZrUzHZYWtFuHej9ECFSSp02vCLs=}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@14.16.1':
@@ -32382,15 +32633,19 @@ packages:
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@15.15.0':
-    resolution: {integrity: sha512-/n+bN0AKlVa+AOcETkJSKj38+bvFs78BaP4rNtv3MJCmPH0YrHiskMRe74OhyZ5DZjGISlFyxqvf9/4QVEi2tw==}
+    resolution: {integrity: sha1-BedYtBkjSZr3ygll7ar8KKKs9hU=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-node-extensions@1.5.30':
-    resolution: {integrity: sha512-151skrUF5MLflmIyCkxd7UqNmnaCYmBXrElrJFCG4dH1Lr++wq793S0HxOejCQR/c92ZU0OHGdfJCNIr9b+5zA==}
-    engines: {node: '>=16'}
+  '@azure/msal-common@16.4.0':
+    resolution: {integrity: sha1-8oxeAI0CPwobuFgN4diazrWFL6w=}
+    engines: {node: '>=0.8.0'}
+
+  '@azure/msal-node-extensions@5.1.1':
+    resolution: {integrity: sha1-aWSqEyEKABpaQSWYuOB6odhafJo=}
+    engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.1':
-    resolution: {integrity: sha512-WVbMedbJHjt9M+qeZMH/6U1UmjXsKaMB6fN8OZUtGY7UVNYofrowZNx4nVvWN/ajPKBQCEW4Rr/MwcRuA8HGcQ==}
+    resolution: {integrity: sha1-iGqqCYEetHPo4IsjbwGxTGid43s=}
 
   '@azure/msal-node@2.16.3':
     resolution: {integrity: sha512-CO+SE4weOsfJf+C5LM8argzvotrXw252/ZU6SM2Tz63fEblhH1uuVaaO4ISYFuN4Q6BhTo7I3qIdi8ydUQCqhw==}
@@ -32399,6 +32654,10 @@ packages:
   '@azure/msal-node@3.8.8':
     resolution: {integrity: sha512-+f1VrJH1iI517t4zgmuhqORja0bL6LDQXfBqkjuMmfTYXTQQnh1EvwwxO3UbKLT05N0obF72SRHFrC1RBDv5Gg==}
     engines: {node: '>=16'}
+
+  '@azure/msal-node@5.1.1':
+    resolution: {integrity: sha1-ksWRXpUrSfCQaYOoodgb1XaCqAI=}
+    engines: {node: '>=20'}
 
   '@azure/openai@1.0.0-beta.12':
     resolution: {integrity: sha512-qKblxr6oVa8GsyNzY+/Ub9VmEsPYKhBrUrPaNEQiM+qrxnBPVm9kaeqGFFb/U78Q2zOabmhF9ctYt3xBW0nWnQ==}
@@ -33238,7 +33497,7 @@ packages:
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api-logs@0.204.0':
-    resolution: {integrity: sha512-DqxY8yoAaiBPivoJD4UtgrMS8gEmzZ5lnaxzPojzLVHBGqPxgWm4zcuvcUHZiqQ6kRX2Klel2r9y8cA2HAtqpw==}
+    resolution: {integrity: sha1-wChapceWJaHEJIVDk5AtIXMv12s=}
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api-logs@0.205.0':
@@ -33249,12 +33508,20 @@ packages:
     resolution: {integrity: sha512-CjruKY9V6NMssL/T1kAFgzosF1v9o6oeN+aX5JB/C/xPNtmgIJqcXHG7fA82Ou1zCpWGl4lROQUKwUNE1pMCyg==}
     engines: {node: '>=8.0.0'}
 
+  '@opentelemetry/api-logs@0.209.0':
+    resolution: {integrity: sha1-XzIs39n97T+wBuXWhaN4d8rvhGQ=}
+    engines: {node: '>=8.0.0'}
+
   '@opentelemetry/api-logs@0.211.0':
     resolution: {integrity: sha512-swFdZq8MCdmdR22jTVGQDhwqDzcI4M10nhjXkLr1EsIzXgZBqm4ZlmmcWsg3TSNf+3mzgOiqveXmBLZuDi2Lgg==}
     engines: {node: '>=8.0.0'}
 
+  '@opentelemetry/api-logs@0.52.1':
+    resolution: {integrity: sha1-UpBjddpNZMIGsMTLj/ogkhRlTsw=}
+    engines: {node: '>=14'}
+
   '@opentelemetry/api-logs@0.53.0':
-    resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
+    resolution: {integrity: sha1-xHjL2BIOwlR7ZO36A6VSz+QhcL4=}
     engines: {node: '>=14'}
 
   '@opentelemetry/api-logs@0.57.0':
@@ -33300,7 +33567,7 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/core@2.1.0':
-    resolution: {integrity: sha512-RMEtHsxJs/GiHHxYT58IY57UXAQTuUnZVco6ymDEqTNlJKTimM4qPUPVe8InNFyBjhHBEAx4k3Q8LtNayBsbUQ==}
+    resolution: {integrity: sha1-VTnwTrnlJF4ACww/d736oHVX46c=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -33371,8 +33638,14 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
+  '@opentelemetry/exporter-trace-otlp-http@0.204.0':
+    resolution: {integrity: sha1-McYpWQF0a/mH723eRPz4RvmLQLY=}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
   '@opentelemetry/exporter-trace-otlp-http@0.208.0':
-    resolution: {integrity: sha512-jbzDw1q+BkwKFq9yxhjAJ9rjKldbt5AgIy1gmEIJjEV/WRxQ3B6HcLVkwbjJ3RcMif86BDNKR846KJ0tY0aOJA==}
+    resolution: {integrity: sha1-O1jKqAqzFZdHKQLYT7yTPTXPTVk=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -33461,6 +33734,12 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
+  '@opentelemetry/instrumentation@0.52.1':
+    resolution: {integrity: sha1-Ln5Go4vXr78Dz2iMhisLQ0GLf0g=}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
   '@opentelemetry/instrumentation@0.53.0':
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
     engines: {node: '>=14'}
@@ -33480,13 +33759,13 @@ packages:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-exporter-base@0.204.0':
-    resolution: {integrity: sha512-K1LB1Ht4rGgOtZQ1N8xAwUnE1h9EQBfI4XUbSorbC6OxK6s/fLzl+UAhZX1cmBsDqM5mdx5+/k4QaKlDxX6UXQ==}
+    resolution: {integrity: sha1-D6ZRER40BtqXV2Fzn+7vCQrNTSo=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-exporter-base@0.208.0':
-    resolution: {integrity: sha512-gMd39gIfVb2OgxldxUtOwGJYSH8P1kVFFlJLuut32L6KgUC4gl1dMhn+YC2mGn0bDOiQYSk/uHOdSjuKp58vvA==}
+    resolution: {integrity: sha1-GpMjVWKAh1VaMXtyB2N9Tok8Gl0=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -33498,13 +33777,13 @@ packages:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-transformer@0.204.0':
-    resolution: {integrity: sha512-AekB2dgHJ0PMS0b3LH7xA2HDKZ0QqqZW4n5r/AVZy00gKnFoeyVF9t0AUz051fm80G7tKjGSLqOUSazqfTNpVQ==}
+    resolution: {integrity: sha1-+epboSqGayP+SOat0FC95AdZoiM=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
   '@opentelemetry/otlp-transformer@0.208.0':
-    resolution: {integrity: sha512-DCFPY8C6lAQHUNkzcNT9R+qYExvsk6C5Bto2pbNxgicpcSWbe2WHShLxkOxIdNcBiYPdVHv/e7vH7K6TI+C+fQ==}
+    resolution: {integrity: sha1-xZ9IpWnRd2bZHGGAfbewTkvkkKw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -33556,7 +33835,7 @@ packages:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
 
   '@opentelemetry/resources@2.1.0':
-    resolution: {integrity: sha512-1CJjf3LCvoefUOgegxi8h6r4B/wLSzInyhGP2UmIBYNlo4Qk5CZ73e1eEyWmfXvFtm1ybkmfb2DqWvspsYLrWw==}
+    resolution: {integrity: sha1-EXcucyr08nlTz1VWemYw2LTYKC0=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
@@ -33580,7 +33859,7 @@ packages:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
   '@opentelemetry/sdk-logs@0.204.0':
-    resolution: {integrity: sha512-y32iNNmpMUVFWSqbNrXE8xY/6EMge+HX3PXsMnCDV4cXT4SNT+W/3NgyMDf80KJL0fUK17/a0NmfXcrBhkFWrg==}
+    resolution: {integrity: sha1-ZMirVK3hFUVJ4lv1r9+BG4dWECY=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
@@ -33598,7 +33877,7 @@ packages:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
   '@opentelemetry/sdk-metrics@2.1.0':
-    resolution: {integrity: sha512-J9QX459mzqHLL9Y6FZ4wQPRZG4TOpMCyPOh6mkr/humxE1W2S3Bvf4i75yiMW9uyed2Kf5rxmLhTm/UK8vNkAw==}
+    resolution: {integrity: sha1-+7mycO5Wwp/rqIUGLlwEGCE/zPI=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.9.0 <1.10.0'
@@ -33628,7 +33907,7 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/sdk-trace-base@2.1.0':
-    resolution: {integrity: sha512-uTX9FBlVQm4S2gVQO1sb5qyBLq/FPjbp+tmGoxu4tIgtYGmBYB44+KX/725RFDe30yBSaA9Ml9fqphe1hbUyLQ==}
+    resolution: {integrity: sha1-nTFHSCTp7SFflL9xJg1TIfZNQCo=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
@@ -33670,7 +33949,7 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
   '@opentelemetry/semantic-conventions@1.28.0':
-    resolution: {integrity: sha512-lp4qAiMTD4sNWW4DbKLBkfiMZ4jbAboJIGOQr5DvciMRI494OapieI9qiODpOt0XBr1LjIDy1xAGAnVs5supTA==}
+    resolution: {integrity: sha1-M3+yvKBFPQcmaW50X1AGRBH2RtY=}
     engines: {node: '>=14'}
 
   '@opentelemetry/semantic-conventions@1.40.0':
@@ -33991,7 +34270,7 @@ packages:
     resolution: {integrity: sha512-8mam4H1NHLtu7nmtalF7eyBH14QyOASmcxHhSfEoRyr0nP/YdoesEtU+uSRvMe96TW/HPTtkoKqQLl53N7UXMQ==}
 
   '@types/shimmer@1.2.0':
-    resolution: {integrity: sha512-UE7oxhQLLd9gub6JKIAhDq06T0F6FnztwMNRvYgjeQSBeMc1ZG/tA47EwfduvkuQS8apbkM/lpLpWsaCeYsXVg==}
+    resolution: {integrity: sha1-m3Bq+W+gZBaCiEI5enDfu/HBTe0=}
 
   '@types/triple-beam@1.3.5':
     resolution: {integrity: sha512-6WaYesThRMCl19iryMYP7/x2OVgCtbIVflDGFpWnb9irXI3UjYE4AzmYuiUKY1AJstGijoY+MgUszMgRxIYTYw==}
@@ -34116,8 +34395,8 @@ packages:
     resolution: {integrity: sha512-KiROIzYdEV85YygXw6BI/Dx4fnBlFQu6Mq4QE4MOH9fFnhohw6wX/OAvDY2/C+ut0I3RSPKenvZJIVYqJNkhEw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typespec/ts-http-runtime@0.3.3':
-    resolution: {integrity: sha512-91fp6CAAJSRtH5ja95T1FHSKa8aPW9/Zw6cta81jlZTUw/+Vq8jM/AfF/14h2b71wwR84JUTW/3Y8QPhDAawFA==}
+  '@typespec/ts-http-runtime@0.3.4':
+    resolution: {integrity: sha1-xfI26lkkyFrY/5bWDs3woiWFQRw=}
     engines: {node: '>=20.0.0'}
 
   '@vitest/browser-playwright@4.0.18':
@@ -34173,7 +34452,7 @@ packages:
     engines: {node: '>= 0.6'}
 
   acorn-import-attributes@1.9.5:
-    resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
+    resolution: {integrity: sha1-frFVexugXvGLXtDsZ1kb+rBGiO8=}
     peerDependencies:
       acorn: ^8
 
@@ -34183,7 +34462,7 @@ packages:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
   acorn@8.16.0:
-    resolution: {integrity: sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==}
+    resolution: {integrity: sha1-TOecib5Ar+ev6POtuQKh8c6awIo=}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -34431,10 +34710,10 @@ packages:
     engines: {node: '>=18'}
 
   cjs-module-lexer@1.4.3:
-    resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
+    resolution: {integrity: sha1-D3lzHrjP4exyrNQGbvrJ1hmRsA0=}
 
   cjs-module-lexer@2.2.0:
-    resolution: {integrity: sha512-4bHTS2YuzUvtoLjdy+98ykbNB5jS0+07EvFNXerqZQJ89F7DI6ET7OQo/HJuW6K0aVsKA9hj9/RVb2kQVOrPDQ==}
+    resolution: {integrity: sha1-s8pRAYQziSWa3n2Ix3vQbOVYSco=}
 
   clear-module@4.1.2:
     resolution: {integrity: sha512-LWAxzHqdHsAZlPlEyJ2Poz6AIs384mPeqLVCru2p0BrP9G/kVGuhNyZYClLO6cXlnuJjzC8xtsJIuMjKqLXoAw==}
@@ -34952,11 +35231,11 @@ packages:
   fast-wrap-ansi@0.2.0:
     resolution: {integrity: sha512-rLV8JHxTyhVmFYhBJuMujcrHqOT2cnO5Zxj37qROj23CP39GXubJRBUFF0z8KFK77Uc0SukZUf7JZhsVEQ6n8w==}
 
-  fast-xml-builder@1.0.0:
-    resolution: {integrity: sha1-pIXX6DgfHbmDzwBvhJ0QZuKTUkE=}
+  fast-xml-builder@1.1.4:
+    resolution: {integrity: sha1-DEB6HZ1ZljNsDNdvf/eFysZBMBc=}
 
-  fast-xml-parser@5.4.1:
-    resolution: {integrity: sha1-DIG47PswIeWtg6o9+QSvGaBbxgE=}
+  fast-xml-parser@5.5.9:
+    resolution: {integrity: sha1-5ZY3q+vsPb+7QFO1MteHr26hFSc=}
     hasBin: true
 
   fastify-plugin@5.1.0:
@@ -35232,7 +35511,7 @@ packages:
     engines: {node: '>=6'}
 
   import-in-the-middle@1.15.0:
-    resolution: {integrity: sha512-bpQy+CrsRmYmoPMAE/0G33iwRqwW4ouqdRg8jgbH3aKuCtOc8lxgmYXg2dMM92CRiGP660EtBcymH/eVUpCSaA==}
+    resolution: {integrity: sha1-niCCejIrutrrXjusSeqPbUaF/dg=}
 
   import-in-the-middle@2.0.6:
     resolution: {integrity: sha512-3vZV3jX0XRFW3EJDTwzWoZa+RH1b8eTTx6YOCjglrLyPuepwoBti1k3L2dKwdCUrnVEfc5CuRuGstaC/uQJJaw==}
@@ -35738,7 +36017,7 @@ packages:
     resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
 
   module-details-from-path@1.0.4:
-    resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
+    resolution: {integrity: sha1-tmL9zZP2yD0/JSidoM6ByNloW5Q=}
 
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
@@ -35932,6 +36211,10 @@ packages:
   path-exists@5.0.0:
     resolution: {integrity: sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  path-expression-matcher@1.2.0:
+    resolution: {integrity: sha1-m9rjeH9DsIV7AmnpyqpYbBLIq+4=}
+    engines: {node: '>=14.0.0'}
 
   path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
@@ -36190,7 +36473,7 @@ packages:
     engines: {node: '>=0.10.0'}
 
   require-in-the-middle@7.5.2:
-    resolution: {integrity: sha512-gAZ+kLqBdHarXB64XpAe2VCjB7rIRv+mU8tfRWziHRJ5umKsIHN2tLLv6EtMw7WCdP19S0ERVMldNvxYCHnhSQ==}
+    resolution: {integrity: sha1-3CWxSK/61C5XDPDkG6MNwA8XA+w=}
     engines: {node: '>=8.6.0'}
 
   require-in-the-middle@8.0.1:
@@ -36293,7 +36576,7 @@ packages:
     engines: {node: '>=0.8.0'}
 
   semver@6.3.1:
-    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
+    resolution: {integrity: sha1-VW0u+GiRRuRtzqS/3QlfNDTf/LQ=}
     hasBin: true
 
   semver@7.5.4:
@@ -36337,7 +36620,7 @@ packages:
     engines: {node: '>= 0.4'}
 
   shimmer@1.2.1:
-    resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
+    resolution: {integrity: sha1-YQhZ994ye1h+/r9QH7QxF/mv8zc=}
 
   side-channel-list@1.0.0:
     resolution: {integrity: sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==}
@@ -36483,8 +36766,8 @@ packages:
     resolution: {integrity: sha512-1tB5mhVo7U+ETBKNf92xT4hrQa3pm0MZ0PQvuDnWgAAGHDsfp4lPSpiS6psrSiet87wyGPh9ft6wmhOMQ0hDiw==}
     engines: {node: '>=14.16'}
 
-  strnum@2.2.0:
-    resolution: {integrity: sha1-i1grY35GIfYv9xRJPgzjCEb5A6Y=}
+  strnum@2.2.2:
+    resolution: {integrity: sha1-8R/ZSrYrU2ui7MYVhY83R8KIGz8=}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -36758,7 +37041,7 @@ packages:
     resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
 
   uuid@8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    resolution: {integrity: sha1-gNW1ztJxu5r2xEXyGhoExgbO++I=}
     hasBin: true
 
   uuid@9.0.1:
@@ -37018,9 +37301,9 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
-      '@typespec/ts-http-runtime': 0.3.3
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -37049,10 +37332,10 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.22.2)
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.23.0)
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -37201,7 +37484,7 @@ snapshots:
       '@azure-rest/core-client': 2.5.1
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       events: 3.3.0
@@ -37284,7 +37567,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -37298,11 +37581,23 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-rest-pipeline': 1.22.2
 
+  '@azure/core-http-compat@2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.23.0)':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
+
   '@azure/core-http-compat@2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.22.2)':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-client': link:sdk/core/core-client
       '@azure/core-rest-pipeline': 1.22.2
+
+  '@azure/core-http-compat@2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.23.0)':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-client': link:sdk/core/core-client
+      '@azure/core-rest-pipeline': 1.23.0
 
   '@azure/core-lro@2.7.2':
     dependencies:
@@ -37324,7 +37619,19 @@ snapshots:
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
-      '@typespec/ts-http-runtime': 0.3.3
+      '@typespec/ts-http-runtime': 0.3.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/core-rest-pipeline@1.23.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -37340,17 +37647,25 @@ snapshots:
   '@azure/core-util@1.13.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@typespec/ts-http-runtime': 0.3.3
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
   '@azure/core-xml@1.5.0':
     dependencies:
-      fast-xml-parser: 5.4.1
+      fast-xml-parser: 5.5.9
       tslib: 2.8.1
 
   '@azure/functions-extensions-base@0.2.0': {}
+
+  '@azure/functions-opentelemetry-instrumentation@0.3.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.209.0
+      '@opentelemetry/instrumentation': 0.52.1(@opentelemetry/api@1.9.0)
+    transitivePeerDependencies:
+      - supports-color
 
   '@azure/functions@3.5.1':
     dependencies:
@@ -37384,7 +37699,7 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -37415,10 +37730,10 @@ snapshots:
       '@azure-rest/core-client': 2.5.1
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-http-compat': 2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.22.2)
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@1.23.0)
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/keyvault-common': 2.0.0
@@ -37430,7 +37745,7 @@ snapshots:
 
   '@azure/logger@1.3.0':
     dependencies:
-      '@typespec/ts-http-runtime': 0.3.3
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -37445,17 +37760,40 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
+      '@opentelemetry/core': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.5.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.40.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@4.29.0':
     dependencies:
       '@azure/msal-common': 15.15.0
+
+  '@azure/msal-browser@5.6.2':
+    dependencies:
+      '@azure/msal-common': 16.4.0
 
   '@azure/msal-common@14.16.1': {}
 
   '@azure/msal-common@15.15.0': {}
 
-  '@azure/msal-node-extensions@1.5.30':
+  '@azure/msal-common@16.4.0': {}
+
+  '@azure/msal-node-extensions@5.1.1':
     dependencies:
-      '@azure/msal-common': 15.15.0
+      '@azure/msal-common': 16.4.0
       '@azure/msal-node-runtime': 0.20.1
       keytar: 7.9.0
 
@@ -37470,6 +37808,12 @@ snapshots:
   '@azure/msal-node@3.8.8':
     dependencies:
       '@azure/msal-common': 15.15.0
+      jsonwebtoken: 9.0.3
+      uuid: 8.3.2
+
+  '@azure/msal-node@5.1.1':
+    dependencies:
+      '@azure/msal-common': 16.4.0
       jsonwebtoken: 9.0.3
       uuid: 8.3.2
 
@@ -37603,8 +37947,8 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.22.2)
-      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.23.0)
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -38502,7 +38846,15 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
+  '@opentelemetry/api-logs@0.209.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
   '@opentelemetry/api-logs@0.211.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
+  '@opentelemetry/api-logs@0.52.1':
     dependencies:
       '@opentelemetry/api': 1.9.0
 
@@ -38645,6 +38997,15 @@ snapshots:
       '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
 
+  '@opentelemetry/exporter-trace-otlp-http@0.204.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-exporter-base': 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-transformer': 0.204.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.1.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.1.0(@opentelemetry/api@1.9.0)
+
   '@opentelemetry/exporter-trace-otlp-http@0.208.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -38779,6 +39140,18 @@ snapshots:
       '@opentelemetry/api-logs': 0.211.0
       import-in-the-middle: 2.0.6
       require-in-the-middle: 8.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@opentelemetry/instrumentation@0.52.1(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.52.1
+      '@types/shimmer': 1.2.0
+      import-in-the-middle: 1.15.0
+      require-in-the-middle: 7.5.2
+      semver: 7.7.4
+      shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
 
@@ -39625,7 +39998,7 @@ snapshots:
       '@typescript-eslint/types': 8.56.1
       eslint-visitor-keys: 5.0.1
 
-  '@typespec/ts-http-runtime@0.3.3':
+  '@typespec/ts-http-runtime@0.3.4':
     dependencies:
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
@@ -40553,12 +40926,15 @@ snapshots:
     dependencies:
       fast-string-width: 3.0.2
 
-  fast-xml-builder@1.0.0: {}
-
-  fast-xml-parser@5.4.1:
+  fast-xml-builder@1.1.4:
     dependencies:
-      fast-xml-builder: 1.0.0
-      strnum: 2.2.0
+      path-expression-matcher: 1.2.0
+
+  fast-xml-parser@5.5.9:
+    dependencies:
+      fast-xml-builder: 1.1.4
+      path-expression-matcher: 1.2.0
+      strnum: 2.2.2
 
   fastify-plugin@5.1.0: {}
 
@@ -41539,6 +41915,8 @@ snapshots:
 
   path-exists@5.0.0: {}
 
+  path-expression-matcher@1.2.0: {}
+
   path-is-absolute@1.0.1: {}
 
   path-key@3.1.1: {}
@@ -42127,7 +42505,7 @@ snapshots:
 
   strip-json-comments@5.0.3: {}
 
-  strnum@2.2.0: {}
+  strnum@2.2.2: {}
 
   supports-color@7.2.0:
     dependencies:

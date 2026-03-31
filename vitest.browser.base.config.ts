@@ -23,10 +23,10 @@ export default defineConfig({
     },
     include: ["dist-test/**/*.spec.js"],
     exclude: [
-      "test-dist/**/node/*.spec.js",
-      "test-dist/snippets.spec.js",
-      "test-dist/integration/**/*.spec.js",
-      "test-dist/stress/**/*.js",
+      "dist-test/**/node/*.spec.js",
+      "dist-test/snippets.spec.js",
+      "dist-test/integration/**/*.spec.js",
+      "dist-test/stress/**/*.js",
     ],
     browser: {
       api: 43315,
