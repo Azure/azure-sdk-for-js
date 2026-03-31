@@ -1064,7 +1064,7 @@
       "@azure/arm-network!KnownPeeringEnforcement:enum": "Microsoft.Network.PeeringEnforcement",
       "@azure/arm-network!KnownUseHubGateway:enum": "Microsoft.Network.UseHubGateway",
       "@azure/arm-network!KnownGroupConnectivity:enum": "Microsoft.Network.GroupConnectivity",
-      "@azure/arm-network!KnownCommonProvisioningState:enum": "Microsoft.Network.ProvisioningState",
+      "@azure/arm-network!KnownProvisioningState:enum": "Microsoft.Network.ProvisioningState",
       "@azure/arm-network!KnownDeleteExistingPeering:enum": "Microsoft.Network.DeleteExistingPeering",
       "@azure/arm-network!KnownGroupMemberType:enum": "Microsoft.Network.GroupMemberType",
       "@azure/arm-network!KnownEffectiveAdminRuleKind:enum": "Microsoft.Network.EffectiveAdminRuleKind",

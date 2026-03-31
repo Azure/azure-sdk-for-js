@@ -511,10 +511,8 @@ Compared with version 36.0.0
   - Added Interface WebApplicationFirewallPolicyPropertiesFormat
   - Added Interface WritableResource
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias CommonProvisioningState
   - Added Type Alias NetworkManagementClientCreatedByType
   - Added Enum AzureClouds
-  - Added Enum KnownCommonProvisioningState
   - Added Enum NetworkManagementClientKnownCreatedByType
 
 ### Breaking Changes
@@ -590,7 +588,6 @@ Compared with version 36.0.0
   - Removed Type Alias EvaluationState
   - Removed Type Alias HubVirtualNetworkConnectionStatus
   - Removed Type Alias NetworkOperationStatus
-  - Removed Type Alias ProvisioningState
   - Removed Type Alias TunnelConnectionStatus
   - Type alias "ActiveBaseSecurityAdminRuleUnion" has been changed
   - Type alias "EffectiveBaseSecurityAdminRuleUnion" has been changed
@@ -603,7 +600,6 @@ Compared with version 36.0.0
   - Removed Enum KnownEvaluationState
   - Removed Enum KnownHubVirtualNetworkConnectionStatus
   - Removed Enum KnownNetworkOperationStatus
-  - Removed Enum KnownProvisioningState
   - Removed Enum KnownTunnelConnectionStatus
 
 ## 36.0.0 (2026-02-11)
