@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StandbyPoolManagementContext as Client } from "../index.js";
+import type {
   StandbyContainerGroupPoolResource,
-  standbyContainerGroupPoolResourceSerializer,
-  standbyContainerGroupPoolResourceDeserializer,
   StandbyContainerGroupPoolResourceUpdate,
-  standbyContainerGroupPoolResourceUpdateSerializer,
   _StandbyContainerGroupPoolResourceListResult,
-  _standbyContainerGroupPoolResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  standbyContainerGroupPoolResourceSerializer,
+  standbyContainerGroupPoolResourceDeserializer,
+  standbyContainerGroupPoolResourceUpdateSerializer,
+  _standbyContainerGroupPoolResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsUpdateOptionalParams,
@@ -20,31 +26,19 @@ import {
   StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
   StandbyContainerGroupPoolsGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.StandbyPool/standbyContainerGroupPools{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,10 +46,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -66,6 +57,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -75,32 +67,28 @@ export async function _listBySubscriptionDeserialize(
 /** List StandbyContainerGroupPoolResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,10 +96,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -122,6 +107,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -132,16 +118,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -150,9 +134,7 @@ export function _updateSend(
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   properties: StandbyContainerGroupPoolResourceUpdate,
-  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api%2Dversion}",
@@ -160,7 +142,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyContainerGroupPoolName: standbyContainerGroupPoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,10 +151,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: standbyContainerGroupPoolResourceUpdateSerializer(properties),
   });
 }
@@ -184,6 +163,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -196,9 +176,7 @@ export async function update(
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   properties: StandbyContainerGroupPoolResourceUpdate,
-  options: StandbyContainerGroupPoolsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<StandbyContainerGroupPoolResource> {
   const result = await _updateSend(
     context,
@@ -214,9 +192,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api%2Dversion}",
@@ -224,19 +200,13 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyContainerGroupPoolName: standbyContainerGroupPoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -244,6 +214,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -260,9 +231,7 @@ export function $delete(
   context: Client,
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
-  options: StandbyContainerGroupPoolsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -270,6 +239,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, standbyContainerGroupPoolName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -278,9 +248,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   resource: StandbyContainerGroupPoolResource,
-  options: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}{?api%2Dversion}",
@@ -288,7 +256,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyContainerGroupPoolName: standbyContainerGroupPoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,10 +265,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: standbyContainerGroupPoolResourceSerializer(resource),
   });
 }
@@ -308,10 +273,11 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StandbyContainerGroupPoolResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -324,14 +290,12 @@ export function createOrUpdate(
   resourceGroupName: string,
   standbyContainerGroupPoolName: string,
   resource: StandbyContainerGroupPoolResource,
-  options: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<StandbyContainerGroupPoolResource>,
   StandbyContainerGroupPoolResource
 > {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -343,6 +307,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-10-01",
   }) as PollerLike<
     OperationState<StandbyContainerGroupPoolResource>,
     StandbyContainerGroupPoolResource
@@ -361,7 +326,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyContainerGroupPoolName: standbyContainerGroupPoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -369,10 +334,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -383,6 +345,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
