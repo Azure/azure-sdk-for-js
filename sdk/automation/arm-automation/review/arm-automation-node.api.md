@@ -4,12 +4,12 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type * as coreRestPipeline from '@azure/core-rest-pipeline';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Activity {
@@ -144,10 +144,8 @@ export interface AgentRegistrationRegenerateKeyParameter {
 
 // @public
 export interface AutomationAccount extends TrackedResource {
-    automationHybridServiceUrl?: string;
     readonly creationTime?: Date;
     description?: string;
-    disableLocalAuth?: boolean;
     encryption?: EncryptionProperties;
     etag?: string;
     identity?: Identity;
@@ -157,7 +155,6 @@ export interface AutomationAccount extends TrackedResource {
     publicNetworkAccess?: boolean;
     sku?: Sku;
     readonly state?: AutomationAccountState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -166,7 +163,6 @@ export interface AutomationAccountCreateOrUpdateOptionalParams extends coreClien
 
 // @public
 export interface AutomationAccountCreateOrUpdateParameters {
-    disableLocalAuth?: boolean;
     encryption?: EncryptionProperties;
     identity?: Identity;
     location?: string;
@@ -245,7 +241,6 @@ export interface AutomationAccountUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export interface AutomationAccountUpdateParameters {
-    disableLocalAuth?: boolean;
     encryption?: EncryptionProperties;
     identity?: Identity;
     location?: string;
@@ -277,11 +272,8 @@ export class AutomationClient extends coreClient.ServiceClient {
     connectionOperations: ConnectionOperations;
     // (undocumented)
     connectionTypeOperations: ConnectionTypeOperations;
-    convertGraphRunbookContent(resourceGroupName: string, automationAccountName: string, parameters: GraphicalRunbookContent, options?: ConvertGraphRunbookContentOptionalParams): Promise<ConvertGraphRunbookContentResponse>;
     // (undocumented)
     credentialOperations: CredentialOperations;
-    // (undocumented)
-    deletedAutomationAccounts: DeletedAutomationAccounts;
     // (undocumented)
     dscCompilationJobOperations: DscCompilationJobOperations;
     // (undocumented)
@@ -296,8 +288,6 @@ export class AutomationClient extends coreClient.ServiceClient {
     fields: Fields;
     // (undocumented)
     hybridRunbookWorkerGroupOperations: HybridRunbookWorkerGroupOperations;
-    // (undocumented)
-    hybridRunbookWorkers: HybridRunbookWorkers;
     // (undocumented)
     jobOperations: JobOperations;
     // (undocumented)
@@ -647,17 +637,7 @@ export interface ContentSource {
 export type ContentSourceType = string;
 
 // @public
-export interface ConvertGraphRunbookContentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConvertGraphRunbookContentResponse = GraphicalRunbookContent;
-
-// @public
 export type CountType = string;
-
-// @public
-export type CreatedByType = string;
 
 // @public
 export interface Credential extends ProxyResource {
@@ -736,35 +716,6 @@ export interface CredentialUpdateParameters {
 
 // @public
 export type CredentialUpdateResponse = Credential;
-
-// @public
-export interface DeletedAutomationAccount {
-    automationAccountId?: string;
-    automationAccountResourceId?: string;
-    readonly deletionTime?: Date;
-    id?: string;
-    location?: string;
-    locationPropertiesLocation?: string;
-    name?: string;
-    type?: string;
-}
-
-// @public
-export interface DeletedAutomationAccountListResult {
-    value?: DeletedAutomationAccount[];
-}
-
-// @public
-export interface DeletedAutomationAccounts {
-    listBySubscription(options?: DeletedAutomationAccountsListBySubscriptionOptionalParams): Promise<DeletedAutomationAccountsListBySubscriptionResponse>;
-}
-
-// @public
-export interface DeletedAutomationAccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeletedAutomationAccountsListBySubscriptionResponse = DeletedAutomationAccountListResult;
 
 // @public
 export interface DscCompilationJob extends ProxyResource {
@@ -846,7 +797,7 @@ export interface DscCompilationJobListResult {
 
 // @public
 export interface DscCompilationJobOperations {
-    beginCreate(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<PollerLike<PollOperationState<DscCompilationJobCreateResponse>, DscCompilationJobCreateResponse>>;
+    beginCreate(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<SimplePollerLike<OperationState<DscCompilationJobCreateResponse>, DscCompilationJobCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<DscCompilationJobCreateResponse>;
     get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: DscCompilationJobGetOptionalParams): Promise<DscCompilationJobGetResponse>;
     getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: DscCompilationJobGetStreamOptionalParams): Promise<DscCompilationJobGetStreamResponse>;
@@ -1124,7 +1075,7 @@ export interface DscNodeConfigurationListResult {
 
 // @public
 export interface DscNodeConfigurationOperations {
-    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<void>;
     delete(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationGetOptionalParams): Promise<DscNodeConfigurationGetResponse>;
@@ -1302,56 +1253,27 @@ export type FieldsListByTypeResponse = TypeFieldListResult;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface GraphicalRunbookContent {
-    graphRunbookJson?: string;
-    rawContent?: RawGraphicalRunbookContent;
-}
-
-// @public
-export type GraphRunbookType = string;
-
-// @public
 export type GroupTypeEnum = string;
 
 // @public
 export type HttpStatusCode = string;
 
 // @public
-export interface HybridRunbookWorker extends Resource {
+export interface HybridRunbookWorker {
     ip?: string;
     lastSeenDateTime?: Date;
-    registeredDateTime?: Date;
-    readonly systemData?: SystemData;
-    vmResourceId?: string;
-    workerName?: string;
-    workerType?: WorkerType;
-}
-
-// @public
-export interface HybridRunbookWorkerCreateParameters {
     name?: string;
-    vmResourceId?: string;
+    registrationTime?: Date;
 }
 
 // @public
-export interface HybridRunbookWorkerGroup extends Resource {
+export interface HybridRunbookWorkerGroup {
     credential?: RunAsCredentialAssociationProperty;
     groupType?: GroupTypeEnum;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface HybridRunbookWorkerGroupCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface HybridRunbookWorkerGroupCreateOrUpdateParameters {
-    credential?: RunAsCredentialAssociationProperty;
+    hybridRunbookWorkers?: HybridRunbookWorker[];
+    id?: string;
     name?: string;
 }
-
-// @public
-export type HybridRunbookWorkerGroupCreateResponse = HybridRunbookWorkerGroup;
 
 // @public
 export interface HybridRunbookWorkerGroupDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1381,11 +1303,10 @@ export type HybridRunbookWorkerGroupListByAutomationAccountResponse = HybridRunb
 
 // @public
 export interface HybridRunbookWorkerGroupOperations {
-    create(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupCreationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupCreateOptionalParams): Promise<HybridRunbookWorkerGroupCreateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkerGroupGetOptionalParams): Promise<HybridRunbookWorkerGroupGetResponse>;
     listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<HybridRunbookWorkerGroup>;
-    update(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerGroupUpdationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters, options?: HybridRunbookWorkerGroupUpdateOptionalParams): Promise<HybridRunbookWorkerGroupUpdateResponse>;
+    update(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, parameters: HybridRunbookWorkerGroupUpdateParameters, options?: HybridRunbookWorkerGroupUpdateOptionalParams): Promise<HybridRunbookWorkerGroupUpdateResponse>;
 }
 
 // @public
@@ -1399,64 +1320,12 @@ export interface HybridRunbookWorkerGroupUpdateOptionalParams extends coreClient
 }
 
 // @public
+export interface HybridRunbookWorkerGroupUpdateParameters {
+    credential?: RunAsCredentialAssociationProperty;
+}
+
+// @public
 export type HybridRunbookWorkerGroupUpdateResponse = HybridRunbookWorkerGroup;
-
-// @public
-export interface HybridRunbookWorkerMoveParameters {
-    hybridRunbookWorkerGroupName?: string;
-}
-
-// @public
-export interface HybridRunbookWorkers {
-    create(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerId: string, hybridRunbookWorkerCreationParameters: HybridRunbookWorkerCreateParameters, options?: HybridRunbookWorkersCreateOptionalParams): Promise<HybridRunbookWorkersCreateResponse>;
-    delete(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerId: string, options?: HybridRunbookWorkersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerId: string, options?: HybridRunbookWorkersGetOptionalParams): Promise<HybridRunbookWorkersGetResponse>;
-    listByHybridRunbookWorkerGroup(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams): PagedAsyncIterableIterator<HybridRunbookWorker>;
-    move(resourceGroupName: string, automationAccountName: string, hybridRunbookWorkerGroupName: string, hybridRunbookWorkerId: string, hybridRunbookWorkerMoveParameters: HybridRunbookWorkerMoveParameters, options?: HybridRunbookWorkersMoveOptionalParams): Promise<void>;
-}
-
-// @public
-export interface HybridRunbookWorkersCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HybridRunbookWorkersCreateResponse = HybridRunbookWorker;
-
-// @public
-export interface HybridRunbookWorkersDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface HybridRunbookWorkersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HybridRunbookWorkersGetResponse = HybridRunbookWorker;
-
-// @public
-export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse = HybridRunbookWorkersListResult;
-
-// @public
-export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse = HybridRunbookWorkersListResult;
-
-// @public
-export interface HybridRunbookWorkersListResult {
-    nextLink?: string;
-    value?: HybridRunbookWorker[];
-}
-
-// @public
-export interface HybridRunbookWorkersMoveOptionalParams extends coreClient.OperationOptions {
-}
 
 // @public
 export interface Identity {
@@ -1800,24 +1669,10 @@ export enum KnownCountType {
 }
 
 // @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
 export enum KnownDscConfigurationState {
     Edit = "Edit",
     New = "New",
     Published = "Published"
-}
-
-// @public
-export enum KnownGraphRunbookType {
-    GraphPowerShell = "GraphPowerShell",
-    GraphPowerShellWorkflow = "GraphPowerShellWorkflow"
 }
 
 // @public
@@ -2010,12 +1865,6 @@ export enum KnownWindowsUpdateClasses {
     Unclassified = "Unclassified",
     UpdateRollup = "UpdateRollup",
     Updates = "Updates"
-}
-
-// @public
-export enum KnownWorkerType {
-    HybridV1 = "HybridV1",
-    HybridV2 = "HybridV2"
 }
 
 // @public
@@ -2284,9 +2133,9 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: PrivateEndpointConnectionsListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -2427,13 +2276,6 @@ export interface PythonPackageUpdateParameters {
 }
 
 // @public
-export interface RawGraphicalRunbookContent {
-    runbookDefinition?: string;
-    runbookType?: GraphRunbookType;
-    schemaVersion?: string;
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -2547,7 +2389,7 @@ export type RunbookDraftGetResponse = RunbookDraft;
 
 // @public
 export interface RunbookDraftOperations {
-    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<PollerLike<PollOperationState<RunbookDraftReplaceContentResponse>, RunbookDraftReplaceContentResponse>>;
+    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<SimplePollerLike<OperationState<RunbookDraftReplaceContentResponse>, RunbookDraftReplaceContentResponse>>;
     beginReplaceContentAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<RunbookDraftReplaceContentResponse>;
     get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetOptionalParams): Promise<RunbookDraftGetResponse>;
     getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetContentOptionalParams): Promise<RunbookDraftGetContentResponse>;
@@ -2624,7 +2466,7 @@ export interface RunbookListResult {
 
 // @public
 export interface RunbookOperations {
-    beginPublish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<PollerLike<PollOperationState<RunbookPublishResponse>, RunbookPublishResponse>>;
+    beginPublish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<SimplePollerLike<OperationState<RunbookPublishResponse>, RunbookPublishResponse>>;
     beginPublishAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<RunbookPublishResponse>;
     createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookCreateOrUpdateParameters, options?: RunbookCreateOrUpdateOptionalParams): Promise<RunbookCreateOrUpdateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDeleteOptionalParams): Promise<void>;
@@ -3269,16 +3111,6 @@ export interface SUCScheduleProperties {
 export type SyncType = string;
 
 // @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
 export type TagOperators = "All" | "Any";
 
 // @public
@@ -3747,9 +3579,6 @@ export interface WindowsProperties {
 
 // @public
 export type WindowsUpdateClasses = string;
-
-// @public
-export type WorkerType = string;
 
 // (No @packageDocumentation comment for this package)
 
