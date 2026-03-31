@@ -29,6 +29,7 @@ export interface ExtractGapsOptions {
   coveragePath?: string;
   sourcePrefix?: string;
   sourceExclusions?: string[];
+  sourceInclusions?: string[];
   coverageFormat?: "istanbul" | "coveragepy";
 }
 
@@ -36,6 +37,11 @@ export interface ExtractGapsOptions {
 
 function isExcluded(path: string, exclusions?: string[]): boolean {
   return !!exclusions?.some((ex) => path.includes(ex));
+}
+
+function isIncluded(path: string, inclusions?: string[]): boolean {
+  if (!inclusions || inclusions.length === 0) return true;
+  return inclusions.some((inc) => path.includes(inc));
 }
 
 function pct(covered: number, total: number): string {
@@ -159,6 +165,7 @@ function parseCoveragePy(
   sourcePrefix: string,
   fileFilter?: string,
   sourceExclusions?: string[],
+  sourceInclusions?: string[],
 ): ExtractGapsResult {
   const report = JSON.parse(raw) as CoveragePyReport;
   const allGaps: CoverageGap[] = [];
@@ -168,6 +175,7 @@ function parseCoveragePy(
     const relPath = isAbsolute(filePath) ? relative(packageDir, filePath) : filePath;
     if (!relPath.startsWith(sourcePrefix)) continue;
     if (isExcluded(relPath, sourceExclusions)) continue;
+    if (!isIncluded(relPath, sourceInclusions)) continue;
     if (fileFilter && relPath !== fileFilter) continue;
 
     const gaps = extractCoveragePyFileGaps(relPath, fileCov);
@@ -206,6 +214,7 @@ export async function extractGaps(
     coveragePath = "coverage/coverage-final.json",
     sourcePrefix = "src/",
     sourceExclusions,
+    sourceInclusions,
     coverageFormat = "istanbul",
   } = options ?? {};
 
@@ -218,7 +227,7 @@ export async function extractGaps(
 
   const result =
     coverageFormat === "coveragepy"
-      ? parseCoveragePy(raw, packageDir, sourcePrefix, fileFilter, sourceExclusions)
+      ? parseCoveragePy(raw, packageDir, sourcePrefix, fileFilter, sourceExclusions, sourceInclusions)
       : parseIstanbul(raw, packageDir, sourcePrefix, fileFilter, sourceExclusions);
 
   result.gaps.sort((a, b) => a.file.localeCompare(b.file) || a.start.line - b.start.line);

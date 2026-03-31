@@ -1062,14 +1062,26 @@ async function sendWithSession(
   });
 
   try {
-    const finalMessage = await session.sendAndWait(
-      {
-        prompt,
-        attachments: prepared.attachments,
-        mode: "immediate",
-      },
-      timeoutMs ?? RESPONSE_TIMEOUT,
-    );
+    const effectiveTimeout = timeoutMs ?? RESPONSE_TIMEOUT;
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      const id = setTimeout(() => {
+        reject(new Error(`LLM response timed out after ${effectiveTimeout}ms`));
+      }, effectiveTimeout);
+      // Allow GC if the main promise resolves first
+      if (typeof id === "object" && "unref" in id) id.unref();
+    });
+
+    const finalMessage = await Promise.race([
+      session.sendAndWait(
+        {
+          prompt,
+          attachments: prepared.attachments,
+          mode: "immediate",
+        },
+        effectiveTimeout,
+      ),
+      timeoutPromise,
+    ]);
     if (signal?.aborted) throw new Error("Aborted");
 
     const finalContent = finalMessage?.data.content ?? content;

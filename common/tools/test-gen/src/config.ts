@@ -45,6 +45,18 @@ export interface PathsConfig {
   specExclusions: string[];
   /** Substrings to exclude from source/coverage gap file selection. */
   sourceExclusions?: string[];
+  /** Substrings that source files must match to be considered (any match = included).
+   *  When set, only files matching at least one inclusion pattern are targeted. */
+  sourceInclusions?: string[];
+  /** Directories (relative to packageDir) to search for existing test examples.
+   *  When set, overrides coverage-based test map discovery with glob-based
+   *  lookup in these directories. Useful for steering generation toward
+   *  specific test styles (e.g., e2e tests instead of unit tests). */
+  testContextDirs?: string[];
+  /** Path to conftest.py or equivalent test setup file (relative to packageDir).
+   *  When set AND testContextDirs is set (e2e mode), the file's content is
+   *  included as context so the LLM knows about available fixtures. */
+  conftestPath?: string;
 }
 
 /** LLM interaction settings. */

@@ -51,6 +51,9 @@ Before writing any fix, perform these analysis steps on the attached files:
 6. Return the COMPLETE corrected file — not a diff, not a partial snippet.
 7. Do NOT invent fixtures, decorators, helper functions, imports, or private symbols that are not visible in the attached source file or attached existing-suite example.
 8. Do NOT replace behavior tests with module-import smoke tests, reflection tests, or generic "symbol exists" tests.
+<e2e_section>
+{{e2eSection}}
+</e2e_section>
 
 Respond with EXACTLY ONE valid JSON object matching this schema.
 - The first character of your response must be `{`.

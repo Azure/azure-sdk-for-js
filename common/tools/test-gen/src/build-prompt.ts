@@ -29,6 +29,10 @@ export interface PromptSeedContext {
   existingTests?: string;
   /** All uncovered gaps for the current source file. */
   allGaps: CoverageGap[];
+  /** When true, generate integration/e2e tests that call real services instead of mocking. */
+  e2eMode?: boolean;
+  /** Content of conftest.py or equivalent test setup file (key fixtures for e2e mode). */
+  conftestContent?: string;
 }
 
 export interface PreparedPrompt {
@@ -97,6 +101,15 @@ export async function buildPromptSeed(
     });
   }
 
+  if (ctx.conftestContent && ctx.e2eMode) {
+    attachments.push({
+      type: "virtual-file",
+      path: `seed/conftest.py`,
+      displayName: `conftest.py (test fixtures)`,
+      content: ctx.conftestContent,
+    });
+  }
+
   return {
     prompt: [
       `You are writing ${lang.testFramework} tests for \`${sourceFile}\`.`,
@@ -115,10 +128,43 @@ export async function buildPromptSeed(
       "- Inventing convenience functions that don't exist (e.g. `_parse_name_label` when only `_parse_name_version` exists)",
       "Every import, class instantiation, and function call MUST use a name copied character-for-character from the source. If you are unsure a symbol exists, do NOT use it.",
       "",
+      "## Import accuracy rules",
+      "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
+      "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
+      "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
+      "- Check the source file's `from ... import ...` lines to find correct module paths.",
+      "- If a class is imported as `from x import Foo`, use `Foo` not `_Foo`.",
+      "",
       "The attached existing-test example, when present, is authoritative for file structure, helper usage, fixtures, decorators, imports, and naming.",
       "Do NOT invent fixtures, decorators, helper functions, imports, private symbols, or test scaffolding that are not visible in the attached source, context files, or existing tests.",
       "Do NOT write smoke tests that only import modules, inspect symbols, or assert generic presence. Write behavior tests for the uncovered branches.",
+      "Do NOT use the word 'placeholder' or 'stub' in test names, comments, or docstrings — give every test a descriptive name reflecting its purpose.",
       "",
+      ...(ctx.e2eMode ? [
+        "## ⚠️ INTEGRATION TEST MODE — CRITICAL",
+        "You are generating LIVE INTEGRATION TESTS that call real Azure services.",
+        "The attached `conftest.py (test fixtures)` defines all available pytest fixtures. Study it carefully.",
+        "",
+        "### MANDATORY PATTERNS (copy from the existing e2e test example):",
+        "```python",
+        "@pytest.mark.e2etest",
+        "@pytest.mark.usefixtures(\"recorded_test\")",
+        "class TestSomething(AzureRecordedTestCase):",
+        "    def test_something(self, client: MLClient, randstr: Callable[[], str]) -> None:",
+        "        # Use client.models, client.components, etc. — NOT ModelOperations(...) directly",
+        "        result = client.models.list()",
+        "```",
+        "",
+        "### STRICT RULES:",
+        "- **Use `client: MLClient` fixture** — it creates a real authenticated MLClient. Access operations via `client.models`, `client.components`, etc.",
+        "- **Use `AzureRecordedTestCase`** base class and `@pytest.mark.usefixtures(\"recorded_test\")` decorator.",
+        "- **Mark with `@pytest.mark.e2etest`**.",
+        "- **ABSOLUTELY NO MOCKING** — no unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs. Tests MUST call real Azure service endpoints.",
+        "- **Do NOT construct service clients manually** — no `ModelOperations(...)`, no `OperationConfig(...)`, no custom fixtures building operations objects.",
+        "- Use `randstr` fixture for unique names, `tmp_path` for temp files.",
+        "- For validation-only branches (e.g., input validation that raises before API call), trigger the validation through the public `client.models.*` methods.",
+        "",
+      ] : []),
       "## Test Framework & Assertion Style",
       `Use ${lang.testFramework} as the test framework.`,
       "Every assertion must check a CONCRETE value or specific exception:",
@@ -155,6 +201,8 @@ export function buildBatchDeltaPrompt(
   sourceCode?: string,
   existingTestPatterns?: string,
   contextFiles?: ContextFile[],
+  /** Extra instructions injected before the schema (e.g., e2e mode rules). */
+  extraInstructions?: string,
 ): { prompt: string; attachments: SendAttachment[] } {
   const markerLines = gaps.map((gap) => gap.start.line).join(", ");
   const markerSummaries = gaps
@@ -219,9 +267,12 @@ export function buildBatchDeltaPrompt(
   const prompt = [
     ...testPatternsSection,
     `Generate ${lang.testFramework} tests for the uncovered markers at lines: ${markerLines}.`,
-    ...(sourceFile
+    ...(sourceFile && sourceCode
       ? [
-          `The source-under-test is attached as \`${sourceFile} (source under test)\`. Use it to identify importable symbols, function signatures, and branch logic.`,
+          `The source-under-test is attached as \`${sourceFile} (source under test)\` AND included inline below. Use it to identify importable symbols, function signatures, and branch logic.`,
+          `<source_code file="${sourceFile}">`,
+          sourceCode,
+          `</source_code>`,
         ]
       : []),
     ...(contextFilesList
@@ -237,17 +288,242 @@ export function buildBatchDeltaPrompt(
     "If an existing-test example is attached, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
     "Use only fixture names, helper names, decorators, imports, and symbols that are visible in the attached source-under-test, context files, or existing tests.",
     "CRITICAL: Every import name and symbol you use MUST be copied character-for-character from the attached source. Do NOT combine partial names, add/remove underscores, or guess at suffixes. If unsure a symbol exists, do NOT use it.",
+    "",
+    "## Import accuracy rules",
+    "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
+    "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
+    "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
+    "- Check the source file's `from ... import ...` lines to find correct module paths.",
+    "- If a class is imported as `from x import Foo`, use `Foo` not `_Foo`.",
+    "",
     "Do NOT invent missing fixtures or imports.",
     "Do NOT generate module-import smoke tests, reflection tests, or 'symbol exists' tests.",
     "If the existing tests show class-based tests, add tests in that same class-oriented style rather than switching to top-level functions.",
     "All files you need are attached to this message. Do NOT skip branches because of missing context — everything is provided.",
     "Do not restate or regenerate surrounding context; focus only on the current uncovered markers.",
     "Cover as many markers as naturally fit together with the fewest high-value tests.",
+    ...(extraInstructions ? [extraInstructions] : []),
     "Current marker details:",
     markerSummaries,
     "Respond with EXACTLY ONE valid JSON object matching this schema.",
     "The first character of your response must be `{` and the last character must be `}`.",
     "Do NOT use markdown fences or add any explanation, commentary, headings, or prose before or after the JSON.",
+    "Every string value must be properly JSON-escaped.",
+    "The `code` field must be a JSON string with escaped newlines, quotes, and backslashes, as if produced by `JSON.stringify(...)`.",
+    "Before sending, self-check that your entire response can be parsed by `JSON.parse(...)` with no preprocessing.",
+    "Schema:",
+    schema,
+  ].join("\n\n");
+
+  return { prompt, attachments };
+}
+
+// ---------------------------------------------------------------------------
+// Phase 1: Planner prompt — identify public API calls that exercise gaps
+// ---------------------------------------------------------------------------
+
+export interface PlannerResult {
+  /** Public API call that exercises the gap (e.g., `client.data.get(name="x", version="1")`) */
+  api_call: string;
+  /** Expected outcome (e.g., "raises ResourceNotFoundError", "returns Model with name='x'") */
+  expected_outcome: string;
+  /** Coverage marker lines this call would exercise */
+  marker_lines: number[];
+  /** Brief explanation of why this call reaches the marked code */
+  reasoning: string;
+}
+
+export function buildPlannerPrompt(
+  gaps: CoverageGap[],
+  sourceFile: string,
+  sourceCode: string,
+): { prompt: string; attachments: SendAttachment[] } {
+  const markerSummaries = gaps
+    .map((gap) => `- L${gap.start.line}-${gap.end.line} [${gap.type}] ${gap.detail}`)
+    .join("\n");
+
+  const attachments: SendAttachment[] = [
+    {
+      type: "virtual-file",
+      path: `planner/${sourceFile}`,
+      displayName: `${sourceFile} (source under test)`,
+      content: sourceCode,
+    },
+  ];
+
+  const schema = `[
+  {
+    "api_call": "client.<resource>.<operation>(<args>)",
+    "expected_outcome": "raises <Exception> | returns <Type> with <properties>",
+    "marker_lines": [<line numbers>],
+    "reasoning": "why this call reaches the marked code path"
+  }
+]`;
+
+  const prompt = `You are analyzing Python source code to find **public API calls** that exercise specific uncovered code paths.
+
+## Source file: ${sourceFile}
+The complete source is attached AND included inline below.
+
+<source_code file="${sourceFile}">
+${sourceCode}
+</source_code>
+
+## Uncovered markers to exercise
+${markerSummaries}
+
+## Your task
+For each marker (or group of related markers), identify the **public client API call** that would exercise that code path.
+
+Rules:
+1. The call MUST go through \`MLClient\` — e.g., \`client.models.get(...)\`, \`client.environments.create_or_update(...)\`, \`client.workspaces.list(...)\`
+2. Trace the code path from the public method down to the marked lines. Show your reasoning.
+3. Choose arguments that will specifically trigger the marked branch (e.g., pass invalid args to trigger a validation branch, pass a nonexistent name to trigger a 404 path).
+4. If a marker is inside a private helper that is NOT reachable from any public API call, mark it as unreachable: \`"api_call": "UNREACHABLE"\`
+5. Group markers that would be exercised by the same API call.
+6. For each call, state the expected outcome (exception type, return value, etc.)
+
+Respond with EXACTLY ONE valid JSON array matching this schema.
+The first character of your response must be \`[\` and the last character must be \`]\`.
+Do NOT use markdown fences or add any explanation before or after the JSON.
+
+Schema:
+${schema}`;
+
+  return { prompt, attachments };
+}
+
+// ---------------------------------------------------------------------------
+// Phase 2: Coder prompt — generate tests from planner output
+// ---------------------------------------------------------------------------
+
+export function buildCoderPrompt(
+  plannerOutput: PlannerResult[],
+  lang: LanguageConfig,
+  testDir: string,
+  outputExtension: string,
+  sourceFile: string,
+  sourceCode: string,
+  existingTestFile?: string,
+  existingTestPatterns?: string,
+  contextFiles?: ContextFile[],
+  extraInstructions?: string,
+): { prompt: string; attachments: SendAttachment[] } {
+  const attachments: SendAttachment[] = [];
+  if (sourceCode && sourceFile) {
+    attachments.push({
+      type: "virtual-file",
+      path: `coder/${sourceFile}`,
+      displayName: `${sourceFile} (source under test)`,
+      content: sourceCode,
+    });
+  }
+  if (contextFiles && contextFiles.length > 0) {
+    for (const cf of contextFiles) {
+      attachments.push({
+        type: "virtual-file",
+        path: `coder/context/${cf.path}`,
+        displayName: `${cf.path} (context)`,
+        content: cf.content,
+      });
+    }
+  }
+
+  const reachable = plannerOutput.filter((p) => p.api_call !== "UNREACHABLE");
+  const unreachable = plannerOutput.filter((p) => p.api_call === "UNREACHABLE");
+
+  const planTable = reachable
+    .map(
+      (p, i) =>
+        `### Call ${i + 1}: \`${p.api_call}\`\n` +
+        `- **Expected**: ${p.expected_outcome}\n` +
+        `- **Markers**: L${p.marker_lines.join(", L")}\n` +
+        `- **Reasoning**: ${p.reasoning}`,
+    )
+    .join("\n\n");
+
+  const unreachableSection =
+    unreachable.length > 0
+      ? `\n\n## Unreachable markers → generate UNIT tests\nThese code paths are NOT reachable from the public API. Generate **unit tests** for them:\n- You MAY import and call internal/private functions directly.\n- You MAY use mocking (unittest.mock, MagicMock, monkeypatch) for these tests ONLY.\n- Still cover the marked branches and assert correct behavior.\n${unreachable.map((p) => `- L${p.marker_lines.join(", L")}: ${p.reasoning}`).join("\n")}`
+      : "";
+
+  const testPatternsSection = existingTestPatterns
+    ? `## Test Style Reference\nMatch this style exactly:\n<test_patterns>\n${existingTestPatterns}\n</test_patterns>\n`
+    : "";
+
+  const contextFilesList =
+    contextFiles && contextFiles.length > 0
+      ? contextFiles.map((cf) => `\`${cf.path} (context)\``).join(", ")
+      : "";
+
+  const schema = `{
+  "path": "${testDir}/test_<stem>_gaps.${outputExtension.replace(".", "")}",
+  "code": "... complete test file content ...",
+  "analysis": [
+    {
+      "test_name": "test_name_here",
+      "covered_marker_lines": [0],
+      "branch_summary": "what this test covers",
+      "trigger_strategy": "how the test triggers the covered branches"
+    }
+  ],
+  "skipped_markers": [
+    {
+      "marker_line": 0,
+      "reason": "brief justification"
+    }
+  ]
+}`;
+
+  const prompt = [
+    testPatternsSection,
+    `## API Call Plan`,
+    `A planner has already analyzed the source code and identified the exact public API calls needed to exercise uncovered branches. Generate ${lang.testFramework} tests for each call below.`,
+    "",
+    planTable,
+    unreachableSection,
+    "",
+    `The source-under-test is attached as \`${sourceFile} (source under test)\` AND included inline below.`,
+    `<source_code file="${sourceFile}">`,
+    sourceCode,
+    `</source_code>`,
+    ...(contextFilesList
+      ? [`Context files are attached: ${contextFilesList}. Use them for helper functions, types, and dependencies.`]
+      : []),
+    ...(existingTestFile
+      ? [`The existing-suite example is attached as \`${existingTestFile}\` and is authoritative for test structure.`]
+      : []),
+    "",
+    "## Instructions",
+    "Write ONE test method for each API call in the plan above.",
+    "For **reachable** calls (from the API Call Plan):",
+    "1. Call the exact API shown in the plan (e.g., `client.models.get(...)`) with the specified arguments",
+    "2. Assert the expected outcome (exception, return value, etc.)",
+    "3. Use the `client` fixture (MLClient) for all API calls",
+    "4. Follow the test style reference exactly (decorators, class structure, fixtures)",
+    "",
+    "For **unreachable** markers (from the Unreachable section):",
+    "1. Import and call the internal function directly",
+    "2. Use mocking/monkeypatch as needed to set up the code path",
+    "3. Assert the expected behavior of the branch",
+    "",
+    "If an existing-test example is attached, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
+    "Use only fixture names, helper names, decorators, imports, and symbols that are visible in the attached source-under-test, context files, or existing tests.",
+    "CRITICAL: Every import name and symbol you use MUST be copied character-for-character from the attached source. Do NOT combine partial names, add/remove underscores, or guess at suffixes.",
+    "",
+    "## Import accuracy rules",
+    "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
+    "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
+    "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
+    "- Check the source file's `from ... import ...` lines to find correct module paths.",
+    "",
+    "Do NOT invent missing fixtures or imports.",
+    "Do NOT generate module-import smoke tests, reflection tests, or 'symbol exists' tests.",
+    ...(extraInstructions ? [extraInstructions] : []),
+    "",
+    "Respond with EXACTLY ONE valid JSON object matching this schema.",
+    "The first character of your response must be `{` and the last character must be `}`.",
+    "Do NOT use markdown fences or add any explanation before or after the JSON.",
     "Every string value must be properly JSON-escaped.",
     "The `code` field must be a JSON string with escaped newlines, quotes, and backslashes, as if produced by `JSON.stringify(...)`.",
     "Before sending, self-check that your entire response can be parsed by `JSON.parse(...)` with no preprocessing.",

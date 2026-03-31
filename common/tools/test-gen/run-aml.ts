@@ -33,7 +33,7 @@ async function main() {
         outputExtension: ".py",
       },
       llm: {
-        model: "gpt-5.1",
+        model: "gpt-5-mini",
       },
       loop: {
         maxGapFiles: 20,

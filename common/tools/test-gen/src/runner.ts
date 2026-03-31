@@ -7,14 +7,16 @@
  * Coverage-specific implementation that targets one file per iteration.
  */
 
-import { exec } from "node:child_process";
+import { exec, spawn } from "node:child_process";
 import { promisify } from "node:util";
-import { resolve, join, dirname } from "node:path";
-import { writeFile, readFile, readdir, mkdir } from "node:fs/promises";
+import { resolve, join, dirname, basename } from "node:path";
+import { writeFile, readFile, readdir, mkdir, appendFile as appendFileAsync, unlink } from "node:fs/promises";
+import { appendFileSync } from "node:fs";
 import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import type { CoverageGap } from "./types.ts";
-import { buildPromptSeed, buildBatchDeltaPrompt } from "./build-prompt.ts";
+import { buildPromptSeed, buildBatchDeltaPrompt, buildPlannerPrompt, buildCoderPrompt } from "./build-prompt.ts";
+import type { PlannerResult } from "./build-prompt.ts";
 import { extractTestMap } from "./extract-test-map.ts";
 import { resolveContext } from "./resolve-context.ts";
 import type { ContextFile } from "./resolve-context.ts";
@@ -42,6 +44,89 @@ import { initDeepLog, deepLog, getDeepLogPath } from "./deep-log.ts";
 import { parseJsonResponse } from "./parse-json-response.ts";
 
 const execAsync = promisify(exec);
+
+// ── Verbose disk logging for subprocess output ──
+let _verboseLogPath: string | undefined;
+
+/** Set the path for verbose subprocess logging. Call once at startup. */
+export function setVerboseLogPath(path: string): void {
+  _verboseLogPath = path;
+  try { appendFileSync(path, `\n=== verbose log started ${new Date().toISOString()} ===\n`); } catch {}
+}
+
+/** Append a message to the verbose log (sync, fire-and-forget). */
+function verboseLog(msg: string): void {
+  if (!_verboseLogPath) return;
+  const ts = new Date().toISOString().slice(11, 19);
+  try { appendFileSync(_verboseLogPath, `[${ts}] ${msg}\n`); } catch {}
+}
+
+/**
+ * Run a command with streaming output to the verbose log.
+ * Returns { stdout, exitCode }. Rejects on timeout.
+ */
+function execStreaming(
+  command: string,
+  opts: { cwd: string; timeout: number; maxBuffer?: number; label?: string },
+): Promise<{ stdout: string; exitCode: number }> {
+  return new Promise((resolve, reject) => {
+    const label = opts.label ?? command.slice(0, 80);
+    verboseLog(`[EXEC] ${label}`);
+    verboseLog(`  cmd: ${command.slice(0, 200)}`);
+
+    const child = spawn("sh", ["-c", command], {
+      cwd: opts.cwd,
+      env: { ...process.env },
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+
+    let stdout = "";
+    let lastLine = "";
+    const maxBuf = opts.maxBuffer ?? 50 * 1024 * 1024;
+    let killed = false;
+
+    const timer = setTimeout(() => {
+      killed = true;
+      child.kill("SIGKILL");
+      verboseLog(`[TIMEOUT] ${label} killed after ${opts.timeout}ms`);
+      reject(new Error(`Command timed out after ${opts.timeout}ms: ${label}`));
+    }, opts.timeout);
+
+    child.stdout?.on("data", (chunk: Buffer) => {
+      const text = chunk.toString();
+      stdout += text;
+      // Log last line to verbose log for progress tracking
+      const lines = text.split("\n").filter(Boolean);
+      if (lines.length > 0) {
+        lastLine = lines[lines.length - 1];
+        verboseLog(`  [out] ${lastLine.slice(0, 200)}`);
+      }
+      if (stdout.length > maxBuf) {
+        killed = true;
+        child.kill("SIGKILL");
+        verboseLog(`[MAXBUF] ${label} output exceeded ${maxBuf} bytes`);
+      }
+    });
+
+    child.stderr?.on("data", (chunk: Buffer) => {
+      const text = chunk.toString().trim();
+      if (text) verboseLog(`  [err] ${text.slice(0, 200)}`);
+    });
+
+    child.on("close", (code) => {
+      clearTimeout(timer);
+      if (killed) return;
+      verboseLog(`[EXIT] ${label} code=${code} stdout=${stdout.length} bytes`);
+      resolve({ stdout, exitCode: code ?? 1 });
+    });
+
+    child.on("error", (err) => {
+      clearTimeout(timer);
+      verboseLog(`[ERROR] ${label}: ${err.message}`);
+      reject(err);
+    });
+  });
+}
 
 const MergeResponse = z.object({
   code: z.string().describe("The merged test file content"),
@@ -79,6 +164,88 @@ interface TestResult {
   output: string;
 }
 
+// ── Azure CLI token refresh ──
+
+/** Cached token expiry (epoch ms) to avoid shelling out on every batch. */
+let _azTokenExpiresAt = 0;
+/** Whether `az` CLI is available on this machine (detected once). */
+let _azCliAvailable: boolean | undefined;
+
+/**
+ * Check the Azure CLI token and refresh it (via `az login`) if it is
+ * expired or within 5 minutes of expiring.
+ *
+ * Automatically detects whether `az` CLI is installed on first call.
+ * On machines without `az` this is a no-op. Designed to be called
+ * frequently (e.g. before each batch) — it only shells out to
+ * `az account get-access-token` when the cached expiry is stale,
+ * and only triggers `az login` when the token actually needs refreshing.
+ */
+async function ensureAzureAuth(
+  log: (msg: string) => void,
+): Promise<void> {
+  const LEAD_TIME_MS = 5 * 60 * 1000; // 5 minutes
+  const now = Date.now();
+
+  // One-time probe: is `az` even installed?
+  if (_azCliAvailable === undefined) {
+    try {
+      await execAsync("az --version 2>/dev/null", { timeout: 10_000 });
+      _azCliAvailable = true;
+    } catch {
+      _azCliAvailable = false;
+      log("ℹ️  Azure CLI not found — skipping automatic token refresh.");
+    }
+  }
+  if (!_azCliAvailable) return;
+
+  // Fast path: cached expiry is still well in the future
+  if (_azTokenExpiresAt - now > LEAD_TIME_MS) return;
+
+  // Shell out to check the real token expiry
+  try {
+    const { stdout } = await execAsync(
+      "az account get-access-token --query expiresOn -o tsv 2>/dev/null",
+      { timeout: 15_000 },
+    );
+    const expiresOn = new Date(stdout.trim()).getTime();
+    if (!Number.isNaN(expiresOn)) {
+      _azTokenExpiresAt = expiresOn;
+      const remaining = expiresOn - now;
+      if (remaining > LEAD_TIME_MS) return;
+      log(`\n🔑 Azure CLI token expires in ${Math.round(remaining / 1000)}s — refreshing…`);
+    }
+  } catch {
+    log("\n🔑 Azure CLI token check failed — attempting refresh…");
+  }
+
+  // Token expired or about to expire — retry `az login` until it succeeds
+  while (true) {
+    log("🔑 Running `az login` — please complete authentication in the browser…");
+    try {
+      await execAsync("az login 2>&1", {
+        timeout: 300_000, // 5 min per attempt for user to complete browser auth
+      });
+      try {
+        const { stdout: newExpiry } = await execAsync(
+          "az account get-access-token --query expiresOn -o tsv 2>/dev/null",
+          { timeout: 15_000 },
+        );
+        _azTokenExpiresAt = new Date(newExpiry.trim()).getTime();
+      } catch {
+        _azTokenExpiresAt = Date.now() + 60 * 60 * 1000; // optimistic 1h
+      }
+      log(`🔑 Azure CLI token refreshed — valid until ${new Date(_azTokenExpiresAt).toISOString()}`);
+      return; // success — resume experiment
+    } catch (e) {
+      const err = e as { message?: string };
+      log(`⚠️  az login attempt failed: ${err.message?.slice(0, 200) ?? "unknown error"}`);
+      log("⏸️  Experiment paused — retrying az login in 30s…");
+      await new Promise((r) => setTimeout(r, 30_000));
+    }
+  }
+}
+
 /**
  * Run a single test file and return pass/fail + captured output.
  * Uses `cfg.runner.runSingle` with `$FILE` replaced by the test path.
@@ -90,15 +257,18 @@ async function runSingleTest(
 ): Promise<TestResult> {
   const command = cfg.runner.runSingle.replace("$FILE", relPath);
   try {
-    const { stdout } = await execAsync(`${command} 2>&1`, {
+    const { stdout, exitCode } = await execStreaming(`${command} 2>&1`, {
       cwd: packageDir,
       timeout: cfg.runner.timeout,
       maxBuffer: cfg.runner.maxBuffer,
+      label: `test ${relPath}`,
     });
+    if (exitCode !== 0) {
+      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines) };
+    }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
-    // Combine all error sources — stdout may be empty while stderr/message have useful info
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
     return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines) };
   }
@@ -313,17 +483,53 @@ function extractReferencedLines(text: string, relPath: string): number[] {
  */
 async function runFullSuite(command: string, packageDir: string, cfg: Config): Promise<TestResult> {
   try {
-    const { stdout } = await execAsync(`${command} 2>&1`, {
+    const { stdout, exitCode } = await execStreaming(`${command} 2>&1`, {
       cwd: packageDir,
       timeout: cfg.runner.timeout,
       maxBuffer: cfg.runner.maxBuffer,
+      label: "full-suite",
     });
+    if (exitCode !== 0) {
+      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines) };
+    }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
     return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines) };
   }
+}
+
+/**
+ * In e2e mode, reject generated code that contains mocking constructs.
+ * Returns an error message if mocks are detected, or undefined if clean.
+ */
+function detectMockViolations(code: string, cfg: Config): string | undefined {
+  const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
+  if (!isE2eMode) return undefined;
+
+  const mockPatterns: Array<[RegExp, string]> = [
+    [/from\s+unittest(?:\.mock)?\s+import/m, "unittest.mock import"],
+    [/from\s+unittest\s+import\s+mock/m, "unittest mock import"],
+    [/import\s+(?:unittest\.)?mock\b/m, "mock import"],
+    [/\bMagicMock\b/, "MagicMock usage"],
+    [/\bMock\s*\(/, "Mock() usage"],
+    [/\bmonkeypatch\b/, "monkeypatch usage"],
+    [/\b@patch\b/, "@patch decorator"],
+    [/\bpatch\.object\b/, "patch.object usage"],
+    [/\bpatch\s*\(/, "patch() call"],
+    [/\bSimpleNamespace\s*\(/, "SimpleNamespace stub"],
+  ];
+
+  const violations: string[] = [];
+  for (const [pattern, label] of mockPatterns) {
+    if (pattern.test(code)) {
+      violations.push(label);
+    }
+  }
+  return violations.length > 0
+    ? `e2e mock violation: ${violations.join(", ")}`
+    : undefined;
 }
 
 /**
@@ -403,11 +609,14 @@ async function mergeBatchChunk(
     phase: "merge",
     workingDirectory: packageDir,
     attachments,
+    timeoutMs: 3 * 60_000,
   });
   llmStats.push({ inputTokens, outputTokens, durationMs });
   const result = MergeResponse.parse(parseJsonResponse(content));
 
-  // Guard: reject placeholder / stub merges that lost real test content
+  // Guard: reject placeholder / stub merges that lost real test content.
+  // Only check patterns that are NEW — if the existing file already matches a
+  // pattern, don't penalise the merge for faithfully preserving it.
   const code = result.code;
   const placeholderPatterns = [
     /placeholder.*test/i,
@@ -415,9 +624,20 @@ async function mergeBatchChunk(
     /replace with.*merged/i,
     /pytest\.skip\(.*(placeholder|replace)/i,
   ];
-  if (placeholderPatterns.some((p) => p.test(code))) {
+  const activePatterns = placeholderPatterns.filter(
+    (p) => !existing || !p.test(existing),
+  );
+  if (activePatterns.some((p) => p.test(code))) {
     throw new Error(
       `Merge produced placeholder output for ${relPath} — rejecting to preserve existing tests`,
+    );
+  }
+
+  // Guard: reject mocking constructs in e2e mode
+  const mockViolation = detectMockViolations(code, cfg);
+  if (mockViolation) {
+    throw new Error(
+      `Merge for ${relPath} rejected — ${mockViolation}. Tests must be live integration tests.`,
     );
   }
 
@@ -484,7 +704,29 @@ async function mergeGeneratedBatches(
 ): Promise<string> {
   const absPath = resolve(packageDir, relPath);
   const existing = await tryReadFile(absPath);
-  if (!existing && generatedCodes.length === 1) return generatedCodes[0];
+  if (!existing && generatedCodes.length === 1) {
+    // Run placeholder guard even on initial batch to avoid poisoning future merges
+    const code = generatedCodes[0];
+    const placeholderPatterns = [
+      /placeholder.*test/i,
+      /could not be reconstructed/i,
+      /replace with.*merged/i,
+      /pytest\.skip\(.*(placeholder|replace)/i,
+    ];
+    if (placeholderPatterns.some((p) => p.test(code))) {
+      throw new Error(
+        `Initial batch produced placeholder output for ${relPath} — rejecting`,
+      );
+    }
+    // Guard: reject mocking constructs in e2e mode
+    const mockViolation = detectMockViolations(code, cfg);
+    if (mockViolation) {
+      throw new Error(
+        `Initial batch for ${relPath} rejected — ${mockViolation}. Tests must be live integration tests.`,
+      );
+    }
+    return code;
+  }
 
   const MAX_NEW_BATCHES_PER_MERGE = 2;
   let current = existing;
@@ -625,6 +867,7 @@ async function writeAndFix(
   await loop<FixContext>(
     {
       async isTerminal(ctx) {
+        await ensureAzureAuth(log);
         const result = await runSingleTest(relPath, packageDir, cfg);
         if (result.passed) {
           ctx.passed = true;
@@ -661,8 +904,12 @@ async function writeAndFix(
 
       async act(ctx, iteration) {
         // Escalation: on iteration 2+, add stronger guidance to change approach
+        const isE2eMode = cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0;
         const escalationSection = iteration >= 2
-          ? `\n## ⚠️ ESCALATION (Attempt ${iteration}/${maxFix})\n\nPrevious fix attempt(s) failed with the same errors. You MUST change your approach:\n- If you see ImportError: the symbol does NOT exist. Do not retry the same import — find the correct name in the source file.\n- If you see TypeError about arguments: check the constructor/function signature in the source file and context files. Use ONLY the parameters you see there.\n- If you see AttributeError: the method/attribute does NOT exist on that class. Check the source file for the actual method names.\n- Consider using unittest.mock.patch or MagicMock to bypass complex constructors instead of instantiating real objects.\n`
+          ? `\n## ⚠️ ESCALATION (Attempt ${iteration}/${maxFix})\n\nPrevious fix attempt(s) failed with the same errors. You MUST change your approach:\n- If you see ImportError: the symbol does NOT exist. Do not retry the same import — find the correct name in the source file.\n- If you see TypeError about arguments: check the constructor/function signature in the source file and context files. Use ONLY the parameters you see there.\n- If you see AttributeError: the method/attribute does NOT exist on that class. Check the source file for the actual method names.\n${isE2eMode ? "- Do NOT replace live service calls with mocks. These are integration tests that must call real Azure services.\n- Use the fixtures from conftest.py (client, auth, etc.) to get a real MLClient.\n- If a test fails due to service errors, adjust the test inputs or assertions rather than mocking.\n" : "- Consider using unittest.mock.patch or MagicMock to bypass complex constructors instead of instantiating real objects.\n"}`
+          : "";
+        const e2eSection = isE2eMode
+          ? `\n## ⚠️ INTEGRATION TEST MODE — MANDATORY\n\n9. ABSOLUTELY NO MOCKING. Do NOT use unittest.mock, MagicMock, monkeypatch, patch(), SimpleNamespace stubs, or any form of mocking.\n10. Do NOT construct internal objects directly (ModelOperations, OperationConfig, service clients). Use the \`client: MLClient\` fixture.\n11. Use \`AzureRecordedTestCase\` base class, \`@pytest.mark.usefixtures("recorded_test")\`, and \`@pytest.mark.e2etest\`.\n12. Access operations through \`client.models\`, \`client.components\`, etc.\n13. If a test calls an Azure API and gets an error, fix the test inputs/assertions — do NOT add mocking.\n`
           : "";
         const prompt = await renderPromptTemplate("fix-generated-test.md", {
           relPath,
@@ -671,6 +918,7 @@ async function writeAndFix(
           existingSuiteSection,
           contextSection,
           escalationSection,
+          e2eSection,
           errorSection: `\n<test_errors>\n${ctx.errors}\n</test_errors>`,
           jsonSchema: fixSchema,
         });
@@ -704,6 +952,7 @@ async function writeAndFix(
           phase: "fix",
           workingDirectory: packageDir,
           attachments,
+          timeoutMs: 3 * 60_000,
         });
         llmStats.push({ inputTokens, outputTokens, durationMs });
         const result = FixResponse.parse(parseJsonResponse(content));
@@ -769,6 +1018,7 @@ async function isolationFixLoop(
             "Isolation batching found no likely fixes for the remaining full-suite failures",
           );
         }
+        await ensureAzureAuth(log);
         const result = await runFullSuite(cfg.runner.command, packageDir, cfg);
         if (result.passed) {
           log("    ✅ Full suite passes");
@@ -837,6 +1087,7 @@ async function isolationFixLoop(
             phase: "isolation",
             workingDirectory: packageDir,
             attachments,
+            timeoutMs: 3 * 60_000,
           });
           llmStats.push({ inputTokens, outputTokens, durationMs });
           const result = IsolationFixResponse.parse(parseJsonResponse(content));
@@ -865,6 +1116,7 @@ async function isolationFixLoop(
                 model: cfg.llm.fixModel ?? cfg.llm.model,
                 signal,
                 phase: "fix",
+                timeoutMs: 3 * 60_000,
               });
               const valResult = JSON.parse(valContent.trim());
               if (valResult.safe === false) {
@@ -918,18 +1170,22 @@ async function runTests(
 ): Promise<void> {
   log(`\n▶ Running: ${command}`);
   try {
-    const { stdout } = await execAsync(`${command} 2>&1`, {
+    const { stdout, exitCode } = await execStreaming(`${command} 2>&1`, {
       cwd: packageDir,
       timeout: cfg.runner.timeout,
       maxBuffer: cfg.runner.maxBuffer,
+      label: "coverage-run",
     });
     log(tail(stdout, cfg.runner.tailLines));
+    if (exitCode !== 0) {
+      log("⚠️  Some tests may have failed. Checking coverage anyway...");
+    }
   } catch (e) {
-    const err = e as { stdout?: string };
+    const err = e as { stdout?: string; message?: string };
     if (err.stdout) {
       log(tail(err.stdout, cfg.runner.tailLines));
     }
-    log("⚠️  Some tests may have failed. Checking coverage anyway...");
+    log(`⚠️  Test run error: ${err.message?.slice(0, 200) ?? "unknown"}. Checking coverage anyway...`);
   }
 
   // Run post-test command to ensure coverage report exists (e.g., convert .coverage DB → JSON)
@@ -1025,6 +1281,14 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   const generatedFiles: string[] = [];
   const promptCache = await PromptCache.load(packageDir);
 
+  // Default verbose logging so subprocess output is always captured
+  if (!_verboseLogPath) {
+    const defaultVerbosePath = join(packageDir, ".test-gen-copilot-sdk", "verbose.log");
+    await mkdir(join(packageDir, ".test-gen-copilot-sdk"), { recursive: true });
+    setVerboseLogPath(defaultVerbosePath);
+    log(`📝 Verbose subprocess log: ${defaultVerbosePath}`);
+  }
+
   // Initialise deep logging
   await initDeepLog(resolve(packageDir, ".test-gen-copilot-sdk"));
   await deepLog("phase", "run_config", {
@@ -1052,6 +1316,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   log(`║  Fix iter:   ${cfg.loop.fixMaxIterations} per file`);
   if (cfg.loop.concurrency > 1) log(`║  Parallel:   ${cfg.loop.concurrency} source files`);
   if (dryRun) log("║  Mode:       dry-run (print only, no writes)");
+  log(`║  Two-phase:  planner → coder (${cfg.llm.model})`);
   log("╚══════════════════════════════════════════════════════════════╝");
 
   // ── Step 1: Measure coverage ──
@@ -1061,6 +1326,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   if (hasCachedCoverage) {
     log(`    ♻️  Reusing cached ${cfg.runner.coveragePath}`);
   } else {
+    await ensureAzureAuth(log);
     await runTests(cfg.runner.command, packageDir, log, cfg);
   }
 
@@ -1070,6 +1336,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       coveragePath: cfg.runner.coveragePath,
       sourcePrefix: cfg.paths.sourcePrefix,
       sourceExclusions: cfg.paths.sourceExclusions,
+      sourceInclusions: cfg.paths.sourceInclusions,
       coverageFormat: cfg.runner.coverageFormat,
     });
   } catch {
@@ -1217,10 +1484,77 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       fileLog(`    ⚠️  Context resolution failed: ${(e as Error).message}`);
     }
 
-    // Look up existing tests from test map
+    // Look up existing tests — prefer testContextDirs if configured, else use coverage-based test map
     let existingTests: string | undefined;
-    const testEntries = testMap.get(file);
-    if (testEntries && testEntries.length > 0) {
+    let testEntries = testMap.get(file);
+
+    if (cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0) {
+      // Scan configured context directories for the best matching test file
+      const sourceBaseName = file.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
+      let bestMatch: { path: string; content: string; score: number } | undefined;
+
+      for (const ctxDir of cfg.paths.testContextDirs) {
+        const absCtxDir = resolve(packageDir, ctxDir);
+        try {
+          const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
+            .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
+            .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)));
+          for (const ctxFile of ctxFiles) {
+            const ctxBaseName = ctxFile.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
+            // Score by how many source-name segments appear in the test filename
+            const srcParts = sourceBaseName.replace(/^_+/, "").split("_");
+            const matchCount = srcParts.filter((p) => ctxBaseName.toLowerCase().includes(p.toLowerCase())).length;
+            const score = matchCount / srcParts.length;
+            if (score > (bestMatch?.score ?? 0)) {
+              const content = await tryReadFile(resolve(absCtxDir, ctxFile));
+              if (content) {
+                bestMatch = { path: join(ctxDir, ctxFile), content, score };
+              }
+            }
+          }
+        } catch {
+          // Directory doesn't exist or can't be read — skip
+        }
+      }
+
+      if (bestMatch) {
+        const maxLines = 400;
+        const testLines = bestMatch.content.split("\n");
+        existingTests = testLines.length > maxLines
+          ? testLines.slice(0, maxLines).join("\n") + `\n... (truncated at ${maxLines} lines)`
+          : bestMatch.content;
+        // Synthesize a testEntries-like structure for downstream usage
+        testEntries = [{ testFile: bestMatch.path, arcCount: 0 }];
+        fileLog(`    📋 Context tests (from testContextDirs): ${bestMatch.path} (${testLines.length} lines, score=${bestMatch.score.toFixed(2)})`);
+      } else {
+        // No name match — pick the largest e2e test file as a style example
+        let fallback: { path: string; content: string } | undefined;
+        for (const ctxDir of cfg.paths.testContextDirs) {
+          const absCtxDir = resolve(packageDir, ctxDir);
+          try {
+            const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
+              .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
+              .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)))
+              .filter((e) => !e.includes("__init__"));
+            for (const ctxFile of ctxFiles) {
+              const content = await tryReadFile(resolve(absCtxDir, ctxFile));
+              if (content && (!fallback || content.length > fallback.content.length)) {
+                fallback = { path: join(ctxDir, ctxFile), content };
+              }
+            }
+          } catch { /* skip */ }
+        }
+        if (fallback) {
+          const maxLines = 400;
+          const testLines = fallback.content.split("\n");
+          existingTests = testLines.length > maxLines
+            ? testLines.slice(0, maxLines).join("\n") + `\n... (truncated at ${maxLines} lines)`
+            : fallback.content;
+          testEntries = [{ testFile: fallback.path, arcCount: 0 }];
+          fileLog(`    📋 Context tests (fallback from testContextDirs): ${fallback.path} (${testLines.length} lines)`);
+        }
+      }
+    } else if (testEntries && testEntries.length > 0) {
       const topTestFile = testEntries[0].testFile;
       const testContent = await tryReadFile(resolve(packageDir, topTestFile));
       if (testContent) {
@@ -1291,12 +1625,23 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     }
 
     if (!dryRun) {
+      // Read conftest.py content if configured (for e2e mode fixture context)
+      let conftestContent: string | undefined;
+      if (cfg.paths.conftestPath && cfg.paths.testContextDirs?.length) {
+        conftestContent = await tryReadFile(resolve(packageDir, cfg.paths.conftestPath)) ?? undefined;
+        if (conftestContent) {
+          fileLog(`    📋 Loaded conftest: ${cfg.paths.conftestPath} (${conftestContent.split("\n").length} lines)`);
+        }
+      }
+
       const seed = await buildPromptSeed(packageDir, file, {
         ...promptCtxBase,
         sourceCode,
         contextFiles,
         existingTests,
         allGaps: gaps,
+        e2eMode: !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0),
+        conftestContent,
       });
       fileLog("    🧠 Seeding persistent file session");
       await seedSession({
@@ -1313,6 +1658,177 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     let fileBatches = 0;
     let outputPath: string | undefined;
 
+    // ------------------------------------------------------------------
+    // Two-phase generation: planner → coder
+    // ------------------------------------------------------------------
+    async function generateTwoPhase(
+      batch: CoverageGap[],
+      label: string,
+      batchNumber: number,
+    ): Promise<boolean> {
+      await compactSessionIfNeeded(generationSessionKey);
+
+      // ── Phase 1: Planner ──
+      fileLog(`    🗺️  Phase 1: Planning API calls for ${batch.length} gaps...`);
+      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode);
+
+      const plannerAttachments: SendAttachment[] = [...plannerPromptData.attachments];
+
+      try {
+        const { content: plannerContent, inputTokens: pIn, outputTokens: pOut, durationMs: pMs } = await send(
+          plannerPromptData.prompt,
+          {
+            model: cfg.llm.model,
+            signal: options.signal,
+            phase: "generate",
+            workingDirectory: packageDir,
+            attachments: plannerAttachments,
+            sessionKey: generationSessionKey,
+            timeoutMs: 3 * 60_000,
+            onProgress: parallel
+              ? undefined
+              : (tokens) => process.stdout.write(`\r    🗺️  Planning... (${tokens} tokens)`),
+          },
+        );
+        llmStats.push({ inputTokens: pIn, outputTokens: pOut, durationMs: pMs });
+        if (!parallel) process.stdout.write("\n");
+
+        let plan: PlannerResult[];
+        try {
+          plan = JSON.parse(plannerContent.trim());
+        } catch {
+          fileLog(`    ❌ Planner returned invalid JSON, falling back to single-phase`);
+          return generateBatchWithRetry(batch, label, batchNumber);
+        }
+
+        const reachable = plan.filter((p) => p.api_call !== "UNREACHABLE");
+        const unreachable = plan.filter((p) => p.api_call === "UNREACHABLE");
+        fileLog(`    🗺️  Plan: ${reachable.length} API calls, ${unreachable.length} unreachable (→ unit tests)`);
+        for (const p of reachable) {
+          fileLog(`      ✅ ${p.api_call} → L${p.marker_lines.join(", L")}`);
+        }
+        for (const p of unreachable) {
+          fileLog(`      🔧 L${p.marker_lines.join(", L")}: unit test (${p.reasoning})`);
+        }
+
+        if (reachable.length === 0 && unreachable.length === 0) {
+          fileLog(`    ⏭️  No plan entries — skipping batch`);
+          return true;
+        }
+
+        // ── Phase 2: Coder ──
+        fileLog(`    🤖 Phase 2: Generating tests from plan...`);
+
+        const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
+        const e2eInstructions = isE2eMode
+          ? [
+              "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
+              "ABSOLUTELY NO MOCKING of any kind. No unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs.",
+              "Do NOT construct internal operations objects directly.",
+              "Use the `client: MLClient` pytest fixture. Access operations via `client.models`, `client.components`, etc.",
+              "Use `AzureRecordedTestCase` base class with `@pytest.mark.usefixtures(\"recorded_test\")` and `@pytest.mark.e2etest`.",
+              "Use `randstr` fixture for unique names.",
+            ].join("\n")
+          : undefined;
+
+        const coderPromptData = buildCoderPrompt(
+          plan,
+          cfg.language,
+          cfg.paths.testDir,
+          cfg.language.outputExtension,
+          file,
+          sourceCode,
+          testEntries?.[0]?.testFile,
+          existingTests,
+          contextFiles,
+          e2eInstructions,
+        );
+
+        const coderAttachments: SendAttachment[] = [
+          ...coderPromptData.attachments,
+          ...(existingTests
+            ? [
+                {
+                  type: "virtual-file" as const,
+                  path: `coder/${outputPath ?? `batch-${batchNumber}`}.existing-suite.txt`,
+                  displayName: testEntries?.[0]?.testFile ?? `${file} existing tests`,
+                  content: existingTests,
+                },
+              ]
+            : []),
+        ];
+
+        const { content: coderContent, inputTokens: cIn, outputTokens: cOut, durationMs: cMs } = await send(
+          coderPromptData.prompt,
+          {
+            model: cfg.llm.model,
+            signal: options.signal,
+            phase: "generate",
+            workingDirectory: packageDir,
+            attachments: coderAttachments.length > 0 ? coderAttachments : undefined,
+            sessionKey: generationSessionKey,
+            timeoutMs: 3 * 60_000,
+            onProgress: parallel
+              ? undefined
+              : (tokens) => process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
+          },
+        );
+        llmStats.push({ inputTokens: cIn, outputTokens: cOut, durationMs: cMs });
+        if (!parallel) process.stdout.write("\n");
+
+        const response = SinglePassResponse.parse(parseJsonResponse(coderContent));
+        outputPath ??= response.path;
+
+        if (response.analysis) {
+          for (const a of response.analysis) {
+            fileLog(`      📝 ${a.test_name} → L${a.covered_marker_lines.join(", L")}`);
+          }
+        }
+
+        fileLog(`    📝 → ${outputPath}`);
+
+        if (!dryRun && outputPath) {
+          try {
+            const mergedCode = await mergeGeneratedBatches(
+              packageDir,
+              outputPath,
+              [response.code],
+              cfg,
+              llmStats,
+              options.signal,
+              file,
+            );
+            if (!generatedFiles.includes(outputPath)) {
+              generatedFiles.push(outputPath);
+            }
+            fileLog("    🧪 Running fix loop for merged batch output");
+            await ensureAzureAuth(fileLog);
+            const fixPassed = await writeAndFix(
+              packageDir,
+              outputPath,
+              mergedCode,
+              cfg,
+              fileLog,
+              llmStats,
+              options.signal,
+              file,
+              testEntries?.[0]?.testFile,
+              existingTests,
+              contextFiles,
+            );
+          } catch (mergeErr) {
+            fileLog(`    ⚠️  Merge/fix error: ${mergeErr}`);
+          }
+        }
+
+        return true;
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        fileLog(`    ❌ Two-phase generation failed: ${msg}`);
+        return false;
+      }
+    }
+
     async function generateBatchWithRetry(
       batch: CoverageGap[],
       label: string,
@@ -1320,6 +1836,18 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     ): Promise<boolean> {
       // Proactively compact session before each batch to prevent timeouts
       await compactSessionIfNeeded(generationSessionKey);
+
+      const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
+      const e2eInstructions = isE2eMode
+        ? [
+            "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
+            "ABSOLUTELY NO MOCKING of any kind. No unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs.",
+            "Do NOT construct internal operations objects (e.g., ModelOperations, OperationConfig) directly.",
+            "Use the `client: MLClient` pytest fixture to get a real authenticated client. Access operations via `client.models`, `client.components`, etc.",
+            "Use `AzureRecordedTestCase` base class with `@pytest.mark.usefixtures(\"recorded_test\")` and `@pytest.mark.e2etest`.",
+            "Use `randstr` fixture for unique names. If testing validation that raises before API calls, trigger it through `client.models.create_or_update()` etc.",
+          ].join("\n")
+        : undefined;
 
       const batchDelta = buildBatchDeltaPrompt(
         batch,
@@ -1331,6 +1859,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         sourceCode,
         existingTests,
         contextFiles,
+        e2eInstructions,
       );
 
       if (dryRun) {
@@ -1359,6 +1888,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         phase: "generate",
         workingDirectory: packageDir,
         attachments: batchAttachments.length > 0 ? batchAttachments : undefined,
+        timeoutMs: 3 * 60_000,
         onProgress: parallel
           ? undefined
           : (tokens) => process.stdout.write(`\r    🤖 Generating tests... (${tokens} tokens)`),
@@ -1406,6 +1936,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               generatedFiles.push(outputPath);
             }
             fileLog("    🧪 Running fix loop for merged batch output");
+            await ensureAzureAuth(fileLog);
             const fixPassed = await writeAndFix(
               packageDir,
               outputPath,
@@ -1419,6 +1950,9 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               existingTests,
               contextFiles,
             );
+            if (fixPassed && outputPath) {
+              // tracked for summary
+            }
             return fixPassed;
           } catch (mergeError) {
             fileLog(`    ❌ Merge/fix failed: ${(mergeError as Error).message}`);
@@ -1448,6 +1982,10 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
     while (gapOffset < sortedGaps.length && batchIdx < maxBatches) {
       if (options.signal?.aborted) break;
+
+      // Proactively refresh Azure CLI token if it's about to expire
+      await ensureAzureAuth(fileLog);
+
       const batch = sortedGaps.slice(gapOffset, gapOffset + effectiveBatchSize);
       gapOffset += effectiveBatchSize;
       batchIdx++;
@@ -1458,7 +1996,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       const estTotal = Math.min(batchIdx + estRemaining, maxBatches);
 
       fileLog(`\n    ── Batch ${batchIdx}/${estTotal} (${batch.length} branches) ──`);
-      const passed = await generateBatchWithRetry(batch, `${batchIdx}/${estTotal}`, batchIdx);
+      const passed = await generateTwoPhase(batch, `${batchIdx}/${estTotal}`, batchIdx);
 
       if (passed) {
         consecutiveFixFailures = 0;
@@ -1525,12 +2063,14 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
     // Measure final coverage
     log("\n━━━ Step 6: Final coverage measurement ━━━");
+    await ensureAzureAuth(log);
     await runTests(cfg.runner.command, packageDir, log, cfg);
     try {
       const finalGaps = await extractGaps(packageDir, {
         coveragePath: cfg.runner.coveragePath,
         sourcePrefix: cfg.paths.sourcePrefix,
         sourceExclusions: cfg.paths.sourceExclusions,
+        sourceInclusions: cfg.paths.sourceInclusions,
         coverageFormat: cfg.runner.coverageFormat,
       });
       finalBranchCov = computeBranchCoverage(finalGaps.fileStats);
