@@ -64,7 +64,7 @@ describe("Search test", () => {
       credential,
       subscriptionId,
       recorder.configureClientOptions({
-        endpoint: "https://eastus2euap.management.azure.com/",
+        endpoint: "https://management.azure.com/",
         credentialScopes: "https://management.azure.com/.default",
       }),
     );
@@ -94,7 +94,7 @@ describe("Search test", () => {
         location: location,
         replicaCount: 1,
         partitionCount: 1,
-        hostingMode: "default",
+        hostingMode: "Default",
         sku: {
           name: "standard",
         },
