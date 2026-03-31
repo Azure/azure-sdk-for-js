@@ -15,6 +15,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 require("dotenv/config");
+
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
@@ -50,44 +51,57 @@ async function main() {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  // Create a conversation
-  const conversation = await openAIClient.conversations.create();
-  console.log(`Created conversation (id: ${conversation.id})`);
-
-  // Send request to create a chart and generate a file
-  console.log("\nRequesting chart generation from uploaded CSV...");
-  const response = await openAIClient.responses.create(
-    {
-      conversation: conversation.id,
-      input:
-        "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
-    },
-    {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
-    },
-  );
-  console.log(`Response completed (id: ${response.id})`);
-
   // Extract file information from response annotations
   let fileId = "";
   let filename = "";
   let containerId = "";
 
-  const lastMessage = response.output[response.output.length - 1];
-  if (lastMessage.type === "message" && lastMessage.content) {
-    const lastContent = lastMessage.content[lastMessage.content.length - 1];
-    if (lastContent.type === "output_text" && lastContent.annotations) {
-      const fileCitation = lastContent.annotations[lastContent.annotations.length - 1];
-      if (fileCitation.type === "container_file_citation") {
-        fileId = fileCitation.file_id;
-        filename = fileCitation.filename;
-        containerId = fileCitation.container_id;
-        console.log(`Found generated file: ${filename} (ID: ${fileId})`);
+  try {
+    // Create a conversation
+    const conversation = await openAIClient.conversations.create();
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Send request to create a chart and generate a file
+    console.log("\nRequesting chart generation from uploaded CSV...");
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+        input:
+          "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    console.log(`Response completed (id: ${response.id})`);
+
+    // Safely extract file information from response annotations, guarding against empty arrays.
+    if (Array.isArray(response.output) && response.output.length > 0) {
+      const lastMessage = response.output[response.output.length - 1];
+      if (
+        lastMessage &&
+        lastMessage.type === "message" &&
+        Array.isArray(lastMessage.content) &&
+        lastMessage.content.length > 0
+      ) {
+        const lastContent = lastMessage.content[lastMessage.content.length - 1];
+        if (
+          lastContent &&
+          lastContent.type === "output_text" &&
+          Array.isArray(lastContent.annotations) &&
+          lastContent.annotations.length > 0
+        ) {
+          const fileCitation = lastContent.annotations[lastContent.annotations.length - 1];
+          if (fileCitation && fileCitation.type === "container_file_citation") {
+            fileId = fileCitation.file_id;
+            filename = fileCitation.filename;
+            containerId = fileCitation.container_id;
+            console.log(`Found generated file: ${filename} (ID: ${fileId})`);
+          }
+        }
       }
     }
-  }
 
-  try {
     // Download the generated file if available
     if (fileId && filename) {
       const fileContent = await openAIClient.containers.files.content.retrieve(fileId, {
