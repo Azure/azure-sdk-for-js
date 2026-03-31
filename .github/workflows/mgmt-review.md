@@ -76,7 +76,7 @@ These are the Azure DevOps and GitHub checks that run on SDK PRs. The check name
 
 #### Log Symptom → Root Cause Mapping
 
-These are exact strings/patterns to search for in CI logs and PR status. They are specific to this repo's scripts and not inferrable from general knowledge.
+These are exact strings/patterns to search for in CI logs and PR status. They are specific to this repo's scripts and not inferable from general knowledge.
 
 | Log symptom | Root cause | Action | Auto Fix |
 |---|---|---|---|
@@ -129,7 +129,7 @@ Compose a single GitHub PR comment (not a review) with:
 - Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: sdk-release-agent -->` in the body.
+Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
 
 ### Required Output Template
 
