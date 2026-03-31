@@ -1,6 +1,8 @@
 # Release History
 
-## 13.0.0 (2026-03-05)
+## 13.0.0 (Unreleased)
+
+### Features Added
 
 This stable release includes all features, breaking changes, and bug fixes from the 13.0.0-beta.1 and 13.0.0-beta.2 releases. Refer to the sections below for full details.
 
