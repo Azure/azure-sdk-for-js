@@ -57,7 +57,7 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     // Set a secret with PFX content type (simulating what a certificate would set)
     await client.setSecret(secretName, secretValue, {
-      contentType: "application/x-pkcs12",
+      contentType: KnownContentType.PFX,
     });
     try {
       const result = await client.getSecret(secretName, {
