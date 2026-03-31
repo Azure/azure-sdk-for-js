@@ -1,6 +1,7 @@
 # Release History
 
-## 37.0.0 (2026-03-27)
+## 37.0.0-beta.1 (2026-03-31)
+Compared with version 36.0.0
 
 ### Features Added
   - Added operation AdminRuleCollectionsOperations.delete
@@ -512,10 +513,8 @@
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias CommonProvisioningState
   - Added Type Alias NetworkManagementClientCreatedByType
-  - Added Type Alias ResourceProvisioningState
   - Added Enum AzureClouds
   - Added Enum KnownCommonProvisioningState
-  - Added Enum KnownResourceProvisioningState
   - Added Enum NetworkManagementClientKnownCreatedByType
 
 ### Breaking Changes

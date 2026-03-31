@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-network",
-  "version": "37.0.0",
+  "version": "37.0.0-beta.1",
   "description": "A generated SDK for NetworkManagementClient.",
   "engines": {
     "node": ">=20.0.0"

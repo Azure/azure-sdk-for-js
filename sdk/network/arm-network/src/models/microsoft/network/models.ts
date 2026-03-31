@@ -829,27 +829,33 @@ export enum KnownGroupConnectivity {
  */
 export type GroupConnectivity = string;
 
-/** The current provisioning state. */
+/** Provisioning states of a resource. */
 export enum KnownCommonProvisioningState {
+  /** Failed */
+  Failed = "Failed",
   /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
   /** Updating */
   Updating = "Updating",
   /** Deleting */
   Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed",
 }
 
 /**
- * The current provisioning state. \
+ * Provisioning states of a resource. \
  * {@link KnownCommonProvisioningState} can be used interchangeably with CommonProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Failed**: Failed \
  * **Succeeded**: Succeeded \
+ * **Canceled**: Canceled \
+ * **Creating**: Creating \
  * **Updating**: Updating \
- * **Deleting**: Deleting \
- * **Failed**: Failed
+ * **Deleting**: Deleting
  */
 export type CommonProvisioningState = string;
 
@@ -1106,7 +1112,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1152,7 +1158,7 @@ export interface AdminPropertiesFormat {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1330,36 +1336,6 @@ export enum KnownSecurityConfigurationRuleDirection {
  */
 export type SecurityConfigurationRuleDirection = string;
 
-/** Provisioning states of a resource. */
-export enum KnownResourceProvisioningState {
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Provisioning states of a resource. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Failed**: Failed \
- * **Succeeded**: Succeeded \
- * **Canceled**: Canceled \
- * **Creating**: Creating \
- * **Updating**: Updating \
- * **Deleting**: Deleting
- */
-export type ResourceProvisioningState = string;
-
 /** Network default admin rule. */
 export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminRule {
   /** Whether the rule is custom or default. */
@@ -1385,7 +1361,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1435,7 +1411,7 @@ export interface DefaultAdminPropertiesFormat {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1617,7 +1593,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -1665,7 +1641,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -19636,7 +19612,7 @@ export interface IpamPoolProperties {
   /** List of IP address prefixes of the resource. */
   addressPrefixes: string[];
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function ipamPoolPropertiesSerializer(item: IpamPoolProperties): any {
@@ -20267,7 +20243,7 @@ export interface StaticCidrProperties {
   /** Total number of IP addresses allocated for the static CIDR resource. */
   readonly totalNumberOfIPAddresses?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function staticCidrPropertiesSerializer(item: StaticCidrProperties): any {
@@ -22396,7 +22372,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
   /** Determine update behavior for changes to network groups referenced within the rules in this configuration. */
   networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22437,7 +22413,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
   /** Determine update behavior for changes to network groups referenced within the rules in this configuration. */
   networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22536,7 +22512,7 @@ export interface AdminRuleCollection extends ChildResource {
   /** Groups for configuration */
   appliesToGroups?: NetworkManagerSecurityGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -22571,7 +22547,7 @@ export interface AdminRuleCollectionPropertiesFormat {
   /** Groups for configuration */
   appliesToGroups: NetworkManagerSecurityGroupItem[];
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -23520,7 +23496,7 @@ export function reachabilityAnalysisIntentDeserializer(item: any): ReachabilityA
 /** Represents the Reachability Analysis Intent properties. */
 export interface ReachabilityAnalysisIntentProperties {
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   description?: string;
   /** Source resource id to verify the reachability path of. */
   sourceResourceId: string;
@@ -23689,7 +23665,7 @@ export function verifierWorkspaceDeserializer(item: any): VerifierWorkspace {
 export interface VerifierWorkspaceProperties {
   description?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function verifierWorkspacePropertiesSerializer(item: VerifierWorkspaceProperties): any {
@@ -23777,7 +23753,7 @@ export interface ReachabilityAnalysisRunProperties {
   readonly analysisResult?: string;
   readonly errorMessage?: string;
   /** Provisioning states of a resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function reachabilityAnalysisRunPropertiesSerializer(
@@ -37825,7 +37801,7 @@ export interface ServiceGateway extends SecurityPerimeterTrackedResource {
   /** The resource GUID property of the service gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service gateway resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function serviceGatewaySerializer(item: ServiceGateway): any {
@@ -37884,7 +37860,7 @@ export interface ServiceGatewayPropertiesFormat {
   /** The resource GUID property of the service gateway resource. */
   readonly resourceGuid?: string;
   /** The provisioning state of the service gateway resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
 }
 
 export function serviceGatewayPropertiesFormatSerializer(
@@ -40073,7 +40049,7 @@ export interface AdminRule extends BaseAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }
@@ -40138,7 +40114,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   readonly direction?: SecurityConfigurationRuleDirection;
   /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: CommonProvisioningState;
   /** Unique identifier for this resource. */
   readonly resourceGuid?: string;
 }

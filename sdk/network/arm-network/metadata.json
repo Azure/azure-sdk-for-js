@@ -1072,7 +1072,6 @@
       "@azure/arm-network!KnownAddressPrefixType:enum": "Microsoft.Network.AddressPrefixType",
       "@azure/arm-network!KnownSecurityConfigurationRuleAccess:enum": "Microsoft.Network.SecurityConfigurationRuleAccess",
       "@azure/arm-network!KnownSecurityConfigurationRuleDirection:enum": "Microsoft.Network.SecurityConfigurationRuleDirection",
-      "@azure/arm-network!KnownResourceProvisioningState:enum": "Microsoft.Network.ResourceProvisioningState",
       "@azure/arm-network!KnownVirtualWanSecurityProviderType:enum": "Microsoft.Network.VirtualWanSecurityProviderType",
       "@azure/arm-network!KnownAuthenticationMethod:enum": "Microsoft.Network.AuthenticationMethod",
       "@azure/arm-network!KnownApplicationGatewaySkuName:enum": "Microsoft.Network.ApplicationGatewaySkuName",

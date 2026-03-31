@@ -83,7 +83,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -99,7 +99,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -141,7 +141,7 @@ export interface AdminPropertiesFormat {
     direction: SecurityConfigurationRuleDirection;
     priority: number;
     protocol: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -157,7 +157,7 @@ export interface AdminRule extends BaseAdminRule {
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -167,7 +167,7 @@ export interface AdminRule extends BaseAdminRule {
 export interface AdminRuleCollection extends ChildResource {
     appliesToGroups?: NetworkManagerSecurityGroupItem[];
     description?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -176,7 +176,7 @@ export interface AdminRuleCollection extends ChildResource {
 export interface AdminRuleCollectionPropertiesFormat {
     appliesToGroups: NetworkManagerSecurityGroupItem[];
     description?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -3315,7 +3315,7 @@ export interface DefaultAdminPropertiesFormat {
     flag?: string;
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -3332,7 +3332,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -3557,7 +3557,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
     kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
@@ -3654,7 +3654,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
     kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
@@ -6155,7 +6155,7 @@ export interface IpamPoolProperties {
     displayName?: string;
     readonly ipAddressType?: IpType[];
     parentPoolName?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -6865,6 +6865,8 @@ export enum KnownCommissionedState {
 
 // @public
 export enum KnownCommonProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded",
@@ -7838,16 +7840,6 @@ export enum KnownPublicIPPrefixSkuTier {
 export enum KnownResiliencyModel {
     MultiHomed = "MultiHomed",
     SingleHomed = "SingleHomed"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
 }
 
 // @public
@@ -12313,7 +12305,7 @@ export interface ReachabilityAnalysisIntentProperties {
     description?: string;
     destinationResourceId: string;
     ipTraffic: IPTraffic;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     sourceResourceId: string;
 }
 
@@ -12362,7 +12354,7 @@ export interface ReachabilityAnalysisRunProperties {
     readonly errorMessage?: string;
     readonly intentContent?: IntentContent;
     intentId: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
@@ -12487,9 +12479,6 @@ export interface ResourceNavigationLinksListResult {
 export interface ResourceNavigationLinksOperations {
     list: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: ResourceNavigationLinksListOptionalParams) => Promise<ResourceNavigationLinksListResult>;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceSet {
@@ -13079,7 +13068,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
@@ -13089,7 +13078,7 @@ export interface SecurityAdminConfigurationPropertiesFormat {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
 }
 
@@ -13672,7 +13661,7 @@ export interface ServiceEndpointPropertiesFormat {
 // @public
 export interface ServiceGateway extends SecurityPerimeterTrackedResource {
     readonly etag?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routeTargetAddress?: RouteTargetAddressPropertiesFormat;
     routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
@@ -13702,7 +13691,7 @@ export interface ServiceGatewayAddressLocationResponse {
 
 // @public
 export interface ServiceGatewayPropertiesFormat {
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly resourceGuid?: string;
     routeTargetAddress?: RouteTargetAddressPropertiesFormat;
     routeTargetAddressV6?: RouteTargetAddressPropertiesFormat;
@@ -13986,7 +13975,7 @@ export interface StaticCidrProperties {
     // (undocumented)
     description?: string;
     numberOfIPAddressesToAllocate?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
     readonly totalNumberOfIPAddresses?: string;
 }
 
@@ -14497,7 +14486,7 @@ export interface VerifierWorkspace extends CommonTrackedResource {
 export interface VerifierWorkspaceProperties {
     // (undocumented)
     description?: string;
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: CommonProvisioningState;
 }
 
 // @public
