@@ -14,6 +14,7 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
+  edit:
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -26,6 +27,9 @@ safe-outputs:
     max: 10
     side: "RIGHT"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  create-pull-request:
+    title-prefix: "[mgmt-fix] "
+    labels: [automated]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -58,7 +62,43 @@ You are an SDK release agent that helps
 - If the PR is ready to merge means there will be a button `Squash and merge` enabled, stop the analysis and comment `## PR is ready to merge`;
 - Otherwise classify each blocking using the CI check mapping and log symptom patterns below. Also inspect the PR's code directly (e.g., read generated files for compile errors). Also pay attention to PR `Merging is blocking` messages.
 
-### 3. Post a comment
+#### CI Check Name → Failure Mapping
+
+These are the Azure DevOps and GitHub checks that run on SDK PRs. The check names are repo-specific and not discoverable from general knowledge.
+
+| Check Name Pattern | What It Validates | Key Script |
+|---|---|---|
+| `Build` | Compilation on src/samples/test codes | `pnpm turbo build --filter=<package-name>... --token 1` |
+| `Analyze` | Samples, READMEs, snippets compile, Format, ESlint | `pnpm run check-format`/`pnpm run update-snippets` etc |
+| `verify-links` | Markdown link validation | `eng/common/scripts/Verify-Links.ps1` |
+| `UnitTest ${environment}` | Run test cases on different environments including node and browser testings | `pnpm test` or `.skip` on test files to skip running|
+| `checkenforcer` | Meta-check: waits for all other checks to pass | `/check-enforcer override` to override if blocking |
+
+#### Log Symptom → Root Cause Mapping
+
+These are exact strings/patterns to search for in CI logs and PR status. They are specific to this repo's scripts and not inferrable from general knowledge.
+
+| Log symptom | Root cause | Category | Auto Fix |
+|---|---|---|
+| `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update or add the correct test recordings so the tests pass with the new service behavior. Only if recordings cannot be updated in time, and with explicit justification and SDK maintainer approval, consider temporarily marking the affected tests as skipped. | No |
+| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings | Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to create or update the browser test recordings and restore passing browser tests. As a last-resort temporary workaround that requires clear justification and SDK maintainer approval, you may adjust the browser test configuration to skip the affected tests until a proper fix is merged. | No|
+| `Build FAILED` | Compilation failure | Build failure | No|
+| `Check-format FAILED` | Need to format the code | Run `pnpm format` to fix | Yes|
+| `verify-links` broken URL | Broken markdown links | Add the broken links into eng/ignore-links.txt file to bypass this verification | Yes|
+| `Merging is blocking` by pnpm-lock merge conflicts| pnpm-lock file is a shared file and easy to conflict | Follow [the guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to resolve conflicts| Yes|
+
+Besides above cases and please also pay attention to followings:
+- Only log one failure case if `UnitTest` failed with different environment with same errors
+- Always provide [guidance](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) if this is a test recording relevant failure
+- Check [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other CI failures
+- Review [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md) for more advice on pipeline hangs
+- Provide general guidance if merging conflict exists
+
+### 3. Create a PR to fix if possible
+
+If the above failed message show this is a auto-fix one, prepare a PR based on source branch to fix the failure with guidance.
+
+### 4. Post a comment
 
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
@@ -66,6 +106,7 @@ Compose a single GitHub PR comment (not a review) with:
 - **Scope**: include ONLY currently failing or blocking checks; do NOT include passed checks, resolved issues, summaries, or extra background.
 - **Per-failure bullet**: `- ❌ <Check name>: <1-line failure reason>. Action: <1-2 concrete steps/commands>.`
 - **Length rule**: keep the full comment concise (target <= 12 lines unless there are many distinct failed checks).
+- **AutoFix PR**: put the autofix PR if existing with guidance in step 3.
 - **No extra sections**: do NOT add sections such as "Previously identified issues", "Pending", "PR summary", or non-blocking notes.
 - **If nothing is blocking**: comment only `## PR is ready to merge`.
 
@@ -87,40 +128,6 @@ Only failed checks and required actions are listed below.
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 ```
-
-## CI Check Name → Failure Mapping
-
-These are the Azure DevOps and GitHub checks that run on SDK PRs. The check names are repo-specific and not discoverable from general knowledge.
-
-| Check Name Pattern | What It Validates | Key Script |
-|---|---|---|
-| `Build` | Compilation on src/samples/test codes | `pnpm turbo build --filter=<package-name>... --token 1` |
-| `Analyze` | Samples, READMEs, snippets compile, Format, ESlint | `pnpm run check-format`/`pnpm run update-snippets` etc |
-| `verify-links` | Markdown link validation | `eng/common/scripts/Verify-Links.ps1` |
-| `UnitTest ${environment}` | Run test cases on different environments including node and browser testings | `pnpm test` or `.skip` on test files to skip running|
-| `checkenforcer` | Meta-check: waits for all other checks to pass | `/check-enforcer override` to override if blocking |
-
-## Log Symptom → Root Cause Mapping
-
-These are exact strings/patterns to search for in CI logs and PR status. They are specific to this repo's scripts and not inferrable from general knowledge.
-
-| Log symptom | Root cause | Category |
-|---|---|---|
-| `UnitTest FAILED` with request url mismatch | Need to record the testing based on new release |  Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to update or add the correct test recordings so the tests pass with the new service behavior. Only if recordings cannot be updated in time, and with explicit justification and SDK maintainer approval, consider temporarily marking the affected tests as skipped. |
-| `UnitTest FAILED` missing browser test recordings | Missing browser testing recordings | Follow [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode) to create or update the browser test recordings and restore passing browser tests. As a last-resort temporary workaround that requires clear justification and SDK maintainer approval, you may adjust the browser test configuration to skip the affected tests until a proper fix is merged. |
-| `Build FAILED` | Compilation failure | Build failure |
-| `Check-format FAILED` | Need to format the code | Run `pnpm format` to fix |
-| `verify-links` broken URL | Broken markdown links | Add the broken links into eng/ignore-links.txt file to bypass this verification |
-| `Merging is blocking` by pnpm-lock merge conflicts| pnpm-lock file is a shared file and easy to conflict | Follow [the guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to resolve conflicts|
-
-Besides above cases and please also pay attention to followings:
-- Only log one failure case if `UnitTest` failed with different environment with same errors
-- Always provide [guidance](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) if this is a test recording relevant failure
-- Check [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other CI failures
-- Review [the doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/case-study-investigating-a-pipeline-that-hangs.md) for more advice on pipeline hangs
-- Provide general guidance if merging conflict exists
-
-
 
 
 ## Workflow to review the PR
