@@ -2,7 +2,7 @@
   "apiVersions": {
     "Storage.Blob": "2026-04-06"
   },
-  "emitterVersion": "0.51.0-alpha.20260324.1",
+  "emitterVersion": "0.51.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.Blob",
     "CrossLanguageDefinitionId": {

@@ -61,10 +61,10 @@
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
-/sdk/attestation/    @anilba06 @deyaaeldeen @gkostal @LarryOsterman
+/sdk/attestation/    @anilba06 @daaltobe @gkostal @olkroshk
 
 # ServiceLabel: %Attestation
-# ServiceOwners: @anilba06 @gkostal
+# ServiceOwners: @anilba06 @daaltobe @gkostal @olkroshk
 
 # ServiceLabel: %Azure Load Testing
 # PRLabel: %Azure Load Testing
@@ -446,6 +446,9 @@
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803

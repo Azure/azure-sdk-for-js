@@ -84,11 +84,11 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _getKeyAttestationSend(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   options: GetKeyAttestationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/keys/{key-name}/{key-version}/attestation{?api%2Dversion}",
+    "/keys/{key-name}{/key-version}/attestation{?api%2Dversion}",
     {
       "key-name": keyName,
       "key-version": keyVersion,
@@ -124,7 +124,7 @@ export async function _getKeyAttestationDeserialize(
 export async function getKeyAttestation(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   options: GetKeyAttestationOptionalParams = { requestOptions: {} },
 ): Promise<KeyBundle> {
   const result = await _getKeyAttestationSend(context, keyName, keyVersion, options);
@@ -469,12 +469,12 @@ export function getDeletedKeys(
 export function _releaseSend(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/keys/{key-name}/{key-version}/release{?api%2Dversion}",
+    "/keys/{key-name}{/key-version}/release{?api%2Dversion}",
     {
       "key-name": keyName,
       "key-version": keyVersion,
@@ -512,7 +512,7 @@ export async function _releaseDeserialize(
 export async function release(
   context: Client,
   keyName: string,
-  keyVersion: string,
+  keyVersion: string | undefined,
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): Promise<KeyReleaseResult> {
