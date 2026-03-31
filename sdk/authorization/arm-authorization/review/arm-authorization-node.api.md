@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessRecommendationType = string;
@@ -1065,6 +1065,43 @@ export interface ApprovalStage {
 // @public
 export type AssignmentType = string;
 
+// @public
+export interface AttributeNamespace {
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface AttributeNamespaceCreateRequest {
+    namespaceOwnerPrincipalId: string;
+}
+
+// @public
+export interface AttributeNamespaces {
+    create(attributeNamespace: string, parameters: AttributeNamespaceCreateRequest, options?: AttributeNamespacesCreateOptionalParams): Promise<AttributeNamespacesCreateResponse>;
+    delete(attributeNamespace: string, options?: AttributeNamespacesDeleteOptionalParams): Promise<void>;
+    get(attributeNamespace: string, options?: AttributeNamespacesGetOptionalParams): Promise<AttributeNamespacesGetResponse>;
+}
+
+// @public
+export interface AttributeNamespacesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AttributeNamespacesCreateResponse = AttributeNamespace;
+
+// @public
+export interface AttributeNamespacesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AttributeNamespacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AttributeNamespacesGetResponse = AttributeNamespace;
+
 // @public (undocumented)
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -1107,6 +1144,8 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     alertOperation: AlertOperation;
     // (undocumented)
     alerts: Alerts;
+    // (undocumented)
+    attributeNamespaces: AttributeNamespaces;
     // (undocumented)
     classicAdministrators: ClassicAdministrators;
     // (undocumented)
@@ -1239,6 +1278,9 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export type DecisionResourceType = string;
 
 // @public
@@ -1253,20 +1295,25 @@ export interface DenyAssignment {
     conditionVersion?: string;
     readonly createdBy?: string;
     readonly createdOn?: Date;
+    denyAssignmentEffect?: DenyAssignmentEffect;
     denyAssignmentName?: string;
     description?: string;
     doNotApplyToChildScopes?: boolean;
-    excludePrincipals?: Principal[];
+    excludePrincipals?: DenyAssignmentPrincipal[];
     readonly id?: string;
     isSystemProtected?: boolean;
     readonly name?: string;
     permissions?: DenyAssignmentPermission[];
-    principals?: Principal[];
-    scope?: string;
+    principals?: DenyAssignmentPrincipal[];
+    readonly scope?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
     readonly updatedBy?: string;
     readonly updatedOn?: Date;
 }
+
+// @public
+export type DenyAssignmentEffect = string;
 
 // @public
 export interface DenyAssignmentFilter {
@@ -1292,13 +1339,35 @@ export interface DenyAssignmentPermission {
 }
 
 // @public
+export interface DenyAssignmentPrincipal {
+    id?: string;
+    type?: DenyAssignmentPrincipalType;
+}
+
+// @public
+export type DenyAssignmentPrincipalType = string;
+
+// @public
 export interface DenyAssignments {
+    createOrUpdate(scope: string, denyAssignmentId: string, parameters: DenyAssignment, options?: DenyAssignmentsCreateOrUpdateOptionalParams): Promise<DenyAssignmentsCreateOrUpdateResponse>;
+    delete(scope: string, denyAssignmentId: string, options?: DenyAssignmentsDeleteOptionalParams): Promise<void>;
     get(scope: string, denyAssignmentId: string, options?: DenyAssignmentsGetOptionalParams): Promise<DenyAssignmentsGetResponse>;
     getById(denyAssignmentId: string, options?: DenyAssignmentsGetByIdOptionalParams): Promise<DenyAssignmentsGetByIdResponse>;
     list(options?: DenyAssignmentsListOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
     listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: DenyAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
     listForResourceGroup(resourceGroupName: string, options?: DenyAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
     listForScope(scope: string, options?: DenyAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+}
+
+// @public
+export interface DenyAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsCreateOrUpdateResponse = DenyAssignment;
+
+// @public
+export interface DenyAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1451,9 +1520,26 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorDetailAutoGenerated {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetailAutoGenerated[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export interface ErrorResponseAutoGenerated {
+    error?: ErrorDetailAutoGenerated;
+}
+
+// @public
+export type ExcludedPrincipalTypes = string;
 
 // @public (undocumented)
 export interface ExpandedProperties {
@@ -1640,6 +1726,14 @@ export enum KnownAssignmentType {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDecisionResourceType {
     AzureRole = "azureRole"
 }
@@ -1658,10 +1752,26 @@ export enum KnownDefaultDecisionType {
 }
 
 // @public
+export enum KnownDenyAssignmentEffect {
+    Audit = "audit",
+    Enforced = "enforced"
+}
+
+// @public
+export enum KnownDenyAssignmentPrincipalType {
+}
+
+// @public
 export enum KnownEnablementRules {
     Justification = "Justification",
     MultiFactorAuthentication = "MultiFactorAuthentication",
     Ticketing = "Ticketing"
+}
+
+// @public
+export enum KnownExcludedPrincipalTypes {
+    ServicePrincipalsAsRequestor = "ServicePrincipalsAsRequestor",
+    ServicePrincipalsAsTarget = "ServicePrincipalsAsTarget"
 }
 
 // @public
@@ -1681,6 +1791,13 @@ export enum KnownNotificationLevel {
     All = "All",
     Critical = "Critical",
     None = "None"
+}
+
+// @public
+export enum KnownPIMOnlyMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    ReportOnly = "ReportOnly"
 }
 
 // @public
@@ -1724,7 +1841,8 @@ export enum KnownRoleManagementPolicyRuleType {
     RoleManagementPolicyAuthenticationContextRule = "RoleManagementPolicyAuthenticationContextRule",
     RoleManagementPolicyEnablementRule = "RoleManagementPolicyEnablementRule",
     RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
-    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
+    RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule",
+    RoleManagementPolicyPimOnlyModeRule = "RoleManagementPolicyPimOnlyModeRule"
 }
 
 // @public
@@ -1770,6 +1888,7 @@ export enum KnownType {
 // @public
 export enum KnownUserType {
     Group = "Group",
+    ServicePrincipal = "ServicePrincipal",
     User = "User"
 }
 
@@ -1873,7 +1992,17 @@ export interface PermissionsListForResourceOptionalParams extends coreClient.Ope
 // @public
 export type PermissionsListForResourceResponse = PermissionGetResult;
 
-// @public (undocumented)
+// @public
+export type PIMOnlyMode = string;
+
+// @public
+export interface PIMOnlyModeSettings {
+    excludedAssignmentTypes?: ExcludedPrincipalTypes[];
+    excludes?: UsersOrServicePrincipalSet[];
+    mode?: PIMOnlyMode;
+}
+
+// @public
 export interface PolicyAssignmentProperties {
     policy?: PolicyAssignmentPropertiesPolicy;
     roleDefinition?: PolicyAssignmentPropertiesRoleDefinition;
@@ -1901,7 +2030,7 @@ export interface PolicyAssignmentPropertiesScope {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PolicyProperties {
     readonly scope?: PolicyPropertiesScope;
 }
@@ -2785,6 +2914,7 @@ export interface RoleManagementPolicyApprovalRule extends RoleManagementPolicyRu
 
 // @public
 export interface RoleManagementPolicyAssignment {
+    readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
     readonly id?: string;
     readonly name?: string;
     readonly policyAssignmentProperties?: PolicyAssignmentProperties;
@@ -2855,6 +2985,7 @@ export interface RoleManagementPolicyEnablementRule extends RoleManagementPolicy
 
 // @public
 export interface RoleManagementPolicyExpirationRule extends RoleManagementPolicyRule {
+    exceptionMembers?: UserSet[];
     isExpirationRequired?: boolean;
     maximumDuration?: string;
     ruleType: "RoleManagementPolicyExpirationRule";
@@ -2877,9 +3008,15 @@ export interface RoleManagementPolicyNotificationRule extends RoleManagementPoli
 }
 
 // @public
+export interface RoleManagementPolicyPimOnlyModeRule extends RoleManagementPolicyRule {
+    pimOnlyModeSettings?: PIMOnlyModeSettings;
+    ruleType: "RoleManagementPolicyPimOnlyModeRule";
+}
+
+// @public
 export interface RoleManagementPolicyRule {
     id?: string;
-    ruleType: "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule";
+    ruleType: "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" | "RoleManagementPolicyPimOnlyModeRule";
     target?: RoleManagementPolicyRuleTarget;
 }
 
@@ -2897,7 +3034,7 @@ export interface RoleManagementPolicyRuleTarget {
 export type RoleManagementPolicyRuleType = string;
 
 // @public (undocumented)
-export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule;
+export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule | RoleManagementPolicyPimOnlyModeRule;
 
 // @public
 export interface ScopeAccessReviewDefaultSettings {
@@ -3152,6 +3289,16 @@ export type SeverityLevel = string;
 export type Status = string;
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TenantLevelAccessReviewInstanceContactedReviewers {
     list(scheduleDefinitionId: string, id: string, options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams): PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
 }
@@ -3207,6 +3354,13 @@ export interface UserSet {
     id?: string;
     isBackup?: boolean;
     userType?: UserType;
+}
+
+// @public
+export interface UsersOrServicePrincipalSet {
+    displayName?: string;
+    id?: string;
+    type?: UserType;
 }
 
 // @public
