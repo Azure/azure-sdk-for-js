@@ -99,15 +99,16 @@ For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch v
 
 #### 3a. pnpm-lock.yaml merge conflict
 
-If `mergeable_state: dirty` and `pnpm-lock.yaml` is the **only** conflicting file:
+If `mergeable_state: dirty`, attempt to resolve it:
 
-1. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
-2. `git fetch https://github.com/Azure/azure-sdk-for-js main`
-3. `git merge FETCH_HEAD` — if files other than pnpm-lock.yaml conflict, **stop**.
-4. `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
-5. `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
-6. `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
-7. Push via `push-to-pull-request-branch`. If any step fails, stop and report in comment.
+1. Check out the PR source branch: `git checkout <pr-head-ref>`
+2. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
+3. `git fetch https://github.com/Azure/azure-sdk-for-js main`
+4. `git merge FETCH_HEAD` — check `git status` for conflicts. If files **other than** `pnpm-lock.yaml` also conflict, **stop** and only post guidance.
+5. `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
+6. `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
+7. `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
+8. Push via `push-to-pull-request-branch`. If any step fails, stop and report in comment.
 
 #### 3b. Check-format failure
 
@@ -122,7 +123,7 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections.
+- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections. Do NOT include any review design comments.
 - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>.`
 - Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
