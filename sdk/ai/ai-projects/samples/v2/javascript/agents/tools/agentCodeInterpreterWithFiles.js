@@ -87,22 +87,24 @@ async function main() {
     }
   }
 
-  // Clean up agent
-  console.log("\nCleaning up...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
-
-  // Download the generated file if available
-  if (fileId && filename) {
-    const fileContent = await openAIClient.containers.files.content.retrieve(fileId, {
-      container_id: containerId,
-    });
-    const filePath = path.join(os.tmpdir(), filename);
-    const buffer = Buffer.from(await fileContent.arrayBuffer());
-    fs.writeFileSync(filePath, buffer);
-    console.log(`File downloaded successfully: ${filePath}`);
-  } else {
-    console.log("No file generated in response");
+  try {
+    // Download the generated file if available
+    if (fileId && filename) {
+      const fileContent = await openAIClient.containers.files.content.retrieve(fileId, {
+        container_id: containerId,
+      });
+      const filePath = path.join(os.tmpdir(), filename);
+      const buffer = Buffer.from(await fileContent.arrayBuffer());
+      fs.writeFileSync(filePath, buffer);
+      console.log(`File downloaded successfully: ${filePath}`);
+    } else {
+      console.log("No file generated in response");
+    }
+  } finally {
+    // Clean up agent
+    console.log("\nCleaning up...");
+    await project.agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
   }
 }
 
