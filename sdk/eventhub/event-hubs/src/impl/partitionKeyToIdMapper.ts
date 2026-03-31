@@ -3,38 +3,9 @@
 
 /* eslint-disable no-fallthrough */
 
-const partitionKeyToIdCache = new Map<string, number>();
-const maxCachedPartitionKeyMappings = 100;
-
 export function mapPartitionKeyToId(partitionKey: string, partitionCount: number): number {
-  const cacheKey = `${partitionCount}:${partitionKey}`;
-  const cachedPartitionId = partitionKeyToIdCache.get(cacheKey);
-
-  if (cachedPartitionId !== undefined) {
-    partitionKeyToIdCache.delete(cacheKey);
-    partitionKeyToIdCache.set(cacheKey, cachedPartitionId);
-    return cachedPartitionId;
-  }
-
   const hashedParitionKey = hashPartitionKey(partitionKey);
-  const partitionId = Math.abs(hashedParitionKey % partitionCount);
-
-  partitionKeyToIdCache.set(cacheKey, partitionId);
-  if (partitionKeyToIdCache.size > maxCachedPartitionKeyMappings) {
-    const oldestCacheKey = partitionKeyToIdCache.keys().next().value;
-    if (oldestCacheKey !== undefined) {
-      partitionKeyToIdCache.delete(oldestCacheKey);
-    }
-  }
-
-  return partitionId;
-}
-
-/**
- * @internal
- */
-export function clearPartitionKeyToIdCache(): void {
-  partitionKeyToIdCache.clear();
+  return Math.abs(hashedParitionKey % partitionCount);
 }
 
 /**
