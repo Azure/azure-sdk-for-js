@@ -55,7 +55,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Premium" | "Cold";
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Premium" | "Cold" | "Smart";
 
 // @public
 export interface AccessTierModifiedConditions {
@@ -285,7 +285,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold" | "rehydrate-pending-to-smart";
 
 export { BaseRequestPolicy }
 
