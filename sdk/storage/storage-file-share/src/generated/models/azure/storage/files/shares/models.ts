@@ -3332,6 +3332,6 @@ export type OwnerCopyMode = "source" | "override";
 
 /** The available API versions */
 export enum KnownVersions {
-  /** API Version 2026-04-06 */
-  V20260406 = "2026-04-06",
+  /** API Version 2026-06-06 */
+  V20260606 = "2026-06-06",
 }

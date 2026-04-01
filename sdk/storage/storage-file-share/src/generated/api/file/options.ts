@@ -249,6 +249,8 @@ export interface FileUploadRangeFromUrlOptionalParams extends OperationOptions {
 export interface FileUploadRangeOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** Content-Type header */
+  contentType?: "application/octet-stream";
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** An MD5 hash of the content. This hash is used to verify the integrity of data during transport. */
@@ -443,6 +445,8 @@ export interface FileDownloadOptionalParams extends OperationOptions {
 export interface FileCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** Content-Type header */
+  contentType?: "application/octet-stream";
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Sets the MIME content type of the file. The default type is 'application/octet-stream'. */
@@ -493,6 +497,10 @@ export interface FileCreateOptionalParams extends OperationOptions {
   filePropertySemantics?: FilePropertySemantics;
   /** Optional. Specifies the content length of the file. */
   optionalContentLength?: number;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** Initial data. */
   body?: Uint8Array;
 }

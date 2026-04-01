@@ -7,3 +7,5 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
+export type FileDownloadResponse = { body: Uint8Array };

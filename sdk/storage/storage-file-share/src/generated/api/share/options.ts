@@ -41,6 +41,8 @@ export interface ShareGetStatisticsOptionalParams extends OperationOptions {
 export interface ShareSetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** Content-Type header */
+  contentType?: "application/xml";
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** If specified, the lease ID must match the lease ID of the file. */

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { FileClient } from "./fileClient.js";
+export type { FileDownloadResponse } from "./models/index.js";
 export type {
   FileServiceProperties,
   Metrics,

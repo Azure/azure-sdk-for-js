@@ -13,6 +13,7 @@ import {
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
 } from "../../models/azure/storage/files/shares/models.js";
+import { FileDownloadResponse } from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -69,7 +70,7 @@ export function _createHardLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -274,7 +275,7 @@ export function _getSymbolicLinkSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -408,7 +409,7 @@ export function _createSymbolicLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -613,7 +614,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -849,7 +850,7 @@ export function _forceCloseHandlesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -993,7 +994,7 @@ export function _listHandlesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1127,7 +1128,7 @@ export function _abortCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1247,7 +1248,7 @@ export function _startCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1431,7 +1432,7 @@ export function _getRangeListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1584,7 +1585,7 @@ export function _uploadRangeFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1778,7 +1779,7 @@ export function _uploadRangeSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1967,7 +1968,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2116,7 +2117,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2262,7 +2263,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2397,7 +2398,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2543,7 +2544,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2680,7 +2681,7 @@ export function _setHttpHeadersSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2953,7 +2954,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3079,7 +3080,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3429,7 +3430,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3453,7 +3454,9 @@ export function _downloadSend(
     });
 }
 
-export async function _downloadDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _downloadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FileDownloadResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -3467,7 +3470,9 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
     throw error;
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  return {
+    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
+  };
 }
 
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
@@ -3743,9 +3748,9 @@ export async function download(
     clientRequestId?: string;
     date: Date;
     contentType: "application/xml";
-  } & Uint8Array &
+  } & FileDownloadResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      FileDownloadResponse,
       {
         lastModified: string;
         contentLength: number;
@@ -3820,7 +3825,7 @@ export function _createSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3895,6 +3900,12 @@ export function _createSend(
         ...(options?.optionalContentLength !== undefined
           ? { "content-length": options?.optionalContentLength }
           : {}),
+        ...(options?.structuredBodyType !== undefined
+          ? { "x-ms-structured-body": options?.structuredBodyType }
+          : {}),
+        ...(options?.structuredContentLength !== undefined
+          ? { "x-ms-structured-content-length": options?.structuredContentLength }
+          : {}),
         ...options.requestOptions?.headers,
       },
       body: !options["body"] ? options["body"] : options["body"],
@@ -3935,6 +3946,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   nfsFileType?: NfsFileType;
   contentMD5?: Uint8Array;
   contentLength?: number;
+  structuredBodyType?: string;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -4005,6 +4017,11 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["content-length"] === undefined || result.headers["content-length"] === null
         ? result.headers["content-length"]
         : Number(result.headers["content-length"]),
+    structuredBodyType:
+      result.headers["x-ms-structured-body"] === undefined ||
+      result.headers["x-ms-structured-body"] === null
+        ? result.headers["x-ms-structured-body"]
+        : result.headers["x-ms-structured-body"],
     version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -4062,6 +4079,7 @@ export async function create(
     nfsFileType?: NfsFileType;
     contentMD5?: Uint8Array;
     contentLength?: number;
+    structuredBodyType?: string;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -4085,6 +4103,7 @@ export async function create(
       nfsFileType?: NfsFileType;
       contentMD5?: Uint8Array;
       contentLength?: number;
+      structuredBodyType?: string;
       version: string;
       requestId: string;
       clientRequestId?: string;

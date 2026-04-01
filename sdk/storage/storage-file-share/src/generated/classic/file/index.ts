@@ -56,6 +56,7 @@ import {
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
 } from "../../models/azure/storage/files/shares/models.js";
+import { FileDownloadResponse } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a File operations. */
@@ -723,9 +724,9 @@ export interface FileOperations {
       clientRequestId?: string;
       date: Date;
       contentType: "application/xml";
-    } & Uint8Array &
+    } & FileDownloadResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        FileDownloadResponse,
         {
           lastModified: string;
           contentLength: number;
@@ -792,6 +793,7 @@ export interface FileOperations {
       nfsFileType?: NfsFileType;
       contentMD5?: Uint8Array;
       contentLength?: number;
+      structuredBodyType?: string;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -815,6 +817,7 @@ export interface FileOperations {
         nfsFileType?: NfsFileType;
         contentMD5?: Uint8Array;
         contentLength?: number;
+        structuredBodyType?: string;
         version: string;
         requestId: string;
         clientRequestId?: string;
