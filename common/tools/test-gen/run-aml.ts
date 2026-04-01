@@ -20,8 +20,7 @@ async function main() {
           { pattern: /FAILED\s+.*::/, label: "pytest FAILED" },
           { pattern: /short test summary/i, label: "pytest summary" },
         ],
-        placeholderPattern: /pytest\.skip\(.*(placeholder|replace)/i,
-        unitTestMockInstructions: "You MAY use mocking (unittest.mock, MagicMock, monkeypatch) for these tests ONLY.",
+        unitTestMockInstructions: "You MAY use mocking and stubbing for these tests ONLY.",
       },
       paths: {
         testDir: "tests",

@@ -505,28 +505,6 @@ async function runFullSuite(command: string, packageDir: string, cfg: Config): P
 }
 
 /**
- * In e2e mode, reject generated code that contains mocking constructs.
- * Returns an error message if mocks are detected, or undefined if clean.
- */
-function detectMockViolations(code: string, cfg: Config): string | undefined {
-  const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
-  if (!isE2eMode) return undefined;
-
-  const mockPatterns = cfg.runner.mockGuardPatterns;
-  if (!mockPatterns || mockPatterns.length === 0) return undefined;
-
-  const violations: string[] = [];
-  for (const { pattern, label } of mockPatterns) {
-    if (pattern.test(code)) {
-      violations.push(label);
-    }
-  }
-  return violations.length > 0
-    ? `e2e mock violation: ${violations.join(", ")}`
-    : undefined;
-}
-
-/**
  * If the target file already exists, ask the LLM to merge new tests into it.
  * Returns the final code to write (merged or original if file is new).
  */
@@ -608,35 +586,6 @@ async function mergeBatchChunk(
   llmStats.push({ inputTokens, outputTokens, durationMs });
   const result = MergeResponse.parse(parseJsonResponse(content));
 
-  // Guard: reject placeholder / stub merges that lost real test content.
-  // Only check patterns that are NEW — if the existing file already matches a
-  // pattern, don't penalise the merge for faithfully preserving it.
-  const code = result.code;
-  const placeholderPatterns: RegExp[] = [
-    /placeholder.*test/i,
-    /could not be reconstructed/i,
-    /replace with.*merged/i,
-  ];
-  if (cfg.runner.placeholderPattern) {
-    placeholderPatterns.push(cfg.runner.placeholderPattern);
-  }
-  const activePatterns = placeholderPatterns.filter(
-    (p) => !existing || !p.test(existing),
-  );
-  if (activePatterns.some((p) => p.test(code))) {
-    throw new Error(
-      `Merge produced placeholder output for ${relPath} — rejecting to preserve existing tests`,
-    );
-  }
-
-  // Guard: reject mocking constructs in e2e mode
-  const mockViolation = detectMockViolations(code, cfg);
-  if (mockViolation) {
-    throw new Error(
-      `Merge for ${relPath} rejected — ${mockViolation}. Tests must be live integration tests.`,
-    );
-  }
-
   return code;
 }
 
@@ -701,29 +650,7 @@ async function mergeGeneratedBatches(
   const absPath = resolve(packageDir, relPath);
   const existing = await tryReadFile(absPath);
   if (!existing && generatedCodes.length === 1) {
-    // Run placeholder guard even on initial batch to avoid poisoning future merges
-    const code = generatedCodes[0];
-    const placeholderPatterns: RegExp[] = [
-      /placeholder.*test/i,
-      /could not be reconstructed/i,
-      /replace with.*merged/i,
-    ];
-    if (cfg.runner.placeholderPattern) {
-      placeholderPatterns.push(cfg.runner.placeholderPattern);
-    }
-    if (placeholderPatterns.some((p) => p.test(code))) {
-      throw new Error(
-        `Initial batch produced placeholder output for ${relPath} — rejecting`,
-      );
-    }
-    // Guard: reject mocking constructs in e2e mode
-    const mockViolation = detectMockViolations(code, cfg);
-    if (mockViolation) {
-      throw new Error(
-        `Initial batch for ${relPath} rejected — ${mockViolation}. Tests must be live integration tests.`,
-      );
-    }
-    return code;
+    return generatedCodes[0];
   }
 
   const MAX_NEW_BATCHES_PER_MERGE = 2;
@@ -1643,7 +1570,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         conftestContent,
         conftestPath: cfg.paths.conftestPath,
         e2ePromptInstructions: cfg.runner.e2ePromptInstructions,
-        plannerApiPrefix: cfg.runner.plannerApiPrefix,
         unitTestMockInstructions: cfg.runner.unitTestMockInstructions,
       });
       fileLog("    🧠 Seeding persistent file session");
@@ -1673,7 +1599,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
       // ── Phase 1: Planner ──
       fileLog(`    🗺️  Phase 1: Planning API calls for ${batch.length} gaps...`);
-      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode, cfg.runner.plannerApiPrefix);
+      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode);
 
       const plannerAttachments: SendAttachment[] = [...plannerPromptData.attachments];
 

@@ -37,9 +37,7 @@ export interface PromptSeedContext {
   conftestPath?: string;
   /** Prompt instructions injected when e2e mode is active. */
   e2ePromptInstructions?: string;
-  /** API prefix instruction for the planner prompt. */
-  plannerApiPrefix?: string;
-  /** Instructions for unreachable-marker unit tests describing allowed mocking tools. */
+  /** Instructions for unreachable-marker unit tests (e.g., allowed mocking tools). */
   unitTestMockInstructions?: string;
 }
 
@@ -325,7 +323,6 @@ export function buildPlannerPrompt(
   gaps: CoverageGap[],
   sourceFile: string,
   sourceCode: string,
-  plannerApiPrefix?: string,
 ): { prompt: string; attachments: SendAttachment[] } {
   const markerSummaries = gaps
     .map((gap) => `- L${gap.start.line}-${gap.end.line} [${gap.type}] ${gap.detail}`)
@@ -349,10 +346,6 @@ export function buildPlannerPrompt(
   }
 ]`;
 
-  const apiPrefixRule = plannerApiPrefix
-    ? `1. ${plannerApiPrefix}`
-    : "1. The call MUST go through the public client API.";
-
   const prompt = `You are analyzing source code to find **public API calls** that exercise specific uncovered code paths.
 
 ## Source file: ${sourceFile}
@@ -369,7 +362,7 @@ ${markerSummaries}
 For each marker (or group of related markers), identify the **public client API call** that would exercise that code path.
 
 Rules:
-${apiPrefixRule}
+1. The call MUST go through the public client API.
 2. Trace the code path from the public method down to the marked lines. Show your reasoning.
 3. Choose arguments that will specifically trigger the marked branch (e.g., pass invalid args to trigger a validation branch, pass a nonexistent name to trigger a 404 path).
 4. If a marker is inside a private helper that is NOT reachable from any public API call, mark it as unreachable: \`"api_call": "UNREACHABLE"\`
