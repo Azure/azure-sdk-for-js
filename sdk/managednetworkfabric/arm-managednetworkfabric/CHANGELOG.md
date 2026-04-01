@@ -1,21 +1,873 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0 (2026-04-01)
 
 ### Features Added
+  - Added operation group NetworkBootstrapDevicesOperations
+  - Added operation group NetworkBootstrapInterfacesOperations
+  - Added operation group NetworkMonitorsOperations
+  - Added operation AccessControlListsOperations.create
+  - Added operation AccessControlListsOperations.delete
+  - Added operation AccessControlListsOperations.resync
+  - Added operation AccessControlListsOperations.update
+  - Added operation AccessControlListsOperations.updateAdministrativeState
+  - Added operation AccessControlListsOperations.validateConfiguration
+  - Added operation ExternalNetworksOperations.beginUpdateBfdAdministrativeState
+  - Added operation ExternalNetworksOperations.beginUpdateBfdAdministrativeStateAndWait
+  - Added operation ExternalNetworksOperations.create
+  - Added operation ExternalNetworksOperations.delete
+  - Added operation ExternalNetworksOperations.update
+  - Added operation ExternalNetworksOperations.updateAdministrativeState
+  - Added operation ExternalNetworksOperations.updateBfdAdministrativeState
+  - Added operation ExternalNetworksOperations.updateStaticRouteBfdAdministrativeState
+  - Added operation InternalNetworksOperations.beginUpdateBfdAdministrativeState
+  - Added operation InternalNetworksOperations.beginUpdateBfdAdministrativeStateAndWait
+  - Added operation InternalNetworksOperations.create
+  - Added operation InternalNetworksOperations.delete
+  - Added operation InternalNetworksOperations.update
+  - Added operation InternalNetworksOperations.updateAdministrativeState
+  - Added operation InternalNetworksOperations.updateBfdAdministrativeState
+  - Added operation InternalNetworksOperations.updateBgpAdministrativeState
+  - Added operation InternalNetworksOperations.updateStaticRouteBfdAdministrativeState
+  - Added operation InternetGatewayRulesOperations.create
+  - Added operation InternetGatewayRulesOperations.delete
+  - Added operation InternetGatewayRulesOperations.update
+  - Added operation InternetGatewaysOperations.create
+  - Added operation InternetGatewaysOperations.delete
+  - Added operation InternetGatewaysOperations.update
+  - Added operation IpCommunitiesOperations.create
+  - Added operation IpCommunitiesOperations.delete
+  - Added operation IpCommunitiesOperations.update
+  - Added operation IpExtendedCommunitiesOperations.create
+  - Added operation IpExtendedCommunitiesOperations.delete
+  - Added operation IpExtendedCommunitiesOperations.update
+  - Added operation IpPrefixesOperations.create
+  - Added operation IpPrefixesOperations.delete
+  - Added operation IpPrefixesOperations.update
+  - Added operation L2IsolationDomainsOperations.commitConfiguration
+  - Added operation L2IsolationDomainsOperations.create
+  - Added operation L2IsolationDomainsOperations.delete
+  - Added operation L2IsolationDomainsOperations.update
+  - Added operation L2IsolationDomainsOperations.updateAdministrativeState
+  - Added operation L2IsolationDomainsOperations.validateConfiguration
+  - Added operation L3IsolationDomainsOperations.commitConfiguration
+  - Added operation L3IsolationDomainsOperations.create
+  - Added operation L3IsolationDomainsOperations.delete
+  - Added operation L3IsolationDomainsOperations.update
+  - Added operation L3IsolationDomainsOperations.updateAdministrativeState
+  - Added operation L3IsolationDomainsOperations.validateConfiguration
+  - Added operation NeighborGroupsOperations.beginResync
+  - Added operation NeighborGroupsOperations.beginResyncAndWait
+  - Added operation NeighborGroupsOperations.create
+  - Added operation NeighborGroupsOperations.delete
+  - Added operation NeighborGroupsOperations.resync
+  - Added operation NeighborGroupsOperations.update
+  - Added operation NetworkDevicesOperations.beginResyncCertificates
+  - Added operation NetworkDevicesOperations.beginResyncCertificatesAndWait
+  - Added operation NetworkDevicesOperations.beginResyncPasswords
+  - Added operation NetworkDevicesOperations.beginResyncPasswordsAndWait
+  - Added operation NetworkDevicesOperations.beginRunRoCommand
+  - Added operation NetworkDevicesOperations.beginRunRoCommandAndWait
+  - Added operation NetworkDevicesOperations.beginRunRwCommand
+  - Added operation NetworkDevicesOperations.beginRunRwCommandAndWait
+  - Added operation NetworkDevicesOperations.create
+  - Added operation NetworkDevicesOperations.delete
+  - Added operation NetworkDevicesOperations.reboot
+  - Added operation NetworkDevicesOperations.refreshConfiguration
+  - Added operation NetworkDevicesOperations.resyncCertificates
+  - Added operation NetworkDevicesOperations.resyncPasswords
+  - Added operation NetworkDevicesOperations.runRoCommand
+  - Added operation NetworkDevicesOperations.runRwCommand
+  - Added operation NetworkDevicesOperations.update
+  - Added operation NetworkDevicesOperations.updateAdministrativeState
+  - Added operation NetworkDevicesOperations.upgrade
+  - Added operation NetworkFabricControllersOperations.create
+  - Added operation NetworkFabricControllersOperations.delete
+  - Added operation NetworkFabricControllersOperations.update
+  - Added operation NetworkFabricsOperations.armConfigurationDiff
+  - Added operation NetworkFabricsOperations.beginArmConfigurationDiff
+  - Added operation NetworkFabricsOperations.beginArmConfigurationDiffAndWait
+  - Added operation NetworkFabricsOperations.beginCommitBatchStatus
+  - Added operation NetworkFabricsOperations.beginCommitBatchStatusAndWait
+  - Added operation NetworkFabricsOperations.beginDiscardCommitBatch
+  - Added operation NetworkFabricsOperations.beginDiscardCommitBatchAndWait
+  - Added operation NetworkFabricsOperations.beginLockFabric
+  - Added operation NetworkFabricsOperations.beginLockFabricAndWait
+  - Added operation NetworkFabricsOperations.beginResyncCertificates
+  - Added operation NetworkFabricsOperations.beginResyncCertificatesAndWait
+  - Added operation NetworkFabricsOperations.beginResyncPasswords
+  - Added operation NetworkFabricsOperations.beginResyncPasswordsAndWait
+  - Added operation NetworkFabricsOperations.beginRotateCertificates
+  - Added operation NetworkFabricsOperations.beginRotateCertificatesAndWait
+  - Added operation NetworkFabricsOperations.beginRotatePasswords
+  - Added operation NetworkFabricsOperations.beginRotatePasswordsAndWait
+  - Added operation NetworkFabricsOperations.beginViewDeviceConfiguration
+  - Added operation NetworkFabricsOperations.beginViewDeviceConfigurationAndWait
+  - Added operation NetworkFabricsOperations.commitBatchStatus
+  - Added operation NetworkFabricsOperations.commitConfiguration
+  - Added operation NetworkFabricsOperations.create
+  - Added operation NetworkFabricsOperations.delete
+  - Added operation NetworkFabricsOperations.deprovision
+  - Added operation NetworkFabricsOperations.discardCommitBatch
+  - Added operation NetworkFabricsOperations.getTopology
+  - Added operation NetworkFabricsOperations.lockFabric
+  - Added operation NetworkFabricsOperations.provision
+  - Added operation NetworkFabricsOperations.refreshConfiguration
+  - Added operation NetworkFabricsOperations.resyncCertificates
+  - Added operation NetworkFabricsOperations.resyncPasswords
+  - Added operation NetworkFabricsOperations.rotateCertificates
+  - Added operation NetworkFabricsOperations.rotatePasswords
+  - Added operation NetworkFabricsOperations.update
+  - Added operation NetworkFabricsOperations.updateInfraManagementBfdConfiguration
+  - Added operation NetworkFabricsOperations.updateWorkloadManagementBfdConfiguration
+  - Added operation NetworkFabricsOperations.upgrade
+  - Added operation NetworkFabricsOperations.validateConfiguration
+  - Added operation NetworkFabricsOperations.viewDeviceConfiguration
+  - Added operation NetworkInterfacesOperations.create
+  - Added operation NetworkInterfacesOperations.delete
+  - Added operation NetworkInterfacesOperations.update
+  - Added operation NetworkInterfacesOperations.updateAdministrativeState
+  - Added operation NetworkPacketBrokersOperations.create
+  - Added operation NetworkPacketBrokersOperations.delete
+  - Added operation NetworkPacketBrokersOperations.update
+  - Added operation NetworkRacksOperations.create
+  - Added operation NetworkRacksOperations.delete
+  - Added operation NetworkRacksOperations.update
+  - Added operation NetworkTapRulesOperations.create
+  - Added operation NetworkTapRulesOperations.delete
+  - Added operation NetworkTapRulesOperations.resync
+  - Added operation NetworkTapRulesOperations.update
+  - Added operation NetworkTapRulesOperations.updateAdministrativeState
+  - Added operation NetworkTapRulesOperations.validateConfiguration
+  - Added operation NetworkTapsOperations.create
+  - Added operation NetworkTapsOperations.delete
+  - Added operation NetworkTapsOperations.resync
+  - Added operation NetworkTapsOperations.update
+  - Added operation NetworkTapsOperations.updateAdministrativeState
+  - Added operation NetworkToNetworkInterconnectsOperations.beginUpdateBfdAdministrativeState
+  - Added operation NetworkToNetworkInterconnectsOperations.beginUpdateBfdAdministrativeStateAndWait
+  - Added operation NetworkToNetworkInterconnectsOperations.create
+  - Added operation NetworkToNetworkInterconnectsOperations.delete
+  - Added operation NetworkToNetworkInterconnectsOperations.update
+  - Added operation NetworkToNetworkInterconnectsOperations.updateAdministrativeState
+  - Added operation NetworkToNetworkInterconnectsOperations.updateBfdAdministrativeState
+  - Added operation NetworkToNetworkInterconnectsOperations.updateNpbStaticRouteBfdAdministrativeState
+  - Added operation RoutePoliciesOperations.commitConfiguration
+  - Added operation RoutePoliciesOperations.create
+  - Added operation RoutePoliciesOperations.delete
+  - Added operation RoutePoliciesOperations.update
+  - Added operation RoutePoliciesOperations.updateAdministrativeState
+  - Added operation RoutePoliciesOperations.validateConfiguration
+  - Added Interface AccessControlListActionPatch
+  - Added Interface AccessControlListMatchConditionPatch
+  - Added Interface AccessControlListMatchConfigurationPatch
+  - Added Interface AccessControlListPortConditionPatch
+  - Added Interface ActionIpCommunityPatchProperties
+  - Added Interface ActionIpExtendedCommunityPatchProperties
+  - Added Interface AggregateRoutePatchConfiguration
+  - Added Interface ArmConfigurationDiffOperationResponse
+  - Added Interface ArmConfigurationDiffResponseProperties
+  - Added Interface AuthorizedTransceiverPatchProperties
+  - Added Interface AuthorizedTransceiverProperties
+  - Added Interface BfdPatchConfiguration
+  - Added Interface BgpPatchConfiguration
+  - Added Interface BitRate
+  - Added Interface BmpConfigurationPatchProperties
+  - Added Interface BmpConfigurationProperties
+  - Added Interface BmpExportPolicyPatchProperties
+  - Added Interface BmpExportPolicyProperties
+  - Added Interface BurstSize
+  - Added Interface CertificateArchiveReference
+  - Added Interface CertificateRotationStatus
+  - Added Interface CommitBatchDetails
+  - Added Interface CommitBatchStatusOperationResponse
+  - Added Interface CommitBatchStatusRequest
+  - Added Interface CommitBatchStatusResponseProperties
+  - Added Interface CommitConfigurationRequest
+  - Added Interface CommitConfigurationResponse
+  - Added Interface CommonDynamicMatchConfigurationPatch
+  - Added Interface CommonErrorResponse
+  - Added Interface CommonMatchConditionsPatch
+  - Added Interface CommonPostActionResponseForDeviceROCommands
+  - Added Interface CommonPostActionResponseForDeviceROCommandsOperationStatusResult
+  - Added Interface ConditionalDefaultRouteProperties
+  - Added Interface ConnectedSubnetPatch
+  - Added Interface ConnectedSubnetRoutePolicyPatch
+  - Added Interface ControlPlanAclIpMatchCondition
+  - Added Interface ControlPlaneAclAction
+  - Added Interface ControlPlaneAclActionPatch
+  - Added Interface ControlPlaneAclIpMatchConditionPatch
+  - Added Interface ControlPlaneAclMatchCondition
+  - Added Interface ControlPlaneAclMatchConditionPatch
+  - Added Interface ControlPlaneAclMatchConfigurationPatchProperties
+  - Added Interface ControlPlaneAclMatchConfigurationProperties
+  - Added Interface ControlPlaneAclPatchProperties
+  - Added Interface ControlPlaneAclPortCondition
+  - Added Interface ControlPlaneAclPortMatchCondition
+  - Added Interface ControlPlaneAclPortMatchConditionPatch
+  - Added Interface ControlPlaneAclProperties
+  - Added Interface ControlPlaneAclTtlMatchCondition
+  - Added Interface ControlPlaneAclTtlMatchConditionPatch
+  - Added Interface DestinationPatchProperties
+  - Added Interface DeviceRoCommand
+  - Added Interface DeviceRwCommand
+  - Added Interface DiscardCommitBatchOperationResponse
+  - Added Interface DiscardCommitBatchRequest
+  - Added Interface DiscardCommitBatchResponseProperties
+  - Added Interface ExportRoutePolicyInformationPatch
+  - Added Interface ExportRoutePolicyPatch
+  - Added Interface ExternalNetworkBmpPatchProperties
+  - Added Interface ExternalNetworkBmpProperties
+  - Added Interface ExternalNetworkStaticRouteConfiguration
+  - Added Interface ExternalNetworkStaticRoutePatchConfiguration
+  - Added Interface ExternalNetworksUpdateBfdAdministrativeStateOptionalParams
+  - Added Interface ExternalNetworkUpdateBfdAdministrativeStateRequest
+  - Added Interface ExternalNetworkUpdateBfdAdministrativeStateResponse
+  - Added Interface ExternalNetworkUpdateBfdAdministrativeStateResponseProperties
+  - Added Interface FabricLockProperties
+  - Added Interface FeatureFlagProperties
+  - Added Interface GetTopologyResponse
+  - Added Interface GetTopologyResponseProperties
+  - Added Interface GlobalAccessControlListActionPatchProperties
+  - Added Interface GlobalAccessControlListActionProperties
+  - Added Interface GlobalNetworkTapRuleActionPatchProperties
+  - Added Interface GlobalNetworkTapRuleActionProperties
+  - Added Interface HeaderAddressProperties
+  - Added Interface IcmpConfigurationPatchProperties
+  - Added Interface IcmpConfigurationProperties
+  - Added Interface IdentitySelector
+  - Added Interface IdentitySelectorPatch
+  - Added Interface ImportRoutePolicyInformationPatch
+  - Added Interface ImportRoutePolicyPatch
+  - Added Interface InternalNetworkBmpPatchProperties
+  - Added Interface InternalNetworkBmpProperties
+  - Added Interface InternalNetworksUpdateBfdAdministrativeStateOptionalParams
+  - Added Interface InternalNetworkUpdateBfdAdministrativeStateRequest
+  - Added Interface InternalNetworkUpdateBfdAdministrativeStateResponse
+  - Added Interface InternalNetworkUpdateBfdAdministrativeStateResponseProperties
+  - Added Interface InternalNetworkUpdateBgpAdministrativeStateRequest
+  - Added Interface InternalNetworkUpdateBgpAdministrativeStateResponse
+  - Added Interface InternalNetworkUpdateBgpAdministrativeStateResponseProperties
+  - Added Interface InternetGatewayPatchProperties
+  - Added Interface IpGroupPatchProperties
+  - Added Interface IpMatchConditionPatch
+  - Added Interface IsolationDomainPatchProperties
+  - Added Interface L3ExportRoutePolicyPatch
+  - Added Interface L3OptionBPatchProperties
+  - Added Interface L3UniqueRouteDistinguisherProperties
+  - Added Interface LastOperationProperties
+  - Added Interface Layer2ConfigurationPatch
+  - Added Interface Layer3IpPrefixPatchProperties
+  - Added Interface ManagedServiceIdentity
+  - Added Interface ManagedServiceIdentityPatch
+  - Added Interface ManagementNetworkPatchConfiguration
+  - Added Interface NativeIpv4PrefixLimitPatchProperties
+  - Added Interface NativeIpv4PrefixLimitProperties
+  - Added Interface NativeIpv6PrefixLimitPatchProperties
+  - Added Interface NativeIpv6PrefixLimitProperties
+  - Added Interface NeighborAddressBfdAdministrativeStatus
+  - Added Interface NeighborAddressBgpAdministrativeStatus
+  - Added Interface NeighborAddressPatch
+  - Added Interface NeighborGroupDestinationPatch
+  - Added Interface NeighborGroupResyncResponse
+  - Added Interface NeighborGroupsResyncOptionalParams
+  - Added Interface NetworkBootstrapDevice
+  - Added Interface NetworkBootstrapDevicePatch
+  - Added Interface NetworkBootstrapDevicePatchProperties
+  - Added Interface NetworkBootstrapDeviceProperties
+  - Added Interface NetworkBootstrapDeviceRebootResponse
+  - Added Interface NetworkBootstrapDeviceRefreshConfigurationResponse
+  - Added Interface NetworkBootstrapDeviceResyncPasswordsResponse
+  - Added Interface NetworkBootstrapDevicesCreateOptionalParams
+  - Added Interface NetworkBootstrapDevicesDeleteOptionalParams
+  - Added Interface NetworkBootstrapDevicesGetOptionalParams
+  - Added Interface NetworkBootstrapDevicesListByResourceGroupOptionalParams
+  - Added Interface NetworkBootstrapDevicesListBySubscriptionOptionalParams
+  - Added Interface NetworkBootstrapDevicesRebootOptionalParams
+  - Added Interface NetworkBootstrapDevicesRefreshConfigurationOptionalParams
+  - Added Interface NetworkBootstrapDevicesResyncPasswordsOptionalParams
+  - Added Interface NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams
+  - Added Interface NetworkBootstrapDevicesUpdateOptionalParams
+  - Added Interface NetworkBootstrapDevicesUpgradeOptionalParams
+  - Added Interface NetworkBootstrapDeviceUpdateAdministrativeStateResponse
+  - Added Interface NetworkBootstrapDeviceUpgradeResponse
+  - Added Interface NetworkBootstrapInterface
+  - Added Interface NetworkBootstrapInterfacePatch
+  - Added Interface NetworkBootstrapInterfacePatchProperties
+  - Added Interface NetworkBootstrapInterfaceProperties
+  - Added Interface NetworkBootstrapInterfacesCreateOptionalParams
+  - Added Interface NetworkBootstrapInterfacesDeleteOptionalParams
+  - Added Interface NetworkBootstrapInterfacesGetOptionalParams
+  - Added Interface NetworkBootstrapInterfacesListByNetworkBootstrapDeviceOptionalParams
+  - Added Interface NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams
+  - Added Interface NetworkBootstrapInterfacesUpdateOptionalParams
+  - Added Interface NetworkDeviceRefreshConfigurationResponse
+  - Added Interface NetworkDeviceResyncPasswordsResponse
+  - Added Interface NetworkDeviceRunRwCommandResponse
+  - Added Interface NetworkDeviceRwCommandResponseProperties
+  - Added Interface NetworkDeviceSkuProperties
+  - Added Interface NetworkDevicesResyncCertificatesOptionalParams
+  - Added Interface NetworkDevicesResyncPasswordsOptionalParams
+  - Added Interface NetworkDevicesRunRoCommandOptionalParams
+  - Added Interface NetworkDevicesRunRwCommandOptionalParams
+  - Added Interface NetworkDeviceUpdateAdministrativeStateResponse
+  - Added Interface NetworkDeviceUpgradeRequest
+  - Added Interface NetworkDeviceUpgradeResponse
+  - Added Interface NetworkFabricControllerPatchProperties
+  - Added Interface NetworkFabricLockRequest
+  - Added Interface NetworkFabricResyncCertificatesResponse
+  - Added Interface NetworkFabricResyncPasswordsResponse
+  - Added Interface NetworkFabricRotateCertificatesResponse
+  - Added Interface NetworkFabricRotatePasswordsResponse
+  - Added Interface NetworkFabricsArmConfigurationDiffOptionalParams
+  - Added Interface NetworkFabricsCommitBatchStatusOptionalParams
+  - Added Interface NetworkFabricsDiscardCommitBatchOptionalParams
+  - Added Interface NetworkFabricSkuProperties
+  - Added Interface NetworkFabricsLockFabricOptionalParams
+  - Added Interface NetworkFabricsResyncCertificatesOptionalParams
+  - Added Interface NetworkFabricsResyncPasswordsOptionalParams
+  - Added Interface NetworkFabricsRotateCertificatesOptionalParams
+  - Added Interface NetworkFabricsRotatePasswordsOptionalParams
+  - Added Interface NetworkFabricsViewDeviceConfigurationOptionalParams
+  - Added Interface NetworkMonitor
+  - Added Interface NetworkMonitorPatch
+  - Added Interface NetworkMonitorPatchProperties
+  - Added Interface NetworkMonitorProperties
+  - Added Interface NetworkMonitorsCreateOptionalParams
+  - Added Interface NetworkMonitorsDeleteOptionalParams
+  - Added Interface NetworkMonitorsGetOptionalParams
+  - Added Interface NetworkMonitorsListByResourceGroupOptionalParams
+  - Added Interface NetworkMonitorsListBySubscriptionOptionalParams
+  - Added Interface NetworkMonitorsUpdateAdministrativeStateOptionalParams
+  - Added Interface NetworkMonitorsUpdateOptionalParams
+  - Added Interface NetworkPacketBrokerProperties
+  - Added Interface NetworkRackPatch
+  - Added Interface NetworkTapPatchProperties
+  - Added Interface NetworkTapResyncResponse
+  - Added Interface NetworkTapRuleActionPatch
+  - Added Interface NetworkTapRuleMatchConditionPatch
+  - Added Interface NetworkTapRuleMatchConfigurationPatch
+  - Added Interface NetworkTapRuleResyncResponse
+  - Added Interface NetworkToNetworkInterconnectPatchProperties
+  - Added Interface NetworkToNetworkInterconnectProperties
+  - Added Interface NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams
+  - Added Interface NniBmpPatchProperties
+  - Added Interface NniBmpProperties
+  - Added Interface NniStaticRouteConfiguration
+  - Added Interface NniStaticRoutePatchConfiguration
+  - Added Interface NniUpdateBfdAdministrativeStateRequest
+  - Added Interface NniUpdateBfdAdministrativeStateResponse
+  - Added Interface NniUpdateBfdAdministrativeStateResponseProperties
+  - Added Interface NpbStaticRouteConfigurationPatch
+  - Added Interface OperationStatusResult
+  - Added Interface OptionBLayer3ConfigurationPatchProperties
+  - Added Interface OptionBLayer3PrefixLimitPatchProperties
+  - Added Interface OptionBLayer3PrefixLimitProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PoliceRateConfigurationProperties
+  - Added Interface PortConditionPatch
+  - Added Interface PortGroupPatchProperties
+  - Added Interface PrefixLimitPatchProperties
+  - Added Interface PrefixLimitProperties
+  - Added Interface ProxyResourceBase
+  - Added Interface QosPatchProperties
+  - Added Interface QosProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RoutePolicyStatementPatchProperties
+  - Added Interface RoutePrefixLimitPatchProperties
+  - Added Interface RoutePrefixLimitProperties
+  - Added Interface RouteTargetPatchInformation
+  - Added Interface SecretArchiveReference
+  - Added Interface SecretRotationStatus
+  - Added Interface SecretRotationSummary
+  - Added Interface SimplePollerLike
+  - Added Interface StatementActionPatchProperties
+  - Added Interface StatementConditionPatchProperties
+  - Added Interface StaticRoutePatchConfiguration
+  - Added Interface StaticRoutePatchProperties
+  - Added Interface StaticRouteRoutePolicy
+  - Added Interface StaticRouteRoutePolicyPatch
+  - Added Interface StationConnectionPatchProperties
+  - Added Interface StationConnectionProperties
+  - Added Interface StorageAccountConfiguration
+  - Added Interface StorageAccountPatchConfiguration
+  - Added Interface TerminalServerPatchConfiguration
+  - Added Interface UniqueRouteDistinguisherPatchProperties
+  - Added Interface UniqueRouteDistinguisherProperties
+  - Added Interface UpdateAdministrativeStateResponse
+  - Added Interface UpdateAdministrativeStateResponseProperties
+  - Added Interface UpgradeNetworkFabricProperties
+  - Added Interface UserAssignedIdentity
+  - Added Interface ViewDeviceConfigurationOperationResponse
+  - Added Interface ViewDeviceConfigurationResponseProperties
+  - Added Interface VlanGroupPatchProperties
+  - Added Interface VlanMatchConditionPatch
+  - Added Interface VpnOptionAPatchProperties
+  - Added Interface VpnOptionAProperties
+  - Added Interface VpnOptionBPatchProperties
+  - Added Interface VpnOptionBProperties
+  - Interface AccessControlList has a new optional parameter aclType
+  - Interface AccessControlList has a new optional parameter controlPlaneAclConfiguration
+  - Interface AccessControlList has a new optional parameter defaultAction
+  - Interface AccessControlList has a new optional parameter deviceRole
+  - Interface AccessControlList has a new optional parameter globalAccessControlListActions
+  - Interface AccessControlList has a new optional parameter lastOperation
+  - Interface AccessControlList has a new optional parameter networkFabricIds
+  - Interface AccessControlListAction has a new optional parameter policeRateConfiguration
+  - Interface AccessControlListAction has a new optional parameter remarkComment
+  - Interface AccessControlListMatchCondition has a new optional parameter icmpConfiguration
+  - Interface AccessControlListMatchCondition has a new optional parameter protocolNeighbors
+  - Interface AccessControlListPatch has a new optional parameter aclType
+  - Interface AccessControlListPatch has a new optional parameter controlPlaneAclConfiguration
+  - Interface AccessControlListPatch has a new optional parameter defaultAction
+  - Interface AccessControlListPatch has a new optional parameter deviceRole
+  - Interface AccessControlListPatch has a new optional parameter globalAccessControlListActions
+  - Interface AccessControlListPatchProperties has a new optional parameter aclType
+  - Interface AccessControlListPatchProperties has a new optional parameter controlPlaneAclConfiguration
+  - Interface AccessControlListPatchProperties has a new optional parameter defaultAction
+  - Interface AccessControlListPatchProperties has a new optional parameter deviceRole
+  - Interface AccessControlListPatchProperties has a new optional parameter globalAccessControlListActions
+  - Interface AccessControlListProperties has a new optional parameter aclType
+  - Interface AccessControlListProperties has a new optional parameter controlPlaneAclConfiguration
+  - Interface AccessControlListProperties has a new optional parameter defaultAction
+  - Interface AccessControlListProperties has a new optional parameter deviceRole
+  - Interface AccessControlListProperties has a new optional parameter globalAccessControlListActions
+  - Interface AccessControlListProperties has a new optional parameter lastOperation
+  - Interface AccessControlListProperties has a new optional parameter networkFabricIds
+  - Interface BgpConfiguration has a new optional parameter bmpConfiguration
+  - Interface BgpConfiguration has a new optional parameter v4OverV6BgpSession
+  - Interface BgpConfiguration has a new optional parameter v6OverV4BgpSession
+  - Interface ExternalNetwork has a new optional parameter lastOperation
+  - Interface ExternalNetwork has a new optional parameter networkFabricId
+  - Interface ExternalNetwork has a new optional parameter staticRouteConfiguration
+  - Interface ExternalNetworkPatch has a new optional parameter networkToNetworkInterconnectId
+  - Interface ExternalNetworkPatch has a new optional parameter staticRouteConfiguration
+  - Interface ExternalNetworkPatchProperties has a new optional parameter networkToNetworkInterconnectId
+  - Interface ExternalNetworkPatchProperties has a new optional parameter staticRouteConfiguration
+  - Interface ExternalNetworkPatchPropertiesOptionAProperties has a new optional parameter bmpConfiguration
+  - Interface ExternalNetworkPatchPropertiesOptionAProperties has a new optional parameter nativeIpv4PrefixLimit
+  - Interface ExternalNetworkPatchPropertiesOptionAProperties has a new optional parameter nativeIpv6PrefixLimit
+  - Interface ExternalNetworkPatchPropertiesOptionAProperties has a new optional parameter v4OverV6BgpSession
+  - Interface ExternalNetworkPatchPropertiesOptionAProperties has a new optional parameter v6OverV4BgpSession
+  - Interface ExternalNetworkProperties has a new optional parameter lastOperation
+  - Interface ExternalNetworkProperties has a new optional parameter networkFabricId
+  - Interface ExternalNetworkProperties has a new optional parameter staticRouteConfiguration
+  - Interface ExternalNetworkPropertiesOptionAProperties has a new optional parameter bmpConfiguration
+  - Interface ExternalNetworkPropertiesOptionAProperties has a new optional parameter nativeIpv4PrefixLimit
+  - Interface ExternalNetworkPropertiesOptionAProperties has a new optional parameter nativeIpv6PrefixLimit
+  - Interface ExternalNetworkPropertiesOptionAProperties has a new optional parameter v4OverV6BgpSession
+  - Interface ExternalNetworkPropertiesOptionAProperties has a new optional parameter v6OverV4BgpSession
+  - Interface InternalNetwork has a new optional parameter lastOperation
+  - Interface InternalNetwork has a new optional parameter nativeIpv4PrefixLimit
+  - Interface InternalNetwork has a new optional parameter nativeIpv6PrefixLimit
+  - Interface InternalNetwork has a new optional parameter networkFabricId
+  - Interface InternalNetworkPatch has a new optional parameter nativeIpv4PrefixLimit
+  - Interface InternalNetworkPatch has a new optional parameter nativeIpv6PrefixLimit
+  - Interface InternalNetworkPatchProperties has a new optional parameter nativeIpv4PrefixLimit
+  - Interface InternalNetworkPatchProperties has a new optional parameter nativeIpv6PrefixLimit
+  - Interface InternalNetworkProperties has a new optional parameter lastOperation
+  - Interface InternalNetworkProperties has a new optional parameter nativeIpv4PrefixLimit
+  - Interface InternalNetworkProperties has a new optional parameter nativeIpv6PrefixLimit
+  - Interface InternalNetworkProperties has a new optional parameter networkFabricId
+  - Interface InternetGateway has a new optional parameter internetGatewayType
+  - Interface InternetGateway has a new optional parameter lastOperation
+  - Interface InternetGatewayProperties has a new optional parameter internetGatewayType
+  - Interface InternetGatewayProperties has a new optional parameter lastOperation
+  - Interface InternetGatewayRule has a new optional parameter lastOperation
+  - Interface InternetGatewayRuleProperties has a new optional parameter lastOperation
+  - Interface IpCommunity has a new optional parameter lastOperation
+  - Interface IpCommunity has a new optional parameter networkFabricId
+  - Interface IpCommunityProperties has a new optional parameter lastOperation
+  - Interface IpCommunityProperties has a new optional parameter networkFabricId
+  - Interface IpExtendedCommunity has a new optional parameter lastOperation
+  - Interface IpExtendedCommunity has a new optional parameter networkFabricId
+  - Interface IpExtendedCommunityProperties has a new optional parameter lastOperation
+  - Interface IpExtendedCommunityProperties has a new optional parameter networkFabricId
+  - Interface IpPrefix has a new optional parameter lastOperation
+  - Interface IpPrefix has a new optional parameter networkFabricId
+  - Interface IpPrefixProperties has a new optional parameter lastOperation
+  - Interface IpPrefixProperties has a new optional parameter networkFabricId
+  - Interface L2IsolationDomain has a new optional parameter extendedVlan
+  - Interface L2IsolationDomain has a new optional parameter identity
+  - Interface L2IsolationDomain has a new optional parameter lastOperation
+  - Interface L2IsolationDomain has a new optional parameter networkToNetworkInterconnectId
+  - Interface L2IsolationDomainPatch has a new optional parameter extendedVlan
+  - Interface L2IsolationDomainPatch has a new optional parameter identity
+  - Interface L2IsolationDomainPatch has a new optional parameter networkToNetworkInterconnectId
+  - Interface L2IsolationDomainPatchProperties has a new optional parameter extendedVlan
+  - Interface L2IsolationDomainPatchProperties has a new optional parameter networkToNetworkInterconnectId
+  - Interface L2IsolationDomainProperties has a new optional parameter extendedVlan
+  - Interface L2IsolationDomainProperties has a new optional parameter lastOperation
+  - Interface L2IsolationDomainProperties has a new optional parameter networkToNetworkInterconnectId
+  - Interface L3IsolationDomain has a new optional parameter exportPolicyConfiguration
+  - Interface L3IsolationDomain has a new optional parameter identity
+  - Interface L3IsolationDomain has a new optional parameter lastOperation
+  - Interface L3IsolationDomain has a new optional parameter staticRouteRoutePolicy
+  - Interface L3IsolationDomain has a new optional parameter uniqueRdConfiguration
+  - Interface L3IsolationDomain has a new optional parameter v4RoutePrefixLimit
+  - Interface L3IsolationDomain has a new optional parameter v6RoutePrefixLimit
+  - Interface L3IsolationDomainPatch has a new optional parameter exportPolicyConfiguration
+  - Interface L3IsolationDomainPatch has a new optional parameter identity
+  - Interface L3IsolationDomainPatch has a new optional parameter staticRouteRoutePolicy
+  - Interface L3IsolationDomainPatch has a new optional parameter v4RoutePrefixLimit
+  - Interface L3IsolationDomainPatch has a new optional parameter v6RoutePrefixLimit
+  - Interface L3IsolationDomainPatchProperties has a new optional parameter exportPolicyConfiguration
+  - Interface L3IsolationDomainPatchProperties has a new optional parameter staticRouteRoutePolicy
+  - Interface L3IsolationDomainPatchProperties has a new optional parameter v4RoutePrefixLimit
+  - Interface L3IsolationDomainPatchProperties has a new optional parameter v6RoutePrefixLimit
+  - Interface L3IsolationDomainProperties has a new optional parameter exportPolicyConfiguration
+  - Interface L3IsolationDomainProperties has a new optional parameter lastOperation
+  - Interface L3IsolationDomainProperties has a new optional parameter staticRouteRoutePolicy
+  - Interface L3IsolationDomainProperties has a new optional parameter uniqueRdConfiguration
+  - Interface L3IsolationDomainProperties has a new optional parameter v4RoutePrefixLimit
+  - Interface L3IsolationDomainProperties has a new optional parameter v6RoutePrefixLimit
+  - Interface NeighborAddress has a new optional parameter bfdAdministrativeState
+  - Interface NeighborAddress has a new optional parameter bgpAdministrativeState
+  - Interface NeighborGroup has a new optional parameter configurationState
+  - Interface NeighborGroup has a new optional parameter identity
+  - Interface NeighborGroup has a new optional parameter lastOperation
+  - Interface NeighborGroup has a new optional parameter networkFabricIds
+  - Interface NeighborGroupPatch has a new optional parameter identity
+  - Interface NeighborGroupProperties has a new optional parameter configurationState
+  - Interface NeighborGroupProperties has a new optional parameter lastOperation
+  - Interface NeighborGroupProperties has a new optional parameter networkFabricIds
+  - Interface NetworkDevice has a new optional parameter certificateRotationStatus
+  - Interface NetworkDevice has a new optional parameter identity
+  - Interface NetworkDevice has a new optional parameter identitySelector
+  - Interface NetworkDevice has a new optional parameter lastOperation
+  - Interface NetworkDevice has a new optional parameter networkFabricId
+  - Interface NetworkDevice has a new optional parameter rwDeviceConfig
+  - Interface NetworkDevice has a new optional parameter secretRotationStatus
+  - Interface NetworkDevicePatchParameters has a new optional parameter identity
+  - Interface NetworkDevicePatchParameters has a new optional parameter identitySelector
+  - Interface NetworkDevicePatchParametersProperties has a new optional parameter identitySelector
+  - Interface NetworkDeviceProperties has a new optional parameter certificateRotationStatus
+  - Interface NetworkDeviceProperties has a new optional parameter identitySelector
+  - Interface NetworkDeviceProperties has a new optional parameter lastOperation
+  - Interface NetworkDeviceProperties has a new optional parameter networkFabricId
+  - Interface NetworkDeviceProperties has a new optional parameter rwDeviceConfig
+  - Interface NetworkDeviceProperties has a new optional parameter secretRotationStatus
+  - Interface NetworkFabric has a new optional parameter activeCommitBatches
+  - Interface NetworkFabric has a new optional parameter authorizedTransceiver
+  - Interface NetworkFabric has a new optional parameter controlPlaneAcls
+  - Interface NetworkFabric has a new optional parameter fabricLocks
+  - Interface NetworkFabric has a new optional parameter featureFlags
+  - Interface NetworkFabric has a new optional parameter hardwareAlertThreshold
+  - Interface NetworkFabric has a new optional parameter identity
+  - Interface NetworkFabric has a new optional parameter lastOperation
+  - Interface NetworkFabric has a new optional parameter qosConfiguration
+  - Interface NetworkFabric has a new optional parameter secretRotationSummary
+  - Interface NetworkFabric has a new optional parameter storageAccountConfiguration
+  - Interface NetworkFabric has a new optional parameter storageArrayCount
+  - Interface NetworkFabric has a new optional parameter trustedIpPrefixes
+  - Interface NetworkFabric has a new optional parameter uniqueRdConfiguration
+  - Interface NetworkFabricController has a new optional parameter identity
+  - Interface NetworkFabricController has a new optional parameter lastOperation
+  - Interface NetworkFabricControllerPatch has a new optional parameter identity
+  - Interface NetworkFabricControllerProperties has a new optional parameter lastOperation
+  - Interface NetworkFabricPatch has a new optional parameter authorizedTransceiver
+  - Interface NetworkFabricPatch has a new optional parameter controlPlaneAcls
+  - Interface NetworkFabricPatch has a new optional parameter featureFlags
+  - Interface NetworkFabricPatch has a new optional parameter hardwareAlertThreshold
+  - Interface NetworkFabricPatch has a new optional parameter identity
+  - Interface NetworkFabricPatch has a new optional parameter qosConfiguration
+  - Interface NetworkFabricPatch has a new optional parameter storageAccountConfiguration
+  - Interface NetworkFabricPatch has a new optional parameter trustedIpPrefixes
+  - Interface NetworkFabricPatch has a new optional parameter uniqueRdConfiguration
+  - Interface NetworkFabricPatchProperties has a new optional parameter authorizedTransceiver
+  - Interface NetworkFabricPatchProperties has a new optional parameter controlPlaneAcls
+  - Interface NetworkFabricPatchProperties has a new optional parameter featureFlags
+  - Interface NetworkFabricPatchProperties has a new optional parameter hardwareAlertThreshold
+  - Interface NetworkFabricPatchProperties has a new optional parameter qosConfiguration
+  - Interface NetworkFabricPatchProperties has a new optional parameter storageAccountConfiguration
+  - Interface NetworkFabricPatchProperties has a new optional parameter trustedIpPrefixes
+  - Interface NetworkFabricPatchProperties has a new optional parameter uniqueRdConfiguration
+  - Interface NetworkFabricProperties has a new optional parameter activeCommitBatches
+  - Interface NetworkFabricProperties has a new optional parameter authorizedTransceiver
+  - Interface NetworkFabricProperties has a new optional parameter controlPlaneAcls
+  - Interface NetworkFabricProperties has a new optional parameter fabricLocks
+  - Interface NetworkFabricProperties has a new optional parameter featureFlags
+  - Interface NetworkFabricProperties has a new optional parameter hardwareAlertThreshold
+  - Interface NetworkFabricProperties has a new optional parameter lastOperation
+  - Interface NetworkFabricProperties has a new optional parameter qosConfiguration
+  - Interface NetworkFabricProperties has a new optional parameter secretRotationSummary
+  - Interface NetworkFabricProperties has a new optional parameter storageAccountConfiguration
+  - Interface NetworkFabricProperties has a new optional parameter storageArrayCount
+  - Interface NetworkFabricProperties has a new optional parameter trustedIpPrefixes
+  - Interface NetworkFabricProperties has a new optional parameter uniqueRdConfiguration
+  - Interface NetworkInterface has a new optional parameter additionalDescription
+  - Interface NetworkInterface has a new optional parameter configurationState
+  - Interface NetworkInterface has a new optional parameter description
+  - Interface NetworkInterface has a new optional parameter identity
+  - Interface NetworkInterface has a new optional parameter lastOperation
+  - Interface NetworkInterface has a new optional parameter networkFabricId
+  - Interface NetworkInterfacePatch has a new optional parameter additionalDescription
+  - Interface NetworkInterfacePatch has a new optional parameter identity
+  - Interface NetworkInterfacePatchProperties has a new optional parameter additionalDescription
+  - Interface NetworkInterfaceProperties has a new optional parameter additionalDescription
+  - Interface NetworkInterfaceProperties has a new optional parameter configurationState
+  - Interface NetworkInterfaceProperties has a new optional parameter description
+  - Interface NetworkInterfaceProperties has a new optional parameter lastOperation
+  - Interface NetworkInterfaceProperties has a new optional parameter networkFabricId
+  - Interface NetworkPacketBroker has a new optional parameter configurationState
+  - Interface NetworkPacketBroker has a new optional parameter identity
+  - Interface NetworkPacketBroker has a new optional parameter lastOperation
+  - Interface NetworkPacketBrokerPatch has a new optional parameter identity
+  - Interface NetworkRack has a new optional parameter configurationState
+  - Interface NetworkRack has a new optional parameter lastOperation
+  - Interface NetworkRackProperties has a new optional parameter configurationState
+  - Interface NetworkRackProperties has a new optional parameter lastOperation
+  - Interface NetworkTap has a new optional parameter identity
+  - Interface NetworkTap has a new optional parameter lastOperation
+  - Interface NetworkTap has a new optional parameter networkFabricIds
+  - Interface NetworkTapPatch has a new optional parameter identity
+  - Interface NetworkTapProperties has a new optional parameter lastOperation
+  - Interface NetworkTapProperties has a new optional parameter networkFabricIds
+  - Interface NetworkTapRule has a new optional parameter globalNetworkTapRuleActions
+  - Interface NetworkTapRule has a new optional parameter identity
+  - Interface NetworkTapRule has a new optional parameter identitySelector
+  - Interface NetworkTapRule has a new optional parameter lastOperation
+  - Interface NetworkTapRule has a new optional parameter networkFabricIds
+  - Interface NetworkTapRule has a new optional parameter networkTapIds
+  - Interface NetworkTapRulePatch has a new optional parameter globalNetworkTapRuleActions
+  - Interface NetworkTapRulePatch has a new optional parameter identity
+  - Interface NetworkTapRulePatch has a new optional parameter identitySelector
+  - Interface NetworkTapRulePatchProperties has a new optional parameter globalNetworkTapRuleActions
+  - Interface NetworkTapRulePatchProperties has a new optional parameter identitySelector
+  - Interface NetworkTapRuleProperties has a new optional parameter globalNetworkTapRuleActions
+  - Interface NetworkTapRuleProperties has a new optional parameter identitySelector
+  - Interface NetworkTapRuleProperties has a new optional parameter lastOperation
+  - Interface NetworkTapRuleProperties has a new optional parameter networkFabricIds
+  - Interface NetworkTapRuleProperties has a new optional parameter networkTapIds
+  - Interface NetworkToNetworkInterconnect has a new optional parameter conditionalDefaultRouteConfiguration
+  - Interface NetworkToNetworkInterconnect has a new optional parameter lastOperation
+  - Interface NetworkToNetworkInterconnect has a new optional parameter microBfdState
+  - Interface NetworkToNetworkInterconnect has a new optional parameter staticRouteConfiguration
+  - Interface NetworkToNetworkInterconnectPatch has a new optional parameter microBfdState
+  - Interface NetworkToNetworkInterconnectPatch has a new optional parameter staticRouteConfiguration
+  - Interface OptionBLayer3Configuration has a new optional parameter bmpConfiguration
+  - Interface OptionBLayer3Configuration has a new optional parameter peLoopbackIpAddress
+  - Interface OptionBLayer3Configuration has a new optional parameter prefixLimits
+  - Interface RoutePolicy has a new optional parameter defaultAction
+  - Interface RoutePolicy has a new optional parameter lastOperation
+  - Interface RoutePolicyPatch has a new optional parameter defaultAction
+  - Interface RoutePolicyPatchableProperties has a new optional parameter defaultAction
+  - Interface RoutePolicyProperties has a new optional parameter defaultAction
+  - Interface RoutePolicyProperties has a new optional parameter lastOperation
+  - Interface RuleProperties has a new optional parameter condition
+  - Interface RuleProperties has a new optional parameter destinationAddressList
+  - Interface RuleProperties has a new optional parameter headerAddressList
+  - Interface RuleProperties has a new optional parameter sourceAddressList
+  - Interface StaticRouteConfiguration has a new optional parameter extension
+  - Interface TerminalServerConfiguration has a new optional parameter secretRotationStatus
+  - Added Type Alias AclType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BgpAdministrativeState
+  - Added Type Alias BitRateUnit
+  - Added Type Alias BmpConfigurationState
+  - Added Type Alias BmpExportPolicy
+  - Added Type Alias BmpMonitoredAddressFamily
+  - Added Type Alias BurstSizeUnit
+  - Added Type Alias CommitBatchState
+  - Added Type Alias CommitConfigurationPolicy
+  - Added Type Alias CommitStage
+  - Added Type Alias ControlPlaneAclActionType
+  - Added Type Alias ControlPlaneAclPortMatchType
+  - Added Type Alias ControlPlaneAclTtlMatchType
+  - Added Type Alias DeviceRole
+  - Added Type Alias ExtendedVlan
+  - Added Type Alias ExternalNetworkRouteType
+  - Added Type Alias InternalNetworkRouteType
+  - Added Type Alias LockConfigurationState
+  - Added Type Alias ManagedServiceIdentitySelectorType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MicroBfdState
+  - Added Type Alias NetworkFabricLockAction
+  - Added Type Alias NetworkFabricLockType
+  - Added Type Alias NetworkFabricUpgradeAction
+  - Added Type Alias NNIDerivedUniqueRouteDistinguisherConfigurationState
+  - Added Type Alias QosConfigurationState
+  - Added Type Alias RouteType
+  - Added Type Alias RuleCondition
+  - Added Type Alias StationConfigurationState
+  - Added Type Alias StationConnectionMode
+  - Added Type Alias SynchronizationStatus
+  - Added Type Alias UniqueRouteDistinguisherConfigurationState
+  - Added Type Alias V4OverV6BgpSessionState
+  - Added Type Alias V6OverV4BgpSessionState
+  - Added Enum AzureClouds
+  - Added Enum KnownAclType
+  - Added Enum KnownBgpAdministrativeState
+  - Added Enum KnownBitRateUnit
+  - Added Enum KnownBmpConfigurationState
+  - Added Enum KnownBmpExportPolicy
+  - Added Enum KnownBmpMonitoredAddressFamily
+  - Added Enum KnownBurstSizeUnit
+  - Added Enum KnownCommitBatchState
+  - Added Enum KnownCommitConfigurationPolicy
+  - Added Enum KnownCommitStage
+  - Added Enum KnownControlPlaneAclActionType
+  - Added Enum KnownControlPlaneAclPortMatchType
+  - Added Enum KnownControlPlaneAclTtlMatchType
+  - Added Enum KnownDeviceRole
+  - Added Enum KnownExtendedVlan
+  - Added Enum KnownExternalNetworkRouteType
+  - Added Enum KnownInternalNetworkRouteType
+  - Added Enum KnownLockConfigurationState
+  - Added Enum KnownManagedServiceIdentitySelectorType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMicroBfdState
+  - Added Enum KnownNetworkFabricLockAction
+  - Added Enum KnownNetworkFabricLockType
+  - Added Enum KnownNetworkFabricUpgradeAction
+  - Added Enum KnownNNIDerivedUniqueRouteDistinguisherConfigurationState
+  - Added Enum KnownQosConfigurationState
+  - Added Enum KnownRouteType
+  - Added Enum KnownRuleCondition
+  - Added Enum KnownStationConfigurationState
+  - Added Enum KnownStationConnectionMode
+  - Added Enum KnownSynchronizationStatus
+  - Added Enum KnownUniqueRouteDistinguisherConfigurationState
+  - Added Enum KnownV4OverV6BgpSessionState
+  - Added Enum KnownV6OverV4BgpSessionState
+  - Added Enum KnownVersions
+  - Enum KnownAclActionType has a new value PoliceRate
+  - Enum KnownAclActionType has a new value Remark
+  - Enum KnownAdministrativeState has a new value EnabledDegraded
+  - Enum KnownAdministrativeState has a new value UnderMaintenance
+  - Enum KnownConfigurationState has a new value PendingAdministrativeUpdate
+  - Enum KnownConfigurationState has a new value PendingCommit
+  - Enum KnownConfigurationState has a new value Provisioning
+  - Enum KnownDeviceAdministrativeState has a new value Disable
+  - Enum KnownDeviceAdministrativeState has a new value Enable
+  - Enum KnownDeviceAdministrativeState has a new value UnderMaintenance
+  - Enum KnownDeviceAdministrativeState has a new value UngracefulQuarantine
+  - Enum KnownDeviceAdministrativeState has a new value UngracefulRMA
+  - Enum KnownEnableDisableState has a new value UnderMaintenance
+  - Enum KnownLayer4Protocol has a new value Sctp
+  - Enum KnownPortType has a new value Bidirectional
+  - Enum KnownSourceDestinationType has a new value Bidirectional
 
 ### Breaking Changes
+  - Operation AccessControlLists.beginDeleteAndWait has a new signature
+  - Operation AccessControlLists.beginUpdate has a new signature
+  - Operation AccessControlLists.beginUpdateAndWait has a new signature
+  - Operation InternalNetworks.beginUpdateBgpAdministrativeState has a new signature
+  - Operation InternalNetworks.beginUpdateBgpAdministrativeStateAndWait has a new signature
+  - Operation InternetGatewayRules.beginCreate has a new signature
+  - Operation InternetGatewayRules.beginCreateAndWait has a new signature
+  - Operation InternetGatewayRules.beginDeleteAndWait has a new signature
+  - Operation InternetGatewayRules.beginUpdateAndWait has a new signature
+  - Operation InternetGatewayRules.get has a new signature
+  - Operation InternetGateways.beginCreate has a new signature
+  - Operation InternetGateways.beginCreateAndWait has a new signature
+  - Operation InternetGateways.beginUpdateAndWait has a new signature
+  - Operation InternetGateways.get has a new signature
+  - Operation IpCommunities.beginDeleteAndWait has a new signature
+  - Operation IpExtendedCommunities.beginDeleteAndWait has a new signature
+  - Operation IpPrefixes.beginDeleteAndWait has a new signature
+  - Operation NetworkFabricControllers.beginDeleteAndWait has a new signature
+  - Operation NetworkFabrics.beginDeleteAndWait has a new signature
+  - Operation NetworkTapRules.beginDeleteAndWait has a new signature
+  - Operation NetworkTapRules.beginUpdate has a new signature
+  - Operation NetworkTapRules.beginUpdateAndWait has a new signature
+  - Removed Interface AccessControlListPatchableProperties
+  - Removed Interface ExtendedLocation
+  - Removed Interface ExtensionEnumProperty
+  - Removed Interface ExternalNetworkPatchableProperties
+  - Removed Interface ExternalNetworksList
+  - Removed Interface InternalNetworkPatchableProperties
+  - Removed Interface InternalNetworkPropertiesBgpConfiguration
+  - Removed Interface InternalNetworkPropertiesStaticRouteConfiguration
+  - Removed Interface InternalNetworksList
+  - Removed Interface InternetGatewayPatchableProperties
+  - Removed Interface IpCommunityAddOperationProperties
+  - Removed Interface IpCommunityDeleteOperationProperties
+  - Removed Interface IpCommunitySetOperationProperties
+  - Removed Interface IpExtendedCommunityAddOperationProperties
+  - Removed Interface IpExtendedCommunityDeleteOperationProperties
+  - Removed Interface IpExtendedCommunityPatchableProperties
+  - Removed Interface IpExtendedCommunitySetOperationProperties
+  - Removed Interface IpPrefixPatchableProperties
+  - Removed Interface L3IsolationDomainPatchableProperties
+  - Removed Interface L3OptionAProperties
+  - Removed Interface ManagementNetworkConfigurationPatchableProperties
+  - Removed Interface NeighborGroupPatchableProperties
+  - Removed Interface NetworkDevicePatchableProperties
+  - Removed Interface NetworkFabricControllerPatchableProperties
+  - Removed Interface NetworkFabricPatchableProperties
+  - Removed Interface NetworkFabricPatchablePropertiesTerminalServerConfiguration
+  - Removed Interface NetworkInterfacesList
+  - Removed Interface NetworkTapPatchableParameters
+  - Removed Interface NetworkTapPatchableParametersDestinationsItem
+  - Removed Interface NetworkTapPropertiesDestinationsItem
+  - Removed Interface NetworkTapRulePatchableProperties
+  - Removed Interface NetworkToNetworkInterconnectPropertiesOptionBLayer3Configuration
+  - Removed Interface NetworkToNetworkInterconnectsList
+  - Removed Interface OptionAProperties
+  - Removed Interface OptionBProperties
+  - Removed Interface TerminalServerPatchableProperties
+  - Removed Interface VpnConfigurationPatchablePropertiesOptionAProperties
+  - Removed Interface VpnConfigurationPropertiesOptionAProperties
+  - Type of parameter matchConfigurations of interface AccessControlListPatch is changed from AccessControlListMatchConfiguration[] to AccessControlListMatchConfigurationPatch[]
+  - Type of parameter matchConfigurations of interface AccessControlListPatchProperties is changed from AccessControlListMatchConfiguration[] to AccessControlListMatchConfigurationPatch[]
+  - Type of parameter matchConfigurations of interface NetworkTapRulePatch is changed from NetworkTapRuleMatchConfiguration[] to NetworkTapRuleMatchConfigurationPatch[]
+  - Type of parameter matchConfigurations of interface NetworkTapRulePatchProperties is changed from NetworkTapRuleMatchConfiguration[] to NetworkTapRuleMatchConfigurationPatch[]
+  - Interface ConnectedSubnetRoutePolicy no longer has parameter exportRoutePolicyId
+  - Interface ExternalNetwork no longer has parameter exportRoutePolicyId
+  - Interface ExternalNetwork no longer has parameter importRoutePolicyId
+  - Interface ExternalNetworkPatch no longer has parameter exportRoutePolicyId
+  - Interface ExternalNetworkPatch no longer has parameter importRoutePolicyId
+  - Interface ExternalNetworkPatchProperties no longer has parameter exportRoutePolicyId
+  - Interface ExternalNetworkPatchProperties no longer has parameter importRoutePolicyId
+  - Interface ExternalNetworkProperties no longer has parameter exportRoutePolicyId
+  - Interface ExternalNetworkProperties no longer has parameter importRoutePolicyId
+  - Interface InternalNetwork no longer has parameter exportRoutePolicyId
+  - Interface InternalNetwork no longer has parameter importRoutePolicyId
+  - Interface InternalNetworkPatch no longer has parameter exportRoutePolicyId
+  - Interface InternalNetworkPatch no longer has parameter importRoutePolicyId
+  - Interface InternalNetworkPatchProperties no longer has parameter exportRoutePolicyId
+  - Interface InternalNetworkPatchProperties no longer has parameter importRoutePolicyId
+  - Interface InternalNetworkProperties no longer has parameter exportRoutePolicyId
+  - Interface InternalNetworkProperties no longer has parameter importRoutePolicyId
+  - Interface NetworkFabricController no longer has parameter workloadManagementNetwork
+  - Interface NetworkFabricControllerProperties no longer has parameter workloadManagementNetwork
+  - Interface NetworkToNetworkInterconnectPatch no longer has parameter name
+  - Parameter configurationType of interface AccessControlList is now required
+  - Parameter configurationType of interface AccessControlListProperties is now required
+  - Parameter peerASN of interface BgpConfiguration is now required
+  - Parameter destinationId of interface DestinationProperties is now required
+  - Parameter destinationType of interface DestinationProperties is now required
+  - Parameter name of interface DestinationProperties is now required
+  - Parameter peerASN of interface ExternalNetworkPropertiesOptionAProperties is now required
+  - Parameter vlanId of interface ExternalNetworkPropertiesOptionAProperties is now required
+  - Parameter ipCommunityRules of interface IpCommunity is now required
+  - Parameter ipCommunityRules of interface IpCommunityProperties is now required
+  - Parameter ipPrefixRules of interface IpPrefix is now required
+  - Parameter ipPrefixRules of interface IpPrefixProperties is now required
+  - Parameter destination of interface NeighborGroup is now required
+  - Parameter destination of interface NeighborGroupProperties is now required
+  - Parameter serialNumber of interface NetworkDevice is now required
+  - Parameter serialNumber of interface NetworkDeviceProperties is now required
+  - Parameter configurationType of interface NetworkTapRule is now required
+  - Parameter configurationType of interface NetworkTapRuleProperties is now required
+  - Parameter peerASN of interface OptionBLayer3Configuration is now required
+  - Parameter vlanId of interface OptionBLayer3Configuration is now required
+  - Parameter statements of interface RoutePolicy is now required
+  - Parameter statements of interface RoutePolicyProperties is now required
+  - Parameter password of interface TerminalServerConfiguration is now required
+  - Parameter username of interface TerminalServerConfiguration is now required
+  - Parameter primaryIpv4Prefix of interface TerminalServerConfiguration is now required
+  - Parameter secondaryIpv4Prefix of interface TerminalServerConfiguration is now required
+  - Parameter typePropertiesType of interface InternetGateway is now optional
+  - Parameter type of interface InternetGatewayProperties is now optional
+  - Parameter ipExtendedCommunityRules of interface IpExtendedCommunityPatchProperties is now optional
+  - Parameter addressList of interface RuleProperties is now optional
+  - Removed Type Alias PollingIntervalInSeconds
+  - Removed Enum KnownPollingIntervalInSeconds
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0 (2023-07-17)
 
-The package of @azure/arm-managednetworkfabric is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-managednetworkfabric is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
