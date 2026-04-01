@@ -102,8 +102,11 @@ For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch v
 
 #### 3a. pnpm-lock.yaml merge conflict
 
-If `mergeable_state: dirty`, dispatch the `pnpm-lock-conflict-resolver` workflow via `dispatch-workflow` to fix it.
-Note in the comment that the pnpm-lock conflict resolver has been triggered and the fix is in progress.
+If `mergeable_state: dirty`:
+1. Dispatch the `pnpm-lock-conflict-resolver` workflow via `dispatch-workflow`.
+2. After dispatching, use `bash` to get the run URL:
+   `gh run list --workflow=pnpm-lock-conflict-resolver.lock.yml --repo $GITHUB_REPOSITORY --limit 1 --json url --jq '.[0].url'`
+3. Save the run URL for use in the Step 4 comment.
 
 #### 3b. Check-format failure
 
@@ -115,12 +118,17 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 
 ### Step 4. Post a comment
 
+The comment is mainly for pipeline failures so:
+- Do NOT include passed checks or extra sections. 
+- Do NOT include any review comments.
+
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections. Do NOT include any review design comments.
+- Only include currently failing/blocking checks. 
 - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>.`
-- Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
+- Auto-fixed via push: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
+- Auto-fixed via dispatch: `- 🔄 <Check name>: <reason>. Fix dispatched: [pnpm-lock-conflict-resolver](<run-url>).`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
 
 Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
@@ -135,6 +143,7 @@ Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 - ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
+- 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Fix dispatched: [pnpm-lock-conflict-resolver](<run-url>).
 ```
 
 
