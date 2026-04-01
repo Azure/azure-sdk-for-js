@@ -37,6 +37,21 @@ async function main() {
           "Use the random-name fixture for unique resource names.",
         ].join("\n"),
         unitTestMockInstructions: "You MAY use mocking and stubbing for these tests ONLY.",
+        publicApiHint: [
+          "This file defines an operations class whose non-underscore methods are the public API.",
+          "These methods are exposed on the service client as `client.<resource>.<method>()` (e.g., `client.models.create_or_update(...)`).",
+          "ALL code inside these public methods is reachable — including branches, error handlers, validation, retry logic, and calls to private helpers.",
+          "Private helpers (prefixed with `_`) called from public methods are also reachable through those callers.",
+        ].join("\n"),
+        finalCoverageCommand: [
+          `${activate} &&`,
+          // Run existing recorded tests in playback mode
+          `unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ --cov=azure.ai.ml --cov-branch -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py ;`,
+          // Run generated gap tests in live mode, appending coverage
+          `export AZURE_TEST_RUN_LIVE=true && python -m pytest $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-append -q --timeout=600 ;`,
+          // Generate combined JSON report
+          `coverage json -o coverage.json`,
+        ].join(" "),
       },
       paths: {
         testDir: "tests",

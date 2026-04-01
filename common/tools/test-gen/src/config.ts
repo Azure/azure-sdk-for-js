@@ -33,6 +33,12 @@ export interface RunnerConfig {
   e2ePromptInstructions?: string;
   /** Instructions for unreachable-marker unit tests (e.g., allowed mocking tools). */
   unitTestMockInstructions?: string;
+  /** Optional hint for the planner about how source files map to the public API surface.
+   *  E.g., "Methods without leading underscore on *Operations classes are public API." */
+  publicApiHint?: string;
+  /** Optional command to measure final coverage (replaces `command` for the final run).
+   *  Useful when generated tests need a different mode (e.g., live) than existing tests. */
+  finalCoverageCommand?: string;
 }
 
 /** Directory and file naming conventions. */

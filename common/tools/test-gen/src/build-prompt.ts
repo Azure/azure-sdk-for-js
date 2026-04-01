@@ -144,7 +144,7 @@ export async function buildPromptSeed(
       "",
       "The attached existing-test example, when present, is authoritative for file structure, helper usage, fixtures, decorators, imports, and naming.",
       "Do NOT invent fixtures, decorators, helper functions, imports, private symbols, or test scaffolding that are not visible in the attached source, context files, or existing tests.",
-      "Do NOT write smoke tests that only import modules, inspect symbols, or assert generic presence. Write behavior tests for the uncovered branches.",
+      "Do NOT write smoke tests that only import modules, inspect symbols, check hasattr(), or assert generic presence. Write behavior tests that CALL the code under test and assert on specific outcomes.",
       "Do NOT use the word 'placeholder' or 'stub' in test names, comments, or docstrings — give every test a descriptive name reflecting its purpose.",
       "",
       ...(ctx.e2eMode && ctx.e2ePromptInstructions ? [
@@ -283,6 +283,7 @@ export function buildBatchDeltaPrompt(
     "All files you need are attached to this message. Do NOT skip branches because of missing context — everything is provided.",
     "Do not restate or regenerate surrounding context; focus only on the current uncovered markers.",
     "Cover as many markers as naturally fit together with the fewest high-value tests.",
+    "Every test MUST call the code under test and assert on specific return values, exception types, or state changes.",
     ...(extraInstructions ? [extraInstructions] : []),
     "Current marker details:",
     markerSummaries,
@@ -318,6 +319,8 @@ export function buildPlannerPrompt(
   gaps: CoverageGap[],
   sourceFile: string,
   sourceCode: string,
+  contextFiles?: ContextFile[],
+  publicApiHint?: string,
 ): { prompt: string; attachments: SendAttachment[] } {
   const markerSummaries = gaps
     .map((gap) => `- L${gap.start.line}-${gap.end.line} [${gap.type}] ${gap.detail}`)
@@ -331,33 +334,58 @@ export function buildPlannerPrompt(
       content: sourceCode,
     },
   ];
+  if (contextFiles && contextFiles.length > 0) {
+    for (const cf of contextFiles) {
+      attachments.push({
+        type: "virtual-file",
+        path: `planner/context/${cf.path}`,
+        displayName: `${cf.path} (context)`,
+        content: cf.content,
+      });
+    }
+  }
+
+  const contextFilesList =
+    contextFiles && contextFiles.length > 0
+      ? `\n## Context files\nThese files are attached for reference:\n${contextFiles.map((cf) => `- \`${cf.path}\` — ${cf.reason}`).join("\n")}\n`
+      : "";
+
+  const publicApiSection = publicApiHint
+    ? `\n## Public API mapping\n${publicApiHint}\n`
+    : "";
 
   const schema = `[
   {
-    "api_call": "client.<resource>.<operation>(<args>)",
+    "api_call": "<method_or_function_call>(<args>)",
     "expected_outcome": "raises <Exception> | returns <Type> with <properties>",
     "marker_lines": [<line numbers>],
     "reasoning": "why this call reaches the marked code path"
   }
 ]`;
 
-  const prompt = `You are analyzing source code to find **public API calls** that exercise specific uncovered code paths.
+  const prompt = `You are analyzing source code to find **API calls** that exercise specific uncovered code paths.
 
 ## Source file: ${sourceFile}
 The complete source is attached as \`${sourceFile} (source under test)\`.
-
+${publicApiSection}${contextFilesList}
 ## Uncovered markers to exercise
 ${markerSummaries}
 
 ## Your task
-For each marker (or group of related markers), identify the **public client API call** that would exercise that code path.
+For each marker (or group of related markers), identify a **callable method or function** that would exercise that code path.
+
+## What counts as a callable API
+- Any method defined in this file that does NOT start with underscore (\`_\`) is a **public method** and can be called directly in tests.
+- Code INSIDE a public method is REACHABLE — this includes branches, error handlers, try/except blocks, helper calls, and deeply nested logic.
+- Private methods (starting with \`_\`) that are called FROM a public method are also REACHABLE — trace back to the public caller.
+- Standalone private functions that are never called from any public method in this file are unreachable.
 
 Rules:
-1. The call MUST go through the public client API.
-2. Trace the code path from the public method down to the marked lines. Show your reasoning.
+1. Default to REACHABLE. Most code in a source file is reachable through its public methods.
+2. Trace the code path from a public method down to the marked lines. Show your reasoning.
 3. Choose arguments that will specifically trigger the marked branch (e.g., pass invalid args to trigger a validation branch, pass a nonexistent name to trigger a 404 path).
-4. If a marker is inside a private helper that is NOT reachable from any public API call, mark it as unreachable: \`"api_call": "UNREACHABLE"\`
-5. Group markers that would be exercised by the same API call.
+4. Mark a path as UNREACHABLE **only** if you can prove the marked lines are inside a private helper that is NOT called (directly or transitively) from ANY public method in this file.
+5. Group markers that would be exercised by the same call.
 6. For each call, state the expected outcome (exception type, return value, etc.)
 
 Respond with EXACTLY ONE valid JSON array matching this schema.
@@ -425,7 +453,19 @@ export function buildCoderPrompt(
     : "- You MAY use mocking for these tests ONLY.";
   const unreachableSection =
     unreachable.length > 0
-      ? `\n\n## Unreachable markers → generate UNIT tests\nThese code paths are NOT reachable from the public API. Generate **unit tests** for them:\n- You MAY import and call internal/private functions directly.\n${mockingNote}\n- Still cover the marked branches and assert correct behavior.\n${unreachable.map((p) => `- L${p.marker_lines.join(", L")}: ${p.reasoning}`).join("\n")}`
+      ? [
+          "\n\n## Unreachable markers → generate UNIT tests",
+          "These code paths are NOT reachable from the public API. Generate **unit tests** for them:",
+          "- Import and call the internal function/method DIRECTLY with real arguments.",
+          "- Use mocking ONLY for external dependencies (network, database, file I/O) — not to avoid calling the function under test.",
+          mockingNote,
+          "- Each test MUST execute the actual code at the marked lines and assert on concrete behavior:",
+          "  - Assert specific return values, exception types, or state changes.",
+          "  - NEVER use hasattr(), type checks, or import-only assertions.",
+          "- These are behavioral unit tests, not reflection/introspection tests.",
+          "",
+          unreachable.map((p) => `- L${p.marker_lines.join(", L")}: ${p.reasoning}`).join("\n"),
+        ].join("\n")
       : "";
 
   const testPatternsSection = existingTestPatterns
@@ -479,9 +519,10 @@ export function buildCoderPrompt(
     "4. Follow the test style reference exactly (decorators, class structure, fixtures)",
     "",
     "For **unreachable** markers (from the Unreachable section):",
-    "1. Import and call the internal function directly",
-    "2. Use mocking as needed to set up the code path",
-    "3. Assert the expected behavior of the branch",
+    "1. Import and call the internal function/method directly with REAL arguments",
+    "2. Set up minimal mocking only for external dependencies (network, I/O)",
+    "3. Assert concrete behavior: specific return values, exception types, or state changes",
+    "4. Each test MUST execute the actual code at the marked lines — NOT just check that symbols exist",
     "",
     "If an existing-test example is attached, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
     "Use only fixture names, helper names, decorators, imports, and symbols that are visible in the attached source-under-test, context files, or existing tests.",
@@ -497,7 +538,7 @@ export function buildCoderPrompt(
     "The context already includes the full existing test suite. Do NOT generate any test that duplicates a test already in the context — same API call, same scenario, same branch. If a plan entry is already covered by an existing test, SKIP it and list it in `skipped_markers` with reason 'duplicate of existing test'.",
     "",
     "Do NOT invent missing fixtures or imports.",
-    "Do NOT generate module-import smoke tests, reflection tests, or 'symbol exists' tests.",
+    "Do NOT generate module-import smoke tests, reflection tests, hasattr() checks, or 'symbol exists' tests. Every test must CALL the code under test and assert on its behavior.",
     ...(extraInstructions ? [extraInstructions] : []),
     "",
     "Respond with EXACTLY ONE valid JSON object matching this schema.",

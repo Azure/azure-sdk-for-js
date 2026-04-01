@@ -1577,7 +1577,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
       // ── Phase 1: Planner ──
       fileLog(`    🗺️  Phase 1: Planning API calls for ${batch.length} gaps...`);
-      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode);
+      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode, contextFiles, cfg.runner.publicApiHint);
 
       const plannerAttachments: SendAttachment[] = [...plannerPromptData.attachments];
 
@@ -1911,7 +1911,8 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     // Measure final coverage
     log("\n━━━ Step 6: Final coverage measurement ━━━");
     await ensureAzureAuth(log);
-    await runTests(cfg.runner.command, packageDir, log, cfg);
+    const finalCoverageCmd = cfg.runner.finalCoverageCommand ?? cfg.runner.command;
+    await runTests(finalCoverageCmd, packageDir, log, cfg);
     try {
       const finalGaps = await extractGaps(packageDir, {
         coveragePath: cfg.runner.coveragePath,
