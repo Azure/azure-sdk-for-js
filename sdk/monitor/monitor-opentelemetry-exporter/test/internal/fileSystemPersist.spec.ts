@@ -290,10 +290,10 @@ describe("FileSystemPersist", () => {
 
       // Push the "expired" batch first
       await persister.push(expiredBatch);
-      await sleep(100);
+      await sleep(1000);
 
-      // Set a very short retention so the first file is expired
-      persister.fileRetemptionPeriod = 50;
+      // Set retention so the first file (1s+ old) is expired but the fresh one isn't
+      persister.fileRetemptionPeriod = 500;
 
       // Push the "fresh" batch
       await persister.push(freshBatch);
@@ -334,15 +334,15 @@ describe("FileSystemPersist", () => {
 
       // Push old batch (will become expired)
       await persister.push(oldBatch);
-      await sleep(200);
+      await sleep(1000);
 
       // Push new batches close together so they won't expire
       await persister.push(newBatch1);
       await sleep(50);
       await persister.push(newBatch2);
 
-      // Set retention so only the old file (200ms+ ago) is expired, not the new ones (<100ms ago)
-      persister.fileRetemptionPeriod = 150;
+      // Set retention so only the old file (1s+ ago) is expired, not the new ones (<200ms ago)
+      persister.fileRetemptionPeriod = 500;
 
       // Clean expired files
       await persister.cleanExpiredFiles();
