@@ -37,6 +37,7 @@ export function getSecretFromSecretBundle(
       contentType: secretBundle.contentType,
       tags: secretBundle.tags,
       managed: secretBundle.managed,
+      previousVersion: secretBundle.previousVersion,
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
