@@ -487,7 +487,7 @@ export interface SubjectAlternativeNamesAll {
     dnsNames: ArrayOneOrMore<string>;
     emails: ArrayOneOrMore<string>;
     ipAddresses: ArrayOneOrMore<string>;
-    uris: ArrayOneOrMore<string>;
+    uniformResourceIdentifiers: ArrayOneOrMore<string>;
     userPrincipalNames: ArrayOneOrMore<string>;
 }
 

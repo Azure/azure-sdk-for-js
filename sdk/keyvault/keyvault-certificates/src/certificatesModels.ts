@@ -228,9 +228,9 @@ export interface SubjectAlternativeNamesAll {
    */
   userPrincipalNames: ArrayOneOrMore<string>;
   /**
-   * URIs.
+   * Uniform Resource Identifiers (URIs).
    */
-  uris: ArrayOneOrMore<string>;
+  uniformResourceIdentifiers: ArrayOneOrMore<string>;
   /**
    * IP addresses; supports IPv4 and IPv6.
    */

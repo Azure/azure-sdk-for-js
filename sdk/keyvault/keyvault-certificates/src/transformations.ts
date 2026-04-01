@@ -56,7 +56,7 @@ export function toCorePolicy(
       emails: policy.subjectAlternativeNames.emails,
       dnsNames: policy.subjectAlternativeNames.dnsNames,
       upns: policy.subjectAlternativeNames.userPrincipalNames,
-      uris: policy.subjectAlternativeNames.uris,
+      uris: policy.subjectAlternativeNames.uniformResourceIdentifiers,
       ipAddresses: policy.subjectAlternativeNames.ipAddresses,
     };
   }
@@ -126,7 +126,7 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
       if (names.uris && names.uris.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          uris: names.uris as ArrayOneOrMore<string>,
+          uniformResourceIdentifiers: names.uris as ArrayOneOrMore<string>,
         };
       }
       if (names.ipAddresses && names.ipAddresses.length) {

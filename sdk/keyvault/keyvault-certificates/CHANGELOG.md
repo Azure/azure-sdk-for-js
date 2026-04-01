@@ -1,14 +1,11 @@
 # Release History
 
-## 4.10.2 (Unreleased)
+## 4.10.2 (2026-04-01)
 
 ### Features Added
 
-- Added `uris` and `ipAddresses` properties to `SubjectAlternativeNames` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
-
-### Breaking Changes
-
-### Bugs Fixed
+- Added `uniformResourceIdentifiers` and `ipAddresses` properties to `SubjectAlternativeNames` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
+- Adding support for the API version `2025-07-01`
 
 ### Other Changes
 
