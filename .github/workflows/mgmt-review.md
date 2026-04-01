@@ -99,17 +99,11 @@ For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch v
 
 #### 3a. pnpm-lock.yaml merge conflict
 
-If `mergeable_state: dirty`, attempt to resolve it:
+If `mergeable_state: dirty`, trigger the `pnpm-lock-conflict-resolver` workflow to fix it:
 
-1. Unshallow the repo if needed: `git fetch --unshallow || true`
-2. Check out the PR source branch: `git checkout <pr-head-ref>`
-3. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
-4. `git fetch https://github.com/Azure/azure-sdk-for-js main`
-5. `git merge FETCH_HEAD --allow-unrelated-histories` — check `git status` for conflicts. If files **other than** `pnpm-lock.yaml` also conflict, **stop** and only post guidance.
-6. `git checkout FETCH_HEAD -- ./pnpm-lock.yaml`
-7. `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm install --no-frozen-lockfile`
-8. `git add ./pnpm-lock.yaml && git commit -m "Resolve pnpm-lock.yaml merge conflict"`
-9. Push via `push-to-pull-request-branch`. If any step fails, stop and report in comment.
+1. Use `bash` to dispatch the resolver workflow via GitHub CLI:
+   `gh workflow run pnpm-lock-conflict-resolver.lock.yml --repo <owner>/<repo> --ref <pr-head-ref>`
+2. Note in the comment that the pnpm-lock conflict resolver has been triggered and the fix is in progress.
 
 #### 3b. Check-format failure
 
