@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createWidgetAnalytics,
   WidgetAnalyticsContext,
   WidgetAnalyticsClientOptionalParams,
+  createWidgetAnalytics,
 } from "./api/index.js";
 import { WidgetsOperations, _getWidgetsOperations } from "./classic/widgets/index.js";
 import { TokenCredential } from "@azure/core-auth";

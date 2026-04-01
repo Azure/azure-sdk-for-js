@@ -39,19 +39,18 @@ export function _listWidgetsSend(
   const path = expandUrlTemplate(
     "/widgets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2022-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listWidgetsDeserialize(
@@ -75,7 +74,7 @@ export function listWidgets(
     () => _listWidgetsSend(context, options),
     _listWidgetsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2022-12-01" },
   );
 }
 
@@ -88,19 +87,18 @@ export function _deleteWidgetSend(
     "/widgets/{widgetName}{?api%2Dversion}",
     {
       widgetName: widgetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2022-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteWidgetDeserialize(
@@ -132,6 +130,7 @@ export function deleteWidget(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteWidgetSend(context, widgetName, options),
     resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "2022-12-01",
   }) as PollerLike<OperationState<WidgetSuite>, WidgetSuite>;
 }
 
@@ -145,21 +144,20 @@ export function _createOrUpdateWidgetSend(
     "/widgets/{widgetName}{?api%2Dversion}",
     {
       widgetName: widgetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2022-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: widgetSuiteSerializer(resource),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: widgetSuiteSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateWidgetDeserialize(
@@ -192,6 +190,7 @@ export function createOrUpdateWidget(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateWidgetSend(context, widgetName, resource, options),
     resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "2022-12-01",
   }) as PollerLike<OperationState<WidgetSuite>, WidgetSuite>;
 }
 
@@ -199,28 +198,25 @@ export function _getWidgetOperationStatusSend(
   context: Client,
   widgetName: string,
   operationId: string,
-  options: WidgetsGetWidgetOperationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: WidgetsGetWidgetOperationStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/widgets/{widgetName}/operations/{operationId}{?api%2Dversion}",
     {
       widgetName: widgetName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2022-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getWidgetOperationStatusDeserialize(
@@ -239,9 +235,7 @@ export async function getWidgetOperationStatus(
   context: Client,
   widgetName: string,
   operationId: string,
-  options: WidgetsGetWidgetOperationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: WidgetsGetWidgetOperationStatusOptionalParams = { requestOptions: {} },
 ): Promise<ResourceOperationStatusWidgetSuiteWidgetSuiteError> {
   const result = await _getWidgetOperationStatusSend(context, widgetName, operationId, options);
   return _getWidgetOperationStatusDeserialize(result);
@@ -256,19 +250,18 @@ export function _getWidgetSend(
     "/widgets/{widgetName}{?api%2Dversion}",
     {
       widgetName: widgetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2022-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getWidgetDeserialize(result: PathUncheckedResponse): Promise<WidgetSuite> {
