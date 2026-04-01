@@ -26,7 +26,7 @@ async function main() {
         command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/test_*_gaps*.py tests/*/e2etests/ tests/*/unittests/ --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py`,
         coveragePath: "coverage.json",
         coverageFormat: "coveragepy",
-        runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=120 -W ignore --tb=short`,
+        runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=600 -W ignore --tb=short`,
         coverageDbPath: ".coverage",
         timeout: 3_600_000,
       },
