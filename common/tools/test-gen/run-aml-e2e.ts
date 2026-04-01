@@ -29,11 +29,6 @@ async function main() {
         runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=600 -W ignore --tb=short`,
         coverageDbPath: ".coverage",
         timeout: 3_600_000,
-        testOutputPatterns: [
-          { pattern: /^\s*(>|E)\s+/, label: "pytest marker" },
-          { pattern: /FAILED\s+.*::/, label: "pytest FAILED" },
-          { pattern: /short test summary/i, label: "pytest summary" },
-        ],
         e2ePromptInstructions: [
           "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
           "Tests MUST call real service endpoints. No mocking, stubbing, or faking of any kind.",

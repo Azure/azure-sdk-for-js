@@ -15,11 +15,6 @@ async function main() {
         runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=60 -W ignore --tb=short`,
         coverageDbPath: ".coverage",
         timeout: 3_600_000,
-        testOutputPatterns: [
-          { pattern: /^\s*(>|E)\s+/, label: "pytest marker" },
-          { pattern: /FAILED\s+.*::/, label: "pytest FAILED" },
-          { pattern: /short test summary/i, label: "pytest summary" },
-        ],
         unitTestMockInstructions: "You MAY use mocking and stubbing for these tests ONLY.",
       },
       paths: {

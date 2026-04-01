@@ -264,13 +264,13 @@ async function runSingleTest(
       label: `test ${relPath}`,
     });
     if (exitCode !== 0) {
-      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
+      return { passed: false, output: tail(stdout, cfg.runner.tailLines) };
     }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
-    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
+    return { passed: false, output: tail(output, cfg.runner.tailLines) };
   }
 }
 
@@ -286,86 +286,6 @@ function tail(text: string, lines: number): string {
     count++;
   }
   return i === 0 ? text : text.slice(i + 1);
-}
-
-/**
- * Extract error-relevant lines from test runner output.
- * Captures stack trace frames, assertion messages, and error summaries.
- * Falls back to tail() if no structured errors are found.
- */
-function extractErrorContext(text: string, maxLines: number, extraPatterns?: { pattern: RegExp; label: string }[]): string {
-  const lines = text.split("\n");
-
-  // Built-in language-agnostic patterns
-  const errorPatterns: RegExp[] = [
-    /^\s*(Traceback|File ".*", line \d+)/i, // Python tracebacks
-    /^\s*(at\s+\S+\s+\(.*:\d+:\d+\))/, // JS/TS stack frames
-    /^\s*(Error|TypeError|SyntaxError|IndentationError|AssertionError|ImportError|AttributeError|NameError|ValueError|KeyError|ModuleNotFoundError|RuntimeError)\b/i,
-    /^\s*(FAILED|ERRORS|ERROR|E\s+)/, // Test runner error indicators
-    /^\s*(assert|AssertionError|expect\()/i, // Assertion lines
-    /:\d+:\s*error\b/i, // Compiler-style errors
-    /^\s*raise\s+/, // Raise statements
-    /^\s*\^+\s*$/, // Caret error position indicators
-  ];
-
-  // Append any config-provided test output patterns
-  if (extraPatterns) {
-    for (const { pattern } of extraPatterns) {
-      errorPatterns.push(pattern);
-    }
-  }
-
-  // Exclude lines that are primarily about warnings (Python deprecation/future warnings, etc.)
-  const warningExclusion = /\w*Warning\s*[:(]/;
-
-  const contextRadius = 5; // lines of context around each match
-  const maxOutputLines = 150; // generous limit to preserve deep stack traces
-  const matchedIndices = new Set<number>();
-
-  for (let i = 0; i < lines.length; i++) {
-    if (warningExclusion.test(lines[i])) continue;
-    if (errorPatterns.some((pat) => pat.test(lines[i]))) {
-      for (
-        let j = Math.max(0, i - contextRadius);
-        j <= Math.min(lines.length - 1, i + contextRadius);
-        j++
-      ) {
-        matchedIndices.add(j);
-      }
-    }
-  }
-
-  if (matchedIndices.size === 0) {
-    return tail(text, maxLines);
-  }
-
-  // Merge matched indices into contiguous ranges and extract
-  const sorted = Array.from(matchedIndices).sort((a, b) => a - b);
-  const result: string[] = [];
-  let prevIdx = -10;
-
-  for (const idx of sorted) {
-    if (idx > prevIdx + 1 && result.length > 0) {
-      result.push("  ...");
-    }
-    result.push(lines[idx]);
-    prevIdx = idx;
-  }
-
-  const extracted = result.join("\n");
-  // If extracted is too short to be useful (< 50 chars), supplement with raw tail
-  if (extracted.length < 50) {
-    return extracted + "\n---\n" + tail(text, maxLines);
-  }
-  // If extracted has few lines, supplement with tail
-  if (result.length < 5) {
-    return extracted + "\n---\n" + tail(text, Math.max(20, maxOutputLines - result.length));
-  }
-  // Cap output length
-  if (result.length > maxOutputLines) {
-    return result.slice(0, maxOutputLines).join("\n") + "\n... (truncated)";
-  }
-  return extracted;
 }
 
 /**
@@ -494,13 +414,13 @@ async function runFullSuite(command: string, packageDir: string, cfg: Config): P
       label: "full-suite",
     });
     if (exitCode !== 0) {
-      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
+      return { passed: false, output: tail(stdout, cfg.runner.tailLines) };
     }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
-    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
+    return { passed: false, output: tail(output, cfg.runner.tailLines) };
   }
 }
 

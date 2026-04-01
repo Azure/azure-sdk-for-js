@@ -29,9 +29,6 @@ export interface RunnerConfig {
   /** Optional command to run after tests to ensure coverage report is generated.
    *  Useful when pytest-cov doesn't write JSON on failure. Runs regardless of test exit code. */
   postTestCommand?: string;
-  /** Patterns for extracting error-relevant lines from test runner output.
-   *  Added to the built-in language-agnostic patterns. */
-  testOutputPatterns?: { pattern: RegExp; label: string }[];
   /** Prompt instructions injected when e2e/integration test mode is active. */
   e2ePromptInstructions?: string;
   /** Instructions for unreachable-marker unit tests (e.g., allowed mocking tools). */
