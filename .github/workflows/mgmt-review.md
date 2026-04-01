@@ -162,6 +162,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** flag issues in APIs tagged `@internal`.
 - Do **not** flag undocumented APIs.
 - Do **not** flag issues in submodules.
+- Do **not** flag `AzureClouds` relevant enums. Its inconsistency is by design.
 
 ### Step 1 — Context Gathering
 
