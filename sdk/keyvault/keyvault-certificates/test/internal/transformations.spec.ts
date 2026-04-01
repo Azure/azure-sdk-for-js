@@ -152,10 +152,7 @@ describe("transformations", function () {
           },
         });
         const sans = corePolicy.x509CertificateProperties!.subjectAlternativeNames!;
-        assert.deepEqual(sans.uris, [
-          "https://example.com",
-          "https://contoso.com",
-        ]);
+        assert.deepEqual(sans.uris, ["https://example.com", "https://contoso.com"]);
       });
 
       it("toPublicPolicy maps uris back from the core model", () => {
@@ -167,9 +164,7 @@ describe("transformations", function () {
           },
         };
         const publicPolicy = toPublicPolicy(corePolicy);
-        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uris, [
-          "https://example.com",
-        ]);
+        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uris, ["https://example.com"]);
       });
 
       it("round-trips uris through toCorePolicy and toPublicPolicy", () => {
