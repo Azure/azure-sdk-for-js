@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `uri` and `ipAddresses` properties to `Subject Alternative Names` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
+- Added `uri` and `ipAddresses` properties to `SubjectAlternativeNames` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
 - Added support for service API version `2025-07-01` [#37561](https://github.com/Azure/azure-sdk-for-js/pull/37561)
 
 ### Other Changes
