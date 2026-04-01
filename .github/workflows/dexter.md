@@ -14,7 +14,7 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]
     min-integrity: unapproved
-  bash: true
+  bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
   web-fetch:
