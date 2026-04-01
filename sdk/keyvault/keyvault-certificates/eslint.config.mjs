@@ -3,8 +3,12 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 export default azsdkEslint.config([
   {
     rules: {
-      "@typescript-eslint/no-empty-object-type": "warn",
-      "@azure/azure-sdk/ts-naming-options": "warn",
+      "@azure/azure-sdk/ts-modules-only-named": "warn",
+      "@azure/azure-sdk/ts-package-json-types": "warn",
+      "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
+      "@azure/azure-sdk/ts-package-json-files-required": "off",
+      "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+      "tsdoc/syntax": "warn",
     },
   },
   {
@@ -13,7 +17,6 @@ export default azsdkEslint.config([
       "src/classic/**/*.ts",
       "src/models/**/*.ts",
       "src/static-helpers/**/*.ts",
-      "src/restorePollerHelpers.ts",
     ],
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": "off",

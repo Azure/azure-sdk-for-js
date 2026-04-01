@@ -109,8 +109,10 @@ export function getModifiedFilesSinceTag(tag, packageDir) {
 
 /**
  * Filters a list of modified files to only those that are relevant source changes.
- * Includes only JavaScript and TypeScript files (.ts, .js, .mts, .mjs, .cts, .cjs, .tsx, .jsx),
- * excluding files under test/, samples/, or samples-dev/ directories (relative to the package root).
+ * Includes only JavaScript and TypeScript files (.ts, .js, .mts, .mjs, .cts, .cjs, .tsx, .jsx)
+ * under the src/ directory, which contains the publishable source code.
+ * Excludes test files, samples, config files in the package root (vitest, karma, etc.),
+ * generated/ (raw codegen output not published directly), and other non-published directories.
  *
  * @param {string[]} files - list of file paths (relative to repo root)
  * @param {string} packageRelativeDir - the package directory relative to the repo root (forward-slash separated)
@@ -118,12 +120,12 @@ export function getModifiedFilesSinceTag(tag, packageDir) {
  */
 export function filterRelevantFiles(files, packageRelativeDir) {
   const sourceExtensions = /\.(ts|js|mts|mjs|cts|cjs|tsx|jsx)$/;
-  const ignoredDirPattern = /^(test|samples|samples-dev)\//;
+  const sourceDirPattern = /^src\//;
   const prefix = packageRelativeDir.endsWith("/") ? packageRelativeDir : `${packageRelativeDir}/`;
 
   return files.filter((file) => {
     const relativePath = file.startsWith(prefix) ? file.slice(prefix.length) : file;
-    return sourceExtensions.test(relativePath) && !ignoredDirPattern.test(relativePath);
+    return sourceExtensions.test(relativePath) && sourceDirPattern.test(relativePath);
   });
 }
 
@@ -186,7 +188,9 @@ export function verifyPackages(packageNames, packageDirs) {
       for (const file of relevantFiles) {
         console.error(`    - ${file}`);
       }
-      console.error(`  Please bump the version in ${packageJsonPath}`);
+      console.error(
+        `  Please bump the version in ${packageJsonPath}. You can do this using "dev-tool package increment-version" from the package folder.`,
+      );
       exitCode = 1;
     }
   }

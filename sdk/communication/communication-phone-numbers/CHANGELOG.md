@@ -1,5 +1,11 @@
 # Release History
 
+## 1.5.1 (Unreleased)
+
+### Other Changes
+
+- Optimized type imports for improved tree-shaking and build performance.
+
 ## 1.5.0 (2025-08-28)
 
 ### Features Added

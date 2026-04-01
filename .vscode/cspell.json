@@ -447,6 +447,16 @@
       ]
     },
     {
+      "filename": "sdk/keyvault/keyvault-certificates/generated/**/*.ts",
+      "words": [
+        "Dversion",
+        "ECHSM",
+        "RSAHSM",
+        "SECG",
+        "SECP"
+      ]
+    },
+    {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
       "words": [
         "ECHSM",

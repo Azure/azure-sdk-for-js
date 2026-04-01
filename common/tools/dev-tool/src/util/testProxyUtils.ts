@@ -84,6 +84,13 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
     executableLocation: "Azure.Sdk.Tools.TestProxy.exe",
   },
   {
+    // Windows ARM64 supports x64 emulation
+    platform: "win32",
+    architecture: "arm64",
+    fileName: "test-proxy-standalone-win-x64.zip",
+    executableLocation: "Azure.Sdk.Tools.TestProxy.exe",
+  },
+  {
     platform: "linux",
     architecture: "x64",
     fileName: "test-proxy-standalone-linux-x64.tar.gz",

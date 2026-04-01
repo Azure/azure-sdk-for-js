@@ -50,8 +50,8 @@ export function getClient(
   clientOptions: ClientOptions = {},
 ): Client {
   let pipeline: Pipeline | undefined;
-  if ((clientOptions as any)["pipeline"]) {
-    pipeline = (clientOptions as any)["pipeline"] as Pipeline;
+  if (clientOptions.pipeline) {
+    pipeline = clientOptions.pipeline;
   } else {
     let credentials: TokenCredential | KeyCredential | undefined;
     if (credentialsOrPipelineOptions) {
