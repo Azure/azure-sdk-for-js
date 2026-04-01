@@ -80,9 +80,19 @@ export async function main(): Promise<void> {
     // Safely extract file information from response annotations, guarding against empty arrays.
     if (Array.isArray(response.output) && response.output.length > 0) {
       const lastMessage = response.output[response.output.length - 1];
-      if (lastMessage && lastMessage.type === "message" && Array.isArray(lastMessage.content) && lastMessage.content.length > 0) {
+      if (
+        lastMessage &&
+        lastMessage.type === "message" &&
+        Array.isArray(lastMessage.content) &&
+        lastMessage.content.length > 0
+      ) {
         const lastContent = lastMessage.content[lastMessage.content.length - 1];
-        if (lastContent && lastContent.type === "output_text" && Array.isArray(lastContent.annotations) && lastContent.annotations.length > 0) {
+        if (
+          lastContent &&
+          lastContent.type === "output_text" &&
+          Array.isArray(lastContent.annotations) &&
+          lastContent.annotations.length > 0
+        ) {
           const fileCitation = lastContent.annotations[lastContent.annotations.length - 1];
           if (fileCitation && fileCitation.type === "container_file_citation") {
             fileId = fileCitation.file_id;
