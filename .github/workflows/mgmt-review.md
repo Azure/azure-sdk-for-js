@@ -30,6 +30,9 @@ safe-outputs:
   push-to-pull-request-branch:
     max: 3
     allowed-files: ["pnpm-lock.yaml", "sdk/", "eng/"]
+  dispatch-workflow:
+    workflows: [pnpm-lock-conflict-resolver]
+    max: 1
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -99,11 +102,8 @@ For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch v
 
 #### 3a. pnpm-lock.yaml merge conflict
 
-If `mergeable_state: dirty`, trigger the `pnpm-lock-conflict-resolver` workflow to fix it:
-
-1. Use `bash` to dispatch the resolver workflow via GitHub CLI:
-   `gh workflow run pnpm-lock-conflict-resolver.lock.yml --repo <owner>/<repo> --ref <pr-head-ref>`
-2. Note in the comment that the pnpm-lock conflict resolver has been triggered and the fix is in progress.
+If `mergeable_state: dirty`, dispatch the `pnpm-lock-conflict-resolver` workflow via `dispatch-workflow` to fix it.
+Note in the comment that the pnpm-lock conflict resolver has been triggered and the fix is in progress.
 
 #### 3b. Check-format failure
 
