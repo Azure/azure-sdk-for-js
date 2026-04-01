@@ -8,8 +8,6 @@
 - Added `outContentType` option to `getSecret()` allowing callers to request PEM-format output for certificate-backed secrets (e.g., `outContentType: KnownContentType.PEM`). [#37785](https://github.com/Azure/azure-sdk-for-js/pull/37785)
 - Added `previousVersion` readonly property to `SecretProperties` which returns the identifier of the previous certificate version. [#37785](https://github.com/Azure/azure-sdk-for-js/pull/37785)
 
-### Other Changes
-
 ## 4.10.0 (2025-06-10)
 
 ### Features Added
