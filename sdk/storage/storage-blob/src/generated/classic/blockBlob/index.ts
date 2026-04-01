@@ -31,6 +31,7 @@ import {
   QueryRequest,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
+import { BlockBlobQueryResponse } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a BlockBlob operations. */
@@ -73,9 +74,9 @@ export interface BlockBlobOperations {
       requestId?: string;
       clientRequestId?: string;
       contentType: "application/octet-stream";
-    } & Uint8Array &
+    } & BlockBlobQueryResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        BlockBlobQueryResponse,
         {
           lastModified: Date;
           contentLength: number;
@@ -287,6 +288,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -302,6 +304,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
+        contentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;

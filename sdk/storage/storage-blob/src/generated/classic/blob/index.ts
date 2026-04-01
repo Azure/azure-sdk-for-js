@@ -67,6 +67,7 @@ import {
   AccountKind,
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
+import { BlobDownloadResponse } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Blob operations. */
@@ -597,6 +598,7 @@ export interface BlobOperations {
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
       accessTierChangeTime?: Date;
+      smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
       tagCount?: number;
@@ -648,6 +650,7 @@ export interface BlobOperations {
         accessTierInferred?: boolean;
         archiveStatus?: ArchiveStatus;
         accessTierChangeTime?: Date;
+        smartAccessTier?: string;
         versionId: string;
         isCurrentVersion?: boolean;
         tagCount?: number;
@@ -715,9 +718,9 @@ export interface BlobOperations {
       version: string;
       contentType: "application/octet-stream";
       contentCrc64?: Uint8Array;
-    } & Uint8Array &
+    } & BlobDownloadResponse &
       StorageCompatResponseInfo<
-        Uint8Array,
+        BlobDownloadResponse,
         {
           requestId?: string;
           clientRequestId?: string;

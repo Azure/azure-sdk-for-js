@@ -13,6 +13,8 @@ import type { DefaultWafPolicyOperations } from "./classic/defaultWafPolicy/inde
 import { _getDefaultWafPolicyOperations } from "./classic/defaultWafPolicy/index.js";
 import type { DeploymentsOperations } from "./classic/deployments/index.js";
 import { _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type { NginxDeploymentWafPoliciesOperations } from "./classic/nginxDeploymentWafPolicies/index.js";
+import { _getNginxDeploymentWafPoliciesOperations } from "./classic/nginxDeploymentWafPolicies/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { WafPolicyOperations } from "./classic/wafPolicy/index.js";
@@ -20,7 +22,7 @@ import { _getWafPolicyOperations } from "./classic/wafPolicy/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type NginxManagementClientOptionalParams } from "./api/nginxManagementContext.js";
+export type { NginxManagementClientOptionalParams } from "./api/nginxManagementContext.js";
 
 export class NginxManagementClient {
   private _client: NginxManagementContext;
@@ -47,6 +49,7 @@ export class NginxManagementClient {
     this.wafPolicy = _getWafPolicyOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.apiKeys = _getApiKeysOperations(this._client);
+    this.nginxDeploymentWafPolicies = _getNginxDeploymentWafPoliciesOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
@@ -62,6 +65,8 @@ export class NginxManagementClient {
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for apiKeys */
   public readonly apiKeys: ApiKeysOperations;
+  /** The operation groups for nginxDeploymentWafPolicies */
+  public readonly nginxDeploymentWafPolicies: NginxDeploymentWafPoliciesOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

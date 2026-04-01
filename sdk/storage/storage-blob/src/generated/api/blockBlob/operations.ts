@@ -17,7 +17,8 @@ import {
   queryRequestXmlSerializer,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { BlockBlobQueryResponse } from "../../models/models.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -62,7 +63,7 @@ export function _querySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -100,7 +101,9 @@ export function _querySend(
     });
 }
 
-export async function _queryDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _queryDeserialize(
+  result: PathUncheckedResponse & BlockBlobQueryResponse,
+): Promise<BlockBlobQueryResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -114,7 +117,7 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
@@ -309,9 +312,9 @@ export async function query(
     requestId?: string;
     clientRequestId?: string;
     contentType: "application/octet-stream";
-  } & Uint8Array &
+  } & BlockBlobQueryResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlockBlobQueryResponse,
       {
         lastModified: Date;
         contentLength: number;
@@ -353,7 +356,7 @@ export async function query(
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _queryDeserialize(result);
   const parsedHeaders = _queryDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
@@ -380,7 +383,7 @@ export function _getBlockListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -528,7 +531,7 @@ export function _commitBlockListSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -787,7 +790,7 @@ export function _stageBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1024,7 +1027,7 @@ export function _stageBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1233,7 +1236,7 @@ export function _uploadBlobFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1516,7 +1519,7 @@ export function _uploadSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1634,6 +1637,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
+  contentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1651,6 +1655,13 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1720,6 +1731,7 @@ export async function upload(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1735,6 +1747,7 @@ export async function upload(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelineLike } from "./Pipeline.js";
-import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
+import { getCoreClientOptions, getCredentialFromPipeline, Pipeline } from "./Pipeline.js";
 import {
   escapeURLPath,
   getURLScheme,
@@ -99,12 +99,35 @@ export abstract class StorageClient {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
-    this.pipeline = pipeline;
     const coreClientOptions = getCoreClientOptions(pipeline);
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
     this.credential = getCredentialFromPipeline(pipeline);
-    this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
+    const { pipeline: _corePipeline, httpClient, ...rest } = coreClientOptions;
+
+    // Handle two different kinds of pipelines
+    //   1. core pipeline from typespec-based version which can be used as-is
+    //   2. core pipeline from autorest-based version which include serializationPolicy and deserializationPolicy.
+    //      In this case we cannot reuse/mutate the pipeline so clone then remove the two.
+    if (
+      _corePipeline?.getOrderedPolicies().some((policy) => policy.name === "serializationPolicy")
+    ) {
+      const clonedCorePipeline = _corePipeline!.clone();
+      clonedCorePipeline.removePolicy({ name: "deserializationPolicy" });
+      clonedCorePipeline.removePolicy({ name: "serializationPolicy" });
+      const clonedPipeline = new Pipeline(pipeline.factories);
+      (clonedPipeline as any)._corePipeline = clonedCorePipeline;
+      (clonedPipeline as any)._coreHttpClient = httpClient;
+      (clonedPipeline as any)._credential = (pipeline as any)._credential;
+      this.pipeline = clonedPipeline;
+      this.storageClientContext = new StorageClientContext(this.url, {
+        ...rest,
+        pipeline: clonedCorePipeline,
+      });
+    } else {
+      this.pipeline = pipeline;
+      this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
+    }
   }
 }

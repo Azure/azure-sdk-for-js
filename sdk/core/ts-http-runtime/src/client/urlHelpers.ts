@@ -93,7 +93,6 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   // while still allowing for intentional consecutive forward slashes in the path to be preserved.
   const baseEndpoint = endpointParts[0].replace(/(^[^:]+:\/\/[^/]+)\/\/+/, "$1/");
   const basePathToAppend = pathParts[0];
-
   let combinedUrl = baseEndpoint;
   if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
     combinedUrl += `/${basePathToAppend}`;
@@ -292,6 +291,7 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
     }
     endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
   }
+
   return endpoint;
 }
 

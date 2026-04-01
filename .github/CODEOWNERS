@@ -61,10 +61,10 @@
 # ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
-/sdk/attestation/    @anilba06 @deyaaeldeen @gkostal @LarryOsterman
+/sdk/attestation/    @anilba06 @daaltobe @gkostal @olkroshk
 
 # ServiceLabel: %Attestation
-# ServiceOwners: @anilba06 @gkostal
+# ServiceOwners: @anilba06 @daaltobe @gkostal @olkroshk
 
 # ServiceLabel: %Azure Load Testing
 # PRLabel: %Azure Load Testing
@@ -298,6 +298,12 @@
 # ServiceLabel: %Service Bus
 # ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
 
+# PRLabel: %Speech Transcription
+/sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
+# ServiceLabel: %Speech Transcription
+# ServiceOwners: @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
 # ServiceLabel: %Storage
 # PRLabel: %Storage
 /sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
@@ -440,6 +446,9 @@
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+/sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
@@ -623,9 +632,6 @@
 
 # PRLabel: %Mgmt
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/neonpostgres/arm-neonpostgres/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao @JialinHuang803
@@ -1328,7 +1334,7 @@
 # ServiceOwners:          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-# ServiceOwners:          @chen-karen @Azure/azure-sdk-write-keyvault
+# ServiceOwners:          @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 # ServiceOwners:          @NarayanThiru
@@ -1644,6 +1650,18 @@ sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang
 # PRLabel: %Mgmt
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
+sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
+sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
+sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1695,6 +1713,34 @@ sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
 /.github/workflows/                      @Azure/azure-sdk-eng
+/.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/archie.md             @deyaaeldeen @jeremymeng @maorleger
+/.github/workflows/archie.lock.yml       @deyaaeldeen @jeremymeng @maorleger
+/.github/workflows/dash.md               @deyaaeldeen @jeremymeng
+/.github/workflows/dash.lock.yml         @deyaaeldeen @jeremymeng
+/.github/workflows/dexter.md             @deyaaeldeen @jeremymeng
+/.github/workflows/dexter.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/scribe.md             @deyaaeldeen @jeremymeng
+/.github/workflows/scribe.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/sentinel.md           @deyaaeldeen @jeremymeng
+/.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
+/.github/workflows/tester.md             @deyaaeldeen @jeremymeng
+/.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
+/.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
+/.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng
+/.github/agents/dexter.agent.md          @deyaaeldeen @jeremymeng
+/.github/agents/scribe.agent.md          @deyaaeldeen @jeremymeng
+/.github/agents/sentinel.agent.md        @deyaaeldeen @jeremymeng
+/.github/agents/tester.agent.md          @deyaaeldeen @jeremymeng
+/.github/prompts/architecture-review-guidelines.md @deyaaeldeen @jeremymeng @maorleger
+/.github/prompts/dependency-review-guidelines.md   @deyaaeldeen @jeremymeng
+/.github/prompts/documentation-review-guidelines.md @deyaaeldeen @jeremymeng
+/.github/prompts/performance-review-guidelines.md  @deyaaeldeen @jeremymeng
+/.github/prompts/security-review-guidelines.md     @deyaaeldeen @jeremymeng
+/.github/prompts/test-recording.prompt.md          @deyaaeldeen @jeremymeng
+/.github/prompts/test-review-guidelines.md         @deyaaeldeen @jeremymeng
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard

@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-01-preview",
-  "emitterVersion": "0.46.1",
+  "apiVersions": {
+    "Microsoft.ContainerService": "2026-02-01-preview"
+  },
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {

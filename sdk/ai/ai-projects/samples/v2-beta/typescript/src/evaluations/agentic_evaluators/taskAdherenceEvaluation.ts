@@ -12,16 +12,16 @@
  * and run it with inline data containing various query/response scenarios.
  *
  * Set these environment variables before running the sample:
- * 1) AZURE_AI_PROJECT_ENDPOINT - The Azure AI Project endpoint
- * 2) MODEL_DEPLOYMENT_NAME - The name of the model deployment to use for evaluation
+ * 1) FOUNDRY_PROJECT_ENDPOINT - The Azure AI Project endpoint
+ * 2) FOUNDRY_MODEL_NAME - The name of the model deployment to use for evaluation
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const modelDeploymentName = process.env["FOUNDRY_MODEL_NAME"] || "gpt-4o-mini";
 
 export async function main(): Promise<void> {
   // Create AI Project client

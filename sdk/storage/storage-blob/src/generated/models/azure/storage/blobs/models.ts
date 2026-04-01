@@ -321,23 +321,16 @@ export interface RetentionPolicy {
   enabled: boolean;
   /** The number of days to retain the logs. */
   days?: number;
-  /** Whether to allow permanent delete. */
-  allowPermanentDelete?: boolean;
 }
 
 export function retentionPolicySerializer(item: RetentionPolicy): any {
-  return {
-    enabled: item["enabled"],
-    days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { enabled: item["enabled"], days: item["days"] };
 }
 
 export function retentionPolicyDeserializer(item: any): RetentionPolicy {
   return {
     enabled: item["enabled"],
     days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
   };
 }
 
@@ -345,11 +338,6 @@ export function retentionPolicyXmlSerializer(item: RetentionPolicy): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
     { propertyName: "days", xmlOptions: { name: "Days" }, type: "primitive" },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-    },
   ];
   return serializeToXml(item, properties, "RetentionPolicy");
 }
@@ -368,22 +356,12 @@ export function retentionPolicyXmlDeserializer(xmlString: string): RetentionPoli
       type: "primitive",
       primitiveSubtype: "number",
     },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
   ];
   return deserializeFromXml<RetentionPolicy>(xmlString, properties, "RetentionPolicy");
 }
 
 export function retentionPolicyXmlObjectSerializer(item: RetentionPolicy): XmlSerializedObject {
-  return {
-    Enabled: item["enabled"],
-    Days: item["days"],
-    AllowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { Enabled: item["enabled"], Days: item["days"] };
 }
 
 export function retentionPolicyXmlObjectDeserializer(
@@ -401,12 +379,6 @@ export function retentionPolicyXmlObjectDeserializer(
       xmlOptions: { name: "Days" },
       type: "primitive",
       primitiveSubtype: "number",
-    },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
     },
   ];
   return deserializeXmlObject<RetentionPolicy>(xmlObject, properties);
@@ -1280,10 +1252,10 @@ export function containerPropertiesDeserializer(item: any): ContainerProperties 
     hasImmutabilityPolicy: item["hasImmutabilityPolicy"],
     hasLegalHold: item["hasLegalHold"],
     defaultEncryptionScope: item["defaultEncryptionScope"],
-    preventEncryptionScopeOverride: item["PreventEncryptionScopeOverride"],
+    preventEncryptionScopeOverride: item["preventEncryptionScopeOverride"],
     deletedOn: !item["deletedOn"] ? item["deletedOn"] : new Date(item["deletedOn"]),
     remainingRetentionDays: item["remainingRetentionDays"],
-    isImmutableStorageWithVersioningEnabled: item["IsImmutableStorageWithVersioningEnabled"],
+    isImmutableStorageWithVersioningEnabled: item["isImmutableStorageWithVersioningEnabled"],
   };
 }
 
@@ -2523,6 +2495,8 @@ export interface BlobProperties {
   accessTierInferred?: boolean;
   /** The archive status of the blob. */
   archiveStatus?: ArchiveStatus;
+  /** The smart access tier of the blob. */
+  smartAccessTier?: AccessTier;
   /** Customer provided key sha256 */
   customerProvidedKeySha256?: string;
   /** The encryption scope of the blob. */
@@ -2584,21 +2558,22 @@ export function blobPropertiesDeserializer(item: any): BlobProperties {
     accessTier: item["accessTier"],
     accessTierInferred: item["accessTierInferred"],
     archiveStatus: item["archiveStatus"],
+    smartAccessTier: item["smartAccessTier"],
     customerProvidedKeySha256: item["customerProvidedKeySha256"],
     encryptionScope: item["encryptionScope"],
     accessTierChangedOn: !item["accessTierChangedOn"]
       ? item["accessTierChangedOn"]
       : new Date(item["accessTierChangedOn"]),
     tagCount: item["tagCount"],
-    expiresOn: !item["ExpiresOn"] ? item["ExpiresOn"] : new Date(item["ExpiresOn"]),
-    isSealed: item["IsSealed"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    isSealed: item["isSealed"],
     rehydratePriority: item["rehydratePriority"],
-    lastAccessedOn: !item["LastAccessedOn"]
-      ? item["LastAccessedOn"]
-      : new Date(item["LastAccessedOn"]),
-    immutabilityPolicyExpiresOn: !item["ImmutabilityPolicyExpiresOn"]
-      ? item["ImmutabilityPolicyExpiresOn"]
-      : new Date(item["ImmutabilityPolicyExpiresOn"]),
+    lastAccessedOn: !item["lastAccessedOn"]
+      ? item["lastAccessedOn"]
+      : new Date(item["lastAccessedOn"]),
+    immutabilityPolicyExpiresOn: !item["immutabilityPolicyExpiresOn"]
+      ? item["immutabilityPolicyExpiresOn"]
+      : new Date(item["immutabilityPolicyExpiresOn"]),
     immutabilityPolicyMode: item["immutabilityPolicyMode"],
     legalHold: item["legalHold"],
   };
@@ -2777,6 +2752,12 @@ export function blobPropertiesXmlDeserializer(xmlString: string): BlobProperties
     {
       propertyName: "archiveStatus",
       xmlOptions: { name: "ArchiveStatus" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "smartAccessTier",
+      xmlOptions: { name: "SmartAccessTier" },
       type: "primitive",
       primitiveSubtype: "string",
     },
@@ -3029,6 +3010,12 @@ export function blobPropertiesXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
+      propertyName: "smartAccessTier",
+      xmlOptions: { name: "SmartAccessTier" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
       propertyName: "customerProvidedKeySha256",
       xmlOptions: { name: "CustomerProvidedKeySha256" },
       type: "primitive",
@@ -3119,12 +3106,14 @@ export type AccessTier =
   | "Cool"
   | "Archive"
   | "Premium"
-  | "Cold";
+  | "Cold"
+  | "Smart";
 /** The archive status. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
-  | "rehydrate-pending-to-cold";
+  | "rehydrate-pending-to-cold"
+  | "rehydrate-pending-to-smart";
 /** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are High and Standard. */
 export type RehydratePriority = "High" | "Standard";
 /** The immutability policy mode used in requests and responses. */
@@ -4123,4 +4112,6 @@ export enum KnownVersions {
   V20260206 = "2026-02-06",
   /** The 2026-04-06 version of the Azure.Storage.Blob service. */
   V20260406 = "2026-04-06",
+  /** The 2026-06-06 version of the Azure.Storage.Blob service. */
+  V20260606 = "2026-06-06",
 }

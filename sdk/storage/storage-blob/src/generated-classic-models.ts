@@ -2915,12 +2915,14 @@ export type AccessTier =
   | "Cool"
   | "Archive"
   | "Premium"
-  | "Cold";
+  | "Cold"
+  | "Smart";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
-  | "rehydrate-pending-to-cold";
+  | "rehydrate-pending-to-cold"
+  | "rehydrate-pending-to-smart";
 /** Defines values for RehydratePriority. */
 export type RehydratePriority = "High" | "Standard";
 /** Defines values for BlobImmutabilityPolicyMode. */

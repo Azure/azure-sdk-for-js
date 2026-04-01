@@ -20,7 +20,8 @@ import {
   AccountKind,
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { BlobDownloadResponse } from "../../models/models.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -81,7 +82,7 @@ export function _setTagsSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -232,7 +233,7 @@ export function _getTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -373,7 +374,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -513,7 +514,7 @@ export function _setTierSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -635,7 +636,7 @@ export function _abortCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -755,7 +756,7 @@ export function _copyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -998,7 +999,7 @@ export function _startCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1202,7 +1203,7 @@ export function _createSnapshotSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1380,7 +1381,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1539,7 +1540,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1698,7 +1699,7 @@ export function _renewLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1855,7 +1856,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2005,7 +2006,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2164,7 +2165,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2354,7 +2355,7 @@ export function _setLegalHoldSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2483,7 +2484,7 @@ export function _deleteImmutabilityPolicySend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2601,7 +2602,7 @@ export function _setImmutabilityPolicySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2753,7 +2754,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2927,7 +2928,7 @@ export function _setExpirySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3062,7 +3063,7 @@ export function _undeleteSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3178,7 +3179,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3330,7 +3331,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3421,6 +3422,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
   accessTierChangeTime?: Date;
+  smartAccessTier?: string;
   versionId: string;
   isCurrentVersion?: boolean;
   tagCount?: number;
@@ -3544,6 +3546,11 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
         : new Date(result.headers["x-ms-access-tier-change-time"]),
+    smartAccessTier:
+      result.headers["x-ms-smart-access-tier"] === undefined ||
+      result.headers["x-ms-smart-access-tier"] === null
+        ? result.headers["x-ms-smart-access-tier"]
+        : result.headers["x-ms-smart-access-tier"],
     versionId: result.headers["x-ms-version-id"],
     isCurrentVersion:
       result.headers["x-ms-is-current-version"] === undefined ||
@@ -3657,6 +3664,7 @@ export async function getProperties(
     accessTierInferred?: boolean;
     archiveStatus?: ArchiveStatus;
     accessTierChangeTime?: Date;
+    smartAccessTier?: string;
     versionId: string;
     isCurrentVersion?: boolean;
     tagCount?: number;
@@ -3708,6 +3716,7 @@ export async function getProperties(
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
       accessTierChangeTime?: Date;
+      smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
       tagCount?: number;
@@ -3755,7 +3764,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-04-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3802,7 +3811,9 @@ export function _downloadSend(
     });
 }
 
-export async function _downloadDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+export async function _downloadDeserialize(
+  result: PathUncheckedResponse & BlobDownloadResponse,
+): Promise<BlobDownloadResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -3816,7 +3827,7 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
     throw error;
   }
 
-  return result.body;
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
@@ -4088,9 +4099,9 @@ export async function download(
     version: string;
     contentType: "application/octet-stream";
     contentCrc64?: Uint8Array;
-  } & Uint8Array &
+  } & BlobDownloadResponse &
     StorageCompatResponseInfo<
-      Uint8Array,
+      BlobDownloadResponse,
       {
         requestId?: string;
         clientRequestId?: string;
@@ -4145,7 +4156,7 @@ export async function download(
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _downloadDeserialize(result);
   const parsedHeaders = _downloadDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);

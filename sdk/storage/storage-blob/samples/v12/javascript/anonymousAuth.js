@@ -5,7 +5,7 @@
  * @summary authenticate anonymously using a SAS-encoded URL
  */
 
-const { BlobServiceClient, AnonymousCredential } = require("../../../dist/commonjs/index");
+const { BlobServiceClient, AnonymousCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
 require("dotenv").config();

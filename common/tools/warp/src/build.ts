@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as path from "node:path";
-import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
+import { findWarpConfig, validateTsconfigPaths, inferModuleType } from "./config.ts";
 import { compileAllTargets, parseTargetTsConfig } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import { formatDiagnostics } from "./diagnostics.ts";
@@ -12,6 +12,7 @@ import {
   getExportsDiff,
   verifyDistFiles,
 } from "./exports.ts";
+import { readPackageImports, resolveImportsInDir, buildConditionsSet } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -272,6 +273,71 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
       totalTimeMs: performance.now() - buildStart,
       compileResults: results,
     };
+  }
+
+  // Step 2b: Resolve #-prefixed imports in output.
+  // Automatic: when package.json has an "imports" field, all targets get
+  // their #-prefixed specifiers resolved to concrete relative paths.
+  const importsMap = await readPackageImports(packageRoot);
+
+  if (importsMap) {
+    let hasResolveErrors = false;
+
+    for (const pc of parsedConfigs) {
+      const conditions: ReadonlySet<string> = buildConditionsSet(
+        pc.parsedConfig.options.customConditions,
+        pc.target.moduleType ?? inferModuleType(pc.parsedConfig.options.module),
+      );
+      const { filesChanged, unresolvedSpecifiers, missingTargets } = await resolveImportsInDir(
+        pc.outDir,
+        importsMap,
+        conditions,
+        pc.rootDir,
+        packageRoot,
+      );
+      if (filesChanged > 0) {
+        log.info(`[warp] [${pc.target.name}] resolveImports: ${filesChanged} file(s) updated`);
+      }
+
+      // Report unresolved specifiers
+      if (unresolvedSpecifiers.length > 0) {
+        hasResolveErrors = true;
+        const unique = [...new Set(unresolvedSpecifiers.map((u) => u.specifier))];
+        log.error(
+          `[warp] [${pc.target.name}] resolveImports: ${unresolvedSpecifiers.length} unresolved specifier(s):`,
+        );
+        for (const u of unresolvedSpecifiers) {
+          log.error(`  ${path.relative(packageRoot, u.file)}: ${u.specifier}`);
+        }
+        log.error(
+          `  Unresolved: ${unique.join(", ")}. Ensure these match entries in package.json "imports".`,
+        );
+      }
+
+      // Report missing resolved targets
+      if (missingTargets.length > 0) {
+        hasResolveErrors = true;
+        log.error(
+          `[warp] [${pc.target.name}] resolveImports: ${missingTargets.length} resolved target(s) missing on disk:`,
+        );
+        for (const m of missingTargets) {
+          log.error(
+            `  ${path.relative(packageRoot, m.file)}: ${m.specifier} → ${path.relative(packageRoot, m.resolvedPath)}`,
+          );
+        }
+      }
+    }
+
+    if (hasResolveErrors) {
+      log.error("\n[warp] Build failed: resolveImports found unresolved or missing targets.");
+      log.flush();
+      return {
+        success: false,
+        config,
+        totalTimeMs: performance.now() - buildStart,
+        compileResults: results,
+      };
+    }
   }
 
   // Step 3: Post-compile (exports, size report)
