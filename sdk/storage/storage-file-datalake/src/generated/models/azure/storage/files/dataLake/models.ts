@@ -1091,6 +1091,6 @@ export type LeaseAction = "acquire" | "auto-renew" | "release" | "acquire-releas
 
 /** The Azure Data Lake Storage service versions. */
 export enum KnownVersions {
-  /** The 2026-02-06 version of the Azure Data Lake Storage service. */
-  V20260206 = "2026-02-06",
+  /** The 2026-06-06 version of the Azure Data Lake Storage service. */
+  V20260606 = "2026-06-06",
 }

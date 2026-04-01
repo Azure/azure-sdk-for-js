@@ -45,7 +45,7 @@ export function _listFileSystemsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-02-06",
+        "x-ms-version": context.version ?? "2026-06-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
