@@ -12,18 +12,18 @@ import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createManagement(credential: TokenCredential, options?: ManagementClientOptionalParams): ManagementContext;
-
-// @public
-export function createOrUpdateServiceGroup(context: ManagementContext, serviceGroupName: string, createServiceGroupRequest: ServiceGroup, options?: CreateOrUpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
+export function createOrUpdateServiceGroup(context: ServiceGroupsManagementContext, serviceGroupName: string, createServiceGroupRequest: ServiceGroup, options?: CreateOrUpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
 
 // @public
 export interface CreateOrUpdateServiceGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
+// @public (undocumented)
+export function createServiceGroupsManagement(credential: TokenCredential, options?: ServiceGroupsManagementClientOptionalParams): ServiceGroupsManagementContext;
+
 // @public
-export function deleteServiceGroup(context: ManagementContext, serviceGroupName: string, options?: DeleteServiceGroupOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteServiceGroup(context: ServiceGroupsManagementContext, serviceGroupName: string, options?: DeleteServiceGroupOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeleteServiceGroupOptionalParams extends OperationOptions {
@@ -31,18 +31,18 @@ export interface DeleteServiceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagementClientOptionalParams extends ClientOptions {
+export interface ServiceGroupsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
-// @public
-export interface ManagementContext extends Client {
+// @public (undocumented)
+export interface ServiceGroupsManagementContext extends Client {
     apiVersion?: string;
 }
 
 // @public
-export function updateServiceGroup(context: ManagementContext, serviceGroupName: string, updateServiceGroupRequest: ServiceGroup, options?: UpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
+export function updateServiceGroup(context: ServiceGroupsManagementContext, serviceGroupName: string, updateServiceGroupRequest: ServiceGroup, options?: UpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
 
 // @public
 export interface UpdateServiceGroupOptionalParams extends OperationOptions {

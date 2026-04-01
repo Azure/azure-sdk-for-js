@@ -9,15 +9,14 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** The Groups RP provides Service Groups as a construct to group multiple resources, resource groups, subscriptions and other service groups into an organizational hierarchy and centrally manage access control, policies, alerting and reporting for those resources */
-export interface ManagementContext extends Client {
+export interface ServiceGroupsManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Optional parameters for the client. */
-export interface ManagementClientOptionalParams extends ClientOptions {
+export interface ServiceGroupsManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -25,11 +24,10 @@ export interface ManagementClientOptionalParams extends ClientOptions {
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** The Groups RP provides Service Groups as a construct to group multiple resources, resource groups, subscriptions and other service groups into an organizational hierarchy and centrally manage access control, policies, alerting and reporting for those resources */
-export function createManagement(
+export function createServiceGroupsManagement(
   credential: TokenCredential,
-  options: ManagementClientOptionalParams = {},
-): ManagementContext {
+  options: ServiceGroupsManagementClientOptionalParams = {},
+): ServiceGroupsManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -45,5 +43,5 @@ export function createManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion } as ManagementContext;
+  return { ...clientContext, apiVersion } as ServiceGroupsManagementContext;
 }

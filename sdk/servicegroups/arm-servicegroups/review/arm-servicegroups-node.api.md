@@ -78,22 +78,6 @@ export enum KnownVersions {
     V20240201Preview = "2024-02-01-preview"
 }
 
-// @public (undocumented)
-export class ManagementClient {
-    constructor(credential: TokenCredential, options?: ManagementClientOptionalParams);
-    createOrUpdateServiceGroup(serviceGroupName: string, createServiceGroupRequest: ServiceGroup, options?: CreateOrUpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
-    deleteServiceGroup(serviceGroupName: string, options?: DeleteServiceGroupOptionalParams): PollerLike<OperationState<void>, void>;
-    readonly pipeline: Pipeline;
-    readonly serviceGroups: ServiceGroupsOperations;
-    updateServiceGroup(serviceGroupName: string, updateServiceGroupRequest: ServiceGroup, options?: UpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
-}
-
-// @public
-export interface ManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export interface ParentServiceGroupProperties {
     resourceId?: string;
@@ -115,7 +99,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceGroupsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -150,6 +134,22 @@ export interface ServiceGroupsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ServiceGroupsListAncestorsOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export class ServiceGroupsManagementClient {
+    constructor(credential: TokenCredential, options?: ServiceGroupsManagementClientOptionalParams);
+    createOrUpdateServiceGroup(serviceGroupName: string, createServiceGroupRequest: ServiceGroup, options?: CreateOrUpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
+    deleteServiceGroup(serviceGroupName: string, options?: DeleteServiceGroupOptionalParams): PollerLike<OperationState<void>, void>;
+    readonly pipeline: Pipeline;
+    readonly serviceGroups: ServiceGroupsOperations;
+    updateServiceGroup(serviceGroupName: string, updateServiceGroupRequest: ServiceGroup, options?: UpdateServiceGroupOptionalParams): PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
+}
+
+// @public
+export interface ServiceGroupsManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

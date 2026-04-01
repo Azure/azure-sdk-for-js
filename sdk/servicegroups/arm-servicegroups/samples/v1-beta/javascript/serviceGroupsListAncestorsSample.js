@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ManagementClient } = require("@azure/arm-servicegroups");
+const { ServiceGroupsManagementClient } = require("@azure/arm-servicegroups");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function listServiceGroupAncestors() {
   const credential = new DefaultAzureCredential();
-  const client = new ManagementClient(credential);
+  const client = new ServiceGroupsManagementClient(credential);
   const result = await client.serviceGroups.listAncestors("20000000-0001-0000-0000-000000000000");
   console.log(result);
 }

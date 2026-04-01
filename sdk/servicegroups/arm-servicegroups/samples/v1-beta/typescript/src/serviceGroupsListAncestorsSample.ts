@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementClient } from "@azure/arm-servicegroups";
+import { ServiceGroupsManagementClient } from "@azure/arm-servicegroups";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function listServiceGroupAncestors(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new ManagementClient(credential);
+  const client = new ServiceGroupsManagementClient(credential);
   const result = await client.serviceGroups.listAncestors("20000000-0001-0000-0000-000000000000");
   console.log(result);
 }

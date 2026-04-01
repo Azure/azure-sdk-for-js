@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementClient } from "@azure/arm-servicegroups";
+import { ServiceGroupsManagementClient } from "@azure/arm-servicegroups";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function putServiceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new ManagementClient(credential);
+  const client = new ServiceGroupsManagementClient(credential);
   const result = await client.createOrUpdateServiceGroup("ServiceGroup1", {
     properties: {
       displayName: "ServiceGroup 1 Name",

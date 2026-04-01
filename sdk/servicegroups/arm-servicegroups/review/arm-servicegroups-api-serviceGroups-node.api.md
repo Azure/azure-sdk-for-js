@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ManagementContext, serviceGroupName: string, options?: ServiceGroupsGetOptionalParams): Promise<ServiceGroup>;
+export function get(context: ServiceGroupsManagementContext, serviceGroupName: string, options?: ServiceGroupsGetOptionalParams): Promise<ServiceGroup>;
 
 // @public
-export function listAncestors(context: ManagementContext, serviceGroupName: string, options?: ServiceGroupsListAncestorsOptionalParams): Promise<ServiceGroupCollectionResponse>;
+export function listAncestors(context: ServiceGroupsManagementContext, serviceGroupName: string, options?: ServiceGroupsListAncestorsOptionalParams): Promise<ServiceGroupCollectionResponse>;
 
 // @public
 export interface ServiceGroupsGetOptionalParams extends OperationOptions {

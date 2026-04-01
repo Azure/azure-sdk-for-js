@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { ManagementContext, ManagementClientOptionalParams } from "./managementContext.js";
-export { createManagement } from "./managementContext.js";
 export {
   deleteServiceGroup,
   updateServiceGroup,
@@ -13,3 +11,8 @@ export type {
   UpdateServiceGroupOptionalParams,
   CreateOrUpdateServiceGroupOptionalParams,
 } from "./options.js";
+export type {
+  ServiceGroupsManagementContext,
+  ServiceGroupsManagementClientOptionalParams,
+} from "./serviceGroupsManagementContext.js";
+export { createServiceGroupsManagement } from "./serviceGroupsManagementContext.js";

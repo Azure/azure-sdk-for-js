@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementContext } from "../../api/managementContext.js";
+import type { ServiceGroupsManagementContext } from "../../api/serviceGroupsManagementContext.js";
 import { listAncestors, get } from "../../api/serviceGroups/operations.js";
 import type {
   ServiceGroupsListAncestorsOptionalParams,
@@ -23,7 +23,7 @@ export interface ServiceGroupsOperations {
   ) => Promise<ServiceGroup>;
 }
 
-function _getServiceGroups(context: ManagementContext) {
+function _getServiceGroups(context: ServiceGroupsManagementContext) {
   return {
     listAncestors: (serviceGroupName: string, options?: ServiceGroupsListAncestorsOptionalParams) =>
       listAncestors(context, serviceGroupName, options),
@@ -32,7 +32,9 @@ function _getServiceGroups(context: ManagementContext) {
   };
 }
 
-export function _getServiceGroupsOperations(context: ManagementContext): ServiceGroupsOperations {
+export function _getServiceGroupsOperations(
+  context: ServiceGroupsManagementContext,
+): ServiceGroupsOperations {
   return {
     ..._getServiceGroups(context),
   };

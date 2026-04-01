@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementContext, ManagementClientOptionalParams } from "./api/index.js";
-import { createManagement } from "./api/index.js";
+import type {
+  ServiceGroupsManagementContext,
+  ServiceGroupsManagementClientOptionalParams,
+} from "./api/index.js";
+import { createServiceGroupsManagement } from "./api/index.js";
 import {
   deleteServiceGroup,
   updateServiceGroup,
@@ -20,20 +23,22 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { ManagementClientOptionalParams } from "./api/managementContext.js";
+export type { ServiceGroupsManagementClientOptionalParams } from "./api/serviceGroupsManagementContext.js";
 
-export class ManagementClient {
-  private _client: ManagementContext;
+export class ServiceGroupsManagementClient {
+  private _client: ServiceGroupsManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** The Groups RP provides Service Groups as a construct to group multiple resources, resource groups, subscriptions and other service groups into an organizational hierarchy and centrally manage access control, policies, alerting and reporting for those resources */
-  constructor(credential: TokenCredential, options: ManagementClientOptionalParams = {}) {
+  constructor(
+    credential: TokenCredential,
+    options: ServiceGroupsManagementClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createManagement(credential, {
+    this._client = createServiceGroupsManagement(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

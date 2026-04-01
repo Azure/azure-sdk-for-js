@@ -114,7 +114,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/managementContext.ts",
+        "path": "src/api/serviceGroupsManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

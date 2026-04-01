@@ -4,7 +4,7 @@
 import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
 
-export { ManagementClient } from "./managementClient.js";
+export { ServiceGroupsManagementClient } from "./serviceGroupsManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -23,10 +23,10 @@ export type {
 } from "./models/index.js";
 export { KnownProvisioningState, KnownCreatedByType, KnownVersions } from "./models/index.js";
 export type {
-  ManagementClientOptionalParams,
   DeleteServiceGroupOptionalParams,
   UpdateServiceGroupOptionalParams,
   CreateOrUpdateServiceGroupOptionalParams,
+  ServiceGroupsManagementClientOptionalParams,
 } from "./api/index.js";
 export type {
   ServiceGroupsListAncestorsOptionalParams,

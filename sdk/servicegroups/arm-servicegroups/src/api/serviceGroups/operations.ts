@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementContext as Client } from "../index.js";
+import type { ServiceGroupsManagementContext as Client } from "../index.js";
 import type { ServiceGroup, ServiceGroupCollectionResponse } from "../../models/models.js";
 import {
   serviceGroupDeserializer,
