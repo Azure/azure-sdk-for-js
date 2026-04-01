@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { SearchManagementRequestOptions } from "../../models/models.js";
 
 /** Optional parameters. */
 export interface ServicesUpgradeOptionalParams extends OperationOptions {
@@ -11,44 +12,44 @@ export interface ServicesUpgradeOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesDeleteOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesUpdateOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesGetOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
 export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }

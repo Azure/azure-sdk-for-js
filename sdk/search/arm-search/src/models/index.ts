@@ -87,6 +87,7 @@ export type {
   ShareablePrivateLinkResourceType,
   ShareablePrivateLinkResourceProperties,
   AdminKeyKind,
+  SearchManagementRequestOptions,
 } from "./models.js";
 export {
   KnownSkuName,

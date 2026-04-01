@@ -9,12 +9,12 @@ import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export interface AdminKeysGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public

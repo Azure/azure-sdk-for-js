@@ -12,7 +12,7 @@ export function listSupported(context: SearchManagementContext, resourceGroupNam
 
 // @public
 export interface PrivateLinkResourcesListSupportedOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // (No @packageDocumentation comment for this package)

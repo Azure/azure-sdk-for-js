@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import type { SearchManagementContext as Client } from "../index.js";
@@ -105,8 +105,8 @@ export function _listBySubscriptionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -165,8 +165,8 @@ export function _listByResourceGroupSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -228,8 +228,8 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -290,8 +290,8 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -347,8 +347,8 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -410,8 +410,8 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -461,8 +461,8 @@ export function _checkNameAvailabilitySend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,

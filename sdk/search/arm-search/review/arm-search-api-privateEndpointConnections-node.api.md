@@ -18,22 +18,22 @@ export function listByService(context: SearchManagementContext, resourceGroupNam
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsListByServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public

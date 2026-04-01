@@ -29,38 +29,38 @@ export function listBySubscription(context: SearchManagementContext, options?: S
 
 // @public
 export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface ServicesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public

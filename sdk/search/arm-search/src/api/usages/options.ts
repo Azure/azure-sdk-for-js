@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { SearchManagementRequestOptions } from "../../models/models.js";
 
 /** Optional parameters. */
 export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
+  /** Parameter group */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
 }

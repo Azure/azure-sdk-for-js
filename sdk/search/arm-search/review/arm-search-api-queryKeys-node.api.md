@@ -18,17 +18,17 @@ export function listBySearchService(context: SearchManagementContext, resourceGr
 
 // @public
 export interface QueryKeysCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysListBySearchServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // (No @packageDocumentation comment for this package)

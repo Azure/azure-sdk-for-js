@@ -27,7 +27,7 @@ import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ContainerServiceFleetClientOptionalParams } from "./api/containerServiceFleetContext.js";
+export type { ContainerServiceFleetClientOptionalParams } from "./api/containerServiceFleetContext.js";
 
 export class ContainerServiceFleetClient {
   private _client: ContainerServiceFleetContext;

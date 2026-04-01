@@ -29,7 +29,7 @@ export function usageBySubscriptionSku(context: SearchManagementContext, locatio
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // (No @packageDocumentation comment for this package)

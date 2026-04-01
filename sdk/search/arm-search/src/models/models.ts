@@ -2477,3 +2477,9 @@ export function _searchServiceUpdatePropertiesDeserializer(item: any) {
       : new Date(item["serviceUpgradedAt"]),
   };
 }
+
+/** Parameter group */
+export interface SearchManagementRequestOptions {
+  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
+  clientRequestId?: string;
+}

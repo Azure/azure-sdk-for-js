@@ -99,6 +99,7 @@ export type {
   ShareablePrivateLinkResourceType,
   ShareablePrivateLinkResourceProperties,
   AdminKeyKind,
+  SearchManagementRequestOptions,
 } from "./models/index.js";
 export {
   KnownSkuName,

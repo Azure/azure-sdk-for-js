@@ -514,6 +514,11 @@ export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 
 // @public
+export interface SearchManagementRequestOptions {
+    clientRequestId?: string;
+}
+
+// @public
 export interface SearchResourceEncryptionKey {
     accessCredentials?: AzureActiveDirectoryApplicationCredentials;
     identity?: DataIdentityUnion;

@@ -12,7 +12,7 @@ export function listBySubscription(context: SearchManagementContext, location: s
 
 // @public
 export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -58,7 +58,7 @@ export interface AdminKeyResult {
 
 // @public
 export interface AdminKeysGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -69,7 +69,7 @@ export interface AdminKeysOperations {
 
 // @public
 export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -514,17 +514,17 @@ export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnection
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsListByServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -537,7 +537,7 @@ export interface PrivateEndpointConnectionsOperations {
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -555,7 +555,7 @@ export interface PrivateLinkResourceProperties {
 
 // @public
 export interface PrivateLinkResourcesListSupportedOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -603,17 +603,17 @@ export interface QueryKey {
 
 // @public
 export interface QueryKeysCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysListBySearchServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -700,6 +700,11 @@ export class SearchManagementClient {
 export interface SearchManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface SearchManagementRequestOptions {
+    clientRequestId?: string;
 }
 
 // @public
@@ -800,33 +805,33 @@ export interface SearchServiceUpdate extends Resource {
 
 // @public
 export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface ServicesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -851,7 +856,7 @@ export interface ServicesOperations {
 
 // @public
 export interface ServicesUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -907,12 +912,12 @@ export interface SharedPrivateLinkResourcesDeleteOptionalParams extends Operatio
 
 // @public
 export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
@@ -1005,12 +1010,12 @@ export type UpgradeAvailable = string;
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public

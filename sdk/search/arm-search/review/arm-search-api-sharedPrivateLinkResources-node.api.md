@@ -35,12 +35,12 @@ export interface SharedPrivateLinkResourcesDeleteOptionalParams extends Operatio
 
 // @public
 export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import type { SearchManagementContext as Client } from "../index.js";
@@ -30,8 +30,8 @@ export function _listBySubscriptionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.searchManagementRequestOptions?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.searchManagementRequestOptions?.clientRequestId }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
