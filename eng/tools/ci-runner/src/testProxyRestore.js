@@ -38,7 +38,9 @@ export function runTestProxyRestore(packages) {
         });
         completedPackages.push(pkg.name);
       } catch (error) {
-        console.error(`Error executing test-proxy restore: ${error.message}`);
+        console.error(
+          `Error executing test-proxy restore: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     }
   }

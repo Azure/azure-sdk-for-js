@@ -156,11 +156,7 @@ describe("runAllWithDirection two-pass resolution", () => {
   });
 
   it("at scale: 400 exclusions produce a short final command", () => {
-    const filters = [
-      "...@azure/app-configuration",
-      "@azure/identity",
-      "@azure/template",
-    ];
+    const filters = ["...@azure/app-configuration", "@azure/identity", "@azure/template"];
 
     for (let i = 0; i < 400; i++) {
       filters.push(`!@azure/other-batch-pkg-${i}`);
