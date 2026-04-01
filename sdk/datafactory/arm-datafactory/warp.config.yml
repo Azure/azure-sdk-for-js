@@ -1,15 +1,48 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/changeDataCapture": "src/api/changeDataCapture/index.ts"
+  "./api/globalParameters": "src/api/globalParameters/index.ts"
+  "./api/privateEndPointConnections": "src/api/privateEndPointConnections/index.ts"
+  "./api/privateEndpointConnection": "src/api/privateEndpointConnection/index.ts"
+  "./api/credentialOperations": "src/api/credentialOperations/index.ts"
+  "./api/managedPrivateEndpoints": "src/api/managedPrivateEndpoints/index.ts"
+  "./api/managedVirtualNetworks": "src/api/managedVirtualNetworks/index.ts"
+  "./api/dataFlows": "src/api/dataFlows/index.ts"
+  "./api/pipelines": "src/api/pipelines/index.ts"
+  "./api/datasets": "src/api/datasets/index.ts"
+  "./api/linkedServices": "src/api/linkedServices/index.ts"
+  "./api/integrationRuntime": "src/api/integrationRuntime/index.ts"
+  "./api/integrationRuntimeNodes": "src/api/integrationRuntimeNodes/index.ts"
+  "./api/integrationRuntimeObjectMetadata": "src/api/integrationRuntimeObjectMetadata/index.ts"
+  "./api/integrationRuntimes": "src/api/integrationRuntimes/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/dataFlowDebugSession": "src/api/dataFlowDebugSession/index.ts"
+  "./api/triggerRuns": "src/api/triggerRuns/index.ts"
+  "./api/triggers": "src/api/triggers/index.ts"
+  "./api/activityRuns": "src/api/activityRuns/index.ts"
+  "./api/pipelineRuns": "src/api/pipelineRuns/index.ts"
+  "./api/exposureControl": "src/api/exposureControl/index.ts"
+  "./api/factories": "src/api/factories/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
