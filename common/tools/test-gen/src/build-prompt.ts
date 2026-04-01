@@ -200,9 +200,7 @@ export function buildBatchDeltaPrompt(
   "analysis": [
     {
       "test_name": "test_name_here",
-      "covered_marker_lines": [${gaps[0]?.start.line ?? 0}],
-      "branch_summary": "what this test covers",
-      "trigger_strategy": "how the test triggers the covered branches"
+      "covered_marker_lines": [${gaps[0]?.start.line ?? 0}]
     }
   ],
   "skipped_markers": [
@@ -452,9 +450,7 @@ export function buildCoderPrompt(
   "analysis": [
     {
       "test_name": "test_name_here",
-      "covered_marker_lines": [0],
-      "branch_summary": "what this test covers",
-      "trigger_strategy": "how the test triggers the covered branches"
+      "covered_marker_lines": [0]
     }
   ],
   "skipped_markers": [

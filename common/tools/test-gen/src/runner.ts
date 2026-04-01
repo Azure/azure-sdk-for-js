@@ -10,7 +10,7 @@
 import { exec, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { resolve, join, dirname, basename } from "node:path";
-import { writeFile, readFile, readdir, mkdir, appendFile as appendFileAsync, unlink } from "node:fs/promises";
+import { writeFile, readFile, readdir, mkdir } from "node:fs/promises";
 import { appendFileSync } from "node:fs";
 import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
@@ -1085,6 +1085,54 @@ async function readTestEntries(testDir: string, cfg: Config): Promise<string[]> 
   }
 }
 
+/** Compute E2E instructions from config, or undefined if not in E2E mode. */
+function computeE2eInstructions(cfg: Config): string | undefined {
+  const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
+  if (!isE2eMode || !cfg.runner.e2ePromptInstructions) return undefined;
+  return cfg.runner.e2ePromptInstructions;
+}
+
+/** Merge generated code into the output file then run the write-and-fix loop. */
+async function mergeAndFix(
+  packageDir: string,
+  outputPath: string,
+  generatedCode: string,
+  cfg: Config,
+  fileLog: (msg: string) => void,
+  llmStats: LlmCallStats[],
+  signal: AbortSignal | undefined,
+  sourceFile: string,
+  testEntryFile: string | undefined,
+  existingTests: string | undefined,
+  contextFiles: ContextFile[] | undefined,
+): Promise<{ fixPassed: boolean }> {
+  const mergedCode = await mergeGeneratedBatches(
+    packageDir,
+    outputPath,
+    [generatedCode],
+    cfg,
+    llmStats,
+    signal,
+    sourceFile,
+  );
+  fileLog("    🧪 Running fix loop for merged batch output");
+  await ensureAzureAuth(fileLog);
+  const fixPassed = await writeAndFix(
+    packageDir,
+    outputPath,
+    mergedCode,
+    cfg,
+    fileLog,
+    llmStats,
+    signal,
+    sourceFile,
+    testEntryFile,
+    existingTests,
+    contextFiles,
+  );
+  return { fixPassed };
+}
+
 /** Response schema for single-pass mode (includes analysis array). */
 const SinglePassResponse = z.object({
   path: z.string(),
@@ -1094,8 +1142,6 @@ const SinglePassResponse = z.object({
       z.object({
         test_name: z.string(),
         covered_marker_lines: z.array(z.number()),
-        branch_summary: z.string(),
-        trigger_strategy: z.string(),
       }),
     )
     .optional(),
@@ -1336,29 +1382,38 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     if (cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0) {
       // Scan configured context directories for the best matching test file
       const sourceBaseName = file.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
-      let bestMatch: { path: string; content: string; score: number } | undefined;
 
+      // Read all candidate test files in parallel across all context directories
+      const allCandidates: { dir: string; file: string; content: string | undefined }[] = [];
       for (const ctxDir of cfg.paths.testContextDirs) {
         const absCtxDir = resolve(packageDir, ctxDir);
         try {
           const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
             .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
             .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)));
-          for (const ctxFile of ctxFiles) {
-            const ctxBaseName = ctxFile.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
-            // Score by how many source-name segments appear in the test filename
-            const srcParts = sourceBaseName.replace(/^_+/, "").split("_");
-            const matchCount = srcParts.filter((p) => ctxBaseName.toLowerCase().includes(p.toLowerCase())).length;
-            const score = matchCount / srcParts.length;
-            if (score > (bestMatch?.score ?? 0)) {
-              const content = await tryReadFile(resolve(absCtxDir, ctxFile));
-              if (content) {
-                bestMatch = { path: join(ctxDir, ctxFile), content, score };
-              }
-            }
-          }
+          const fileContents = await Promise.all(
+            ctxFiles.map(async (f) => ({
+              dir: ctxDir,
+              file: f,
+              content: await tryReadFile(resolve(absCtxDir, f)),
+            })),
+          );
+          allCandidates.push(...fileContents);
         } catch {
           // Directory doesn't exist or can't be read — skip
+        }
+      }
+
+      // Find best name-match by scoring
+      let bestMatch: { path: string; content: string; score: number } | undefined;
+      for (const candidate of allCandidates) {
+        if (!candidate.content) continue;
+        const ctxBaseName = candidate.file.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
+        const srcParts = sourceBaseName.replace(/^_+/, "").split("_");
+        const matchCount = srcParts.filter((p) => ctxBaseName.toLowerCase().includes(p.toLowerCase())).length;
+        const score = matchCount / srcParts.length;
+        if (score > (bestMatch?.score ?? 0)) {
+          bestMatch = { path: join(candidate.dir, candidate.file), content: candidate.content, score };
         }
       }
 
@@ -1374,20 +1429,12 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       } else {
         // No name match — pick the largest e2e test file as a style example
         let fallback: { path: string; content: string } | undefined;
-        for (const ctxDir of cfg.paths.testContextDirs) {
-          const absCtxDir = resolve(packageDir, ctxDir);
-          try {
-            const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
-              .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
-              .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)))
-              .filter((e) => !e.includes("__init__"));
-            for (const ctxFile of ctxFiles) {
-              const content = await tryReadFile(resolve(absCtxDir, ctxFile));
-              if (content && (!fallback || content.length > fallback.content.length)) {
-                fallback = { path: join(ctxDir, ctxFile), content };
-              }
-            }
-          } catch { /* skip */ }
+        for (const candidate of allCandidates) {
+          if (!candidate.content) continue;
+          if (candidate.file.includes("__init__")) continue;
+          if (!fallback || candidate.content.length > fallback.content.length) {
+            fallback = { path: join(candidate.dir, candidate.file), content: candidate.content };
+          }
         }
         if (fallback) {
           const maxLines = 400;
@@ -1569,9 +1616,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         fileLog(`    🤖 Phase 2: Generating tests from plan...`);
 
         const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
-        const e2eInstructions = isE2eMode && cfg.runner.e2ePromptInstructions
-          ? cfg.runner.e2ePromptInstructions
-          : undefined;
+        const e2eInstructions = computeE2eInstructions(cfg);
 
         const coderPromptData = buildCoderPrompt(
           plan,
@@ -1632,24 +1677,13 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
         if (!dryRun && outputPath) {
           try {
-            const mergedCode = await mergeGeneratedBatches(
-              packageDir,
-              outputPath,
-              [response.code],
-              cfg,
-              llmStats,
-              options.signal,
-              file,
-            );
             if (!generatedFiles.includes(outputPath)) {
               generatedFiles.push(outputPath);
             }
-            fileLog("    🧪 Running fix loop for merged batch output");
-            await ensureAzureAuth(fileLog);
-            const fixPassed = await writeAndFix(
+            await mergeAndFix(
               packageDir,
               outputPath,
-              mergedCode,
+              response.code,
               cfg,
               fileLog,
               llmStats,
@@ -1681,9 +1715,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       await compactSessionIfNeeded(generationSessionKey);
 
       const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
-      const e2eInstructions = isE2eMode && cfg.runner.e2ePromptInstructions
-        ? cfg.runner.e2ePromptInstructions
-        : undefined;
+      const e2eInstructions = computeE2eInstructions(cfg);
 
       const batchDelta = buildBatchDeltaPrompt(
         batch,
@@ -1759,24 +1791,13 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
         if (!dryRun && outputPath) {
           try {
-            const mergedCode = await mergeGeneratedBatches(
-              packageDir,
-              outputPath,
-              [response.code],
-              cfg,
-              llmStats,
-              options.signal,
-              file,
-            );
             if (!generatedFiles.includes(outputPath)) {
               generatedFiles.push(outputPath);
             }
-            fileLog("    🧪 Running fix loop for merged batch output");
-            await ensureAzureAuth(fileLog);
-            const fixPassed = await writeAndFix(
+            const { fixPassed } = await mergeAndFix(
               packageDir,
               outputPath,
-              mergedCode,
+              response.code,
               cfg,
               fileLog,
               llmStats,
@@ -1786,9 +1807,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               existingTests,
               contextFiles,
             );
-            if (fixPassed && outputPath) {
-              // tracked for summary
-            }
             return fixPassed;
           } catch (mergeError) {
             fileLog(`    ❌ Merge/fix failed: ${(mergeError as Error).message}`);
