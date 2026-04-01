@@ -100,8 +100,6 @@ const SYSTEM_MESSAGE =
 let llmConcurrency = defaults.llm.concurrency;
 let activeLlmCalls = 0;
 const llmWaiters: Array<() => void> = [];
-let activeResolveCalls = 0;
-const resolveWaiters: Array<() => void> = [];
 
 export type LlmPhase = "resolve" | "generate" | "merge" | "fix" | "isolation" | "seed";
 export type ReasoningEffort = "low" | "medium" | "high" | "xhigh";
@@ -191,35 +189,12 @@ function releaseLlmSlot(): void {
   if (next) next();
 }
 
-async function acquirePhaseSlot(phase: LlmPhase, signal?: AbortSignal): Promise<void> {
-  if (phase !== "resolve") return;
-  if (signal?.aborted) throw new Error("Aborted");
-  if (activeResolveCalls === 0) {
-    activeResolveCalls = 1;
-    return;
-  }
-
-  await new Promise<void>((resolve, reject) => {
-    const onAbort = () => {
-      const idx = resolveWaiters.indexOf(wake);
-      if (idx >= 0) resolveWaiters.splice(idx, 1);
-      reject(new Error("Aborted"));
-    };
-    const wake = () => {
-      signal?.removeEventListener("abort", onAbort);
-      activeResolveCalls = 1;
-      resolve();
-    };
-    signal?.addEventListener("abort", onAbort, { once: true });
-    resolveWaiters.push(wake);
-  });
+async function acquirePhaseSlot(_phase: LlmPhase, _signal?: AbortSignal): Promise<void> {
+  // No-op: resolve calls now use the normal LLM concurrency semaphore
 }
 
-function releasePhaseSlot(phase: LlmPhase): void {
-  if (phase !== "resolve") return;
-  activeResolveCalls = 0;
-  const next = resolveWaiters.shift();
-  if (next) next();
+function releasePhaseSlot(_phase: LlmPhase): void {
+  // No-op: resolve calls now use the normal LLM concurrency semaphore
 }
 
 async function getClient(): Promise<CopilotClient> {

@@ -438,12 +438,14 @@ async function mergeBatchChunk(
   signal?: AbortSignal,
   /** Relative path to the source file under test — attached so the LLM can validate imports. */
   sourceFile?: string,
+  /** Pre-loaded source code content to avoid re-reading from disk. */
+  sourceCode?: string,
 ): Promise<string> {
   const { testFramework } = cfg.language;
   const mergeSchema = JSON.stringify(MergeResponse.toJSONSchema(), null, 2);
   const attachments: SendAttachment[] = [];
   const existingSection = existing
-    ? `Existing file is attached as \`${relPath}\` AND included inline below. Preserve all existing tests unchanged.\n\n<existing_test_file file="${relPath}">\n${existing}\n</existing_test_file>`
+    ? `Existing file is attached as \`${relPath}\`. Preserve all existing tests unchanged.`
     : "This file does not exist yet. Merge the generated batches below into a single new test file.";
   if (existing) {
     attachments.push({
@@ -461,17 +463,14 @@ async function mergeBatchChunk(
 
   // Attach source file so the LLM can validate imports and symbol names during merge
   let sourceSection = "";
-  if (sourceFile) {
-    const sourceCode = await tryReadFile(resolve(packageDir, sourceFile));
-    if (sourceCode) {
-      attachments.push({
-        type: "virtual-file",
-        path: resolve(packageDir, sourceFile),
-        displayName: sourceFile,
-        content: sourceCode,
-      });
-      sourceSection = `The source file under test is attached as \`${sourceFile}\`. Use it to verify that all imports and symbol names in the merged output are correct.`;
-    }
+  if (sourceFile && sourceCode) {
+    attachments.push({
+      type: "virtual-file",
+      path: resolve(packageDir, sourceFile),
+      displayName: sourceFile,
+      content: sourceCode,
+    });
+    sourceSection = `The source file under test is attached as \`${sourceFile}\`. Use it to verify that all imports and symbol names in the merged output are correct.`;
   }
 
   const generatedSection = generatedCodes
@@ -483,7 +482,7 @@ async function mergeBatchChunk(
         displayName,
         content: code,
       });
-      return `- Generated batch ${index + 1} is attached as \`${displayName}\` AND included inline below:\n\n<generated_batch index="${index + 1}">\n${code}\n</generated_batch>`;
+      return `- Generated batch ${index + 1} is attached as \`${displayName}\`.`;
     })
     .join("\n");
   const prompt = await renderPromptTemplate("merge-generated-batches.md", {
@@ -506,7 +505,7 @@ async function mergeBatchChunk(
   llmStats.push({ inputTokens, outputTokens, durationMs });
   const result = MergeResponse.parse(parseJsonResponse(content));
 
-  return code;
+  return result.code;
 }
 
 async function mergeBatchChunkWithRetry(
@@ -518,6 +517,7 @@ async function mergeBatchChunkWithRetry(
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
   sourceFile?: string,
+  sourceCode?: string,
 ): Promise<string> {
   try {
     return await mergeBatchChunk(
@@ -529,6 +529,7 @@ async function mergeBatchChunkWithRetry(
       llmStats,
       signal,
       sourceFile,
+      sourceCode,
     );
   } catch (error) {
     if (isLlmTimeoutError(error) && generatedCodes.length > 1) {
@@ -542,6 +543,7 @@ async function mergeBatchChunkWithRetry(
         llmStats,
         signal,
         sourceFile,
+        sourceCode,
       );
       return mergeBatchChunkWithRetry(
         packageDir,
@@ -552,6 +554,7 @@ async function mergeBatchChunkWithRetry(
         llmStats,
         signal,
         sourceFile,
+        sourceCode,
       );
     }
     throw error;
@@ -566,6 +569,7 @@ async function mergeGeneratedBatches(
   llmStats: LlmCallStats[],
   signal?: AbortSignal,
   sourceFile?: string,
+  sourceCode?: string,
 ): Promise<string> {
   const absPath = resolve(packageDir, relPath);
   const existing = await tryReadFile(absPath);
@@ -590,6 +594,7 @@ async function mergeGeneratedBatches(
       llmStats,
       signal,
       sourceFile,
+      sourceCode,
     );
     index += chunk.length;
   }
@@ -618,6 +623,8 @@ async function writeAndFix(
   existingTestsSnippet?: string,
   /** Resolved context files (dependencies) for the source under test. */
   contextFiles?: ContextFile[],
+  /** Pre-loaded source code content to avoid re-reading from disk. */
+  sourceCode?: string,
 ): Promise<boolean> {
   const absPath = resolve(packageDir, relPath);
   await mkdir(dirname(absPath), { recursive: true });
@@ -635,9 +642,6 @@ async function writeAndFix(
 
   const fixSchema = JSON.stringify(FixResponse.toJSONSchema(), null, 2);
 
-  // Read the source file under test so the LLM can reference actual types/signatures.
-  const sourceCode = sourceFile ? await tryReadFile(resolve(packageDir, sourceFile)) : undefined;
-
   const attachments: SendAttachment[] = [
     buildFocusedFileAttachment(absPath, code, [], relPath, 25),
     {
@@ -648,7 +652,7 @@ async function writeAndFix(
     },
   ];
   const sourceSection = sourceCode && sourceFile
-    ? `\n## Source Under Test\n\nAttached as \`${sourceFile}\` AND included inline below. Use it to verify constructor signatures, importable symbols, and method names.\n\n<source_code file="${sourceFile}">\n${sourceCode}\n</source_code>\n`
+    ? `\n## Source Under Test\n\nAttached as \`${sourceFile}\`. Use it to verify constructor signatures, importable symbols, and method names.\n`
     : "";
   const existingSuiteSection = existingTestsSnippet
     ? `\n## Existing Suite Example\n\nAttached as \`${existingTestFile ?? "existing suite example"}\`.\n`
@@ -758,7 +762,7 @@ async function writeAndFix(
           : "";
         const prompt = await renderPromptTemplate("fix-generated-test.md", {
           relPath,
-          testFileSection: `Attached as \`${relPath}\` AND included inline below.\n\n<current_test_file file="${relPath}">\n${ctx.currentCode}\n</current_test_file>`,
+          testFileSection: `Attached as \`${relPath}\`.`,
           sourceSection,
           existingSuiteSection,
           contextSection,
@@ -1105,6 +1109,7 @@ async function mergeAndFix(
   testEntryFile: string | undefined,
   existingTests: string | undefined,
   contextFiles: ContextFile[] | undefined,
+  sourceCode?: string,
 ): Promise<{ fixPassed: boolean }> {
   const mergedCode = await mergeGeneratedBatches(
     packageDir,
@@ -1114,6 +1119,7 @@ async function mergeAndFix(
     llmStats,
     signal,
     sourceFile,
+    sourceCode,
   );
   fileLog("    🧪 Running fix loop for merged batch output");
   await ensureAzureAuth(fileLog);
@@ -1129,6 +1135,7 @@ async function mergeAndFix(
     testEntryFile,
     existingTests,
     contextFiles,
+    sourceCode,
   );
   return { fixPassed };
 }
@@ -1154,6 +1161,35 @@ const SinglePassResponse = z.object({
     )
     .optional(),
 });
+
+/** Pre-scan testContextDirs once so every source file can reuse the results. */
+async function scanTestContextDirs(
+  packageDir: string,
+  cfg: Config,
+): Promise<{ dir: string; file: string; content: string | undefined }[]> {
+  const dirs = cfg.paths.testContextDirs;
+  if (!dirs || dirs.length === 0) return [];
+  const allCandidates: { dir: string; file: string; content: string | undefined }[] = [];
+  for (const ctxDir of dirs) {
+    const absCtxDir = resolve(packageDir, ctxDir);
+    try {
+      const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
+        .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
+        .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)));
+      const fileContents = await Promise.all(
+        ctxFiles.map(async (f) => ({
+          dir: ctxDir,
+          file: f,
+          content: await tryReadFile(resolve(absCtxDir, f)),
+        })),
+      );
+      allCandidates.push(...fileContents);
+    } catch {
+      // Directory doesn't exist or can't be read — skip
+    }
+  }
+  return allCandidates;
+}
 
 /**
  * Single-pass test generation: measure once → resolve context → batch generate → fix → verify.
@@ -1302,6 +1338,9 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   let totalBatches = 0;
   const parallel = cfg.loop.concurrency > 1;
 
+  // Pre-scan testContextDirs once for all source files
+  const cachedTestContextCandidates = await scanTestContextDirs(packageDir, cfg);
+
   const promptCtxBase = {
     language: cfg.language,
     testDir: cfg.paths.testDir,
@@ -1380,29 +1419,9 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     let testEntries = testMap.get(file);
 
     if (cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0) {
-      // Scan configured context directories for the best matching test file
+      // Use pre-scanned candidates from cachedTestContextCandidates
       const sourceBaseName = file.split("/").pop()?.replace(/\.\w+$/, "") ?? "";
-
-      // Read all candidate test files in parallel across all context directories
-      const allCandidates: { dir: string; file: string; content: string | undefined }[] = [];
-      for (const ctxDir of cfg.paths.testContextDirs) {
-        const absCtxDir = resolve(packageDir, ctxDir);
-        try {
-          const ctxFiles = (await readdir(absCtxDir, { recursive: true }))
-            .filter((e) => cfg.paths.testExtensions.some((ext) => e.endsWith(ext)))
-            .filter((e) => !cfg.paths.specExclusions.some((ex) => e.includes(ex)));
-          const fileContents = await Promise.all(
-            ctxFiles.map(async (f) => ({
-              dir: ctxDir,
-              file: f,
-              content: await tryReadFile(resolve(absCtxDir, f)),
-            })),
-          );
-          allCandidates.push(...fileContents);
-        } catch {
-          // Directory doesn't exist or can't be read — skip
-        }
-      }
+      const allCandidates = cachedTestContextCandidates;
 
       // Find best name-match by scoring
       let bestMatch: { path: string; content: string; score: number } | undefined;
@@ -1692,6 +1711,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               testEntries?.[0]?.testFile,
               existingTests,
               contextFiles,
+              sourceCode,
             );
           } catch (mergeErr) {
             fileLog(`    ⚠️  Merge/fix error: ${mergeErr}`);
@@ -1806,6 +1826,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
               testEntries?.[0]?.testFile,
               existingTests,
               contextFiles,
+              sourceCode,
             );
             return fixPassed;
           } catch (mergeError) {

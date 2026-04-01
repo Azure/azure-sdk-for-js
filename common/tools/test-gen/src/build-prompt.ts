@@ -253,10 +253,7 @@ export function buildBatchDeltaPrompt(
     `Generate ${lang.testFramework} tests for the uncovered markers at lines: ${markerLines}.`,
     ...(sourceFile && sourceCode
       ? [
-          `The source-under-test is attached as \`${sourceFile} (source under test)\` AND included inline below. Use it to identify importable symbols, function signatures, and branch logic.`,
-          `<source_code file="${sourceFile}">`,
-          sourceCode,
-          `</source_code>`,
+          `The source-under-test is attached as \`${sourceFile} (source under test)\`. Use it to identify importable symbols, function signatures, and branch logic.`,
         ]
       : []),
     ...(contextFilesList
@@ -347,11 +344,7 @@ export function buildPlannerPrompt(
   const prompt = `You are analyzing source code to find **public API calls** that exercise specific uncovered code paths.
 
 ## Source file: ${sourceFile}
-The complete source is attached AND included inline below.
-
-<source_code file="${sourceFile}">
-${sourceCode}
-</source_code>
+The complete source is attached as \`${sourceFile} (source under test)\`.
 
 ## Uncovered markers to exercise
 ${markerSummaries}
@@ -469,10 +462,7 @@ export function buildCoderPrompt(
     planTable,
     unreachableSection,
     "",
-    `The source-under-test is attached as \`${sourceFile} (source under test)\` AND included inline below.`,
-    `<source_code file="${sourceFile}">`,
-    sourceCode,
-    `</source_code>`,
+    `The source-under-test is attached as \`${sourceFile} (source under test)\`.`,
     ...(contextFilesList
       ? [`Context files are attached: ${contextFilesList}. Use them for helper functions, types, and dependencies.`]
       : []),
