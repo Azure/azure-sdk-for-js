@@ -13,7 +13,7 @@ export interface OperationResultOperations {
     operationId: string,
     location: string,
     options?: OperationResultGetOptionalParams,
-  ) => Promise<OperationJobExtendedInfo | null>;
+  ) => Promise<OperationJobExtendedInfo>;
 }
 
 function _getOperationResult(context: DataProtectionContext) {

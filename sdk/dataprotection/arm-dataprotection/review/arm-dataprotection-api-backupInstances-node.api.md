@@ -121,7 +121,7 @@ export function createOrUpdate(context: DataProtectionContext, resourceGroupName
 export function get(context: DataProtectionContext, resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams): Promise<BackupInstanceResource>;
 
 // @public
-export function getBackupInstanceOperationResult(context: DataProtectionContext, resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams): Promise<BackupInstanceResource | null>;
+export function getBackupInstanceOperationResult(context: DataProtectionContext, resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams): Promise<BackupInstanceResource>;
 
 // @public
 export function list(context: DataProtectionContext, resourceGroupName: string, vaultName: string, options?: BackupInstancesListOptionalParams): PagedAsyncIterableIterator<BackupInstanceResource>;

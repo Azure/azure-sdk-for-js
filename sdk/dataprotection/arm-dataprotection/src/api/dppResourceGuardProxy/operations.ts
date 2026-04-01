@@ -35,9 +35,7 @@ export function _unlockDeleteSend(
   vaultName: string,
   resourceGuardProxyName: string,
   parameters: UnlockDeleteRequest,
-  options: DppResourceGuardProxyUnlockDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: DppResourceGuardProxyUnlockDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete{?api%2Dversion}",
@@ -46,7 +44,7 @@ export function _unlockDeleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,9 +55,7 @@ export function _unlockDeleteSend(
     contentType: "application/json",
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -75,6 +71,7 @@ export async function _unlockDeleteDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -88,9 +85,7 @@ export async function unlockDelete(
   vaultName: string,
   resourceGuardProxyName: string,
   parameters: UnlockDeleteRequest,
-  options: DppResourceGuardProxyUnlockDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: DppResourceGuardProxyUnlockDeleteOptionalParams = { requestOptions: {} },
 ): Promise<UnlockDeleteResponse> {
   const result = await _unlockDeleteSend(
     context,
@@ -115,7 +110,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,10 +118,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -137,6 +129,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -155,7 +148,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -173,7 +166,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,6 +180,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -222,9 +216,7 @@ export function _createOrUpdateSend(
   vaultName: string,
   resourceGuardProxyName: string,
   parameters: ResourceGuardProxyBaseResource,
-  options: DppResourceGuardProxyCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DppResourceGuardProxyCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}{?api%2Dversion}",
@@ -233,7 +225,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,10 +234,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceGuardProxyBaseResourceSerializer(parameters),
   });
 }
@@ -257,6 +246,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -270,9 +260,7 @@ export async function createOrUpdate(
   vaultName: string,
   resourceGuardProxyName: string,
   parameters: ResourceGuardProxyBaseResource,
-  options: DppResourceGuardProxyCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DppResourceGuardProxyCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ResourceGuardProxyBaseResource> {
   const result = await _createOrUpdateSend(
     context,
@@ -299,7 +287,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,10 +295,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -321,6 +306,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 

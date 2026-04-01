@@ -54,6 +54,12 @@ export interface AdlsBlobBackupDatasourceParameters extends BlobBackupDatasource
 }
 
 // @public
+export interface AdlsBlobBackupDatasourceParametersForAutoProtection extends BackupDatasourceParameters {
+    autoProtectionSettings: BlobBackupRuleBasedAutoProtectionSettings;
+    objectType: "AdlsBlobBackupDatasourceParametersForAutoProtection";
+}
+
+// @public
 export type AKSVolumeTypes = string;
 
 // @public
@@ -278,7 +284,7 @@ export interface BackupDatasourceParameters {
 }
 
 // @public
-export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BackupDatasourceParameters;
+export type BackupDatasourceParametersUnion = KubernetesClusterBackupDatasourceParameters | BlobBackupDatasourceParametersUnion | BlobBackupDatasourceParametersForAutoProtection | AdlsBlobBackupDatasourceParametersForAutoProtection | BackupDatasourceParameters;
 
 // @public
 export interface BackupInstance {
@@ -350,7 +356,7 @@ export interface BackupInstancesOperations {
     createOrUpdate: (resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: BackupInstanceResource, options?: BackupInstancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
     delete: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesGetOptionalParams) => Promise<BackupInstanceResource>;
-    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource | null>;
+    getBackupInstanceOperationResult: (resourceGroupName: string, vaultName: string, backupInstanceName: string, operationId: string, options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams) => Promise<BackupInstanceResource>;
     list: (resourceGroupName: string, vaultName: string, options?: BackupInstancesListOptionalParams) => PagedAsyncIterableIterator<BackupInstanceResource>;
     resumeBackups: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeBackupsOptionalParams) => PollerLike<OperationState<void>, void>;
     resumeProtection: (resourceGroupName: string, vaultName: string, backupInstanceName: string, options?: BackupInstancesResumeProtectionOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -492,7 +498,7 @@ export interface BackupVault {
     readonly resourceMoveState?: ResourceMoveState;
     readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
-    storageSettings: StorageSetting[];
+    storageSettings?: StorageSetting[];
 }
 
 // @public
@@ -501,7 +507,7 @@ export interface BackupVaultOperationResultsGetOptionalParams extends OperationO
 
 // @public
 export interface BackupVaultOperationResultsOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource | null>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: BackupVaultOperationResultsGetOptionalParams) => Promise<BackupVaultResource>;
 }
 
 // @public
@@ -520,6 +526,7 @@ export interface BackupVaultsCreateOrUpdateOptionalParams extends OperationOptio
     updateIntervalInMs?: number;
     // (undocumented)
     xMsAuthorizationAuxiliary?: string;
+    xMsDeletedVaultId?: string;
 }
 
 // @public
@@ -595,13 +602,49 @@ export type BaseResourcePropertiesUnion = DefaultResourceProperties | BaseResour
 export type BcdrSecurityLevel = string;
 
 // @public
+export interface BlobBackupAutoProtectionRule {
+    mode: BlobBackupRuleMode;
+    objectType: string;
+    pattern: string;
+    type: BlobBackupPatternType;
+}
+
+// @public
+export interface BlobBackupAutoProtectionSettings {
+    enabled: boolean;
+    objectType: string;
+}
+
+// @public
+export type BlobBackupAutoProtectionSettingsUnion = BlobBackupRuleBasedAutoProtectionSettings | BlobBackupAutoProtectionSettings;
+
+// @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
     containersList: string[];
     objectType: "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters";
 }
 
 // @public
+export interface BlobBackupDatasourceParametersForAutoProtection extends BackupDatasourceParameters {
+    autoProtectionSettings: BlobBackupRuleBasedAutoProtectionSettings;
+    objectType: "BlobBackupDatasourceParametersForAutoProtection";
+}
+
+// @public
 export type BlobBackupDatasourceParametersUnion = AdlsBlobBackupDatasourceParameters | BlobBackupDatasourceParameters;
+
+// @public
+export type BlobBackupPatternType = string;
+
+// @public
+export interface BlobBackupRuleBasedAutoProtectionSettings extends BlobBackupAutoProtectionSettings {
+    // (undocumented)
+    objectType: "BlobBackupRuleBasedAutoProtectionSettings";
+    rules?: BlobBackupAutoProtectionRule[];
+}
+
+// @public
+export type BlobBackupRuleMode = string;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -716,6 +759,7 @@ export interface DataProtectionCheckFeatureSupportOptionalParams extends Operati
 
 // @public (undocumented)
 export class DataProtectionClient {
+    constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: DataProtectionClientOptionalParams);
     readonly backupInstances: BackupInstancesOperations;
     readonly backupInstancesExtensionRouting: BackupInstancesExtensionRoutingOperations;
@@ -725,6 +769,7 @@ export class DataProtectionClient {
     readonly dataProtection: DataProtectionOperations;
     readonly dataProtectionOperations: DataProtectionOperationsOperations;
     readonly deletedBackupInstances: DeletedBackupInstancesOperations;
+    readonly deletedBackupVaults: DeletedBackupVaultsOperations;
     readonly dppResourceGuardProxy: DppResourceGuardProxyOperations;
     readonly exportJobs: ExportJobsOperations;
     readonly exportJobsOperationResult: ExportJobsOperationResultOperations;
@@ -846,6 +891,45 @@ export interface DeletedBackupInstancesOperations {
 // @public
 export interface DeletedBackupInstancesUndeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeletedBackupVault {
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+    featureSettings?: FeatureSettings;
+    readonly isVaultProtectedByResourceGuard?: boolean;
+    monitoringSettings?: MonitoringSettings;
+    readonly originalBackupVaultId: string;
+    readonly originalBackupVaultName: string;
+    readonly originalBackupVaultResourcePath: string;
+    readonly provisioningState?: ProvisioningState;
+    replicatedRegions?: string[];
+    readonly resourceDeletionInfo: ResourceDeletionInfo;
+    resourceGuardOperationRequests?: string[];
+    readonly resourceMoveDetails?: ResourceMoveDetails;
+    readonly resourceMoveState?: ResourceMoveState;
+    readonly secureScore?: SecureScoreLevel;
+    securitySettings?: SecuritySettings;
+    storageSettings?: StorageSetting[];
+}
+
+// @public
+export interface DeletedBackupVaultResource extends ProxyResource {
+    properties?: DeletedBackupVault;
+}
+
+// @public
+export interface DeletedBackupVaultsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeletedBackupVaultsListByLocationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeletedBackupVaultsOperations {
+    get: (location: string, deletedVaultName: string, options?: DeletedBackupVaultsGetOptionalParams) => Promise<DeletedBackupVaultResource>;
+    listByLocation: (location: string, options?: DeletedBackupVaultsListByLocationOptionalParams) => PagedAsyncIterableIterator<DeletedBackupVaultResource>;
 }
 
 // @public
@@ -975,7 +1059,7 @@ export interface ExportJobsOperationResultGetOptionalParams extends OperationOpt
 
 // @public
 export interface ExportJobsOperationResultOperations {
-    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult | null>;
+    get: (resourceGroupName: string, vaultName: string, operationId: string, options?: ExportJobsOperationResultGetOptionalParams) => Promise<ExportJobsResult>;
 }
 
 // @public
@@ -1201,6 +1285,16 @@ export enum KnownBcdrSecurityLevel {
     Good = "Good",
     NotSupported = "NotSupported",
     Poor = "Poor"
+}
+
+// @public
+export enum KnownBlobBackupPatternType {
+    Prefix = "Prefix"
+}
+
+// @public
+export enum KnownBlobBackupRuleMode {
+    Exclude = "Exclude"
 }
 
 // @public
@@ -1472,7 +1566,9 @@ export enum KnownValidationType {
 
 // @public
 export enum KnownVersions {
-    V20250701 = "2025-07-01"
+    V20250701 = "2025-07-01",
+    V20250901 = "2025-09-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -1609,7 +1705,7 @@ export interface OperationResultGetOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationResultOperations {
-    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo | null>;
+    get: (operationId: string, location: string, options?: OperationResultGetOptionalParams) => Promise<OperationJobExtendedInfo>;
 }
 
 // @public
@@ -1768,6 +1864,13 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceDeletionInfo {
+    readonly deleteActivityId?: string;
+    readonly deletionTime?: Date;
+    readonly scheduledPurgeTime?: Date;
 }
 
 // @public
