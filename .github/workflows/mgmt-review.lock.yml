@@ -23,7 +23,7 @@
 #
 # Review a pull request for management-plane SDKs
 #
-# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"596195e655272c7572f2effbde1258488137aadcd8b6fd912b50bb3c9459c34d","compiler_version":"v0.57.2"}
+# gh-aw-metadata: {"schema_version":"v2","frontmatter_hash":"5101b87a8c7c3feea964a02fda012c27203eae2228ccb2ef5bed1066e4543169","compiler_version":"v0.57.2"}
 
 name: "Management Release Assistant"
 "on":
@@ -897,7 +897,7 @@ jobs:
       - name: Execute GitHub Copilot CLI
         id: agentic_execution
         # Copilot CLI tool arguments (sorted):
-        timeout-minutes: 25
+        timeout-minutes: 35
         run: |
           set -o pipefail
           touch /tmp/gh-aw/agent-step-summary.md
@@ -1300,7 +1300,7 @@ jobs:
           GH_AW_REPO_MEMORY_PATCH_SIZE_EXCEEDED_default: ${{ needs.push_repo_memory.outputs.patch_size_exceeded_default }}
           GH_AW_GROUP_REPORTS: "false"
           GH_AW_FAILURE_REPORT_AS_ISSUE: "true"
-          GH_AW_TIMEOUT_MINUTES: "25"
+          GH_AW_TIMEOUT_MINUTES: "35"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -1548,3 +1548,4 @@ jobs:
         with:
           key: memory-${{ env.GH_AW_WORKFLOW_ID_SANITIZED }}-${{ github.run_id }}
           path: /tmp/gh-aw/cache-memory
+

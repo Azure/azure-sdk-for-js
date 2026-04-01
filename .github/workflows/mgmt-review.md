@@ -39,7 +39,7 @@ safe-outputs:
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."
     run-success: "⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
-timeout-minutes: 25
+timeout-minutes: 35
 
 ---
 
@@ -54,8 +54,9 @@ You are an SDK release assistant that helps
 ### Step 1. Gather information
 
 - Fetch PR details, check statuses, changed files, and workflow runs using GitHub MCP tools.
-- If a pipeline build ID is available (often named js - PullRequest), extract the pipeline logging details(often public available links in ado).
-- For failed GitHub Actions jobs, use the GitHub MCP Actions toolset to fetch the job logs and return their full content.
+- **Distinguish between CI systems:**
+  - **Azure DevOps pipelines** (e.g., `js - PullRequest`): These are NOT GitHub Actions jobs. Do NOT call `get_job_logs` for them — it will return 404. Do NOT try to fetch the ADO URL — it requires authentication and will fail. Instead, extract the ADO URL from the check's `target_url` or `details_url` field. The correct public URL pattern is `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`. Include it in the comment as a clickable link for the user. Determine success/failure from the check's `state` or `conclusion` field only.
+  - **GitHub Actions workflows** (e.g., `mgmt-review`, `pnpm-lock-conflict-resolver`): These ARE GitHub Actions jobs. Use the GitHub MCP Actions toolset (`get_job_logs`) to fetch their log content.
 
 ### Step 2. Identify gaps to merge
 
@@ -121,10 +122,14 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 
 ### Step 4. Post a comment
 
+The comment is mainly for pipeline failures so:
+- Do NOT include passed checks or extra sections. 
+- Do NOT include any review comments.
+
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections. Do NOT include any review design comments.
+- Only include currently failing/blocking checks. 
 - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>.`
 - Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
@@ -141,6 +146,7 @@ Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 - ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
+- 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Fix dispatched: [pnpm-lock-conflict-resolver](<run-url>).
 ```
 
 
@@ -158,6 +164,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** flag issues in APIs tagged `@internal`.
 - Do **not** flag undocumented APIs.
 - Do **not** flag issues in submodules.
+- Do **not** flag `AzureClouds` relevant enums. Its inconsistency is by design.
 
 ### Step 1 — Context Gathering
 
