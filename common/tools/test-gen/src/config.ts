@@ -29,6 +29,20 @@ export interface RunnerConfig {
   /** Optional command to run after tests to ensure coverage report is generated.
    *  Useful when pytest-cov doesn't write JSON on failure. Runs regardless of test exit code. */
   postTestCommand?: string;
+  /** Patterns to detect mocking constructs in generated code (for e2e mock-guard).
+   *  When configured and e2e mode is active, generated code matching any pattern is rejected. */
+  mockGuardPatterns?: { pattern: RegExp; label: string }[];
+  /** Patterns for extracting error-relevant lines from test runner output.
+   *  Added to the built-in language-agnostic patterns. */
+  testOutputPatterns?: { pattern: RegExp; label: string }[];
+  /** Pattern to detect placeholder/stub tests that should be rejected. */
+  placeholderPattern?: RegExp;
+  /** Prompt instructions injected when e2e mode is active (integration test rules). */
+  e2ePromptInstructions?: string;
+  /** API prefix instruction for the planner prompt (e.g., "The call MUST go through `MLClient`"). */
+  plannerApiPrefix?: string;
+  /** Instructions for unreachable-marker unit tests describing allowed mocking tools. */
+  unitTestMockInstructions?: string;
 }
 
 /** Directory and file naming conventions. */
@@ -53,7 +67,7 @@ export interface PathsConfig {
    *  lookup in these directories. Useful for steering generation toward
    *  specific test styles (e.g., e2e tests instead of unit tests). */
   testContextDirs?: string[];
-  /** Path to conftest.py or equivalent test setup file (relative to packageDir).
+  /** Path to test setup/fixtures file (relative to packageDir).
    *  When set AND testContextDirs is set (e2e mode), the file's content is
    *  included as context so the LLM knows about available fixtures. */
   conftestPath?: string;

@@ -264,13 +264,13 @@ async function runSingleTest(
       label: `test ${relPath}`,
     });
     if (exitCode !== 0) {
-      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines) };
+      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
     }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
-    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines) };
+    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
   }
 }
 
@@ -293,23 +293,27 @@ function tail(text: string, lines: number): string {
  * Captures stack trace frames, assertion messages, and error summaries.
  * Falls back to tail() if no structured errors are found.
  */
-function extractErrorContext(text: string, maxLines: number): string {
+function extractErrorContext(text: string, maxLines: number, extraPatterns?: { pattern: RegExp; label: string }[]): string {
   const lines = text.split("\n");
 
-  // Patterns that indicate error-relevant lines (language-agnostic)
-  const errorPatterns = [
+  // Built-in language-agnostic patterns
+  const errorPatterns: RegExp[] = [
     /^\s*(Traceback|File ".*", line \d+)/i, // Python tracebacks
     /^\s*(at\s+\S+\s+\(.*:\d+:\d+\))/, // JS/TS stack frames
     /^\s*(Error|TypeError|SyntaxError|IndentationError|AssertionError|ImportError|AttributeError|NameError|ValueError|KeyError|ModuleNotFoundError|RuntimeError)\b/i,
     /^\s*(FAILED|ERRORS|ERROR|E\s+)/, // Test runner error indicators
     /^\s*(assert|AssertionError|expect\()/i, // Assertion lines
-    /^\s*(>|E)\s+/, // pytest ">" markers and "E" error lines
     /:\d+:\s*error\b/i, // Compiler-style errors
-    /^\s*raise\s+/, // Python raise statements
+    /^\s*raise\s+/, // Raise statements
     /^\s*\^+\s*$/, // Caret error position indicators
-    /FAILED\s+.*::/, // pytest FAILED lines with test paths
-    /short test summary/i, // pytest summary section header
   ];
+
+  // Append any config-provided test output patterns
+  if (extraPatterns) {
+    for (const { pattern } of extraPatterns) {
+      errorPatterns.push(pattern);
+    }
+  }
 
   // Exclude lines that are primarily about warnings (Python deprecation/future warnings, etc.)
   const warningExclusion = /\w*Warning\s*[:(]/;
@@ -490,13 +494,13 @@ async function runFullSuite(command: string, packageDir: string, cfg: Config): P
       label: "full-suite",
     });
     if (exitCode !== 0) {
-      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines) };
+      return { passed: false, output: extractErrorContext(stdout, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
     }
     return { passed: true, output: tail(stdout, cfg.runner.tailLines) };
   } catch (e) {
     const err = e as { stdout?: string; stderr?: string; message?: string };
     const output = [err.stdout, err.stderr, err.message].filter(Boolean).join("\n") || "Unknown error";
-    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines) };
+    return { passed: false, output: extractErrorContext(output, cfg.runner.tailLines, cfg.runner.testOutputPatterns) };
   }
 }
 
@@ -508,21 +512,11 @@ function detectMockViolations(code: string, cfg: Config): string | undefined {
   const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
   if (!isE2eMode) return undefined;
 
-  const mockPatterns: Array<[RegExp, string]> = [
-    [/from\s+unittest(?:\.mock)?\s+import/m, "unittest.mock import"],
-    [/from\s+unittest\s+import\s+mock/m, "unittest mock import"],
-    [/import\s+(?:unittest\.)?mock\b/m, "mock import"],
-    [/\bMagicMock\b/, "MagicMock usage"],
-    [/\bMock\s*\(/, "Mock() usage"],
-    [/\bmonkeypatch\b/, "monkeypatch usage"],
-    [/\b@patch\b/, "@patch decorator"],
-    [/\bpatch\.object\b/, "patch.object usage"],
-    [/\bpatch\s*\(/, "patch() call"],
-    [/\bSimpleNamespace\s*\(/, "SimpleNamespace stub"],
-  ];
+  const mockPatterns = cfg.runner.mockGuardPatterns;
+  if (!mockPatterns || mockPatterns.length === 0) return undefined;
 
   const violations: string[] = [];
-  for (const [pattern, label] of mockPatterns) {
+  for (const { pattern, label } of mockPatterns) {
     if (pattern.test(code)) {
       violations.push(label);
     }
@@ -618,12 +612,14 @@ async function mergeBatchChunk(
   // Only check patterns that are NEW — if the existing file already matches a
   // pattern, don't penalise the merge for faithfully preserving it.
   const code = result.code;
-  const placeholderPatterns = [
+  const placeholderPatterns: RegExp[] = [
     /placeholder.*test/i,
     /could not be reconstructed/i,
     /replace with.*merged/i,
-    /pytest\.skip\(.*(placeholder|replace)/i,
   ];
+  if (cfg.runner.placeholderPattern) {
+    placeholderPatterns.push(cfg.runner.placeholderPattern);
+  }
   const activePatterns = placeholderPatterns.filter(
     (p) => !existing || !p.test(existing),
   );
@@ -707,12 +703,14 @@ async function mergeGeneratedBatches(
   if (!existing && generatedCodes.length === 1) {
     // Run placeholder guard even on initial batch to avoid poisoning future merges
     const code = generatedCodes[0];
-    const placeholderPatterns = [
+    const placeholderPatterns: RegExp[] = [
       /placeholder.*test/i,
       /could not be reconstructed/i,
       /replace with.*merged/i,
-      /pytest\.skip\(.*(placeholder|replace)/i,
     ];
+    if (cfg.runner.placeholderPattern) {
+      placeholderPatterns.push(cfg.runner.placeholderPattern);
+    }
     if (placeholderPatterns.some((p) => p.test(code))) {
       throw new Error(
         `Initial batch produced placeholder output for ${relPath} — rejecting`,
@@ -906,10 +904,10 @@ async function writeAndFix(
         // Escalation: on iteration 2+, add stronger guidance to change approach
         const isE2eMode = cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0;
         const escalationSection = iteration >= 2
-          ? `\n## ⚠️ ESCALATION (Attempt ${iteration}/${maxFix})\n\nPrevious fix attempt(s) failed with the same errors. You MUST change your approach:\n- If you see ImportError: the symbol does NOT exist. Do not retry the same import — find the correct name in the source file.\n- If you see TypeError about arguments: check the constructor/function signature in the source file and context files. Use ONLY the parameters you see there.\n- If you see AttributeError: the method/attribute does NOT exist on that class. Check the source file for the actual method names.\n${isE2eMode ? "- Do NOT replace live service calls with mocks. These are integration tests that must call real Azure services.\n- Use the fixtures from conftest.py (client, auth, etc.) to get a real MLClient.\n- If a test fails due to service errors, adjust the test inputs or assertions rather than mocking.\n" : "- Consider using unittest.mock.patch or MagicMock to bypass complex constructors instead of instantiating real objects.\n"}`
+          ? `\n## ⚠️ ESCALATION (Attempt ${iteration}/${maxFix})\n\nPrevious fix attempt(s) failed with the same errors. You MUST change your approach:\n- If you see ImportError: the symbol does NOT exist. Do not retry the same import — find the correct name in the source file.\n- If you see TypeError about arguments: check the constructor/function signature in the source file and context files. Use ONLY the parameters you see there.\n- If you see AttributeError: the method/attribute does NOT exist on that class. Check the source file for the actual method names.\n${isE2eMode && cfg.runner.e2ePromptInstructions ? "- Do NOT replace live service calls with mocks. These are integration tests.\n- Use the fixtures from the test setup file to get a real client.\n- If a test fails due to service errors, adjust the test inputs or assertions rather than mocking.\n" : "- Consider using mocking to bypass complex constructors instead of instantiating real objects.\n"}`
           : "";
-        const e2eSection = isE2eMode
-          ? `\n## ⚠️ INTEGRATION TEST MODE — MANDATORY\n\n9. ABSOLUTELY NO MOCKING. Do NOT use unittest.mock, MagicMock, monkeypatch, patch(), SimpleNamespace stubs, or any form of mocking.\n10. Do NOT construct internal objects directly (ModelOperations, OperationConfig, service clients). Use the \`client: MLClient\` fixture.\n11. Use \`AzureRecordedTestCase\` base class, \`@pytest.mark.usefixtures("recorded_test")\`, and \`@pytest.mark.e2etest\`.\n12. Access operations through \`client.models\`, \`client.components\`, etc.\n13. If a test calls an Azure API and gets an error, fix the test inputs/assertions — do NOT add mocking.\n`
+        const e2eSection = isE2eMode && cfg.runner.e2ePromptInstructions
+          ? `\n${cfg.runner.e2ePromptInstructions}\n`
           : "";
         const prompt = await renderPromptTemplate("fix-generated-test.md", {
           relPath,
@@ -1270,7 +1268,7 @@ const SinglePassResponse = z.object({
  * Measures coverage exactly once, then generates tests for all gap files in
  * branch-level batches. Each batch targets N uncovered branches and produces
  * a focused test file. All batches for the same source module merge into one
- * output file (e.g., `test_init_gaps.py`).
+ * output file (e.g., `test_init_gaps.<ext>`).
  */
 export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   const wallStart = Date.now();
@@ -1625,12 +1623,13 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
     }
 
     if (!dryRun) {
-      // Read conftest.py content if configured (for e2e mode fixture context)
+      // Read test setup/fixtures file content if configured (for e2e mode fixture context)
       let conftestContent: string | undefined;
       if (cfg.paths.conftestPath && cfg.paths.testContextDirs?.length) {
         conftestContent = await tryReadFile(resolve(packageDir, cfg.paths.conftestPath)) ?? undefined;
         if (conftestContent) {
-          fileLog(`    📋 Loaded conftest: ${cfg.paths.conftestPath} (${conftestContent.split("\n").length} lines)`);
+          const conftestName = basename(cfg.paths.conftestPath);
+          fileLog(`    📋 Loaded test fixtures: ${conftestName} (${conftestContent.split("\n").length} lines)`);
         }
       }
 
@@ -1642,6 +1641,10 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         allGaps: gaps,
         e2eMode: !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0),
         conftestContent,
+        conftestPath: cfg.paths.conftestPath,
+        e2ePromptInstructions: cfg.runner.e2ePromptInstructions,
+        plannerApiPrefix: cfg.runner.plannerApiPrefix,
+        unitTestMockInstructions: cfg.runner.unitTestMockInstructions,
       });
       fileLog("    🧠 Seeding persistent file session");
       await seedSession({
@@ -1670,7 +1673,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
       // ── Phase 1: Planner ──
       fileLog(`    🗺️  Phase 1: Planning API calls for ${batch.length} gaps...`);
-      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode);
+      const plannerPromptData = buildPlannerPrompt(batch, file, sourceCode, cfg.runner.plannerApiPrefix);
 
       const plannerAttachments: SendAttachment[] = [...plannerPromptData.attachments];
 
@@ -1720,15 +1723,8 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         fileLog(`    🤖 Phase 2: Generating tests from plan...`);
 
         const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
-        const e2eInstructions = isE2eMode
-          ? [
-              "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
-              "ABSOLUTELY NO MOCKING of any kind. No unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs.",
-              "Do NOT construct internal operations objects directly.",
-              "Use the `client: MLClient` pytest fixture. Access operations via `client.models`, `client.components`, etc.",
-              "Use `AzureRecordedTestCase` base class with `@pytest.mark.usefixtures(\"recorded_test\")` and `@pytest.mark.e2etest`.",
-              "Use `randstr` fixture for unique names.",
-            ].join("\n")
+        const e2eInstructions = isE2eMode && cfg.runner.e2ePromptInstructions
+          ? cfg.runner.e2ePromptInstructions
           : undefined;
 
         const coderPromptData = buildCoderPrompt(
@@ -1742,6 +1738,7 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
           existingTests,
           contextFiles,
           e2eInstructions,
+          cfg.runner.unitTestMockInstructions,
         );
 
         const coderAttachments: SendAttachment[] = [
@@ -1838,15 +1835,8 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       await compactSessionIfNeeded(generationSessionKey);
 
       const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
-      const e2eInstructions = isE2eMode
-        ? [
-            "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
-            "ABSOLUTELY NO MOCKING of any kind. No unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs.",
-            "Do NOT construct internal operations objects (e.g., ModelOperations, OperationConfig) directly.",
-            "Use the `client: MLClient` pytest fixture to get a real authenticated client. Access operations via `client.models`, `client.components`, etc.",
-            "Use `AzureRecordedTestCase` base class with `@pytest.mark.usefixtures(\"recorded_test\")` and `@pytest.mark.e2etest`.",
-            "Use `randstr` fixture for unique names. If testing validation that raises before API calls, trigger it through `client.models.create_or_update()` etc.",
-          ].join("\n")
+      const e2eInstructions = isE2eMode && cfg.runner.e2ePromptInstructions
+        ? cfg.runner.e2ePromptInstructions
         : undefined;
 
       const batchDelta = buildBatchDeltaPrompt(

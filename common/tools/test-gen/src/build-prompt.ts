@@ -7,7 +7,7 @@
  * Builds the seed and batch-delta prompts used by persistent generation sessions.
  */
 
-import { resolve } from "node:path";
+import { resolve, basename as pathBasename } from "node:path";
 import type { CoverageGap } from "./types.ts";
 import { annotateSource, commentPrefixFor } from "./annotate-source.ts";
 import type { ContextFile } from "./resolve-context.ts";
@@ -31,8 +31,16 @@ export interface PromptSeedContext {
   allGaps: CoverageGap[];
   /** When true, generate integration/e2e tests that call real services instead of mocking. */
   e2eMode?: boolean;
-  /** Content of conftest.py or equivalent test setup file (key fixtures for e2e mode). */
+  /** Content of test setup/fixtures file (key fixtures for e2e mode). */
   conftestContent?: string;
+  /** Path to the test setup/fixtures file (used for attachment naming). */
+  conftestPath?: string;
+  /** Prompt instructions injected when e2e mode is active. */
+  e2ePromptInstructions?: string;
+  /** API prefix instruction for the planner prompt. */
+  plannerApiPrefix?: string;
+  /** Instructions for unreachable-marker unit tests describing allowed mocking tools. */
+  unitTestMockInstructions?: string;
 }
 
 export interface PreparedPrompt {
@@ -102,10 +110,11 @@ export async function buildPromptSeed(
   }
 
   if (ctx.conftestContent && ctx.e2eMode) {
+    const conftestName = ctx.conftestPath ? pathBasename(ctx.conftestPath) : "test-fixtures";
     attachments.push({
       type: "virtual-file",
-      path: `seed/conftest.py`,
-      displayName: `conftest.py (test fixtures)`,
+      path: `seed/${conftestName}`,
+      displayName: `${conftestName} (test fixtures)`,
       content: ctx.conftestContent,
     });
   }
@@ -131,7 +140,7 @@ export async function buildPromptSeed(
       "## Import accuracy rules",
       "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
       "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
-      "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
+      "- When the source uses an import, copy it exactly — same module path, same symbol name.",
       "- Check the source file's `from ... import ...` lines to find correct module paths.",
       "- If a class is imported as `from x import Foo`, use `Foo` not `_Foo`.",
       "",
@@ -140,36 +149,15 @@ export async function buildPromptSeed(
       "Do NOT write smoke tests that only import modules, inspect symbols, or assert generic presence. Write behavior tests for the uncovered branches.",
       "Do NOT use the word 'placeholder' or 'stub' in test names, comments, or docstrings — give every test a descriptive name reflecting its purpose.",
       "",
-      ...(ctx.e2eMode ? [
-        "## ⚠️ INTEGRATION TEST MODE — CRITICAL",
-        "You are generating LIVE INTEGRATION TESTS that call real Azure services.",
-        "The attached `conftest.py (test fixtures)` defines all available pytest fixtures. Study it carefully.",
-        "",
-        "### MANDATORY PATTERNS (copy from the existing e2e test example):",
-        "```python",
-        "@pytest.mark.e2etest",
-        "@pytest.mark.usefixtures(\"recorded_test\")",
-        "class TestSomething(AzureRecordedTestCase):",
-        "    def test_something(self, client: MLClient, randstr: Callable[[], str]) -> None:",
-        "        # Use client.models, client.components, etc. — NOT ModelOperations(...) directly",
-        "        result = client.models.list()",
-        "```",
-        "",
-        "### STRICT RULES:",
-        "- **Use `client: MLClient` fixture** — it creates a real authenticated MLClient. Access operations via `client.models`, `client.components`, etc.",
-        "- **Use `AzureRecordedTestCase`** base class and `@pytest.mark.usefixtures(\"recorded_test\")` decorator.",
-        "- **Mark with `@pytest.mark.e2etest`**.",
-        "- **ABSOLUTELY NO MOCKING** — no unittest.mock, MagicMock, monkeypatch, patch, SimpleNamespace stubs. Tests MUST call real Azure service endpoints.",
-        "- **Do NOT construct service clients manually** — no `ModelOperations(...)`, no `OperationConfig(...)`, no custom fixtures building operations objects.",
-        "- Use `randstr` fixture for unique names, `tmp_path` for temp files.",
-        "- For validation-only branches (e.g., input validation that raises before API call), trigger the validation through the public `client.models.*` methods.",
+      ...(ctx.e2eMode && ctx.e2ePromptInstructions ? [
+        ctx.e2ePromptInstructions,
         "",
       ] : []),
       "## Test Framework & Assertion Style",
       `Use ${lang.testFramework} as the test framework.`,
       "Every assertion must check a CONCRETE value or specific exception:",
       "- GOOD: assertEquals(result, 42), assert result == expected_value, expect(result).toBe(42)",
-      "- GOOD: assertThrows(ExactType), pytest.raises(ExactType), expect(...).toThrow(ExactType)",
+      "- GOOD: assertThrows(ExactType), expect(...).toThrow(ExactType), or framework-specific exception assertion",
       "- BAD: assert result is not None, assertTrue(result), expect(result).toBeTruthy()",
       "Match the assertion style shown in existing tests when available.",
       "",
@@ -292,8 +280,8 @@ export function buildBatchDeltaPrompt(
     "## Import accuracy rules",
     "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
     "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
-    "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
-    "- Check the source file's `from ... import ...` lines to find correct module paths.",
+    "- When the source uses an import, copy it exactly — same module path, same symbol name.",
+    "- Check the source file's import lines to find correct module paths.",
     "- If a class is imported as `from x import Foo`, use `Foo` not `_Foo`.",
     "",
     "Do NOT invent missing fixtures or imports.",
@@ -337,6 +325,7 @@ export function buildPlannerPrompt(
   gaps: CoverageGap[],
   sourceFile: string,
   sourceCode: string,
+  plannerApiPrefix?: string,
 ): { prompt: string; attachments: SendAttachment[] } {
   const markerSummaries = gaps
     .map((gap) => `- L${gap.start.line}-${gap.end.line} [${gap.type}] ${gap.detail}`)
@@ -360,7 +349,11 @@ export function buildPlannerPrompt(
   }
 ]`;
 
-  const prompt = `You are analyzing Python source code to find **public API calls** that exercise specific uncovered code paths.
+  const apiPrefixRule = plannerApiPrefix
+    ? `1. ${plannerApiPrefix}`
+    : "1. The call MUST go through the public client API.";
+
+  const prompt = `You are analyzing source code to find **public API calls** that exercise specific uncovered code paths.
 
 ## Source file: ${sourceFile}
 The complete source is attached AND included inline below.
@@ -376,7 +369,7 @@ ${markerSummaries}
 For each marker (or group of related markers), identify the **public client API call** that would exercise that code path.
 
 Rules:
-1. The call MUST go through \`MLClient\` — e.g., \`client.models.get(...)\`, \`client.environments.create_or_update(...)\`, \`client.workspaces.list(...)\`
+${apiPrefixRule}
 2. Trace the code path from the public method down to the marked lines. Show your reasoning.
 3. Choose arguments that will specifically trigger the marked branch (e.g., pass invalid args to trigger a validation branch, pass a nonexistent name to trigger a 404 path).
 4. If a marker is inside a private helper that is NOT reachable from any public API call, mark it as unreachable: \`"api_call": "UNREACHABLE"\`
@@ -408,6 +401,7 @@ export function buildCoderPrompt(
   existingTestPatterns?: string,
   contextFiles?: ContextFile[],
   extraInstructions?: string,
+  unitTestMockInstructions?: string,
 ): { prompt: string; attachments: SendAttachment[] } {
   const attachments: SendAttachment[] = [];
   if (sourceCode && sourceFile) {
@@ -442,9 +436,12 @@ export function buildCoderPrompt(
     )
     .join("\n\n");
 
+  const mockingNote = unitTestMockInstructions
+    ? `- ${unitTestMockInstructions}`
+    : "- You MAY use mocking for these tests ONLY.";
   const unreachableSection =
     unreachable.length > 0
-      ? `\n\n## Unreachable markers → generate UNIT tests\nThese code paths are NOT reachable from the public API. Generate **unit tests** for them:\n- You MAY import and call internal/private functions directly.\n- You MAY use mocking (unittest.mock, MagicMock, monkeypatch) for these tests ONLY.\n- Still cover the marked branches and assert correct behavior.\n${unreachable.map((p) => `- L${p.marker_lines.join(", L")}: ${p.reasoning}`).join("\n")}`
+      ? `\n\n## Unreachable markers → generate UNIT tests\nThese code paths are NOT reachable from the public API. Generate **unit tests** for them:\n- You MAY import and call internal/private functions directly.\n${mockingNote}\n- Still cover the marked branches and assert correct behavior.\n${unreachable.map((p) => `- L${p.marker_lines.join(", L")}: ${p.reasoning}`).join("\n")}`
       : "";
 
   const testPatternsSection = existingTestPatterns
@@ -497,14 +494,14 @@ export function buildCoderPrompt(
     "## Instructions",
     "Write ONE test method for each API call in the plan above.",
     "For **reachable** calls (from the API Call Plan):",
-    "1. Call the exact API shown in the plan (e.g., `client.models.get(...)`) with the specified arguments",
+    "1. Call the exact API shown in the plan with the specified arguments",
     "2. Assert the expected outcome (exception, return value, etc.)",
-    "3. Use the `client` fixture (MLClient) for all API calls",
+    "3. Use the public client fixture for all API calls",
     "4. Follow the test style reference exactly (decorators, class structure, fixtures)",
     "",
     "For **unreachable** markers (from the Unreachable section):",
     "1. Import and call the internal function directly",
-    "2. Use mocking/monkeypatch as needed to set up the code path",
+    "2. Use mocking as needed to set up the code path",
     "3. Assert the expected behavior of the branch",
     "",
     "If an existing-test example is attached, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
@@ -514,8 +511,8 @@ export function buildCoderPrompt(
     "## Import accuracy rules",
     "- ONLY use symbols visible in the source file's own import statements or the conftest fixtures.",
     "- Do NOT invent private/internal names (prefixed with _) unless they appear in the source imports.",
-    "- When the source uses `from azure.ai.ml.exceptions import ValidationException`, import it the same way.",
-    "- Check the source file's `from ... import ...` lines to find correct module paths.",
+    "- When the source uses an import, copy it exactly — same module path, same symbol name.",
+    "- Check the source file's import lines to find correct module paths.",
     "",
     "## Duplicate avoidance",
     "The context already includes the full existing test suite. Do NOT generate any test that duplicates a test already in the context — same API call, same scenario, same branch. If a plan entry is already covered by an existing test, SKIP it and list it in `skipped_markers` with reason 'duplicate of existing test'.",

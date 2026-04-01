@@ -910,10 +910,10 @@ function phaseCustomAgents(phase: LlmPhase): CustomAgentConfig[] {
             "Specialized agent for finding and fixing test isolation issues (global state leaks)",
           prompt: [
             "You are a test isolation specialist. Your ONLY job is to find and fix tests that leak global state.",
-            "Look for: module reloading, monkey-patching without restoration, global state mutation, singleton modification.",
+            "Look for: module reloading, unscoped mocking, global state mutation, singleton modification.",
             "Rules:",
             "- Fix ONLY files from the current batch that cause isolation problems",
-            "- Prefer rewriting with scoped mocks (patch.object, monkeypatch, context managers) over removing tests",
+            "- Prefer rewriting with scoped mocks over removing tests",
             "- If a branch is untestable without global mutation, remove the test and add a comment explaining why",
             "- Return ONLY changed files, omit files that are fine as-is",
             "- Return the COMPLETE corrected content for each changed file as JSON",
