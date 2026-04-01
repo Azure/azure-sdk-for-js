@@ -22,8 +22,9 @@ async function main() {
     skipFullSuiteValidation: true,
     config: {
       runner: {
-        // Coverage from ALL tests in playback mode (no AZURE_TEST_RUN_LIVE) for speed
-        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ $(ls tests/test_*_gaps*.py 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py`,
+        // Coverage from targeted e2e + unit tests in playback mode
+        // Only run test dirs matching our source targets (operations layer)
+        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/unittests/ $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=120`,
         coveragePath: "coverage.json",
         coverageFormat: "coveragepy",
         runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=600 -W ignore --tb=short`,
@@ -45,9 +46,9 @@ async function main() {
         ].join("\n"),
         finalCoverageCommand: [
           `${activate} &&`,
-          // Run existing recorded tests in playback mode
-          `unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ --cov=azure.ai.ml --cov-branch -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py ;`,
-          // Run generated gap tests in live mode, appending coverage
+          // Run unit tests in playback mode for baseline coverage
+          `unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/unittests/ --cov=azure.ai.ml --cov-branch -q --timeout=120 ;`,
+          // Run generated gap tests live, appending coverage
           `export AZURE_TEST_RUN_LIVE=true && python -m pytest $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-append -q --timeout=600 ;`,
           // Generate combined JSON report
           `coverage json -o coverage.json`,
