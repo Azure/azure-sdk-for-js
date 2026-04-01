@@ -23,7 +23,7 @@ async function main() {
     config: {
       runner: {
         // Coverage from ALL tests in playback mode (no AZURE_TEST_RUN_LIVE) for speed
-        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/test_*_gaps*.py tests/*/e2etests/ tests/*/unittests/ --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py`,
+        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ $(ls tests/test_*_gaps*.py 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=300 --ignore=tests/test_batch_deployment_operations_gaps_begin_create_or_update.py`,
         coveragePath: "coverage.json",
         coverageFormat: "coveragepy",
         runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=600 -W ignore --tb=short`,
