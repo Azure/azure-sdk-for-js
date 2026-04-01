@@ -39,7 +39,7 @@ safe-outputs:
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."
     run-success: "⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
-timeout-minutes: 25
+timeout-minutes: 35
 
 ---
 
@@ -54,8 +54,9 @@ You are an SDK release assistant that helps
 ### Step 1. Gather information
 
 - Fetch PR details, check statuses, changed files, and workflow runs using GitHub MCP tools.
-- If a pipeline build ID is available (often named js - PullRequest), extract the pipeline logging details(often public available links in ado).
-- For failed GitHub Actions jobs, use the GitHub MCP Actions toolset to fetch the job logs and return their full content.
+- **Distinguish between CI systems:**
+  - **Azure DevOps pipelines** (e.g., `js - PullRequest`): These are NOT GitHub Actions jobs. Do NOT call `get_job_logs` for them — it will return 404. Do NOT try to fetch the ADO URL — it requires authentication and will fail. Instead, extract the ADO URL from the check's `target_url` or `details_url` field. The correct public URL pattern is `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`. Include it in the comment as a clickable link for the user. Determine success/failure from the check's `state` or `conclusion` field only.
+  - **GitHub Actions workflows** (e.g., `mgmt-review`, `pnpm-lock-conflict-resolver`): These ARE GitHub Actions jobs. Use the GitHub MCP Actions toolset (`get_job_logs`) to fetch their log content.
 
 ### Step 2. Identify gaps to merge
 
@@ -97,12 +98,22 @@ Besides above cases also:
 
 For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch via `push-to-pull-request-branch`.
 
+> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head:
+>
+> 1. `git fetch --unshallow || true`
+> 2. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
+> 3. `git checkout pr-head`
+>
+> All sub-steps below assume you have completed this checkout.
+
 #### 3a. pnpm-lock.yaml merge conflict
 
 If `mergeable_state: dirty`, attempt to resolve it:
 
 1. Unshallow the repo if needed: `git fetch --unshallow || true`
-2. Check out the PR source branch: `git checkout <pr-head-ref>`
+2. Fetch and check out the PR source branch:
+   - `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
+   - `git checkout pr-head`
 3. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
 4. `git fetch https://github.com/Azure/azure-sdk-for-js main`
 5. `git merge FETCH_HEAD --allow-unrelated-histories` — check `git status` for conflicts. If files **other than** `pnpm-lock.yaml` also conflict, **stop** and only post guidance.
@@ -121,10 +132,14 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 
 ### Step 4. Post a comment
 
+The comment is mainly for pipeline failures so:
+- Do NOT include passed checks or extra sections. 
+- Do NOT include any review comments.
+
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- Only include currently failing/blocking checks. Do NOT include passed checks or extra sections. Do NOT include any review design comments.
+- Only include currently failing/blocking checks. 
 - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>.`
 - Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
@@ -141,6 +156,7 @@ Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>.
 - ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
+- 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Fix dispatched: [pnpm-lock-conflict-resolver](<run-url>).
 ```
 
 
@@ -158,6 +174,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** flag issues in APIs tagged `@internal`.
 - Do **not** flag undocumented APIs.
 - Do **not** flag issues in submodules.
+- Do **not** flag `AzureClouds` relevant enums. Its inconsistency is by design.
 
 ### Step 1 — Context Gathering
 
