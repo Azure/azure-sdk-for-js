@@ -42,7 +42,7 @@ safe-outputs:
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."
     run-success: "⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅"
     run-failure: "⚡ [{workflow_name}]({run_url}) {status}. ❌"
-timeout-minutes: 25
+timeout-minutes: 35
 
 ---
 
@@ -57,8 +57,9 @@ You are an SDK release assistant that helps
 ### Step 1. Gather information
 
 - Fetch PR details, check statuses, changed files, and workflow runs using GitHub MCP tools.
-- If a pipeline build ID is available (often named js - PullRequest), extract the pipeline logging details(often public available links in ado).
-- For failed GitHub Actions jobs, use the GitHub MCP Actions toolset to fetch the job logs and return their full content.
+- **Distinguish between CI systems:**
+  - **Azure DevOps pipelines** (e.g., `js - PullRequest`): These are NOT GitHub Actions jobs. Do NOT call `get_job_logs` for them — it will return 404. Do NOT try to fetch the ADO URL — it requires authentication and will fail. Instead, extract the ADO URL from the check's `target_url` or `details_url` field. The correct public URL pattern is `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`. Include it in the comment as a clickable link for the user. Determine success/failure from the check's `state` or `conclusion` field only.
+  - **GitHub Actions workflows** (e.g., `mgmt-review`, `pnpm-lock-conflict-resolver`): These ARE GitHub Actions jobs. Use the GitHub MCP Actions toolset (`get_job_logs`) to fetch their log content.
 
 ### Step 2. Identify gaps to merge
 
