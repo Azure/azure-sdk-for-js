@@ -50,10 +50,6 @@ export async function main(): Promise<void> {
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  // Create a conversation
-  const conversation = await openAIClient.conversations.create();
-  console.log(`Created conversation (id: ${conversation.id})`);
-
   // Send a query to search the web using streaming
   console.log("\nSending web search preview query with streaming...");
   const stream = openAIClient.responses.stream(
