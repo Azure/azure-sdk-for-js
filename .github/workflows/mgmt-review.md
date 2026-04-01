@@ -98,12 +98,22 @@ Besides above cases also:
 
 For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch via `push-to-pull-request-branch`.
 
+> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head:
+>
+> 1. `git fetch --unshallow || true`
+> 2. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
+> 3. `git checkout pr-head`
+>
+> All sub-steps below assume you have completed this checkout.
+
 #### 3a. pnpm-lock.yaml merge conflict
 
 If `mergeable_state: dirty`, attempt to resolve it:
 
 1. Unshallow the repo if needed: `git fetch --unshallow || true`
-2. Check out the PR source branch: `git checkout <pr-head-ref>`
+2. Fetch and check out the PR source branch:
+   - `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
+   - `git checkout pr-head`
 3. `npm install -g pnpm@v10` with `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/`
 4. `git fetch https://github.com/Azure/azure-sdk-for-js main`
 5. `git merge FETCH_HEAD --allow-unrelated-histories` — check `git status` for conflicts. If files **other than** `pnpm-lock.yaml` also conflict, **stop** and only post guidance.
