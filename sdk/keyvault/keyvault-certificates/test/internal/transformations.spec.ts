@@ -164,7 +164,9 @@ describe("transformations", function () {
           },
         };
         const publicPolicy = toPublicPolicy(corePolicy);
-        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uniformResourceIdentifiers, ["https://example.com"]);
+        assert.deepEqual(publicPolicy.subjectAlternativeNames!.uniformResourceIdentifiers, [
+          "https://example.com",
+        ]);
       });
 
       it("round-trips uniformResourceIdentifiers through toCorePolicy and toPublicPolicy", () => {
