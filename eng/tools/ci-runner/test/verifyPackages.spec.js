@@ -208,7 +208,7 @@ describe("getModifiedFilesSinceTag", () => {
 describe("filterRelevantFiles", () => {
   const pkgDir = "sdk/storage/storage-blob";
 
-  it("includes .ts and .js source files", () => {
+  it("includes .ts and .js source files under src/", () => {
     const files = [
       "sdk/storage/storage-blob/src/index.ts",
       "sdk/storage/storage-blob/src/utils.js",
@@ -220,6 +220,14 @@ describe("filterRelevantFiles", () => {
       "sdk/storage/storage-blob/src/Widget.jsx",
     ];
     assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), files);
+  });
+
+  it("excludes files under generated/", () => {
+    const files = [
+      "sdk/storage/storage-blob/generated/client.ts",
+      "sdk/storage/storage-blob/generated/models/index.ts",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
   });
 
   it("excludes non-ts/js files", () => {
@@ -257,6 +265,24 @@ describe("filterRelevantFiles", () => {
     assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
   });
 
+  it("excludes config files in package root", () => {
+    const files = [
+      "sdk/storage/storage-blob/vitest.config.ts",
+      "sdk/storage/storage-blob/vitest.browser.config.ts",
+      "sdk/storage/storage-blob/vitest.esm.config.ts",
+      "sdk/storage/storage-blob/karma.conf.js",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
+  it("excludes files under swagger/ and review/", () => {
+    const files = [
+      "sdk/storage/storage-blob/swagger/README.md",
+      "sdk/storage/storage-blob/review/storage-blob.api.md",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
   it("returns mixed results correctly", () => {
     const files = [
       "sdk/storage/storage-blob/src/index.ts",
@@ -267,6 +293,8 @@ describe("filterRelevantFiles", () => {
       "sdk/storage/storage-blob/src/config.mjs",
       "sdk/storage/storage-blob/test/helpers.cjs",
       "sdk/storage/storage-blob/src/App.tsx",
+      "sdk/storage/storage-blob/vitest.config.ts",
+      "sdk/storage/storage-blob/generated/models.ts",
     ];
     assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), [
       "sdk/storage/storage-blob/src/index.ts",
