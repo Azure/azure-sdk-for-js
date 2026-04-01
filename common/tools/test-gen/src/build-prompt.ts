@@ -235,10 +235,7 @@ export function buildBatchDeltaPrompt(
   const testPatternsSection = existingTestPatterns
     ? [
         "## Test Style Reference",
-        "The following patterns are from the existing test suite for this module. Match this style exactly:",
-        "<test_patterns>",
-        existingTestPatterns,
-        "</test_patterns>",
+        "An existing test suite is attached — match its style exactly (class structure, decorators, fixtures, imports).",
         "",
       ]
     : [];
@@ -429,7 +426,7 @@ export function buildCoderPrompt(
       : "";
 
   const testPatternsSection = existingTestPatterns
-    ? `## Test Style Reference\nMatch this style exactly:\n<test_patterns>\n${existingTestPatterns}\n</test_patterns>\n`
+    ? `## Test Style Reference\nAn existing test suite is attached — match its style exactly (class structure, decorators, fixtures, imports).\n`
     : "";
 
   const contextFilesList =
