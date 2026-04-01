@@ -8,7 +8,7 @@
 const ALLOWED_HOST_SUFFIXES = [
   ".asm.skype.com",
   ".asyncgw.teams.microsoft.com",
-  ".gov.teams.microsoft.us",
+  ".ams.gov.teams.microsoft.us",
 ] as const;
 
 /**
