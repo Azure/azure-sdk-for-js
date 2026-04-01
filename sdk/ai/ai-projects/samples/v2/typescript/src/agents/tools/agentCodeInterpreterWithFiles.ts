@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   const openAIClient = project.getOpenAIClient();
 
   // Upload a CSV file for the code interpreter
-  const assetFilePath = path.join(__dirname, "..", "assets", "synthetic_500_quarterly_results.csv");
+  const assetFilePath = path.join(__dirname, "..", "..", "..", "agents", "assets", "synthetic_500_quarterly_results.csv");
   console.log("Uploading CSV file...");
   const file = await openAIClient.files.create({
     purpose: "assistants",
