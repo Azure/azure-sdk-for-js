@@ -3,14 +3,13 @@
 
 import { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
 import {
-  _deidServicesCreateDeserialize,
-  _deidServicesUpdateDeserialize,
-  _deidServicesDeleteDeserialize,
-} from "./api/deidServices/index.js";
+  _$deleteDeserialize,
+  _createDeserialize,
+} from "./api/privateEndpointConnections/operations.js";
 import {
-  _privateEndpointConnectionsCreateDeserialize,
-  _privateEndpointConnectionsDeleteDeserialize,
-} from "./api/privateEndpointConnections/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDeidServices,
+  _createDeserialize as _createDeserializeDeidServices,
+} from "./api/deidServices/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -64,6 +63,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -74,41 +74,25 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _privateEndpointConnectionsCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _privateEndpointConnectionsDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    { deserializer: _$deleteDeserializeDeidServices, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    { deserializer: _createDeserializeDeidServices, expectedStatuses: ["200", "201", "202"] },
 };
 
 function getDeserializationHelper(
@@ -179,4 +163,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }
