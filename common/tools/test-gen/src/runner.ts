@@ -655,20 +655,12 @@ async function writeAndFix(
     ? `\n## Source Under Test\n\nAttached as \`${sourceFile}\`. Use it to verify constructor signatures, importable symbols, and method names.\n`
     : "";
   const existingSuiteSection = existingTestsSnippet
-    ? `\n## Existing Suite Example\n\nAttached as \`${existingTestFile ?? "existing suite example"}\`.\n`
+    ? `\n## Existing Suite Example\n\nUse this as a reference for test style, fixtures, and patterns:\n<existing_suite>\n${existingTestsSnippet}\n</existing_suite>\n`
     : "";
   if (sourceCode && sourceFile) {
     attachments.push(
       buildFocusedFileAttachment(resolve(packageDir, sourceFile), sourceCode, [], sourceFile),
     );
-  }
-  if (existingTestsSnippet) {
-    attachments.push({
-      type: "virtual-file",
-      path: `fix/${relPath}.existing-suite.txt`,
-      displayName: existingTestFile ?? `${relPath} existing suite example`,
-      content: existingTestsSnippet,
-    });
   }
   // Attach context files (dependencies) so the fix LLM can see imported types/constructors
   const contextFilesAttached: string[] = [];
@@ -1653,16 +1645,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
 
         const coderAttachments: SendAttachment[] = [
           ...coderPromptData.attachments,
-          ...(existingTests
-            ? [
-                {
-                  type: "virtual-file" as const,
-                  path: `coder/${outputPath ?? `batch-${batchNumber}`}.existing-suite.txt`,
-                  displayName: testEntries?.[0]?.testFile ?? `${file} existing tests`,
-                  content: existingTests,
-                },
-              ]
-            : []),
         ];
 
         const { content: coderContent, inputTokens: cIn, outputTokens: cOut, durationMs: cMs } = await send(
@@ -1759,16 +1741,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       fileLog("    🤖 Generating tests...");
       const batchAttachments: SendAttachment[] = [
         ...batchDelta.attachments,
-        ...(existingTests
-          ? [
-              {
-                type: "virtual-file" as const,
-                path: `generate/${outputPath ?? `batch-${batchNumber}`}.existing-suite.txt`,
-                displayName: testEntries?.[0]?.testFile ?? `${file} existing tests`,
-                content: existingTests,
-              },
-            ]
-          : []),
       ];
       const sendOpts: SendOptions = {
         model: cfg.llm.model,

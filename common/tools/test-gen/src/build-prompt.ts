@@ -235,7 +235,10 @@ export function buildBatchDeltaPrompt(
   const testPatternsSection = existingTestPatterns
     ? [
         "## Test Style Reference",
-        "An existing test suite is attached — match its style exactly (class structure, decorators, fixtures, imports).",
+        "Match this style exactly (class structure, decorators, fixtures, imports):",
+        "<test_patterns>",
+        existingTestPatterns,
+        "</test_patterns>",
         "",
       ]
     : [];
@@ -260,10 +263,10 @@ export function buildBatchDeltaPrompt(
       : []),
     ...(existingTestFile
       ? [
-          `The existing-suite example is attached as \`${existingTestFile}\` and is authoritative for test structure.`,
+          `The existing test suite is included inline above in the Test Style Reference section. Mirror its structure exactly.`,
         ]
       : []),
-    "If an existing-test example is attached, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
+    "If an existing test suite is included, mirror its structure exactly: class-vs-function shape, decorators, fixtures, setup flow, helper usage, and assertion style.",
     "Use only fixture names, helper names, decorators, imports, and symbols that are visible in the attached source-under-test, context files, or existing tests.",
     "CRITICAL: Every import name and symbol you use MUST be copied character-for-character from the attached source. Do NOT combine partial names, add/remove underscores, or guess at suffixes. If unsure a symbol exists, do NOT use it.",
     "",
@@ -426,7 +429,7 @@ export function buildCoderPrompt(
       : "";
 
   const testPatternsSection = existingTestPatterns
-    ? `## Test Style Reference\nAn existing test suite is attached — match its style exactly (class structure, decorators, fixtures, imports).\n`
+    ? `## Test Style Reference\nMatch this style exactly (class structure, decorators, fixtures, imports):\n<test_patterns>\n${existingTestPatterns}\n</test_patterns>\n`
     : "";
 
   const contextFilesList =
@@ -464,7 +467,7 @@ export function buildCoderPrompt(
       ? [`Context files are attached: ${contextFilesList}. Use them for helper functions, types, and dependencies.`]
       : []),
     ...(existingTestFile
-      ? [`The existing-suite example is attached as \`${existingTestFile}\` and is authoritative for test structure.`]
+      ? [`The existing test suite is included inline above in the Test Style Reference section. Mirror its structure exactly.`]
       : []),
     "",
     "## Instructions",
