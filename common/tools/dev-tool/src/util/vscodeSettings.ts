@@ -28,6 +28,8 @@ async function saveSettings(
   await writeFile(settingsPath, JSON.stringify(settings, null, 2) + "\n", "utf-8");
 }
 
+const DEPTH_MARKER = "devtool.managedScanMaxDepth";
+
 export async function enableRecordingsPanel(): Promise<void> {
   const { path: settingsPath, settings } = await loadSettings();
 
@@ -40,6 +42,7 @@ export async function enableRecordingsPanel(): Promise<void> {
   const currentDepth = settings["git.repositoryScanMaxDepth"] as number | undefined;
   if (currentDepth === undefined || currentDepth < 2) {
     settings["git.repositoryScanMaxDepth"] = 2;
+    settings[DEPTH_MARKER] = true;
   }
 
   await saveSettings(settingsPath, settings);
@@ -59,8 +62,10 @@ export async function disableRecordingsPanel(): Promise<void> {
     delete settings["git.scanRepositories"];
   }
 
-  if (settings["git.repositoryScanMaxDepth"] === 2) {
+  // Only remove the scan depth if the tool originally set it
+  if (settings[DEPTH_MARKER]) {
     delete settings["git.repositoryScanMaxDepth"];
+    delete settings[DEPTH_MARKER];
   }
 
   await saveSettings(settingsPath, settings);

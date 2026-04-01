@@ -353,7 +353,7 @@ async function findAssetCloneDirectory(
  * Runs `git status` and optionally `git diff` inside the asset-sync clone
  * scoped to the current package's recording subtree.
  */
-export async function getRecordingsDiff(
+export async function printRecordingsDiff(
   project: ProjectInfo,
   options: DiffOptions = {},
 ): Promise<void> {

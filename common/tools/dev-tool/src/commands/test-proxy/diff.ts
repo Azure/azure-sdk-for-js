@@ -3,7 +3,7 @@
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
-import { getRecordingsDiff } from "../../util/testProxyUtils";
+import { printRecordingsDiff } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "diff",
@@ -20,6 +20,6 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async (options) => {
   const project = await resolveProject();
-  await getRecordingsDiff(project, { stat: options.stat });
+  await printRecordingsDiff(project, { stat: options.stat });
   return true;
 });
