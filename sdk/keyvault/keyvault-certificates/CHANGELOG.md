@@ -4,8 +4,8 @@
 
 ### Features Added
 
-- Added `uniformResourceIdentifiers` and `ipAddresses` properties to `SubjectAlternativeNames` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
-- Adding support for the API version `2025-07-01`
+- Added `uri` and `ipAddresses` properties to `Subject Alternative Names` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) subject alternative names in certificates.
+- Added support for service API version `2025-07-01` [#40714](https://github.com/Azure/azure-rest-api-specs/pull/40714)
 
 ### Other Changes
 
