@@ -22,14 +22,13 @@ async function main() {
     skipFullSuiteValidation: true,
     config: {
       runner: {
-        // Coverage from targeted e2e + unit tests in playback mode
-        // Only run test dirs matching our source targets (operations layer)
-        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/unittests/ $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=120`,
+        // Coverage from full test suite in playback mode
+        command: `${activate} && unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-report=json:coverage.json -q --timeout=120`,
         coveragePath: "coverage.json",
         coverageFormat: "coveragepy",
         runSingle: `${activate} && python -m pytest $FILE -x -q --timeout=600 -W ignore --tb=short`,
         coverageDbPath: ".coverage",
-        timeout: 3_600_000,
+        timeout: 7_200_000,
         e2ePromptInstructions: [
           "## ⚠️ INTEGRATION TEST MODE — MANDATORY",
           "Tests MUST call real service endpoints. No mocking, stubbing, or faking of any kind.",
@@ -46,8 +45,8 @@ async function main() {
         ].join("\n"),
         finalCoverageCommand: [
           `${activate} &&`,
-          // Run unit tests in playback mode for baseline coverage
-          `unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/unittests/ --cov=azure.ai.ml --cov-branch -q --timeout=120 ;`,
+          // Run full existing suite in playback mode
+          `unset AZURE_TEST_RUN_LIVE && python -m pytest tests/*/e2etests/ tests/*/unittests/ --cov=azure.ai.ml --cov-branch -q --timeout=120 ;`,
           // Run generated gap tests live, appending coverage
           `export AZURE_TEST_RUN_LIVE=true && python -m pytest $(find tests -maxdepth 1 -name 'test_*_gaps*.py' 2>/dev/null) --cov=azure.ai.ml --cov-branch --cov-append -q --timeout=600 ;`,
           // Generate combined JSON report
