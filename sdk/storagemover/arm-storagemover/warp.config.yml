@@ -2,6 +2,7 @@ extends: ../../../warp.base.config.yml
 exports:
   "./api": "./src/api/index.ts"
   "./api/jobRuns": "./src/api/jobRuns/index.ts"
+  "./api/connections": "./src/api/connections/index.ts"
   "./api/jobDefinitions": "./src/api/jobDefinitions/index.ts"
   "./api/projects": "./src/api/projects/index.ts"
   "./api/endpoints": "./src/api/endpoints/index.ts"

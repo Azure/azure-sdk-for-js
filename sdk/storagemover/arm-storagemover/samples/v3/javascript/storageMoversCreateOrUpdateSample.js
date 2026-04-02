@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a top-level Storage Mover resource.
  *
  * @summary creates or updates a top-level Storage Mover resource.
- * x-ms-original-file: 2025-07-01/StorageMovers_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01/StorageMovers_CreateOrUpdate.json
  */
 async function storageMoversCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

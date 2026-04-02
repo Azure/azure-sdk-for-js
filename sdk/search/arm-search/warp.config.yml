@@ -1,1 +1,14 @@
 extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/queryKeys": "./src/api/queryKeys/index.ts"
+  "./api/adminKeys": "./src/api/adminKeys/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/sharedPrivateLinkResources": "./src/api/sharedPrivateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/offerings": "./src/api/offerings/index.ts"
+  "./models": "./src/models/index.ts"
