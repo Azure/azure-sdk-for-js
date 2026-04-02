@@ -4,8 +4,7 @@
 // @ts-check
 import { join as pathJoin } from "node:path";
 import { execSync } from "node:child_process";
-import { getBaseDir } from "./env.js";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 
 /**
  * Runs test-proxy restore for the given packages.

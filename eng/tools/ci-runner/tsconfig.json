@@ -6,7 +6,9 @@
     "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "types": ["node"]
+    "types": ["node"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["index.js", "src/**/*.js", "test/**/*.js"]
 }

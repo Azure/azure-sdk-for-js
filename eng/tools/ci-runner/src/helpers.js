@@ -75,7 +75,6 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
 
   let fullPackageNames = packageNames.slice();
 
-  let isReducedTestScopeEnabled = serviceDirs.length > 1;
   for (const dir of serviceDirs) {
     if (dir !== "core" && dir !== "test-utils" && dir !== "identity") {
       continue;
@@ -84,7 +83,6 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
     // these projects, we need to make sure they are built first, which requires them impacting
     // the build commands as well
     if (reducedDependencyTestMatrix[dir]) {
-      isReducedTestScopeEnabled = true;
       for (const dep of reducedDependencyTestMatrix[dir]) {
         if (!fullPackageNames.includes(dep)) {
           fullPackageNames.push(dep);
