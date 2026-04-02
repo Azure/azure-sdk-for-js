@@ -1,24 +1,22 @@
-# warp.config.yml — build configuration
-
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/updateSummaries": "src/api/updateSummaries/index.ts"
-  "./api/validatedSolutionRecipes": "src/api/validatedSolutionRecipes/index.ts"
-  "./api/updates": "src/api/updates/index.ts"
-  "./api/updateRuns": "src/api/updateRuns/index.ts"
-  "./api/skus": "src/api/skus/index.ts"
-  "./api/securitySettings": "src/api/securitySettings/index.ts"
-  "./api/extensions": "src/api/extensions/index.ts"
-  "./api/edgeDevices": "src/api/edgeDevices/index.ts"
-  "./api/edgeDeviceJobs": "src/api/edgeDeviceJobs/index.ts"
-  "./api/deploymentSettings": "src/api/deploymentSettings/index.ts"
-  "./api/clusters": "src/api/clusters/index.ts"
-  "./api/offers": "src/api/offers/index.ts"
-  "./api/arcSettings": "src/api/arcSettings/index.ts"
-  "./api/operations": "src/api/operations/index.ts"
+  "./api/updateSummaries": "./src/api/updateSummaries/index.ts"
+  "./api/validatedSolutionRecipes": "./src/api/validatedSolutionRecipes/index.ts"
+  "./api/updates": "./src/api/updates/index.ts"
+  "./api/updateRuns": "./src/api/updateRuns/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/securitySettings": "./src/api/securitySettings/index.ts"
+  "./api/extensions": "./src/api/extensions/index.ts"
+  "./api/edgeDevices": "./src/api/edgeDevices/index.ts"
+  "./api/edgeDeviceJobs": "./src/api/edgeDeviceJobs/index.ts"
+  "./api/deploymentSettings": "./src/api/deploymentSettings/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/offers": "./src/api/offers/index.ts"
+  "./api/arcSettings": "./src/api/arcSettings/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+<<<<<<< HEAD
 
 targets:
   - name: browser
@@ -37,3 +35,5 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main

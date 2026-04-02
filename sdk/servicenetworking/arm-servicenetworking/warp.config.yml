@@ -1,6 +1,5 @@
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./api/trafficControllerInterface": "./src/api/trafficControllerInterface/index.ts"
@@ -8,6 +7,7 @@ exports:
   "./api/frontendsInterface": "./src/api/frontendsInterface/index.ts"
   "./api/associationsInterface": "./src/api/associationsInterface/index.ts"
   "./models": "./src/models/index.ts"
+<<<<<<< HEAD
 
 targets:
   - name: browser
@@ -21,3 +21,5 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main

@@ -1,6 +1,5 @@
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/quota": "./src/api/quota/index.ts"
   "./api/usages": "./src/api/usages/index.ts"
@@ -16,6 +15,7 @@ exports:
   "./api/quotaRequestStatus": "./src/api/quotaRequestStatus/index.ts"
   "./api/quotaOperation": "./src/api/quotaOperation/index.ts"
   "./models": "./src/models/index.ts"
+<<<<<<< HEAD
 
 targets:
   - name: browser
@@ -29,3 +29,5 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main

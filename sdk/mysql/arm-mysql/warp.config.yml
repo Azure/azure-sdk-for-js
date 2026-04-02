@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
@@ -14,3 +15,6 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+extends: ../../../warp.base.config.yml
+>>>>>>> origin/main

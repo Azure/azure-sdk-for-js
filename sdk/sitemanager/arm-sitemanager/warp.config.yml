@@ -1,11 +1,11 @@
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/sitesByServiceGroup": "./src/api/sitesByServiceGroup/index.ts"
   "./api/sitesBySubscription": "./src/api/sitesBySubscription/index.ts"
   "./api/sites": "./src/api/sites/index.ts"
   "./models": "./src/models/index.ts"
+<<<<<<< HEAD
 
 targets:
   - name: browser
@@ -19,3 +19,5 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main

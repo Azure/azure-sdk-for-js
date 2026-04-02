@@ -8,8 +8,11 @@ targets:
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+<<<<<<< HEAD
 
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main

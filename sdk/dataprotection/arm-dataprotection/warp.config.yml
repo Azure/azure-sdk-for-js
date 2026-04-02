@@ -1,6 +1,5 @@
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/backupInstancesExtensionRouting": "./src/api/backupInstancesExtensionRouting/index.ts"
   "./api/fetchCrossRegionRestoreJobs": "./src/api/fetchCrossRegionRestoreJobs/index.ts"
@@ -25,6 +24,7 @@ exports:
   "./api/backupInstances": "./src/api/backupInstances/index.ts"
   "./api/dataProtectionOperations": "./src/api/dataProtectionOperations/index.ts"
   "./models": "./src/models/index.ts"
+<<<<<<< HEAD
 
 targets:
   - name: browser
@@ -38,3 +38,5 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+=======
+>>>>>>> origin/main
