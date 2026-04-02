@@ -5,13 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
-export interface RetrieveKnowledgeOptions extends OperationOptions {
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce
-   * security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-}
+export interface RetrieveOptions extends OperationOptions {}
 
 export interface KnowledgeBase {
   /**

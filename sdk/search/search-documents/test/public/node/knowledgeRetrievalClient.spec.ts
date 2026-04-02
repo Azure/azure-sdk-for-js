@@ -90,7 +90,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
 
   describe("KnowledgeRetrievalClient", () => {
     it("executes queries", { timeout: 60000 }, async () => {
-      const result = await knowledgeRetrievalClient.retrieveKnowledge({
+      const result = await knowledgeRetrievalClient.retrieve({
         intents: [
           {
             type: "semantic",

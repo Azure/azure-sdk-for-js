@@ -585,6 +585,7 @@ function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLe
     case authenticationKey !== undefined && authenticationKey !== null: {
       return {
         ...aMLParameters,
+        apiKey: authenticationKey,
         authKind: "key",
       } as KeyAuthAzureMachineLearningVectorizerParameters;
     }

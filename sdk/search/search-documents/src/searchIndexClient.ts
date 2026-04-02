@@ -729,7 +729,6 @@ export class SearchIndexClient {
   }
 
   public async createOrUpdateKnowledgeSource(
-    sourceName: string,
     knowledgeSource: KnowledgeSource,
     options: CreateOrUpdateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
@@ -740,7 +739,7 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
           utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          sourceName,
+          knowledgeSource.name,
           {
             ...updatedOptions,
             ifMatch: etag,

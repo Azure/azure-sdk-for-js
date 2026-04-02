@@ -35,14 +35,13 @@ export {
   type KnowledgeBaseMessageContentType,
   type KnowledgeBaseReference as BaseKnowledgeBaseReference,
   type KnowledgeBaseReferenceType,
-  // KnowledgeBaseRetrievalActivityRecord as BaseKnowledgeBaseRetrievalActivityRecord,
   type KnowledgeRetrievalIntentUnion as BaseKnowledgeRetrievalIntent,
   type KnowledgeRetrievalIntentType,
   type KnowledgeRetrievalReasoningEffortUnion,
   type KnowledgeRetrievalReasoningEffort as BaseKnowledgeRetrievalReasoningEffort,
   type KnowledgeRetrievalReasoningEffortKind,
   type KnowledgeSourceParams as BaseKnowledgeSourceParams,
-  type KnowledgeSourceVectorizer as KnowledgeSourceVectorizer_2,
+  type KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   type IndexedOneLakeKnowledgeSourceParams,
   type KnowledgeBaseActivityRecordUnion as KnowledgeBaseActivityRecord,
   type KnowledgeBaseAgenticReasoningActivityRecord,
@@ -343,13 +342,11 @@ export type {
   SearchRequestOptions,
   SearchRequestQueryTypeOptions,
   SearchResult,
-  SelectArray,
   SelectFields,
   SemanticDebugInfo,
   SemanticErrorMode,
   SemanticErrorReason,
   SemanticSearchOptions,
-  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestNarrowedModel,
   SuggestOptions,
@@ -366,7 +363,7 @@ export type {
   VectorQueryKind,
   VectorSearchOptions,
 } from "./indexModels.js";
-export type { KnowledgeBase, RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
+export type { KnowledgeBase, RetrieveOptions } from "./knowledgeBaseModels.js";
 export {
   KnowledgeRetrievalClient,
   type KnowledgeRetrievalClientOptions,

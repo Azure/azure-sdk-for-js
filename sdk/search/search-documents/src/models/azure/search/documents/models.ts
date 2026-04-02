@@ -65,7 +65,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -73,7 +73,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
   };
 }
 

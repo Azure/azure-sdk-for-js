@@ -2247,7 +2247,7 @@ export interface SearchIndexResponse {
     name: string;
     normalizers?: LexicalNormalizerUnion[];
     scoringProfiles?: ScoringProfile[];
-    semantic?: SemanticSearch;
+    semanticSearch?: SemanticSearch;
     similarity?: SimilarityAlgorithmUnion;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilterUnion[];

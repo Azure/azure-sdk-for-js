@@ -4992,7 +4992,7 @@ export interface SearchIndexResponse {
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityAlgorithmUnion;
   /** Defines parameters for a search index that influence semantic capabilities. */
-  semantic?: SemanticSearch;
+  semanticSearch?: SemanticSearch;
   /** Contains configuration options related to vector search. */
   vectorSearch?: VectorSearch;
   /** The ETag of the index. */
@@ -5035,7 +5035,9 @@ export function searchIndexResponseDeserializer(item: any): SearchIndexResponse 
     similarity: !item["similarity"]
       ? item["similarity"]
       : similarityAlgorithmUnionDeserializer(item["similarity"]),
-    semantic: !item["semantic"] ? item["semantic"] : semanticSearchDeserializer(item["semantic"]),
+    semanticSearch: !item["semantic"]
+      ? item["semantic"]
+      : semanticSearchDeserializer(item["semantic"]),
     vectorSearch: !item["vectorSearch"]
       ? item["vectorSearch"]
       : vectorSearchDeserializer(item["vectorSearch"]),

@@ -9,13 +9,13 @@ import type {
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
-  KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
   QueryType,
   ScoringStatistics,
   SearchMode,
+  SemanticSearchResultsType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
 import type { FacetResult, QueryAnswerResult, QueryCaptionResult } from "./serviceModels.js";
@@ -94,14 +94,7 @@ export interface GetDocumentOptions<
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: SelectArray<TFields>;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  xMsEnableElevatedRead?: boolean;
+  selectedFields?: readonly TFields[];
 }
 
 /**
@@ -397,7 +390,7 @@ export interface BaseSearchRequestOptions<
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: SelectArray<TFields>;
+  select?: readonly TFields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -415,13 +408,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  xMsEnableElevatedRead?: boolean;
 }
 
 /**
@@ -619,7 +605,7 @@ export interface SuggestRequest<
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: SelectArray<TFields>;
+  select?: readonly TFields[];
   /**
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
@@ -729,16 +715,6 @@ export type IndexDocumentsAction<TModel> = {
 // END manually modified generated interfaces
 
 // Utility types
-
-/**
- * If `TFields` is never, an untyped string array
- * Otherwise, a narrowed `Fields[]` type to be used elsewhere in the consuming type.
- */
-export type SelectArray<TFields = never> = [string] extends [TFields]
-  ? readonly TFields[]
-  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-    ? readonly string[]
-    : readonly TFields[];
 
 /**
  * If `TModel` is an untyped object, an untyped string array
@@ -1109,6 +1085,5 @@ export interface VectorSearchOptions<TModel extends object> {
 }
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
-export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 export type VectorFilterMode = `${KnownVectorFilterMode}`;
 export type VectorQueryKind = `${KnownVectorQueryKind}`;

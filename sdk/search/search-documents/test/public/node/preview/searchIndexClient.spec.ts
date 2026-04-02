@@ -145,7 +145,7 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       });
 
       it("updates knowledge source", async () => {
-        await indexClient.createOrUpdateKnowledgeSource(knowledgeSource.name, {
+        await indexClient.createOrUpdateKnowledgeSource({
           kind: "searchIndex",
           name: knowledgeSource.name,
           description: "updated knowledge source description",

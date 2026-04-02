@@ -195,7 +195,7 @@ export interface BaseDataDeletionDetectionPolicy {
 
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -216,7 +216,7 @@ export interface BaseKnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, any>;
+    sourceData?: Record<string, unknown>;
     type: KnowledgeBaseReferenceType;
 }
 
@@ -244,6 +244,11 @@ export interface BaseKnowledgeSourceParams {
     kind: KnowledgeSourceKind;
     knowledgeSourceName: string;
     rerankerThreshold?: number;
+}
+
+// @public
+export interface BaseKnowledgeSourceVectorizer {
+    kind: VectorSearchVectorizerKind;
 }
 
 // @public
@@ -303,13 +308,11 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     scoringStatistics?: ScoringStatistics;
     searchFields?: SearchFieldArray<TModel>;
     searchMode?: SearchMode;
-    select?: SelectArray<TFields>;
+    select?: readonly TFields[];
     sessionId?: string;
     skip?: number;
     top?: number;
     vectorSearchOptions?: VectorSearchOptions<TModel>;
-    xMsEnableElevatedRead?: boolean;
-    xMsQuerySourceAuthorization?: string;
 }
 
 // @public
@@ -948,9 +951,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> extends OperationOptions {
-    selectedFields?: SelectArray<TFields>;
-    xMsEnableElevatedRead?: boolean;
-    xMsQuerySourceAuthorization?: string;
+    selectedFields?: readonly TFields[];
 }
 
 // @public
@@ -1181,7 +1182,7 @@ export interface KeepTokenFilter extends BaseTokenFilter {
 
 // @public
 export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzureMachineLearningVectorizerParameters {
-    authenticationKey: string;
+    apiKey: string;
     authKind: "key";
     scoringUri: string;
 }
@@ -1248,7 +1249,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -1347,7 +1348,7 @@ export class KnowledgeRetrievalClient {
     readonly knowledgeBaseName: string;
     readonly pipeline: Pipeline;
     // (undocumented)
-    retrieveKnowledge(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveKnowledgeOptions): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptions): Promise<KnowledgeBaseRetrievalResponse>;
     readonly serviceVersion: string;
 }
 
@@ -1386,7 +1387,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource;
 
 // @public
-export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVectorizer_2 {
+export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
     azureOpenAIParameters?: AzureOpenAIParameters;
     kind: "azureOpenAI";
 }
@@ -1427,7 +1428,7 @@ export interface KnowledgeSourceReference {
 export interface KnowledgeSourceStatistics {
     averageItemsProcessedPerSynchronization: number;
     averageSynchronizationDuration: string;
-    totalSynchronization: number;
+    totalSynchronizations: number;
 }
 
 // @public
@@ -1455,11 +1456,6 @@ export type KnowledgeSourceSynchronizationStatus = string;
 
 // @public (undocumented)
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
-
-// @public
-export interface KnowledgeSourceVectorizer_2 {
-    kind: VectorSearchVectorizerKind;
-}
 
 // @public
 export enum KnownAIFoundryModelCatalogName {
@@ -2836,8 +2832,7 @@ export interface ResourceCounter {
 }
 
 // @public (undocumented)
-export interface RetrieveKnowledgeOptions extends OperationOptions {
-    xMsQuerySourceAuthorization?: string;
+export interface RetrieveOptions extends OperationOptions {
 }
 
 // @public
@@ -2932,6 +2927,7 @@ export interface SearchDocumentsResultBase {
         [propertyName: string]: FacetResult[];
     };
     readonly semanticErrorReason?: SemanticErrorReason;
+    // Warning: (ae-forgotten-export) The symbol "SemanticSearchResultsType" needs to be exported by the entry point index.d.ts
     readonly semanticSearchResultsType?: SemanticSearchResultsType;
 }
 
@@ -2983,7 +2979,7 @@ export class SearchIndexClient {
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // (undocumented)
-    createOrUpdateKnowledgeSource(sourceName: string, knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
+    createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteAlias(aliasName: string, options?: DeleteAliasOptions): Promise<void>;
@@ -3376,9 +3372,6 @@ export interface SearchServiceStatistics {
 }
 
 // @public
-export type SelectArray<TFields = never> = [string] extends [TFields] ? readonly TFields[] : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false ? readonly string[] : readonly TFields[];
-
-// @public
 export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false ? string : (<T>() => T extends TModel ? true : false) extends <T>() => T extends any ? true : false ? string : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false ? string : TModel extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
     [Key in keyof TModel]: Key extends string ? NonNullable<TModel[Key]> extends object ? NonNullable<TModel[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths ? (<T>() => T extends NextPaths ? true : false) extends <T>() => T extends never ? true : false ? Key : NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key : never : Key : never;
 }[keyof TModel & string] & string;
@@ -3433,9 +3426,6 @@ export interface SemanticSearchOptions {
     semanticFields?: string[];
     semanticQuery?: string;
 }
-
-// @public (undocumented)
-export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 
 // @public @deprecated
 export interface SentimentSkill extends BaseSearchIndexerSkill {
@@ -3621,7 +3611,7 @@ export interface SuggestRequest<TModel extends object, TFields extends SelectFie
     minimumCoverage?: number;
     orderBy?: string[];
     searchFields?: SearchFieldArray<TModel>;
-    select?: SelectArray<TFields>;
+    select?: readonly TFields[];
     top?: number;
     useFuzzyMatching?: boolean;
 }

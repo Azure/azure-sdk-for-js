@@ -30,7 +30,7 @@ export interface DocumentDebugInfo {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 

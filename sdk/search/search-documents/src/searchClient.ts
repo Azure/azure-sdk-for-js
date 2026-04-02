@@ -18,6 +18,7 @@ import type {
   QueryCaptionType as BaseCaptions,
   SearchRequest as GeneratedSearchRequest,
   VectorQueryUnion as GeneratedVectorQuery,
+  SemanticSearchResultsType,
 } from "./models/azure/search/documents/index.js";
 import type { SearchClientOptionalParams } from "./search/searchClient.js";
 import { SearchClient as GeneratedClient } from "./search/searchClient.js";
@@ -41,10 +42,8 @@ import type {
   SearchIterator,
   SearchOptions,
   SearchResult,
-  SelectArray,
   SelectFields,
   SemanticErrorReason,
-  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
@@ -781,7 +780,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   }
 
   private convertSelect<TFields extends SelectFields<TModel>>(
-    select?: SelectArray<TFields>,
+    select?: readonly TFields[],
   ): string | undefined {
     if (select) {
       return select.join(",");

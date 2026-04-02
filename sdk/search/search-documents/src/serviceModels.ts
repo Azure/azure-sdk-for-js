@@ -2504,7 +2504,7 @@ export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzu
   /**
    * The key for the AML service.
    */
-  authenticationKey: string;
+  apiKey: string;
 }
 
 /**
