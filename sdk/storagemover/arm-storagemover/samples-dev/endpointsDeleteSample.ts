@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an Endpoint resource.
  *
  * @summary deletes an Endpoint resource.
- * x-ms-original-file: 2025-07-01/Endpoints_Delete.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Delete.json
  */
 async function endpointsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
