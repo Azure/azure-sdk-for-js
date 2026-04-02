@@ -135,6 +135,7 @@ const MergeResponse = z.object({
 
 const FixResponse = z.object({
   code: z.string().describe("The corrected test file content"),
+  infrastructure_error: z.boolean().optional().describe("True if the failure is caused by missing infrastructure (Docker, compute, Azure resources) rather than a code bug"),
 });
 
 const IsolationFixResponse = z.object({
@@ -620,7 +621,7 @@ async function writeAndFix(
   signal?: AbortSignal,
   /** Relative path to the source file under test (the gap file). */
   sourceFile?: string,
-  existingTestFile?: string,
+  _existingTestFile?: string,
   existingTestsSnippet?: string,
   /** Resolved context files (dependencies) for the source under test. */
   contextFiles?: ContextFile[],
@@ -688,9 +689,11 @@ async function writeAndFix(
     lastErrorSig?: string;
     /** Number of times the same error signature has appeared consecutively. */
     repeatCount: number;
+    /** Set to true if LLM classifies the failure as missing infrastructure. */
+    infrastructureError: boolean;
   }
 
-  const ctx: FixContext = { currentCode: code, errors: "", passed: false, repeatCount: 0 };
+  const ctx: FixContext = { currentCode: code, errors: "", passed: false, repeatCount: 0, infrastructureError: false };
 
   /** Extract a short fingerprint from test errors for repeat detection. */
   function errorSignature(output: string): string {
@@ -798,6 +801,16 @@ async function writeAndFix(
         });
         llmStats.push({ inputTokens, outputTokens, durationMs });
         const result = FixResponse.parse(parseJsonResponse(content));
+
+        // Check if LLM classified this as an infrastructure error
+        if (result.infrastructure_error) {
+          log("    🏗️  LLM classified failure as missing infrastructure — accepting test as-is");
+          await deepLog("file_event", "fix_infra_error", { file: relPath });
+          ctx.infrastructureError = true;
+          ctx.passed = true; // Accept the test without further fixing
+          return;
+        }
+
         ctx.currentCode = result.code;
         await writeFile(absPath, ctx.currentCode, "utf8");
       },
@@ -808,7 +821,8 @@ async function writeAndFix(
   );
 
   // Rollback to snapshot if fix loop failed — prevents merge corruption
-  if (!ctx.passed && snapshot) {
+  // But don't rollback infrastructure errors — those tests are accepted as-is
+  if (!ctx.passed && !ctx.infrastructureError && snapshot) {
     await writeFile(absPath, snapshot, "utf8");
     log("    ↩️  Rolled back to pre-batch state");
   }
@@ -1635,7 +1649,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
         // ── Phase 2: Coder ──
         fileLog(`    🤖 Phase 2: Generating tests from plan...`);
 
-        const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
         const e2eInstructions = computeE2eInstructions(cfg);
 
         const coderPromptData = buildCoderPrompt(
@@ -1725,7 +1738,6 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       // Proactively compact session before each batch to prevent timeouts
       await compactSessionIfNeeded(generationSessionKey);
 
-      const isE2eMode = !!(cfg.paths.testContextDirs && cfg.paths.testContextDirs.length > 0);
       const e2eInstructions = computeE2eInstructions(cfg);
 
       const batchDelta = buildBatchDeltaPrompt(

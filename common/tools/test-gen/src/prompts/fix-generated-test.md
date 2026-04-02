@@ -51,6 +51,23 @@ Before writing any fix, perform these analysis steps on the attached files:
 6. Return the COMPLETE corrected file — not a diff, not a partial snippet.
 7. Do NOT invent fixtures, decorators, helper functions, imports, or private symbols that are not visible in the attached source file or attached existing-suite example.
 8. Do NOT replace behavior tests with module-import smoke tests, reflection tests, or generic "symbol exists" tests.
+
+## ABSOLUTE BANS — your response will be REJECTED if it contains any of these:
+- `hasattr(` — NEVER check whether attributes exist. Call them and assert on behavior.
+- `assert True` — NEVER use unconditional assertions. Assert on specific values or exceptions.
+- `importlib.import_module` — NEVER use dynamic imports. Use normal `from ... import ...`.
+- `dir(` used in assertions — NEVER inspect a module's symbol table.
+- `assert ... is not None` as the ONLY assertion in a test — always assert on a specific value or type.
+- Tests that ONLY import a module and check it exists — these cover zero branches.
+
+## CRITICAL: Do NOT weaken tests to make them pass
+If a behavior test fails (e.g., a test that calls `client.models.create_or_update(...)` with specific args), fix the CAUSE of the failure (wrong import, wrong args, wrong expected exception). Do NOT replace it with a weaker test like `hasattr(module, "create_or_update")`. A failing behavior test is better than a passing smoke test.
+
+## Infrastructure errors
+If the error is caused by missing infrastructure (Docker not running, local service unavailable, compute not provisioned, specific Azure resource not deployed), classify it as an infrastructure error:
+- Set the `infrastructure_error` field to `true` in your response
+- Keep the test code AS-IS — do not weaken or delete it
+- The test runner will accept it and skip validation for this test
 <e2e_section>
 {{e2eSection}}
 </e2e_section>
