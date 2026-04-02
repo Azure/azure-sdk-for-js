@@ -39,6 +39,9 @@ export interface RunnerConfig {
   /** Optional command to measure final coverage (replaces `command` for the final run).
    *  Useful when generated tests need a different mode (e.g., live) than existing tests. */
   finalCoverageCommand?: string;
+  /** Optional command to push test recordings after the final coverage run.
+   *  E.g., `python scripts/manage_recordings.py push -p sdk/.../assets.json`. */
+  recordingsPushCommand?: string;
 }
 
 /** Directory and file naming conventions. */

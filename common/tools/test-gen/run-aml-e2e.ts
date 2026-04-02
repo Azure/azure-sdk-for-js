@@ -15,7 +15,8 @@ async function main() {
   writeFileSync(PROGRESS_LOG, `=== test-gen started ${new Date().toISOString()} ===\n`);
   setVerboseLogPath(VERBOSE_LOG);
   const packageDir = "/home/dealmaha/py2/sdk/ml/azure-ai-ml";
-  const activate = ". /tmp/aml-cov/bin/activate && set -a && . /home/dealmaha/py2/sdk/ml/azure-ai-ml/.env && set +a && export AZURE_TEST_RUN_LIVE=true";
+  // .env is auto-loaded by runner via dotenv — no need to source in shell commands
+  const activate = ". /tmp/aml-cov/bin/activate && export AZURE_TEST_RUN_LIVE=true";
 
   const result = await runSinglePass({
     packageDir,
@@ -52,6 +53,8 @@ async function main() {
           // Generate combined JSON report
           `coverage json -o coverage.json`,
         ].join(" "),
+        // Push recordings to azure-sdk-assets after live test run
+        recordingsPushCommand: `${activate} && python /home/dealmaha/py2/scripts/manage_recordings.py push -p sdk/ml/azure-ai-ml/assets.json`,
       },
       paths: {
         testDir: "tests",

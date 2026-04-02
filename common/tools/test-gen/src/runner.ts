@@ -11,7 +11,8 @@ import { exec, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { resolve, join, dirname, basename } from "node:path";
 import { writeFile, readFile, readdir, mkdir } from "node:fs/promises";
-import { appendFileSync } from "node:fs";
+import { appendFileSync, existsSync } from "node:fs";
+import { config as loadDotenv } from "dotenv";
 import { extractGaps, computeBranchCoverage, filterGapsForFile } from "./extract-gaps.ts";
 import type { ExtractGapsResult } from "./extract-gaps.ts";
 import type { CoverageGap } from "./types.ts";
@@ -1200,6 +1201,15 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
   const generatedFiles: string[] = [];
   const promptCache = await PromptCache.load(packageDir);
 
+  // Load .env from the package directory so child processes inherit the vars
+  const envPath = resolve(packageDir, ".env");
+  if (existsSync(envPath)) {
+    const result = loadDotenv({ path: envPath });
+    if (result.parsed) {
+      log(`🔑 Loaded ${Object.keys(result.parsed).length} env vars from ${envPath}`);
+    }
+  }
+
   // Default verbose logging so subprocess output is always captured
   if (!_verboseLogPath) {
     const defaultVerbosePath = join(packageDir, ".test-gen-copilot-sdk", "verbose.log");
@@ -1928,6 +1938,25 @@ export async function runSinglePass(options: RunOptions): Promise<RunReport> {
       log(`📈 Improvement: +${(finalBranchCov - initialBranchCov).toFixed(1)}%`);
     } catch {
       log("    ⚠️  Could not measure final coverage");
+    }
+
+    // Push recordings if a command was configured
+    if (cfg.runner.recordingsPushCommand) {
+      log("\n━━━ Step 7: Pushing test recordings ━━━");
+      try {
+        const { stdout, exitCode } = await execStreaming(
+          `${cfg.runner.recordingsPushCommand} 2>&1`,
+          { cwd: packageDir, timeout: cfg.runner.timeout, label: "recordings-push" },
+        );
+        if (exitCode === 0) {
+          log("    ✅ Recordings pushed successfully");
+        } else {
+          log(`    ⚠️  Recordings push exited with code ${exitCode}`);
+        }
+        verboseLog(stdout);
+      } catch (e) {
+        log(`    ⚠️  Recordings push failed: ${(e as Error).message}`);
+      }
     }
   }
 

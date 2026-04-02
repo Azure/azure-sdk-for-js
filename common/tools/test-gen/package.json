@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@github/copilot-sdk": "^0.1.32",
+    "dotenv": "^17.4.0",
     "tsx": "catalog:",
     "zod": "^4.3.6"
   },
