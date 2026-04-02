@@ -2,7 +2,7 @@
   "apiVersions": {
     "KeyVault": "2025-07-01"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "KeyVault",
     "CrossLanguageDefinitionId": {

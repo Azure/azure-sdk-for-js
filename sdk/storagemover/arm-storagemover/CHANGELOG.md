@@ -1,5 +1,53 @@
 # Release History
 
+## 3.1.0 (2026-03-17)
+
+### Features Added
+  - Added operation group ConnectionsOperations
+  - Added Interface AzureKeyVaultS3WithHmacCredentials
+  - Added Interface Connection
+  - Added Interface ConnectionProperties
+  - Added Interface ConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ConnectionsDeleteOptionalParams
+  - Added Interface ConnectionsGetOptionalParams
+  - Added Interface ConnectionsListOptionalParams
+  - Added Interface JobRunWarning
+  - Added Interface S3WithHmacEndpointProperties
+  - Added Interface S3WithHmacEndpointUpdateProperties
+  - Added Interface ScheduleInfo
+  - Interface AzureMultiCloudConnectorEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageNfsFileShareEndpointProperties has a new optional parameter endpointKind
+  - Interface AzureStorageSmbFileShareEndpointProperties has a new optional parameter endpointKind
+  - Interface EndpointBaseProperties has a new optional parameter endpointKind
+  - Interface JobDefinitionProperties has a new optional parameter connections
+  - Interface JobDefinitionProperties has a new optional parameter dataIntegrityValidation
+  - Interface JobDefinitionProperties has a new optional parameter preservePermissions
+  - Interface JobDefinitionProperties has a new optional parameter schedule
+  - Interface JobDefinitionUpdateProperties has a new optional parameter connections
+  - Interface JobDefinitionUpdateProperties has a new optional parameter dataIntegrityValidation
+  - Interface JobRunProperties has a new optional parameter scheduledExecutionTime
+  - Interface JobRunProperties has a new optional parameter triggerType
+  - Interface JobRunProperties has a new optional parameter warnings
+  - Interface NfsMountEndpointProperties has a new optional parameter endpointKind
+  - Interface SmbMountEndpointProperties has a new optional parameter endpointKind
+  - Added Type Alias ConnectionStatus
+  - Added Type Alias DataIntegrityValidation
+  - Added Type Alias EndpointKind
+  - Added Type Alias Frequency
+  - Added Type Alias S3WithHmacSourceType
+  - Added Type Alias TriggerType
+  - Added Enum KnownConnectionStatus
+  - Added Enum KnownDataIntegrityValidation
+  - Added Enum KnownEndpointKind
+  - Added Enum KnownFrequency
+  - Added Enum KnownS3WithHmacSourceType
+  - Added Enum KnownTriggerType
+  - Enum KnownCredentialType has a new value AzureKeyVaultS3WithHmac
+  - Enum KnownEndpointType has a new value S3WithHmac
+  - Enum KnownVersions has a new value V20250801
+  - Enum KnownVersions has a new value V20251201
+
 ## 3.0.1 (2025-10-15)
 
 ### Features Added
