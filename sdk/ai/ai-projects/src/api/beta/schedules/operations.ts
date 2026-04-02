@@ -32,15 +32,17 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _listRunsSend(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}/runs{?api-version}",
+    "/schedules/{id}/runs{?api-version,type,enabled}",
     {
-      id: id,
+      id: scheduleId,
       "api-version": context.apiVersion,
+      type: options?.scheduleType,
+      enabled: options?.enabled,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,12 +75,12 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, id, options),
+    () => _listRunsSend(context, scheduleId, options),
     _listRunsDeserialize,
     ["200"],
     {
@@ -163,7 +165,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
+    contentType: "application/json",
     headers: {
       "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
@@ -188,11 +190,11 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 /** Create or update operation template. */
 export async function createOrUpdate(
   context: Client,
-  id: string,
+  scheduleId: string,
   schedule: Schedule,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
-  const result = await _createOrUpdateSend(context, id, schedule, options);
+  const result = await _createOrUpdateSend(context, scheduleId, schedule, options);
   return _createOrUpdateDeserialize(result);
 }
 
@@ -259,14 +261,14 @@ export function list(
 
 export function _getSend(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{id}{?api-version}",
     {
-      id: id,
+      id: scheduleId,
       "api-version": context.apiVersion,
     },
     {
@@ -298,10 +300,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 /** Get a schedule by id. */
 export async function get(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): Promise<Schedule> {
-  const result = await _getSend(context, id, options);
+  const result = await _getSend(context, scheduleId, options);
   return _getDeserialize(result);
 }
 
@@ -345,9 +347,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /** Delete a schedule. */
 export async function $delete(
   context: Client,
-  id: string,
+  scheduleId: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, id, options);
+  const result = await _$deleteSend(context, scheduleId, options);
   return _$deleteDeserialize(result);
 }
