@@ -46,7 +46,8 @@
   "files": [
     "dist/esm/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "prettier.json"
   ],
   "scripts": {
     "build": "npm run clean && warp build",
