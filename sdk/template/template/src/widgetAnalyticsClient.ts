@@ -1,12 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-tool1AdxFg/result/src/widgetAnalyticsClient.ts
+import {
+  WidgetAnalyticsContext,
+  WidgetAnalyticsClientOptionalParams,
+  createWidgetAnalytics,
+} from "./api/index.js";
+import { WidgetsOperations, _getWidgetsOperations } from "./classic/widgets/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-tool1AdxFg/base/sdk/template/template/generated/widgetAnalyticsClient.ts
+import {
+  createWidgetAnalytics,
+  WidgetAnalyticsContext,
+  WidgetAnalyticsClientOptionalParams,
+} from "./api/index.js";
+import { WidgetsOperations, _getWidgetsOperations } from "./classic/widgets/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
+=======
 import type { WidgetAnalyticsContext, WidgetAnalyticsClientOptionalParams } from "./api/index.js";
 import { createWidgetAnalytics } from "./api/index.js";
 import type { WidgetsOperations } from "./classic/widgets/index.js";
 import { _getWidgetsOperations } from "./classic/widgets/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-tool1AdxFg/custom/sdk/template/template/src/widgetAnalyticsClient.ts
 
 export type { WidgetAnalyticsClientOptionalParams } from "./api/widgetAnalyticsContext.js";
 

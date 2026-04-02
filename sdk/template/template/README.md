@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/template)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/template?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/template)
 - [Product documentation](https://learn.microsoft.com/azure/) <!-- Note: Placeholder to be replaced with links to your product documentation -->
 
 ## Getting started
