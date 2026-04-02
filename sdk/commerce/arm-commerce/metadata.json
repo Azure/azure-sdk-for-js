@@ -1,0 +1,27 @@
+{
+  "apiVersions": {
+    "Microsoft.Commerce": "2015-06-01-preview"
+  },
+  "emitterVersion": "0.51.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Commerce",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-commerce!UsageAggregationListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-commerce!UsageAggregation:interface": "Microsoft.Commerce.UsageAggregation",
+      "@azure/arm-commerce!UsageSample:interface": "Microsoft.Commerce.UsageSample",
+      "@azure/arm-commerce!ErrorObjectResponse:interface": "Microsoft.Commerce.ErrorObjectResponse",
+      "@azure/arm-commerce!ErrorResponse:interface": "Microsoft.Commerce.ErrorResponse",
+      "@azure/arm-commerce!ResourceRateCardInfo:interface": "Microsoft.Commerce.ResourceRateCardInfo",
+      "@azure/arm-commerce!OfferTermInfo:interface": "Microsoft.Commerce.OfferTermInfo",
+      "@azure/arm-commerce!MonetaryCredit:interface": "Microsoft.Commerce.MonetaryCredit",
+      "@azure/arm-commerce!MonetaryCommitment:interface": "Microsoft.Commerce.MonetaryCommitment",
+      "@azure/arm-commerce!RecurringCharge:interface": "Microsoft.Commerce.RecurringCharge",
+      "@azure/arm-commerce!MeterInfo:interface": "Microsoft.Commerce.MeterInfo",
+      "@azure/arm-commerce!KnownAggregationGranularity:enum": "Microsoft.Commerce.AggregationGranularity",
+      "@azure/arm-commerce!KnownOfferTermInfoName:enum": "Microsoft.Commerce.OfferTermInfoName",
+      "@azure/arm-commerce!KnownVersions:enum": "Microsoft.Commerce.Versions",
+      "@azure/arm-commerce!RateCardOperations#get:member": "Microsoft.Commerce.RateCardOperationGroup.get",
+      "@azure/arm-commerce!UsageAggregatesOperations#list:member": "Microsoft.Commerce.UsageAggregatesOperationGroup.list"
+    }
+  }
+}
