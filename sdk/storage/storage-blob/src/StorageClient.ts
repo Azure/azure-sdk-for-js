@@ -34,7 +34,7 @@ export interface CommonOptions {
 }
 
 export class StorageClientContext {
-  blobClient: BlobClient;
+  client: BlobClient;
   service: ServiceOperations;
   container: ContainerOperations;
   blob: BlobOperations;
@@ -43,21 +43,20 @@ export class StorageClientContext {
   blockBlob: BlockBlobOperations;
 
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
-    const cr = {} as TokenCredential;
-    this.blobClient = new BlobClient(url, cr, options);
-    this.service = this.blobClient.service;
-    this.container = this.blobClient.container;
-    this.blob = this.blobClient.blob;
-    this.blockBlob = this.blobClient.blockBlob;
-    this.appendBlob = this.blobClient.appendBlob;
-    this.pageBlob = this.blobClient.pageBlob;
-
-    const { pipeline: corePipeline } = options;
-    if (!corePipeline) {
-      throw new Error("Pipeline is required in options");
-    }
-    (this.blobClient as any).pipeline = corePipeline;
-    this.blobClient["_client"].pipeline = corePipeline;
+    const placeholderCredential: TokenCredential = {
+      async getToken() {
+        throw new Error(
+          "Placeholder TokenCredential was used. Authentication must be configured via the HTTP pipeline.",
+        );
+      },
+    };
+    this.client = new BlobClient(url, placeholderCredential, options);
+    this.service = this.client.service;
+    this.container = this.client.container;
+    this.blob = this.client.blob;
+    this.blockBlob = this.client.blockBlob;
+    this.appendBlob = this.client.appendBlob;
+    this.pageBlob = this.client.pageBlob;
   }
 }
 
