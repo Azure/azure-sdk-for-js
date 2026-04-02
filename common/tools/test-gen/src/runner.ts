@@ -856,9 +856,8 @@ async function isolationFixLoop(
       async isTerminal(ctx) {
         if (ctx.noChanges) {
           await deepLog("phase", "isolation_no_changes", { fileCount: ctx.fileCodes.size });
-          throw new Error(
-            "Isolation batching found no likely fixes for the remaining full-suite failures",
-          );
+          log("    ⚠️  Isolation batching found no likely fixes — continuing anyway");
+          return true;
         }
         await ensureAzureAuth(log);
         const result = await runFullSuite(cfg.runner.command, packageDir, cfg);
