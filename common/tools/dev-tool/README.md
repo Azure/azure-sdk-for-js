@@ -64,7 +64,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `init` sets up a package for customization by copying src/ to generated/
   - `apply` applies existing customizations to new generated code
 
-The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
+The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `run` command above, issue the command `npx dev-tool package run --help`.
 
 ## Extending the Tool
 

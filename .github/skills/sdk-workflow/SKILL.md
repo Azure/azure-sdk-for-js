@@ -31,6 +31,7 @@ development tasks. Read the referenced docs — don't guess at commands.
   (`pwsh`) and the Azure PowerShell module. If `pwsh` is not installed, install it
   from https://learn.microsoft.com/powershell/scripting/install/installing-powershell,
   then run `Install-Module -Name Az -Force -AllowClobber` to install the Az module.
+  Always run `pnpm install` before building or running any dev-tool commands.
 - **Building with turbo**: To build a package _and its dependencies_, use
   `pnpm turbo build --filter=<package-name>... --token 1` (note the trailing `...`).
   Running `npm run build` in a package directory will fail if dependencies aren't built.
@@ -58,5 +59,5 @@ development tasks. Read the referenced docs — don't guess at commands.
   After provisioning, write the output environment variables to a `.env` file in every
   library under the service folder. For example, for `sdk/keyvault`, write the `.env`
   file in `sdk/keyvault/keyvault-keys`, `sdk/keyvault/keyvault-certificates`, etc.
-- **Test proxy**: `dev-tool run test:vitest` automatically manages the test proxy
+- **Test proxy**: `npx dev-tool run test:vitest` automatically manages the test proxy
   lifecycle. You do not need to start it manually.
