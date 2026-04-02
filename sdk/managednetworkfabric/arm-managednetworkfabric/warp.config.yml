@@ -1,15 +1,49 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/networkMonitors": "src/api/networkMonitors/index.ts"
+  "./api/routePolicies": "src/api/routePolicies/index.ts"
+  "./api/networkTaps": "src/api/networkTaps/index.ts"
+  "./api/networkTapRules": "src/api/networkTapRules/index.ts"
+  "./api/networkRacks": "src/api/networkRacks/index.ts"
+  "./api/networkPacketBrokers": "src/api/networkPacketBrokers/index.ts"
+  "./api/networkToNetworkInterconnects": "src/api/networkToNetworkInterconnects/index.ts"
+  "./api/networkFabrics": "src/api/networkFabrics/index.ts"
+  "./api/networkFabricSkus": "src/api/networkFabricSkus/index.ts"
+  "./api/networkFabricControllers": "src/api/networkFabricControllers/index.ts"
+  "./api/networkInterfaces": "src/api/networkInterfaces/index.ts"
+  "./api/networkDevices": "src/api/networkDevices/index.ts"
+  "./api/networkDeviceSkus": "src/api/networkDeviceSkus/index.ts"
+  "./api/neighborGroups": "src/api/neighborGroups/index.ts"
+  "./api/externalNetworks": "src/api/externalNetworks/index.ts"
+  "./api/internalNetworks": "src/api/internalNetworks/index.ts"
+  "./api/l3IsolationDomains": "src/api/l3IsolationDomains/index.ts"
+  "./api/l2IsolationDomains": "src/api/l2IsolationDomains/index.ts"
+  "./api/ipPrefixes": "src/api/ipPrefixes/index.ts"
+  "./api/ipExtendedCommunities": "src/api/ipExtendedCommunities/index.ts"
+  "./api/ipCommunities": "src/api/ipCommunities/index.ts"
+  "./api/internetGateways": "src/api/internetGateways/index.ts"
+  "./api/internetGatewayRules": "src/api/internetGatewayRules/index.ts"
+  "./api/accessControlLists": "src/api/accessControlLists/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
