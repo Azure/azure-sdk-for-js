@@ -1,6 +1,6 @@
 ---
 name: sdk-workflow
-description: '**UTILITY SKILL** — Must be consulted for SDK development workflow tasks. Routes agents to the correct tools and documentation for building, testing, linting, formatting, and other package development tasks. WHEN: "build package", "run tests", "lint code", "format code", "run checks", "prepare samples", "publish samples", "apply customization", "run migrations", "bump version", "extract API", "update snippets", "check API compatibility", "manage test recordings".'
+description: '**UTILITY SKILL** — Must be consulted for SDK development workflow tasks. Routes agents to the correct tools and documentation for building, testing, linting, formatting, provisioning, deploying, and other package development tasks. WHEN: "build package", "run tests", "lint code", "format code", "run checks", "prepare samples", "publish samples", "apply customization", "run migrations", "bump version", "extract API", "update snippets", "check API compatibility", "manage test recordings", "provision test resources", "deploy test resources", "create test resources", "set up test environment", "authenticate to Azure", "login to Azure", "release package", "increment version".'
 ---
 
 # SDK Development Workflow
