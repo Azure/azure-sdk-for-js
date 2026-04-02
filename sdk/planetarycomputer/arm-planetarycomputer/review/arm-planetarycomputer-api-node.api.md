@@ -4,9 +4,9 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function createSpatio(credential: TokenCredential, subscriptionId: string, options?: SpatioClientOptionalParams): SpatioContext;
@@ -14,11 +14,12 @@ export function createSpatio(credential: TokenCredential, subscriptionId: string
 // @public
 export interface SpatioClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface SpatioContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

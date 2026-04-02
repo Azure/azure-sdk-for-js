@@ -15,7 +15,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -95,10 +95,7 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    // (undocumented)
-    V20240131Preview = "2024-01-31-preview",
-    // (undocumented)
-    V20250211Preview = "2025-02-11-preview"
+    _20260415 = "2026-04-15"
 }
 
 // @public
@@ -106,7 +103,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -115,7 +112,7 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
