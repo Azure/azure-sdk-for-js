@@ -88,7 +88,7 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | Yes |
 | `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
-|`Build failed` with  ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY  Broken lockfile...This issue is probably caused by a badly resolved merge conflict.| pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
+| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
 
 Besides above cases also:
 - Only log one failure case if `UnitTest` failed with same errors across environments
