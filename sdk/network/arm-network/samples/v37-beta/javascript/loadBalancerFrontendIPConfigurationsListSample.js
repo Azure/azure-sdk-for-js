@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetworkManagementClient } = require("@azure/arm-network");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets all the load balancer frontend IP configurations.
+ *
+ * @summary gets all the load balancer frontend IP configurations.
+ * x-ms-original-file: 2025-05-01/LoadBalancerFrontendIPConfigurationList.json
+ */
+async function loadBalancerFrontendIPConfigurationList() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.loadBalancerFrontendIPConfigurations.list("testrg", "lb")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await loadBalancerFrontendIPConfigurationList();
+}
+
+main().catch(console.error);

@@ -1,5 +1,590 @@
 # Release History
 
+## 37.0.0-beta.1 (2026-03-31)
+Compared with version 36.0.0
+
+### Features Added
+  - Added operation AdminRuleCollectionsOperations.delete
+  - Added operation AdminRulesOperations.delete
+  - Added operation ApplicationGatewayPrivateEndpointConnectionsOperations.delete
+  - Added operation ApplicationGatewayPrivateEndpointConnectionsOperations.update
+  - Added operation ApplicationGatewaysOperations.backendHealth
+  - Added operation ApplicationGatewaysOperations.backendHealthOnDemand
+  - Added operation ApplicationGatewaysOperations.createOrUpdate
+  - Added operation ApplicationGatewaysOperations.delete
+  - Added operation ApplicationGatewaysOperations.start
+  - Added operation ApplicationGatewaysOperations.stop
+  - Added operation ApplicationSecurityGroupsOperations.createOrUpdate
+  - Added operation ApplicationSecurityGroupsOperations.delete
+  - Added operation AzureFirewallsOperations.createOrUpdate
+  - Added operation AzureFirewallsOperations.delete
+  - Added operation AzureFirewallsOperations.listLearnedPrefixes
+  - Added operation AzureFirewallsOperations.packetCapture
+  - Added operation AzureFirewallsOperations.packetCaptureOperation
+  - Added operation AzureFirewallsOperations.updateTags
+  - Added operation BastionHostsOperations.createOrUpdate
+  - Added operation BastionHostsOperations.delete
+  - Added operation BastionHostsOperations.updateTags
+  - Added operation ConfigurationPolicyGroupsOperations.createOrUpdate
+  - Added operation ConfigurationPolicyGroupsOperations.delete
+  - Added operation ConnectionMonitorsOperations.createOrUpdate
+  - Added operation ConnectionMonitorsOperations.delete
+  - Added operation ConnectionMonitorsOperations.stop
+  - Added operation ConnectivityConfigurationsOperations.delete
+  - Added operation CustomIPPrefixesOperations.createOrUpdate
+  - Added operation CustomIPPrefixesOperations.delete
+  - Added operation DdosCustomPoliciesOperations.createOrUpdate
+  - Added operation DdosCustomPoliciesOperations.delete
+  - Added operation DdosProtectionPlansOperations.createOrUpdate
+  - Added operation DdosProtectionPlansOperations.delete
+  - Added operation DscpConfigurationOperations.createOrUpdate
+  - Added operation DscpConfigurationOperations.delete
+  - Added operation ExpressRouteCircuitAuthorizationsOperations.createOrUpdate
+  - Added operation ExpressRouteCircuitAuthorizationsOperations.delete
+  - Added operation ExpressRouteCircuitConnectionsOperations.createOrUpdate
+  - Added operation ExpressRouteCircuitConnectionsOperations.delete
+  - Added operation ExpressRouteCircuitPeeringsOperations.createOrUpdate
+  - Added operation ExpressRouteCircuitPeeringsOperations.delete
+  - Added operation ExpressRouteCircuitsOperations.createOrUpdate
+  - Added operation ExpressRouteCircuitsOperations.delete
+  - Added operation ExpressRouteCircuitsOperations.listArpTable
+  - Added operation ExpressRouteCircuitsOperations.listRoutesTable
+  - Added operation ExpressRouteCircuitsOperations.listRoutesTableSummary
+  - Added operation ExpressRouteConnectionsOperations.createOrUpdate
+  - Added operation ExpressRouteConnectionsOperations.delete
+  - Added operation ExpressRouteCrossConnectionPeeringsOperations.createOrUpdate
+  - Added operation ExpressRouteCrossConnectionPeeringsOperations.delete
+  - Added operation ExpressRouteCrossConnectionsOperations.createOrUpdate
+  - Added operation ExpressRouteCrossConnectionsOperations.listArpTable
+  - Added operation ExpressRouteCrossConnectionsOperations.listRoutesTable
+  - Added operation ExpressRouteCrossConnectionsOperations.listRoutesTableSummary
+  - Added operation ExpressRouteGatewaysOperations.createOrUpdate
+  - Added operation ExpressRouteGatewaysOperations.delete
+  - Added operation ExpressRouteGatewaysOperations.updateTags
+  - Added operation ExpressRoutePortAuthorizationsOperations.createOrUpdate
+  - Added operation ExpressRoutePortAuthorizationsOperations.delete
+  - Added operation ExpressRoutePortsOperations.createOrUpdate
+  - Added operation ExpressRoutePortsOperations.delete
+  - Added operation FirewallPoliciesOperations.createOrUpdate
+  - Added operation FirewallPoliciesOperations.delete
+  - Added operation FirewallPolicyDeploymentsOperations.deploy
+  - Added operation FirewallPolicyRuleCollectionGroupsOperations.createOrUpdate
+  - Added operation FirewallPolicyRuleCollectionGroupsOperations.delete
+  - Added operation FlowLogsOperations.createOrUpdate
+  - Added operation FlowLogsOperations.delete
+  - Added operation HubRouteTablesOperations.createOrUpdate
+  - Added operation HubRouteTablesOperations.delete
+  - Added operation HubVirtualNetworkConnectionsOperations.createOrUpdate
+  - Added operation HubVirtualNetworkConnectionsOperations.delete
+  - Added operation InboundNatRulesOperations.createOrUpdate
+  - Added operation InboundNatRulesOperations.delete
+  - Added operation InboundSecurityRuleOperations.createOrUpdate
+  - Added operation IpAllocationsOperations.createOrUpdate
+  - Added operation IpAllocationsOperations.delete
+  - Added operation IpamPoolsOperations.create
+  - Added operation IpamPoolsOperations.delete
+  - Added operation IpGroupsOperations.createOrUpdate
+  - Added operation IpGroupsOperations.delete
+  - Added operation LoadBalancerBackendAddressPoolsOperations.createOrUpdate
+  - Added operation LoadBalancerBackendAddressPoolsOperations.delete
+  - Added operation LoadBalancerLoadBalancingRulesOperations.health
+  - Added operation LoadBalancersOperations.createOrUpdate
+  - Added operation LoadBalancersOperations.delete
+  - Added operation LoadBalancersOperations.listInboundNatRulePortMappings
+  - Added operation LoadBalancersOperations.swapPublicIpAddresses
+  - Added operation LocalNetworkGatewaysOperations.createOrUpdate
+  - Added operation LocalNetworkGatewaysOperations.delete
+  - Added operation NatGatewaysOperations.createOrUpdate
+  - Added operation NatGatewaysOperations.delete
+  - Added operation NatRulesOperations.createOrUpdate
+  - Added operation NatRulesOperations.delete
+  - Added operation NetworkGroupsOperations.delete
+  - Added operation NetworkInterfacesOperations.createOrUpdate
+  - Added operation NetworkInterfacesOperations.delete
+  - Added operation NetworkInterfacesOperations.getEffectiveRouteTable
+  - Added operation NetworkInterfacesOperations.listEffectiveNetworkSecurityGroups
+  - Added operation NetworkInterfaceTapConfigurationsOperations.createOrUpdate
+  - Added operation NetworkInterfaceTapConfigurationsOperations.delete
+  - Added operation NetworkManagerCommitsOperations.post
+  - Added operation NetworkManagerRoutingConfigurationsOperations.delete
+  - Added operation NetworkManagersOperations.delete
+  - Added operation NetworkProfilesOperations.delete
+  - Added operation NetworkSecurityGroupsOperations.createOrUpdate
+  - Added operation NetworkSecurityGroupsOperations.delete
+  - Added operation NetworkSecurityPerimeterAssociationsOperations.createOrUpdate
+  - Added operation NetworkSecurityPerimeterAssociationsOperations.delete
+  - Added operation NetworkSecurityPerimeterLinkReferencesOperations.delete
+  - Added operation NetworkSecurityPerimeterLinksOperations.delete
+  - Added operation NetworkSecurityPerimetersOperations.delete
+  - Added operation NetworkVirtualApplianceConnectionsOperations.createOrUpdate
+  - Added operation NetworkVirtualApplianceConnectionsOperations.delete
+  - Added operation NetworkVirtualAppliancesOperations.createOrUpdate
+  - Added operation NetworkVirtualAppliancesOperations.delete
+  - Added operation NetworkVirtualAppliancesOperations.getBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliancesOperations.reimage
+  - Added operation NetworkVirtualAppliancesOperations.restart
+  - Added operation NetworkWatchersOperations.checkConnectivity
+  - Added operation NetworkWatchersOperations.delete
+  - Added operation NetworkWatchersOperations.getAzureReachabilityReport
+  - Added operation NetworkWatchersOperations.getFlowLogStatus
+  - Added operation NetworkWatchersOperations.getNetworkConfigurationDiagnostic
+  - Added operation NetworkWatchersOperations.getNextHop
+  - Added operation NetworkWatchersOperations.getTroubleshooting
+  - Added operation NetworkWatchersOperations.getTroubleshootingResult
+  - Added operation NetworkWatchersOperations.getVMSecurityRules
+  - Added operation NetworkWatchersOperations.listAvailableProviders
+  - Added operation NetworkWatchersOperations.setFlowLogConfiguration
+  - Added operation NetworkWatchersOperations.verifyIPFlow
+  - Added operation P2SVpnGatewaysOperations.createOrUpdate
+  - Added operation P2SVpnGatewaysOperations.delete
+  - Added operation P2SVpnGatewaysOperations.disconnectP2SVpnConnections
+  - Added operation P2SVpnGatewaysOperations.generateVpnProfile
+  - Added operation P2SVpnGatewaysOperations.getP2SVpnConnectionHealth
+  - Added operation P2SVpnGatewaysOperations.getP2SVpnConnectionHealthDetailed
+  - Added operation P2SVpnGatewaysOperations.reset
+  - Added operation P2SVpnGatewaysOperations.updateTags
+  - Added operation PacketCapturesOperations.create
+  - Added operation PacketCapturesOperations.delete
+  - Added operation PacketCapturesOperations.getStatus
+  - Added operation PacketCapturesOperations.stop
+  - Added operation PrivateDnsZoneGroupsOperations.createOrUpdate
+  - Added operation PrivateDnsZoneGroupsOperations.delete
+  - Added operation PrivateEndpointsOperations.createOrUpdate
+  - Added operation PrivateEndpointsOperations.delete
+  - Added operation PrivateLinkServicesOperations.checkPrivateLinkServiceVisibility
+  - Added operation PrivateLinkServicesOperations.checkPrivateLinkServiceVisibilityByResourceGroup
+  - Added operation PrivateLinkServicesOperations.createOrUpdate
+  - Added operation PrivateLinkServicesOperations.delete
+  - Added operation PrivateLinkServicesOperations.deletePrivateEndpointConnection
+  - Added operation PublicIPAddressesOperations.createOrUpdate
+  - Added operation PublicIPAddressesOperations.ddosProtectionStatus
+  - Added operation PublicIPAddressesOperations.delete
+  - Added operation PublicIPAddressesOperations.disassociateCloudServiceReservedPublicIp
+  - Added operation PublicIPAddressesOperations.reserveCloudServicePublicIpAddress
+  - Added operation PublicIPPrefixesOperations.createOrUpdate
+  - Added operation PublicIPPrefixesOperations.delete
+  - Added operation ReachabilityAnalysisRunsOperations.delete
+  - Added operation RouteFilterRulesOperations.createOrUpdate
+  - Added operation RouteFilterRulesOperations.delete
+  - Added operation RouteFiltersOperations.createOrUpdate
+  - Added operation RouteFiltersOperations.delete
+  - Added operation RouteMapsOperations.createOrUpdate
+  - Added operation RouteMapsOperations.delete
+  - Added operation RoutesOperations.createOrUpdate
+  - Added operation RoutesOperations.delete
+  - Added operation RouteTablesOperations.createOrUpdate
+  - Added operation RouteTablesOperations.delete
+  - Added operation RoutingIntentOperations.createOrUpdate
+  - Added operation RoutingIntentOperations.delete
+  - Added operation RoutingRuleCollectionsOperations.delete
+  - Added operation RoutingRulesOperations.delete
+  - Added operation SecurityAdminConfigurationsOperations.delete
+  - Added operation SecurityPartnerProvidersOperations.createOrUpdate
+  - Added operation SecurityPartnerProvidersOperations.delete
+  - Added operation SecurityRulesOperations.createOrUpdate
+  - Added operation SecurityRulesOperations.delete
+  - Added operation SecurityUserConfigurationsOperations.delete
+  - Added operation SecurityUserRuleCollectionsOperations.delete
+  - Added operation SecurityUserRulesOperations.delete
+  - Added operation ServiceEndpointPoliciesOperations.createOrUpdate
+  - Added operation ServiceEndpointPoliciesOperations.delete
+  - Added operation ServiceEndpointPolicyDefinitionsOperations.createOrUpdate
+  - Added operation ServiceEndpointPolicyDefinitionsOperations.delete
+  - Added operation ServiceGatewaysOperations.createOrUpdate
+  - Added operation ServiceGatewaysOperations.delete
+  - Added operation ServiceGatewaysOperations.updateAddressLocations
+  - Added operation ServiceGatewaysOperations.updateServices
+  - Added operation StaticCidrsOperations.delete
+  - Added operation SubnetsOperations.createOrUpdate
+  - Added operation SubnetsOperations.delete
+  - Added operation SubnetsOperations.prepareNetworkPolicies
+  - Added operation SubnetsOperations.unprepareNetworkPolicies
+  - Added operation VerifierWorkspacesOperations.delete
+  - Added operation VipSwapOperations.create
+  - Added operation VirtualApplianceSitesOperations.createOrUpdate
+  - Added operation VirtualApplianceSitesOperations.delete
+  - Added operation VirtualHubBgpConnectionOperations.createOrUpdate
+  - Added operation VirtualHubBgpConnectionOperations.delete
+  - Added operation VirtualHubBgpConnectionsOperations.listAdvertisedRoutes
+  - Added operation VirtualHubBgpConnectionsOperations.listLearnedRoutes
+  - Added operation VirtualHubIpConfigurationOperations.createOrUpdate
+  - Added operation VirtualHubIpConfigurationOperations.delete
+  - Added operation VirtualHubRouteTableV2SOperations.createOrUpdate
+  - Added operation VirtualHubRouteTableV2SOperations.delete
+  - Added operation VirtualHubsOperations.createOrUpdate
+  - Added operation VirtualHubsOperations.delete
+  - Added operation VirtualHubsOperations.getEffectiveVirtualHubRoutes
+  - Added operation VirtualHubsOperations.getInboundRoutes
+  - Added operation VirtualHubsOperations.getOutboundRoutes
+  - Added operation VirtualNetworkAppliancesOperations.createOrUpdate
+  - Added operation VirtualNetworkAppliancesOperations.delete
+  - Added operation VirtualNetworkGatewayConnectionsOperations.createOrUpdate
+  - Added operation VirtualNetworkGatewayConnectionsOperations.delete
+  - Added operation VirtualNetworkGatewayConnectionsOperations.getIkeSas
+  - Added operation VirtualNetworkGatewayConnectionsOperations.resetConnection
+  - Added operation VirtualNetworkGatewayConnectionsOperations.resetSharedKey
+  - Added operation VirtualNetworkGatewayConnectionsOperations.setSharedKey
+  - Added operation VirtualNetworkGatewayConnectionsOperations.startPacketCapture
+  - Added operation VirtualNetworkGatewayConnectionsOperations.stopPacketCapture
+  - Added operation VirtualNetworkGatewayConnectionsOperations.updateTags
+  - Added operation VirtualNetworkGatewayNatRulesOperations.createOrUpdate
+  - Added operation VirtualNetworkGatewayNatRulesOperations.delete
+  - Added operation VirtualNetworkGatewaysOperations.createOrUpdate
+  - Added operation VirtualNetworkGatewaysOperations.delete
+  - Added operation VirtualNetworkGatewaysOperations.disconnectVirtualNetworkGatewayVpnConnections
+  - Added operation VirtualNetworkGatewaysOperations.generatevpnclientpackage
+  - Added operation VirtualNetworkGatewaysOperations.generateVpnProfile
+  - Added operation VirtualNetworkGatewaysOperations.getAdvertisedRoutes
+  - Added operation VirtualNetworkGatewaysOperations.getBgpPeerStatus
+  - Added operation VirtualNetworkGatewaysOperations.getFailoverAllTestDetails
+  - Added operation VirtualNetworkGatewaysOperations.getFailoverSingleTestDetails
+  - Added operation VirtualNetworkGatewaysOperations.getLearnedRoutes
+  - Added operation VirtualNetworkGatewaysOperations.getResiliencyInformation
+  - Added operation VirtualNetworkGatewaysOperations.getRoutesInformation
+  - Added operation VirtualNetworkGatewaysOperations.getVpnclientConnectionHealth
+  - Added operation VirtualNetworkGatewaysOperations.getVpnclientIpsecParameters
+  - Added operation VirtualNetworkGatewaysOperations.getVpnProfilePackageUrl
+  - Added operation VirtualNetworkGatewaysOperations.invokeAbortMigration
+  - Added operation VirtualNetworkGatewaysOperations.invokeCommitMigration
+  - Added operation VirtualNetworkGatewaysOperations.invokeExecuteMigration
+  - Added operation VirtualNetworkGatewaysOperations.invokePrepareMigration
+  - Added operation VirtualNetworkGatewaysOperations.reset
+  - Added operation VirtualNetworkGatewaysOperations.resetVpnClientSharedKey
+  - Added operation VirtualNetworkGatewaysOperations.setVpnclientIpsecParameters
+  - Added operation VirtualNetworkGatewaysOperations.startExpressRouteSiteFailoverSimulation
+  - Added operation VirtualNetworkGatewaysOperations.startPacketCapture
+  - Added operation VirtualNetworkGatewaysOperations.stopExpressRouteSiteFailoverSimulation
+  - Added operation VirtualNetworkGatewaysOperations.stopPacketCapture
+  - Added operation VirtualNetworkGatewaysOperations.updateTags
+  - Added operation VirtualNetworkPeeringsOperations.createOrUpdate
+  - Added operation VirtualNetworkPeeringsOperations.delete
+  - Added operation VirtualNetworksOperations.createOrUpdate
+  - Added operation VirtualNetworksOperations.delete
+  - Added operation VirtualNetworksOperations.listDdosProtectionStatus
+  - Added operation VirtualNetworkTapsOperations.createOrUpdate
+  - Added operation VirtualNetworkTapsOperations.delete
+  - Added operation VirtualRouterPeeringsOperations.createOrUpdate
+  - Added operation VirtualRouterPeeringsOperations.delete
+  - Added operation VirtualRoutersOperations.createOrUpdate
+  - Added operation VirtualRoutersOperations.delete
+  - Added operation VirtualWansOperations.createOrUpdate
+  - Added operation VirtualWansOperations.delete
+  - Added operation VpnConnectionsOperations.createOrUpdate
+  - Added operation VpnConnectionsOperations.delete
+  - Added operation VpnConnectionsOperations.startPacketCapture
+  - Added operation VpnConnectionsOperations.stopPacketCapture
+  - Added operation VpnGatewaysOperations.createOrUpdate
+  - Added operation VpnGatewaysOperations.delete
+  - Added operation VpnGatewaysOperations.reset
+  - Added operation VpnGatewaysOperations.startPacketCapture
+  - Added operation VpnGatewaysOperations.stopPacketCapture
+  - Added operation VpnGatewaysOperations.updateTags
+  - Added operation VpnLinkConnectionsOperations.getIkeSas
+  - Added operation VpnLinkConnectionsOperations.resetConnection
+  - Added operation VpnLinkConnectionsOperations.setOrInitDefaultSharedKey
+  - Added operation VpnServerConfigurationsOperations.createOrUpdate
+  - Added operation VpnServerConfigurationsOperations.delete
+  - Added operation VpnServerConfigurationsAssociatedWithVirtualWanOperations.list
+  - Added operation VpnSitesOperations.createOrUpdate
+  - Added operation VpnSitesOperations.delete
+  - Added operation VpnSitesConfigurationOperations.download
+  - Added operation WebApplicationFirewallPoliciesOperations.delete
+  - Added Interface AdminPropertiesFormat
+  - Added Interface AdminRuleCollectionPropertiesFormat
+  - Added Interface ApplicationGatewayAuthenticationCertificatePropertiesFormat
+  - Added Interface ApplicationGatewayAvailableSslOptionsPropertiesFormat
+  - Added Interface ApplicationGatewayBackendAddressPoolPropertiesFormat
+  - Added Interface ApplicationGatewayBackendHttpSettingsPropertiesFormat
+  - Added Interface ApplicationGatewayBackendSettingsPropertiesFormat
+  - Added Interface ApplicationGatewayEntraJWTValidationConfigPropertiesFormat
+  - Added Interface ApplicationGatewayFirewallRuleSetPropertiesFormat
+  - Added Interface ApplicationGatewayFrontendIPConfigurationPropertiesFormat
+  - Added Interface ApplicationGatewayFrontendPortPropertiesFormat
+  - Added Interface ApplicationGatewayHttpListenerPropertiesFormat
+  - Added Interface ApplicationGatewayIPConfigurationPropertiesFormat
+  - Added Interface ApplicationGatewayListenerPropertiesFormat
+  - Added Interface ApplicationGatewayLoadDistributionPolicyPropertiesFormat
+  - Added Interface ApplicationGatewayLoadDistributionTargetPropertiesFormat
+  - Added Interface ApplicationGatewayPathRulePropertiesFormat
+  - Added Interface ApplicationGatewayPrivateEndpointConnectionProperties
+  - Added Interface ApplicationGatewayPrivateLinkConfigurationProperties
+  - Added Interface ApplicationGatewayPrivateLinkIpConfigurationProperties
+  - Added Interface ApplicationGatewayPrivateLinkResourceProperties
+  - Added Interface ApplicationGatewayProbePropertiesFormat
+  - Added Interface ApplicationGatewayPropertiesFormat
+  - Added Interface ApplicationGatewayRedirectConfigurationPropertiesFormat
+  - Added Interface ApplicationGatewayRequestRoutingRulePropertiesFormat
+  - Added Interface ApplicationGatewayRewriteRuleSetPropertiesFormat
+  - Added Interface ApplicationGatewayRoutingRulePropertiesFormat
+  - Added Interface ApplicationGatewaySslCertificatePropertiesFormat
+  - Added Interface ApplicationGatewaySslPredefinedPolicyPropertiesFormat
+  - Added Interface ApplicationGatewaySslProfilePropertiesFormat
+  - Added Interface ApplicationGatewayTrustedClientCertificatePropertiesFormat
+  - Added Interface ApplicationGatewayTrustedRootCertificatePropertiesFormat
+  - Added Interface ApplicationGatewayUrlPathMapPropertiesFormat
+  - Added Interface ApplicationGatewayWafDynamicManifestPropertiesResult
+  - Added Interface ApplicationGatewayWafDynamicManifestsListOptionalParams
+  - Added Interface ApplicationSecurityGroupPropertiesFormat
+  - Added Interface AuthorizationPropertiesFormat
+  - Added Interface AzureFirewallApplicationRuleCollectionPropertiesFormat
+  - Added Interface AzureFirewallFqdnTagPropertiesFormat
+  - Added Interface AzureFirewallIPConfigurationPropertiesFormat
+  - Added Interface AzureFirewallNatRuleCollectionProperties
+  - Added Interface AzureFirewallNetworkRuleCollectionPropertiesFormat
+  - Added Interface AzureFirewallPropertiesFormat
+  - Added Interface AzureWebCategoryPropertiesFormat
+  - Added Interface BackendAddressPoolPropertiesFormat
+  - Added Interface BastionHostIPConfigurationPropertiesFormat
+  - Added Interface BastionHostPropertiesFormat
+  - Added Interface BgpConnectionProperties
+  - Added Interface BgpServiceCommunityPropertiesFormat
+  - Added Interface ConnectivityConfigurationProperties
+  - Added Interface ContainerNetworkInterfaceConfigurationPropertiesFormat
+  - Added Interface ContainerNetworkInterfaceIpConfigurationPropertiesFormat
+  - Added Interface ContainerNetworkInterfacePropertiesFormat
+  - Added Interface CustomIpPrefixPropertiesFormat
+  - Added Interface DdosCustomPolicyPropertiesFormat
+  - Added Interface DdosDetectionRulePropertiesFormat
+  - Added Interface DdosProtectionPlanPropertiesFormat
+  - Added Interface DefaultAdminPropertiesFormat
+  - Added Interface DefaultRuleSetPropertyFormat
+  - Added Interface DscpConfigurationPropertiesFormat
+  - Added Interface ExpressRouteCircuitConnectionPropertiesFormat
+  - Added Interface ExpressRouteCircuitPeeringPropertiesFormat
+  - Added Interface ExpressRouteCircuitPropertiesFormat
+  - Added Interface ExpressRouteConnectionProperties
+  - Added Interface ExpressRouteCrossConnectionPeeringProperties
+  - Added Interface ExpressRouteCrossConnectionProperties
+  - Added Interface ExpressRouteGatewayProperties
+  - Added Interface ExpressRouteLinkPropertiesFormat
+  - Added Interface ExpressRoutePortAuthorizationPropertiesFormat
+  - Added Interface ExpressRoutePortPropertiesFormat
+  - Added Interface ExpressRoutePortsLocationPropertiesFormat
+  - Added Interface ExpressRouteProviderPortProperties
+  - Added Interface ExpressRouteServiceProviderPropertiesFormat
+  - Added Interface FirewallPolicyDraftProperties
+  - Added Interface FirewallPolicyPropertiesFormat
+  - Added Interface FirewallPolicyRuleCollectionGroupDraftProperties
+  - Added Interface FirewallPolicyRuleCollectionGroupProperties
+  - Added Interface FlowLogProperties
+  - Added Interface FlowLogPropertiesFormat
+  - Added Interface FrontendIPConfigurationPropertiesFormat
+  - Added Interface HopLinkProperties
+  - Added Interface HubIPConfigurationPropertiesFormat
+  - Added Interface HubRouteTableProperties
+  - Added Interface HubVirtualNetworkConnectionProperties
+  - Added Interface InboundNatPoolPropertiesFormat
+  - Added Interface InboundNatRulePropertiesFormat
+  - Added Interface InboundSecurityRuleProperties
+  - Added Interface IpAllocationPropertiesFormat
+  - Added Interface IpamPoolPrefixAllocationPool
+  - Added Interface IPConfigurationProfilePropertiesFormat
+  - Added Interface IPConfigurationPropertiesFormat
+  - Added Interface IpGroupPropertiesFormat
+  - Added Interface LoadBalancerBackendAddressPropertiesFormat
+  - Added Interface LoadBalancerPropertiesFormat
+  - Added Interface LoadBalancerVipSwapRequestFrontendIPConfigurationProperties
+  - Added Interface LoadBalancingRulePropertiesFormat
+  - Added Interface LocalNetworkGatewayPropertiesFormat
+  - Added Interface NatGatewayPropertiesFormat
+  - Added Interface NetworkGroupProperties
+  - Added Interface NetworkInterfaceIPConfigurationPropertiesFormat
+  - Added Interface NetworkInterfacePropertiesFormat
+  - Added Interface NetworkInterfaceTapConfigurationPropertiesFormat
+  - Added Interface NetworkManagerConnectionProperties
+  - Added Interface NetworkManagerProperties
+  - Added Interface NetworkManagerRoutingConfigurationPropertiesFormat
+  - Added Interface NetworkProfilePropertiesFormat
+  - Added Interface NetworkSecurityGroupPropertiesFormat
+  - Added Interface NetworkSecurityPerimeterProperties
+  - Added Interface NetworkVirtualApplianceConnectionProperties
+  - Added Interface NetworkVirtualAppliancePropertiesFormat
+  - Added Interface NetworkVirtualApplianceSkuPropertiesFormat
+  - Added Interface NetworkWatcherPropertiesFormat
+  - Added Interface NspAccessRuleProperties
+  - Added Interface NspAssociationProperties
+  - Added Interface NspLinkProperties
+  - Added Interface NspLinkReferenceProperties
+  - Added Interface NspLoggingConfigurationProperties
+  - Added Interface NspProfileProperties
+  - Added Interface OperationPropertiesFormat
+  - Added Interface OutboundRulePropertiesFormat
+  - Added Interface P2SConnectionConfigurationProperties
+  - Added Interface P2SVpnGatewayProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PeerExpressRouteCircuitConnectionPropertiesFormat
+  - Added Interface PerimeterAssociableResourceProperties
+  - Added Interface PrivateDnsZoneGroupPropertiesFormat
+  - Added Interface PrivateDnsZonePropertiesFormat
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointIPConfigurationProperties
+  - Added Interface PrivateEndpointProperties
+  - Added Interface PrivateLinkServiceConnectionProperties
+  - Added Interface PrivateLinkServiceIpConfigurationProperties
+  - Added Interface PrivateLinkServiceProperties
+  - Added Interface ProbePropertiesFormat
+  - Added Interface ProxyResourceWithReadOnlyID
+  - Added Interface ProxyResourceWithSettableId
+  - Added Interface PublicIPAddressPropertiesFormat
+  - Added Interface PublicIPPrefixPropertiesFormat
+  - Added Interface ReadOnlySubResourceModel
+  - Added Interface ResourceNavigationLinkFormat
+  - Added Interface RestorePollerOptions
+  - Added Interface RouteFilterPropertiesFormat
+  - Added Interface RouteFilterRulePropertiesFormat
+  - Added Interface RouteMapProperties
+  - Added Interface RoutePropertiesFormat
+  - Added Interface RouteTablePropertiesFormat
+  - Added Interface RoutingIntentProperties
+  - Added Interface RoutingRuleCollectionPropertiesFormat
+  - Added Interface RoutingRulePropertiesFormat
+  - Added Interface ScopeConnectionProperties
+  - Added Interface SecurityAdminConfigurationPropertiesFormat
+  - Added Interface SecurityPartnerProviderPropertiesFormat
+  - Added Interface SecurityPerimeterTrackedResource
+  - Added Interface SecurityRulePropertiesFormat
+  - Added Interface SecurityUserConfigurationPropertiesFormat
+  - Added Interface SecurityUserRuleCollectionPropertiesFormat
+  - Added Interface SecurityUserRulePropertiesFormat
+  - Added Interface ServiceAssociationLinkPropertiesFormat
+  - Added Interface ServiceDelegationPropertiesFormat
+  - Added Interface ServiceEndpointPolicyDefinitionPropertiesFormat
+  - Added Interface ServiceEndpointPolicyPropertiesFormat
+  - Added Interface ServiceGatewayPropertiesFormat
+  - Added Interface ServiceGatewayServicePropertiesFormat
+  - Added Interface ServiceGatewaysListAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysListServicesOptionalParams
+  - Added Interface SimplePollerLike
+  - Added Interface StaticMemberProperties
+  - Added Interface SubnetPropertiesFormat
+  - Added Interface SubResourceModel
+  - Added Interface TrackedResourceWithEtag
+  - Added Interface TrackedResourceWithOptionalLocation
+  - Added Interface TrackedResourceWithSettableIdOptionalLocation
+  - Added Interface TrackedResourceWithSettableName
+  - Added Interface TroubleshootingProperties
+  - Added Interface VirtualApplianceSiteProperties
+  - Added Interface VirtualHubProperties
+  - Added Interface VirtualHubRouteTableV2Properties
+  - Added Interface VirtualNetworkApplianceIpConfigurationProperties
+  - Added Interface VirtualNetworkAppliancePropertiesFormat
+  - Added Interface VirtualNetworkGatewayConnectionListEntityPropertiesFormat
+  - Added Interface VirtualNetworkGatewayConnectionPropertiesFormat
+  - Added Interface VirtualNetworkGatewayIPConfigurationPropertiesFormat
+  - Added Interface VirtualNetworkGatewayNatRuleProperties
+  - Added Interface VirtualNetworkGatewayPolicyGroupProperties
+  - Added Interface VirtualNetworkGatewayPropertiesFormat
+  - Added Interface VirtualNetworkPeeringPropertiesFormat
+  - Added Interface VirtualNetworkPropertiesFormat
+  - Added Interface VirtualNetworkTapPropertiesFormat
+  - Added Interface VirtualRouterPeeringProperties
+  - Added Interface VirtualRouterPropertiesFormat
+  - Added Interface VirtualWanProperties
+  - Added Interface VngClientConnectionConfigurationProperties
+  - Added Interface VpnClientRevokedCertificatePropertiesFormat
+  - Added Interface VpnClientRootCertificatePropertiesFormat
+  - Added Interface VpnConnectionProperties
+  - Added Interface VpnGatewayNatRuleProperties
+  - Added Interface VpnGatewayProperties
+  - Added Interface VpnLinkConnectionsListAllSharedKeysOptionalParams
+  - Added Interface VpnServerConfigurationPolicyGroupProperties
+  - Added Interface VpnServerConfigurationProperties
+  - Added Interface VpnSiteLinkConnectionProperties
+  - Added Interface VpnSiteLinkProperties
+  - Added Interface VpnSiteProperties
+  - Added Interface WebApplicationFirewallPolicyPropertiesFormat
+  - Added Interface WritableResource
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias NetworkManagementClientCreatedByType
+  - Added Enum AzureClouds
+  - Added Enum NetworkManagementClientKnownCreatedByType
+
+### Breaking Changes
+  - Operation AzureFirewalls.beginPacketCaptureAndWait has a new signature
+  - Operation FirewallPolicyDeployments.beginDeployAndWait has a new signature
+  - Operation FirewallPolicyRuleCollectionGroupDrafts.createOrUpdate has a new signature
+  - Operation FirewallPolicyRuleCollectionGroupDrafts.get has a new signature
+  - Operation FirewallPolicyRuleCollectionGroups.beginCreateOrUpdate has a new signature
+  - Operation FirewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait has a new signature
+  - Operation FirewallPolicyRuleCollectionGroups.get has a new signature
+  - Operation IpamPools.beginDeleteAndWait has a new signature
+  - Operation ReachabilityAnalysisRuns.beginDeleteAndWait has a new signature
+  - Operation ServiceGateways.beginDeleteAndWait has a new signature
+  - Operation ServiceGateways.beginUpdateAddressLocationsAndWait has a new signature
+  - Operation ServiceGateways.beginUpdateServicesAndWait has a new signature
+  - Operation StaticCidrs.beginDeleteAndWait has a new signature
+  - Operation VerifierWorkspaces.beginDeleteAndWait has a new signature
+  - Operation VirtualNetworkAppliances.beginDeleteAndWait has a new signature
+  - Operation VirtualNetworkGatewayConnections.beginGetIkeSasAndWait has a new signature
+  - Operation VirtualNetworkGatewayConnections.beginStartPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGatewayConnections.beginStopPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginGeneratevpnclientpackageAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginGenerateVpnProfileAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginGetVpnProfilePackageUrlAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginInvokeAbortMigrationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginInvokeCommitMigrationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginInvokeExecuteMigrationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginInvokePrepareMigrationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStartExpressRouteSiteFailoverSimulationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStartPacketCaptureAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStopExpressRouteSiteFailoverSimulationAndWait has a new signature
+  - Operation VirtualNetworkGateways.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnConnections.beginStartPacketCaptureAndWait has a new signature
+  - Operation VpnConnections.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnGateways.beginStartPacketCaptureAndWait has a new signature
+  - Operation VpnGateways.beginStopPacketCaptureAndWait has a new signature
+  - Operation VpnLinkConnections.beginGetIkeSasAndWait has a new signature
+  - Removed Interface ApplicationGatewayAvailableSslPredefinedPolicies
+  - Removed Interface ApplicationGatewayWafDynamicManifestResultList
+  - Removed Interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
+  - Removed Interface ConnectionSharedKeyResultList
+  - Removed Interface ConnectionStateSnapshot
+  - Removed Interface ExpressRouteCrossConnectionPeeringList
+  - Removed Interface IpamPoolList
+  - Removed Interface ListVirtualHubBgpConnectionResults
+  - Removed Interface ListVirtualHubIpConfigurationResults
+  - Removed Interface NetworkVirtualApplianceConnectionList
+  - Removed Interface PatchRouteFilter
+  - Removed Interface PatchRouteFilterRule
+  - Removed Interface PoolAssociationList
+  - Removed Interface ServiceGatewaysGetAddressLocationsOptionalParams
+  - Removed Interface ServiceGatewaysGetServicesOptionalParams
+  - Removed Interface StaticCidrList
+  - Removed Interface TrackedResource
+  - Removed Interface VpnLinkConnectionsGetAllSharedKeysOptionalParams
+  - Removed Interface VpnSiteId
+  - Type of parameter kind of interface ActiveBaseSecurityAdminRule is changed from "Custom" | "Default" to EffectiveAdminRuleKind
+  - Type of parameter kind of interface EffectiveBaseSecurityAdminRule is changed from "Custom" | "Default" to EffectiveAdminRuleKind
+  - Type of parameter ruleType of interface FirewallPolicyRule is changed from "ApplicationRule" | "NatRule" | "NetworkRule" to FirewallPolicyRuleType
+  - Type of parameter ruleCollectionType of interface FirewallPolicyRuleCollection is changed from "FirewallPolicyNatRuleCollection" | "FirewallPolicyFilterRuleCollection" to FirewallPolicyRuleCollectionType
+  - Parameter value of interface EffectiveNetworkSecurityGroupListResult is now required
+  - Parameter value of interface EffectiveRouteListResult is now required
+  - Parameter value of interface ExpressRouteCircuitsArpTableListResult is now required
+  - Parameter value of interface ExpressRouteCircuitsRoutesTableListResult is now required
+  - Parameter value of interface ExpressRouteCircuitsRoutesTableSummaryListResult is now required
+  - Parameter value of interface ExpressRouteCrossConnectionsRoutesTableSummaryListResult is now required
+  - Parameter value of interface ExpressRouteProviderPortListResult is now required
+  - Parameter value of interface RadiusAuthServerListResult is now required
+  - Parameter value of interface ResourceNavigationLinksListResult is now required
+  - Parameter value of interface ServiceAssociationLinksListResult is now required
+  - Removed Type Alias ConnectionMonitorSourceStatus
+  - Removed Type Alias ConnectionState
+  - Removed Type Alias EvaluationState
+  - Removed Type Alias HubVirtualNetworkConnectionStatus
+  - Removed Type Alias NetworkOperationStatus
+  - Removed Type Alias TunnelConnectionStatus
+  - Type alias "ActiveBaseSecurityAdminRuleUnion" has been changed
+  - Type alias "EffectiveBaseSecurityAdminRuleUnion" has been changed
+  - Type alias "FirewallPolicyRuleCollectionUnion" has been changed
+  - Type alias "FirewallPolicyRuleUnion" has been changed
+  - Removed Enum KnownConnectionMonitorSourceStatus
+  - Removed Enum KnownConnectionState
+  - Removed Enum KnownEvaluationState
+  - Removed Enum KnownHubVirtualNetworkConnectionStatus
+  - Removed Enum KnownNetworkOperationStatus
+  - Removed Enum KnownTunnelConnectionStatus
+
 ## 36.0.0 (2026-02-11)
 
 ### Features Added
