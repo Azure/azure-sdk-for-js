@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a BillingContainer
  *
  * @summary get a BillingContainer
- * x-ms-original-file: 2025-10-01/Get_BillingContainer.json
+ * x-ms-original-file: 2026-03-01-preview/Get_BillingContainer.json
  */
 async function getBillingContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

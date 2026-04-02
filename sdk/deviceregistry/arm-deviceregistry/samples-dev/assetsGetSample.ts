@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Asset
  *
  * @summary get a Asset
- * x-ms-original-file: 2025-10-01/Get_Asset.json
+ * x-ms-original-file: 2026-03-01-preview/Get_Asset.json
  */
 async function getAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAsset(): Promise<void> {
  * This sample demonstrates how to get a Asset
  *
  * @summary get a Asset
- * x-ms-original-file: 2025-10-01/Get_Asset_With_SyncStatus.json
+ * x-ms-original-file: 2026-03-01-preview/Get_Asset_With_SyncStatus.json
  */
 async function getAssetWithSyncStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

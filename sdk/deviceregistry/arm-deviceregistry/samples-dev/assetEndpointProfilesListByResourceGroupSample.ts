@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AssetEndpointProfile resources by resource group
  *
  * @summary list AssetEndpointProfile resources by resource group
- * x-ms-original-file: 2025-10-01/List_AssetEndpointProfiles_ByResourceGroup.json
+ * x-ms-original-file: 2026-03-01-preview/List_AssetEndpointProfiles_ByResourceGroup.json
  */
 async function listAssetEndpointProfilesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

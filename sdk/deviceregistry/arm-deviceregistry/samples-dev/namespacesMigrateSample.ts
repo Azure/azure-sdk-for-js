@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate the resources into Namespace
  *
  * @summary migrate the resources into Namespace
- * x-ms-original-file: 2025-10-01/Migrate_Assets_Namespace.json
+ * x-ms-original-file: 2026-03-01-preview/Migrate_Assets_Namespace.json
  */
 async function namespaceMigrate(): Promise<void> {
   const credential = new DefaultAzureCredential();

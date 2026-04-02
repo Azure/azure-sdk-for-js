@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createDeviceRegistryManagement,
-  type DeviceRegistryManagementContext,
-  type DeviceRegistryManagementClientOptionalParams,
+export type {
+  DeviceRegistryManagementContext,
+  DeviceRegistryManagementClientOptionalParams,
 } from "./deviceRegistryManagementContext.js";
+export { createDeviceRegistryManagement } from "./deviceRegistryManagementContext.js";

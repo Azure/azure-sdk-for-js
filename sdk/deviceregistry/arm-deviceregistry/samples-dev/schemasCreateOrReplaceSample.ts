@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Schema
  *
  * @summary create a Schema
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Schema.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Schema.json
  */
 async function createOrReplaceSchema(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -11,7 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
 import { DeviceRegistryManagementClient } from "../../src/deviceRegistryManagementClient.js";
-import {
+import type {
   AssetEndpointProfile,
   Namespace,
   NamespaceAsset,

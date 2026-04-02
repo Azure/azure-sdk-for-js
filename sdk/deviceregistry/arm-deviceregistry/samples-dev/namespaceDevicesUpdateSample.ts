@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a NamespaceDevice
  *
  * @summary update a NamespaceDevice
- * x-ms-original-file: 2025-10-01/Update_NamespaceDevice.json
+ * x-ms-original-file: 2026-03-01-preview/Update_NamespaceDevice.json
  */
 async function updateNamespaceDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,19 +23,15 @@ async function updateNamespaceDevices(): Promise<void> {
         endpoints: {
           outbound: {
             assigned: {
-              eventGridEndpoint: {
-                endpointType: "Microsoft.Devices/IoTHubs",
-                address: "https://myeventgridtopic.westeurope-1.eventgrid.azure.net/api/events",
+              iothubEndpoint: {
+                endpointType: "Microsoft.Devices/IotHubs",
+                address: "https://iothub-for-dps.azure-devices.net",
               },
             },
           },
         },
         enabled: true,
-        attributes: {
-          deviceType: "sensor",
-          deviceOwner: "IT",
-          deviceCategory: 16,
-        },
+        attributes: { deviceType: "sensor", deviceOwner: "IT", deviceCategory: 16 },
       },
     },
   );

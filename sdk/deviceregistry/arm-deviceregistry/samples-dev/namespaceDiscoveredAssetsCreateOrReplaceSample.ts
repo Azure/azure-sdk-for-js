@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceDiscoveredAsset
  *
  * @summary create a NamespaceDiscoveredAsset
- * x-ms-original-file: 2025-10-01/CreateOrReplace_NamespaceDiscoveredAsset.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDiscoveredAsset.json
  */
 async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,10 +26,7 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
       },
       tags: { site: "building-1" },
       properties: {
-        deviceRef: {
-          deviceName: "myDevice",
-          endpointName: "opcuaendpointname",
-        },
+        deviceRef: { deviceName: "myDevice", endpointName: "opcuaendpointname" },
         assetTypeRefs: ["myAssetTypeRef1", "myAssetTypeRef2"],
         discoveryId: "11111111-1111-1111-1111-111111111111",
         version: 73766,
@@ -50,21 +47,13 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
           '{"publishingInterval":10,"samplingInterval":15,"queueSize":20}',
         defaultManagementGroupsConfiguration: '{"retryCount":10,"retryBackoffInterval":15}',
         defaultDatasetsDestinations: [
-          {
-            target: "BrokerStateStore",
-            configuration: { key: "defaultValue" },
-          },
+          { target: "BrokerStateStore", configuration: { key: "defaultValue" } },
         ],
         defaultEventsDestinations: [{ target: "Storage", configuration: { path: "/tmp" } }],
         defaultStreamsDestinations: [
           {
             target: "Mqtt",
-            configuration: {
-              topic: "/contoso/test",
-              retain: "Never",
-              qos: "Qos0",
-              ttl: 3600,
-            },
+            configuration: { topic: "/contoso/test", retain: "Never", qos: "Qos0", ttl: 3600 },
           },
         ],
         datasets: [
@@ -74,12 +63,7 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
             typeRef: "dataset1TypeRef",
             datasetConfiguration: '{"publishingInterval":10,"samplingInterval":15,"queueSize":20}',
             lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-            destinations: [
-              {
-                target: "BrokerStateStore",
-                configuration: { key: "dataset1" },
-              },
-            ],
+            destinations: [{ target: "BrokerStateStore", configuration: { key: "dataset1" } }],
             dataPoints: [
               {
                 name: "dataset1DataPoint1",
@@ -96,39 +80,6 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
                   '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
                 typeRef: "dataset1DataPoint2TypeRef",
                 lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-              },
-            ],
-          },
-        ],
-        eventGroups: [
-          {
-            name: "default",
-            events: [
-              {
-                name: "event1",
-                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
-                eventConfiguration: '{"publishingInterval":7,"samplingInterval":1,"queueSize":8}',
-                lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-                destinations: [
-                  {
-                    target: "Mqtt",
-                    configuration: {
-                      topic: "/contoso/testEvent1",
-                      retain: "Keep",
-                      qos: "Qos0",
-                      ttl: 7200,
-                    },
-                  },
-                ],
-                typeRef: "event1Ref",
-              },
-              {
-                name: "event2",
-                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-                eventConfiguration: '{"publishingInterval":7,"samplingInterval":8,"queueSize":4}',
-                lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-                destinations: [{ target: "Storage", configuration: { path: "/tmp/event2" } }],
-                typeRef: "event2Ref",
               },
             ],
           },

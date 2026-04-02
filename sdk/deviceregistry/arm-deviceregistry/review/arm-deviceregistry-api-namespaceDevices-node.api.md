@@ -40,9 +40,17 @@ export interface NamespaceDevicesListByResourceGroupOptionalParams extends Opera
 }
 
 // @public
+export interface NamespaceDevicesRevokeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface NamespaceDevicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
+
+// @public
+export function revoke(context: DeviceRegistryManagementContext, resourceGroupName: string, namespaceName: string, deviceName: string, body: DeviceCredentialsRevokeRequest, options?: NamespaceDevicesRevokeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function update(context: DeviceRegistryManagementContext, resourceGroupName: string, namespaceName: string, deviceName: string, properties: NamespaceDeviceUpdate, options?: NamespaceDevicesUpdateOptionalParams): PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Asset
  *
  * @summary create a Asset
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Asset_With_DiscoveredAssetRef.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Asset_With_DiscoveredAssetRef.json
  */
 async function createOrReplaceAssetWithDiscoveredAssetRefs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -85,7 +85,7 @@ async function createOrReplaceAssetWithDiscoveredAssetRefs(): Promise<void> {
  * This sample demonstrates how to create a Asset
  *
  * @summary create a Asset
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Asset_With_ExternalAssetId.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Asset_With_ExternalAssetId.json
  */
 async function createOrReplaceAssetWithExternalAssetId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +161,7 @@ async function createOrReplaceAssetWithExternalAssetId(): Promise<void> {
  * This sample demonstrates how to create a Asset
  *
  * @summary create a Asset
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Asset_Without_DisplayName.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Asset_Without_DisplayName.json
  */
 async function createOrReplaceAssetWithoutDisplayName(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -236,7 +236,7 @@ async function createOrReplaceAssetWithoutDisplayName(): Promise<void> {
  * This sample demonstrates how to create a Asset
  *
  * @summary create a Asset
- * x-ms-original-file: 2025-10-01/CreateOrReplace_Asset_Without_ExternalAssetId.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_Asset_Without_ExternalAssetId.json
  */
 async function createOrReplaceAssetWithoutExternalAssetId(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Schema resources by SchemaRegistry
  *
  * @summary list Schema resources by SchemaRegistry
- * x-ms-original-file: 2025-10-01/List_Schemas_BySchemaRegistry.json
+ * x-ms-original-file: 2026-03-01-preview/List_Schemas_BySchemaRegistry.json
  */
 async function listSchemasSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Namespace
  *
  * @summary get a Namespace
- * x-ms-original-file: 2025-10-01/Get_Namespace.json
+ * x-ms-original-file: 2026-03-01-preview/Get_Namespace.json
  */
 async function getNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

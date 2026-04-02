@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a AssetEndpointProfile
  *
  * @summary create a AssetEndpointProfile
- * x-ms-original-file: 2025-10-01/CreateOrReplace_AssetEndpointProfile.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_AssetEndpointProfile.json
  */
 async function createOrReplaceAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function createOrReplaceAssetEndpointProfile(): Promise<void> {
  * This sample demonstrates how to create a AssetEndpointProfile
  *
  * @summary create a AssetEndpointProfile
- * x-ms-original-file: 2025-10-01/CreateOrReplace_AssetEndpointProfile_With_DiscoveredAepRef.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_AssetEndpointProfile_With_DiscoveredAepRef.json
  */
 async function createOrReplaceAssetEndpointProfileWithDiscoveredAepRef(): Promise<void> {
   const credential = new DefaultAzureCredential();
