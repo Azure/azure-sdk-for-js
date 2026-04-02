@@ -1,5 +1,155 @@
 # Release History
 
+## 2.0.0-beta.1 (2026-03-26)
+Compared with version 1.1.0
+
+### Features Added
+  - Added operation group OccurrenceExtensionOperations
+  - Added operation group OccurrencesOperations
+  - Added operation group ScheduledActionExtensionOperations
+  - Added operation ScheduledActionsOperations.attachResources
+  - Added operation ScheduledActionsOperations.cancelNextOccurrence
+  - Added operation ScheduledActionsOperations.createOrUpdate
+  - Added operation ScheduledActionsOperations.delete
+  - Added operation ScheduledActionsOperations.detachResources
+  - Added operation ScheduledActionsOperations.disable
+  - Added operation ScheduledActionsOperations.enable
+  - Added operation ScheduledActionsOperations.get
+  - Added operation ScheduledActionsOperations.listByResourceGroup
+  - Added operation ScheduledActionsOperations.listBySubscription
+  - Added operation ScheduledActionsOperations.listResources
+  - Added operation ScheduledActionsOperations.patchResources
+  - Added operation ScheduledActionsOperations.triggerManualOccurrence
+  - Added operation ScheduledActionsOperations.update
+  - Added operation ScheduledActionsOperations.virtualMachinesExecuteCreateFlex
+  - Class ComputeScheduleClient has a new constructor "constructor(credential: TokenCredential, options?: ComputeScheduleClientOptionalParams);"
+  - Added Interface CancelOccurrenceRequest
+  - Added Interface CancelOperationsContent
+  - Added Interface CreateFlexResourceOperationResponse
+  - Added Interface DelayRequest
+  - Added Interface ExecuteCreateContent
+  - Added Interface ExecuteCreateFlexContent
+  - Added Interface ExecuteDeallocateContent
+  - Added Interface ExecuteDeleteContent
+  - Added Interface ExecuteHibernateContent
+  - Added Interface ExecuteStartContent
+  - Added Interface ExtensionResource
+  - Added Interface FallbackOperationInfo
+  - Added Interface FlexProperties
+  - Added Interface GetOperationErrorsContent
+  - Added Interface GetOperationStatusContent
+  - Added Interface NotificationProperties
+  - Added Interface Occurrence
+  - Added Interface OccurrenceExtensionListOccurrenceByVmsOptionalParams
+  - Added Interface OccurrenceExtensionProperties
+  - Added Interface OccurrenceExtensionResource
+  - Added Interface OccurrenceProperties
+  - Added Interface OccurrenceResource
+  - Added Interface OccurrenceResultSummary
+  - Added Interface OccurrencesCancelOptionalParams
+  - Added Interface OccurrencesDelayOptionalParams
+  - Added Interface OccurrencesGetOptionalParams
+  - Added Interface OccurrencesListByScheduledActionOptionalParams
+  - Added Interface OccurrencesListResourcesOptionalParams
+  - Added Interface PriorityProfile
+  - Added Interface ProxyResource
+  - Added Interface RecurringActionsResourceOperationResult
+  - Added Interface Resource
+  - Added Interface ResourceAttachRequestInput
+  - Added Interface ResourceDetachRequest
+  - Added Interface ResourcePatchRequestInput
+  - Added Interface ResourceProvisionFlexPayload
+  - Added Interface ResourceResultSummary
+  - Added Interface ResourceStatus
+  - Added Interface RestorePollerOptions
+  - Added Interface ScheduledAction
+  - Added Interface ScheduledActionExtensionListByVmsOptionalParams
+  - Added Interface ScheduledActionProperties
+  - Added Interface ScheduledActionResource
+  - Added Interface ScheduledActionResourceInput
+  - Added Interface ScheduledActionResources
+  - Added Interface ScheduledActionsAttachResourcesOptionalParams
+  - Added Interface ScheduledActionsCancelNextOccurrenceOptionalParams
+  - Added Interface ScheduledActionsCreateOrUpdateOptionalParams
+  - Added Interface ScheduledActionsDeleteOptionalParams
+  - Added Interface ScheduledActionsDetachResourcesOptionalParams
+  - Added Interface ScheduledActionsDisableOptionalParams
+  - Added Interface ScheduledActionsEnableOptionalParams
+  - Added Interface ScheduledActionsExtensionProperties
+  - Added Interface ScheduledActionsGetOptionalParams
+  - Added Interface ScheduledActionsListByResourceGroupOptionalParams
+  - Added Interface ScheduledActionsListBySubscriptionOptionalParams
+  - Added Interface ScheduledActionsListResourcesOptionalParams
+  - Added Interface ScheduledActionsPatchResourcesOptionalParams
+  - Added Interface ScheduledActionsSchedule
+  - Added Interface ScheduledActionsTriggerManualOccurrenceOptionalParams
+  - Added Interface ScheduledActionsUpdateOptionalParams
+  - Added Interface ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams
+  - Added Interface ScheduledActionUpdate
+  - Added Interface ScheduledActionUpdateProperties
+  - Added Interface SubmitDeallocateContent
+  - Added Interface SubmitHibernateContent
+  - Added Interface SubmitStartContent
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface VmSizeProfile
+  - Added Interface ZoneAllocationPolicy
+  - Added Interface ZonePreference
+  - Interface ComputeScheduleClientOptionalParams has a new optional parameter cloudSetting
+  - Interface ResourceOperationDetails has a new optional parameter fallbackOperationInfo
+  - Interface RetryPolicy has a new optional parameter onFailureAction
+  - Added Type Alias AllocationStrategy
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias DistributionStrategy
+  - Added Type Alias Language
+  - Added Type Alias Month
+  - Added Type Alias NotificationType
+  - Added Type Alias OccurrenceState
+  - Added Type Alias OsType
+  - Added Type Alias PriorityType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ResourceOperationStatus
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias ResourceType
+  - Added Type Alias ScheduledActionType
+  - Added Type Alias WeekDay
+  - Added Enum AzureClouds
+  - Added Enum KnownAllocationStrategy
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDistributionStrategy
+  - Added Enum KnownLanguage
+  - Added Enum KnownMonth
+  - Added Enum KnownNotificationType
+  - Added Enum KnownOccurrenceState
+  - Added Enum KnownOsType
+  - Added Enum KnownPriorityType
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownResourceOperationStatus
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownResourceType
+  - Added Enum KnownScheduledActionType
+  - Added Enum KnownWeekDay
+  - Enum KnownResourceOperationType has a new value Create
+  - Enum KnownResourceOperationType has a new value Delete
+  - Enum KnownVersions has a new value _20240815Preview
+  - Enum KnownVersions has a new value _20250415Preview
+  - Enum KnownVersions has a new value _20260101Preview
+  - Enum KnownVersions has a new value _20260301Preview
+
+### Breaking Changes
+  - Removed Interface CancelOperationsRequest
+  - Removed Interface ExecuteCreateRequest
+  - Removed Interface ExecuteDeallocateRequest
+  - Removed Interface ExecuteDeleteRequest
+  - Removed Interface ExecuteHibernateRequest
+  - Removed Interface ExecuteStartRequest
+  - Removed Interface GetOperationErrorsRequest
+  - Removed Interface GetOperationStatusRequest
+  - Removed Interface SubmitDeallocateRequest
+  - Removed Interface SubmitHibernateRequest
+  - Removed Interface SubmitStartRequest
+
 ## 1.2.0-beta.1 (2025-08-28)
 
 Compared with version 1.1.0

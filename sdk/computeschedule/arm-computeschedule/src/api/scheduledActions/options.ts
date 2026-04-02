@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ScheduledActionsTriggerManualOccurrenceOptionalParams extends OperationOptions {}
@@ -65,6 +65,9 @@ export interface ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams exte
 
 /** Optional parameters. */
 export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends OperationOptions {}
