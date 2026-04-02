@@ -1,3 +1,9 @@
+## 3.3.1 (Unreleased)
+
+### Other Changes
+
+- Optimized type imports for improved tree-shaking and build performance.
+
 # Release History
 
 ## 4.0.0-beta.2 (2026-04-01)

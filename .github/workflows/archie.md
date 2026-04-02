@@ -13,7 +13,7 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
     min-integrity: unapproved
-  bash: true
+  bash: ["cat", "date", "echo", "git:*", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
 safe-outputs:

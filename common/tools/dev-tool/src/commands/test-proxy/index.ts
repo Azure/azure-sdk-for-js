@@ -15,4 +15,5 @@ export default subCommand(commandInfo, {
   restore: () => import("./restore"),
   reset: () => import("./reset"),
   migrate: () => import("./migrate"),
+  diff: () => import("./diff"),
 });
