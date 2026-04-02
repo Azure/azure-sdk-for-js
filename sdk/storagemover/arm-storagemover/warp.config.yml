@@ -10,24 +10,3 @@ exports:
   "./api/storageMovers": "./src/api/storageMovers/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-<<<<<<< HEAD
-
-targets:
-  - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
-
-  - name: esm
-    condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-
-  - name: commonjs
-    condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
-    moduleType: commonjs
-=======
->>>>>>> origin/main
