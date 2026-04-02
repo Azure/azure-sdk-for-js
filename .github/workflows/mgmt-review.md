@@ -127,7 +127,7 @@ Compose a single GitHub PR comment (not a review) with:
 - **Message**: `Only failed checks and required actions are listed below:`
 - Only include currently failing/blocking checks. 
 - Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).` 
-— always include the real ADO `target_url` link; never use placeholder URLs.
+  - **Note:** Always include the real ADO `target_url` link; never use placeholder URLs.
 - Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
 - Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
 
