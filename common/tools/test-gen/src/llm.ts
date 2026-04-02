@@ -413,8 +413,8 @@ export async function send(prompt: string, options?: SendOptions): Promise<SendR
     try {
       result = await doSend();
     } catch (err) {
-      if (sessionKey && isSessionTimeoutError(err as Error)) {
-        await deepLog("error", "session_timeout_recovery", {
+      if (sessionKey && isRecoverableSessionError(err as Error)) {
+        await deepLog("error", "session_recovery", {
           phase,
           sessionKey,
           error: (err as Error).message,
@@ -1195,9 +1195,11 @@ async function sendWithRetry<T>(fn: () => Promise<T>, sessionKey?: string): Prom
   try {
     return await fn();
   } catch (error) {
-    if (!isClientDisconnectedError(error)) throw error;
-    await resetClientState(sessionKey);
-    return fn();
+    if (isClientDisconnectedError(error) || (error instanceof Error && isSessionNotFoundError(error))) {
+      await resetClientState(sessionKey);
+      return fn();
+    }
+    throw error;
   }
 }
 
@@ -1208,6 +1210,14 @@ function isClientDisconnectedError(error: unknown): boolean {
 
 function isSessionTimeoutError(err: Error): boolean {
   return /Timeout/i.test(err.message) && /session\.idle/i.test(err.message);
+}
+
+function isSessionNotFoundError(err: Error): boolean {
+  return /Session not found/i.test(err.message);
+}
+
+function isRecoverableSessionError(err: Error): boolean {
+  return isSessionTimeoutError(err) || isSessionNotFoundError(err);
 }
 
 async function resetClientState(sessionKey?: string): Promise<void> {
