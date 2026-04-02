@@ -19,7 +19,7 @@ async function main() {
 
   const result = await runSinglePass({
     packageDir,
-    skipFullSuiteValidation: true,
+    skipFullSuiteValidation: false,
     config: {
       runner: {
         // Coverage from full test suite in playback mode
