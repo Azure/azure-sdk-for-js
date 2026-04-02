@@ -110,7 +110,7 @@ For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch v
 
 #### 3a. Check-format failure
 
-Run `cd <package-dir> && npx prettier --write .` then push via `push-to-pull-request-branch`.
+Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch`.
 
 #### 3b. verify-links broken URL
 
