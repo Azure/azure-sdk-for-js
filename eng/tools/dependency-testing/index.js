@@ -52,7 +52,7 @@ const argv = yargs(hideBin(process.argv))
       type: "boolean",
     },
   })
-  .help().argv;
+  .help().parseSync();
 
 /**
  * This function outputs the complete local path to the test or test/public folder for devops jobs

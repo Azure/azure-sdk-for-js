@@ -7,17 +7,17 @@ settings:
 catalogs:
   arm:
     '@azure/arm-cognitiveservices':
-      specifier: 7.6.0
-      version: 7.6.0
+      specifier: 8.1.0
+      version: 8.1.0
     '@azure/arm-resources':
-      specifier: ^5.0.0
-      version: 5.2.0
+      specifier: 7.0.1
+      version: 7.0.1
     '@azure/arm-storage':
       specifier: 18.5.0
       version: 18.5.0
     '@azure/arm-webpubsub':
-      specifier: 1.2.0
-      version: 1.2.0
+      specifier: 1.2.2
+      version: 1.2.2
   default:
     '@types/node':
       specifier: ^20.19.25
@@ -61,22 +61,22 @@ catalogs:
       specifier: ^8.0.2
       version: 8.0.2
     '@vitest/browser-playwright':
-      specifier: ^4.0.8
+      specifier: ^4.1.2
       version: 4.1.2
     '@vitest/coverage-istanbul':
-      specifier: ^4.0.8
+      specifier: ^4.1.2
       version: 4.1.2
     '@vitest/expect':
-      specifier: ^4.0.6
+      specifier: ^4.1.2
       version: 4.1.2
     chai:
-      specifier: ^6.2.0
+      specifier: ^6.2.2
       version: 6.2.2
     chai-as-promised:
-      specifier: ^8.0.1
+      specifier: ^8.0.2
       version: 8.0.2
     chai-exclude:
-      specifier: ^3.0.0
+      specifier: ^3.0.1
       version: 3.0.1
     dotenv:
       specifier: ^16.6.1
@@ -85,10 +85,10 @@ catalogs:
       specifier: ^13.5.6
       version: 13.5.6
     playwright:
-      specifier: ^1.56.1
+      specifier: ^1.58.2
       version: 1.58.2
     vitest:
-      specifier: ^4.0.8
+      specifier: ^4.1.2
       version: 4.1.2
 
 importers:
@@ -1018,7 +1018,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -1225,12 +1225,9 @@ importers:
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
-      yargs:
-        specifier: ^17.2.2
-        version: 17.7.2
       yargs-parser:
-        specifier: ^21.1.1
-        version: 21.1.1
+        specifier: ^22.0.0
+        version: 22.0.0
     devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
@@ -1247,9 +1244,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
-      '@types/yargs':
-        specifier: ^17.0.32
-        version: 17.0.35
       '@types/yargs-parser':
         specifier: ^21.0.3
         version: 21.0.3
@@ -3166,7 +3160,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: 5.2.0
+        version: link:../../resources/arm-resources
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -3263,7 +3257,7 @@ importers:
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: 5.2.0
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -3354,7 +3348,7 @@ importers:
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: 5.2.0
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -4142,7 +4136,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4230,7 +4224,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -11640,7 +11634,7 @@ importers:
         version: link:../../core/abort-controller
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -13881,7 +13875,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -17875,7 +17869,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: 5.2.0
+        version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -19179,18 +19173,27 @@ importers:
 
   sdk/maps/arm-maps:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19207,12 +19210,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -19228,9 +19231,15 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22225,7 +22234,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/arm-search':
         specifier: ^3.2.0
         version: link:../../search/arm-search
@@ -23573,6 +23582,79 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
+
+  sdk/previewalertrule/arm-previewalertrule:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.37
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27285,6 +27367,85 @@ importers:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
 
+  sdk/servicegroups/arm-servicegroups:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.37
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
+
   sdk/servicelinker/arm-servicelinker:
     dependencies:
       '@azure/abort-controller':
@@ -28599,8 +28760,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/storage-blob':
-        specifier: 12.29.0
-        version: 12.29.0
+        specifier: 12.31.0
+        version: 12.31.0
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.37
@@ -30568,6 +30729,79 @@ importers:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
 
+  sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.37
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
+
   sdk/terraform/arm-terraform:
     dependencies:
       '@azure-rest/core-client':
@@ -30923,7 +31157,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -31252,7 +31486,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -31328,7 +31562,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: 7.6.0
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -31930,7 +32164,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-webpubsub':
         specifier: catalog:arm
-        version: 1.2.0
+        version: link:../arm-webpubsub
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -32468,10 +32702,6 @@ packages:
     resolution: {integrity: sha1-ru73sUmGrXAAFWPiTJb1tbW1tmo=}
     engines: {node: '>=18.0.0'}
 
-  '@azure/arm-cognitiveservices@7.6.0':
-    resolution: {integrity: sha1-57As5vST8j7PbPZuT4ysWQ/z7t4=}
-    engines: {node: '>=18.0.0'}
-
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     resolution: {integrity: sha1-BbFUloKpxuHjesmLNzt4OyXQdYE=}
     engines: {node: '>=14.0.0'}
@@ -32492,20 +32722,12 @@ packages:
     resolution: {integrity: sha1-xhCsgrCAoBid/WnFP8GwR1gkT9E=}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-resources@5.2.0':
-    resolution: {integrity: sha1-xiBCl23pI+AEgEJRHOwkzOuZigk=}
-    engines: {node: '>=14.0.0'}
-
   '@azure/arm-servicebus@6.1.0':
     resolution: {integrity: sha1-obGbSgdm7IM//UUfsGTJdsrxacA=}
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-storage@18.5.0':
     resolution: {integrity: sha1-hHzWoKc3k3aMCxqEesNscjBgZrE=}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/arm-webpubsub@1.2.0':
-    resolution: {integrity: sha1-mfACuVCTDGJNhvkWsqXe5eKtOGQ=}
     engines: {node: '>=18.0.0'}
 
   '@azure/communication-common@2.4.0':
@@ -32679,11 +32901,6 @@ packages:
   '@azure/service-bus@7.9.5':
     resolution: {integrity: sha1-rVpvPK+eMmnF6DjXsV7NAw4tjTM=}
     engines: {node: '>=18.0.0'}
-
-  '@azure/storage-blob@12.29.0':
-    resolution: {integrity: sha1-1BQU2kYx+KCSFR416DKBD/Q4jio=}
-    engines: {node: '>=20.0.0'}
-    deprecated: Unplanned Release
 
   '@azure/storage-blob@12.31.0':
     resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=}
@@ -34303,9 +34520,6 @@ packages:
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha1-gV4wt4bS6PDc2F/VvPXhoE0AjxU=}
-
-  '@types/yargs@17.0.35':
-    resolution: {integrity: sha1-BwE+RqpNfX1QpJ4VYEwcU0DU6yQ=}
 
   '@typescript-eslint/eslint-plugin@8.46.4':
     resolution: {integrity: sha1-AF3E7ryydGLyDeOv6IgGX2XOwQA=}
@@ -37224,12 +37438,16 @@ packages:
     hasBin: true
 
   yargs-parser@20.2.9:
-    resolution: {integrity: sha1-LrfcOwKJcY/ClfNidThFxBoMlO4=}
+    resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
     engines: {node: '>=10'}
 
   yargs-parser@21.1.1:
-    resolution: {integrity: sha1-kJa87r+ZDSG7MfqVFuDt4pSnfTU=}
+    resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
+
+  yargs-parser@22.0.0:
+    resolution: {integrity: sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
   yargs@16.2.0:
     resolution: {integrity: sha1-HIK/D2tqZur85+8w43b0mhJHf2Y=}
@@ -37352,18 +37570,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-cognitiveservices@7.6.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.1
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.23.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -37424,18 +37630,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-resources@5.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.1
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.23.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/arm-servicebus@6.1.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -37451,18 +37645,6 @@ snapshots:
   '@azure/arm-storage@18.5.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.1
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.23.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/arm-webpubsub@1.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
@@ -37870,25 +38052,6 @@ snapshots:
       long: 5.3.2
       process: 0.11.10
       rhea-promise: 3.0.3
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/storage-blob@12.29.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.1
-      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.23.0)
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.23.0
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/core-xml': 1.5.0
-      '@azure/logger': 1.3.0
-      '@azure/storage-common': 12.3.0(@azure/core-client@1.10.1)
-      events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -39734,10 +39897,6 @@ snapshots:
       '@types/node': 20.19.37
 
   '@types/yargs-parser@21.0.3': {}
-
-  '@types/yargs@17.0.35':
-    dependencies:
-      '@types/yargs-parser': 21.0.3
 
   '@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.8.3))(eslint@9.39.4)(typescript@5.8.3)':
     dependencies:
@@ -42845,6 +43004,8 @@ snapshots:
   yargs-parser@20.2.9: {}
 
   yargs-parser@21.1.1: {}
+
+  yargs-parser@22.0.0: {}
 
   yargs@16.2.0:
     dependencies:
