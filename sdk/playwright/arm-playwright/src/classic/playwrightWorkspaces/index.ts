@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
+import type { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
 import {
   checkNameAvailability,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/playwrightWorkspaces/operations.js";
-import {
+import type {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -20,14 +20,14 @@ import {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "../../api/playwrightWorkspaces/options.js";
-import {
+import type {
   PlaywrightWorkspace,
   PlaywrightWorkspaceUpdate,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PlaywrightWorkspaces operations. */
 export interface PlaywrightWorkspacesOperations {
