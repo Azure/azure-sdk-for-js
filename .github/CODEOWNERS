@@ -1656,6 +1656,7 @@ sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
 sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
 sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
