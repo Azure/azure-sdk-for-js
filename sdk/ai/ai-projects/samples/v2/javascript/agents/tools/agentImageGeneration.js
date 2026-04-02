@@ -18,9 +18,9 @@ const fs = require("node:fs/promises");
 const path = require("path");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const imageDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "gpt-image-1";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "gpt-4o";
 
 async function main() {
   // Create AI Project client

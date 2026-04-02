@@ -31,9 +31,9 @@ param(
   $RemainingArguments
 )
 
-if (!$AdditionalParameters['deployMIResources']) {
+if ([string]::IsNullOrEmpty($DeploymentOutputs['IDENTITY_WEBAPP_NAME'])) {
     Write-Host "Skipping post-provisioning script because resources weren't deployed"
-    return
+    exit
 }
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']

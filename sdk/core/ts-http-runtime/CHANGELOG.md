@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Request headers are no longer included in proxy agent's additional headers.
+
 ### Other Changes
 
 ## 0.3.4 (2026-03-05)

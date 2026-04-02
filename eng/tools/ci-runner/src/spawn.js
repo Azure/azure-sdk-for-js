@@ -60,3 +60,25 @@ export function spawnPnpmWithOutput(cwd, ...args) {
 
   return output;
 }
+
+/**
+ * Helper function to spawn git commands and capture output
+ *
+ * @param {string} cwd - current working directory
+ * @param {string[]} args - git arguments
+ * @returns {{ status: number, stdout: string, stderr: string }}
+ */
+export function spawnGitWithOutput(cwd, ...args) {
+  console.log(`Executing: "git ${args.join(" ")}" in ${cwd}\n\n`);
+  const proc = spawnSync("git", args, { cwd, stdio: "pipe", shell: isWindows() });
+
+  if (proc.error) {
+    throw new Error(`Error executing command: ${proc.error.message}`);
+  }
+
+  const stdout = proc.stdout.toString();
+  const stderr = proc.stderr.toString();
+  console.log(`\n\ngit exited with code ${proc.status}`);
+
+  return { status: proc.status ?? 1, stdout, stderr };
+}

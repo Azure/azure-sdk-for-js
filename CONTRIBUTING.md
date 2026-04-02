@@ -152,11 +152,9 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `4.m.n`.
-Currently, version `4.m.n` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
-Eventually, all the tests will be migrated to depend on the `4.m.n` version of the recorder that depends on the language-agnostic [test proxy server].
+Tests in our repo use version `4.x` of the recorder tool (`@azure-tools/test-recorder`), which depends on the language-agnostic [test proxy server] and stores recordings externally via the [asset-sync workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 
-Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#migration-steps-for-existing-recordings) for more information on migrating the tests from recorder v4.
+Refer to the [asset-sync workflow guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md) for more information on managing test recordings.
 
 #### Live tests
 
@@ -180,7 +178,14 @@ Regenerating the recordings has the same requirements as running the live tests.
 
 For more information about the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
-Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) that can be handy while testing your SDKs.
+#### Inspecting recording changes
+
+After recording tests, you can review what changed before pushing:
+
+- **CLI**: Run `npx dev-tool test-proxy diff` from your package directory to see a full diff of recording changes, or `npx dev-tool test-proxy diff --stat` for a summary.
+- **VS Code Source Control panel**: Run `npx dev-tool vscode recordings show` to enable the asset repos in VS Code's Source Control sidebar. This gives you a visual diff viewer, file tree, and inline change markers for recordings. Use `npx dev-tool vscode recordings hide` to disable it.
+
+Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) that can be handy while testing your SDKs.
 
 ### Other NPM scripts
 

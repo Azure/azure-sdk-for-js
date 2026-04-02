@@ -23,7 +23,7 @@ const argv = yargs(hideBin(process.argv))
       demandOption: true,
     },
   })
-  .help().argv;
+  .help().parseSync();
 
 async function main(argv) {
   const packageName = argv["package-name"];

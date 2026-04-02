@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list StandbyVirtualMachinePoolResource resources by subscription ID
  *
  * @summary list StandbyVirtualMachinePoolResource resources by subscription ID
- * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_ListBySubscription.json
+ * x-ms-original-file: 2025-10-01/StandbyVirtualMachinePools_ListBySubscription.json
  */
 async function standbyVirtualMachinePoolsListBySubscription() {
   const credential = new DefaultAzureCredential();
