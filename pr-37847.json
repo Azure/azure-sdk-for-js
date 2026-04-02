@@ -1,0 +1,11 @@
+{
+  "pr": 37847,
+  "package": "@azure/arm-kubernetesconfiguration-extensions",
+  "version": "1.0.0",
+  "reviewedAt": "2026-04-02",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked",
+  "ciStatus": "analyze-failed",
+  "notes": "Beta→stable promotion to 1.0.0; API version 2025-03-01; ADO Analyze failed (buildId=6081030); format/build/snippets/samples all pass locally; likely verify-links or verify-changelogs issue in ADO"
+}
