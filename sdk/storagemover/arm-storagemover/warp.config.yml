@@ -1,32 +1,12 @@
-# warp.config.yml — build configuration
-
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
-  "./api/jobRuns": "src/api/jobRuns/index.ts"
-  "./api/connections": "src/api/connections/index.ts"
-  "./api/jobDefinitions": "src/api/jobDefinitions/index.ts"
-  "./api/projects": "src/api/projects/index.ts"
-  "./api/endpoints": "src/api/endpoints/index.ts"
-  "./api/agents": "src/api/agents/index.ts"
-  "./api/storageMovers": "src/api/storageMovers/index.ts"
-  "./api/operations": "src/api/operations/index.ts"
+  "./api/jobRuns": "./src/api/jobRuns/index.ts"
+  "./api/connections": "./src/api/connections/index.ts"
+  "./api/jobDefinitions": "./src/api/jobDefinitions/index.ts"
+  "./api/projects": "./src/api/projects/index.ts"
+  "./api/endpoints": "./src/api/endpoints/index.ts"
+  "./api/agents": "./src/api/agents/index.ts"
+  "./api/storageMovers": "./src/api/storageMovers/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-
-targets:
-  - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
-
-  - name: esm
-    condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-
-  - name: commonjs
-    condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
