@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementClient } from "@azure/arm-playwright";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PlaywrightManagementClient } = require("@azure/arm-playwright");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets a Playwright workspace quota resource by name.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets a Playwright workspace quota resource by name.
  * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaceQuotas_Get.json
  */
-async function playwrightWorkspaceQuotasGet(): Promise<void> {
+async function playwrightWorkspaceQuotasGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function playwrightWorkspaceQuotasGet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await playwrightWorkspaceQuotasGet();
 }
 

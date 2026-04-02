@@ -5,21 +5,25 @@ const { PlaywrightManagementClient } = require("@azure/arm-playwright");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to gets a subscription-level location-based Playwright quota resource by name.
+ * This sample demonstrates how to list the operations for the provider
  *
- * @summary gets a subscription-level location-based Playwright quota resource by name.
- * x-ms-original-file: 2025-09-01/PlaywrightQuotas_Get.json
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-02-01-preview/Operations_List.json
  */
-async function playwrightQuotasGet() {
+async function operationsList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
-  const result = await client.playwrightQuotas.get("eastus", "ExecutionMinutes");
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.operations.list()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main() {
-  await playwrightQuotasGet();
+  await operationsList();
 }
 
 main().catch(console.error);

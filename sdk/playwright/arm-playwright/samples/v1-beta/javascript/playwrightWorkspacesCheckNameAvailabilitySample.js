@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks if a Playwright workspace name is available globally.
  *
  * @summary checks if a Playwright workspace name is available globally.
- * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_CheckNameAvailability.json
+ * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_CheckNameAvailability.json
  */
 async function playwrightWorkspacesCheckNameAvailability() {
   const credential = new DefaultAzureCredential();

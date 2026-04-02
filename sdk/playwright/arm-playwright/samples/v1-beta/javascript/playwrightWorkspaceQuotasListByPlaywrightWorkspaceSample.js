@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists quota resources for a given Playwright workspace.
  *
  * @summary lists quota resources for a given Playwright workspace.
- * x-ms-original-file: 2025-09-01/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
+ * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
  */
 async function playwrightWorkspaceQuotasListByPlaywrightWorkspace() {
   const credential = new DefaultAzureCredential();

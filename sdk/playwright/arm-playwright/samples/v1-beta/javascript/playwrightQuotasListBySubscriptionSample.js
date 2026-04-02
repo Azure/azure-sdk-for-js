@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists Playwright quota resources for a given subscription ID.
  *
  * @summary lists Playwright quota resources for a given subscription ID.
- * x-ms-original-file: 2025-09-01/PlaywrightQuotas_ListBySubscription.json
+ * x-ms-original-file: 2026-02-01-preview/PlaywrightQuotas_ListBySubscription.json
  */
 async function playwrightQuotasListBySubscription() {
   const credential = new DefaultAzureCredential();
