@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/alertprocessingrules/arm-alertprocessingrules)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-alertprocessingrules)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-alertprocessingrules)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-alertprocessingrules?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/alertprocessingrules/arm-alertprocessingrules/samples)
 
 ## Getting started
