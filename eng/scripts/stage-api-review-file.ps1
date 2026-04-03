@@ -37,19 +37,19 @@ foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
       $targetFilePath = "$($pkgStagingDir)/$($info.ArtifactName)_$($info.Version).api.json"
       Write-Host "Copying $($sourceFilePath) to $($targetFilePath)"
       Copy-Item $sourceFilePath $targetFilePath
+      # copy metadata.json if it exists
+      $metadataFilePath = Join-Path $info.DirectoryPath "metadata.json"
+      if (Test-Path $metadataFilePath) {
+        $targetMetadataFilePath = Join-Path $pkgStagingDir "metadata.json"
+        Write-Host "Copying $($metadataFilePath) to $($targetMetadataFilePath)"
+        Copy-Item $metadataFilePath $targetMetadataFilePath
+      } else {
+        Write-Host "metadata.json file $($metadataFilePath) is not present for package $($info.Name)"
+      }
     }
     else {
       # Not an error if api-extractor is not configured/required for a package
       Write-Host "-node.api.json extracted file is not present for package $($info.Name)"
-    }
-    # copy metadata.json if it exists
-    $metadataFilePath = Join-Path $info.DirectoryPath "metadata.json"
-    if (Test-Path $metadataFilePath) {
-      $targetMetadataFilePath = Join-Path $pkgStagingDir "metadata.json"
-      Write-Host "Copying $($metadataFilePath) to $($targetMetadataFilePath)"
-      Copy-Item $metadataFilePath $targetMetadataFilePath
-    } else {
-      Write-Host "metadata.json file $($metadataFilePath) is not present for package $($info.Name)"
     }
   }
   else {
