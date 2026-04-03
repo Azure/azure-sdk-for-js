@@ -1,0 +1,45 @@
+{
+  "apiVersions": {
+    "Microsoft.Relationships": "2023-09-01-preview"
+  },
+  "emitterVersion": "0.51.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Relationships",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-relationships!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-relationships!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-relationships!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-relationships!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-relationships!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-relationships!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-relationships!DependencyOfRelationshipCreateOrUpdate:interface": "Microsoft.Relationships.DependencyOfRelationshipCreateOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipPropertiesCreateOrUpdate:interface": "Microsoft.Relationships.DependencyOfRelationshipPropertiesCreateOrUpdate",
+      "@azure/arm-relationships!ExtensionResource:interface": "Azure.ResourceManager.CommonTypes.ExtensionResource",
+      "@azure/arm-relationships!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-relationships!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-relationships!DependencyOfRelationship:interface": "Microsoft.Relationships.DependencyOfRelationship",
+      "@azure/arm-relationships!DependencyOfRelationshipProperties:interface": "Microsoft.Relationships.DependencyOfRelationshipProperties",
+      "@azure/arm-relationships!RelationshipOriginInformation:interface": "Microsoft.Relationships.RelationshipOriginInformation",
+      "@azure/arm-relationships!RelationshipMetadata:interface": "Microsoft.Relationships.RelationshipMetadata",
+      "@azure/arm-relationships!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipCreateOrUpdate:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipCreateOrUpdate",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipPropertiesCreateOrUpdate:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipPropertiesCreateOrUpdate",
+      "@azure/arm-relationships!ServiceGroupMemberRelationship:interface": "Microsoft.Relationships.ServiceGroupMemberRelationship",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipProperties:interface": "Microsoft.Relationships.ServiceGroupMemberRelationshipProperties",
+      "@azure/arm-relationships!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-relationships!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-relationships!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-relationships!KnownRelationshipOrigins:enum": "Microsoft.Relationships.RelationshipOrigins",
+      "@azure/arm-relationships!KnownProvisioningState:enum": "Microsoft.Relationships.ProvisioningState",
+      "@azure/arm-relationships!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-relationships!KnownVersions:enum": "Microsoft.Relationships.Versions",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#delete:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.delete",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#get:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.get",
+      "@azure/arm-relationships!ServiceGroupMemberRelationshipsOperations#createOrUpdate:member": "Microsoft.Relationships.ServiceGroupMemberRelationships.createOrUpdate",
+      "@azure/arm-relationships!DependencyOfRelationshipsOperations#delete:member": "Microsoft.Relationships.DependencyOfRelationships.delete",
+      "@azure/arm-relationships!DependencyOfRelationshipsOperations#get:member": "Microsoft.Relationships.DependencyOfRelationships.get",
+      "@azure/arm-relationships!DependencyOfRelationshipsOperations#createOrUpdate:member": "Microsoft.Relationships.DependencyOfRelationships.createOrUpdate",
+      "@azure/arm-relationships!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
