@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@azure-rest/ai-inference": "^1.0.0-beta.6",
-    "@azure/arm-cognitiveservices": "catalog:arm",
+    "@azure/arm-cognitiveservices": "8.1.0",
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
