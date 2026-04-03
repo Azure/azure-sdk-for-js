@@ -1,6 +1,6 @@
 ---
 name: sdk-workflow
-description: '**UTILITY SKILL** — Must be consulted for SDK development workflow tasks. Routes agents to the correct tools and documentation for building, testing, linting, formatting, provisioning, deploying, and other package development tasks. WHEN: "build package", "run tests", "lint code", "format code", "run checks", "prepare samples", "publish samples", "apply customization", "run migrations", "bump version", "extract API", "update snippets", "check API compatibility", "manage test recordings", "provision test resources", "deploy test resources", "create test resources", "set up test environment", "authenticate to Azure", "login to Azure", "release package", "increment version".'
+description: '**UTILITY SKILL** — Must be consulted for SDK development workflow tasks. Routes agents to the correct tools and documentation for building, testing, linting, formatting, provisioning, deploying, and other package development tasks. WHEN: "build package", "run tests", "lint code", "format code", "run checks", "prepare samples", "publish samples", "apply customization", "run migrations", "bump version", "extract API", "update snippets", "check API compatibility", "manage test recordings", "provision test resources", "deploy test resources", "create test resources", "set up test environment", "authenticate to Azure", "login to Azure", "release package", "increment version", "troubleshoot CI", "fix CI failure", "CredScan", "credential scan", "push recordings", "asset sync", "update recordings".'
 ---
 
 # SDK Development Workflow
@@ -29,6 +29,9 @@ development tasks. Read the referenced docs — don't guess at commands.
 | Writing and running perf tests | `documentation/writing-performance-tests.md` |
 | TypeSpec client generator CLI | `eng/common/tsp-client/README.md` |
 | Code review agents (archie, scribe, sentinel, tester, dash, dexter) | `documentation/reviewer-agents.md` |
+| Troubleshooting CI failures | `documentation/Troubleshoot-ci-failure.md` |
+| Asset sync workflow (test recordings) | `sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md` |
+| CredScan suppression process | `documentation/credscan-process.md` |
 
 ## Important Notes
 
