@@ -28,6 +28,7 @@ development tasks. Read the referenced docs — don't guess at commands.
 | Resolving pnpm-lock.yaml merge conflicts | `documentation/resolve-pnpm-lock-merge-conflict.md` |
 | Writing and running perf tests | `documentation/writing-performance-tests.md` |
 | TypeSpec client generator CLI | `eng/common/tsp-client/README.md` |
+| Code review agents (archie, scribe, sentinel, tester, dash, dexter) | `documentation/reviewer-agents.md` |
 
 ## Important Notes
 
@@ -66,3 +67,8 @@ development tasks. Read the referenced docs — don't guess at commands.
   file in `sdk/keyvault/keyvault-keys`, `sdk/keyvault/keyvault-certificates`, etc.
 - **Test proxy**: `npx dev-tool run test:vitest` automatically manages the test proxy
   lifecycle. You do not need to start it manually.
+- **Code review agents**: Available locally for reviewing changes before pushing.
+  See `documentation/reviewer-agents.md` for details on each agent — **archie**
+  (API design), **scribe** (documentation), **sentinel** (security), **tester**
+  (test coverage), **dash** (performance), **dexter** (dependencies),
+  **mgmt-review** (management SDKs).
