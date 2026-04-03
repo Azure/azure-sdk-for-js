@@ -78,7 +78,6 @@ async function main(): Promise<void> {
     parallel: useParallel,
     target: values.target,
     stats: values.stats,
-    json: values.json,
     configPath: values.config,
   });
 

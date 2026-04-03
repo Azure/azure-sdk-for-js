@@ -36,8 +36,6 @@ export interface BuildOptions {
   stats?: boolean;
   /** Only build targets whose name matches one of the given values. */
   target?: string[];
-  /** When true, suppress human-readable output (for machine-readable JSON from CLI). */
-  json?: boolean;
 }
 
 export interface BuildResult {
