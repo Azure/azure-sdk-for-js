@@ -215,7 +215,8 @@ async function resolveConfigWithExtends(
   // - exports: shallow merge, child keys override base keys
   // - targets: child replaces base entirely if specified, otherwise inherits
   const childExports = isRecord(raw.exports) ? (raw.exports as Record<string, string>) : undefined;
-  const childTargets = Array.isArray(raw.targets) && raw.targets.length > 0 ? raw.targets : undefined;
+  const childTargets =
+    Array.isArray(raw.targets) && raw.targets.length > 0 ? raw.targets : undefined;
 
   const merged = {
     exports: { ...baseConfig.exports, ...(childExports ?? {}) },
