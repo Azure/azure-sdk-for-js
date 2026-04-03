@@ -14,12 +14,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
+import type {
   OpenApiTool,
   OpenApiFunctionDefinition,
   OpenApiProjectConnectionAuthDetails,
 } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { fileURLToPath } from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "path";
