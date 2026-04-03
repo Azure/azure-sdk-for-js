@@ -183,16 +183,14 @@ function setProxyAgentOnRequest(
     );
   }
 
-  const headers = request.headers.toJSON();
-
   if (isInsecure) {
     if (!cachedAgents.httpProxyAgent) {
-      cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl, { headers });
+      cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl);
     }
     request.agent = cachedAgents.httpProxyAgent;
   } else {
     if (!cachedAgents.httpsProxyAgent) {
-      cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl, { headers });
+      cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl);
     }
     request.agent = cachedAgents.httpsProxyAgent;
   }

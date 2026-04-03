@@ -8,10 +8,9 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { KeyVaultClient } from "./keyVaultClient.js";
-export {
+export type {
   SecretSetParameters,
   SecretAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   SecretBundle,
   KeyVaultError,
@@ -22,9 +21,10 @@ export {
   DeletedSecretItem,
   BackupSecretResult,
   SecretRestoreParameters,
-  KnownVersions,
+  ContentType,
 } from "./models/index.js";
-export {
+export { KnownDeletionRecoveryLevel, KnownContentType, KnownVersions } from "./models/index.js";
+export type {
   KeyVaultClientOptionalParams,
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
@@ -39,4 +39,4 @@ export {
   DeleteSecretOptionalParams,
   SetSecretOptionalParams,
 } from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

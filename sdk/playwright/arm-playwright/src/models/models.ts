@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -172,6 +178,8 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 export interface PlaywrightWorkspace extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: PlaywrightWorkspaceProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
 }
 
 export function playwrightWorkspaceSerializer(item: PlaywrightWorkspace): any {
@@ -181,12 +189,17 @@ export function playwrightWorkspaceSerializer(item: PlaywrightWorkspace): any {
     properties: !item["properties"]
       ? item["properties"]
       : playwrightWorkspacePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
 export function playwrightWorkspaceDeserializer(item: any): PlaywrightWorkspace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -197,6 +210,9 @@ export function playwrightWorkspaceDeserializer(item: any): PlaywrightWorkspace 
     properties: !item["properties"]
       ? item["properties"]
       : playwrightWorkspacePropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -212,12 +228,18 @@ export interface PlaywrightWorkspaceProperties {
   localAuth?: EnablementStatus;
   /** The workspace ID in GUID format. */
   readonly workspaceId?: string;
+  /** Indicates whether reporting is enabled for the workspace. When set to true, reports will be generated and available for the workspace. */
+  reporting?: EnablementStatus;
+  /** The URI of the Azure storage account used to store workspace artifacts, test results, and reports. */
+  storageUri?: string;
 }
 
 export function playwrightWorkspacePropertiesSerializer(item: PlaywrightWorkspaceProperties): any {
   return {
     regionalAffinity: item["regionalAffinity"],
     localAuth: item["localAuth"],
+    reporting: item["reporting"],
+    storageUri: item["storageUri"],
   };
 }
 
@@ -230,6 +252,8 @@ export function playwrightWorkspacePropertiesDeserializer(
     regionalAffinity: item["regionalAffinity"],
     localAuth: item["localAuth"],
     workspaceId: item["workspaceId"],
+    reporting: item["reporting"],
+    storageUri: item["storageUri"],
   };
 }
 
@@ -281,6 +305,81 @@ export enum KnownEnablementStatus {
  */
 export type EnablementStatus = string;
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+  return item;
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -301,7 +400,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -376,7 +477,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -388,6 +489,8 @@ export type CreatedByType = string;
 
 /** The type used for update operations of the PlaywrightWorkspace. */
 export interface PlaywrightWorkspaceUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
@@ -396,6 +499,9 @@ export interface PlaywrightWorkspaceUpdate {
 
 export function playwrightWorkspaceUpdateSerializer(item: PlaywrightWorkspaceUpdate): any {
   return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -409,6 +515,10 @@ export interface PlaywrightWorkspaceUpdateProperties {
   regionalAffinity?: EnablementStatus;
   /** Enables the workspace to use local authentication through service access tokens for operations. */
   localAuth?: EnablementStatus;
+  /** Indicates whether reporting is enabled for the workspace. When set to true, reports will be generated and available for the workspace. */
+  reporting?: EnablementStatus;
+  /** The URI of the Azure storage account used to store workspace artifacts, test results, and reports. */
+  storageUri?: string;
 }
 
 export function playwrightWorkspaceUpdatePropertiesSerializer(
@@ -417,6 +527,8 @@ export function playwrightWorkspaceUpdatePropertiesSerializer(
   return {
     regionalAffinity: item["regionalAffinity"],
     localAuth: item["localAuth"],
+    reporting: item["reporting"],
+    storageUri: item["storageUri"],
   };
 }
 
@@ -714,6 +826,12 @@ export function playwrightWorkspaceQuotaArrayDeserializer(
 
 /** Available versions of the Playwright Service Management API. */
 export enum KnownVersions {
+  /** Preview version 2025-07-01-preview with experimental features for Playwright workspace management. */
+  V20250701Preview = "2025-07-01-preview",
   /** Stable version 2025-09-01 with general availability features for Playwright workspace management. */
   V20250901 = "2025-09-01",
+  /** Preview version 2026-01-01-preview with experimental features for Playwright workspace management. */
+  V20260101Preview = "2026-01-01-preview",
+  /** Preview version 2026-02-01-preview with experimental features for Playwright workspace management. */
+  V20260201Preview = "2026-02-01-preview",
 }

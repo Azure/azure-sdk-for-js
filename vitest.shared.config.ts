@@ -4,7 +4,7 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
-import { VerboseReporter } from "vitest/reporters";
+import { VerboseReporter } from "vitest/node";
 
 /**
  * vitest reporter that does not output "serialized error" to console which may contain secrets
@@ -64,7 +64,11 @@ export function makeAliases(
 }
 
 function shouldCollectCoverage(rootDir: string) {
-  return process.env["TEST_MODE"] === "live" || rootDir.includes("/sdk/core/") || rootDir.includes("\\sdk\\core\\");
+  return (
+    process.env["TEST_MODE"] === "live" ||
+    rootDir.includes("/sdk/core/") ||
+    rootDir.includes("\\sdk\\core\\")
+  );
 }
 
 function makeNodeAliases(rootDir: string) {
@@ -72,7 +76,33 @@ function makeNodeAliases(rootDir: string) {
   return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
 }
 
+/**
+ * Vite plugin that works around a processedIds cache bug in Vite's import analysis.
+ * The __vitest__ environment defaults to noExternal: [], which lets Vite cache the first
+ * externalization decision for a bare specifier across all importers. When multiple versions
+ * of @azure/core-lro coexist (v2 from published deps, v3 from workspace), the first resolution
+ * gets cached and subsequent importers get the wrong version. Adding core-lro to noExternal
+ * forces Vite to transform (not externalize) each import, resolving per-importer correctly.
+ * See https://github.com/vitest-dev/vitest/issues/10028
+ */
+export function fixCoreLroExternalization() {
+  return {
+    name: "fix-core-lro-externalization",
+    configEnvironment(name: string, config: { resolve?: { noExternal?: string[] | boolean } }) {
+      if (name === "__vitest__") {
+        config.resolve ??= {};
+        if (Array.isArray(config.resolve.noExternal)) {
+          config.resolve.noExternal.push("@azure/core-lro");
+        } else if (!config.resolve.noExternal) {
+          config.resolve.noExternal = ["@azure/core-lro"];
+        }
+      }
+    },
+  };
+}
+
 export default defineConfig({
+  plugins: [fixCoreLroExternalization()],
   test: {
     testTimeout: 1200000,
     hookTimeout: 1200000,
