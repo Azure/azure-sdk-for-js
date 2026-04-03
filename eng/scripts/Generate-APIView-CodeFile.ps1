@@ -34,5 +34,11 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node ./dist/src/export.js $apiFilePath $OutFilePath
+  # if metadata.json file exists in the same directory as the api-extractor file, include it in the conversion command
+  $metadataFilePath = Join-Path -Path $OutDirectory -ChildPath "metadata.json"
+  if (Test-Path $metadataFilePath) {
+    node ./dist/src/export.js $apiFilePath $OutFilePath $metadataFilePath
+  } else {
+    node ./dist/src/export.js $apiFilePath $OutFilePath
+  }
 }

@@ -42,6 +42,15 @@ foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
       # Not an error if api-extractor is not configured/required for a package
       Write-Host "-node.api.json extracted file is not present for package $($info.Name)"
     }
+    # copy metadata.json if it exists
+    $metadataFilePath = Join-Path $info.DirectoryPath "metadata.json"
+    if (Test-Path $metadataFilePath) {
+      $targetMetadataFilePath = Join-Path $pkgStagingDir "metadata.json"
+      Write-Host "Copying $($metadataFilePath) to $($targetMetadataFilePath)"
+      Copy-Item $metadataFilePath $targetMetadataFilePath
+    } else {
+      Write-Host "metadata.json file $($metadataFilePath) is not present for package $($info.Name)"
+    }
   }
   else {
     Write-Host "Directory $($info.DirectoryPath) is not present in package root to search for api-extracted file"
