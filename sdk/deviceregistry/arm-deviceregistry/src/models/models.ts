@@ -1821,9 +1821,9 @@ export interface CertificateConfiguration {
 
 export function certificateConfigurationSerializer(item: CertificateConfiguration): any {
   return {
-    certificateAuthorityConfiguration: certificateAuthorityConfigurationSerializer(
-      item["certificateAuthorityConfiguration"],
-    ),
+    certificateAuthorityConfiguration: !item["certificateAuthorityConfiguration"]
+      ? item["certificateAuthorityConfiguration"]
+      : certificateAuthorityConfigurationSerializer(item["certificateAuthorityConfiguration"]),
     leafCertificateConfiguration: leafCertificateConfigurationSerializer(
       item["leafCertificateConfiguration"],
     ),
