@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StoragePipelineOptions, StorageSharedKeyCredential, AnonymousCredential } from "@azure/storage-blob";
+import type {
+  StoragePipelineOptions,
+  StorageSharedKeyCredential,
+  AnonymousCredential,
+} from "@azure/storage-blob";
 import { BlobServiceClient, Pipeline } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
