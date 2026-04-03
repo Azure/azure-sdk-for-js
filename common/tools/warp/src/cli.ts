@@ -34,9 +34,7 @@ async function main(): Promise<void> {
   }
 
   // Set log level (#7)
-  if (values.json) {
-    setLogLevel("quiet");
-  } else if (values.quiet) {
+  if (values.json || values.quiet) {
     setLogLevel("quiet");
   } else if (values.verbose) {
     setLogLevel("verbose");

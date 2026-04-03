@@ -478,7 +478,7 @@ export function programIdentity(
       emitOpts[key] = options[key];
     }
   }
-  hash.update(JSON.stringify(emitOpts, Object.keys(emitOpts).sort()));
+  hash.update(JSON.stringify(emitOpts));
   hash.update("\0files:" + [...fileNames].sort().join("\0"));
   if (resolvedImports && resolvedImports.length > 0) {
     hash.update("\0imports:" + [...resolvedImports].sort().join("\0"));
@@ -492,7 +492,7 @@ export function programIdentity(
   return hash.digest("hex").slice(0, 16);
 }
 
-// ── Backward-compatible aliases (consumed by parallel.ts, removed in a later commit) ──
+// ── Aliases consumed by parallel.ts (will be removed when parallel.ts adopts programIdentity) ──
 
 /** @deprecated Use optionsSignature + programIdentity instead. */
 export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
@@ -646,64 +646,100 @@ export async function copyDir(src: string, dest: string): Promise<void> {
 }
 
 /**
- * Transform ESM output to CJS using esbuild.
+ * Build CJS output from TypeScript sources using esbuild, copying
+ * declarations from a previously emitted ESM target.
  *
- * Reads `.js` files from `src`, transforms each to CommonJS format via
- * esbuild, and writes the result (plus a regenerated `.js.map`) to `dest`.
- * Non-JS files (`.d.ts`, `.d.ts.map`, etc.) are copied as-is.
- * Stale ESM `.js.map` files are excluded since esbuild produces its own.
+ * For each `.ts` source file (relative to `rootDir`), esbuild strips types
+ * and emits CommonJS `.js` + `.js.map` into `dest`, preserving directory
+ * structure. Source maps point directly to the original `.ts` files.
  *
- * This is much faster than running a full tsc compilation with a virtual
- * `{"type":"commonjs"}` package.json, since esbuild only does syntax
- * transformation — no resolution, type checking, or program analysis.
+ * Declaration files (`.d.ts`, `.d.ts.map`) are copied as-is from `esmOutDir`
+ * since they are identical between ESM and CJS targets.
+ *
+ * This is much faster than a full tsc program creation for the CJS target,
+ * since esbuild only does syntax transformation — no resolution, type
+ * checking, or program analysis.
  */
-export async function transformEsmToCjs(src: string, dest: string): Promise<void> {
-  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
-  const dirs = new Set<string>();
-  const jsFiles: Array<{ srcPath: string; destPath: string }> = [];
-  const copyFiles: Array<{ srcPath: string; destPath: string; relPath: string }> = [];
-  const jsRelPaths = new Set<string>();
+export async function buildCjsFromSources(
+  rootDir: string,
+  dest: string,
+  esmOutDir: string,
+  sourceFiles: readonly string[],
+): Promise<void> {
+  const absRoot = path.resolve(rootDir);
 
-  for (const entry of entries) {
-    if (entry.isDirectory()) continue;
-    const parentPath = entry.parentPath ?? entry.path;
-    const srcPath = path.join(parentPath, entry.name);
-    const relPath = path.relative(src, srcPath);
-    const destPath = path.join(dest, relPath);
-    dirs.add(path.dirname(destPath));
-    if (entry.name.endsWith(".js") && !entry.name.endsWith(".d.js")) {
-      jsFiles.push({ srcPath, destPath });
-      jsRelPaths.add(relPath);
-    } else {
-      copyFiles.push({ srcPath, destPath, relPath });
-    }
+  // Partition source files into TS files (for esbuild) and others
+  const tsFiles: Array<{ srcPath: string; relPath: string; destPath: string }> = [];
+  for (const srcPath of sourceFiles) {
+    const ext = path.extname(srcPath);
+    if (ext !== ".ts" && ext !== ".mts" && ext !== ".cts") continue;
+    // Skip declaration files — they come from the ESM output
+    if (srcPath.endsWith(".d.ts") || srcPath.endsWith(".d.mts") || srcPath.endsWith(".d.cts"))
+      continue;
+    // Skip files outside rootDir (e.g. node_modules type references)
+    const relPath = path.relative(absRoot, srcPath);
+    if (relPath.startsWith("..")) continue;
+    // Map source extension to output: .ts→.js, .mts→.mjs, .cts→.cjs
+    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+    const destRel = relPath.slice(0, -ext.length) + outExt;
+    const destPath = path.join(dest, destRel);
+    tsFiles.push({ srcPath, relPath, destPath });
   }
 
-  // Exclude .js.map files whose .js counterpart will be transformed (we regenerate the map).
-  const filteredCopyFiles = copyFiles.filter(
-    ({ relPath }) => !relPath.endsWith(".js.map") || !jsRelPaths.has(relPath.slice(0, -4)),
-  );
+  // Collect declaration files from ESM output to copy
+  const dtsFiles: Array<{ srcPath: string; destPath: string }> = [];
+  try {
+    const entries = await fsp.readdir(esmOutDir, { withFileTypes: true, recursive: true });
+    for (const entry of entries) {
+      if (!entry.isFile()) continue;
+      if (
+        !entry.name.endsWith(".d.ts") &&
+        !entry.name.endsWith(".d.ts.map") &&
+        !entry.name.endsWith(".d.mts") &&
+        !entry.name.endsWith(".d.mts.map") &&
+        !entry.name.endsWith(".d.cts") &&
+        !entry.name.endsWith(".d.cts.map")
+      )
+        continue;
+      const parentPath = entry.parentPath ?? (entry as { path: string }).path;
+      const srcPath = path.join(parentPath, entry.name);
+      const relPath = path.relative(esmOutDir, srcPath);
+      dtsFiles.push({ srcPath, destPath: path.join(dest, relPath) });
+    }
+  } catch {
+    // ESM output dir may not have declarations if declarationMap is off — that's fine
+  }
+
+  // Collect all directories we need to create
+  const dirs = new Set<string>();
+  for (const { destPath } of tsFiles) dirs.add(path.dirname(destPath));
+  for (const { destPath } of dtsFiles) dirs.add(path.dirname(destPath));
 
   await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
     fsp.mkdir(d, { recursive: true }),
   );
 
   const ops: Array<() => Promise<void>> = [
-    ...jsFiles.map(({ srcPath, destPath }) => async () => {
+    // Transform TS→CJS via esbuild
+    ...tsFiles.map(({ srcPath, destPath }) => async () => {
       const source = await fsp.readFile(srcPath, "utf-8");
       const result = await esbuildTransform(source, {
         format: "cjs",
-        loader: "js",
+        loader: "ts",
         sourcemap: "external",
-        sourcefile: path.basename(srcPath),
+        // Use relative path from dest to source so maps point to .ts files
+        sourcefile: path.relative(path.dirname(destPath), srcPath),
         platform: "node",
       });
+      const mapFile = path.basename(destPath) + ".map";
+      const code = result.code + `//# sourceMappingURL=${mapFile}\n`;
       await Promise.all([
-        fsp.writeFile(destPath, result.code),
+        fsp.writeFile(destPath, code),
         fsp.writeFile(destPath + ".map", result.map),
       ]);
     }),
-    ...filteredCopyFiles.map(
+    // Copy declaration files from ESM output
+    ...dtsFiles.map(
       ({ srcPath, destPath }) =>
         () =>
           fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
@@ -942,8 +978,12 @@ export async function compileAllTargets(
   // Two-dimensional dedup
   const emittedPrograms = new Map<string, string>(); // emitId → outDir
   const typeCheckedIds = new Set<string>();
-  // Track ESM outputs by base identity (without moduleType) for esbuild CJS transform
-  const esmOutputsByBaseId = new Map<string, string>(); // baseEmitId → outDir
+  // Track ESM targets by base identity (without moduleType) for esbuild CJS fast path.
+  // Stores { outDir, rootDir, fileNames } so buildCjsFromSources can read .ts sources.
+  const esmTargetsByBaseId = new Map<
+    string,
+    { outDir: string; rootDir: string; fileNames: readonly string[] }
+  >();
 
   const results: CompileResult[] = [];
   const total = parsedConfigs.length;
@@ -994,26 +1034,28 @@ export async function compileAllTargets(
     );
 
     const alreadyEmittedOutDir = emittedPrograms.get(emitId);
-    const canReuseOutput = !!alreadyEmittedOutDir;
     // Check if an ESM target with the same base identity was already emitted,
-    // allowing us to use esbuild to transform ESM→CJS instead of full tsc.
-    const esmSourceDir =
-      !canReuseOutput && parsed.target.moduleType === "commonjs"
-        ? esmOutputsByBaseId.get(baseEmitId)
+    // allowing us to use esbuild to build CJS directly from .ts sources.
+    const esmTarget =
+      !alreadyEmittedOutDir && parsed.target.moduleType === "commonjs"
+        ? esmTargetsByBaseId.get(baseEmitId)
         : undefined;
-    const canTransformFromEsm = !!esmSourceDir;
     const needsTypeCheck = !typeCheckedIds.has(typeCheckId);
 
     if (needsTypeCheck) typeCheckedIds.add(typeCheckId);
-    if (!canReuseOutput) emittedPrograms.set(emitId, parsed.outDir);
+    if (!alreadyEmittedOutDir) emittedPrograms.set(emitId, parsed.outDir);
     if (!parsed.target.moduleType || parsed.target.moduleType === "module") {
-      esmOutputsByBaseId.set(baseEmitId, parsed.outDir);
+      esmTargetsByBaseId.set(baseEmitId, {
+        outDir: parsed.outDir,
+        rootDir: parsed.rootDir,
+        fileNames: parsed.parsedConfig.fileNames,
+      });
     }
 
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
-    if (canReuseOutput) label.push("reuse-output");
-    if (canTransformFromEsm) label.push("esm→cjs");
+    if (alreadyEmittedOutDir) label.push("reuse-output");
+    if (esmTarget) label.push("esbuild-cjs");
 
     log.info(
       `[warp] [${i + 1}/${total}] ${parsed.target.name}${label.length ? ` (${label.join(", ")})` : ""}...`,
@@ -1021,7 +1063,7 @@ export async function compileAllTargets(
 
     let result: CompileResult;
 
-    if (canReuseOutput && !needsTypeCheck) {
+    if (alreadyEmittedOutDir && !needsTypeCheck) {
       // Both already done — pure copy
       const t0 = performance.now();
       await copyDir(alreadyEmittedOutDir, parsed.outDir);
@@ -1034,26 +1076,62 @@ export async function compileAllTargets(
         compileTimeMs: performance.now() - t0,
         deduped: true,
       };
-    } else if (canTransformFromEsm && !needsTypeCheck) {
-      // CJS target with matching ESM output — transform via esbuild
+    } else if (esmTarget && !needsTypeCheck) {
+      // CJS target with matching ESM — build CJS from .ts sources, copy .d.ts from ESM
       const t0 = performance.now();
-      await transformEsmToCjs(esmSourceDir, parsed.outDir);
-      result = {
-        target: parsed.target,
-        diagnostics: [],
-        success: true,
-        outDir: parsed.outDir,
-        rootDir: parsed.rootDir,
-        compileTimeMs: performance.now() - t0,
-        deduped: true,
-      };
-    } else if (canTransformFromEsm) {
-      // CJS with matching ESM but needs type-check — typecheck-only + transform
+      try {
+        await buildCjsFromSources(
+          esmTarget.rootDir,
+          parsed.outDir,
+          esmTarget.outDir,
+          esmTarget.fileNames,
+        );
+        result = {
+          target: parsed.target,
+          diagnostics: [],
+          success: true,
+          outDir: parsed.outDir,
+          rootDir: parsed.rootDir,
+          compileTimeMs: performance.now() - t0,
+          deduped: true,
+        };
+      } catch (err) {
+        result = {
+          target: parsed.target,
+          diagnostics: [],
+          success: false,
+          outDir: parsed.outDir,
+          rootDir: parsed.rootDir,
+          compileTimeMs: performance.now() - t0,
+          deduped: true,
+          diagnosticText: `CJS build failed: ${err instanceof Error ? err.message : String(err)}`,
+        };
+      }
+    } else if (esmTarget) {
+      // CJS with matching ESM but needs type-check — typecheck-only + esbuild CJS
       result = await compileTarget(parsed, host, { typeCheck: true, skipEmit: true });
       if (result.success) {
-        await transformEsmToCjs(esmSourceDir, parsed.outDir);
+        try {
+          await buildCjsFromSources(
+            esmTarget.rootDir,
+            parsed.outDir,
+            esmTarget.outDir,
+            esmTarget.fileNames,
+          );
+        } catch (err) {
+          result = {
+            target: parsed.target,
+            diagnostics: [],
+            success: false,
+            outDir: parsed.outDir,
+            rootDir: parsed.rootDir,
+            compileTimeMs: result.compileTimeMs,
+            deduped: true,
+            diagnosticText: `CJS build failed: ${err instanceof Error ? err.message : String(err)}`,
+          };
+        }
       }
-    } else if (canReuseOutput) {
+    } else if (alreadyEmittedOutDir) {
       // Need type-check but can reuse output — skipEmit + copy
       result = await compileTarget(parsed, host, { typeCheck: true, skipEmit: true });
       if (result.success) {
@@ -1064,8 +1142,7 @@ export async function compileAllTargets(
       result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
     }
 
-    const timeLabel =
-      (canReuseOutput || canTransformFromEsm) && !needsTypeCheck ? "copied" : "done";
+    const timeLabel = (alreadyEmittedOutDir || esmTarget) && !needsTypeCheck ? "copied" : "done";
     log.info(
       `[warp] [${i + 1}/${total}] ${parsed.target.name} ${timeLabel} (${result.compileTimeMs.toFixed(0)}ms)`,
     );

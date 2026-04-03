@@ -28,7 +28,7 @@ export {
   validateOutDirs,
   cleanOutDir,
   copyDir,
-  transformEsmToCjs,
+  buildCjsFromSources,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";

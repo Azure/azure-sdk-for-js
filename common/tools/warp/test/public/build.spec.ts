@@ -345,14 +345,15 @@ describe("build (integration)", () => {
 
     // Verify CJS JS is actually CommonJS (esbuild transform output)
     const cjsIndex = await fs.readFile(path.join(tmpDir, "dist/commonjs/index.js"), "utf-8");
-    expect(cjsIndex).toContain("exports.");
+    expect(cjsIndex).toContain("module.exports");
 
     // Verify ESM and CJS source maps are distinct
     const esmMap = await readSourceMap(path.join(tmpDir, "dist/esm/index.js.map"));
     const cjsMap = await readSourceMap(path.join(tmpDir, "dist/commonjs/index.js.map"));
-    // ESM maps reference .ts source; CJS maps reference the .js file (esbuild input)
+    // ESM maps reference .ts source
     expect(esmMap.sources.some((s) => s.endsWith(".ts"))).toBe(true);
-    expect(cjsMap.sources).toContain("index.js");
+    // CJS maps now also reference .ts source (esbuild processes TS directly)
+    expect(cjsMap.sources.some((s) => s.endsWith(".ts"))).toBe(true);
   });
 
   it("CJS source maps from esbuild transform have valid mappings", async () => {
@@ -429,8 +430,8 @@ describe("build (integration)", () => {
       expect(map.version).toBe(3);
       expect(map.mappings).toBeDefined();
       expect(map.mappings.length).toBeGreaterThan(0);
-      // esbuild transform maps source to the ESM JS file
-      expect(map.sources).toContain(`${file}.js`);
+      // esbuild builds CJS from .ts sources — maps point to .ts files
+      expect(map.sources.some((s) => s.endsWith(`${file}.ts`))).toBe(true);
       // sourcesContent should be included by esbuild
       expect(map.sourcesContent).toBeDefined();
       expect(map.sourcesContent!.length).toBeGreaterThan(0);
@@ -440,5 +441,139 @@ describe("build (integration)", () => {
     const esmMap = await readSourceMap(path.join(tmpDir, "dist/esm/index.js.map"));
     const cjsMap = await readSourceMap(path.join(tmpDir, "dist/commonjs/index.js.map"));
     expect(esmMap.mappings).not.toBe(cjsMap.mappings);
+  });
+
+  it("CJS source maps preserve subdirectory paths (no basename truncation)", async () => {
+    // Regression test: buildCjsFromSources must preserve directory structure
+    // in source map paths (previously used path.basename which lost the directory).
+    await fs.mkdir(path.join(tmpDir, "src/internal"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      [
+        'import { helper } from "./internal/helper.js";',
+        "export function main(): string { return helper(); }",
+        "",
+      ].join("\n"),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/internal/helper.ts"),
+      ['export function helper(): string { return "ok"; }', ""].join("\n"),
+    );
+
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        declarationMap: true,
+        sourceMap: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      JSON.stringify({
+        ...tsconfig,
+        compilerOptions: { ...tsconfig.compilerOptions, outDir: "./dist/commonjs" },
+      }),
+    );
+
+    const warpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [
+        { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        {
+          name: "commonjs",
+          condition: "require",
+          tsconfig: "./tsconfig.cjs.json",
+          moduleType: "commonjs",
+        },
+      ],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test-subdir-maps", version: "1.0.0" }),
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // The subdirectory file's CJS source map must reference the .ts file with its
+    // full relative path, not just the basename.
+    const helperMap = await readSourceMap(
+      path.join(tmpDir, "dist/commonjs/internal/helper.js.map"),
+    );
+    expect(helperMap.sources.length).toBeGreaterThan(0);
+    // Must contain the directory component — NOT just "helper.ts"
+    expect(helperMap.sources.some((s) => s.endsWith("helper.ts"))).toBe(true);
+    // The path must reach back to src/ (relative from dist/commonjs/internal/)
+    expect(helperMap.sources.some((s) => s.includes("src/"))).toBe(true);
+
+    // Root-level file should also point to .ts
+    const indexMap = await readSourceMap(path.join(tmpDir, "dist/commonjs/index.js.map"));
+    expect(indexMap.sources.some((s) => s.endsWith("index.ts"))).toBe(true);
+
+    // Declarations should be copied for subdirectory files too
+    expect(await exists(path.join(tmpDir, "dist/commonjs/internal/helper.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/commonjs/internal/helper.d.ts.map"))).toBe(true);
+  });
+
+  it("CJS output includes sourceMappingURL comment", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const value = "hello";\n');
+
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        sourceMap: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      JSON.stringify({
+        ...tsconfig,
+        compilerOptions: { ...tsconfig.compilerOptions, outDir: "./dist/commonjs" },
+      }),
+    );
+
+    const warpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [
+        { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        {
+          name: "commonjs",
+          condition: "require",
+          tsconfig: "./tsconfig.cjs.json",
+          moduleType: "commonjs",
+        },
+      ],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify({ name: "test-sourcemapping-url", version: "1.0.0" }),
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    const cjsJs = await fs.readFile(path.join(tmpDir, "dist/commonjs/index.js"), "utf-8");
+    expect(cjsJs).toContain("//# sourceMappingURL=index.js.map");
   });
 });
