@@ -22,7 +22,12 @@ development tasks. Read the referenced docs — don't guess at commands.
 | Customization after code generation | `documentation/modular-customization.md` |
 | Build system (dual emit with warp) | `documentation/dual-emitting-using-warp.md` |
 | Dependency management | `documentation/dependency-management.md` |
+| Min/max dependency version testing | `eng/tools/dependency-testing/README.md` |
 | Post-generation steps (changelog, samples, release prep) | `documentation/steps-after-generations.md` |
+| Bundling for browser | `documentation/Bundling.md` |
+| Resolving pnpm-lock.yaml merge conflicts | `documentation/resolve-pnpm-lock-merge-conflict.md` |
+| Writing and running perf tests | `documentation/writing-performance-tests.md` |
+| TypeSpec client generator CLI | `eng/common/tsp-client/README.md` |
 
 ## Important Notes
 
