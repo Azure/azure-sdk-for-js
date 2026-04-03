@@ -35,6 +35,25 @@ export enum ConditionStatusMapper {
 }
 
 /**
+ * Maps AMQP Response status codes to their corresponding error conditions.
+ * This is the reverse mapping of ConditionStatusMapper, used when the error condition
+ * is not provided in the response but a status code is available.
+ * @internal
+ */
+export const StatusCodeToConditionMapper: { [statusCode: number]: string } = {
+  [AmqpResponseStatusCode.RequestTimeout]: "com.microsoft:timeout",
+  [AmqpResponseStatusCode.NotFound]: "amqp:not-found",
+  [AmqpResponseStatusCode.NotImplemented]: "amqp:not-implemented",
+  [AmqpResponseStatusCode.Conflict]: "com.microsoft:entity-already-exists",
+  [AmqpResponseStatusCode.Gone]: "com.microsoft:message-lock-lost",
+  [AmqpResponseStatusCode.InternalServerError]: "com.microsoft:no-matching-subscription",
+  [AmqpResponseStatusCode.Forbidden]: "amqp:link:message-size-exceeded",
+  [AmqpResponseStatusCode.ServiceUnavailable]: "com.microsoft:server-busy",
+  [AmqpResponseStatusCode.BadRequest]: "com.microsoft:argument-error",
+  [AmqpResponseStatusCode.Unauthorized]: "amqp:unauthorized-access",
+};
+
+/**
  * Maps the amqp error conditions to the Error names.
  */
 export enum ConditionErrorNameMapper {
