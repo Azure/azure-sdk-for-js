@@ -44,6 +44,8 @@ import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
 import type { EncryptionSettingForProperty } from "../../encryption/index.js";
 import { EncryptionProcessor } from "../../encryption/index.js";
 import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
+import type { SemanticRerankOptions } from "../../inference/SemanticRerankOptions.js";
+import type { SemanticRerankResult } from "../../inference/SemanticRerankResult.js";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -689,6 +691,45 @@ export class Container {
         this.isEncryptionInitialized = true;
       }, this.clientContext);
     }
+  }
+
+  /**
+   * Rerank a list of documents using semantic reranking via the Cosmos DB Inference Service.
+   * This method uses a semantic reranker to score and reorder the provided documents
+   * based on their relevance to the given reranking context.
+   *
+   * The semantic reranking requests use a separate HTTP pipeline from the main Cosmos DB client
+   * and do not use the default SDK retry policies.
+   *
+   * To use this feature, you must:
+   * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
+   * 2. Set the inference endpoint via `inferenceEndpoint` in `CosmosClientOptions`
+   *    or the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
+   *
+   * @param rerankContext - The context (e.g. query string) to use for reranking the documents.
+   * @param documents - A list of documents (as JSON strings) to be reranked.
+   * @param options - Optional settings for the reranking request.
+   * @returns The reranking results including scored documents, latency, and token usage.
+   *
+   * @example Semantic reranking of query results
+   * ```ts
+   * const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
+   * const result = await container.semanticRerank(
+   *   "most economical with multiple adjustments",
+   *   queryResults,
+   *   { returnDocuments: true, topK: 10, sort: true },
+   * );
+   * // Access the top-ranked document
+   * const topDocument = result.rerankScores[0].document;
+   * const topScore = result.rerankScores[0].score;
+   * ```
+   */
+  public async semanticRerank(
+    rerankContext: string,
+    documents: string[],
+    options?: SemanticRerankOptions,
+  ): Promise<SemanticRerankResult> {
+    return this.clientContext.semanticRerank(rerankContext, documents, options);
   }
 
   /**

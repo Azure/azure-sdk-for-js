@@ -355,6 +355,7 @@ export class CosmosClient {
     if (this.globalPartitionEndpointManager) {
       this.globalPartitionEndpointManager.dispose();
     }
+    this.clientContext.disposeInferenceService();
   }
 
   private async backgroundRefreshEndpointList(

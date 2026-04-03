@@ -51,6 +51,9 @@ import {
   AAD_AUTH_PREFIX,
   AAD_RESOURCE_NOT_FOUND_ERROR,
 } from "./common/constants.js";
+import { InferenceService } from "./inference/InferenceService.js";
+import type { SemanticRerankOptions } from "./inference/SemanticRerankOptions.js";
+import type { SemanticRerankResult } from "./inference/SemanticRerankResult.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -70,6 +73,7 @@ export class ClientContext {
   public partitionKeyRangeCache: PartitionKeyRangeCache;
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
+  private inferenceService: InferenceService | null = null;
 
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
@@ -1107,5 +1111,46 @@ export class ClientContext {
       this.globalEndpointManager.lastKnownPPAFEnabled ||
       this.globalEndpointManager.lastKnownPPCBEnabled
     );
+  }
+
+  /**
+   * Rerank a list of documents using semantic reranking via the Cosmos DB Inference Service.
+   * This method uses a semantic reranker to score and reorder the provided documents
+   * based on their relevance to the given reranking context.
+   *
+   * The semantic reranking requests use a separate HTTP pipeline and do not use
+   * the default SDK retry policies.
+   *
+   * @param rerankContext - The context (e.g. query string) to use for reranking.
+   * @param documents - The documents to be reranked.
+   * @param options - Optional settings for the reranking request.
+   * @returns The reranking results including scores, latency, and token usage.
+   */
+  public async semanticRerank(
+    rerankContext: string,
+    documents: string[],
+    options?: SemanticRerankOptions,
+  ): Promise<SemanticRerankResult> {
+    const service = this.getOrCreateInferenceService();
+    return service.semanticRerank(rerankContext, documents, options);
+  }
+
+  /**
+   * Gets or lazily creates the InferenceService instance.
+   * @internal
+   */
+  private getOrCreateInferenceService(): InferenceService {
+    if (!this.inferenceService) {
+      this.inferenceService = new InferenceService(this.cosmosClientOptions);
+    }
+    return this.inferenceService;
+  }
+
+  /**
+   * Disposes the InferenceService if it was created.
+   * @internal
+   */
+  public disposeInferenceService(): void {
+    this.inferenceService = null;
   }
 }

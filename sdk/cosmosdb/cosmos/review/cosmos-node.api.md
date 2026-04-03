@@ -317,6 +317,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     // (undocumented)
     upsert<T, U = T>(input: {
         body: T;
@@ -731,6 +732,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -824,6 +826,7 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint?: string;
     httpClient?: HttpClient;
+    inferenceEndpoint?: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -2133,6 +2136,13 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
+// @public
+export interface RerankScore {
+    document: Record<string, unknown> | null;
+    index: number;
+    score: number;
+}
+
 // @public (undocumented)
 export interface Resource {
     _etag: string;
@@ -2375,6 +2385,24 @@ export class Scripts {
     get triggers(): Triggers;
     userDefinedFunction(id: string): UserDefinedFunction;
     get userDefinedFunctions(): UserDefinedFunctions;
+}
+
+// @public
+export interface SemanticRerankOptions {
+    abortSignal?: AbortSignal;
+    additionalOptions?: Record<string, unknown>;
+    batchSize?: number;
+    returnDocuments?: boolean;
+    sort?: boolean;
+    topK?: number;
+}
+
+// @public
+export interface SemanticRerankResult {
+    headers: Record<string, string>;
+    latency: Record<string, unknown> | undefined;
+    rerankScores: RerankScore[];
+    tokenUsage: Record<string, unknown> | undefined;
 }
 
 // @public

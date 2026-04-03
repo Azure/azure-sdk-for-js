@@ -81,4 +81,11 @@ export interface CosmosClientOptions {
 
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
   connectionString?: string;
+
+  /**
+   * The endpoint URL for the Cosmos DB Inference Service used for semantic reranking.
+   * If not provided, the SDK will fall back to the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable.
+   * This endpoint is required to use the `container.semanticRerank()` feature.
+   */
+  inferenceEndpoint?: string;
 }
