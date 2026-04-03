@@ -7,7 +7,6 @@
     "@typespec/openapi": "1.10.0",
     "@typespec/openapi3": "1.10.0",
     "@typespec/streams": "0.80.0",
-    "@typespec/xml": "0.80.0",
     "@azure-tools/typespec-ts": "0.52.0",
     "@azure-tools/typespec-azure-core": "0.66.1",
     "@azure-tools/typespec-autorest": "0.66.1",
