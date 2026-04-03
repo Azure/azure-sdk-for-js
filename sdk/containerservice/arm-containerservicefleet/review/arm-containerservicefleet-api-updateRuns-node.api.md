@@ -49,6 +49,8 @@ export interface UpdateRunsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

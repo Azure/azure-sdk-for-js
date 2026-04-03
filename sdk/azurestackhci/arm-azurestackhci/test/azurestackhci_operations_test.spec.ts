@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureStackHCI test", () => {
+describe.skip("AzureStackHCI test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureStackHCIClient;

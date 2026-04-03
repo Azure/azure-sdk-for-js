@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Job Runs in a Job Definition.
  *
  * @summary lists all Job Runs in a Job Definition.
- * x-ms-original-file: 2025-07-01/JobRuns_List.json
+ * x-ms-original-file: 2025-12-01/JobRuns_List.json
  */
 async function jobRunsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

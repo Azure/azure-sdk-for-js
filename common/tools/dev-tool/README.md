@@ -33,6 +33,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `--fix` to automatically fix some issues
 - `package`
   - `resolve` (display information about the project that owns a directory)
+  - `increment-version` (increment a package version by major, minor, or patch; requires PowerShell for changelog updates)
 - `samples`
   - `dev` (link samples to local sources for access to IntelliSense during development)
   - `prep` (prepare samples for local source-linked execution)
@@ -44,7 +45,12 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `push` (pushes the assets, referenced by assets.json, into git)
   - `reset` (reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes)
   - `restore` (restore the assets, referenced by assets.json, from git)
+  - `diff` (show what test recordings have changed since the last push/restore. Use `--stat` for a summary)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
+- `vscode` (VS Code integration commands)
+  - `recordings`
+    - `show` (enable VS Code Source Control panel integration for test recording asset repos)
+    - `hide` (disable it)
 - `run`
   - `test:vitest`	runs tests using vitest with the default and the provided options; starts the proxy-tool in - record and playback modes
   - `check-api`	ensure API features are compatible with minimum supported TypeScript version

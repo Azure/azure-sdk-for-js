@@ -8,13 +8,6 @@
         "-Run"
       ]
     },
-    "ESLint": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "@eslint/mcp@latest"
-      ]
-    },
     "github-agentic-workflows": {
       "command": "gh",
       "args": [

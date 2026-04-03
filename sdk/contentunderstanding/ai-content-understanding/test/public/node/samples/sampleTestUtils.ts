@@ -35,6 +35,8 @@ export const TEST_INVOICE_URL =
   "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
 export const TEST_DOCUMENT_URL =
   "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_docs.pdf";
+export const TEST_MULTI_PAGE_DOCUMENT_URL =
+  "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/mixed_financial_invoices.pdf";
 export const TEST_VIDEO_URL =
   "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/videos/sdk_samples/FlightSimulator.mp4";
 export const TEST_AUDIO_URL =

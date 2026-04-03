@@ -4,17 +4,27 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ContainerGroupInstanceCountSummary {
@@ -43,8 +53,13 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DynamicSizing {
+    enabled?: boolean;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -126,7 +141,8 @@ export enum KnownRefillPolicy {
 // @public
 export enum KnownVersions {
     _20240301 = "2024-03-01",
-    _20250301 = "2025-03-01"
+    _20250301 = "2025-03-01",
+    _20251001 = "2025-10-01"
 }
 
 // @public
@@ -231,6 +247,7 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export interface StandbyContainerGroupPoolElasticityProfile {
+    dynamicSizing?: DynamicSizing;
     maxReadyCapacity: number;
     refillPolicy?: RefillPolicy;
 }
@@ -351,12 +368,15 @@ export class StandbyPoolManagementClient {
 // @public
 export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface StandbyVirtualMachinePoolElasticityProfile {
+    dynamicSizing?: DynamicSizing;
     maxReadyCapacity: number;
     minReadyCapacity?: number;
+    postProvisioningDelay?: string;
 }
 
 // @public
