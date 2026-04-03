@@ -378,11 +378,12 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToGroup(
           this.client,
           this.groupName,
           contentType as MessageContentType,
-          payload as any,
+          body as any,
           {
             ...updatedOptions,
             excluded: (updatedOptions as any).excludedConnections,

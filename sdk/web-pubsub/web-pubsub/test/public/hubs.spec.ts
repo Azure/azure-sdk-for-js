@@ -217,6 +217,33 @@ describe("HubClient", () => {
       assert.equal(lastResponse?.status, 202);
     });
 
+    it("can broadcast with excludedConnections", async () => {
+      await client.sendToAll("hello", {
+        contentType: "text/plain",
+        excludedConnections: ["conn1", "conn2"],
+        onResponse,
+      });
+      assert.equal(lastResponse?.status, 202);
+    });
+
+    it("can send to a user with messageTtlSeconds", async () => {
+      await client.sendToUser("brian", "hello", {
+        contentType: "text/plain",
+        messageTtlSeconds: 60,
+        onResponse,
+      });
+      assert.equal(lastResponse?.status, 202);
+    });
+
+    it("can send to a connection with messageTtlSeconds", async () => {
+      await client.sendToConnection("xxxx", "hello", {
+        contentType: "text/plain",
+        messageTtlSeconds: 60,
+        onResponse,
+      });
+      assert.equal(lastResponse?.status, 202);
+    });
+
     it("can manage users", async () => {
       const res = await client.userExists("foo");
       assert.ok(!res);
@@ -229,7 +256,22 @@ describe("HubClient", () => {
       assert.equal(lastResponse?.status, 204);
     });
 
-    it.runIf(isLiveMode())("can check if a connection exists", async () => {
+    it("can close a connection with reason", async () => {
+      await client.closeConnection("xxxx", { reason: "test reason", onResponse });
+      assert.equal(lastResponse?.status, 204);
+    });
+
+    it("can close all connections with reason", async () => {
+      await client.closeAllConnections({ reason: "test reason", onResponse });
+      assert.equal(lastResponse?.status, 204);
+    });
+
+    it("can close user connections with reason", async () => {
+      await client.closeUserConnections("brian", { reason: "test reason", onResponse });
+      assert.equal(lastResponse?.status, 204);
+    });
+
+    it("can check if a connection exists", async () => {
       const res = await client.connectionExists("xxx");
       assert.ok(!res);
     });
@@ -417,6 +459,26 @@ describe("HubClient", () => {
         tokenPayload.aud,
         new URL(`/clients/socketio/hubs/${dacClient.hubName}`, dacClient.endpoint).toString(),
       );
+    });
+
+    it("can generate client token with roles and expirationTimeInMinutes", async () => {
+      const keyClient = new WebPubSubServiceClient(
+        getEndpoint(),
+        new AzureKeyCredential(getKey()),
+        "simplechat",
+        recorder.configureClientOptions({}),
+      );
+      const res = await keyClient.getClientAccessToken({
+        userId: "brian",
+        roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
+        expirationTimeInMinutes: 30,
+      });
+      assert.ok(res.token);
+      const tokenPayload = parseJwt(res.token!);
+      assert.deepEqual(tokenPayload.role, ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"]);
+      // Token expiry should be approximately 30 minutes from now
+      const approxExpiry = Math.floor(Date.now() / 1000) + 30 * 60;
+      assert.closeTo(tokenPayload.exp, approxExpiry, 120);
     });
   });
 });

@@ -102,13 +102,25 @@ describe("Group client working with a group", () => {
     }
   });
 
-  // skipping until we can record better tests with an actual user active.
-  it.skip("can manage users", async () => {
-    // service returns 404, this should likely be raised as an error but isn't
-    // due to the swagger design
-    await client.addUser("brian");
+  it("can broadcast to group with excludedConnections", async () => {
+    await client.sendToAll("hello", {
+      contentType: "text/plain",
+      excludedConnections: ["conn1", "conn2"],
+      onResponse,
+    });
+    assert.equal(lastResponse?.status, 202);
+  });
 
-    // service returns 404 and this throws.
+  it("can close all connections with reason", async () => {
+    await client.closeAllConnections({ reason: "test reason", onResponse });
+    assert.equal(lastResponse?.status, 204);
+  });
+
+  it.skip("can manage users", async () => {
+    // addUser and removeUser require a user with an active WebSocket connection.
+    // Without a connected user, addUser silently no-ops (404 swallowed per swagger design)
+    // and removeUser throws 404. Tested via integration tests when users are live.
+    await client.addUser("brian");
     await client.removeUser("brian");
   });
 

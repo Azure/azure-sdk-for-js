@@ -485,10 +485,11 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToAll(
           this._context,
           contentType as MessageContentType,
-          payload as any,
+          body as any,
           {
             ...updatedOptions,
             excluded: updatedOptions.excludedConnections,
@@ -547,11 +548,12 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToUser(
           this._context,
           username,
           contentType as MessageContentType,
-          payload as any,
+          body as any,
           updatedOptions as any,
         );
       },
@@ -607,11 +609,12 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
+        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToConnection(
           this._context,
           connectionId,
           contentType as MessageContentType,
-          payload as any,
+          body as any,
           updatedOptions as any,
         );
       },
