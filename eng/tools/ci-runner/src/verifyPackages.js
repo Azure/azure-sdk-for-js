@@ -170,7 +170,9 @@ export function verifyPackages(packageNames, packageDirs) {
     try {
       modifiedFiles = getModifiedFilesSinceTag(tag, packageDir);
     } catch (err) {
-      console.error(`  ✗ Could not diff against tag "${tag}": ${err.message}`);
+      console.error(
+        `  ✗ Could not diff against tag "${tag}": ${err instanceof Error ? err.message : String(err)}`,
+      );
       exitCode = 1;
       continue;
     }

@@ -102,10 +102,7 @@ describe("getDirectionMappedPackages", () => {
       // `...@azure/app-configuration` (changed, non-restricted) plus exclusion for
       // @azure/storage-blob which is changed but in another batch. Unchanged
       // dependents are NOT excluded — they must be tested to catch regressions.
-      assert.deepStrictEqual(mapped, [
-        "...@azure/app-configuration",
-        "!@azure/storage-blob",
-      ]);
+      assert.deepStrictEqual(mapped, ["...@azure/app-configuration", "!@azure/storage-blob"]);
     });
   });
 });

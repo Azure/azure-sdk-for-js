@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
  *
  * @summary creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
- * x-ms-original-file: 2025-07-01/JobDefinitions_StartJob.json
+ * x-ms-original-file: 2025-12-01/JobDefinitions_StartJob.json
  */
 async function jobDefinitionsStartJob() {
   const credential = new DefaultAzureCredential();
