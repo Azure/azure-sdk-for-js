@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/storage/
-      - common/tools/warp/
     exclude:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
@@ -27,7 +26,6 @@ pr:
   paths:
     include:
       - sdk/storage/
-      - common/tools/warp/
     exclude:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
@@ -44,6 +42,7 @@ extends:
         safeName: azurestorageblob
         triggeringPaths:
         - /sdk/identity/
+        - /common/tools/warp/
       - name: azure-storage-file-share
         safeName: azurestoragefileshare
       - name: azure-storage-file-datalake

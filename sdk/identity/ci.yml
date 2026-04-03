@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/identity/
-      - common/tools/warp/
 
 pr:
   branches:
@@ -21,7 +20,6 @@ pr:
   paths:
     include:
       - sdk/identity/
-      - common/tools/warp/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml

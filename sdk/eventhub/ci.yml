@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/eventhub/
-      - common/tools/warp/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
@@ -24,7 +23,6 @@ pr:
   paths:
     include:
       - sdk/eventhub/
-      - common/tools/warp/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
@@ -37,6 +35,8 @@ extends:
     Artifacts:
       - name: azure-event-hubs
         safeName: azureeventhubs
+        triggeringPaths:
+        - /common/tools/warp/
       - name: azure-eventhubs-checkpointstore-blob
         safeName: azureeventhubscheckpointstoreblob
       - name: azure-eventhubs-checkpointstore-table

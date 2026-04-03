@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/keyvault/
-      - common/tools/warp/
     exclude:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
@@ -26,7 +25,6 @@ pr:
   paths:
     include:
       - sdk/keyvault/
-      - common/tools/warp/
       - eng/common/testproxy/
     exclude:
       - sdk/keyvault/ci.mgmt.yml
@@ -41,6 +39,8 @@ extends:
         safeName: azurekeyvaultcertificates
       - name: azure-keyvault-keys
         safeName: azurekeyvaultkeys
+        triggeringPaths:
+        - /common/tools/warp/
       - name: azure-keyvault-secrets
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin

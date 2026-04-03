@@ -15,7 +15,6 @@ trigger:
       - sdk/containerservice/arm-containerservice-rest
       - sdk/containerservice/arm-containerservicefleet
       - sdk/containerservice/arm-containerservicesafeguards
-      - common/tools/warp/
 pr:
   branches:
     include:
@@ -32,7 +31,6 @@ pr:
       - sdk/containerservice/arm-containerservice-rest
       - sdk/containerservice/arm-containerservicefleet
       - sdk/containerservice/arm-containerservicesafeguards
-      - common/tools/warp/
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -40,6 +38,8 @@ extends:
     Artifacts:
       - name: azure-arm-containerservice
         safeName: azurearmcontainerservice
+        triggeringPaths:
+        - /common/tools/warp/
       - name: azure-rest-arm-containerservice
         safeName: azurerestarmcontainerservice
       - name: azure-arm-containerservicefleet
