@@ -14,7 +14,7 @@ import { _getTaskHubsOperations } from "./classic/taskHubs/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DurableTaskClientOptionalParams } from "./api/durableTaskContext.js";
+export type { DurableTaskClientOptionalParams } from "./api/durableTaskContext.js";
 
 export class DurableTaskClient {
   private _client: DurableTaskContext;

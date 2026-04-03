@@ -1,0 +1,3 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./models": "./src/models/index.ts"

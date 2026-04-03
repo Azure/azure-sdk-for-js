@@ -12,13 +12,16 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 const GenericSanitizedValue = "Sanitized";
 
 const replaceableVariables = {
-  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  FOUNDRY_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  FOUNDRY_MODEL_NAME: "gpt-5.2",
+  FOUNDRY_AGENT_NAME: "test-agent",
+  AZURE_AI_PUBLISHED_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
   DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
-  DEPLOYMENT_GPT_MODEL: "gpt-4o",
+  DEPLOYMENT_GPT_MODEL: "gpt-5.2",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
   IMAGE_EMBEDDING_DEPLOYMENT_NAME: "Cohere-embed-v3-english",
-  EVALUATION_DEPLOYMENT_NAME: "gpt-4o-mini",
+  EVALUATION_DEPLOYMENT_NAME: "gpt-5.2",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   SHAREPOINT_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   FABRIC_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
@@ -26,11 +29,13 @@ const replaceableVariables = {
   BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   BING_CUSTOM_SEARCH_INSTANCE_NAME: "test-instance",
   BING_GROUNDING_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
-  AZURE_AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
-  AI_SEARCH_INDEX_NAME: "test-index",
+  AI_SEARCH_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
+  AI_SEARCH_INDEX_NAME: "sample_index",
+  MODEL_ENDPOINT: "https://Sanitized.azure.com",
+  MODEL_API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
   BROWSER_AUTOMATION_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
-  AZURE_AI_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-4o-mini",
-  AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
+  MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME: "gpt-5.2",
+  MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME: "text-embedding-3-large",
   COMPUTER_USE_MODEL_DEPLOYMENT_NAME: "computer-use-preview",
   MCP_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   OPENAPI_PROJECT_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
@@ -41,11 +46,21 @@ const replaceableVariables = {
   USER_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
   AZURE_AI_PROJECTS_CONNECTION_STRING: `Sanitized.azure.com;00000000-0000-0000-0000-000000000000;00000;00000`,
+  MODEL_PUBLISHER: "Microsoft",
+  AI_SEARCH_INDEX_VERSION: "1.0",
+  AI_SEARCH_CONNECTION_NAME: "sample_index_connection",
+  IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME: "gpt-image-1",
 } as const;
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: {
+    headerSanitizers: [
+      {
+        key: "User-Agent",
+        value: "sanitized-user-agent",
+      },
+    ],
     generalSanitizers: [
       {
         regex: true,
@@ -106,6 +121,13 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   await recorder.start(recorderEnvSetup);
   await recorder.addSanitizers(
     {
+      generalSanitizers: [
+        {
+          regex: true,
+          target: "<Latest>[^<]*</Latest>",
+          value: "<Latest>sanitized_blockid</Latest>",
+        },
+      ],
       uriSanitizers: [
         {
           regex: true,
@@ -142,7 +164,7 @@ export function getToolConnectionId(toolType: string): string {
     case "bing-grounding":
       return assertEnvironmentVariable("BING_GROUNDING_CONNECTION_ID");
     case "azure-ai-search":
-      return assertEnvironmentVariable("AZURE_AI_SEARCH_CONNECTION_ID");
+      return assertEnvironmentVariable("AI_SEARCH_CONNECTION_ID");
     case "browser-automation":
       return (
         process.env["BROWSER_AUTOMATION_PROJECT_CONNECTION_ID"] ||
@@ -167,7 +189,20 @@ export function createProjectsClient(
   options?: AIProjectClientOptionalParams,
 ): AIProjectClient {
   const credential = createTestCredential();
-  const endpoint = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+  const endpoint = assertEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
+  return new AIProjectClient(
+    endpoint,
+    credential,
+    recorder ? recorder.configureClientOptions(options ?? {}) : options,
+  );
+}
+
+export function createPublishedEndpointClient(
+  recorder?: Recorder,
+  options?: AIProjectClientOptionalParams,
+): AIProjectClient {
+  const credential = createTestCredential();
+  const endpoint = assertEnvironmentVariable("AZURE_AI_PUBLISHED_ENDPOINT");
   return new AIProjectClient(
     endpoint,
     credential,
@@ -195,6 +230,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const endpoint = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+  const endpoint = assertEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
   return new AIProjectClient(endpoint, credential, options);
 }

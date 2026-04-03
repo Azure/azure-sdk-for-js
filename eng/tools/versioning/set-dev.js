@@ -31,7 +31,7 @@ const argv = yargs(hideBin(process.argv))
         "service directory whose packages should be updated (if not set updates all directories)",
     },
   })
-  .help().argv;
+  .help().parseSync();
 
 async function commitChanges(repoPackages, pkg) {
   // Commit the new version to the JSON document

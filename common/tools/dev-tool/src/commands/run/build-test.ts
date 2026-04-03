@@ -7,7 +7,7 @@ import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
-import { type Config, resolveConfig } from "../../util/resolveTsConfig";
+import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig";
 import { spawnSync } from "node:child_process";
 
 const log = createPrinter("build-test");
@@ -126,7 +126,7 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info(`Building for browser testing...`);
-    const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
+    const esmMap = overrides.get("esm")?.map ?? new Map<string, string>();
     return compileForEnvironment("browser", browserConfig, importMap, esmMap);
   }
 
@@ -134,7 +134,7 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const res = spawnSync(`tsc -p ${tsConfig}`, [], {
+  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
     stdio: "inherit",
     shell: true,
     cwd: process.cwd(),
@@ -148,6 +148,35 @@ async function runTypeScript(tsConfig: string): Promise<boolean> {
   return true;
 }
 
+/**
+ * Rewrite a source extension (.ts, .mts, .cts) to its compiled counterpart (.js, .mjs, .cjs).
+ */
+function rewriteSourceExtension(p: string): string {
+  return p
+    .replace(/\.mts$/, ".mjs")
+    .replace(/\.cts$/, ".cjs")
+    .replace(/\.ts$/, ".js");
+}
+
+/**
+ * Resolve a package.json `imports` value for use in dist-test.
+ * If the value is a conditional object (e.g. { browser: { default: "..." } }),
+ * resolve to the browser variant, recursing into nested condition objects.
+ * Rewrite source extensions to compiled extensions so paths point to the
+ * TypeScript-compiled output files.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveImportForDistTest(value: any): string {
+  if (typeof value === "string") {
+    return rewriteSourceExtension(value);
+  }
+  if (typeof value === "object" && value !== null) {
+    const resolved = value.browser ?? value.default;
+    return resolveImportForDistTest(resolved);
+  }
+  return value;
+}
+
 async function compileForEnvironment(
   type: string,
   tsConfig: string,
@@ -155,8 +184,8 @@ async function compileForEnvironment(
   overrideMap: Map<string, string>,
 ): Promise<boolean> {
   const tsconfigPath = path.join(process.cwd(), tsConfig);
-  const tsConfigJSON = await resolveConfig(tsconfigPath);
-  const outputPath = tsConfigJSON.compilerOptions.outDir;
+  const resolvedConfig = await resolveConfig(tsconfigPath);
+  const outputPath = resolvedConfig.config.compilerOptions.outDir;
   if (!existsSync(tsconfigPath)) {
     log.error(`TypeScript config ${tsConfig} does not exist`);
     return false;
@@ -171,17 +200,11 @@ async function compileForEnvironment(
     mkdirSync(browserTestPath, { recursive: true });
   }
 
-  // Check if the TypeScript config uses package name imports or "internal" paths
-  // TODO: use hasPackageOrInternalPaths once all tests are migrated to import from package name
-  const shouldSkipOverrides = false; //hasPackageOrInternalPaths(tsConfigJSON);
-  if (shouldSkipOverrides) {
-    log.info("Detected package name or internal path mappings, skipping file overrides");
-  }
-
-  // Create import map
+  // Create import map for dist-test, resolving conditional imports to the
+  // browser variant and rewriting source extensions to compiled extensions.
   const imports: Record<string, string> = {};
   for (const [key, value] of importMap.entries()) {
-    imports[key] = value;
+    imports[key] = resolveImportForDistTest(value);
   }
 
   const packageJson = {
@@ -194,32 +217,36 @@ async function compileForEnvironment(
     return false;
   }
 
-  // Only apply overrides if not using package name or internal path imports
-  if (!shouldSkipOverrides) {
+  // Only apply src overrides if src is included in the tsconfig
+  if (configIncludesSrc(resolvedConfig)) {
     for (const [override, original] of overrideMap.entries()) {
       log.info(`Replacing for : ${original} => ${override}`);
       copyOverrides(type, outputPath, original);
     }
+  } else {
+    log.info("Detected no src entries in tsconfig; skipping file overrides");
   }
 
   return true;
 }
 
-export function hasPackageOrInternalPaths(tsConfig: Config): boolean {
-  const paths = tsConfig?.compilerOptions?.paths;
-  if (!paths || typeof paths !== "object") {
-    return false;
+export function configIncludesSrc(resolvedConfig: ResolvedConfigResult): boolean {
+  const configs = [resolvedConfig.config, ...resolvedConfig.references.map((ref) => ref.config)];
+
+  for (const tsConfig of configs) {
+    const { include, files } = tsConfig;
+
+    if (include === undefined && files === undefined) {
+      return true;
+    }
+
+    const entries = [...(include ?? []), ...(files ?? [])];
+    if (entries.some((entry) => /(^|[\\/])src([\\/]|$)/.test(entry))) {
+      return true;
+    }
   }
 
-  const pathKeys = Object.keys(paths);
-
-  // Check for package name imports (e.g., @azure/identity, @azure/identity/*)
-  const hasPackageImports = pathKeys.some((key) => key.startsWith("@") && key.includes("/"));
-
-  // Check for internal path imports (e.g., internal/*)
-  const hasInternalImports = pathKeys.some((key) => key.startsWith("internal/"));
-
-  return hasPackageImports || hasInternalImports;
+  return false;
 }
 
 function copyOverrides(type: string, rootDir: string, filePath: string): void {

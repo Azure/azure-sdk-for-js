@@ -1,66 +1,74 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { PlaywrightManagementClient } from "./playwrightManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   PlaywrightWorkspace,
   PlaywrightWorkspaceProperties,
-  KnownProvisioningState,
   ProvisioningState,
-  KnownEnablementStatus,
   EnablementStatus,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   PlaywrightWorkspaceUpdate,
   PlaywrightWorkspaceUpdateProperties,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
-  KnownCheckNameAvailabilityReason,
   CheckNameAvailabilityReason,
   PlaywrightQuota,
   PlaywrightQuotaProperties,
   FreeTrialProperties,
-  KnownFreeTrialState,
   FreeTrialState,
-  KnownQuotaName,
   QuotaName,
   ProxyResource,
   PlaywrightWorkspaceQuota,
   PlaywrightWorkspaceQuotaProperties,
   PlaywrightWorkspaceFreeTrialProperties,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownProvisioningState,
+  KnownEnablementStatus,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
+  KnownCheckNameAvailabilityReason,
+  KnownFreeTrialState,
+  KnownQuotaName,
   KnownVersions,
 } from "./models/index.js";
-export { PlaywrightManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { PlaywrightManagementClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PlaywrightQuotasListBySubscriptionOptionalParams,
   PlaywrightQuotasGetOptionalParams,
 } from "./api/playwrightQuotas/index.js";
-export {
+export type {
   PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "./api/playwrightWorkspaceQuotas/index.js";
-export {
+export type {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -69,11 +77,12 @@ export {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "./api/playwrightWorkspaces/index.js";
-export {
+export type {
   OperationsOperations,
   PlaywrightQuotasOperations,
   PlaywrightWorkspaceQuotasOperations,
   PlaywrightWorkspacesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

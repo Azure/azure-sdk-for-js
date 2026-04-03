@@ -1,10 +1,41 @@
 # Release History
 
+## 1.0.0-beta.40 (Unreleased)
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+
+### Features Added
+
+- Persisted telemetry files from previous sessions are now sent immediately on startup instead of waiting for the first successful export plus a 60-second retry interval.
+- All persisted files are now processed at startup, not just one file per retry cycle.
+- Outdated persisted telemetry is cleaned from disk before sending on startup.
+- The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
+- Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
+- Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+
+### Bugs Fixed
+
+- When multiple `Retry-After` headers are received, the exporter now compares absolute deadlines to ensure envelopes are sent at the latest required time.
+
+## 1.0.0-beta.39 (2026-02-20)
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
+
+### Bugs Fixed
+
+- Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
+
 ### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
+- Updated customer SDK Stats metric names from preview format to stable format.
 
 ### 1.0.0-beta.37 (2026-01-15)
 

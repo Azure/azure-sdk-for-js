@@ -4,16 +4,16 @@
       "type": "stdio",
       "command": "pwsh",
       "args": [
-        "${workspaceFolder}/eng/common/mcp/azure-sdk-mcp.ps1",
+        "./eng/common/mcp/azure-sdk-mcp.ps1",
         "-Run"
       ]
     },
-    "ESLint": {
-      "type": "stdio",
-      "command": "npx",
+    "github-agentic-workflows": {
+      "command": "gh",
       "args": [
-        "@eslint/mcp@latest"
+        "aw",
+        "mcp-server"
       ]
-    },
+    }
   }
 }

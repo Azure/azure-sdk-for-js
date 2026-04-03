@@ -1,5 +1,38 @@
 # Release History
 
+## 1.1.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.3 (2026-03-18)
+
+### Features Added
+
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using the reporting feature.
+
+### Other Changes
+
+- Enhanced browser session activity logging with source type tracking.
+
+## 1.1.2 (2026-02-13)
+
+### Bugs Fixed
+
+- Fixed Report URLs to use correct Azure AD tenant domain
+
+## 1.1.1 (2026-01-28)
+
+### Bugs Fixed
+
+- Improved error messages for better clarity and troubleshooting.
+- Fixed trace viewer logic for HTML reporter to correctly handle Azure Portal and local scenarios.
+
 ## 1.1.0 (2026-01-06)
 
 ### Features Added

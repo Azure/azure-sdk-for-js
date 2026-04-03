@@ -47,6 +47,7 @@ export class TraceBasicScenario implements Scenario {
         httpClient,
       },
       resource: resource,
+      tracesPerSecond: 0,
     });
     this._tracerProvider = (
       opentelemetry.trace.getTracerProvider() as opentelemetry.ProxyTracerProvider

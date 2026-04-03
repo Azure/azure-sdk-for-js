@@ -3,31 +3,22 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Generate keys for a token of a specified container registry.
+ * This sample demonstrates how to generate keys for a token of a specified container registry.
  *
- * @summary Generate keys for a token of a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/RegistryGenerateCredentials.json
+ * @summary generate keys for a token of a specified container registry.
+ * x-ms-original-file: 2026-01-01-preview/RegistryGenerateCredentials.json
  */
 async function registryGenerateCredentials() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const generateCredentialsParameters = {
-    expiry: new Date("2020-12-31T15:59:59.0707808Z"),
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.generateCredentials("myResourceGroup", "myRegistry", {
     tokenId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/myToken",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginGenerateCredentialsAndWait(
-    resourceGroupName,
-    registryName,
-    generateCredentialsParameters,
-  );
+    expiry: new Date("2020-12-31T15:59:59.0707808Z"),
+  });
   console.log(result);
 }
 

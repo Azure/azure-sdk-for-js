@@ -3,23 +3,18 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the properties of the specified scope map.
+ * This sample demonstrates how to gets the properties of the specified scope map.
  *
- * @summary Gets the properties of the specified scope map.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/ScopeMapGet.json
+ * @summary gets the properties of the specified scope map.
+ * x-ms-original-file: 2026-01-01-preview/ScopeMapGet.json
  */
 async function scopeMapGet() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const scopeMapName = "myScopeMap";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.scopeMaps.get(resourceGroupName, registryName, scopeMapName);
+  const result = await client.scopeMaps.get("myResourceGroup", "myRegistry", "myScopeMap");
   console.log(result);
 }
 

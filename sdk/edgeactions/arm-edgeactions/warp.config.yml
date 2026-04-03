@@ -1,0 +1,7 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/edgeActionExecutionFilters": "./src/api/edgeActionExecutionFilters/index.ts"
+  "./api/edgeActionVersions": "./src/api/edgeActionVersions/index.ts"
+  "./api/edgeActions": "./src/api/edgeActions/index.ts"
+  "./models": "./src/models/index.ts"

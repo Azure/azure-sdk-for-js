@@ -22,6 +22,31 @@ export interface BreezeResponse {
 }
 
 /**
+ * Parse a Retry-After header value into milliseconds.
+ * Supports both delay-seconds (integer) and HTTP-date formats.
+ * Returns undefined if the header is missing or unparseable.
+ * @internal
+ */
+export function parseRetryAfterHeader(retryAfter: string | undefined): number | undefined {
+  if (!retryAfter) {
+    return undefined;
+  }
+  // Try delay-seconds (1*DIGIT, may have leading zeros)
+  const trimmed = retryAfter.trim();
+  if (/^\d+$/.test(trimmed)) {
+    const delaySec = Number(trimmed);
+    return delaySec > 0 ? delaySec * 1000 : undefined;
+  }
+  // Try HTTP-date
+  const date = Date.parse(retryAfter);
+  if (!isNaN(date)) {
+    const delayMs = date - Date.now();
+    return delayMs > 0 ? delayMs : undefined;
+  }
+  return undefined;
+}
+
+/**
  * Breeze retriable status codes.
  * @internal
  */
@@ -38,6 +63,15 @@ export function isRetriable(statusCode: number): boolean {
     statusCode === 503 || // Server Unavailable
     statusCode === 504 // Gateway Timeout
   );
+}
+
+/**
+ * Checks if the error message indicates a sampling-related rejection.
+ * Sampling rejections should not be retried as the server will always reject these items.
+ * @internal
+ */
+export function isSamplingRejection(error: BreezeError): boolean {
+  return error.message.toLowerCase() === "telemetry sampled out.";
 }
 
 //  Convert ms to c# time span format DD.HH:MM:SS.MMMMMM

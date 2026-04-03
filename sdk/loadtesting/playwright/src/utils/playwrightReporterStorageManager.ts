@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlobServiceClient, ContainerClient, BlockBlobClient } from "@azure/storage-blob";
+import type { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { coreLogger } from "../common/logger.js";
 import { readFileSync, writeFileSync, existsSync, createReadStream } from "fs";
@@ -28,9 +29,11 @@ export class PlaywrightReporterStorageManager {
     coreLogger.info(
       `Starting HTML report upload for runId: ${runId}, outputFolder: ${outputFolder}`,
     );
-    try {
-      coreLogger.info(`Received workspace details: ${JSON.stringify(workspaceDetails, null, 2)}`);
 
+    const storageAccountName =
+      getStorageAccountNameFromUri(workspaceDetails?.storageUri || "") || "unknown";
+
+    try {
       if (!workspaceDetails.storageUri) {
         coreLogger.error("Storage URI not found in workspace details");
         return {
@@ -62,8 +65,6 @@ export class PlaywrightReporterStorageManager {
       }
 
       const folderName = runId;
-      const storageAccountName =
-        getStorageAccountNameFromUri(workspaceDetails?.storageUri || "") || "unknown";
       console.log(
         ServiceErrorMessageConstants.UPLOADING_ARTIFACTS.formatWithDetails(
           storageAccountName,
@@ -124,6 +125,20 @@ export class PlaywrightReporterStorageManager {
       return { success: true };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
+      const hasStorageAccountDeletedError =
+        errorMessage.includes("ENOTFOUND") ||
+        errorMessage.includes("getaddrinfo") ||
+        errorMessage.includes("not found") ||
+        errorMessage.includes("404");
+      if (hasStorageAccountDeletedError) {
+        return {
+          success: false,
+          errorMessage:
+            ServiceErrorMessageConstants.STORAGE_ACCOUNT_DELETED.formatWithStorageAccount(
+              storageAccountName,
+            ),
+        };
+      }
       coreLogger.error(`Failed to upload HTML report: ${error}`);
       return { success: false, errorMessage };
     }

@@ -1,83 +1,90 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  listAgentVersions,
-  deleteAgentVersion,
-  getAgentVersion,
+  listVersions,
+  deleteVersion,
+  getVersion,
   createAgentVersionFromManifest,
-  createAgentVersion,
-  listAgents,
-  deleteAgent,
+  createVersion,
+  list,
+  $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
-  updateAgent,
-  createAgent,
-  getAgent,
+  update,
+  create,
+  get,
 } from "../../api/agents/operations.js";
-import {
-  AgentsListAgentVersionsOptionalParams,
-  AgentsDeleteAgentVersionOptionalParams,
-  AgentsGetAgentVersionOptionalParams,
-  AgentsListAgentsOptionalParams,
-  AgentsDeleteAgentOptionalParams,
-  AgentsGetAgentOptionalParams,
-  AgentsCreateAgentOptionalParams,
-  AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateAgentOptionalParams,
-  AgentsUpdateAgentFromManifestOptionalParams,
-  AgentsCreateAgentVersionOptionalParams,
+import type {
+  AgentsListVersionsOptionalParams,
+  AgentsDeleteVersionOptionalParams,
+  AgentsGetVersionOptionalParams,
   AgentsCreateAgentVersionFromManifestOptionalParams,
+  AgentsCreateVersionOptionalParams,
+  AgentsListOptionalParams,
+  AgentsDeleteOptionalParams,
+  AgentsUpdateAgentFromManifestOptionalParams,
+  AgentsCreateAgentFromManifestOptionalParams,
+  AgentsUpdateOptionalParams,
+  AgentsCreateOptionalParams,
+  AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
-import {
+import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
-    options?: AgentsListAgentVersionsOptionalParams,
+    options?: AgentsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentVersion>;
   /** Deletes a specific version of an agent. */
   deleteVersion: (
     agentName: string,
     agentVersion: string,
-    options?: AgentsDeleteAgentVersionOptionalParams,
+    options?: AgentsDeleteVersionOptionalParams,
   ) => Promise<DeleteAgentVersionResponse>;
   /** Retrieves a specific version of an agent. */
   getVersion: (
     agentName: string,
     agentVersion: string,
-    options?: AgentsGetAgentVersionOptionalParams,
+    options?: AgentsGetVersionOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Create a new agent version from a definition. */
+  /** Create a new agent version. */
   createVersion(
     agentName: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentVersionOptionalParams,
+    options?: AgentsCreateOptionalParams,
   ): Promise<AgentVersion>;
   /** Create a new agent version from a manifest. */
   createVersion(
     agentName: string,
     manifestId: string,
-    parameterValues: Record<string, any>,
+    parameterValues: Record<string, unknown>,
     options?: AgentsCreateAgentVersionFromManifestOptionalParams,
   ): Promise<AgentVersion>;
   /** Returns the list of all agents. */
-  list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
+  list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
   /** Deletes an agent. */
-  delete: (
+  delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
+  /**
+   * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
+   * If no changes, returns the existing agent version.
+   */
+  update(
     agentName: string,
-    options?: AgentsDeleteAgentOptionalParams,
-  ) => Promise<DeleteAgentResponse>;
+    manifestId: string,
+    parameterValues: Record<string, unknown>,
+    options?: AgentsUpdateAgentFromManifestOptionalParams,
+  ): Promise<Agent>;
   /**
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
@@ -85,53 +92,43 @@ export interface AgentsOperations {
   update(
     agentName: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsUpdateAgentOptionalParams,
+    options?: AgentsUpdateOptionalParams,
   ): Promise<Agent>;
-  /**
-   * Updates the agent from a manifest by adding a new version if there are any changes.
-   * If no changes, returns the existing agent version.
-   */
-  update(
-    agentName: string,
-    manifestId: string,
-    parameterValues: Record<string, any>,
-    options?: AgentsUpdateAgentFromManifestOptionalParams,
-  ): Promise<Agent>;
-  /** Creates an agent from a definition. */
+  /** Creates the agent. */
   create(
     name: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentOptionalParams,
+    options?: AgentsCreateOptionalParams,
   ): Promise<Agent>;
   /** Creates an agent from a manifest. */
   create(
     name: string,
     manifestId: string,
-    parameterValues: Record<string, any>,
+    parameterValues: Record<string, unknown>,
     options?: AgentsCreateAgentFromManifestOptionalParams,
   ): Promise<Agent>;
   /** Retrieves the agent. */
-  get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
+  get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
 
 function _getAgents(context: AIProjectContext) {
   return {
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) =>
-      listAgentVersions(context, agentName, options),
+    listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
+      listVersions(context, agentName, options),
     deleteVersion: (
       agentName: string,
       agentVersion: string,
-      options?: AgentsDeleteAgentVersionOptionalParams,
-    ) => deleteAgentVersion(context, agentName, agentVersion, options),
+      options?: AgentsDeleteVersionOptionalParams,
+    ) => deleteVersion(context, agentName, agentVersion, options),
     getVersion: (
       agentName: string,
       agentVersion: string,
-      options?: AgentsGetAgentVersionOptionalParams,
-    ) => getAgentVersion(context, agentName, agentVersion, options),
+      options?: AgentsGetVersionOptionalParams,
+    ) => getVersion(context, agentName, agentVersion, options),
     createVersion(
       agentName: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsCreateAgentVersionOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsCreateVersionOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentVersionFromManifestOptionalParams,
     ): Promise<AgentVersion> {
       // If second param is a string, it's the manifest case (4 params)
@@ -140,25 +137,25 @@ function _getAgents(context: AIProjectContext) {
           context,
           agentName,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }
       // Otherwise, it's the definition case (3 params)
-      return createAgentVersion(
+      return createVersion(
         context,
         agentName,
         definitionOrManifestId,
-        optionsOrParameterValues as AgentsCreateAgentVersionOptionalParams | undefined,
+        optionsOrParameterValues as AgentsCreateVersionOptionalParams | undefined,
       );
     },
-    list: (options?: AgentsListAgentsOptionalParams) => listAgents(context, options),
-    delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) =>
-      deleteAgent(context, agentName, options),
+    list: (options?: AgentsListOptionalParams) => list(context, options),
+    delete: (agentName: string, options?: AgentsDeleteOptionalParams) =>
+      $delete(context, agentName, options),
     update(
       agentName: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsUpdateAgentOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsUpdateOptionalParams | Record<string, unknown>,
       options?: AgentsUpdateAgentFromManifestOptionalParams,
     ): Promise<Agent> {
       // If second param is a string, it's the manifest case (4 params)
@@ -167,22 +164,22 @@ function _getAgents(context: AIProjectContext) {
           context,
           agentName,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }
       // Otherwise, it's the definition case (3 params)
-      return updateAgent(
+      return update(
         context,
         agentName,
         definitionOrManifestId,
-        optionsOrParameterValues as AgentsUpdateAgentOptionalParams | undefined,
+        optionsOrParameterValues as AgentsUpdateOptionalParams | undefined,
       );
     },
     create(
       name: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsCreateAgentOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsCreateOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ): Promise<Agent> {
       // If second param is a string, it's the manifest case (4 params)
@@ -191,20 +188,19 @@ function _getAgents(context: AIProjectContext) {
           context,
           name,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }
       // Otherwise, it's the definition case (3 params)
-      return createAgent(
+      return create(
         context,
         name,
         definitionOrManifestId,
-        optionsOrParameterValues as AgentsCreateAgentOptionalParams | undefined,
+        optionsOrParameterValues as AgentsCreateOptionalParams | undefined,
       );
     },
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) =>
-      getAgent(context, agentName, options),
+    get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
 

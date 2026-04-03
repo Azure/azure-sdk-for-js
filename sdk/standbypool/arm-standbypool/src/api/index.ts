@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createStandbyPoolManagement,
+export type {
   StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
 } from "./standbyPoolManagementContext.js";
+export { createStandbyPoolManagement } from "./standbyPoolManagementContext.js";

@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-messages",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "2.2.0-beta.1",
+  "version": "2.2.0-beta.2",
   "description": "Azure client library for Azure Communication Messages services",
   "keywords": [
     "node",
@@ -79,7 +79,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -102,22 +101,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest"
   },
   "type": "module",
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

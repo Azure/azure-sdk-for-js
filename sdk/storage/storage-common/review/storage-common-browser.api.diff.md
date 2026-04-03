@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -35,12 +35,10 @@
+@@ -36,12 +36,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -20,12 +20,17 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -62,11 +60,8 @@
+ abstract class Credential_2 implements RequestPolicyFactory {
+@@ -64,16 +62,8 @@
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
  // @public
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+-    destroy(error?: Error): this;
+-}
+-
+-// @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 -
 -// @public
@@ -33,19 +38,18 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -129,26 +124,16 @@
-     EXPONENTIAL = 0,
-     FIXED = 1
+@@ -146,73 +136,64 @@
  }
  
--// @public
--export class StorageSharedKeyCredential extends Credential {
+ // @public
+ export class StorageSharedKeyCredential extends Credential_2 {
 -    constructor(accountName: string, accountKey: string);
--    readonly accountName: string;
++    constructor(_accountName: string, _accountKey: string);
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
-+// @public (undocumented)
-+export class StorageSharedKeyCredential {
++    computeHMACSHA256(_stringToSign: string): string;
++    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
  }
  
  // @public
@@ -63,32 +67,68 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -157,25 +142,10 @@
-     // (undocumented)
+-    // (undocumented)
+     accountKey: Buffer;
+-    // (undocumented)
      accountName: string;
  }
  
+ // @public
+ export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+ 
 -// @public
--export interface UserDelegationKey {
--    signedExpiresOn: Date;
--    signedObjectId: string;
--    signedService: string;
--    signedStartsOn: Date;
--    signedTenantId: string;
--    signedVersion: string;
--    value: string;
+-export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
++// @public (undocumented)
++export const structuredMessageDecodingStream = 1;
+ 
+-// @public
+-export interface StructuredMessageDecodingStreamOptions {
+-    highWaterMark?: number;
 -}
 -
 -// @public
 +// @public (undocumented)
+ export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
+     body: RequestBodyType;
+     encodedContentLength: number;
+ }>;
+ 
+ // @public
+-export interface StructuredMessageEncodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
+ export interface UserDelegationKey {
+-    signedDelegatedUserTenantId: string | undefined;
++    // (undocumented)
+     signedExpiresOn: Date;
++    // (undocumented)
+     signedObjectId: string;
++    // (undocumented)
+     signedService: string;
++    // (undocumented)
+     signedStartsOn: Date;
++    // (undocumented)
+     signedTenantId: string;
++    // (undocumented)
+     signedVersion: string;
++    // (undocumented)
+     value: string;
+ }
+ 
+ // @public
  export class UserDelegationKeyCredential {
--    constructor(accountName: string, userDelegationKey: UserDelegationKey);
--    readonly accountName: string;
+     constructor(accountName: string, userDelegationKey: UserDelegationKey);
++    // (undocumented)
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
--    readonly userDelegationKey: UserDelegationKey;
++    // (undocumented)
++    computeHMACSHA256(_stringToSign: string): string;
++    // (undocumented)
+     readonly userDelegationKey: UserDelegationKey;
  }
  
  // (No @packageDocumentation comment for this package)
- 
 
 ```

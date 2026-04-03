@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-vscode",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "sdk-type": "client",
   "description": "Use the Azure Account extension for Visual Studio Code to authenticate with Azure Identity",
   "main": "./dist/commonjs/index.js",
@@ -50,8 +50,8 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "^4.11.0",
-    "@azure/msal-node": "^3.2.2",
-    "@azure/msal-node-extensions": "^1.5.24",
+    "@azure/msal-node": "^5.1.0",
+    "@azure/msal-node-extensions": "^5.1.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -70,7 +70,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -85,22 +84,6 @@
     }
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",

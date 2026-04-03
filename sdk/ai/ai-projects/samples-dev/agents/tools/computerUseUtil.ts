@@ -6,9 +6,14 @@
  * Shared helper functions and classes for Computer Use Agent samples.
  */
 
-import * as fs from "node:fs/promises";
+import * as fs from "node:fs";
 import * as path from "path";
 import { fileURLToPath } from "node:url";
+import type OpenAI from "openai";
+import type { ResponseComputerToolCall } from "openai/resources/responses/responses";
+
+/** The action from a computer tool call, narrowed to exclude undefined. */
+export type ComputerAction = NonNullable<ResponseComputerToolCall["action"]>;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,27 +27,11 @@ export enum SearchState {
 }
 
 /**
- * Convert an image file to a Base64-encoded string.
- *
- * @param imagePath - The path to the image file (e.g. 'image_file.png')
- * @returns A Base64-encoded string representing the image.
- * @throws Error if the provided file path does not exist or if there's an error reading the file.
- */
-export async function imageToBase64(imagePath: string): Promise<string> {
-  try {
-    const fileData = await fs.readFile(imagePath);
-    return fileData.toString("base64");
-  } catch (error) {
-    throw new Error(`Error reading file '${imagePath}': ${error}`);
-  }
-}
-
-/**
- * Screenshot information containing filename and data URL.
+ * Screenshot information containing filename and file ID.
  */
 export interface ScreenshotInfo {
   filename: string;
-  url: string;
+  fileId?: string;
 }
 
 /**
@@ -60,7 +49,7 @@ export interface Screenshots {
  * @returns Dictionary mapping state names to screenshot info with filename and data URL
  * @throws Error if any required screenshot asset files are missing
  */
-export async function loadScreenshotAssets(): Promise<Screenshots> {
+export async function loadScreenshotAssets(openAIClient: OpenAI): Promise<Screenshots> {
   // Load demo screenshot images from assets directory
   // Flow: search page -> typed search -> search results
   const screenshotPaths = {
@@ -79,10 +68,13 @@ export async function loadScreenshotAssets(): Promise<Screenshots> {
 
   for (const [key, filePath] of Object.entries(screenshotPaths)) {
     try {
-      const imageBase64 = await imageToBase64(filePath);
+      const uploadedFile = await openAIClient.files.create({
+        file: fs.createReadStream(filePath),
+        purpose: "assistants",
+      });
       screenshots[key as keyof Screenshots] = {
         filename: filenameMap[key as keyof typeof filenameMap],
-        url: `data:image/png;base64,${imageBase64}`,
+        fileId: uploadedFile.id,
       };
     } catch (error) {
       console.error(`Error: Missing required screenshot asset: ${error}`);
@@ -96,15 +88,6 @@ export async function loadScreenshotAssets(): Promise<Screenshots> {
 /**
  * Computer action interface representing various action types.
  */
-export interface ComputerAction {
-  type: string;
-  text?: string;
-  keys?: string[];
-  x?: number;
-  y?: number;
-  path?: Array<{ x: number; y: number }>;
-}
-
 /**
  * Process a computer action and simulate its execution.
  *
@@ -127,42 +110,33 @@ export function handleComputerActionAndTakeScreenshot(
   let updatedState = currentState;
 
   // State transitions based on actions
-  if (action.type === "type" && action.text) {
-    updatedState = SearchState.TYPED;
-    console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
-  }
-  // Check for ENTER key press
-  else if (
-    (action.type === "key" || action.type === "keypress") &&
-    action.keys &&
-    (action.keys.includes("Return") || action.keys.includes("ENTER"))
-  ) {
-    updatedState = SearchState.PRESSED_ENTER;
-    console.log("  -> Detected ENTER key press");
-  }
-  // Check for click after typing (alternative submit method)
-  else if (action.type === "click" && updatedState === SearchState.TYPED) {
-    updatedState = SearchState.PRESSED_ENTER;
-    console.log("  -> Detected click after typing");
-  }
-
-  // Provide more realistic feedback based on action type
-  if (action.x !== undefined && action.y !== undefined) {
-    if (action.type === "click") {
-      console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
-    } else if (action.type === "drag" && action.path) {
-      const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
-      console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
-    } else if (action.type === "scroll") {
-      console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+  if (action.type === "type") {
+    if (action.text) {
+      updatedState = SearchState.TYPED;
+      console.log(`  Typing text: '${action.text}' - Simulating keyboard input`);
     }
   }
-
-  if (action.keys) {
+  // Check for ENTER key press
+  else if (action.type === "keypress") {
+    if (action.keys.includes("Return") || action.keys.includes("ENTER")) {
+      updatedState = SearchState.PRESSED_ENTER;
+      console.log("  -> Detected ENTER key press");
+    }
     console.log(`  Key press: ${action.keys} - Simulating key combination`);
   }
-
-  if (action.type === "screenshot") {
+  // Check for click after typing (alternative submit method)
+  else if (action.type === "click") {
+    if (updatedState === SearchState.TYPED) {
+      updatedState = SearchState.PRESSED_ENTER;
+      console.log("  -> Detected click after typing");
+    }
+    console.log(`  Click at (${action.x}, ${action.y}) - Simulating click on UI element`);
+  } else if (action.type === "drag") {
+    const pathStr = action.path.map((p) => `(${p.x}, ${p.y})`).join(" -> ");
+    console.log(`  Drag path: ${pathStr} - Simulating drag operation`);
+  } else if (action.type === "scroll") {
+    console.log(`  Scroll at (${action.x}, ${action.y}) - Simulating scroll action`);
+  } else if (action.type === "screenshot") {
     console.log("  Taking screenshot - Capturing current screen state");
   }
 

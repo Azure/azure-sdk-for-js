@@ -51,7 +51,6 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/mustache": "^4.2.1",
     "@types/node": "catalog:",
-    "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
@@ -60,7 +59,6 @@
     "prettier": "^3.3.3",
     "rimraf": "catalog:",
     "rollup": "^4.14.0",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -70,20 +68,7 @@
     "inquirer": "^13.0.1",
     "mustache": "^4.2.0",
     "tslib": "^2.6.2",
-    "yargs": "^17.2.2",
-    "yargs-parser": "^21.1.1"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false,
-    "project": "./tsconfig.src.build.json"
+    "yargs-parser": "^22.0.0"
   },
   "exports": {
     "./package.json": "./package.json",

@@ -1,12 +1,18 @@
 # Release History
 
-## 2.3.2 (Unreleased)
+## 2.4.0 (Unreleased)
 
 ### Features Added
+
+- Export `toCompatResponse` helper for converting responses to a `CompatResponse`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 2.3.2 (2026-02-05)
 
 ### Other Changes
 

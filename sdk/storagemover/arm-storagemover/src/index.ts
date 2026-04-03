@@ -1,39 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { StorageMoverClient } from "./storageMoverClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOrigin,
   Origin,
-  KnownActionType,
   ActionType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   StorageMover,
   StorageMoverProperties,
-  KnownProvisioningState,
   ProvisioningState,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   StorageMoverUpdateParameters,
   StorageMoverUpdateProperties,
   Agent,
   AgentProperties,
-  KnownAgentStatus,
   AgentStatus,
   UploadLimitSchedule,
   UploadLimitWeeklyRecurrence,
@@ -42,7 +39,6 @@ export {
   DayOfWeek,
   Recurrence,
   Time,
-  KnownMinute,
   Minute,
   ProxyResource,
   AgentUpdateParameters,
@@ -50,29 +46,30 @@ export {
   Endpoint,
   EndpointBaseProperties,
   EndpointBasePropertiesUnion,
-  KnownEndpointType,
   EndpointType,
+  EndpointKind,
   AzureStorageBlobContainerEndpointProperties,
   NfsMountEndpointProperties,
-  KnownNfsVersion,
   NfsVersion,
+  S3WithHmacEndpointProperties,
+  AzureKeyVaultS3WithHmacCredentials,
+  S3WithHmacSourceType,
   AzureStorageSmbFileShareEndpointProperties,
   SmbMountEndpointProperties,
   AzureKeyVaultSmbCredentials,
   AzureStorageNfsFileShareEndpointProperties,
   AzureMultiCloudConnectorEndpointProperties,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Credentials,
   CredentialsUnion,
-  KnownCredentialType,
   CredentialType,
   EndpointBaseUpdateParameters,
   EndpointBaseUpdateProperties,
   EndpointBaseUpdatePropertiesUnion,
   AzureStorageBlobContainerEndpointUpdateProperties,
+  S3WithHmacEndpointUpdateProperties,
   NfsMountEndpointUpdateProperties,
   AzureStorageSmbFileShareEndpointUpdateProperties,
   AzureStorageNfsFileShareEndpointUpdateProperties,
@@ -84,43 +81,75 @@ export {
   ProjectUpdateProperties,
   JobDefinition,
   JobDefinitionProperties,
-  KnownJobType,
   JobType,
-  KnownCopyMode,
   CopyMode,
-  KnownJobRunStatus,
   JobRunStatus,
   SourceTargetMap,
   SourceEndpoint,
   SourceEndpointProperties,
   TargetEndpoint,
   TargetEndpointProperties,
+  ScheduleInfo,
+  Frequency,
+  DataIntegrityValidation,
   JobDefinitionUpdateParameters,
   JobDefinitionUpdateProperties,
   JobRunResourceId,
+  Connection,
+  ConnectionProperties,
+  ConnectionStatus,
   JobRun,
   JobRunProperties,
-  KnownJobRunScanStatus,
   JobRunScanStatus,
+  TriggerType,
   JobRunError,
+  JobRunWarning,
+} from "./models/index.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownAgentStatus,
+  KnownMinute,
+  KnownEndpointType,
+  KnownEndpointKind,
+  KnownNfsVersion,
+  KnownS3WithHmacSourceType,
+  KnownManagedServiceIdentityType,
+  KnownCredentialType,
+  KnownJobType,
+  KnownCopyMode,
+  KnownJobRunStatus,
+  KnownFrequency,
+  KnownDataIntegrityValidation,
+  KnownConnectionStatus,
+  KnownJobRunScanStatus,
+  KnownTriggerType,
   KnownVersions,
 } from "./models/index.js";
-export { StorageMoverClientOptionalParams } from "./api/index.js";
-export {
+export type { StorageMoverClientOptionalParams } from "./api/index.js";
+export type {
   AgentsListOptionalParams,
   AgentsDeleteOptionalParams,
   AgentsUpdateOptionalParams,
   AgentsCreateOrUpdateOptionalParams,
   AgentsGetOptionalParams,
 } from "./api/agents/index.js";
-export {
+export type {
+  ConnectionsDeleteOptionalParams,
+  ConnectionsListOptionalParams,
+  ConnectionsGetOptionalParams,
+  ConnectionsCreateOrUpdateOptionalParams,
+} from "./api/connections/index.js";
+export type {
   EndpointsListOptionalParams,
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./api/endpoints/index.js";
-export {
+export type {
   JobDefinitionsStopJobOptionalParams,
   JobDefinitionsStartJobOptionalParams,
   JobDefinitionsListOptionalParams,
@@ -129,16 +158,16 @@ export {
   JobDefinitionsCreateOrUpdateOptionalParams,
   JobDefinitionsGetOptionalParams,
 } from "./api/jobDefinitions/index.js";
-export { JobRunsListOptionalParams, JobRunsGetOptionalParams } from "./api/jobRuns/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { JobRunsListOptionalParams, JobRunsGetOptionalParams } from "./api/jobRuns/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
   ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./api/projects/index.js";
-export {
+export type {
   StorageMoversListBySubscriptionOptionalParams,
   StorageMoversListOptionalParams,
   StorageMoversDeleteOptionalParams,
@@ -146,8 +175,9 @@ export {
   StorageMoversCreateOrUpdateOptionalParams,
   StorageMoversGetOptionalParams,
 } from "./api/storageMovers/index.js";
-export {
+export type {
   AgentsOperations,
+  ConnectionsOperations,
   EndpointsOperations,
   JobDefinitionsOperations,
   JobRunsOperations,
@@ -155,5 +185,6 @@ export {
   ProjectsOperations,
   StorageMoversOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

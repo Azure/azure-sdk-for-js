@@ -3,21 +3,21 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates a token for a container registry with the specified parameters.
+ * This sample demonstrates how to creates a token for a container registry with the specified parameters.
  *
- * @summary Creates a token for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/TokenCreate.json
+ * @summary creates a token for a container registry with the specified parameters.
+ * x-ms-original-file: 2026-01-01-preview/TokenCreate.json
  */
 async function tokenCreate() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const tokenName = "myToken";
-  const tokenCreateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.tokens.create("myResourceGroup", "myRegistry", "myToken", {
+    scopeMapId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scopeMaps/myScopeMap",
+    status: "disabled",
     credentials: {
       certificates: [
         {
@@ -27,18 +27,7 @@ async function tokenCreate() {
         },
       ],
     },
-    scopeMapId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scopeMaps/myScopeMap",
-    status: "disabled",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tokens.beginCreateAndWait(
-    resourceGroupName,
-    registryName,
-    tokenName,
-    tokenCreateParameters,
-  );
+  });
   console.log(result);
 }
 

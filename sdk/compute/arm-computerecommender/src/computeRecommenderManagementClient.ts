@@ -13,7 +13,7 @@ import { _getSpotPlacementScoresOperations } from "./classic/spotPlacementScores
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
+export { type ComputeRecommenderManagementClientOptionalParams } from "./api/computeRecommenderManagementContext.js";
 
 export class ComputeRecommenderManagementClient {
   private _client: ComputeRecommenderManagementContext;

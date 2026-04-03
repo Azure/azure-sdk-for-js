@@ -3,37 +3,26 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates a webhook for a container registry with the specified parameters.
+ * This sample demonstrates how to creates a webhook for a container registry with the specified parameters.
  *
- * @summary Creates a webhook for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/WebhookCreate.json
+ * @summary creates a webhook for a container registry with the specified parameters.
+ * x-ms-original-file: 2026-01-01-preview/WebhookCreate.json
  */
 async function webhookCreate() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const webhookName = "myWebhook";
-  const webhookCreateParameters = {
-    actions: ["push"],
-    customHeaders: { authorization: "******" },
-    location: "westus",
-    scope: "myRepository",
-    serviceUri: "http://myservice.com",
-    status: "enabled",
-    tags: { key: "value" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.webhooks.beginCreateAndWait(
-    resourceGroupName,
-    registryName,
-    webhookName,
-    webhookCreateParameters,
-  );
+  const result = await client.webhooks.create("myResourceGroup", "myRegistry", "myWebhook", {
+    location: "westus",
+    tags: { key: "value" },
+    serviceUri: "http://myservice.com",
+    customHeaders: { Authorization: "******" },
+    status: "enabled",
+    scope: "myRepository",
+    actions: ["push"],
+  });
   console.log(result);
 }
 

@@ -1,5 +1,39 @@
 # Release History
 
+## 1.17.0 (Unreleased)
+
+### Other Changes
+
+- Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
+
+### Features Added
+
+- Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
+- Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+- Replaced custom `AzureFunctionsHook` with `@azure/functions-opentelemetry-instrumentation` for Azure Functions context propagation. The new package is maintained by the Azure Functions team and provides additional capabilities including log forwarding and `WorkerOpenTelemetryEnabled` host capability. Added `azureFunctions` to `instrumentationOptions`, allowing the Azure Functions instrumentation to be configured (enabled/disabled) like all other instrumentations. It is enabled by default.
+
+### Bugs Fixed
+
+- Fixed Available Memory performance counter on Linux to report `MemAvailable` from `/proc/meminfo` instead of `MemFree` (via `os.freemem()`). `MemAvailable` accounts for reclaimable memory (page cache, buffers), providing a more accurate measure of memory available to processes.
+- Fixed standard metrics and performance counters recording 0ms duration for all sub-second requests. `span.duration` is an `HrTime` tuple `[seconds, nanoseconds]` but was incorrectly read as `span.duration[0]` (seconds only). Converted to milliseconds using `hrTimeToMilliseconds()` from `@opentelemetry/core`.
+
+## 1.16.0 (2026-02-20)
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
+### Bugs Fixed
+
+- Fixed OpenTelemetry API version mismatch causing Noop providers in VS Code extensions. When a different version of `@opentelemetry/api` was already loaded (e.g. by the VS Code extension host), `useAzureMonitor` would silently fall back to Noop providers, discarding all telemetry. The fix clears the stale global API state before initializing the SDK.
+
 ### 1.15.1 (2026-01-16)
 
 ### Other Changes

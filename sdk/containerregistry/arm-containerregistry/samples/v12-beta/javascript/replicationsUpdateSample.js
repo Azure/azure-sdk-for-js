@@ -3,30 +3,22 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates a replication for a container registry with the specified parameters.
+ * This sample demonstrates how to updates a replication for a container registry with the specified parameters.
  *
- * @summary Updates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/ReplicationUpdate.json
+ * @summary updates a replication for a container registry with the specified parameters.
+ * x-ms-original-file: 2026-01-01-preview/ReplicationUpdate.json
  */
 async function replicationUpdate() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const replicationName = "myReplication";
-  const replicationUpdateParameters = {
-    tags: { key: "value" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.replications.beginUpdateAndWait(
-    resourceGroupName,
-    registryName,
-    replicationName,
-    replicationUpdateParameters,
+  const result = await client.replications.update(
+    "myResourceGroup",
+    "myRegistry",
+    "myReplication",
+    { tags: { key: "value" } },
   );
   console.log(result);
 }

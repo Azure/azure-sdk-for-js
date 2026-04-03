@@ -164,9 +164,6 @@ import type {
   ResourceDeleteCancelEventData,
   ResourceDeleteFailureEventData,
   ResourceDeleteSuccessEventData,
-  ResourceNotificationsAksResourcesFleetGateCreatedEventData,
-  ResourceNotificationsAksResourcesFleetGateDeletedEventData,
-  ResourceNotificationsAksResourcesFleetGateUpdatedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   ResourceNotificationsHealthResourcesAnnotatedEventData,
   ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData,
@@ -532,12 +529,6 @@ export interface SystemEventNameToEventData {
   "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */
   "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
-  /** An interface for the event data of a "Microsoft.ResourceNotifications.AKSResources.FleetGateCreated" event. */
-  "Microsoft.ResourceNotifications.AKSResources.FleetGateCreated": ResourceNotificationsAksResourcesFleetGateCreatedEventData;
-  /** An interface for the event data of a "Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted" event. */
-  "Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted": ResourceNotificationsAksResourcesFleetGateDeletedEventData;
-  /** An interface for the event data of a "Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated" event. */
-  "Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated": ResourceNotificationsAksResourcesFleetGateUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted" event. */
   "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
   /** An interface for the event data of a "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged" event. */

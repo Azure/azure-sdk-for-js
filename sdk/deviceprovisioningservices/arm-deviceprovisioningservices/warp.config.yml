@@ -1,0 +1,7 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/iotDpsResource": "./src/api/iotDpsResource/index.ts"
+  "./api/dpsCertificate": "./src/api/dpsCertificate/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

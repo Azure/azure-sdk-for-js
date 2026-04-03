@@ -1,0 +1,12 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/volumeSnapshots": "./src/api/volumeSnapshots/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/volumeGroups": "./src/api/volumeGroups/index.ts"
+  "./api/volumes": "./src/api/volumes/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/elasticSans": "./src/api/elasticSans/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

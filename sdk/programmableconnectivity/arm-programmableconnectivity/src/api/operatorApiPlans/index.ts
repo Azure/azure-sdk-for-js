@@ -3,6 +3,6 @@
 
 export { listBySubscription, get } from "./operations.js";
 export {
-  OperatorApiPlansListBySubscriptionOptionalParams,
-  OperatorApiPlansGetOptionalParams,
+  type OperatorApiPlansListBySubscriptionOptionalParams,
+  type OperatorApiPlansGetOptionalParams,
 } from "./options.js";

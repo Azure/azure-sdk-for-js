@@ -1,0 +1,55 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/topicTypes": "src/api/topicTypes/index.ts"
+  "./api/namespaceTopicEventSubscriptions": "src/api/namespaceTopicEventSubscriptions/index.ts"
+  "./api/domainTopicEventSubscriptions": "src/api/domainTopicEventSubscriptions/index.ts"
+  "./api/verifiedPartners": "src/api/verifiedPartners/index.ts"
+  "./api/topicSpaces": "src/api/topicSpaces/index.ts"
+  "./api/extensionTopics": "src/api/extensionTopics/index.ts"
+  "./api/topics": "src/api/topics/index.ts"
+  "./api/systemTopics": "src/api/systemTopics/index.ts"
+  "./api/privateLinkResources": "src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "src/api/privateEndpointConnections/index.ts"
+  "./api/permissionBindings": "src/api/permissionBindings/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/partnerTopics": "src/api/partnerTopics/index.ts"
+  "./api/partnerRegistrations": "src/api/partnerRegistrations/index.ts"
+  "./api/partnerDestinations": "src/api/partnerDestinations/index.ts"
+  "./api/partnerConfigurations": "src/api/partnerConfigurations/index.ts"
+  "./api/namespaceTopics": "src/api/namespaceTopics/index.ts"
+  "./api/partnerTopicEventSubscriptions": "src/api/partnerTopicEventSubscriptions/index.ts"
+  "./api/systemTopicEventSubscriptions": "src/api/systemTopicEventSubscriptions/index.ts"
+  "./api/domainEventSubscriptions": "src/api/domainEventSubscriptions/index.ts"
+  "./api/topicEventSubscriptions": "src/api/topicEventSubscriptions/index.ts"
+  "./api/eventSubscriptions": "src/api/eventSubscriptions/index.ts"
+  "./api/domainTopics": "src/api/domainTopics/index.ts"
+  "./api/domains": "src/api/domains/index.ts"
+  "./api/clients": "src/api/clients/index.ts"
+  "./api/clientGroups": "src/api/clientGroups/index.ts"
+  "./api/partnerNamespaces": "src/api/partnerNamespaces/index.ts"
+  "./api/channels": "src/api/channels/index.ts"
+  "./api/namespaces": "src/api/namespaces/index.ts"
+  "./api/caCertificates": "src/api/caCertificates/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

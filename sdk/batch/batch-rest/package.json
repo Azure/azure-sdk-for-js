@@ -1,28 +1,12 @@
 {
   "name": "@azure-rest/batch",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "Batch Service Rest Level Client",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -54,6 +38,15 @@
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Batch",
+    "productSlugs": [
+      "azure",
+      "azure-batch"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/batch"
+  },
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
@@ -84,7 +77,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

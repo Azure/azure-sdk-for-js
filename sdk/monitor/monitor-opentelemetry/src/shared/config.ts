@@ -19,6 +19,7 @@ import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
 import { Logger } from "./logging/index.js";
 import {
+  azureAksDetector,
   azureAppServiceDetector,
   azureFunctionsDetector,
   azureVmDetector,
@@ -73,7 +74,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.tracesPerSecond = undefined;
+    this.tracesPerSecond = 5;
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
@@ -82,6 +83,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: true },
+      azureFunctions: { enabled: true },
       mongoDb: { enabled: true },
       mySql: { enabled: true },
       postgreSql: { enabled: true },
@@ -194,7 +196,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     // Load resource attributes from Azure
     const azureResource: Resource = detectResources({
-      detectors: [azureAppServiceDetector, azureFunctionsDetector],
+      detectors: [azureAksDetector, azureAppServiceDetector, azureFunctionsDetector],
     });
     this._resource = resource.merge(azureResource);
 

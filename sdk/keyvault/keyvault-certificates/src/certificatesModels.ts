@@ -24,7 +24,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -227,6 +227,14 @@ export interface SubjectAlternativeNamesAll {
    * User principal names.
    */
   userPrincipalNames: ArrayOneOrMore<string>;
+  /**
+   * Uniform Resource Identifiers (URIs).
+   */
+  uniformResourceIdentifiers: ArrayOneOrMore<string>;
+  /**
+   * IP addresses; supports IPv4 and IPv6.
+   */
+  ipAddresses: ArrayOneOrMore<string>;
 }
 
 /**

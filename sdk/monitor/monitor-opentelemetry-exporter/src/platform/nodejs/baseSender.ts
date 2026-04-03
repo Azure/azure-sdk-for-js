@@ -10,7 +10,7 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
-import type { RestError } from "@azure/core-rest-pipeline";
+import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   RetryCode,
@@ -18,15 +18,15 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable } from "../../utils/breezeUtils.js";
+import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
-import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
+import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
@@ -38,6 +38,7 @@ export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
+  private retryTimerDeadlineMs: number = 0;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -67,7 +68,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+      if (!process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -109,6 +110,11 @@ export abstract class BaseSender {
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
+
+    // Send all persisted files from previous sessions immediately on startup
+    if (!this.disableOfflineStorage) {
+      this.sendAllPersistedFiles();
+    }
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -127,20 +133,14 @@ export abstract class BaseSender {
 
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
-        // Success -- @todo: start retry timer
-        if (!this.retryTimer) {
-          this.retryTimer = setTimeout(() => {
-            this.retryTimer = null;
-            this.sendFirstPersistedFile();
-          }, this.batchSendRetryIntervalMs);
-          this.retryTimer.unref();
-        }
+        // Success -- start retry timer to send persisted files
+        this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -149,19 +149,18 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (statusCode === 429 || statusCode === 439) {
+        if (statusCode === 429) {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          return {
-            code: ExportResultCode.SUCCESS,
-          };
+          this.scheduleRetryTimer(retryAfterMs);
+          return await this.persist(envelopes);
         }
         if (result) {
           diag.info(result);
-          const breezeResponse = JSON.parse(result) as BreezeResponse;
-          const filteredEnvelopes: Envelope[] = [];
+          const { breezeResponse, retriableEnvelopes: filteredEnvelopes } =
+            this.parseRetriableEnvelopes(envelopes, result);
           // Create a list of successful envelopes by filtering out the failed ones for customer SDK Stats
           const successfulEnvelopes: Envelope[] = [...envelopes];
 
@@ -169,16 +168,10 @@ export abstract class BaseSender {
           if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
-          // Figure out if we need to either retry or count failures
+          // Mark errored envelopes so they are excluded from successful counts
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
-              // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
-
-              // Add to retry list if status code is retriable
-              if (error.statusCode && isRetriable(error.statusCode)) {
-                filteredEnvelopes.push(envelopes[error.index]);
-              }
             });
           }
 
@@ -196,6 +189,7 @@ export abstract class BaseSender {
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
+            this.scheduleRetryTimer(retryAfterMs);
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
@@ -217,6 +211,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
+          this.scheduleRetryTimer(retryAfterMs);
           return await this.persist(envelopes);
         }
       } else {
@@ -246,14 +241,12 @@ export abstract class BaseSender {
         this.numConsecutiveRedirects++;
         // To prevent circular redirects
         if (this.numConsecutiveRedirects < 10) {
-          if (restError.response && restError.response.headers) {
-            const location = restError.response.headers.get("location");
-            if (location) {
-              // Update sender URL
-              this.handlePermanentRedirect(location);
-              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
-            }
+          const location = this.getLocationFromHeaders(restError.response?.headers);
+          if (location) {
+            // Update sender URL
+            this.handlePermanentRedirect(location);
+            // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+            return this.exportEnvelopes(envelopes);
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -386,7 +379,7 @@ export abstract class BaseSender {
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
       if (envelopes) {
-        await this.send(envelopes);
+        await this.exportEnvelopes(envelopes);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
@@ -396,12 +389,78 @@ export abstract class BaseSender {
     }
   }
 
+  private async sendAllPersistedFiles(): Promise<void> {
+    try {
+      // Clean outdated telemetry from disk before attempting to send
+      await this.persister.cleanExpiredFiles();
+
+      let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      while (envelopes) {
+        const result = await this.exportEnvelopes(envelopes);
+        if (result.code === ExportResultCode.FAILED) {
+          // Stop processing — remaining files stay on disk for later retry
+          diag.warn(`Failed to send persisted file during startup, will retry later`);
+          break;
+        }
+        envelopes = (await this.persister.shift()) as Envelope[] | null;
+      }
+    } catch (err: any) {
+      diag.warn(`Failed to read persisted files during startup`, err);
+    }
+  }
+
+  /**
+   * Parse a Breeze response and extract envelopes whose errors have retriable status codes.
+   */
+  private parseRetriableEnvelopes(
+    envelopes: Envelope[],
+    responseBody: string,
+  ): {
+    breezeResponse: BreezeResponse;
+    retriableEnvelopes: Envelope[];
+  } {
+    const breezeResponse = JSON.parse(responseBody) as BreezeResponse;
+    const retriableEnvelopes: Envelope[] = [];
+    if (breezeResponse.errors) {
+      for (const error of breezeResponse.errors) {
+        if (error.statusCode && isRetriable(error.statusCode) && !isSamplingRejection(error)) {
+          retriableEnvelopes.push(envelopes[error.index]);
+        }
+      }
+    }
+    return { breezeResponse, retriableEnvelopes };
+  }
+
+  private scheduleRetryTimer(retryAfterMs?: number): void {
+    const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+    const newDeadline = Date.now() + delay;
+    // Reschedule if a new Retry-After results in a later absolute deadline
+    if (this.retryTimer && retryAfterMs !== undefined && newDeadline > this.retryTimerDeadlineMs) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    if (!this.retryTimer) {
+      const adjustedDelay = Math.max(newDeadline - Date.now(), 0);
+      this.retryTimerDeadlineMs = newDeadline;
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.sendFirstPersistedFile();
+      }, adjustedDelay);
+      this.retryTimer.unref();
+    }
+  }
+
   private isRetriableRestError(error: RestError): boolean {
     const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
     if (error && error.code && restErrorTypes.includes(error.code)) {
       return true;
     }
     return false;
+  }
+
+  // Normalize location extraction for redirects; mirrors core HttpHeaders behavior
+  private getLocationFromHeaders(headers?: HttpHeaders): string | undefined {
+    return headers?.get("location") ?? headers?.toJSON?.().location;
   }
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled

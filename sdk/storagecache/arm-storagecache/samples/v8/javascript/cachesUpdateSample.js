@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_Update.json
  */
 async function cachesUpdate() {
   const subscriptionId =
@@ -101,7 +101,7 @@ async function cachesUpdate() {
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/Caches_Update_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly() {
   const subscriptionId =

@@ -1,0 +1,10 @@
+# warp.config.yml — @azure/eslint-plugin-azure-sdk build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"

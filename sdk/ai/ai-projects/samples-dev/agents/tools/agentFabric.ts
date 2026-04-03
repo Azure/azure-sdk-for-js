@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Microsoft Fabric capabilities
- * using the MicrosoftFabricAgentTool and synchronous Azure AI Projects client. The agent can query
+ * using the MicrosoftFabricPreviewTool and synchronous Azure AI Projects client. The agent can query
  * Fabric data sources and provide responses based on data analysis.
  *
  * @summary This sample demonstrates how to create an agent with Microsoft Fabric tool capabilities,
@@ -17,14 +17,14 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 const fabricProjectConnectionId =
   process.env["FABRIC_PROJECT_CONNECTION_ID"] || "<fabric project connection id>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Microsoft Fabric tool...");
 
@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
 
   const userInput = await new Promise<string>((resolve) => {
     rl.question(
-      "Enter your question for Fabric (e.g., 'Tell me about sales records'): \n",
+      "Enter your question for Fabric (Default: 'Tell me about sales records'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
   console.log("\nSending request to Fabric agent...");
   const response = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me about sales records",
     },
     {
       body: {

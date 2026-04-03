@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -12,26 +12,24 @@ const agentName = "ai-search-agent";
 const agentInstructions =
   "You are a helpful assistant. You must always provide citations for answers using the tool and render them as: `[message_idx:search_idx†source]`.";
 
-// These would typically come from environment variables in live mode
-const aiSearchConnectionId =
-  process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
-const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
-
 /**
- * Define Azure AI Search tool configuration
+ * Build Azure AI Search tool configuration lazily so env vars are read
+ * after the recorder sets up playback values in beforeEach.
  */
-const aiSearchTool = {
-  type: "azure_ai_search" as const,
-  azure_ai_search: {
-    indexes: [
-      {
-        project_connection_id: aiSearchConnectionId,
-        index_name: aiSearchIndexName,
-        query_type: "simple",
-      },
-    ],
-  },
-};
+function getAiSearchTool() {
+  return {
+    type: "azure_ai_search" as const,
+    azure_ai_search: {
+      indexes: [
+        {
+          project_connection_id: assertEnvironmentVariable("AI_SEARCH_CONNECTION_ID"),
+          index_name: assertEnvironmentVariable("AI_SEARCH_INDEX_NAME"),
+          query_type: "simple",
+        },
+      ],
+    },
+  };
+}
 
 describe("agents - ai search - basic", () => {
   let recorder: Recorder;
@@ -48,12 +46,12 @@ describe("agents - ai search - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with Azure AI Search tool", async () => {
+  it("should create agent with Azure AI Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
-      tools: [aiSearchTool],
+      tools: [getAiSearchTool()],
     });
 
     assert.isNotNull(agent);
@@ -77,20 +75,20 @@ describe("agents - ai search - execution flow", () => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should execute AI Search query and return result", async function () {
+  it("should execute AI Search query and return result", async function () {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
       instructions: agentInstructions,
-      tools: [aiSearchTool],
+      tools: [getAiSearchTool()],
     });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
@@ -105,7 +103,7 @@ describe("agents - ai search - execution flow", () => {
           {
             type: "message",
             role: "user",
-            content: "What information do you have in the search index?",
+            content: "What is the temperature rating of the cozynights sleeping bag?",
           },
         ],
       },
@@ -126,115 +124,105 @@ describe("agents - ai search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
-    "should handle AI Search query with streaming response",
-    async function () {
-      // Create agent with Azure AI Search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5-mini",
-        instructions: agentInstructions,
-        tools: [aiSearchTool],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+  it("should handle AI Search query with streaming response", async function () {
+    // Create agent with Azure AI Search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
+      instructions: agentInstructions,
+      tools: [getAiSearchTool()],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Send a streaming query
-      const streamResponse = await openAIClient.responses.create(
-        {
-          input: "Search for relevant documents in the index.",
-          stream: true,
+    // Send a streaming query
+    const streamResponse = await openAIClient.responses.create(
+      {
+        input: "What is the temperature rating of the cozynights sleeping bag?",
+        stream: true,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
-        },
-      );
+      },
+    );
 
-      let responseText = "";
-      let responseCreated = false;
-      let responseCompleted = false;
+    let responseText = "";
+    let responseCreated = false;
+    let responseCompleted = false;
 
-      // Process the streaming response
-      for await (const event of streamResponse) {
-        if (event.type === "response.created") {
-          responseCreated = true;
-          console.log(`Response created with ID: ${event.response.id}`);
-        } else if (event.type === "response.output_text.delta") {
-          responseText += event.delta;
-        } else if (event.type === "response.completed") {
-          responseCompleted = true;
-          console.log("Response completed!");
-        }
+    // Process the streaming response
+    for await (const event of streamResponse) {
+      if (event.type === "response.created") {
+        responseCreated = true;
+        console.log(`Response created with ID: ${event.response.id}`);
+      } else if (event.type === "response.output_text.delta") {
+        responseText += event.delta;
+      } else if (event.type === "response.completed") {
+        responseCompleted = true;
+        console.log("Response completed!");
       }
+    }
 
-      assert.isTrue(responseCreated, "Expected response.created event");
-      assert.isTrue(responseCompleted, "Expected response.completed event");
-      assert.isNotEmpty(responseText, "Expected response text from streaming");
-      console.log(`Streaming response text: ${responseText}`);
+    assert.isTrue(responseCreated, "Expected response.created event");
+    assert.isTrue(responseCompleted, "Expected response.completed event");
+    assert.isNotEmpty(responseText, "Expected response text from streaming");
+    console.log(`Streaming response text: ${responseText}`);
 
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 
-  it.skipIf(!isLiveMode())(
-    "should handle AI Search query in conversation context",
-    async function () {
-      // Create agent with Azure AI Search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5-mini",
-        instructions: agentInstructions,
-        tools: [aiSearchTool],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+  it("should handle AI Search query in conversation context", async function () {
+    // Create agent with Azure AI Search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: assertEnvironmentVariable("FOUNDRY_MODEL_NAME"),
+      instructions: agentInstructions,
+      tools: [getAiSearchTool()],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Create conversation with initial user message
-      const conversation = await openAIClient.conversations.create({
-        items: [
-          {
-            type: "message",
-            role: "user",
-            content: "Search the index for any available information.",
-          },
-        ],
-      });
-      assert.isNotNull(conversation);
-      assert.isNotNull(conversation.id);
-      console.log(`Created conversation (id: ${conversation.id})`);
-
-      // Generate response using the agent
-      const response = await openAIClient.responses.create(
+    // Create conversation with initial user message
+    const conversation = await openAIClient.conversations.create({
+      items: [
         {
-          conversation: conversation.id,
+          type: "message",
+          role: "user",
+          content: "What is the temperature rating of the cozynights sleeping bag?",
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
+      ],
+    });
+    assert.isNotNull(conversation);
+    assert.isNotNull(conversation.id);
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Generate response using the agent
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-      );
+      },
+    );
 
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Clean up
-      await openAIClient.conversations.delete(conversation.id);
-      console.log("Conversation deleted");
+    // Clean up
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
 
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 });

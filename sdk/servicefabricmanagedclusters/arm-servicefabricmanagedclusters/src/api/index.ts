@@ -3,6 +3,6 @@
 
 export {
   createServiceFabricManagedClustersManagement,
-  ServiceFabricManagedClustersManagementContext,
-  ServiceFabricManagedClustersManagementClientOptionalParams,
+  type ServiceFabricManagedClustersManagementContext,
+  type ServiceFabricManagedClustersManagementClientOptionalParams,
 } from "./serviceFabricManagedClustersManagementContext.js";

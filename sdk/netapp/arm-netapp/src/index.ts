@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { NetAppManagementClient } from "./netAppManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
   OperationProperties,
   ServiceSpecification,
   MetricSpecification,
-  KnownMetricAggregationType,
   MetricAggregationType,
   Dimension,
   LogSpecification,
@@ -28,92 +29,61 @@ export {
   ProxyResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   VolumeGroupDetails,
   VolumeGroupProperties,
   VolumeGroupMetaData,
-  KnownApplicationType,
   ApplicationType,
   PlacementKeyValuePairs,
   VolumeGroupVolumeProperties,
   VolumeProperties,
-  KnownServiceLevel,
   ServiceLevel,
   VolumePropertiesExportPolicy,
   ExportPolicyRule,
-  KnownChownMode,
   ChownMode,
-  KnownNetworkFeatures,
   NetworkFeatures,
-  KnownVolumeStorageToNetworkProximity,
   VolumeStorageToNetworkProximity,
   MountTargetProperties,
   VolumePropertiesDataProtection,
   VolumeBackupProperties,
   ReplicationObject,
-  KnownEndpointType,
   EndpointType,
-  KnownReplicationSchedule,
   ReplicationSchedule,
   RemotePath,
   DestinationReplication,
-  KnownReplicationType,
   ReplicationType,
-  KnownExternalReplicationSetupStatus,
   ExternalReplicationSetupStatus,
-  KnownMirrorState,
   MirrorState,
-  KnownVolumeReplicationRelationshipStatus,
   VolumeReplicationRelationshipStatus,
   VolumeSnapshotProperties,
   VolumeRelocationProperties,
   RansomwareProtectionSettings,
-  KnownDesiredRansomwareProtectionState,
   DesiredRansomwareProtectionState,
-  KnownActualRansomwareProtectionState,
   ActualRansomwareProtectionState,
-  KnownAcceptGrowCapacityPoolForShortTermCloneSplit,
   AcceptGrowCapacityPoolForShortTermCloneSplit,
-  KnownSecurityStyle,
   SecurityStyle,
-  KnownSmbAccessBasedEnumeration,
   SmbAccessBasedEnumeration,
-  KnownSmbNonBrowsable,
   SmbNonBrowsable,
-  KnownEncryptionKeySource,
   EncryptionKeySource,
-  KnownLdapServerType,
   LdapServerType,
-  KnownCoolAccessRetrievalPolicy,
   CoolAccessRetrievalPolicy,
-  KnownCoolAccessTieringPolicy,
   CoolAccessTieringPolicy,
-  KnownFileAccessLogs,
   FileAccessLogs,
-  KnownAvsDataStore,
   AvsDataStore,
-  KnownEnableSubvolumes,
   EnableSubvolumes,
-  KnownLargeVolumeType,
   LargeVolumeType,
-  KnownVolumeLanguage,
   VolumeLanguage,
-  KnownBreakthroughMode,
   BreakthroughMode,
   VolumeGroup,
   VolumeGroupListProperties,
   Backup,
   BackupProperties,
-  KnownBackupType,
   BackupType,
   BackupPatch,
   BackupPatchProperties,
   BackupStatus,
-  KnownVolumeBackupRelationshipStatus,
   VolumeBackupRelationshipStatus,
   RestoreStatus,
-  KnownVolumeRestoreRelationshipStatus,
   VolumeRestoreRelationshipStatus,
   Volume,
   TrackedResource,
@@ -130,10 +100,8 @@ export {
   ReestablishReplicationRequest,
   ReplicationStatus,
   ListReplicationsRequest,
-  KnownExclude,
   Exclude,
   Replication,
-  KnownReplicationMirrorState,
   ReplicationMirrorState,
   AuthorizeRequest,
   PeerClusterForVolumeMigrationRequest,
@@ -141,10 +109,11 @@ export {
   SvmPeerCommandResponse,
   PoolChangeRequest,
   RelocateVolumeRequest,
+  QuotaReportFilterRequest,
+  QuotaType,
+  ListQuotaReportResult,
   ListQuotaReportResponse,
   QuotaReport,
-  KnownType,
-  Type,
   Snapshot,
   SnapshotProperties,
   SnapshotPatch,
@@ -163,17 +132,13 @@ export {
   BackupPolicyPatch,
   VolumeQuotaRule,
   VolumeQuotaRulesProperties,
-  KnownNetAppProvisioningState,
   NetAppProvisioningState,
   VolumeQuotaRulePatch,
   RansomwareReport,
   RansomwareReportProperties,
-  KnownRansomwareReportState,
   RansomwareReportState,
-  KnownRansomwareReportSeverity,
   RansomwareReportSeverity,
   RansomwareSuspects,
-  KnownRansomwareSuspectResolution,
   RansomwareSuspectResolution,
   SuspectFile,
   RansomwareSuspectsClearRequest,
@@ -185,43 +150,34 @@ export {
   FileSystemUser,
   NfsUser,
   CifsUser,
-  KnownCredentialsStatus,
   CredentialsStatus,
   BucketServerProperties,
-  KnownBucketPermissions,
+  OnCertificateConflictAction,
   BucketPermissions,
+  AzureKeyVaultDetails,
+  CertificateAkvDetails,
+  CredentialsAkvDetails,
   BucketPatch,
   BucketPatchProperties,
   BucketServerPatchProperties,
-  KnownBucketPatchPermissions,
   BucketPatchPermissions,
   BucketCredentialsExpiry,
   BucketGenerateCredentials,
   Cache,
   CacheProperties,
   CachePropertiesExportPolicy,
-  KnownProtocolTypes,
   ProtocolTypes,
-  KnownCacheProvisioningState,
   CacheProvisioningState,
-  KnownCacheLifeCycleState,
   CacheLifeCycleState,
   CacheMountTargetProperties,
-  KnownKerberosState,
   KerberosState,
   SmbSettings,
-  KnownSmbEncryptionState,
   SmbEncryptionState,
-  KnownEncryptionState,
   EncryptionState,
-  KnownLdapState,
   LdapState,
   OriginClusterInformation,
-  KnownCifsChangeNotifyState,
   CifsChangeNotifyState,
-  KnownGlobalFileLockingState,
   GlobalFileLockingState,
-  KnownEnableWriteBackState,
   EnableWriteBackState,
   CacheUpdate,
   CacheUpdateProperties,
@@ -229,62 +185,45 @@ export {
   ElasticAccount,
   ElasticAccountProperties,
   ElasticEncryption,
-  KnownKeySource,
   KeySource,
   ElasticKeyVaultProperties,
-  KnownElasticKeyVaultStatus,
   ElasticKeyVaultStatus,
   ElasticEncryptionIdentity,
   ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   ElasticAccountUpdate,
   ElasticAccountUpdateProperties,
   ElasticCapacityPool,
   ElasticCapacityPoolProperties,
-  KnownElasticServiceLevel,
   ElasticServiceLevel,
   ElasticEncryptionConfiguration,
-  KnownElasticPoolEncryptionKeySource,
   ElasticPoolEncryptionKeySource,
-  KnownElasticResourceAvailabilityStatus,
   ElasticResourceAvailabilityStatus,
   ElasticCapacityPoolUpdate,
   ElasticCapacityPoolUpdateProperties,
   ChangeZoneRequest,
   CheckElasticVolumeFilePathAvailabilityRequest,
   CheckElasticResourceAvailabilityResponse,
-  KnownCheckElasticResourceAvailabilityStatus,
   CheckElasticResourceAvailabilityStatus,
-  KnownCheckElasticResourceAvailabilityReason,
   CheckElasticResourceAvailabilityReason,
   ElasticVolume,
   ElasticVolumeProperties,
   ElasticExportPolicy,
   ElasticExportPolicyRule,
-  KnownElasticUnixAccessRule,
   ElasticUnixAccessRule,
-  KnownElasticNfsv3Access,
   ElasticNfsv3Access,
-  KnownElasticNfsv4Access,
   ElasticNfsv4Access,
-  KnownElasticRootAccess,
   ElasticRootAccess,
-  KnownElasticProtocolType,
   ElasticProtocolType,
   ElasticMountTargetProperties,
   ElasticVolumeDataProtectionProperties,
   ElasticVolumeSnapshotProperties,
   ElasticVolumeBackupProperties,
-  KnownElasticVolumePolicyEnforcement,
   ElasticVolumePolicyEnforcement,
-  KnownSnapshotDirectoryVisibility,
   SnapshotDirectoryVisibility,
   ElasticSmbProperties,
-  KnownElasticSmbEncryption,
   ElasticSmbEncryption,
-  KnownElasticVolumeRestorationState,
   ElasticVolumeRestorationState,
   ElasticVolumeUpdate,
   ElasticVolumeUpdateProperties,
@@ -298,10 +237,8 @@ export {
   ElasticSnapshotPolicyHourlySchedule,
   ElasticSnapshotPolicyDailySchedule,
   ElasticSnapshotPolicyWeeklySchedule,
-  KnownDayOfWeek,
   DayOfWeek,
   ElasticSnapshotPolicyMonthlySchedule,
-  KnownPolicyStatus,
   PolicyStatus,
   ElasticSnapshotPolicyUpdate,
   ElasticSnapshotPolicyUpdateProperties,
@@ -310,21 +247,16 @@ export {
   ElasticBackupVaultUpdate,
   ElasticBackupPolicy,
   ElasticBackupPolicyProperties,
-  KnownElasticBackupPolicyState,
   ElasticBackupPolicyState,
   ElasticBackupPolicyUpdate,
   ElasticBackupPolicyUpdateProperties,
   ElasticBackup,
   ElasticBackupProperties,
-  KnownElasticBackupType,
   ElasticBackupType,
-  KnownSnapshotUsage,
   SnapshotUsage,
-  KnownVolumeSize,
   VolumeSize,
   ActiveDirectoryConfig,
   ActiveDirectoryConfigProperties,
-  KnownActiveDirectoryStatus,
   ActiveDirectoryStatus,
   SecretPassword,
   SecretPasswordKeyVaultProperties,
@@ -333,22 +265,25 @@ export {
   ActiveDirectoryConfigUpdateProperties,
   RegionInfoResource,
   RegionInfo,
-  KnownRegionStorageToNetworkProximity,
   RegionStorageToNetworkProximity,
   RegionInfoAvailabilityZoneMappingsItem,
   NetAppAccount,
   AccountProperties,
   ActiveDirectory,
   LdapSearchScopeOpt,
+  EntraIdConfig,
+  EntraIdAkvConfig,
   AccountEncryption,
   KeyVaultProperties,
-  KnownKeyVaultStatus,
   KeyVaultStatus,
   EncryptionIdentity,
-  KnownMultiAdStatus,
   MultiAdStatus,
   LdapConfiguration,
   NetAppAccountPatch,
+  AccountPropertiesPatch,
+  EntraIdConfigPatch,
+  EntraIdAkvConfigPatch,
+  LdapConfigurationPatch,
   EncryptionTransitionRequest,
   GetKeyVaultStatusResponse,
   GetKeyVaultStatusResponseProperties,
@@ -357,9 +292,7 @@ export {
   BackupsMigrationRequest,
   CapacityPool,
   PoolProperties,
-  KnownQosType,
   QosType,
-  KnownEncryptionType,
   EncryptionType,
   CapacityPoolPatch,
   PoolPatchProperties,
@@ -371,28 +304,112 @@ export {
   SubvolumeModel,
   SubvolumeModelProperties,
   ResourceNameAvailabilityRequest,
-  KnownCheckNameResourceTypes,
   CheckNameResourceTypes,
   CheckAvailabilityResponse,
-  KnownInAvailabilityReasonType,
   InAvailabilityReasonType,
   FilePathAvailabilityRequest,
   QuotaAvailabilityRequest,
-  KnownCheckQuotaNameResourceTypes,
   CheckQuotaNameResourceTypes,
   QueryNetworkSiblingSetRequest,
   NetworkSiblingSet,
-  KnownNetworkSiblingSetProvisioningState,
   NetworkSiblingSetProvisioningState,
   NicInfo,
   UpdateNetworkSiblingSetRequest,
   UsageResult,
   UsageName,
   UsageProperties,
+} from "./models/index.js";
+export {
+  KnownMetricAggregationType,
+  KnownCreatedByType,
+  KnownApplicationType,
+  KnownServiceLevel,
+  KnownChownMode,
+  KnownNetworkFeatures,
+  KnownVolumeStorageToNetworkProximity,
+  KnownEndpointType,
+  KnownReplicationSchedule,
+  KnownReplicationType,
+  KnownExternalReplicationSetupStatus,
+  KnownMirrorState,
+  KnownVolumeReplicationRelationshipStatus,
+  KnownDesiredRansomwareProtectionState,
+  KnownActualRansomwareProtectionState,
+  KnownAcceptGrowCapacityPoolForShortTermCloneSplit,
+  KnownSecurityStyle,
+  KnownSmbAccessBasedEnumeration,
+  KnownSmbNonBrowsable,
+  KnownEncryptionKeySource,
+  KnownLdapServerType,
+  KnownCoolAccessRetrievalPolicy,
+  KnownCoolAccessTieringPolicy,
+  KnownFileAccessLogs,
+  KnownAvsDataStore,
+  KnownEnableSubvolumes,
+  KnownLargeVolumeType,
+  KnownVolumeLanguage,
+  KnownBreakthroughMode,
+  KnownBackupType,
+  KnownVolumeBackupRelationshipStatus,
+  KnownVolumeRestoreRelationshipStatus,
+  KnownExclude,
+  KnownReplicationMirrorState,
+  KnownQuotaType,
+  KnownNetAppProvisioningState,
+  KnownRansomwareReportState,
+  KnownRansomwareReportSeverity,
+  KnownRansomwareSuspectResolution,
+  KnownCredentialsStatus,
+  KnownOnCertificateConflictAction,
+  KnownBucketPermissions,
+  KnownBucketPatchPermissions,
+  KnownProtocolTypes,
+  KnownCacheProvisioningState,
+  KnownCacheLifeCycleState,
+  KnownKerberosState,
+  KnownSmbEncryptionState,
+  KnownEncryptionState,
+  KnownLdapState,
+  KnownCifsChangeNotifyState,
+  KnownGlobalFileLockingState,
+  KnownEnableWriteBackState,
+  KnownKeySource,
+  KnownElasticKeyVaultStatus,
+  KnownManagedServiceIdentityType,
+  KnownElasticServiceLevel,
+  KnownElasticPoolEncryptionKeySource,
+  KnownElasticResourceAvailabilityStatus,
+  KnownCheckElasticResourceAvailabilityStatus,
+  KnownCheckElasticResourceAvailabilityReason,
+  KnownElasticUnixAccessRule,
+  KnownElasticNfsv3Access,
+  KnownElasticNfsv4Access,
+  KnownElasticRootAccess,
+  KnownElasticProtocolType,
+  KnownElasticVolumePolicyEnforcement,
+  KnownSnapshotDirectoryVisibility,
+  KnownElasticSmbEncryption,
+  KnownElasticVolumeRestorationState,
+  KnownDayOfWeek,
+  KnownPolicyStatus,
+  KnownElasticBackupPolicyState,
+  KnownElasticBackupType,
+  KnownSnapshotUsage,
+  KnownVolumeSize,
+  KnownActiveDirectoryStatus,
+  KnownRegionStorageToNetworkProximity,
+  KnownKeyVaultStatus,
+  KnownMultiAdStatus,
+  KnownQosType,
+  KnownEncryptionType,
+  KnownCheckNameResourceTypes,
+  KnownInAvailabilityReasonType,
+  KnownCheckQuotaNameResourceTypes,
+  KnownNetworkSiblingSetProvisioningState,
   KnownVersions,
 } from "./models/index.js";
-export { NetAppManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { NetAppManagementClientOptionalParams } from "./api/index.js";
+export type {
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -404,7 +421,7 @@ export {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "./api/accounts/index.js";
-export {
+export type {
   ActiveDirectoryConfigsListBySubscriptionOptionalParams,
   ActiveDirectoryConfigsListByResourceGroupOptionalParams,
   ActiveDirectoryConfigsDeleteOptionalParams,
@@ -412,14 +429,14 @@ export {
   ActiveDirectoryConfigsCreateOrUpdateOptionalParams,
   ActiveDirectoryConfigsGetOptionalParams,
 } from "./api/activeDirectoryConfigs/index.js";
-export {
+export type {
   BackupPoliciesListOptionalParams,
   BackupPoliciesDeleteOptionalParams,
   BackupPoliciesUpdateOptionalParams,
   BackupPoliciesCreateOptionalParams,
   BackupPoliciesGetOptionalParams,
 } from "./api/backupPolicies/index.js";
-export {
+export type {
   BackupsGetVolumeLatestRestoreStatusOptionalParams,
   BackupsGetLatestStatusOptionalParams,
   BackupsListByVaultOptionalParams,
@@ -428,17 +445,19 @@ export {
   BackupsCreateOptionalParams,
   BackupsGetOptionalParams,
 } from "./api/backups/index.js";
-export { BackupsUnderAccountMigrateBackupsOptionalParams } from "./api/backupsUnderAccount/index.js";
-export { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./api/backupsUnderBackupVault/index.js";
-export { BackupsUnderVolumeMigrateBackupsOptionalParams } from "./api/backupsUnderVolume/index.js";
-export {
+export type { BackupsUnderAccountMigrateBackupsOptionalParams } from "./api/backupsUnderAccount/index.js";
+export type { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./api/backupsUnderBackupVault/index.js";
+export type { BackupsUnderVolumeMigrateBackupsOptionalParams } from "./api/backupsUnderVolume/index.js";
+export type {
   BackupVaultsListByNetAppAccountOptionalParams,
   BackupVaultsDeleteOptionalParams,
   BackupVaultsUpdateOptionalParams,
   BackupVaultsCreateOrUpdateOptionalParams,
   BackupVaultsGetOptionalParams,
 } from "./api/backupVaults/index.js";
-export {
+export type {
+  BucketsRefreshCertificateOptionalParams,
+  BucketsGenerateAkvCredentialsOptionalParams,
   BucketsGenerateCredentialsOptionalParams,
   BucketsListOptionalParams,
   BucketsDeleteOptionalParams,
@@ -446,7 +465,8 @@ export {
   BucketsCreateOrUpdateOptionalParams,
   BucketsGetOptionalParams,
 } from "./api/buckets/index.js";
-export {
+export type {
+  CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
   CachesListByCapacityPoolsOptionalParams,
@@ -455,7 +475,7 @@ export {
   CachesCreateOrUpdateOptionalParams,
   CachesGetOptionalParams,
 } from "./api/caches/index.js";
-export {
+export type {
   ElasticAccountsListBySubscriptionOptionalParams,
   ElasticAccountsListByResourceGroupOptionalParams,
   ElasticAccountsDeleteOptionalParams,
@@ -463,28 +483,28 @@ export {
   ElasticAccountsCreateOrUpdateOptionalParams,
   ElasticAccountsGetOptionalParams,
 } from "./api/elasticAccounts/index.js";
-export {
+export type {
   ElasticBackupPoliciesListByElasticAccountOptionalParams,
   ElasticBackupPoliciesDeleteOptionalParams,
   ElasticBackupPoliciesUpdateOptionalParams,
   ElasticBackupPoliciesCreateOrUpdateOptionalParams,
   ElasticBackupPoliciesGetOptionalParams,
 } from "./api/elasticBackupPolicies/index.js";
-export {
+export type {
   ElasticBackupsListByVaultOptionalParams,
   ElasticBackupsDeleteOptionalParams,
   ElasticBackupsUpdateOptionalParams,
   ElasticBackupsCreateOrUpdateOptionalParams,
   ElasticBackupsGetOptionalParams,
 } from "./api/elasticBackups/index.js";
-export {
+export type {
   ElasticBackupVaultsListByElasticAccountOptionalParams,
   ElasticBackupVaultsDeleteOptionalParams,
   ElasticBackupVaultsUpdateOptionalParams,
   ElasticBackupVaultsCreateOrUpdateOptionalParams,
   ElasticBackupVaultsGetOptionalParams,
 } from "./api/elasticBackupVaults/index.js";
-export {
+export type {
   ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams,
   ElasticCapacityPoolsChangeZoneOptionalParams,
   ElasticCapacityPoolsListByElasticAccountOptionalParams,
@@ -493,7 +513,7 @@ export {
   ElasticCapacityPoolsCreateOrUpdateOptionalParams,
   ElasticCapacityPoolsGetOptionalParams,
 } from "./api/elasticCapacityPools/index.js";
-export {
+export type {
   ElasticSnapshotPoliciesListElasticVolumesOptionalParams,
   ElasticSnapshotPoliciesListByElasticAccountOptionalParams,
   ElasticSnapshotPoliciesDeleteOptionalParams,
@@ -501,13 +521,13 @@ export {
   ElasticSnapshotPoliciesCreateOrUpdateOptionalParams,
   ElasticSnapshotPoliciesGetOptionalParams,
 } from "./api/elasticSnapshotPolicies/index.js";
-export {
+export type {
   ElasticSnapshotsListByElasticVolumeOptionalParams,
   ElasticSnapshotsDeleteOptionalParams,
   ElasticSnapshotsCreateOrUpdateOptionalParams,
   ElasticSnapshotsGetOptionalParams,
 } from "./api/elasticSnapshots/index.js";
-export {
+export type {
   ElasticVolumesRevertOptionalParams,
   ElasticVolumesListByElasticPoolOptionalParams,
   ElasticVolumesDeleteOptionalParams,
@@ -515,7 +535,7 @@ export {
   ElasticVolumesCreateOrUpdateOptionalParams,
   ElasticVolumesGetOptionalParams,
 } from "./api/elasticVolumes/index.js";
-export {
+export type {
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceQueryNetworkSiblingSetOptionalParams,
   NetAppResourceQueryRegionInfoOptionalParams,
@@ -523,36 +543,36 @@ export {
   NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppResourceCheckNameAvailabilityOptionalParams,
 } from "./api/netAppResource/index.js";
-export {
+export type {
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsGetOptionalParams,
 } from "./api/netAppResourceQuotaLimits/index.js";
-export {
+export type {
   NetAppResourceQuotaLimitsAccountListOptionalParams,
   NetAppResourceQuotaLimitsAccountGetOptionalParams,
 } from "./api/netAppResourceQuotaLimitsAccount/index.js";
-export {
+export type {
   NetAppResourceRegionInfosListOptionalParams,
   NetAppResourceRegionInfosGetOptionalParams,
 } from "./api/netAppResourceRegionInfos/index.js";
-export {
+export type {
   NetAppResourceUsagesGetOptionalParams,
   NetAppResourceUsagesListOptionalParams,
 } from "./api/netAppResourceUsages/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PoolsListOptionalParams,
   PoolsDeleteOptionalParams,
   PoolsUpdateOptionalParams,
   PoolsCreateOrUpdateOptionalParams,
   PoolsGetOptionalParams,
 } from "./api/pools/index.js";
-export {
+export type {
   RansomwareReportsClearSuspectsOptionalParams,
   RansomwareReportsListOptionalParams,
   RansomwareReportsGetOptionalParams,
 } from "./api/ransomwareReports/index.js";
-export {
+export type {
   SnapshotPoliciesListVolumesOptionalParams,
   SnapshotPoliciesListOptionalParams,
   SnapshotPoliciesDeleteOptionalParams,
@@ -560,7 +580,7 @@ export {
   SnapshotPoliciesCreateOptionalParams,
   SnapshotPoliciesGetOptionalParams,
 } from "./api/snapshotPolicies/index.js";
-export {
+export type {
   SnapshotsRestoreFilesOptionalParams,
   SnapshotsListOptionalParams,
   SnapshotsDeleteOptionalParams,
@@ -568,7 +588,7 @@ export {
   SnapshotsCreateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "./api/snapshots/index.js";
-export {
+export type {
   SubvolumesGetMetadataOptionalParams,
   SubvolumesListByVolumeOptionalParams,
   SubvolumesDeleteOptionalParams,
@@ -576,20 +596,20 @@ export {
   SubvolumesCreateOptionalParams,
   SubvolumesGetOptionalParams,
 } from "./api/subvolumes/index.js";
-export {
+export type {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "./api/volumeGroups/index.js";
-export {
+export type {
   VolumeQuotaRulesListByVolumeOptionalParams,
   VolumeQuotaRulesDeleteOptionalParams,
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesCreateOptionalParams,
   VolumeQuotaRulesGetOptionalParams,
 } from "./api/volumeQuotaRules/index.js";
-export {
+export type {
   VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
@@ -619,7 +639,7 @@ export {
   VolumesCreateOrUpdateOptionalParams,
   VolumesGetOptionalParams,
 } from "./api/volumes/index.js";
-export {
+export type {
   AccountsOperations,
   ActiveDirectoryConfigsOperations,
   BackupPoliciesOperations,
@@ -653,5 +673,6 @@ export {
   VolumeQuotaRulesOperations,
   VolumesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

@@ -3,21 +3,20 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates a token with the specified parameters.
+ * This sample demonstrates how to updates a token with the specified parameters.
  *
- * @summary Updates a token with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/TokenUpdate.json
+ * @summary updates a token with the specified parameters.
+ * x-ms-original-file: 2026-01-01-preview/TokenUpdate.json
  */
 async function tokenUpdate() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const tokenName = "myToken";
-  const tokenUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.tokens.update("myResourceGroup", "myRegistry", "myToken", {
+    scopeMapId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scopeMaps/myNewScopeMap",
     credentials: {
       certificates: [
         {
@@ -27,17 +26,7 @@ async function tokenUpdate() {
         },
       ],
     },
-    scopeMapId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scopeMaps/myNewScopeMap",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tokens.beginUpdateAndWait(
-    resourceGroupName,
-    registryName,
-    tokenName,
-    tokenUpdateParameters,
-  );
+  });
   console.log(result);
 }
 

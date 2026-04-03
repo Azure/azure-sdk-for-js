@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ConnectedCacheClient } from "@azure/arm-connectedcache";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to this api gets the information about all enterprise mcc customer resources under the given subscription and resource group
  *
  * @summary this api gets the information about all enterprise mcc customer resources under the given subscription and resource group
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCustomers_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCustomers_ListByResourceGroup_MaximumSet_Gen.json
  */
-
-import { ConnectedCacheClient } from "@azure/arm-connectedcache";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function enterpriseMccCustomersListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

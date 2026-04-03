@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity": ["./dist/browser/index.d.ts"],
+      "@azure/identity/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    },
+    "customConditions": ["browser"],
+    "types": []
+  },
+  "include": ["./test/internal/**/*.ts", "./test/*.ts"],
+  "exclude": ["./src", "./test/**/node", "./test/stress", "./test/snippets.spec.ts"]
+}

@@ -3,8 +3,8 @@
 
 export { listByVirtualMachineInstance, $delete, create, get } from "./operations.js";
 export {
-  GuestAgentsListByVirtualMachineInstanceOptionalParams,
-  GuestAgentsDeleteOptionalParams,
-  GuestAgentsCreateOptionalParams,
-  GuestAgentsGetOptionalParams,
+  type GuestAgentsListByVirtualMachineInstanceOptionalParams,
+  type GuestAgentsDeleteOptionalParams,
+  type GuestAgentsCreateOptionalParams,
+  type GuestAgentsGetOptionalParams,
 } from "./options.js";

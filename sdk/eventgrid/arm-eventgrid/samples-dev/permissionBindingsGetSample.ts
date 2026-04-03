@@ -1,31 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get properties of a permission binding.
- *
- * @summary Get properties of a permission binding.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PermissionBindings_Get.json
- */
-
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get properties of a permission binding.
+ *
+ * @summary get properties of a permission binding.
+ * x-ms-original-file: 2025-07-15-preview/PermissionBindings_Get.json
+ */
 async function permissionBindingsGet(): Promise<void> {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
-  const resourceGroupName =
-    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
-  const namespaceName = "exampleNamespaceName1";
-  const permissionBindingName = "examplePermissionBindingName1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.permissionBindings.get(
-    resourceGroupName,
-    namespaceName,
-    permissionBindingName,
+    "examplerg",
+    "exampleNamespaceName1",
+    "examplePermissionBindingName1",
   );
   console.log(result);
 }

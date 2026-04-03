@@ -3,28 +3,22 @@
 
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deactivates the connected registry instance.
+ * This sample demonstrates how to deactivates the connected registry instance.
  *
- * @summary Deactivates the connected registry instance.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2025-11-01/examples/ConnectedRegistryDeactivate.json
+ * @summary deactivates the connected registry instance.
+ * x-ms-original-file: 2026-01-01-preview/ConnectedRegistryDeactivate.json
  */
 async function connectedRegistryDeactivate() {
-  const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
-  const registryName = "myRegistry";
-  const connectedRegistryName = "myConnectedRegistry";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.connectedRegistries.beginDeactivateAndWait(
-    resourceGroupName,
-    registryName,
-    connectedRegistryName,
+  await client.connectedRegistries.deactivate(
+    "myResourceGroup",
+    "myRegistry",
+    "myConnectedRegistry",
   );
-  console.log(result);
 }
 
 async function main() {

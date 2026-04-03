@@ -1,0 +1,7 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/sharedLimits": "./src/api/sharedLimits/index.ts"
+  "./api/guestSubscriptions": "./src/api/guestSubscriptions/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

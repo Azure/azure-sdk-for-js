@@ -1,6 +1,6 @@
 # Release History
 
-## 0.3.3 (Unreleased)
+## 0.3.5 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,26 @@
 
 ### Bugs Fixed
 
+- Request headers are no longer included in proxy agent's additional headers.
+
 ### Other Changes
+
+## 0.3.4 (2026-03-05)
+
+### Features Added
+
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+- Support function type and `Blob` type for request body. ([#37300](https://github.com/Azure/azure-sdk-for-js/pull/37300), [#37424](https://github.com/Azure/azure-sdk-for-js/pull/37424))
+
+### Bugs Fixed
+
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
+## 0.3.3 (2026-02-05)
+
+### Bugs Fixed
+
+- Fixed an issue where setting `content-type` header was ignored when the request has no body. [#37181](https://github.com/Azure/azure-sdk-for-js/pull/37181)
 
 ## 0.3.2 (2025-11-06)
 

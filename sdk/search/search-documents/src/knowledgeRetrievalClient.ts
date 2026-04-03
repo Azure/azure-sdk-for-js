@@ -5,27 +5,30 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
-} from "./generated/knowledgeBase/index.js";
-import { SearchClient as GeneratedClient } from "./generated/knowledgeBase/searchClient.js";
+} from "./models/azure/search/documents/knowledgeBases/index.js";
+import type { KnowledgeBaseRetrievalClientOptionalParams } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
+import { KnowledgeBaseRetrievalClient as GeneratedClient } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 import type { RetrieveKnowledgeOptions } from "./knowledgeBaseModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { tracingClient } from "./tracing.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface KnowledgeRetrievalClientOptions extends ExtendedCommonClientOptions {
+export interface KnowledgeRetrievalClientOptions extends ClientOptions {
   /**
    * The service version to use when communicating with the service.
    */
@@ -100,8 +103,9 @@ export class KnowledgeRetrievalClient {
     this.endpoint = endpoint;
     this.knowledgeBaseName = knowledgeBaseName;
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const internalClientPipelineOptions: KnowledgeBaseRetrievalClientOptionalParams = {
       ...options,
+      apiVersion: options.serviceVersion ?? utils.defaultServiceVersion,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -119,14 +123,12 @@ export class KnowledgeRetrievalClient {
 
     this.serviceVersion = options.serviceVersion ?? utils.defaultServiceVersion;
 
-    this.client = new GeneratedClient(
-      this.endpoint,
-      this.knowledgeBaseName,
-      this.serviceVersion,
-      internalClientPipelineOptions,
-    );
+    this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
 
     this.pipeline = this.client.pipeline;
+
+    // Replaced with a custom policy below
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -145,23 +147,14 @@ export class KnowledgeRetrievalClient {
 
   public async retrieveKnowledge(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
-    options?: RetrieveKnowledgeOptions,
+    options: RetrieveKnowledgeOptions = {},
   ): Promise<KnowledgeBaseRetrievalResponse> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "KnowledgeRetrievalClient-retrieveKnowledge",
       options,
+      async (updatedOptions) => {
+        return this.client.retrieve(this.knowledgeBaseName, retrievalRequest, updatedOptions);
+      },
     );
-
-    try {
-      return await this.client.knowledgeRetrieval.retrieve(retrievalRequest, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

@@ -5,7 +5,7 @@ import type { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-met
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { AzureMonitorExporterOptions } from "../../config.js";
-import type { TelemetryItem as Envelope } from "../../generated/index.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../../generated/index.js";
 import { resourceMetricsToEnvelope } from "../../utils/metricUtils.js";
 import { AzureMonitorBaseExporter } from "../base.js";
 
@@ -59,8 +59,9 @@ export class AzureMonitorStatsbeatExporter
   private filterZeroValueMetrics(envelopes: Envelope[]): Envelope[] {
     return envelopes.filter((envelope) => {
       // Check if this is a metric envelope
-      if (envelope.data?.baseType === "MetricData" && envelope.data?.baseData?.metrics) {
-        const metrics = envelope.data.baseData.metrics;
+      if (envelope.data?.baseType === "MetricData") {
+        const baseData = envelope.data?.baseData as MetricsData;
+        const metrics = baseData.metrics;
         // Filter out metrics where all values are zero
         return metrics.some((metric: any) => metric.value !== 0);
       }
@@ -90,7 +91,7 @@ export class AzureMonitorStatsbeatExporter
     const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
 
     // Supress tracing until OpenTelemetry Metrics SDK support it
-    context.with(suppressTracing(context.active()), async () => {
+    await context.with(suppressTracing(context.active()), async () => {
       const sender = await this._getSender();
       resultCallback(await sender.exportEnvelopes(filteredEnvelopes));
     });
