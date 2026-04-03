@@ -5,9 +5,9 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to revoke a namespace device.
  *
- * @summary a long-running resource action.
+ * @summary revoke a namespace device.
  * x-ms-original-file: 2026-03-01-preview/NamespaceDevices_Revoke.json
  */
 async function namespaceDevicesRevoke(): Promise<void> {
@@ -20,9 +20,9 @@ async function namespaceDevicesRevoke(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to revoke a namespace device (failure case).
  *
- * @summary a long-running resource action.
+ * @summary revoke a namespace device (failure case).
  * x-ms-original-file: 2026-03-01-preview/NamespaceDevices_RevokeFailure.json
  */
 async function namespaceDevicesRevokeFailure(): Promise<void> {

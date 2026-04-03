@@ -5,9 +5,9 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to synchronize credentials.
  *
- * @summary a long-running resource action.
+ * @summary synchronize credentials.
  * x-ms-original-file: 2026-03-01-preview/Credentials_Synchronize.json
  */
 async function credentialsSynchronize(): Promise<void> {
