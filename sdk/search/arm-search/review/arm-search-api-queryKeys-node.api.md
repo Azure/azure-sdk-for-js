@@ -18,16 +18,19 @@ export function listBySearchService(context: SearchManagementContext, resourceGr
 
 // @public
 export interface QueryKeysCreateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysDeleteOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysListBySearchServiceOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

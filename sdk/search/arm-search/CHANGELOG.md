@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.2 (2026-04-02)
+## 4.0.0-beta.2 (2026-04-03)
 Compared with version 3.3.0
 
 ### Features Added
@@ -43,7 +43,6 @@ Compared with version 3.3.0
   - Operation Services.beginCreateOrUpdate has a new signature
   - Operation Services.beginCreateOrUpdateAndWait has a new signature
   - Operation Services.beginUpgradeAndWait has a new signature
-  - Operation Services.checkNameAvailability has a new signature
   - Operation Services.get has a new signature
   - Operation Services.update has a new signature
   - Removed Type Alias SharedPrivateLinkResourceAsyncOperationResult

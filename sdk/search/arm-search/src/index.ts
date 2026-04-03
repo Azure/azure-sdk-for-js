@@ -14,6 +14,7 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
+  SearchManagementRequestOptions,
   QuotaUsageResult,
   QuotaUsageResultName,
   CloudError,
@@ -99,7 +100,6 @@ export type {
   ShareablePrivateLinkResourceType,
   ShareablePrivateLinkResourceProperties,
   AdminKeyKind,
-  SearchManagementRequestOptions,
 } from "./models/index.js";
 export {
   KnownSkuName,
