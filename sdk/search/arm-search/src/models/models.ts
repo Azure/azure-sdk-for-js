@@ -9,6 +9,18 @@ import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** model interface SearchManagementRequestOptions */
+export interface SearchManagementRequestOptions {
+  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
+  clientRequestId?: string;
+}
+
+export function searchManagementRequestOptionsSerializer(
+  _item: SearchManagementRequestOptions,
+): any {
+  return {};
+}
+
 /** Describes the quota usage for a particular SKU. */
 export interface QuotaUsageResult {
   /** The resource ID of the quota usage SKU endpoint for Microsoft.Search provider. */
@@ -518,8 +530,8 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -545,8 +557,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1984,8 +1996,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -2476,10 +2488,4 @@ export function _searchServiceUpdatePropertiesDeserializer(item: any) {
       ? item["serviceUpgradedAt"]
       : new Date(item["serviceUpgradedAt"]),
   };
-}
-
-/** Parameter group */
-export interface SearchManagementRequestOptions {
-  /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
-  clientRequestId?: string;
 }

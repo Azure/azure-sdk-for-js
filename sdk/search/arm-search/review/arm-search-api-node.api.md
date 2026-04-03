@@ -29,6 +29,7 @@ export function usageBySubscriptionSku(context: SearchManagementContext, locatio
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

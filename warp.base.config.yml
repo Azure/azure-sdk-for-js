@@ -1,3 +1,7 @@
+# Base warp configuration for Azure SDK packages.
+# Individual packages extend this with:
+#   extends: ../../../warp.base.config.yml
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
