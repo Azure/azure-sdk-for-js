@@ -9,7 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceregistry)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples-dev)
 
 ## Getting started
 
@@ -99,7 +99,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples-dev) directory for detailed examples on how to use this library.
 
 ## Contributing
 
