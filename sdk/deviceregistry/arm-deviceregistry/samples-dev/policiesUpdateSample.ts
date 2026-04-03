@@ -15,7 +15,9 @@ async function updatePolicies(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const result = await client.policies.update("rgdeviceregistry", "mynamespace", "mypolicy", {
-    properties: { certificate: { leafCertificateConfiguration: { validityPeriodInDays: 10 } } },
+    properties: {
+      certificate: { leafCertificateConfiguration: { validityPeriodInDays: 10 } } as any,
+    },
   });
   console.log(result);
 }
