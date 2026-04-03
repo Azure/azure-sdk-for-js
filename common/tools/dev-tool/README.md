@@ -18,13 +18,11 @@ It provides a place to centralize scripts, resources, and processes for developm
 - `admin`	run administrative tasks for the repository
   - `create-migration` scaffolds a new migration
   - `stage-migrations` stage migration passes over the whole monorepo
-  - `migrate-snippets` migrates a package to the latest snippets standards
   - `migrate-source` migrates a package to the latest source code standards
   - `list` list monorepo elements
     - `packages` list packages defined in the monorepo
     - `service-folders`	list service folders in the monorepo
-    - `esm-migrations` list the status of the ESM migrations
-    - `snippets-migrations` list the status of the snippets migrations
+    - `typespec-migrations` list the status of the TypeSpec migrations
 - `check` (run checks on the package). See [Checks](#checks), below, for more information.
   - `--tag=local` to run checks that should pass before pushing your code
   - `--tag=ci` to run checks that should pass as part of the CI pipeline
@@ -60,8 +58,12 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `update-snippets`	find README and TSDoc snippets throughout the package and update their contents.
   - `build-package`	build a package for production
   - `vendored` run dev-tool's dependency commands
+- `migrate` manage and run code migrations
+- `customization` applies customizations to the SDK
+  - `init` sets up a package for customization by copying src/ to generated/
+  - `apply` applies existing customizations to new generated code
 
-The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
+The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `run` command above, issue the command `npx dev-tool package run --help`.
 
 ## Extending the Tool
 
