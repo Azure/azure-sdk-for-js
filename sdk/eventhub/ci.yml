@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/eventhub/
+      - common/tools/warp/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid
@@ -23,6 +24,7 @@ pr:
   paths:
     include:
       - sdk/eventhub/
+      - common/tools/warp/
     exclude:
       - sdk/eventhub/ci.mgmt.yml
       - sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid

@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - sdk/storage/
+      - common/tools/warp/
     exclude:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
@@ -26,6 +27,7 @@ pr:
   paths:
     include:
       - sdk/storage/
+      - common/tools/warp/
     exclude:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/

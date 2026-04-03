@@ -12,6 +12,7 @@ trigger:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
       - sdk/batch/batch
+      - common/tools/warp/
 
 pr:
   branches:
@@ -26,6 +27,7 @@ pr:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
       - sdk/batch/batch
+      - common/tools/warp/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
