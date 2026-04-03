@@ -58,6 +58,7 @@ export interface AdminKeyResult {
 
 // @public
 export interface AdminKeysGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -69,6 +70,7 @@ export interface AdminKeysOperations {
 
 // @public
 export interface AdminKeysRegenerateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -514,16 +516,19 @@ export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnection
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface PrivateEndpointConnectionsListByServiceOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -537,6 +542,7 @@ export interface PrivateEndpointConnectionsOperations {
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -555,6 +561,7 @@ export interface PrivateLinkResourceProperties {
 
 // @public
 export interface PrivateLinkResourcesListSupportedOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -603,16 +610,19 @@ export interface QueryKey {
 
 // @public
 export interface QueryKeysCreateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysDeleteOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface QueryKeysListBySearchServiceOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -805,32 +815,38 @@ export interface SearchServiceUpdate extends Resource {
 
 // @public
 export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface ServicesDeleteOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -844,7 +860,7 @@ export interface ServicesOperations {
     beginUpgrade: (resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<SearchService>, SearchService>>;
     // @deprecated (undocumented)
     beginUpgradeAndWait: (resourceGroupName: string, searchServiceName: string, options?: ServicesUpgradeOptionalParams) => Promise<SearchService>;
-    checkNameAvailability: (checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: ServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
+    checkNameAvailability: (name: string, options?: ServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityOutput>;
     createOrUpdate: (resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SearchService>, SearchService>;
     delete: (resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, searchServiceName: string, options?: ServicesGetOptionalParams) => Promise<SearchService>;
@@ -856,6 +872,7 @@ export interface ServicesOperations {
 
 // @public
 export interface ServicesUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -900,23 +917,27 @@ export type SharedPrivateLinkResourceProvisioningState = string;
 
 // @public
 export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    // (undocumented)
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
+    // (undocumented)
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
@@ -1010,11 +1031,13 @@ export type UpgradeAvailable = string;
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface UsagesListBySubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

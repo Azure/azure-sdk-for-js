@@ -1,8 +1,5 @@
-# warp.config.yml — build configuration
-
+extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/schemaVersions": "src/api/schemaVersions/index.ts"
   "./api/schemas": "src/api/schemas/index.ts"
@@ -20,20 +17,3 @@ exports:
   "./api/operationStatus": "src/api/operationStatus/index.ts"
   "./api/operations": "src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-
-targets:
-  - name: browser
-    tsconfig: "../../../tsconfig.src.browser.json"
-    polyfillSuffix: "-browser"
-
-  - name: react-native
-    tsconfig: "../../../tsconfig.src.react-native.json"
-    polyfillSuffix: "-react-native"
-
-  - name: esm
-    condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-
-  - name: commonjs
-    condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"

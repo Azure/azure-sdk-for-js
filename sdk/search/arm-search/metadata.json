@@ -2,10 +2,11 @@
   "apiVersions": {
     "Microsoft.Search": "2026-03-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.52.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Search",
     "CrossLanguageDefinitionId": {
+      "@azure/arm-search!search-management-request-options:interface": "Microsoft.Search.search-management-request-options",
       "@azure/arm-search!QuotaUsageResult:interface": "Microsoft.Search.QuotaUsageResult",
       "@azure/arm-search!QuotaUsageResultName:interface": "Microsoft.Search.QuotaUsageResultName",
       "@azure/arm-search!CloudError:interface": "Microsoft.Search.CloudError",
