@@ -44,7 +44,6 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `reset` (reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes)
   - `restore` (restore the assets, referenced by assets.json, from git)
   - `diff` (show what test recordings have changed since the last push/restore. Use `--stat` for a summary)
-  - `migrate` (migrate the recordings in the current directory to the asset sync tool)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
 - `vscode` (VS Code integration commands)
   - `recordings`
