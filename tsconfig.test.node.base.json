@@ -2,6 +2,7 @@
   "extends": ["./tsconfig.json", "./tsconfig.nonlib.json"],
   "compilerOptions": {
     "skipLibCheck": true,
+    "types": ["node"],
     "paths": {
       "$internal/*": ["./src/*"]
     },
