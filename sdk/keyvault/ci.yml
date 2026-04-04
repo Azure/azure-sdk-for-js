@@ -39,8 +39,6 @@ extends:
         safeName: azurekeyvaultcertificates
       - name: azure-keyvault-keys
         safeName: azurekeyvaultkeys
-        triggeringPaths:
-        - /common/tools/warp/
       - name: azure-keyvault-secrets
         safeName: azurekeyvaultsecrets
       - name: azure-keyvault-admin

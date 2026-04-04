@@ -34,7 +34,5 @@ extends:
     Artifacts:
       - name: azure-rest-batch
         safeName: azurerestbatch
-        triggeringPaths:
-        - /common/tools/warp/
       - name: azure-batch
         safeName: azurebatch
