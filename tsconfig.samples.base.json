@@ -1,7 +1,6 @@
 {
   "extends": ["./tsconfig", "./tsconfig.nonlib"],
   "compilerOptions": {
-    "lib": ["ES2023"],
     "types": ["node"]
   },
   "include": ["${configDir}/samples-dev"]

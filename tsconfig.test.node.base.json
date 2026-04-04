@@ -5,7 +5,6 @@
     "paths": {
       "$internal/*": ["./src/*"]
     },
-    "lib": ["ESNext"],
     "resolveJsonModule": true
   },
   "include": ["${configDir}/test", "${configDir}/src"],
