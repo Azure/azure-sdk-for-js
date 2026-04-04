@@ -102,7 +102,7 @@ describe("Receiver unit tests", () => {
         await messageReceiver2["_init"]({} as ReceiverOptions);
         assert.fail("Should throw");
       } catch (err: any) {
-        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal(err.message, "Link has been permanently closed. Not reopening.");
         assert.equal(err.name, "AbortError");
         assert.isFalse(negotiateClaimWasCalled);
       }
@@ -290,7 +290,7 @@ describe("Receiver unit tests", () => {
         await iter.next();
         assert.fail("Should have thrown");
       } catch (err: any) {
-        assert.equal("AbortError", err.name);
+        assert.equal(err.name, "AbortError");
       }
 
       await impl.close();

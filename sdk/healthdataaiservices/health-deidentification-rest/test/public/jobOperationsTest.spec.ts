@@ -74,7 +74,7 @@ describe("Batch", () => {
       assert.isNotNull(jobOutput.body.createdAt, "Job should have createdAt");
       assert.isNotNull(jobOutput.body.lastUpdatedAt, "Job should have lastUpdatedAt");
       assert.isUndefined(jobOutput.body.startedAt, "Job should not have startedAt");
-      assert.equal("NotStarted", jobOutput.body.status, "Job status should be NotStarted");
+      assert.equal(jobOutput.body.status, "NotStarted", "Job status should be NotStarted");
       assert.isUndefined(jobOutput.body.error, "Job should not have error");
       assert.isUndefined(
         jobOutput.body.customizations?.redactionFormat,
@@ -138,7 +138,7 @@ describe("Batch", () => {
       assert.isNotNull(foundJob!.createdAt, "Job should have createdAt");
       assert.isNotNull(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
       assert.isNotNull(foundJob!.startedAt, "Job should have startedAt");
-      assert.equal("NotStarted", foundJob!.status, "Job status should be NotStarted");
+      assert.equal(foundJob!.status, "NotStarted", "Job status should be NotStarted");
       assert.isUndefined(foundJob!.error, "Job should not have error");
       assert.isUndefined(
         foundJob!.customizations?.redactionFormat,
@@ -278,7 +278,7 @@ describe("Batch", () => {
       assert.equal(cancelledJob.status, "200", "Job should be canceled");
 
       const cancelledJobOutput = cancelledJob.body as DeidentificationJobOutput;
-      assert.equal("Canceled", cancelledJobOutput.status, "Job status should be Canceled");
+      assert.equal(cancelledJobOutput.status, "Canceled", "Job status should be Canceled");
 
       const deleteRequest = await client.path("/jobs/{name}", jobName).delete();
       assert.equal(deleteRequest.status, "204", "Job should be deleted");
@@ -315,7 +315,7 @@ describe("Batch", () => {
       assert.equal(createdJob.status, "404", "Job should not be found");
       const createdJobOutput = createdJob.body as ErrorResponse;
       assert.isNotNull(createdJobOutput.error, "Job should have error");
-      assert.equal("JobNotFound", createdJobOutput.error.code, "Error code should be JobNotFound");
+      assert.equal(createdJobOutput.error.code, "JobNotFound", "Error code should be JobNotFound");
       assert.isTrue(
         createdJobOutput.error!.message.length > 10,
         "Error message should be descriptive",
