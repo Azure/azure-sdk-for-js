@@ -1,0 +1,59 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - common/tools/warp/
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+
+  paths:
+    include:
+      - common/tools/warp/
+
+jobs:
+  - job: 'Warp'
+    displayName: 'Warp validation'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
+
+    pool:
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      - script: |
+          npm install -g pnpm
+        displayName: "Install Pnpm"
+
+      - script: |
+          pnpm install
+        displayName: "Install library dependencies"
+
+      - script: |
+          pnpm --filter @microsoft/warp... build
+        displayName: "Build warp"
+
+      - script: |
+          pnpm --filter @microsoft/warp... check-format
+        displayName: "Check format for warp"
+
+      - script: |
+          pnpm --filter @microsoft/warp... lint
+        displayName: "Lint warp"
+
+      - script: |
+          pnpm --filter @microsoft/warp test
+        displayName: "Run warp unit tests"
