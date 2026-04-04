@@ -25,7 +25,7 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 export interface BetaSchedulesOperations {
   /** List all schedule runs. */
   listRuns: (
-    id: string,
+    scheduleId: string,
     options?: BetaSchedulesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
@@ -36,33 +36,34 @@ export interface BetaSchedulesOperations {
   ) => Promise<ScheduleRun>;
   /** Create or update operation template. */
   createOrUpdate: (
-    id: string,
+    scheduleId: string,
     schedule: Schedule,
     options?: BetaSchedulesCreateOrUpdateOptionalParams,
   ) => Promise<Schedule>;
   /** List all schedules. */
   list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
   /** Get a schedule by id. */
-  get: (id: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
+  get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
   /** Delete a schedule. */
-  delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
+  delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
 }
 
 function _getBetaSchedules(context: AIProjectContext) {
   return {
-    listRuns: (id: string, options?: BetaSchedulesListRunsOptionalParams) =>
-      listRuns(context, id, options),
+    listRuns: (scheduleId: string, options?: BetaSchedulesListRunsOptionalParams) =>
+      listRuns(context, scheduleId, options),
     getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) =>
       getRun(context, scheduleId, runId, options),
     createOrUpdate: (
-      id: string,
+      scheduleId: string,
       schedule: Schedule,
       options?: BetaSchedulesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, id, schedule, options),
+    ) => createOrUpdate(context, scheduleId, schedule, options),
     list: (options?: BetaSchedulesListOptionalParams) => list(context, options),
-    get: (id: string, options?: BetaSchedulesGetOptionalParams) => get(context, id, options),
-    delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) =>
-      $delete(context, id, options),
+    get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) =>
+      get(context, scheduleId, options),
+    delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) =>
+      $delete(context, scheduleId, options),
   };
 }
 

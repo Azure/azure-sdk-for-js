@@ -62,7 +62,7 @@ export interface AgentsOperations {
   createVersion(
     agentName: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsCreateOptionalParams,
+    options?: AgentsCreateVersionOptionalParams,
   ): Promise<AgentVersion>;
   /** Create a new agent version from a manifest. */
   createVersion(

@@ -359,6 +359,9 @@ export type ToolUnion =
   | CustomToolParam
   | WebSearchPreviewTool
   | ApplyPatchToolParam
+  | ComputerTool
+  | NamespaceToolParam
+  | ToolSearchToolParam
   | Tool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
@@ -431,6 +434,15 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "apply_patch":
       return applyPatchToolParamSerializer(item as ApplyPatchToolParam);
+
+    case "computer":
+      return computerToolSerializer(item as ComputerTool);
+
+    case "namespace":
+      return namespaceToolParamSerializer(item as NamespaceToolParam);
+
+    case "tool_search":
+      return toolSearchToolParamSerializer(item as ToolSearchToolParam);
 
     default:
       return toolSerializer(item);
@@ -508,6 +520,15 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "apply_patch":
       return applyPatchToolParamDeserializer(item as ApplyPatchToolParam);
 
+    case "computer":
+      return computerToolDeserializer(item as ComputerTool);
+
+    case "namespace":
+      return namespaceToolParamDeserializer(item as NamespaceToolParam);
+
+    case "tool_search":
+      return toolSearchToolParamDeserializer(item as ToolSearchToolParam);
+
     default:
       return toolDeserializer(item);
   }
@@ -517,6 +538,7 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 export type ToolType =
   | "function"
   | "file_search"
+  | "computer"
   | "computer_use_preview"
   | "web_search"
   | "mcp"
@@ -525,6 +547,8 @@ export type ToolType =
   | "local_shell"
   | "shell"
   | "custom"
+  | "namespace"
+  | "tool_search"
   | "web_search_preview"
   | "apply_patch"
   | "a2a_preview"
@@ -1841,9 +1865,11 @@ export interface FunctionTool extends Tool {
   /** A description of the function tool. */
   description?: string;
   /** The parameters schema for the function. */
-  parameters: Record<string, unknown>;
+  parameters?: Record<string, unknown>;
   /** Whether the function arguments must strictly match the parameters schema. */
-  strict: boolean;
+  strict?: boolean;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -1853,6 +1879,7 @@ export function functionToolSerializer(item: FunctionTool): any {
     description: item["description"],
     parameters: item["parameters"],
     strict: item["strict"],
+    defer_loading: item["defer_loading"],
   };
 }
 
@@ -1863,6 +1890,7 @@ export function functionToolDeserializer(item: any): FunctionTool {
     description: item["description"],
     parameters: item["parameters"],
     strict: item["strict"],
+    defer_loading: item["defer_loading"],
   };
 }
 
@@ -1980,11 +2008,11 @@ export interface ComparisonFilter {
    *   - `in`: in
    *   - `nin`: not in
    */
-  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
+  type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
   /** The key to compare against the value. */
   key: string;
   /** The value to compare against the attribute key; supports string, number, or boolean types. */
-  value: string | number | boolean | ComparisonFilterValueItems[];
+  value: string | number | boolean | _ComparisonFilterValue1[];
 }
 
 export function comparisonFilterSerializer(item: ComparisonFilter): any {
@@ -2004,7 +2032,7 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
 }
 
 /** Alias for _ComparisonFilterValue */
-export type _ComparisonFilterValue = string | number | boolean | ComparisonFilterValueItems[];
+export type _ComparisonFilterValue = string | number | boolean | _ComparisonFilterValue1[];
 
 export function _comparisonFilterValueSerializer(item: _ComparisonFilterValue): any {
   return item;
@@ -2014,30 +2042,30 @@ export function _comparisonFilterValueDeserializer(item: any): _ComparisonFilter
   return item;
 }
 
-export function comparisonFilterValueItemsArraySerializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _comparisonFilterValue1ArraySerializer(
+  result: Array<_ComparisonFilterValue1>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsSerializer(item);
+    return _comparisonFilterValue1Serializer(item);
   });
 }
 
-export function comparisonFilterValueItemsArrayDeserializer(
-  result: Array<ComparisonFilterValueItems>,
+export function _comparisonFilterValue1ArrayDeserializer(
+  result: Array<_ComparisonFilterValue1>,
 ): any[] {
   return result.map((item) => {
-    return comparisonFilterValueItemsDeserializer(item);
+    return _comparisonFilterValue1Deserializer(item);
   });
 }
 
-/** Alias for ComparisonFilterValueItems */
-export type ComparisonFilterValueItems = string | number;
+/** Alias for _ComparisonFilterValue1 */
+export type _ComparisonFilterValue1 = string | number;
 
-export function comparisonFilterValueItemsSerializer(item: ComparisonFilterValueItems): any {
+export function _comparisonFilterValue1Serializer(item: _ComparisonFilterValue1): any {
   return item;
 }
 
-export function comparisonFilterValueItemsDeserializer(item: any): ComparisonFilterValueItems {
+export function _comparisonFilterValue1Deserializer(item: any): _ComparisonFilterValue1 {
   return item;
 }
 
@@ -2120,7 +2148,7 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "brow
 
 /**
  * Search the Internet for sources related to the prompt. Learn more about the
- * [web search tool](https://platform.openai.com/docs/guides/tools-web-search).
+ * [web search tool](/docs/guides/tools-web-search).
  */
 export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
@@ -2242,7 +2270,7 @@ export function webSearchConfigurationDeserializer(item: any): WebSearchConfigur
 
 /**
  * Give the model access to additional tools via remote Model Context Protocol
- * (MCP) servers. [Learn more about MCP](https://platform.openai.com/docs/guides/tools-remote-mcp).
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
  */
 export interface MCPTool extends Tool {
   /** The type of the MCP tool. Always `mcp`. */
@@ -2257,7 +2285,7 @@ export interface MCPTool extends Tool {
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
    *   `server_url` or `connector_id` must be provided. Learn more about service
-   *   connectors [here](https://platform.openai.com/docs/guides/tools-remote-mcp#connectors).
+   *   connectors [here](/docs/guides/tools-remote-mcp#connectors).
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
@@ -2291,6 +2319,8 @@ export interface MCPTool extends Tool {
   allowed_tools?: string[] | MCPToolFilter;
   /** The approval requirements for the MCP tool. */
   require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
 }
@@ -2310,6 +2340,7 @@ export function mcpToolSerializer(item: MCPTool): any {
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
 }
@@ -2329,6 +2360,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
   };
 }
@@ -2408,7 +2440,7 @@ export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   /** The model to use for image generation. */
-  model?: "gpt-image-1" | "gpt-image-1-mini";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
    *   or `auto`. Default: `auto`.
@@ -2461,6 +2493,7 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
       ? item["input_image_mask"]
       : imageGenToolInputImageMaskSerializer(item["input_image_mask"]),
     partial_images: item["partial_images"],
+    action: item["action"],
   };
 }
 
@@ -2479,10 +2512,11 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
       ? item["input_image_mask"]
       : imageGenToolInputImageMaskDeserializer(item["input_image_mask"]),
     partial_images: item["partial_images"],
+    action: item["action"],
   };
 }
 
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
 export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
@@ -2761,7 +2795,7 @@ export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkil
 
 /** model interface ContainerSkill */
 export interface ContainerSkill {
-  /** The type discriminator, always 'container'. */
+  /** The type discriminator */
   type: ContainerSkillType;
 }
 
@@ -2881,7 +2915,7 @@ export function inlineSkillSourceParamDeserializer(item: any): InlineSkillSource
   };
 }
 
-/** A custom tool that processes input using a specified format. Learn more about   [custom tools](https://platform.openai.com/docs/guides/function-calling#custom-tools) */
+/** A custom tool that processes input using a specified format. Learn more about   [custom tools](/docs/guides/function-calling#custom-tools) */
 export interface CustomToolParam extends Tool {
   /** The type of the custom tool. Always `custom`. */
   type: "custom";
@@ -2891,6 +2925,8 @@ export interface CustomToolParam extends Tool {
   description?: string;
   /** The input format for the custom tool. Default is unconstrained text. */
   format?: CustomToolParamFormatUnion;
+  /** Whether this tool should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
 }
 
 export function customToolParamSerializer(item: CustomToolParam): any {
@@ -2899,6 +2935,7 @@ export function customToolParamSerializer(item: CustomToolParam): any {
     name: item["name"],
     description: item["description"],
     format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
   };
 }
 
@@ -2910,6 +2947,7 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
     format: !item["format"]
       ? item["format"]
       : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
   };
 }
 
@@ -3013,6 +3051,7 @@ export interface WebSearchPreviewTool extends Tool {
   user_location?: ApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: SearchContextSize;
+  search_content_types?: SearchContentType[];
 }
 
 export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any {
@@ -3022,6 +3061,7 @@ export function webSearchPreviewToolSerializer(item: WebSearchPreviewTool): any 
       ? item["user_location"]
       : approximateLocationSerializer(item["user_location"]),
     search_context_size: item["search_context_size"],
+    search_content_types: item["search_content_types"],
   };
 }
 
@@ -3032,6 +3072,7 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
       ? item["user_location"]
       : approximateLocationDeserializer(item["user_location"]),
     search_context_size: item["search_context_size"],
+    search_content_types: item["search_content_types"],
   };
 }
 
@@ -3071,6 +3112,8 @@ export function approximateLocationDeserializer(item: any): ApproximateLocation 
 
 /** Type of SearchContextSize */
 export type SearchContextSize = "low" | "medium" | "high";
+/** Type of SearchContentType */
+export type SearchContentType = "text" | "image";
 
 /** Allows the assistant to create, delete, or update files using unified diffs. */
 export interface ApplyPatchToolParam extends Tool {
@@ -3088,6 +3131,161 @@ export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam 
   };
 }
 
+/** A tool that controls a virtual computer. Learn more about the [computer tool](https://platform.openai.com/docs/guides/tools-computer-use). */
+export interface ComputerTool extends Tool {
+  /** The type of the computer tool. Always `computer`. */
+  type: "computer";
+}
+
+export function computerToolSerializer(item: ComputerTool): any {
+  return { type: item["type"] };
+}
+
+export function computerToolDeserializer(item: any): ComputerTool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Groups function/custom tools under a shared namespace. */
+export interface NamespaceToolParam extends Tool {
+  /** The type of the tool. Always `namespace`. */
+  type: "namespace";
+  /** The namespace name used in tool calls (for example, `crm`). */
+  name: string;
+  /** A description of the namespace shown to the model. */
+  description: string;
+  /** The function/custom tools available inside this namespace. */
+  tools: (FunctionToolParam | CustomToolParam)[];
+}
+
+export function namespaceToolParamSerializer(item: NamespaceToolParam): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tools: _namespaceToolParamToolArraySerializer(item["tools"]),
+  };
+}
+
+export function namespaceToolParamDeserializer(item: any): NamespaceToolParam {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tools: _namespaceToolParamToolArrayDeserializer(item["tools"]),
+  };
+}
+
+export function _namespaceToolParamToolArraySerializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolSerializer(item);
+  });
+}
+
+export function _namespaceToolParamToolArrayDeserializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _NamespaceToolParamTool */
+export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
+
+export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
+  return item;
+}
+
+export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
+  return item;
+}
+
+/** model interface FunctionToolParam */
+export interface FunctionToolParam {
+  name: string;
+  description?: string;
+  parameters?: EmptyModelParam;
+  strict?: boolean;
+  type: "function";
+  /** Whether this function should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+}
+
+export function functionToolParamSerializer(item: FunctionToolParam): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+  };
+}
+
+export function functionToolParamDeserializer(item: any): FunctionToolParam {
+  return {
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+  };
+}
+
+/** model interface EmptyModelParam */
+export interface EmptyModelParam {}
+
+export function emptyModelParamSerializer(item: EmptyModelParam): any {
+  return item;
+}
+
+export function emptyModelParamDeserializer(item: any): EmptyModelParam {
+  return item;
+}
+
+/** Hosted or BYOT tool search configuration for deferred tools. */
+export interface ToolSearchToolParam extends Tool {
+  /** The type of the tool. Always `tool_search`. */
+  type: "tool_search";
+  /** Whether tool search is executed by the server or by the client. */
+  execution?: ToolSearchExecutionType;
+  description?: string;
+  parameters?: EmptyModelParam;
+}
+
+export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+  };
+}
+
+export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam {
+  return {
+    type: item["type"],
+    execution: item["execution"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+  };
+}
+
+/** Type of ToolSearchExecutionType */
+export type ToolSearchExecutionType = "server" | "client";
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -3137,6 +3335,8 @@ export type ToolChoiceParamUnion =
   | ToolChoiceWebSearchPreview20250311
   | ToolChoiceImageGeneration
   | ToolChoiceCodeInterpreter
+  | ToolChoiceComputer
+  | ToolChoiceComputerUse
   | ToolChoiceParam;
 
 export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any {
@@ -3178,6 +3378,12 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 
     case "code_interpreter":
       return toolChoiceCodeInterpreterSerializer(item as ToolChoiceCodeInterpreter);
+
+    case "computer":
+      return toolChoiceComputerSerializer(item as ToolChoiceComputer);
+
+    case "computer_use":
+      return toolChoiceComputerUseSerializer(item as ToolChoiceComputerUse);
 
     default:
       return toolChoiceParamSerializer(item);
@@ -3224,6 +3430,12 @@ export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnio
     case "code_interpreter":
       return toolChoiceCodeInterpreterDeserializer(item as ToolChoiceCodeInterpreter);
 
+    case "computer":
+      return toolChoiceComputerDeserializer(item as ToolChoiceComputer);
+
+    case "computer_use":
+      return toolChoiceComputerUseDeserializer(item as ToolChoiceComputerUse);
+
     default:
       return toolChoiceParamDeserializer(item);
   }
@@ -3242,7 +3454,9 @@ export type ToolChoiceParamType =
   | "computer_use_preview"
   | "web_search_preview_2025_03_11"
   | "image_generation"
-  | "code_interpreter";
+  | "code_interpreter"
+  | "computer"
+  | "computer_use";
 
 /** Constrains the tools available to the model to a pre-defined set. */
 export interface ToolChoiceAllowed extends ToolChoiceParam {
@@ -3495,19 +3709,53 @@ export function toolChoiceCodeInterpreterDeserializer(item: any): ToolChoiceCode
   };
 }
 
+/**
+ * Indicates that the model should use a built-in tool to generate a response.
+ * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
+ */
+export interface ToolChoiceComputer extends ToolChoiceParam {
+  type: "computer";
+}
+
+export function toolChoiceComputerSerializer(item: ToolChoiceComputer): any {
+  return { type: item["type"] };
+}
+
+export function toolChoiceComputerDeserializer(item: any): ToolChoiceComputer {
+  return {
+    type: item["type"],
+  };
+}
+
+/**
+ * Indicates that the model should use a built-in tool to generate a response.
+ * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
+ */
+export interface ToolChoiceComputerUse extends ToolChoiceParam {
+  type: "computer_use";
+}
+
+export function toolChoiceComputerUseSerializer(item: ToolChoiceComputerUse): any {
+  return { type: item["type"] };
+}
+
+export function toolChoiceComputerUseDeserializer(item: any): ToolChoiceComputerUse {
+  return {
+    type: item["type"],
+  };
+}
+
 /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
 export interface PromptAgentDefinitionTextOptions {
   /** The text format options for the prompt agent. */
-  format?: TextResponseFormatConfigurationUnion;
+  format?: TextResponseFormatUnion;
 }
 
 export function promptAgentDefinitionTextOptionsSerializer(
   item: PromptAgentDefinitionTextOptions,
 ): any {
   return {
-    format: !item["format"]
-      ? item["format"]
-      : textResponseFormatConfigurationUnionSerializer(item["format"]),
+    format: !item["format"] ? item["format"] : textResponseFormatUnionSerializer(item["format"]),
   };
 }
 
@@ -3515,9 +3763,7 @@ export function promptAgentDefinitionTextOptionsDeserializer(
   item: any,
 ): PromptAgentDefinitionTextOptions {
   return {
-    format: !item["format"]
-      ? item["format"]
-      : textResponseFormatConfigurationUnionDeserializer(item["format"]),
+    format: !item["format"] ? item["format"] : textResponseFormatUnionDeserializer(item["format"]),
   };
 }
 
@@ -3525,80 +3771,64 @@ export function promptAgentDefinitionTextOptionsDeserializer(
  * An object specifying the format that the model must output.
  * Configuring `{ "type": "json_schema" }` enables Structured Outputs,
  * which ensures the model will match your supplied JSON schema. Learn more in the
- * [Structured Outputs guide](https://platform.openai.com/docs/guides/structured-outputs).
+ * [Structured Outputs guide](/docs/guides/structured-outputs).
  * The default format is `{ "type": "text" }` with no additional options.
  * *Not recommended for gpt-4o and newer models:**
  * Setting to `{ "type": "json_object" }` enables the older JSON mode, which
  * ensures the message the model generates is valid JSON. Using `json_schema`
  * is preferred for models that support it.
  */
-export interface TextResponseFormatConfiguration {
+export interface TextResponseFormat {
   /** The type discriminator, always 'text'. */
   type: TextResponseFormatConfigurationType;
 }
 
-export function textResponseFormatConfigurationSerializer(
-  item: TextResponseFormatConfiguration,
-): any {
+export function textResponseFormatSerializer(item: TextResponseFormat): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationDeserializer(
-  item: any,
-): TextResponseFormatConfiguration {
+export function textResponseFormatDeserializer(item: any): TextResponseFormat {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TextResponseFormatConfigurationUnion */
-export type TextResponseFormatConfigurationUnion =
+/** Alias for TextResponseFormatUnion */
+export type TextResponseFormatUnion =
   | TextResponseFormatJsonSchema
-  | TextResponseFormatConfigurationResponseFormatText
-  | TextResponseFormatConfigurationResponseFormatJsonObject
-  | TextResponseFormatConfiguration;
+  | TextResponseFormatText
+  | TextResponseFormatJsonObject
+  | TextResponseFormat;
 
-export function textResponseFormatConfigurationUnionSerializer(
-  item: TextResponseFormatConfigurationUnion,
-): any {
+export function textResponseFormatUnionSerializer(item: TextResponseFormatUnion): any {
   switch (item.type) {
     case "json_schema":
       return textResponseFormatJsonSchemaSerializer(item as TextResponseFormatJsonSchema);
 
     case "text":
-      return textResponseFormatConfigurationResponseFormatTextSerializer(
-        item as TextResponseFormatConfigurationResponseFormatText,
-      );
+      return textResponseFormatTextSerializer(item as TextResponseFormatText);
 
     case "json_object":
-      return textResponseFormatConfigurationResponseFormatJsonObjectSerializer(
-        item as TextResponseFormatConfigurationResponseFormatJsonObject,
-      );
+      return textResponseFormatJsonObjectSerializer(item as TextResponseFormatJsonObject);
 
     default:
-      return textResponseFormatConfigurationSerializer(item);
+      return textResponseFormatSerializer(item);
   }
 }
 
-export function textResponseFormatConfigurationUnionDeserializer(
-  item: any,
-): TextResponseFormatConfigurationUnion {
+export function textResponseFormatUnionDeserializer(item: any): TextResponseFormatUnion {
   switch (item.type) {
     case "json_schema":
       return textResponseFormatJsonSchemaDeserializer(item as TextResponseFormatJsonSchema);
 
     case "text":
-      return textResponseFormatConfigurationResponseFormatTextDeserializer(
-        item as TextResponseFormatConfigurationResponseFormatText,
-      );
+      return textResponseFormatTextDeserializer(item as TextResponseFormatText);
 
     case "json_object":
-      return textResponseFormatConfigurationResponseFormatJsonObjectDeserializer(
-        item as TextResponseFormatConfigurationResponseFormatJsonObject,
-      );
+      return textResponseFormatJsonObjectDeserializer(item as TextResponseFormatJsonObject);
 
     default:
-      return textResponseFormatConfigurationDeserializer(item);
+      return textResponseFormatDeserializer(item);
   }
 }
 
@@ -3607,9 +3837,9 @@ export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json
 
 /**
  * JSON Schema response format. Used to generate structured JSON responses.
- * Learn more about [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs).
+ * Learn more about [Structured Outputs](/docs/guides/structured-outputs).
  */
-export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
+export interface TextResponseFormatJsonSchema extends TextResponseFormat {
   /** The type of response format being defined. Always `json_schema`. */
   type: "json_schema";
   /**
@@ -3649,20 +3879,16 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
 }
 
 /** Default response format. Used to generate text responses. */
-export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
+export interface TextResponseFormatText extends TextResponseFormat {
   /** The type of response format being defined. Always `text`. */
   type: "text";
 }
 
-export function textResponseFormatConfigurationResponseFormatTextSerializer(
-  item: TextResponseFormatConfigurationResponseFormatText,
-): any {
+export function textResponseFormatTextSerializer(item: TextResponseFormatText): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationResponseFormatTextDeserializer(
-  item: any,
-): TextResponseFormatConfigurationResponseFormatText {
+export function textResponseFormatTextDeserializer(item: any): TextResponseFormatText {
   return {
     type: item["type"],
   };
@@ -3674,20 +3900,16 @@ export function textResponseFormatConfigurationResponseFormatTextDeserializer(
  * model will not generate JSON without a system or user message instructing it
  * to do so.
  */
-export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
+export interface TextResponseFormatJsonObject extends TextResponseFormat {
   /** The type of response format being defined. Always `json_object`. */
   type: "json_object";
 }
 
-export function textResponseFormatConfigurationResponseFormatJsonObjectSerializer(
-  item: TextResponseFormatConfigurationResponseFormatJsonObject,
-): any {
+export function textResponseFormatJsonObjectSerializer(item: TextResponseFormatJsonObject): any {
   return { type: item["type"] };
 }
 
-export function textResponseFormatConfigurationResponseFormatJsonObjectDeserializer(
-  item: any,
-): TextResponseFormatConfigurationResponseFormatJsonObject {
+export function textResponseFormatJsonObjectDeserializer(item: any): TextResponseFormatJsonObject {
   return {
     type: item["type"],
   };
@@ -3861,17 +4083,17 @@ export type AgentProtocol = "activity_protocol" | "responses";
 /** Error response for API failures. */
 export interface ApiErrorResponse {
   /** The error details. */
-  error: ErrorModel;
+  error: ApiError;
 }
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: errorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item["error"]),
   };
 }
 
-/** model interface ErrorModel */
-export interface ErrorModel {
+/** model interface ApiError */
+export interface ApiError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -3881,28 +4103,28 @@ export interface ErrorModel {
   /** The error type. */
   type?: string;
   /** The error details. */
-  details?: ErrorModel[];
+  details?: ApiError[];
   /** Additional information about the error. */
   additionalInfo?: Record<string, unknown>;
   /** Debug information for the error. */
   debugInfo?: Record<string, unknown>;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function apiErrorDeserializer(item: any): ApiError {
   return {
     code: item["code"],
     message: item["message"],
     param: item["param"],
     type: item["type"],
-    details: !item["details"] ? item["details"] : errorArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
     additionalInfo: item["additionalInfo"],
     debugInfo: item["debugInfo"],
   };
 }
 
-export function errorArrayDeserializer(result: Array<ErrorModel>): any[] {
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
   return result.map((item) => {
-    return errorDeserializer(item);
+    return apiErrorDeserializer(item);
   });
 }
 
@@ -4127,7 +4349,7 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
-  /** The type discriminator, always 'human_evaluation_preview'. */
+  /** The type discriminator, always 'humanEvaluationPreview'. */
   type: "humanEvaluationPreview";
   /** Human evaluation template Id. */
   templateId: string;
@@ -5679,7 +5901,7 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'code_based'. */
+  /** The type discriminator, always 'code'. */
   type: "code";
   /** Inline code text for the evaluator */
   code_text: string;
@@ -5709,7 +5931,7 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'prompt_based'. */
+  /** The type discriminator, always 'prompt'. */
   type: "prompt";
   /** The prompt text used for evaluation */
   prompt_text: string;
@@ -5744,7 +5966,7 @@ export function promptBasedEvaluatorDefinitionDeserializer(
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id?: string;
+  readonly insight_id: string;
   /** Metadata about the insights report. */
   readonly metadata?: InsightsMetadata;
   /** The current state of the insights. */
@@ -5766,7 +5988,7 @@ export function insightSerializer(item: Insight): any {
 
 export function insightDeserializer(item: any): Insight {
   return {
-    id: item["id"],
+    insight_id: item["id"],
     metadata: insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
@@ -6768,7 +6990,6 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
-  /** The number of output tokens used for reasoning. */
   reasoning_tokens: number;
 }
 
@@ -6791,7 +7012,7 @@ export interface MemoryStoreUpdateResponse {
   /** The result of memory store update operation when status is "completed". */
   result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
-  error?: ErrorModel;
+  error?: ApiError;
 }
 
 export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpdateResponse {
@@ -6802,7 +7023,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
 
@@ -7007,7 +7228,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
-  /** The type discriminator, always 'azure_openai'. */
+  /** The type discriminator, always 'AzureOpenAIModel'. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -7056,7 +7277,7 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
-  readonly id?: string;
+  readonly schedule_id: string;
   /** Name of the schedule. */
   displayName?: string;
   /** Description of the schedule. */
@@ -7091,7 +7312,7 @@ export function scheduleSerializer(item: Schedule): any {
 
 export function scheduleDeserializer(item: any): Schedule {
   return {
-    id: item["id"],
+    schedule_id: item["id"],
     displayName: item["displayName"],
     description: item["description"],
     enabled: item["enabled"],
@@ -7307,7 +7528,7 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-  /** The type discriminator, always 'HourlyRecurrence'. */
+  /** The type discriminator, always 'Hourly'. */
   type: "Hourly";
 }
 
@@ -7613,39 +7834,6 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   return result.map((item) => {
     return scheduleRunDeserializer(item);
   });
-}
-
-/** Alias for _CreateAgentRequestFoundryFeatures */
-export type _CreateAgentRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _createAgentRequestFoundryFeaturesSerializer(
-  item: _CreateAgentRequestFoundryFeatures,
-): any {
-  return item;
-}
-
-/** Alias for _UpdateAgentRequestFoundryFeatures */
-export type _UpdateAgentRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _updateAgentRequestFoundryFeaturesSerializer(
-  item: _UpdateAgentRequestFoundryFeatures,
-): any {
-  return item;
-}
-
-/** Alias for _CreateAgentVersionRequestFoundryFeatures */
-export type _CreateAgentVersionRequestFoundryFeatures =
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _createAgentVersionRequestFoundryFeaturesSerializer(
-  item: _CreateAgentVersionRequestFoundryFeatures,
-): any {
-  return item;
 }
 
 /** Alias for _ListVersionsRequestType */
