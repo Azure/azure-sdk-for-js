@@ -39,6 +39,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        env:
+          npm_config_registry: https://registry.npmjs.org
 
       - name: Build
         run: pnpm --filter @microsoft/warp... build
