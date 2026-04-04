@@ -1,0 +1,51 @@
+# Warp build tool validation — build, format, lint, and unit tests.
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - common/tools/warp/
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - common/tools/warp/
+
+variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
+
+pool:
+  name: $(LINUXPOOL)
+  image: $(LINUXVMIMAGE)
+  os: linux
+
+steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+
+  - script: npm install -g pnpm
+    displayName: Install pnpm
+
+  - script: pnpm install
+    displayName: Install dependencies
+
+  - script: pnpm --filter @microsoft/warp... build
+    displayName: Build
+
+  - script: pnpm --filter @microsoft/warp... check-format
+    displayName: Check format
+
+  - script: pnpm --filter @microsoft/warp... lint
+    displayName: Lint
+
+  - script: pnpm --filter @microsoft/warp test
+    displayName: Unit tests
