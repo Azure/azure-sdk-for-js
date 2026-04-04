@@ -172,6 +172,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -184,6 +185,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -266,6 +268,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        types: ["node"],
       },
       include: ["src/**/*.ts"],
     };
@@ -422,6 +425,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        ignoreDeprecations: "6.0",
       },
       include: ["src/**/*.ts"],
     };
@@ -607,6 +611,7 @@ describe("polyfill substitution build", () => {
         target: "ES2023",
         declaration: true,
         strict: true,
+        ignoreDeprecations: "6.0",
       },
       include: ["src/**/*.ts"],
     };

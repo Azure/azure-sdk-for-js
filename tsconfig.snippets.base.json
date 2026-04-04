@@ -2,7 +2,8 @@
   "extends": "./tsconfig.nonlib",
   "compilerOptions": {
     "skipLibCheck": true,
-    "lib": [],
+    "lib": ["ES2023"],
+    "types": ["node"],
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
