@@ -37,11 +37,11 @@ interface QueryParameterWithOptions {
 }
 
 function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
-  if (typeof x !== "object" || x === null || !("value" in x)) {
+  if (typeof x !== "object" || x === null || !Object.hasOwn(x, "value")) {
     return false;
   }
-  const value = x.value;
-  return value !== undefined && value !== null;
+  const value = (x as QueryParameterWithOptions).value;
+  return value !== undefined && value !== null && typeof value.toString === "function";
 }
 
 /**
