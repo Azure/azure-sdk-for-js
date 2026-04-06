@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixes to additional property serialization.
+- Fixes to additional property serialization. [PR #38006](https://github.com/Azure/azure-sdk-for-js/pull/38006/)
 
 ### Other Changes
 
