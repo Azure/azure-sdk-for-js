@@ -16,11 +16,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 /** Interface representing a BetaToolboxes operations. */
 export interface BetaToolboxesOperations {
   /** Delete a toolbox and all its versions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     toolboxName: string,
     foundryFeatures: "Toolboxes=V1Preview",
