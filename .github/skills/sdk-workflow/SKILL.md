@@ -41,12 +41,13 @@ development tasks. Read the referenced docs — don't guess at commands.
   from https://learn.microsoft.com/powershell/scripting/install/installing-powershell,
   then run `Install-Module -Name Az -Force -AllowClobber` to install the Az module.
   Always run `pnpm install` before building or running any dev-tool commands.
-- **Azure DevOps npm feed (devfeed priming)**: Before installing new dependencies,
-  authenticate to the Azure Artifacts feed by running `npx artifacts-npm-credprovider`
-  at the repo root. This is required because some devDependencies (e.g. the ESLint
-  plugin) are published only to the internal Azure DevOps feed, not the public npm
-  registry. See `CONTRIBUTING.md` § "Authenticating to the Azure DevOps npm feed"
-  for details.
+- **Azure DevOps npm feed (devfeed priming)**: Before running `pnpm install`
+  (especially on a new machine or fresh checkout), or if `pnpm install` fails due to
+  feed authentication, authenticate to the Azure Artifacts feed by running
+  `npx artifacts-npm-credprovider` at the repo root. This is required because some
+  devDependencies (e.g. the ESLint plugin) are published only to the internal Azure
+  DevOps feed, not the public npm registry. See `CONTRIBUTING.md` §
+  "Authenticating to the Azure DevOps npm feed" for details.
 - **Building with turbo**: To build a package _and its dependencies_, use
   `pnpm turbo build --filter=<package-name>... --token 1` (note the trailing `...`).
   Running `npm run build` in a package directory will fail if dependencies aren't built.
