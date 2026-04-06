@@ -252,7 +252,7 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
 - In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
 - `pnpm install` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\perf-tests\<service-sdk>`
-- `pnpm build --filter @azure-tests/perf-<service-sdk>...`
+- `pnpm turbo build --filter @azure-tests/perf-<service-sdk>...`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ## [Using Proxy Tool](#using-proxy-tool)

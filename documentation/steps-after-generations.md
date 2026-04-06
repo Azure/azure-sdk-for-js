@@ -9,7 +9,7 @@ After this finishes, you will see the generated code in `src` folder in your **{
 
 ```shell
 pnpm install
-pnpm build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>...
 ```
 
 # Customizing the generated code
@@ -60,14 +60,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm build --filter=${PACKAGE_NAME}
+      pnpm turbo build --filter=${PACKAGE_NAME}...
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -156,7 +156,7 @@ Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
 pnpm update
-pnpm build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>...
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test
 pnpm pack
