@@ -3,7 +3,7 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
-import { type PipelineOptions } from "@azure/core-rest-pipeline";
+import type { PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers.js";
 import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
 import {
@@ -57,8 +57,9 @@ export function getClient(
       clientOptions = credentialsOrPipelineOptions ?? {};
     }
   }
+  const pipeline =
+    clientOptions.pipeline ?? createDefaultPipeline(endpoint, credentials, clientOptions);
 
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
   const tspClient = tspGetClient(endpoint, {
     ...clientOptions,
     pipeline,

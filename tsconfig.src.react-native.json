@@ -3,10 +3,6 @@
   "compilerOptions": {
     "outDir": "${configDir}/dist/react-native",
     "rootDir": "${configDir}/src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2023"],
-    "types": ["node"],
     "skipLibCheck": true
   },
   "include": ["${configDir}/src/**/*.ts"]

@@ -11,7 +11,8 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline, createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 describe("getClient", () => {
   const httpClient = {
@@ -290,5 +291,140 @@ describe("getClient", () => {
     await client
       .pathUnchecked("/{foo}/blah", { value: "test/test!@#$%^", allowReserved: true })
       .get();
+  });
+
+  describe("when pipeline is passed via options", () => {
+    it("should use the provided pipeline when passed via second parameter (options only)", async () => {
+      let customPolicyInvoked = false;
+      const customPipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "customTrackingPolicy",
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const client = getClient("https://example.org", {
+        pipeline: customPipeline,
+        httpClient,
+      });
+
+      await client.pathUnchecked("/foo").get();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via second parameter",
+      );
+    });
+
+    it("should use the provided pipeline when passed via third parameter (with TokenCredential)", async () => {
+      let customPolicyInvoked = false;
+      const customPipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "customTrackingPolicy",
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const mockCredential: TokenCredential = {
+        getToken: async () => ({ token: "mock-token", expiresOnTimestamp: Date.now() + 3600000 }),
+      };
+
+      const client = getClient("https://example.org", mockCredential, {
+        pipeline: customPipeline,
+        httpClient,
+      });
+
+      await client.pathUnchecked("/foo").get();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with TokenCredential",
+      );
+    });
+
+    it("should use the provided pipeline when passed via third parameter (with KeyCredential)", async () => {
+      let customPolicyInvoked = false;
+      const customPipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "customTrackingPolicy",
+        sendRequest: (req, next) => {
+          customPolicyInvoked = true;
+          return next(req);
+        },
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const mockKeyCredential: KeyCredential = {
+        key: "mock-api-key",
+      };
+
+      const client = getClient("https://example.org", mockKeyCredential, {
+        pipeline: customPipeline,
+        httpClient,
+      });
+
+      await client.pathUnchecked("/foo").get();
+      assert.isTrue(
+        customPolicyInvoked,
+        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with KeyCredential",
+      );
+    });
+
+    it("should preserve custom pipeline policies order", async () => {
+      const policiesInvoked: string[] = [];
+      const customPipeline = createEmptyPipeline();
+
+      const firstPolicy: PipelinePolicy = {
+        name: "firstPolicy",
+        sendRequest: (req, next) => {
+          policiesInvoked.push("first");
+          return next(req);
+        },
+      };
+      const secondPolicy: PipelinePolicy = {
+        name: "secondPolicy",
+        sendRequest: (req, next) => {
+          policiesInvoked.push("second");
+          return next(req);
+        },
+      };
+
+      customPipeline.addPolicy(firstPolicy);
+      customPipeline.addPolicy(secondPolicy);
+
+      const client = getClient("https://example.org", {
+        pipeline: customPipeline,
+        httpClient,
+      });
+
+      await client.pathUnchecked("/foo").get();
+      assert.deepEqual(policiesInvoked, ["first", "second"], "Policies should be invoked in order");
+    });
+
+    it("should not add default policies when custom pipeline is provided", async () => {
+      const customPipeline = createEmptyPipeline();
+      const trackingPolicy: PipelinePolicy = {
+        name: "trackingPolicy",
+        sendRequest: (req, next) => {
+          return next(req);
+        },
+      };
+      customPipeline.addPolicy(trackingPolicy);
+
+      const client = getClient("https://example.org", {
+        pipeline: customPipeline,
+        httpClient,
+        apiVersion: "2021-01-01", // This would normally add apiVersionPolicy
+      });
+
+      const policies = client.pipeline.getOrderedPolicies();
+      // The pipeline should only contain our custom policy, not any default policies
+      assert.equal(policies.length, 1, "Custom pipeline should not have default policies added");
+      assert.equal(policies[0].name, "trackingPolicy");
+    });
   });
 });

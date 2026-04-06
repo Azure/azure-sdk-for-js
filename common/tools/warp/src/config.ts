@@ -215,7 +215,8 @@ async function resolveConfigWithExtends(
   // - exports: shallow merge, child keys override base keys
   // - targets: child replaces base entirely if specified, otherwise inherits
   const childExports = isRecord(raw.exports) ? (raw.exports as Record<string, string>) : undefined;
-  const childTargets = Array.isArray(raw.targets) && raw.targets.length > 0 ? raw.targets : undefined;
+  const childTargets =
+    Array.isArray(raw.targets) && raw.targets.length > 0 ? raw.targets : undefined;
 
   const merged = {
     exports: { ...baseConfig.exports, ...(childExports ?? {}) },
@@ -266,7 +267,6 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     );
   }
   const exports: Record<string, unknown> = raw.exports;
-  const seenExportKeys = new Set<string>();
   for (const [key, value] of Object.entries(exports)) {
     if (typeof value !== "string") {
       throw new WarpError(
@@ -280,13 +280,6 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: exports key must not be empty`,
       );
     }
-    if (seenExportKeys.has(key)) {
-      throw new WarpError(
-        "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: duplicate exports key "${key}"`,
-      );
-    }
-    seenExportKeys.add(key);
     // Validate subpath pattern (#11): must be "." or start with "./"
     if (key !== "." && !key.startsWith("./")) {
       throw new WarpError(
@@ -394,6 +387,16 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
     };
 
+    // Backward compat: infer moduleType from condition for targets that haven't
+    // been updated yet. Remove this once all packages specify moduleType explicitly.
+    if (!target.moduleType && target.condition === "require") {
+      target.moduleType = "commonjs";
+      getLogger().warn(
+        `[warp] Warning: target "${target.name}" has condition "require" but no moduleType. ` +
+          `Inferring moduleType: "commonjs". Please add explicit moduleType to your warp config.`,
+      );
+    }
+
     if (seenNames.has(target.name)) {
       throw new WarpError(
         "VALIDATION_ERROR",
@@ -443,18 +446,4 @@ export async function validateTsconfigPaths(
       }
     }),
   );
-}
-
-/**
- * Infer module type from TypeScript compiler options.
- * CommonJS-family modules → "commonjs", everything else → "module".
- */
-export function inferModuleType(moduleKind: number | undefined): ModuleType {
-  // ts.ModuleKind.CommonJS = 1, ts.ModuleKind.Node16 = 100, ts.ModuleKind.NodeNext = 199
-  // For Node16/NodeNext the package-level type matters; we default to "module"
-  // since the parent package.json typically has "type": "module".
-  if (moduleKind === 1 /* CommonJS */) {
-    return "commonjs";
-  }
-  return "module";
 }
