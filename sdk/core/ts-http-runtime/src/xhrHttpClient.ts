@@ -73,7 +73,7 @@ class XhrHttpClient implements HttpClient {
 
     if (body instanceof ArrayBuffer) {
       xhr.send(body);
-    } else if (typeof body === "object" && body && "buffer" in body) {
+    } else if (ArrayBuffer.isView(body)) {
       xhr.send(arrayBufferViewToArrayBuffer(body));
     } else {
       xhr.send(body === undefined ? null : body);

@@ -44,7 +44,7 @@ function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
 
     // RetryAfterHeader ("Retry-After") has a special case where it might be formatted as a date instead of a number of seconds
     const retryAfterHeader = response.headers.get(RetryAfterHeader);
-    if (!retryAfterHeader) return;
+    if (!retryAfterHeader) return undefined;
 
     const date = Date.parse(retryAfterHeader);
     const diff = date - Date.now();

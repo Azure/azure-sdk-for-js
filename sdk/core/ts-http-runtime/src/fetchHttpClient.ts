@@ -237,7 +237,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
       streaming: true,
       body: buildBodyStream(body, { onProgress: request.onUploadProgress }),
     };
-  } else if (typeof body === "object" && body && "buffer" in body) {
+  } else if (ArrayBuffer.isView(body)) {
     // ArrayBufferView
     return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
   } else if (body === undefined) {

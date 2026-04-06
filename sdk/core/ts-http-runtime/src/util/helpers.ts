@@ -71,8 +71,8 @@ export function parseHeaderValueAsNumber(
   headerName: string,
 ): number | undefined {
   const value = response.headers.get(headerName);
-  if (!value) return;
+  if (!value) return undefined;
   const valueAsNum = Number(value);
-  if (Number.isNaN(valueAsNum)) return;
+  if (Number.isNaN(valueAsNum)) return undefined;
   return valueAsNum;
 }
