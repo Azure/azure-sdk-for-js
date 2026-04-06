@@ -6,7 +6,6 @@ export {
   type AutocompleteItem,
   type AutocompleteMode,
   type AutocompleteResult,
-  type DebugInfo,
   type IndexActionType,
   type IndexDocumentsResult,
   type IndexingResult,

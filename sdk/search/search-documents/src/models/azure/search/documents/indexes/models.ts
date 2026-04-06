@@ -3975,7 +3975,7 @@ export enum KnownRankingOrder {
   /** Sets sort order as BoostedRerankerScore */
   BoostedRerankerScore = "BoostedRerankerScore",
   /** Sets sort order as ReRankerScore */
-  ReRankerScore = "RerankerScore",
+  RerankerScore = "RerankerScore",
 }
 
 /**
@@ -3984,7 +3984,7 @@ export enum KnownRankingOrder {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **BoostedRerankerScore**: Sets sort order as BoostedRerankerScore \
- * **RerankerScore**: Sets sort order as ReRankerScore
+ * **RerankerScore**: Sets sort order as RerankerScore
  */
 export type RankingOrder = string;
 

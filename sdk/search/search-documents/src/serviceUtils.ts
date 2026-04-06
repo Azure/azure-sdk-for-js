@@ -933,6 +933,7 @@ export function convertKnowledgeBaseToPublic(
 
   return {
     ...knowledgeBase,
+    etag: knowledgeBase.eTag,
     models: (knowledgeBase.models ?? []).map((model) => convertKnowledgeBaseModelToPublic(model)),
     encryptionKey: convertEncryptionKeyToPublic(knowledgeBase.encryptionKey),
   };
@@ -947,6 +948,7 @@ export function convertKnowledgeBaseToGenerated(
 
   return {
     ...knowledgeBase,
+    eTag: knowledgeBase.etag,
     encryptionKey: convertEncryptionKeyToGenerated(knowledgeBase.encryptionKey),
   };
 }

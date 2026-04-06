@@ -1381,7 +1381,7 @@ export enum KnownPIIDetectionSkillMaskingMode {
 // @public
 export enum KnownRankingOrder {
     BoostedRerankerScore = "BoostedRerankerScore",
-    ReRankerScore = "RerankerScore"
+    RerankerScore = "RerankerScore"
 }
 
 // @public

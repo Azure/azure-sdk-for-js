@@ -3975,7 +3975,7 @@ export enum KnownRankingOrder {
   /** Sets sort order as BoostedRerankerScore */
   BoostedRerankerScore = "BoostedRerankerScore",
   /** Sets sort order as ReRankerScore */
-  ReRankerScore = "RerankerScore",
+  RerankerScore = "RerankerScore",
 }
 
 /**
@@ -5218,7 +5218,7 @@ export interface KnowledgeBase {
   /** Contains configuration options on how to connect to AI models. */
   models?: KnowledgeBaseModelUnion[];
   /** The ETag of the knowledge base. */
-  eTag?: string;
+  etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The description of the knowledge base. */
@@ -5232,7 +5232,7 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArraySerializer(item["models"]),
-    "@odata.etag": item["eTag"],
+    "@odata.etag": item["etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
@@ -5247,7 +5247,7 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
     models: !item["models"]
       ? item["models"]
       : knowledgeBaseModelUnionArrayDeserializer(item["models"]),
-    eTag: item["@odata.etag"],
+    etag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),

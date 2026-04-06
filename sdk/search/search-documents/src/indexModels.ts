@@ -5,7 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
-  DebugInfo,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
@@ -501,11 +500,7 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly answers?: QueryAnswerResult[];
-  /**
-   * Debug information that applies to the search results as a whole.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugInfo?: DebugInfo;
+
   /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.

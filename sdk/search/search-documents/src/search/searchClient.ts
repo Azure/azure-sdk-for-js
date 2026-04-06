@@ -11,7 +11,7 @@ import type {
   IndexDocumentsResult,
   AutocompleteResult,
 } from "../models/azure/search/documents/models.js";
-import { GetDocumentCountResponse } from "../models/models.js";
+import type { GetDocumentCountResponse } from "../models/models.js";
 import {
   autocompletePost,
   autocompleteGet,

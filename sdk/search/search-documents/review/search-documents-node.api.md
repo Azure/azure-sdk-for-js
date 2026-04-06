@@ -665,10 +665,6 @@ export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | Sql
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy | NativeBlobSoftDeleteDeletionDetectionPolicy;
 
 // @public
-export interface DebugInfo {
-}
-
-// @public
 export const DEFAULT_BATCH_SIZE: number;
 
 // @public
@@ -1216,7 +1212,7 @@ export interface KeywordTokenizer {
 export interface KnowledgeBase {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModel[];
     name: string;
@@ -2157,7 +2153,7 @@ export enum KnownQueryDebugMode {
 // @public
 export enum KnownRankingOrder {
     BoostedRerankerScore = "BoostedRerankerScore",
-    ReRankerScore = "RerankerScore"
+    RerankerScore = "RerankerScore"
 }
 
 // @public
@@ -2922,7 +2918,6 @@ export interface SearchDocumentsResultBase {
     readonly answers?: QueryAnswerResult[];
     readonly count?: number;
     readonly coverage?: number;
-    readonly debugInfo?: DebugInfo;
     readonly facets?: {
         [propertyName: string]: FacetResult[];
     };

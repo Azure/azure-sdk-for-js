@@ -8,7 +8,6 @@ export {
   type SearchDocumentsResult,
   type FacetResult,
   type QueryAnswerResult,
-  type DebugInfo,
   type SearchRequest,
   KnownQueryType,
   type QueryType,
