@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { RestError } from "../src/restError.js";
+import {
+  type PipelineRequest,
+  type PipelineResponse,
+  createHttpHeaders,
+  RestError,
+} from "../src/index.js";
 
 describe("RestError", function () {
   const request: PipelineRequest = {

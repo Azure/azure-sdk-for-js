@@ -3,15 +3,16 @@
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers.js";
-import { getClient } from "../../src/client/getClient.js";
-import type {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "../../src/interfaces.js";
-import { createEmptyPipeline, type PipelinePolicy } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
+import {
+  getClient,
+  type HttpClient,
+  type PipelineRequest,
+  type PipelineResponse,
+  type SendRequest,
+  createEmptyPipeline,
+  type PipelinePolicy,
+  createHttpHeaders,
+} from "../../src/index.js";
 import { isNodeLike } from "../../src/util/checkEnvironment.js";
 
 describe("getClient", () => {

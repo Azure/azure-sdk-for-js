@@ -44,8 +44,8 @@ catalogs:
       specifier: ^4.20.4
       version: 4.21.0
     typescript:
-      specifier: ~5.9.3
-      version: 5.9.3
+      specifier: ~6.0.2
+      version: 6.0.2
   internal:
     '@azure/identity':
       specifier: 4.13.0
@@ -186,8 +186,8 @@ importers:
         specifier: 'catalog:'
         version: 4.21.0
       typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
+        specifier: ~6.0.2
+        version: 6.0.2
       unzipper:
         specifier: ~0.12.3
         version: 0.12.3
@@ -238,8 +238,8 @@ importers:
         specifier: 'catalog:'
         version: 6.1.3
       typescript-eslint:
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.9.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -262,14 +262,14 @@ importers:
         specifier: ~1.0.0
         version: 1.0.8
       '@typescript-eslint/typescript-estree':
-        specifier: ~8.46.4
-        version: 8.46.4(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(typescript@6.0.2)
       eslint-config-prettier:
         specifier: ^10.0.1
         version: 10.1.8(eslint@9.39.4)
       eslint-plugin-n:
         specifier: ^17.15.0
-        version: 17.24.0(eslint@9.39.4)(typescript@5.8.3)
+        version: 17.24.0(eslint@9.39.4)(typescript@6.0.2)
       eslint-plugin-no-only-tests:
         specifier: ^3.3.0
         version: 3.3.0
@@ -278,7 +278,7 @@ importers:
         version: 7.2.1(eslint@9.39.4)
       eslint-plugin-tsdoc:
         specifier: ^0.5.0
-        version: 0.5.2(eslint@9.39.4)(typescript@5.8.3)
+        version: 0.5.2(eslint@9.39.4)(typescript@6.0.2)
       glob:
         specifier: ^13.0.0
         version: 13.0.6
@@ -286,11 +286,11 @@ importers:
         specifier: ^2.6.2
         version: 2.8.1
       typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
+        specifier: ~6.0.2
+        version: 6.0.2
       typescript-eslint:
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
     devDependencies:
       '@microsoft/warp':
         specifier: workspace:^
@@ -302,17 +302,17 @@ importers:
         specifier: 'catalog:'
         version: 20.19.39
       '@typescript-eslint/eslint-plugin':
-        specifier: ~8.46.4
-        version: 8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.8.3))(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(@typescript-eslint/parser@8.58.0(eslint@9.39.4)(typescript@6.0.2))(eslint@9.39.4)(typescript@6.0.2)
       '@typescript-eslint/parser':
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       '@typescript-eslint/rule-tester':
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       '@typescript-eslint/utils':
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.1.2(vitest@4.1.2)
@@ -358,10 +358,10 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       typescript-eslint:
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.9.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
 
   common/tools/warp:
     dependencies:
@@ -373,7 +373,7 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       yaml:
         specifier: ^2.8.2
         version: 2.8.3
@@ -397,8 +397,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       typescript-eslint:
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.9.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -452,11 +452,11 @@ importers:
         specifier: ^4.17.0
         version: 4.21.0
       typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
+        specifier: ~6.0.2
+        version: 6.0.2
       typescript-eslint:
-        specifier: ~8.46.4
-        version: 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+        specifier: ~8.58.0
+        version: 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       vitest:
         specifier: ^4.0.0
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -520,7 +520,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -599,7 +599,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -678,7 +678,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -739,7 +739,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -848,7 +848,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -954,7 +954,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1075,7 +1075,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1139,7 +1139,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1203,7 +1203,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1270,7 +1270,7 @@ importers:
         version: 4.60.1
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1325,7 +1325,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1395,7 +1395,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1462,7 +1462,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1562,7 +1562,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1608,7 +1608,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/appconfiguration/arm-appconfiguration:
     dependencies:
@@ -1684,7 +1684,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1760,7 +1760,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1821,7 +1821,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1900,7 +1900,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -1976,7 +1976,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2043,7 +2043,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2122,7 +2122,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2201,7 +2201,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2271,7 +2271,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2332,7 +2332,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2414,7 +2414,7 @@ importers:
         version: 5.2.1
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2484,7 +2484,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2548,7 +2548,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2612,7 +2612,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2682,7 +2682,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2761,7 +2761,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2828,7 +2828,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2889,7 +2889,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -2968,7 +2968,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3047,7 +3047,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3117,7 +3117,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3202,7 +3202,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3299,7 +3299,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3390,7 +3390,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3460,7 +3460,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3527,7 +3527,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3597,7 +3597,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3670,7 +3670,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3740,7 +3740,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3816,7 +3816,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3877,7 +3877,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -3935,7 +3935,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4017,7 +4017,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4096,7 +4096,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4181,7 +4181,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4275,7 +4275,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       unzipper:
         specifier: ~0.12.3
         version: 0.12.3
@@ -4324,7 +4324,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/cognitiveservices/arm-cognitiveservices:
     dependencies:
@@ -4397,7 +4397,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4458,7 +4458,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4522,7 +4522,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4598,7 +4598,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4683,7 +4683,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4786,7 +4786,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4877,7 +4877,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -4959,7 +4959,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5041,7 +5041,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5135,7 +5135,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5214,7 +5214,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5305,7 +5305,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5396,7 +5396,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5484,7 +5484,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5569,7 +5569,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5657,7 +5657,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5742,7 +5742,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5830,7 +5830,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5915,7 +5915,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -5994,7 +5994,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6064,7 +6064,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6146,7 +6146,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6219,7 +6219,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6298,7 +6298,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6377,7 +6377,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6450,7 +6450,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6529,7 +6529,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6599,7 +6599,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6666,7 +6666,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6745,7 +6745,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6824,7 +6824,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6894,7 +6894,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -6958,7 +6958,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7028,7 +7028,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7107,7 +7107,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7186,7 +7186,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7268,7 +7268,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7311,7 +7311,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/containerservice/arm-containerservice:
     dependencies:
@@ -7387,7 +7387,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7466,7 +7466,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7545,7 +7545,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7624,7 +7624,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7706,7 +7706,7 @@ importers:
         version: 3.5.0
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7788,7 +7788,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7831,7 +7831,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7919,7 +7919,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -7971,7 +7971,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8035,7 +8035,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8093,7 +8093,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8142,7 +8142,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8200,7 +8200,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8243,7 +8243,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8307,7 +8307,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8365,7 +8365,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/core/core-sse:
     dependencies:
@@ -8435,7 +8435,7 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8481,7 +8481,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8533,7 +8533,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8582,7 +8582,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8631,7 +8631,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8686,7 +8686,7 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8762,7 +8762,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8859,7 +8859,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8929,7 +8929,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -8999,7 +8999,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9066,7 +9066,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9145,7 +9145,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9224,7 +9224,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9285,7 +9285,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9355,7 +9355,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9422,7 +9422,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9492,7 +9492,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9562,7 +9562,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9626,7 +9626,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9696,7 +9696,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9766,7 +9766,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9833,7 +9833,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9906,7 +9906,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -9985,7 +9985,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10055,7 +10055,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10134,7 +10134,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10213,7 +10213,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10277,7 +10277,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10341,7 +10341,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10411,7 +10411,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10487,7 +10487,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10551,7 +10551,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10630,7 +10630,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10709,7 +10709,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10779,7 +10779,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10861,7 +10861,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -10940,7 +10940,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11007,7 +11007,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11074,7 +11074,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11144,7 +11144,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11229,7 +11229,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11302,7 +11302,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11381,7 +11381,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11451,7 +11451,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11521,7 +11521,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11597,7 +11597,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11676,7 +11676,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11752,7 +11752,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11828,7 +11828,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11895,7 +11895,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -11974,7 +11974,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12044,7 +12044,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12114,7 +12114,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12193,7 +12193,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12266,7 +12266,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12330,7 +12330,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12406,7 +12406,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12485,7 +12485,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12555,7 +12555,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12634,7 +12634,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12713,7 +12713,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12795,7 +12795,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12838,7 +12838,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/eventgrid/eventgrid-systemevents:
     dependencies:
@@ -12896,7 +12896,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -12969,7 +12969,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13039,7 +13039,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13175,7 +13175,7 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13227,7 +13227,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/eventhub/eventhubs-checkpointstore-blob:
     dependencies:
@@ -13330,7 +13330,7 @@ importers:
         version: 0.0.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13427,7 +13427,7 @@ importers:
         version: 0.0.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13479,7 +13479,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13549,7 +13549,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13628,7 +13628,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13704,7 +13704,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13765,7 +13765,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13829,7 +13829,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13926,7 +13926,7 @@ importers:
         version: 4.60.1
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -13972,7 +13972,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/frontdoor/arm-frontdoor:
     dependencies:
@@ -14039,7 +14039,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14109,7 +14109,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14173,7 +14173,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14240,7 +14240,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14319,7 +14319,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14398,7 +14398,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14477,7 +14477,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14547,7 +14547,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14626,7 +14626,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14705,7 +14705,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14775,7 +14775,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14854,7 +14854,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14924,7 +14924,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -14997,7 +14997,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15067,7 +15067,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15167,7 +15167,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15240,7 +15240,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15313,7 +15313,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15359,7 +15359,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/identity/identity-vscode:
     dependencies:
@@ -15423,7 +15423,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15493,7 +15493,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15572,7 +15572,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15642,7 +15642,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15715,7 +15715,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15782,7 +15782,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15849,7 +15849,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -15928,7 +15928,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16007,7 +16007,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16077,7 +16077,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16156,7 +16156,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16235,7 +16235,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16305,7 +16305,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16396,7 +16396,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16487,7 +16487,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16533,7 +16533,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/keyvault/keyvault-common:
     dependencies:
@@ -16597,7 +16597,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16685,7 +16685,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16731,7 +16731,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/keyvault/keyvault-secrets:
     dependencies:
@@ -16816,7 +16816,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -16862,7 +16862,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/kubernetesconfiguration/arm-kubernetesconfiguration:
     dependencies:
@@ -16929,7 +16929,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17008,7 +17008,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17081,7 +17081,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17160,7 +17160,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17239,7 +17239,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17318,7 +17318,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17388,7 +17388,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17458,7 +17458,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17537,7 +17537,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17607,7 +17607,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17686,7 +17686,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17756,7 +17756,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17835,7 +17835,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17899,7 +17899,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -17969,7 +17969,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18021,7 +18021,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18100,7 +18100,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18167,7 +18167,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18228,7 +18228,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18292,7 +18292,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18362,7 +18362,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18423,7 +18423,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18493,7 +18493,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18560,7 +18560,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18621,7 +18621,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18688,7 +18688,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18752,7 +18752,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18816,7 +18816,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18886,7 +18886,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -18956,7 +18956,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19035,7 +19035,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19102,7 +19102,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19166,7 +19166,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19245,7 +19245,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19309,7 +19309,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19388,7 +19388,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19467,7 +19467,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19549,7 +19549,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19631,7 +19631,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19713,7 +19713,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19780,7 +19780,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19853,7 +19853,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19917,7 +19917,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -19981,7 +19981,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20051,7 +20051,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20121,7 +20121,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20200,7 +20200,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20279,7 +20279,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20361,7 +20361,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20425,7 +20425,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20516,7 +20516,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20562,7 +20562,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/monitor/monitor-opentelemetry:
     dependencies:
@@ -20701,7 +20701,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20804,7 +20804,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -20856,7 +20856,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/monitor/monitor-query-logs:
     dependencies:
@@ -20950,7 +20950,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21038,7 +21038,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21102,7 +21102,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21169,7 +21169,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21239,7 +21239,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21318,7 +21318,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21394,7 +21394,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21464,7 +21464,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21543,7 +21543,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21619,7 +21619,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21686,7 +21686,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21762,7 +21762,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21841,7 +21841,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21920,7 +21920,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -21999,7 +21999,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22066,7 +22066,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22145,7 +22145,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22212,7 +22212,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22291,7 +22291,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22370,7 +22370,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22437,7 +22437,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22516,7 +22516,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22586,7 +22586,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22662,7 +22662,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22723,7 +22723,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22802,7 +22802,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22881,7 +22881,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -22960,7 +22960,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23033,7 +23033,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23097,7 +23097,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23167,7 +23167,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23231,7 +23231,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23304,7 +23304,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23371,7 +23371,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23450,7 +23450,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23520,7 +23520,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23587,7 +23587,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23660,7 +23660,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23730,7 +23730,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23809,7 +23809,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23888,7 +23888,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -23955,7 +23955,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24025,7 +24025,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24098,7 +24098,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24174,7 +24174,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24253,7 +24253,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24326,7 +24326,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24396,7 +24396,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24469,7 +24469,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24542,7 +24542,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24624,7 +24624,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24703,7 +24703,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24773,7 +24773,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24843,7 +24843,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24916,7 +24916,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -24992,7 +24992,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25062,7 +25062,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25132,7 +25132,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25211,7 +25211,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25272,7 +25272,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25336,7 +25336,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25406,7 +25406,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25470,7 +25470,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25540,7 +25540,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25610,7 +25610,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25683,7 +25683,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25753,7 +25753,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25832,7 +25832,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -25908,7 +25908,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26002,7 +26002,7 @@ importers:
         version: 0.0.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26051,7 +26051,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/schemaregistry/schema-registry-json:
     dependencies:
@@ -26133,7 +26133,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26203,7 +26203,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26282,7 +26282,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26364,7 +26364,7 @@ importers:
         version: 7.6.2
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26410,7 +26410,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/security/arm-security:
     dependencies:
@@ -26477,7 +26477,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26547,7 +26547,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26617,7 +26617,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26687,7 +26687,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26745,7 +26745,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26809,7 +26809,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -26879,7 +26879,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27027,7 +27027,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27076,7 +27076,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/servicefabric/arm-servicefabric:
     dependencies:
@@ -27143,7 +27143,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27225,7 +27225,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27304,7 +27304,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27368,7 +27368,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27447,7 +27447,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27517,7 +27517,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27596,7 +27596,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27666,7 +27666,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27745,7 +27745,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27815,7 +27815,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27885,7 +27885,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -27958,7 +27958,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28028,7 +28028,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28107,7 +28107,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28180,7 +28180,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28250,7 +28250,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28353,7 +28353,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28444,7 +28444,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28490,7 +28490,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/storage/storage-common:
     dependencies:
@@ -28557,7 +28557,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28657,7 +28657,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28700,7 +28700,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/storage/storage-file-share:
     dependencies:
@@ -28797,7 +28797,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28840,7 +28840,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/storage/storage-internal-avro:
     dependencies:
@@ -28895,7 +28895,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -28986,7 +28986,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29068,7 +29068,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29144,7 +29144,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29223,7 +29223,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29287,7 +29287,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29366,7 +29366,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29433,7 +29433,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29500,7 +29500,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29567,7 +29567,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29637,7 +29637,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29713,7 +29713,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29777,7 +29777,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29847,7 +29847,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29917,7 +29917,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -29990,7 +29990,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30063,7 +30063,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30142,7 +30142,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30215,7 +30215,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30282,7 +30282,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30352,7 +30352,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30437,7 +30437,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30480,7 +30480,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/template/template:
     dependencies:
@@ -30556,7 +30556,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30626,7 +30626,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30672,7 +30672,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/templatespecs/arm-templatespecs:
     dependencies:
@@ -30730,7 +30730,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30803,7 +30803,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30882,7 +30882,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -30937,7 +30937,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/test-utils/recorder:
     dependencies:
@@ -31001,7 +31001,7 @@ importers:
         version: 2.8.1
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31059,7 +31059,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31123,7 +31123,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/textanalytics/ai-text-analytics:
     dependencies:
@@ -31202,7 +31202,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31248,7 +31248,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
 
   sdk/timeseriesinsights/arm-timeseriesinsights:
     dependencies:
@@ -31315,7 +31315,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31379,7 +31379,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31452,7 +31452,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31537,7 +31537,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31610,7 +31610,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31689,7 +31689,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31762,7 +31762,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31826,7 +31826,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31896,7 +31896,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -31987,7 +31987,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32057,7 +32057,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32127,7 +32127,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32215,7 +32215,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32294,7 +32294,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32370,7 +32370,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32434,7 +32434,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32513,7 +32513,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32583,7 +32583,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -32662,7 +32662,7 @@ importers:
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
-        version: 5.9.3
+        version: 6.0.2
       vitest:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
@@ -34785,26 +34785,20 @@ packages:
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha1-gV4wt4bS6PDc2F/VvPXhoE0AjxU=}
 
-  '@typescript-eslint/eslint-plugin@8.46.4':
-    resolution: {integrity: sha1-AF3E7ryydGLyDeOv6IgGX2XOwQA=}
+  '@typescript-eslint/eslint-plugin@8.58.0':
+    resolution: {integrity: sha1-rUDkkvGTH0baG9iI5SueVt+QY6o=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^8.46.4
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
+      '@typescript-eslint/parser': ^8.58.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
-  '@typescript-eslint/parser@8.46.4':
-    resolution: {integrity: sha1-Glv9SL5XvAfuxk4JCsRuifR63jE=}
+  '@typescript-eslint/parser@8.58.0':
+    resolution: {integrity: sha1-2gTs4ZZ7bC/o8Qw0c9q/OCV5Xvc=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/project-service@8.46.4':
-    resolution: {integrity: sha1-+phyZztR+1fl1doDTtvhdCTd0YU=}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
   '@typescript-eslint/project-service@8.56.1':
     resolution: {integrity: sha1-ZcjWRfAouSe/xJKFk7VOLs2AkkQ=}
@@ -34812,25 +34806,25 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/rule-tester@8.46.4':
-    resolution: {integrity: sha1-3S9dMfhv2HB7qZy/JIaBJYyLjmU=}
+  '@typescript-eslint/project-service@8.58.0':
+    resolution: {integrity: sha1-Zs7aCqv3QnrsPicT+kPrJ43q0qo=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
-  '@typescript-eslint/scope-manager@8.46.4':
-    resolution: {integrity: sha1-eMm0hWwAlN72T/pT6pVbRr7BMwQ=}
+  '@typescript-eslint/rule-tester@8.58.0':
+    resolution: {integrity: sha1-iZbTMcEKOzOozRFt4FQV6aQjPrM=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
 
   '@typescript-eslint/scope-manager@8.56.1':
     resolution: {integrity: sha1-JU35O1eJqHE1EzXdI+ILwWQGDyQ=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/tsconfig-utils@8.46.4':
-    resolution: {integrity: sha1-mJozgJO2uRsFUvH1EzHYnsaYA4I=}
+  '@typescript-eslint/scope-manager@8.58.0':
+    resolution: {integrity: sha1-4wQUJ3Xkmht6w8i/JTZxREfHLKs=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
 
   '@typescript-eslint/tsconfig-utils@8.56.1':
     resolution: {integrity: sha1-GvqDCw+tpYZd3KvcmTt5ARSoebc=}
@@ -34838,26 +34832,26 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/type-utils@8.46.4':
-    resolution: {integrity: sha1-rnG0KKPBOLUISv/keJPBKZSRceA=}
+  '@typescript-eslint/tsconfig-utils@8.58.0':
+    resolution: {integrity: sha1-xajtsh8x4P3uVlck4bmEFxxVlII=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
+      typescript: '>=4.8.4 <6.1.0'
 
-  '@typescript-eslint/types@8.46.4':
-    resolution: {integrity: sha1-OAIr/aBRvoDkEg7u/NK24+Ywpps=}
+  '@typescript-eslint/type-utils@8.58.0':
+    resolution: {integrity: sha1-zg5yzZZ/+76N4yLbYIm9Q3S+NS8=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
   '@typescript-eslint/types@8.56.1':
     resolution: {integrity: sha1-l15ZQr9UiVKRM3yRuRkfbrBjKrk=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/typescript-estree@8.46.4':
-    resolution: {integrity: sha1-ap7qsNpFv0APIsgY4PRxAqmAzqo=}
+  '@typescript-eslint/types@8.58.0':
+    resolution: {integrity: sha1-6Urnq9wcZTDnEYPBAHth+pMRKlo=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
 
   '@typescript-eslint/typescript-estree@8.56.1':
     resolution: {integrity: sha1-O55X2BKahgxQhkxCGI92G97z6rA=}
@@ -34865,12 +34859,11 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/utils@8.46.4':
-    resolution: {integrity: sha1-6nh43dYllIytRCTcJ1KxviNlVvU=}
+  '@typescript-eslint/typescript-estree@8.58.0':
+    resolution: {integrity: sha1-7SM/qo4vKi4TV8Pn1VPWRloO5Zo=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
+      typescript: '>=4.8.4 <6.1.0'
 
   '@typescript-eslint/utils@8.56.1':
     resolution: {integrity: sha1-Woasr58bTEqFpC7/shf3MFn23rc=}
@@ -34879,12 +34872,19 @@ packages:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/visitor-keys@8.46.4':
-    resolution: {integrity: sha1-BwMb2NPKZHThISIdrhBV2urYiPE=}
+  '@typescript-eslint/utils@8.58.0':
+    resolution: {integrity: sha1-IadKeWOw0oi3GaQSHH3VVa2qs8M=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
   '@typescript-eslint/visitor-keys@8.56.1':
     resolution: {integrity: sha1-UOA0dcM6QtEj3JnmOs8YQcAjH4c=}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/visitor-keys@8.58.0':
+    resolution: {integrity: sha1-Kr1VpL5w/VWWes6rpDMLm6n0UYk=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typespec/ts-http-runtime@0.3.4':
@@ -35916,9 +35916,6 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha1-QYPk6L8Iu24Fu7L30uDI9xLKQOM=}
 
-  graphemer@1.4.0:
-    resolution: {integrity: sha1-+y8dVeDjoYSa7/yQxPoN1ToOZsY=}
-
   hard-rejection@2.1.0:
     resolution: {integrity: sha1-HG7aXBaFxjlCdm15u0Cudzzs2IM=}
     engines: {node: '>=6'}
@@ -36468,10 +36465,6 @@ packages:
   minimatch@5.1.9:
     resolution: {integrity: sha1-EpPvFdsAmLOUVA6Pn3RPn9qN7ks=}
     engines: {node: '>=10'}
-
-  minimatch@9.0.9:
-    resolution: {integrity: sha1-mwy5/LeAh/b9fqur4lEcTT1gV04=}
-    engines: {node: '>=16 || 14 >=14.17'}
 
   minimist-options@4.1.0:
     resolution: {integrity: sha1-wGVXE8U6ii69d/+iR9NCxA8BBhk=}
@@ -37409,12 +37402,12 @@ packages:
   type-plus@7.6.2:
     resolution: {integrity: sha1-du3CKwToA8BH35TFSmndvtcUGx0=}
 
-  typescript-eslint@8.46.4:
-    resolution: {integrity: sha1-c8uTtf8W6GJyFyQO6wyvbnTgqfw=}
+  typescript-eslint@8.58.0:
+    resolution: {integrity: sha1-V1ixtorn7AXXVrmMY6H2lToBFys=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.1.0'
 
   typescript@5.4.5:
     resolution: {integrity: sha1-QszvLFcf29D2cYsdH15uXvAG9hE=}
@@ -37423,11 +37416,6 @@ packages:
 
   typescript@5.6.1-rc:
     resolution: {integrity: sha1-1eTX2BcBdP7WB7dMwyq6PXcBjgI=}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
-  typescript@5.8.3:
-    resolution: {integrity: sha1-kvij5ePPSXNW9BeMNM1lp/XoRA4=}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -40301,96 +40289,57 @@ snapshots:
 
   '@types/yargs-parser@21.0.3': {}
 
-  '@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.8.3))(eslint@9.39.4)(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.58.0(@typescript-eslint/parser@8.58.0(eslint@9.39.4)(typescript@6.0.2))(eslint@9.39.4)(typescript@6.0.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/type-utils': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/visitor-keys': 8.46.4
+      '@typescript-eslint/parser': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/scope-manager': 8.58.0
+      '@typescript-eslint/type-utils': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/utils': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/visitor-keys': 8.58.0
       eslint: 9.39.4
-      graphemer: 1.4.0
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.5.0(typescript@5.8.3)
-      typescript: 5.8.3
+      ts-api-utils: 2.5.0(typescript@6.0.2)
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)':
+  '@typescript-eslint/parser@8.58.0(eslint@9.39.4)(typescript@6.0.2)':
     dependencies:
-      '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/type-utils': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      '@typescript-eslint/visitor-keys': 8.46.4
-      eslint: 9.39.4
-      graphemer: 1.4.0
-      ignore: 7.0.5
-      natural-compare: 1.4.0
-      ts-api-utils: 2.5.0(typescript@5.9.3)
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.8.3)':
-    dependencies:
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/visitor-keys': 8.46.4
+      '@typescript-eslint/scope-manager': 8.58.0
+      '@typescript-eslint/types': 8.58.0
+      '@typescript-eslint/typescript-estree': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/visitor-keys': 8.58.0
       debug: 4.4.3
       eslint: 9.39.4
-      typescript: 5.8.3
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.9.3)':
+  '@typescript-eslint/project-service@8.56.1(typescript@6.0.2)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/visitor-keys': 8.46.4
-      debug: 4.4.3
-      eslint: 9.39.4
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/project-service@8.46.4(typescript@5.8.3)':
-    dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/types': 8.46.4
-      debug: 4.4.3
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/project-service@8.46.4(typescript@5.9.3)':
-    dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/types': 8.46.4
-      debug: 4.4.3
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/project-service@8.56.1(typescript@5.8.3)':
-    dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@5.8.3)
+      '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@6.0.2)
       '@typescript-eslint/types': 8.56.1
       debug: 4.4.3
-      typescript: 5.8.3
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@8.46.4(eslint@9.39.4)(typescript@5.8.3)':
+  '@typescript-eslint/project-service@8.58.0(typescript@6.0.2)':
     dependencies:
-      '@typescript-eslint/parser': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+      '@typescript-eslint/tsconfig-utils': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/types': 8.58.0
+      debug: 4.4.3
+      typescript: 6.0.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/rule-tester@8.58.0(eslint@9.39.4)(typescript@6.0.2)':
+    dependencies:
+      '@typescript-eslint/parser': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/typescript-estree': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/utils': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       ajv: 6.14.0
       eslint: 9.39.4
       json-stable-stringify-without-jsonify: 1.0.1
@@ -40400,144 +40349,100 @@ snapshots:
       - supports-color
       - typescript
 
-  '@typescript-eslint/scope-manager@8.46.4':
-    dependencies:
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/visitor-keys': 8.46.4
-
   '@typescript-eslint/scope-manager@8.56.1':
     dependencies:
       '@typescript-eslint/types': 8.56.1
       '@typescript-eslint/visitor-keys': 8.56.1
 
-  '@typescript-eslint/tsconfig-utils@8.46.4(typescript@5.8.3)':
+  '@typescript-eslint/scope-manager@8.58.0':
     dependencies:
-      typescript: 5.8.3
+      '@typescript-eslint/types': 8.58.0
+      '@typescript-eslint/visitor-keys': 8.58.0
 
-  '@typescript-eslint/tsconfig-utils@8.46.4(typescript@5.9.3)':
+  '@typescript-eslint/tsconfig-utils@8.56.1(typescript@6.0.2)':
     dependencies:
-      typescript: 5.9.3
+      typescript: 6.0.2
 
-  '@typescript-eslint/tsconfig-utils@8.56.1(typescript@5.8.3)':
+  '@typescript-eslint/tsconfig-utils@8.58.0(typescript@6.0.2)':
     dependencies:
-      typescript: 5.8.3
+      typescript: 6.0.2
 
-  '@typescript-eslint/type-utils@8.46.4(eslint@9.39.4)(typescript@5.8.3)':
+  '@typescript-eslint/type-utils@8.58.0(eslint@9.39.4)(typescript@6.0.2)':
     dependencies:
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+      '@typescript-eslint/types': 8.58.0
+      '@typescript-eslint/typescript-estree': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/utils': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       debug: 4.4.3
       eslint: 9.39.4
-      ts-api-utils: 2.5.0(typescript@5.8.3)
-      typescript: 5.8.3
+      ts-api-utils: 2.5.0(typescript@6.0.2)
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
-
-  '@typescript-eslint/type-utils@8.46.4(eslint@9.39.4)(typescript@5.9.3)':
-    dependencies:
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      debug: 4.4.3
-      eslint: 9.39.4
-      ts-api-utils: 2.5.0(typescript@5.9.3)
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/types@8.46.4': {}
 
   '@typescript-eslint/types@8.56.1': {}
 
-  '@typescript-eslint/typescript-estree@8.46.4(typescript@5.8.3)':
-    dependencies:
-      '@typescript-eslint/project-service': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/tsconfig-utils': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/visitor-keys': 8.46.4
-      debug: 4.4.3
-      fast-glob: 3.3.3
-      is-glob: 4.0.3
-      minimatch: 9.0.9
-      semver: 7.7.4
-      ts-api-utils: 2.5.0(typescript@5.8.3)
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
+  '@typescript-eslint/types@8.58.0': {}
 
-  '@typescript-eslint/typescript-estree@8.46.4(typescript@5.9.3)':
+  '@typescript-eslint/typescript-estree@8.56.1(typescript@6.0.2)':
     dependencies:
-      '@typescript-eslint/project-service': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/tsconfig-utils': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/visitor-keys': 8.46.4
-      debug: 4.4.3
-      fast-glob: 3.3.3
-      is-glob: 4.0.3
-      minimatch: 9.0.9
-      semver: 7.7.4
-      ts-api-utils: 2.5.0(typescript@5.9.3)
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3)':
-    dependencies:
-      '@typescript-eslint/project-service': 8.56.1(typescript@5.8.3)
-      '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@5.8.3)
+      '@typescript-eslint/project-service': 8.56.1(typescript@6.0.2)
+      '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@6.0.2)
       '@typescript-eslint/types': 8.56.1
       '@typescript-eslint/visitor-keys': 8.56.1
       debug: 4.4.3
       minimatch: 10.2.5
       semver: 7.7.4
       tinyglobby: 0.2.15
-      ts-api-utils: 2.5.0(typescript@5.8.3)
-      typescript: 5.8.3
+      ts-api-utils: 2.5.0(typescript@6.0.2)
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.46.4(eslint@9.39.4)(typescript@5.8.3)':
+  '@typescript-eslint/typescript-estree@8.58.0(typescript@6.0.2)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.8.3)
-      eslint: 9.39.4
-      typescript: 5.8.3
+      '@typescript-eslint/project-service': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/tsconfig-utils': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/types': 8.58.0
+      '@typescript-eslint/visitor-keys': 8.58.0
+      debug: 4.4.3
+      minimatch: 10.2.5
+      semver: 7.7.4
+      tinyglobby: 0.2.15
+      ts-api-utils: 2.5.0(typescript@6.0.2)
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.46.4(eslint@9.39.4)(typescript@5.9.3)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
-      '@typescript-eslint/scope-manager': 8.46.4
-      '@typescript-eslint/types': 8.46.4
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.9.3)
-      eslint: 9.39.4
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/utils@8.56.1(eslint@9.39.4)(typescript@5.8.3)':
+  '@typescript-eslint/utils@8.56.1(eslint@9.39.4)(typescript@6.0.2)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
       '@typescript-eslint/scope-manager': 8.56.1
       '@typescript-eslint/types': 8.56.1
-      '@typescript-eslint/typescript-estree': 8.56.1(typescript@5.8.3)
+      '@typescript-eslint/typescript-estree': 8.56.1(typescript@6.0.2)
       eslint: 9.39.4
-      typescript: 5.8.3
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/visitor-keys@8.46.4':
+  '@typescript-eslint/utils@8.58.0(eslint@9.39.4)(typescript@6.0.2)':
     dependencies:
-      '@typescript-eslint/types': 8.46.4
-      eslint-visitor-keys: 4.2.1
+      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
+      '@typescript-eslint/scope-manager': 8.58.0
+      '@typescript-eslint/types': 8.58.0
+      '@typescript-eslint/typescript-estree': 8.58.0(typescript@6.0.2)
+      eslint: 9.39.4
+      typescript: 6.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   '@typescript-eslint/visitor-keys@8.56.1':
     dependencies:
       '@typescript-eslint/types': 8.56.1
+      eslint-visitor-keys: 5.0.1
+
+  '@typescript-eslint/visitor-keys@8.58.0':
+    dependencies:
+      '@typescript-eslint/types': 8.58.0
       eslint-visitor-keys: 5.0.1
 
   '@typespec/ts-http-runtime@0.3.4':
@@ -41276,7 +41181,7 @@ snapshots:
       eslint: 9.39.4
       eslint-compat-utils: 0.5.1(eslint@9.39.4)
 
-  eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@5.8.3):
+  eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@6.0.2):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
       enhanced-resolve: 5.20.1
@@ -41287,7 +41192,7 @@ snapshots:
       globrex: 0.1.2
       ignore: 5.3.2
       semver: 7.7.4
-      ts-declaration-location: 1.0.7(typescript@5.8.3)
+      ts-declaration-location: 1.0.7(typescript@6.0.2)
     transitivePeerDependencies:
       - typescript
 
@@ -41298,11 +41203,11 @@ snapshots:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
       eslint: 9.39.4
 
-  eslint-plugin-tsdoc@0.5.2(eslint@9.39.4)(typescript@5.8.3):
+  eslint-plugin-tsdoc@0.5.2(eslint@9.39.4)(typescript@6.0.2):
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.1
-      '@typescript-eslint/utils': 8.56.1(eslint@9.39.4)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.56.1(eslint@9.39.4)(typescript@6.0.2)
     transitivePeerDependencies:
       - eslint
       - supports-color
@@ -41708,8 +41613,6 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
-
-  graphemer@1.4.0: {}
 
   hard-rejection@2.1.0: {}
 
@@ -42252,10 +42155,6 @@ snapshots:
       brace-expansion: 1.1.13
 
   minimatch@5.1.9:
-    dependencies:
-      brace-expansion: 2.0.3
-
-  minimatch@9.0.9:
     dependencies:
       brace-expansion: 2.0.3
 
@@ -43177,18 +43076,14 @@ snapshots:
 
   triple-beam@1.4.1: {}
 
-  ts-api-utils@2.5.0(typescript@5.8.3):
+  ts-api-utils@2.5.0(typescript@6.0.2):
     dependencies:
-      typescript: 5.8.3
+      typescript: 6.0.2
 
-  ts-api-utils@2.5.0(typescript@5.9.3):
-    dependencies:
-      typescript: 5.9.3
-
-  ts-declaration-location@1.0.7(typescript@5.8.3):
+  ts-declaration-location@1.0.7(typescript@6.0.2):
     dependencies:
       picomatch: 4.0.4
-      typescript: 5.8.3
+      typescript: 6.0.2
 
   ts-morph@27.0.2:
     dependencies:
@@ -43238,33 +43133,20 @@ snapshots:
       tersify: 3.12.1
       unpartial: 1.0.5
 
-  typescript-eslint@8.46.4(eslint@9.39.4)(typescript@5.8.3):
+  typescript-eslint@8.58.0(eslint@9.39.4)(typescript@6.0.2):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.8.3))(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.58.0(@typescript-eslint/parser@8.58.0(eslint@9.39.4)(typescript@6.0.2))(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/parser': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
+      '@typescript-eslint/typescript-estree': 8.58.0(typescript@6.0.2)
+      '@typescript-eslint/utils': 8.58.0(eslint@9.39.4)(typescript@6.0.2)
       eslint: 9.39.4
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
-
-  typescript-eslint@8.46.4(eslint@9.39.4)(typescript@5.9.3):
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 8.46.4(@typescript-eslint/parser@8.46.4(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
-      '@typescript-eslint/parser': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      '@typescript-eslint/typescript-estree': 8.46.4(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.4)(typescript@5.9.3)
-      eslint: 9.39.4
-      typescript: 5.9.3
+      typescript: 6.0.2
     transitivePeerDependencies:
       - supports-color
 
   typescript@5.4.5: {}
 
   typescript@5.6.1-rc: {}
-
-  typescript@5.8.3: {}
 
   typescript@5.9.3: {}
 

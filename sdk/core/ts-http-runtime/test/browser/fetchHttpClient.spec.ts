@@ -3,10 +3,8 @@
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
-import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createPipelineRequest, createHttpHeaders, AbortError } from "../../src/index.js";
 import { png } from "./mocks/encodedPng.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { AbortError } from "../../src/abort-controller/AbortError.js";
 import { delay } from "../../src/util/helpers.js";
 import { arrayBufferViewToArrayBuffer } from "../../src/util/arrayBuffer.js";
 
