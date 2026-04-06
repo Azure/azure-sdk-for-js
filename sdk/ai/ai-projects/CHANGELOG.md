@@ -1,5 +1,17 @@
 # Release History
 
+## 2.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Replace `console.debug` calls with Azure SDK logger to prevent secret leakage (e.g. SAS URIs) in unconditional console output.
+
+### Other Changes
+
 ## 2.0.1 (2026-03-13)
 
 ### Bugs Fixed
