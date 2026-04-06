@@ -35,10 +35,10 @@ export function _$deleteSend(
 ): StreamableMethod {
   const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolboxes/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api-version}",
     {
       tool_set_name: toolboxName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,13 +84,13 @@ export function _listSend(
 ): StreamableMethod {
   const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolboxes{?limit,order,after,before,api%2Dversion}",
+    "/toolboxes{?limit,order,after,before,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,10 +141,10 @@ export function _getSend(
 ): StreamableMethod {
   const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolboxes/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api-version}",
     {
       tool_set_name: toolboxName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,10 +190,10 @@ export function _updateSend(
 ): StreamableMethod {
   const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolboxes/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api-version}",
     {
       tool_set_name: toolboxName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,9 +246,9 @@ export function _createSend(
 ): StreamableMethod {
   const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolboxes{?api%2Dversion}",
+    "/toolboxes{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

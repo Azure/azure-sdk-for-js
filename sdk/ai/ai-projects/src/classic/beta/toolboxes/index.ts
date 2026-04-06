@@ -45,8 +45,11 @@ function _getBetaToolboxes(context: AIProjectContext) {
     list: (options?: BetaToolboxesListOptionalParams) => list(context, options),
     get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) =>
       get(context, toolboxName, options),
-    update: (toolboxName: string, tools: ToolUnion[], options?: BetaToolboxesUpdateOptionalParams) =>
-      update(context, toolboxName, tools, options),
+    update: (
+      toolboxName: string,
+      tools: ToolUnion[],
+      options?: BetaToolboxesUpdateOptionalParams,
+    ) => update(context, toolboxName, tools, options),
     create: (name: string, tools: ToolUnion[], options?: BetaToolboxesCreateOptionalParams) =>
       create(context, name, tools, options),
   };
