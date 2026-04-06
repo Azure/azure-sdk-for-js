@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as path from "node:path";
-import { findWarpConfig, validateTsconfigPaths, inferModuleType } from "./config.ts";
+import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
 import { compileAllTargets, parseTargetTsConfig } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import { formatDiagnostics } from "./diagnostics.ts";
@@ -36,8 +36,6 @@ export interface BuildOptions {
   stats?: boolean;
   /** Only build targets whose name matches one of the given values. */
   target?: string[];
-  /** When true, suppress human-readable output (for machine-readable JSON from CLI). */
-  json?: boolean;
 }
 
 export interface BuildResult {
@@ -151,7 +149,6 @@ async function compileStep(
 async function postCompileStep(
   results: CompileResult[],
   config: WarpConfig,
-  parsedConfigs: ParsedTargetConfig[],
   packageRoot: string,
   parallel: boolean,
   stats: boolean,
@@ -173,11 +170,7 @@ async function postCompileStep(
   if (skipPackageJsonUpdate) {
     log.info("[warp] Filtered build: skipping package.json exports update");
   } else {
-    const compilerModuleKinds = new Map<string, number | undefined>();
-    for (const pc of parsedConfigs) {
-      compilerModuleKinds.set(pc.target.name, pc.parsedConfig.options.module);
-    }
-    await writeExportsToPackageJson(exportsMap, results, packageRoot, compilerModuleKinds);
+    await writeExportsToPackageJson(exportsMap, results, packageRoot);
     log.info("[warp] Updated exports in package.json");
   }
 
@@ -286,7 +279,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     for (const pc of parsedConfigs) {
       const conditions: ReadonlySet<string> = buildConditionsSet(
         pc.parsedConfig.options.customConditions,
-        pc.target.moduleType ?? inferModuleType(pc.parsedConfig.options.module),
+        pc.target.moduleType ?? "module",
       );
       const { filesChanged, unresolvedSpecifiers, missingTargets } = await resolveImportsInDir(
         pc.outDir,
@@ -344,7 +337,6 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const { sizeReport, missingFiles } = await postCompileStep(
     results,
     config,
-    parsedConfigs,
     packageRoot,
     !!options.parallel,
     !!options.stats,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import type { ClientCredential } from "../../src/auth/credentials.js";
+import type { ClientCredential } from "../../src/index.js";
 import {
   isApiKeyCredential,
   isBasicCredential,

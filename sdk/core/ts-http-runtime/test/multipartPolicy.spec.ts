@@ -2,11 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, expect } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
+import {
+  createHttpHeaders,
+  type PipelineRequest,
+  type PipelineResponse,
+  type SendRequest,
+  createPipelineRequest,
+  type PipelineRequestOptions,
+} from "../src/index.js";
 import { multipartPolicy } from "../src/policies/multipartPolicy.js";
-import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "../src/util/bytesEncoding.js";
 import { assertBodyMatches } from "./util.js";
 

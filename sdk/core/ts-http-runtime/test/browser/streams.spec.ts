@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { getClient } from "../../src/client/getClient.js";
+import { getClient } from "../../src/index.js";
 
 function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({

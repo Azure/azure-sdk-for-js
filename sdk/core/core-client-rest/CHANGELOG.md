@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- support passing `pipeline` via `ClientOptions`
+- support passing `pipeline` via `ClientOptions`. [PR #37253](https://github.com/Azure/azure-sdk-for-js/pull/37253)
 
 ### Breaking Changes
 
