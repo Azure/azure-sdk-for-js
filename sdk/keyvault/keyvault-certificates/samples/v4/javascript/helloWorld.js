@@ -5,7 +5,7 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 // Load the .env file if it exists
 require("dotenv/config");
@@ -24,10 +24,20 @@ async function main() {
   const uniqueString = new Date().getTime();
   const certificateName = `hello-world-${uniqueString}`;
 
-  // Creating a self-signed certificate
+  // Creating a self-signed certificate with Subject Alternative Names (SANs)
+  // SANs can include DNS names, IP addresses, URIs, and more.
+  const certificatePolicy = {
+    issuerName: "Self",
+    subject: "cn=MyCert",
+    subjectAlternativeNames: {
+      dnsNames: ["sdk.azure-int.net"],
+      ipAddresses: ["10.0.0.1", "2001:db8::1"],
+      uniformResourceIdentifiers: ["https://mydomain.com"],
+    },
+  };
   const createPoller = await client.beginCreateCertificate(
     certificateName,
-    DefaultCertificatePolicy,
+    certificatePolicy,
   );
 
   // Get the pending certificate before the creation operation is complete
