@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.0 (2026-03-17)
+## 3.1.0 (2026-04-06)
 
 ### Features Added
   - Added operation group ConnectionsOperations
@@ -15,6 +15,7 @@
   - Added Interface S3WithHmacEndpointProperties
   - Added Interface S3WithHmacEndpointUpdateProperties
   - Added Interface ScheduleInfo
+  - Added Interface SchedulerTime
   - Interface AzureMultiCloudConnectorEndpointProperties has a new optional parameter endpointKind
   - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter endpointKind
   - Interface AzureStorageNfsFileShareEndpointProperties has a new optional parameter endpointKind
@@ -26,6 +27,7 @@
   - Interface JobDefinitionProperties has a new optional parameter schedule
   - Interface JobDefinitionUpdateProperties has a new optional parameter connections
   - Interface JobDefinitionUpdateProperties has a new optional parameter dataIntegrityValidation
+  - Interface JobDefinitionUpdateProperties has a new optional parameter schedule
   - Interface JobRunProperties has a new optional parameter scheduledExecutionTime
   - Interface JobRunProperties has a new optional parameter triggerType
   - Interface JobRunProperties has a new optional parameter warnings

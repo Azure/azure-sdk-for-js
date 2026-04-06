@@ -113,6 +113,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storagemoverslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagemover/arm-storagemover/samples/v3/javascript/storageMoversListBySubscriptionSample.js
 [storagemoverslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagemover/arm-storagemover/samples/v3/javascript/storageMoversListSample.js
 [storagemoversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagemover/arm-storagemover/samples/v3/javascript/storageMoversUpdateSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storagemover?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storagemover
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagemover/arm-storagemover/README.md
