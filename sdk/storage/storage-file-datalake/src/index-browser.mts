@@ -26,7 +26,6 @@ export {
   type ServiceClientOptions,
 } from "./Pipeline.js";
 export {
-  AnonymousCredential,
   AnonymousCredentialPolicy,
   Credential,
   BaseRequestPolicy,
@@ -37,10 +36,13 @@ export {
   StorageRetryPolicy,
   StorageRetryPolicyType,
   StorageRetryPolicyFactory,
+  AnonymousCredential,
+  UserDelegationKey,
+} from "@azure/storage-common";
+export {
   type BlobServiceProperties as DataLakeServiceProperties,
   type ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
-export { type UserDelegationKey } from "@azure/storage-common";
 export type { CommonOptions } from "./StorageClient.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";

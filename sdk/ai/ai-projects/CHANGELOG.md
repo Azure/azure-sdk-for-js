@@ -1,10 +1,10 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.0.2 (2026-04-06)
 
-### Features Added
+### Bugs Fixed
 
-- Add `project.beta.toolboxes` route for toolbox operations.
+- Replace `console.debug` calls with Azure SDK logger to prevent secret leakage (e.g. SAS URIs) in unconditional console output.
 
 ## 2.0.1 (2026-03-13)
 

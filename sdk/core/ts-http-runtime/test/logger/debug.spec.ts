@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
-import type { Debugger } from "../../src/logger/debug.js";
+import type { Debugger } from "../../src/index.js";
 import debug from "../../src/logger/debug.js";
 
 describe("debug", function () {
