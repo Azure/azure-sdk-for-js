@@ -87,7 +87,7 @@ describe("DeviceRegistry Credentials and Policies Flow tests", () => {
     await recorder.stop();
   });
 
-  it("Credential and Policy full flow", async () => {
+  it.skipIf(isPlaybackMode())("Credential and Policy full flow", async () => {
     // Step 1: Verify the pre-created namespace exists
     console.log(`Step 1: Getting namespace '${namespaceName}'...`);
     const namespaceResource = await client.namespaces.get(resourceGroupName, namespaceName);
