@@ -3,9 +3,9 @@
 
 export { $delete, list, get, update, create } from "./operations.js";
 export type {
-  BetaToolsetsDeleteOptionalParams,
-  BetaToolsetsListOptionalParams,
-  BetaToolsetsGetOptionalParams,
-  BetaToolsetsUpdateOptionalParams,
-  BetaToolsetsCreateOptionalParams,
+  BetaToolboxesDeleteOptionalParams,
+  BetaToolboxesListOptionalParams,
+  BetaToolboxesGetOptionalParams,
+  BetaToolboxesUpdateOptionalParams,
+  BetaToolboxesCreateOptionalParams,
 } from "./options.js";

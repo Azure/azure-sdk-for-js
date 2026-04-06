@@ -5,10 +5,10 @@ import type { PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaToolsetsDeleteOptionalParams extends OperationOptions {}
+export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolsetsListOptionalParams extends OperationOptions {
+export interface BetaToolboxesListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -34,20 +34,20 @@ export interface BetaToolsetsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BetaToolsetsGetOptionalParams extends OperationOptions {}
+export interface BetaToolboxesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolsetsUpdateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
+export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {
+  /** A human-readable description of the toolbox. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
+  /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
 }
 
 /** Optional parameters. */
-export interface BetaToolsetsCreateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
+export interface BetaToolboxesCreateOptionalParams extends OperationOptions {
+  /** A human-readable description of the toolbox. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
+  /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
 }

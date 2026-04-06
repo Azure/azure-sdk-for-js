@@ -7,7 +7,7 @@
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
@@ -515,7 +515,7 @@ export interface BetaOperations {
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
     schedules: BetaSchedulesOperations;
-    toolsets: BetaToolsetsOperations;
+    toolboxes: BetaToolboxesOperations;
 }
 
 // @public
@@ -583,21 +583,21 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
-export interface BetaToolsetsCreateOptionalParams extends OperationOptions {
+export interface BetaToolboxesCreateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
 }
 
 // @public
-export interface BetaToolsetsDeleteOptionalParams extends OperationOptions {
+export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaToolsetsGetOptionalParams extends OperationOptions {
+export interface BetaToolboxesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaToolsetsListOptionalParams extends OperationOptions {
+export interface BetaToolboxesListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -605,16 +605,16 @@ export interface BetaToolsetsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaToolsetsOperations {
-    create: (name: string, tools: ToolUnion[], options?: BetaToolsetsCreateOptionalParams) => Promise<ToolsetObject>;
-    delete: (toolSetName: string, options?: BetaToolsetsDeleteOptionalParams) => Promise<DeleteToolsetResponse>;
-    get: (toolSetName: string, options?: BetaToolsetsGetOptionalParams) => Promise<ToolsetObject>;
-    list: (options?: BetaToolsetsListOptionalParams) => PagedAsyncIterableIterator<ToolsetObject>;
-    update: (toolSetName: string, tools: ToolUnion[], options?: BetaToolsetsUpdateOptionalParams) => Promise<ToolsetObject>;
+export interface BetaToolboxesOperations {
+    create: (name: string, tools: ToolUnion[], options?: BetaToolboxesCreateOptionalParams) => Promise<ToolboxObject>;
+    delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<DeleteToolboxResponse>;
+    get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
+    list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
+    update: (toolboxName: string, tools: ToolUnion[], options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
 }
 
 // @public
-export interface BetaToolsetsUpdateOptionalParams extends OperationOptions {
+export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
 }
@@ -1049,10 +1049,10 @@ export interface DeleteMemoryStoreResponse {
 }
 
 // @public
-export interface DeleteToolsetResponse {
+export interface DeleteToolboxResponse {
     deleted: boolean;
     name: string;
-    object: "toolset.deleted";
+    object: "toolbox.deleted";
 }
 
 // @public
@@ -1368,7 +1368,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "Toolsets=V1Preview" | "AgentEndpoints=V1Preview" | "MemoryStores=V1Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "toolboxes=V1Preview" | "AgentEndpoints=V1Preview" | "MemoryStores=V1Preview";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
@@ -2215,6 +2215,21 @@ export interface Tool {
 }
 
 // @public
+export interface ToolboxObject {
+    created_at: Date;
+    description?: string;
+    id: string;
+    metadata?: Record<string, string>;
+    name: string;
+    object: "toolbox";
+    tools: ToolUnion[];
+    updated_at: Date;
+}
+
+// @public
+export type ToolboxObjectType = "toolbox" | "toolbox.deleted";
+
+// @public
 export interface ToolChoiceAllowed extends ToolChoiceParam {
     mode: "auto" | "required";
     tools: Record<string, unknown>[];
@@ -2293,21 +2308,6 @@ export interface ToolProjectConnection {
     name?: string;
     project_connection_id: string;
 }
-
-// @public
-export interface ToolsetObject {
-    created_at: Date;
-    description?: string;
-    id: string;
-    metadata?: Record<string, string>;
-    name: string;
-    object: "toolset";
-    tools: ToolUnion[];
-    updated_at: Date;
-}
-
-// @public
-export type ToolsetObjectType = "toolset" | "toolset.deleted";
 
 // @public
 export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";

@@ -4,25 +4,25 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
   ToolUnion,
-  ToolsetObject,
-  _AgentsPagedResultToolsetObject,
-  DeleteToolsetResponse,
+  ToolboxObject,
+  _AgentsPagedResultToolboxObject,
+  DeleteToolboxResponse,
 } from "../../../models/models.js";
 import {
   toolUnionArraySerializer,
   apiErrorResponseDeserializer,
-  toolsetObjectDeserializer,
-  _agentsPagedResultToolsetObjectDeserializer,
-  deleteToolsetResponseDeserializer,
+  toolboxObjectDeserializer,
+  _agentsPagedResultToolboxObjectDeserializer,
+  deleteToolboxResponseDeserializer,
 } from "../../../models/models.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  BetaToolsetsDeleteOptionalParams,
-  BetaToolsetsListOptionalParams,
-  BetaToolsetsGetOptionalParams,
-  BetaToolsetsUpdateOptionalParams,
-  BetaToolsetsCreateOptionalParams,
+  BetaToolboxesDeleteOptionalParams,
+  BetaToolboxesListOptionalParams,
+  BetaToolboxesGetOptionalParams,
+  BetaToolboxesUpdateOptionalParams,
+  BetaToolboxesCreateOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -30,14 +30,14 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function _$deleteSend(
   context: Client,
-  toolSetName: string,
-  options: BetaToolsetsDeleteOptionalParams = { requestOptions: {} },
+  toolboxName: string,
+  options: BetaToolboxesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolsets=V1Preview";
+  const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolsets/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api%2Dversion}",
     {
-      tool_set_name: toolSetName,
+      tool_set_name: toolboxName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -56,7 +56,7 @@ export function _$deleteSend(
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteToolsetResponse> {
+): Promise<DeleteToolboxResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -65,26 +65,26 @@ export async function _$deleteDeserialize(
     throw error;
   }
 
-  return deleteToolsetResponseDeserializer(result.body);
+  return deleteToolboxResponseDeserializer(result.body);
 }
 
-/** Delete a toolset. */
+/** Delete a toolbox. */
 export async function $delete(
   context: Client,
-  toolSetName: string,
-  options: BetaToolsetsDeleteOptionalParams = { requestOptions: {} },
-): Promise<DeleteToolsetResponse> {
-  const result = await _$deleteSend(context, toolSetName, options);
+  toolboxName: string,
+  options: BetaToolboxesDeleteOptionalParams = { requestOptions: {} },
+): Promise<DeleteToolboxResponse> {
+  const result = await _$deleteSend(context, toolboxName, options);
   return _$deleteDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
-  options: BetaToolsetsListOptionalParams = { requestOptions: {} },
+  options: BetaToolboxesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolsets=V1Preview";
+  const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolsets{?limit,order,after,before,api%2Dversion}",
+    "/toolboxes{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
@@ -108,7 +108,7 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultToolsetObject> {
+): Promise<_AgentsPagedResultToolboxObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -117,14 +117,14 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultToolsetObjectDeserializer(result.body);
+  return _agentsPagedResultToolboxObjectDeserializer(result.body);
 }
 
-/** List all toolsets. */
+/** List all toolboxes. */
 export function list(
   context: Client,
-  options: BetaToolsetsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ToolsetObject> {
+  options: BetaToolboxesListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ToolboxObject> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -136,14 +136,14 @@ export function list(
 
 export function _getSend(
   context: Client,
-  toolSetName: string,
-  options: BetaToolsetsGetOptionalParams = { requestOptions: {} },
+  toolboxName: string,
+  options: BetaToolboxesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolsets=V1Preview";
+  const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolsets/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api%2Dversion}",
     {
-      tool_set_name: toolSetName,
+      tool_set_name: toolboxName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -160,7 +160,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ToolboxObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -169,30 +169,30 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
     throw error;
   }
 
-  return toolsetObjectDeserializer(result.body);
+  return toolboxObjectDeserializer(result.body);
 }
 
-/** Retrieve a toolset. */
+/** Retrieve a toolbox. */
 export async function get(
   context: Client,
-  toolSetName: string,
-  options: BetaToolsetsGetOptionalParams = { requestOptions: {} },
-): Promise<ToolsetObject> {
-  const result = await _getSend(context, toolSetName, options);
+  toolboxName: string,
+  options: BetaToolboxesGetOptionalParams = { requestOptions: {} },
+): Promise<ToolboxObject> {
+  const result = await _getSend(context, toolboxName, options);
   return _getDeserialize(result);
 }
 
 export function _updateSend(
   context: Client,
-  toolSetName: string,
+  toolboxName: string,
   tools: ToolUnion[],
-  options: BetaToolsetsUpdateOptionalParams = { requestOptions: {} },
+  options: BetaToolboxesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolsets=V1Preview";
+  const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolsets/{tool_set_name}{?api%2Dversion}",
+    "/toolboxes/{tool_set_name}{?api%2Dversion}",
     {
-      tool_set_name: toolSetName,
+      tool_set_name: toolboxName,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -215,7 +215,7 @@ export function _updateSend(
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ToolboxObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -224,17 +224,17 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return toolsetObjectDeserializer(result.body);
+  return toolboxObjectDeserializer(result.body);
 }
 
-/** Update a toolset. */
+/** Update a toolbox. */
 export async function update(
   context: Client,
-  toolSetName: string,
+  toolboxName: string,
   tools: ToolUnion[],
-  options: BetaToolsetsUpdateOptionalParams = { requestOptions: {} },
-): Promise<ToolsetObject> {
-  const result = await _updateSend(context, toolSetName, tools, options);
+  options: BetaToolboxesUpdateOptionalParams = { requestOptions: {} },
+): Promise<ToolboxObject> {
+  const result = await _updateSend(context, toolboxName, tools, options);
   return _updateDeserialize(result);
 }
 
@@ -242,11 +242,11 @@ export function _createSend(
   context: Client,
   name: string,
   tools: ToolUnion[],
-  options: BetaToolsetsCreateOptionalParams = { requestOptions: {} },
+  options: BetaToolboxesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolsets=V1Preview";
+  const foundryFeatures = "toolboxes=V1Preview";
   const path = expandUrlTemplate(
-    "/toolsets{?api%2Dversion}",
+    "/toolboxes{?api%2Dversion}",
     {
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -271,7 +271,7 @@ export function _createSend(
   });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<ToolsetObject> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<ToolboxObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -280,16 +280,16 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return toolsetObjectDeserializer(result.body);
+  return toolboxObjectDeserializer(result.body);
 }
 
-/** Create a toolset. */
+/** Create a toolbox. */
 export async function create(
   context: Client,
   name: string,
   tools: ToolUnion[],
-  options: BetaToolsetsCreateOptionalParams = { requestOptions: {} },
-): Promise<ToolsetObject> {
+  options: BetaToolboxesCreateOptionalParams = { requestOptions: {} },
+): Promise<ToolboxObject> {
   const result = await _createSend(context, name, tools, options);
   return _createDeserialize(result);
 }

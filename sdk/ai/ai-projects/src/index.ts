@@ -292,14 +292,14 @@ export type {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
-  ToolsetObject,
-  DeleteToolsetResponse,
+  ToolboxObject,
+  DeleteToolboxResponse,
   AgentType,
   AgentDefinitionOptInKeys,
   FoundryFeaturesOptInKeys,
   PageOrder,
   PendingUploadType,
-  ToolsetObjectType,
+  ToolboxObjectType,
   MemoryStoreType,
   KnownApiVersions,
 } from "./models/index.js";
@@ -397,12 +397,12 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
-  BetaToolsetsDeleteOptionalParams,
-  BetaToolsetsListOptionalParams,
-  BetaToolsetsGetOptionalParams,
-  BetaToolsetsUpdateOptionalParams,
-  BetaToolsetsCreateOptionalParams,
-} from "./api/beta/toolsets/index.js";
+  BetaToolboxesDeleteOptionalParams,
+  BetaToolboxesListOptionalParams,
+  BetaToolboxesGetOptionalParams,
+  BetaToolboxesUpdateOptionalParams,
+  BetaToolboxesCreateOptionalParams,
+} from "./api/beta/toolboxes/index.js";
 export type {
   AgentsOperations,
   BetaOperations,
@@ -418,6 +418,6 @@ export type {
   BetaMemoryStoresOperations,
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
-  BetaToolsetsOperations,
+  BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

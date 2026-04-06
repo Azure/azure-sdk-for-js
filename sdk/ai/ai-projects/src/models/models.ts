@@ -7899,27 +7899,27 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   });
 }
 
-/** A toolset that stores reusable tool definitions for agents. */
-export interface ToolsetObject {
-  /** The object type, which is always 'toolset'. */
-  object: "toolset";
-  /** The unique identifier of the toolset. */
+/** A toolbox that stores reusable tool definitions for agents. */
+export interface ToolboxObject {
+  /** The object type, which is always 'toolbox'. */
+  object: "toolbox";
+  /** The unique identifier of the toolbox. */
   id: string;
-  /** The Unix timestamp (seconds) when the toolset was created. */
+  /** The Unix timestamp (seconds) when the toolbox was created. */
   created_at: Date;
-  /** The Unix timestamp (seconds) when the toolset was last updated. */
+  /** The Unix timestamp (seconds) when the toolbox was last updated. */
   updated_at: Date;
-  /** The name of the toolset. */
+  /** The name of the toolbox. */
   name: string;
-  /** A human-readable description of the toolset. */
+  /** A human-readable description of the toolbox. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
+  /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
-  /** The list of tools contained in this toolset. */
+  /** The list of tools contained in this toolbox. */
   tools: ToolUnion[];
 }
 
-export function toolsetObjectDeserializer(item: any): ToolsetObject {
+export function toolboxObjectDeserializer(item: any): ToolboxObject {
   return {
     object: item["object"],
     id: item["id"],
@@ -7935,9 +7935,9 @@ export function toolsetObjectDeserializer(item: any): ToolsetObject {
 }
 
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultToolsetObject {
+export interface _AgentsPagedResultToolboxObject {
   /** The requested list of items. */
-  data: ToolsetObject[];
+  data: ToolboxObject[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -7946,34 +7946,34 @@ export interface _AgentsPagedResultToolsetObject {
   has_more: boolean;
 }
 
-export function _agentsPagedResultToolsetObjectDeserializer(
+export function _agentsPagedResultToolboxObjectDeserializer(
   item: any,
-): _AgentsPagedResultToolsetObject {
+): _AgentsPagedResultToolboxObject {
   return {
-    data: toolsetObjectArrayDeserializer(item["data"]),
+    data: toolboxObjectArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function toolsetObjectArrayDeserializer(result: Array<ToolsetObject>): any[] {
+export function toolboxObjectArrayDeserializer(result: Array<ToolboxObject>): any[] {
   return result.map((item) => {
-    return toolsetObjectDeserializer(item);
+    return toolboxObjectDeserializer(item);
   });
 }
 
-/** Response returned when a toolset is deleted. */
-export interface DeleteToolsetResponse {
-  /** The object type. Always 'toolset.deleted'. */
-  object: "toolset.deleted";
-  /** The name of the toolset. */
+/** Response returned when a toolbox is deleted. */
+export interface DeleteToolboxResponse {
+  /** The object type. Always 'toolbox.deleted'. */
+  object: "toolbox.deleted";
+  /** The name of the toolbox. */
   name: string;
-  /** Whether the toolset was successfully deleted. */
+  /** Whether the toolbox was successfully deleted. */
   deleted: boolean;
 }
 
-export function deleteToolsetResponseDeserializer(item: any): DeleteToolsetResponse {
+export function deleteToolboxResponseDeserializer(item: any): DeleteToolboxResponse {
   return {
     object: item["object"],
     name: item["name"],
@@ -8038,7 +8038,7 @@ export type FoundryFeaturesOptInKeys =
   | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
-  | "Toolsets=V1Preview"
+  | "toolboxes=V1Preview"
   | "AgentEndpoints=V1Preview"
   | "MemoryStores=V1Preview";
 /** Type of PageOrder */
@@ -8050,8 +8050,8 @@ export type MemoryStoreType =
   | "memory_store"
   | "memory_store.deleted"
   | "memory_store.scope.deleted";
-/** Type of ToolsetObjectType */
-export type ToolsetObjectType = "toolset" | "toolset.deleted";
+/** Type of ToolboxObjectType */
+export type ToolboxObjectType = "toolbox" | "toolbox.deleted";
 
 /** Microsoft Foundry API versions */
 export enum KnownApiVersions {
