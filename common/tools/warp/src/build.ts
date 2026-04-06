@@ -17,7 +17,9 @@ import {
   resolveImportsInDir,
   buildConditionsSet,
   validateNoDirectImports,
+  resolveSubpathImport,
 } from "./resolveImports.ts";
+import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -64,7 +66,11 @@ async function resolveStep(
   configPath?: string,
   target?: string[],
   preResolved?: ResolvedWarpConfig,
-): Promise<{ resolved: ResolvedWarpConfig; parsedConfigs: ParsedTargetConfig[] }> {
+): Promise<{
+  resolved: ResolvedWarpConfig;
+  parsedConfigs: ParsedTargetConfig[];
+  importsMap: ImportsMap | undefined;
+}> {
   const log = getLogger();
 
   const found = preResolved ?? (await findWarpConfig(packageRoot, configPath));
@@ -109,6 +115,31 @@ async function resolveStep(
 
   const parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
 
+  // Populate resolvedImports so programIdentity can differentiate targets
+  // that resolve #-prefixed imports to different files (e.g., browser vs
+  // react-native mapping #platform/* to different platform variants).
+  // Note: this resolves all keys in package.json "imports", which may
+  // over-differentiate when unused keys differ across targets. If dedup
+  // hit rate becomes a concern, we could filter to only specifiers that
+  // actually appear in the target's source files.
+  const importsMap = await readPackageImports(packageRoot);
+  if (importsMap) {
+    for (const pc of parsedConfigs) {
+      const conditions = buildConditionsSet(
+        pc.parsedConfig.options.customConditions,
+        pc.target.moduleType ?? "module",
+      );
+      const resolved: string[] = [];
+      for (const key of Object.keys(importsMap)) {
+        const target = resolveSubpathImport(key, importsMap, conditions);
+        if (target) {
+          resolved.push(`${key}→${target}`);
+        }
+      }
+      pc.resolvedImports = resolved;
+    }
+  }
+
   log.info("");
   for (const pc of parsedConfigs) {
     const relOut = path.relative(packageRoot, pc.outDir);
@@ -118,7 +149,7 @@ async function resolveStep(
     );
   }
 
-  return { resolved, parsedConfigs };
+  return { resolved, parsedConfigs, importsMap };
 }
 
 /** Step 2: Compile all targets. */
@@ -219,7 +250,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const packageRoot = path.resolve(cwd);
 
   // Step 1: Resolve config
-  const { resolved, parsedConfigs } = await resolveStep(
+  const { resolved, parsedConfigs, importsMap } = await resolveStep(
     packageRoot,
     options.configPath,
     options.target,
@@ -249,9 +280,6 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
 
     return { success: true, config, totalTimeMs: performance.now() - buildStart };
   }
-
-  // Read imports map once — used for validation (step 1b) and post-compile resolution (step 2b)
-  const importsMap = await readPackageImports(packageRoot);
 
   // Step 1b: Validate no direct imports bypassing #imports
   if (importsMap) {
