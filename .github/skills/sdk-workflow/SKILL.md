@@ -44,10 +44,10 @@ development tasks. Read the referenced docs — don't guess at commands.
 - **Azure DevOps npm feed (devfeed priming)**: Before running `pnpm install`
   (especially on a new machine or fresh checkout), or if `pnpm install` fails due to
   feed authentication, authenticate to the Azure Artifacts feed by running
-  `npx artifacts-npm-credprovider` at the repo root. This is required because some
-  devDependencies (e.g. the ESLint plugin) are published only to the internal Azure
-  DevOps feed, not the public npm registry. See `CONTRIBUTING.md` §
-  "Authenticating to the Azure DevOps npm feed" for details.
+  `npx artifacts-npm-credprovider` at the repo root. This is required because pnpm
+  is configured to install packages exclusively from the internal Azure Artifacts feed
+  (devfeed), so feed authentication must be set up before any install can succeed.
+  See `CONTRIBUTING.md` § "Authenticating to the Azure DevOps npm feed" for details.
 - **Building with turbo**: To build a package _and its dependencies_, use
   `pnpm turbo build --filter=<package-name>... --token 1` (note the trailing `...`).
   Running `npm run build` in a package directory will fail if dependencies aren't built.
