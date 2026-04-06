@@ -5,7 +5,7 @@ import { logger } from "../logger.js";
 import { KnownApiVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "../constants.js";
 
 export interface AIProjectContext extends Client {
@@ -23,7 +23,7 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 
 export function createAIProject(
   endpoint: string,
-  credential: TokenCredential,
+  credential: KeyCredential | TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? String(endpoint);
@@ -38,6 +38,7 @@ export function createAIProject(
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
