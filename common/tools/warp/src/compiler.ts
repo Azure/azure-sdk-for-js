@@ -1051,12 +1051,16 @@ export async function compileAllTargets(
       parsed.parsedConfig.fileNames,
       effSuffix,
     );
+    // Normalize moduleType so that an omitted value ("module" by default) still
+    // produces a distinct emitId from targets with explicit "commonjs", enabling
+    // the esbuild transform fast path regardless of target ordering.
+    const effectiveModuleType = parsed.target.moduleType ?? "module";
     const emitId = programIdentity(
       parsed.parsedConfig.options,
       parsed.parsedConfig.fileNames,
       parsed.resolvedImports,
       effSuffix,
-      parsed.target.moduleType,
+      effectiveModuleType,
     );
     const baseEmitId = programIdentity(
       parsed.parsedConfig.options,
@@ -1068,8 +1072,6 @@ export async function compileAllTargets(
     const alreadyEmittedOutDir = emittedPrograms.get(emitId);
     // Check if a target with the same base identity (ignoring moduleType)
     // was already emitted, allowing us to derive output via esbuild transform.
-    // The emitId !== baseEmitId check ensures the target's moduleType actually
-    // differs from the default (otherwise it would have matched emitId directly).
     const transformSource =
       !alreadyEmittedOutDir && emitId !== baseEmitId
         ? emittedBaseTargets.get(baseEmitId)
@@ -1088,7 +1090,7 @@ export async function compileAllTargets(
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
     if (alreadyEmittedOutDir) label.push("reuse-output");
-    if (transformSource) label.push(`esbuild-${parsed.target.moduleType ?? "module"}`);
+    if (transformSource) label.push(`esbuild-${effectiveModuleType}`);
 
     log.info(
       `[warp] [${i + 1}/${total}] ${parsed.target.name}${label.length ? ` (${label.join(", ")})` : ""}...`,
@@ -1096,7 +1098,7 @@ export async function compileAllTargets(
 
     let result: CompileResult;
 
-    const esbuildFormat = parsed.target.moduleType === "commonjs" ? "cjs" : "esm";
+    const esbuildFormat = effectiveModuleType === "commonjs" ? "cjs" : "esm";
 
     if (alreadyEmittedOutDir && !needsTypeCheck) {
       // Both already done — pure copy
