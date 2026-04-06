@@ -1,8 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentKind, AgentDefinitionOptInKeys, PageOrder } from "../../models/models.js";
+import type {
+  AgentKind,
+  AgentBlueprintReferenceUnion,
+  AgentEndpoint,
+  AgentCard,
+  AgentDefinitionOptInKeys,
+  PageOrder,
+} from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface AgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+/** Optional parameters. */
+export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "AgentEndpoints=V1Preview";
+  /** The endpoint configuration for the agent */
+  agentEndpoint?: AgentEndpoint;
+  /** Optional agent card for the agent */
+  agentCard?: AgentCard;
+}
 
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
@@ -66,6 +89,8 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
 }
 
 /** Optional parameters. */
@@ -130,6 +155,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
+export interface AgentsUpdateFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+/** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
@@ -144,6 +175,14 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
+}
+
+/** Optional parameters. */
+export interface AgentsCreateFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 /** Optional parameters. */
@@ -161,6 +200,12 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   metadata?: Record<string, string>;
   /** A human-readable description of the agent. */
   description?: string;
+  /** The blueprint reference for the agent. */
+  blueprintReference?: AgentBlueprintReferenceUnion;
+  /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
+  agentEndpoint?: AgentEndpoint;
+  /** Optional agent card for the agent */
+  agentCard?: AgentCard;
 }
 
 /** Optional parameters. */

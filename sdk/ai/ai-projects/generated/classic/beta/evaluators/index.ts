@@ -4,7 +4,7 @@
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
-  pendingUpload,
+  startPendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -14,7 +14,7 @@ import {
 } from "../../../api/beta/evaluators/operations.js";
 import {
   BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsStartPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -36,18 +36,16 @@ export interface BetaEvaluatorsOperations {
   /** Get the SAS credential to access the storage account associated with an Evaluator version. */
   getCredentials: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
     credentialRequest: EvaluatorCredentialRequest,
     version: string,
     options?: BetaEvaluatorsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
   /** Start a new or get an existing pending upload of an evaluator for a specific version. */
-  pendingUpload: (
+  startPendingUpload: (
     name: string,
-    foundryFeatures: "Evaluations=V1Preview",
-    pendingUploadRequest: PendingUploadRequest,
     version: string,
-    options?: BetaEvaluatorsPendingUploadOptionalParams,
+    pendingUploadRequest: PendingUploadRequest,
+    options?: BetaEvaluatorsStartPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
@@ -95,18 +93,16 @@ function _getBetaEvaluators(context: AIProjectContext) {
   return {
     getCredentials: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
       credentialRequest: EvaluatorCredentialRequest,
       version: string,
       options?: BetaEvaluatorsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, foundryFeatures, credentialRequest, version, options),
-    pendingUpload: (
+    ) => getCredentials(context, name, credentialRequest, version, options),
+    startPendingUpload: (
       name: string,
-      foundryFeatures: "Evaluations=V1Preview",
-      pendingUploadRequest: PendingUploadRequest,
       version: string,
-      options?: BetaEvaluatorsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, foundryFeatures, pendingUploadRequest, version, options),
+      pendingUploadRequest: PendingUploadRequest,
+      options?: BetaEvaluatorsStartPendingUploadOptionalParams,
+    ) => startPendingUpload(context, name, version, pendingUploadRequest, options),
     updateVersion: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",

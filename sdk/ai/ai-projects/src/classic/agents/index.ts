@@ -3,6 +3,8 @@
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  createAgentVersionFromCode,
+  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -12,11 +14,15 @@ import {
   $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
+  updateFromCode,
   update,
+  createFromCode,
   create,
   get,
 } from "../../api/agents/operations.js";
 import type {
+  AgentsCreateAgentVersionFromCodeOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -26,7 +32,9 @@ import type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
+  AgentsUpdateFromCodeOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsCreateFromCodeOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -34,6 +42,8 @@ import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
 } from "../../models/models.js";
@@ -41,6 +51,17 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
+  createAgentVersionFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: AgentsCreateAgentVersionFromCodeOptionalParams,
+  ) => Promise<AgentVersion>;
+  /** Updates an agent endpoint. */
+  patchAgentObject: (
+    agentName: string,
+    options?: AgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -86,6 +107,18 @@ export interface AgentsOperations {
     options?: AgentsUpdateAgentFromManifestOptionalParams,
   ): Promise<Agent>;
   /**
+   * Updates a code-based agent by uploading new code and creating a new version.
+   * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  updateFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: AgentsUpdateFromCodeOptionalParams,
+  ) => Promise<Agent>;
+  /**
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
@@ -94,6 +127,19 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateOptionalParams,
   ): Promise<Agent>;
+  /**
+   * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+   * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+   * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  createFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentFromCodeContent,
+    options?: AgentsCreateFromCodeOptionalParams,
+  ) => Promise<Agent>;
   /** Creates the agent. */
   create(
     name: string,
@@ -113,6 +159,14 @@ export interface AgentsOperations {
 
 function _getAgents(context: AIProjectContext) {
   return {
+    createAgentVersionFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: AgentsCreateAgentVersionFromCodeOptionalParams,
+    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, body, options),
+    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
+      patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),
     deleteVersion: (
@@ -200,6 +254,18 @@ function _getAgents(context: AIProjectContext) {
         optionsOrParameterValues as AgentsCreateOptionalParams | undefined,
       );
     },
+    updateFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: AgentsUpdateFromCodeOptionalParams,
+    ) => updateFromCode(context, agentName, codeZipSha256, body, options),
+    createFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentFromCodeContent,
+      options?: AgentsCreateFromCodeOptionalParams,
+    ) => createFromCode(context, agentName, codeZipSha256, body, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }

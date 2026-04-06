@@ -14,11 +14,11 @@ import {
 } from "./memoryStores/index.js";
 import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
-import { BetaToolsetsOperations, _getBetaToolsetsOperations } from "./toolsets/index.js";
+import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxes/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  toolsets: BetaToolsetsOperations;
+  toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
   redTeams: BetaRedTeamsOperations;
   memoryStores: BetaMemoryStoresOperations;
@@ -29,7 +29,7 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    toolsets: _getBetaToolsetsOperations(context),
+    toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     redTeams: _getBetaRedTeamsOperations(context),
     memoryStores: _getBetaMemoryStoresOperations(context),

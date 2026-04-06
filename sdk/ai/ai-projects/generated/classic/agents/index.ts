@@ -3,6 +3,8 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  createAgentVersionFromCode,
+  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -12,11 +14,15 @@ import {
   $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
+  updateAgentFromCode,
   updateAgent,
+  createAgentFromCode,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
 import {
+  AgentsCreateAgentVersionFromCodeOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -26,14 +32,18 @@ import {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
+  AgentsUpdateAgentFromCodeOptionalParams,
   AgentsUpdateAgentOptionalParams,
-  AgentsCreateAgentOptionalParams,
+  AgentsCreateAgentFromCodeOptionalParams,
+  AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
 import {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
 } from "../../models/models.js";
@@ -41,6 +51,17 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
+  createAgentVersionFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: AgentsCreateAgentVersionFromCodeOptionalParams,
+  ) => Promise<AgentVersion>;
+  /** Updates an agent endpoint. */
+  patchAgentObject: (
+    agentName: string,
+    options?: AgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -98,6 +119,18 @@ export interface AgentsOperations {
     options?: AgentsCreateAgentFromManifestOptionalParams,
   ) => Promise<Agent>;
   /**
+   * Updates a code-based agent by uploading new code and creating a new version.
+   * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  updateAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: AgentsUpdateAgentFromCodeOptionalParams,
+  ) => Promise<Agent>;
+  /**
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
@@ -106,11 +139,24 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
+  /**
+   * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+   * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+   * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  createAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentFromCodeContent,
+    options?: AgentsCreateAgentFromCodeOptionalParams,
+  ) => Promise<Agent>;
   /** Creates the agent. */
   createAgent: (
     name: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsCreateAgentOptionalParams,
+    options?: AgentsCreateOptionalParams,
   ) => Promise<Agent>;
   /** Retrieves the agent. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
@@ -118,6 +164,14 @@ export interface AgentsOperations {
 
 function _getAgents(context: AIProjectContext) {
   return {
+    createAgentVersionFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: AgentsCreateAgentVersionFromCodeOptionalParams,
+    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, body, options),
+    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
+      patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),
     deleteVersion: (
@@ -156,15 +210,27 @@ function _getAgents(context: AIProjectContext) {
       parameterValues: Record<string, any>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
+    updateAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: AgentsUpdateAgentFromCodeOptionalParams,
+    ) => updateAgentFromCode(context, agentName, codeZipSha256, body, options),
     updateAgent: (
       agentName: string,
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
+    createAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentFromCodeContent,
+      options?: AgentsCreateAgentFromCodeOptionalParams,
+    ) => createAgentFromCode(context, agentName, codeZipSha256, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
-      options?: AgentsCreateAgentOptionalParams,
+      options?: AgentsCreateOptionalParams,
     ) => createAgent(context, name, definition, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };

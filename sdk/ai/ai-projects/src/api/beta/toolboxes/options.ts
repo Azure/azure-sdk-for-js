@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PageOrder } from "../../../models/models.js";
+import { ToolboxPolicies, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaToolsetsDeleteOptionalParams extends OperationOptions {}
+export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolsetsListOptionalParams extends OperationOptions {
+export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface BetaToolboxesListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -34,20 +37,14 @@ export interface BetaToolsetsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BetaToolsetsGetOptionalParams extends OperationOptions {}
+export interface BetaToolboxesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolsetsUpdateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
+export interface BetaToolboxesCreateOptionalParams extends OperationOptions {
+  /** A human-readable description of the toolbox. */
   description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
+  /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
-}
-
-/** Optional parameters. */
-export interface BetaToolsetsCreateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
-  description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
-  metadata?: Record<string, string>;
+  /** Policy configuration for this toolbox version. */
+  policies?: ToolboxPolicies;
 }

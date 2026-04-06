@@ -5,10 +5,16 @@ import { EvaluatorType } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {}
+export interface BetaEvaluatorsStartPendingUploadOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
 export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}

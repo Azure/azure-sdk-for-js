@@ -3,7 +3,7 @@
 
 export {
   getCredentials,
-  pendingUpload,
+  startPendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -13,7 +13,7 @@ export {
 } from "./operations.js";
 export type {
   BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsStartPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,

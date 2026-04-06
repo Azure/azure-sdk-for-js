@@ -23,6 +23,8 @@ import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
 import { _getTelemetryOperations } from "./classic/telemetry/index.js";
+import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
+import { _getToolboxesOperations } from "./classic/toolboxes/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
@@ -52,7 +54,9 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * - Insights
  * - Schedules
  * - Red Teams
+ * - Toolboxes
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
+ * @property {ToolboxesOperations} toolboxes - The operation groups for toolboxes
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
@@ -93,6 +97,7 @@ export class AIProjectClient {
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
+    this.toolboxes = _getToolboxesOperations(this._azureScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
@@ -116,10 +121,13 @@ export class AIProjectClient {
    * - Insights
    * - Schedules
    * - Red Teams
+   * - Toolboxes
    */
   public readonly beta: BetaOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
+  /** The operation groups for toolboxes */
+  public readonly toolboxes: ToolboxesOperations;
   /**
    * gets the OpenAI client
    * @returns the OpenAI client

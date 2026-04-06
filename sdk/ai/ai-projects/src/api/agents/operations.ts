@@ -15,7 +15,14 @@ import {
   agentDeserializer,
   agentVersionDeserializer,
   agentDefinitionUnionSerializer,
+  agentBlueprintReferenceUnionSerializer,
+  agentEndpointSerializer,
+  agentCardSerializer,
   apiErrorResponseDeserializer,
+  CreateAgentFromCodeContent,
+  createFromCodeContentSerializer,
+  CreateAgentVersionFromCodeContent,
+  createAgentVersionFromCodeContentSerializer,
   deleteAgentResponseDeserializer,
   _agentsPagedResultAgentObjectDeserializer,
   deleteAgentVersionResponseDeserializer,
@@ -25,6 +32,8 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  AgentsCreateAgentVersionFromCodeOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -34,12 +43,135 @@ import type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
+  AgentsUpdateFromCodeOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsCreateFromCodeOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _createAgentVersionFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentVersionFromCodeContent,
+  options: AgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentVersionFromCodeContentSerializer(body),
+  });
+}
+
+export async function _createAgentVersionFromCodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+export async function createAgentVersionFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentVersionFromCodeContent,
+  options: AgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _createAgentVersionFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    body,
+    options,
+  );
+  return _createAgentVersionFromCodeDeserialize(result);
+}
+
+export function _patchAgentObjectSend(
+  context: Client,
+  agentName: string,
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/merge-patch+json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      agent_endpoint: !options?.agentEndpoint
+        ? options?.agentEndpoint
+        : agentEndpointSerializer(options?.agentEndpoint),
+      agent_card: !options?.agentCard
+        ? options?.agentCard
+        : agentCardSerializer(options?.agentCard),
+    },
+  });
+}
+
+export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/** Updates an agent endpoint. */
+export async function patchAgentObject(
+  context: Client,
+  agentName: string,
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _patchAgentObjectSend(context, agentName, options);
+  return _patchAgentObjectDeserialize(result);
+}
 
 export function _listVersionsSend(
   context: Client,
@@ -277,6 +409,9 @@ export function _createVersionSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
 }
@@ -525,6 +660,67 @@ export async function createAgentFromManifest(
   return _createAgentFromManifestDeserialize(result);
 }
 
+export function _updateFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentVersionFromCodeContent,
+  options: AgentsUpdateFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentVersionFromCodeContentSerializer(body),
+  });
+}
+
+export async function _updateFromCodeDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Updates a code-based agent by uploading new code and creating a new version.
+ * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
+export async function updateFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentVersionFromCodeContent,
+  options: AgentsUpdateFromCodeOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _updateFromCodeSend(context, agentName, codeZipSha256, body, options);
+  return _updateFromCodeDeserialize(result);
+}
+
 export function _updateSend(
   context: Client,
   agentName: string,
@@ -555,6 +751,9 @@ export function _updateSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
 }
@@ -582,6 +781,68 @@ export async function update(
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
+}
+
+export function _createFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentFromCodeContent,
+  options: AgentsCreateFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-agent-name": agentName,
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createFromCodeContentSerializer(body),
+  });
+}
+
+export async function _createFromCodeDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+ * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+ * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
+export async function createFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  body: CreateAgentFromCodeContent,
+  options: AgentsCreateFromCodeOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _createFromCodeSend(context, agentName, codeZipSha256, body, options);
+  return _createFromCodeDeserialize(result);
 }
 
 export function _createSend(
@@ -614,6 +875,15 @@ export function _createSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      agent_endpoint: !options?.agentEndpoint
+        ? options?.agentEndpoint
+        : agentEndpointSerializer(options?.agentEndpoint),
+      agent_card: !options?.agentCard
+        ? options?.agentCard
+        : agentCardSerializer(options?.agentCard),
     },
   });
 }

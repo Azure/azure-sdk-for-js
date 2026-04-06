@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.2 (Unreleased)
+
+### Features Added
+
+- Add `project.beta.toolboxes` route for toolbox operations.
+
 ## 2.0.1 (2026-03-13)
 
 ### Bugs Fixed
