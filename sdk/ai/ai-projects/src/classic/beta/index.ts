@@ -14,9 +14,13 @@ import type { BetaRedTeamsOperations } from "./redTeams/index.js";
 import { _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaToolboxesOperations } from "./toolboxes/index.js";
+import { _getBetaToolboxesOperations } from "./toolboxes/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  /** Operations for managing toolbox operations. */
+  toolboxes: BetaToolboxesOperations;
   /** Operations for managing evaluation schedules. */
   schedules: BetaSchedulesOperations;
   /** Operations for managing red team evaluations. */
@@ -33,6 +37,8 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    /** Operations for managing toolbox operations. */
+    toolboxes: _getBetaToolboxesOperations(context),
     /** Operations for managing evaluation schedules. */
     schedules: _getBetaSchedulesOperations(context),
     /** Operations for managing red team evaluations. */
