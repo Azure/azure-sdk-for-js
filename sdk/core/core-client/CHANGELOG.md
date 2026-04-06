@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixes to additional property serialization.
+
 ### Other Changes
 
 ## 1.10.1 (2025-09-11)
