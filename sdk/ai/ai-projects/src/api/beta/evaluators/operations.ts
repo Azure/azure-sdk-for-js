@@ -2,18 +2,21 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type { _PagedEvaluatorVersion, EvaluatorVersion } from "../../../models/models.js";
-import {
+import type {
+  _PagedEvaluatorVersion,
+  EvaluatorVersion,
   PendingUploadRequest,
-  pendingUploadRequestSerializer,
   PendingUploadResponse,
-  pendingUploadResponseDeserializer,
   DatasetCredential,
+  EvaluatorCredentialRequest,
+} from "../../../models/models.js";
+import {
+  pendingUploadRequestSerializer,
+  pendingUploadResponseDeserializer,
   datasetCredentialDeserializer,
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
-  EvaluatorCredentialRequest,
   evaluatorCredentialRequestSerializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";

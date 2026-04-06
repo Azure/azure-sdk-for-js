@@ -3,6 +3,7 @@
 
 import { AIProjectContext as Client } from "../../index.js";
 import {
+  apiErrorResponseDeserializer,
   PendingUploadRequest,
   pendingUploadRequestSerializer,
   PendingUploadResponse,
@@ -24,7 +25,7 @@ import {
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsPendingUploadOptionalParams,
+  BetaEvaluatorsStartPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -42,7 +43,6 @@ import {
 export function _getCredentialsSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   credentialRequest: EvaluatorCredentialRequest,
   version: string,
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
@@ -64,7 +64,9 @@ export function _getCredentialsSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -77,7 +79,10 @@ export async function _getCredentialsDeserialize(
 ): Promise<DatasetCredential> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return datasetCredentialDeserializer(result.body);
@@ -87,29 +92,20 @@ export async function _getCredentialsDeserialize(
 export async function getCredentials(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   credentialRequest: EvaluatorCredentialRequest,
   version: string,
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<DatasetCredential> {
-  const result = await _getCredentialsSend(
-    context,
-    name,
-    foundryFeatures,
-    credentialRequest,
-    version,
-    options,
-  );
+  const result = await _getCredentialsSend(context, name, credentialRequest, version, options);
   return _getCredentialsDeserialize(result);
 }
 
-export function _pendingUploadSend(
+export function _startPendingUploadSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
-  pendingUploadRequest: PendingUploadRequest,
   version: string,
-  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsStartPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
@@ -128,7 +124,9 @@ export function _pendingUploadSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
@@ -136,35 +134,36 @@ export function _pendingUploadSend(
     });
 }
 
-export async function _pendingUploadDeserialize(
+export async function _startPendingUploadDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PendingUploadResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
   }
 
   return pendingUploadResponseDeserializer(result.body);
 }
 
 /** Start a new or get an existing pending upload of an evaluator for a specific version. */
-export async function pendingUpload(
+export async function startPendingUpload(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
-  pendingUploadRequest: PendingUploadRequest,
   version: string,
-  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsStartPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(
+  const result = await _startPendingUploadSend(
     context,
     name,
-    foundryFeatures,
-    pendingUploadRequest,
     version,
+    pendingUploadRequest,
     options,
   );
-  return _pendingUploadDeserialize(result);
+  return _startPendingUploadDeserialize(result);
 }
 
 export function _updateVersionSend(

@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PageOrder } from "../../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { PageOrder } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaToolsetsDeleteOptionalParams extends OperationOptions {}
+export interface ToolboxesDeleteToolboxVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolsetsListOptionalParams extends OperationOptions {
+export interface ToolboxesGetToolboxVersionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ToolboxesListToolboxVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -31,23 +34,4 @@ export interface BetaToolsetsListOptionalParams extends OperationOptions {
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-}
-
-/** Optional parameters. */
-export interface BetaToolsetsGetOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaToolsetsUpdateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
-  description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
-  metadata?: Record<string, string>;
-}
-
-/** Optional parameters. */
-export interface BetaToolsetsCreateOptionalParams extends OperationOptions {
-  /** A human-readable description of the toolset. */
-  description?: string;
-  /** Arbitrary key-value metadata to associate with the toolset. */
-  metadata?: Record<string, string>;
 }

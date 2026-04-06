@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import { $delete, list, get, update, create } from "../../../api/beta/toolsets/operations.js";
-import {
+import type {
   BetaToolsetsDeleteOptionalParams,
   BetaToolsetsListOptionalParams,
   BetaToolsetsGetOptionalParams,
   BetaToolsetsUpdateOptionalParams,
   BetaToolsetsCreateOptionalParams,
 } from "../../../api/beta/toolsets/options.js";
-import { ToolUnion, ToolsetObject, DeleteToolsetResponse } from "../../../models/models.js";
+import type { ToolUnion, ToolsetObject, DeleteToolsetResponse } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaToolsets operations. */

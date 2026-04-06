@@ -1,33 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
+  ToolUnion,
+  ToolsetObject,
+  _AgentsPagedResultToolsetObject,
+  DeleteToolsetResponse,
+} from "../../../models/models.js";
 import {
   toolUnionArraySerializer,
-  ToolUnion,
   apiErrorResponseDeserializer,
-  ToolsetObject,
   toolsetObjectDeserializer,
-  _AgentsPagedResultToolsetObject,
   _agentsPagedResultToolsetObjectDeserializer,
-  DeleteToolsetResponse,
   deleteToolsetResponseDeserializer,
 } from "../../../models/models.js";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaToolsetsDeleteOptionalParams,
   BetaToolsetsListOptionalParams,
   BetaToolsetsGetOptionalParams,
   BetaToolsetsUpdateOptionalParams,
   BetaToolsetsCreateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function _$deleteSend(
