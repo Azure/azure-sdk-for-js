@@ -567,4 +567,27 @@ describe("retryPolicy", function () {
       error: [],
     });
   });
+
+  it("It should immediately rethrow non-RestError errors", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+    });
+    const plainError = new Error("plain error");
+
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        retry() {
+          return { retryAfterInMs: 100 };
+        },
+      },
+    ]);
+    const next = vi.fn<SendRequest>();
+    next.mockRejectedValue(plainError);
+
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(plainError);
+
+    // Should not have retried — the error is thrown immediately
+    expect(next).toHaveBeenCalledTimes(1);
+  });
 });
