@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "NodeNext",
     "target": "ES2022",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "WebWorker"],
     "types": ["node"],
     "alwaysStrict": true,
     "esModuleInterop": true,
