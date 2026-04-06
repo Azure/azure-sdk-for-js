@@ -85,7 +85,7 @@ export async function setPlatformSpecificData(map: Map<string, string>): Promise
     if (brand) {
       map.set(brand.brand, `${brand.version} (${osInfo})`);
     }
-  } else if (nav) {
+  } else if (nav?.platform) {
     osInfo = nav.platform;
     const brand = getBrowserInfo(nav.userAgent);
     if (brand) {

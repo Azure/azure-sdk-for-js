@@ -41,7 +41,7 @@ function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions
     return false;
   }
   const value = (x as QueryParameterWithOptions).value;
-  return value !== undefined && value !== null && typeof value.toString === "function";
+  return typeof value?.toString === "function";
 }
 
 /**
