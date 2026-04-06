@@ -51,7 +51,7 @@ describe("DeviceRegistry Root Level Resources tests", () => {
     await recorder.stop();
   });
 
-  it("AssetEndpointProfile CRUD operations", async () => {
+  it.skipIf(isPlaybackMode())("AssetEndpointProfile CRUD operations", async () => {
     // Create AssetEndpointProfile
     console.log("Creating root level AssetEndpointProfile...");
     const aepName = "test-aep-js";
@@ -178,7 +178,7 @@ describe("DeviceRegistry Root Level Resources tests", () => {
     await aepDeleteResponse.pollUntilDone();
   });
 
-  it("Asset CRUD operations", async () => {
+  it.skipIf(isPlaybackMode())("Asset CRUD operations", async () => {
     // Create root asset
     console.log("Creating root level Asset...");
     const assetName = "test-asset-migration-js";

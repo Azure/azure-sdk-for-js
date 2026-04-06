@@ -60,7 +60,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  it("Namespace Resources CRUD operations tests", async () => {
+  it.skipIf(isPlaybackMode())("Namespace Resources CRUD operations tests", async () => {
     const namespaceName = "test-namespace-js";
 
     // Create Namespace
@@ -630,7 +630,7 @@ describe("DeviceRegistry Namespaced Resources tests", () => {
     await nsDeleteResponse.pollUntilDone();
   });
 
-  it("Namespace migration", async () => {
+  it.skipIf(isPlaybackMode())("Namespace migration", async () => {
     // Create a new namespace
     const namespaceName = "test-namespace-migration-js";
     console.log("Creating namespace...");

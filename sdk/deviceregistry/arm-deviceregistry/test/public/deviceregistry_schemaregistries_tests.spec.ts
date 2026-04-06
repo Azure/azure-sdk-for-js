@@ -51,7 +51,7 @@ describe("DeviceRegistry Schema Registry tests", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  it("schema registry CRUD operations tests", async () => {
+  it.skipIf(isPlaybackMode())("schema registry CRUD operations tests", async () => {
     const schemaRegistryName = "sr-js-test";
 
     // Create Schema Registry
