@@ -1401,8 +1401,8 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
       });
 
       it("should be deserialized properly when polymorphicDiscriminator specified in nested property", function () {
@@ -1479,10 +1479,10 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
-        assert.strictEqual("shark", result.sibling.fishtype);
-        assert.strictEqual(15, result.sibling.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
+        assert.strictEqual(result.sibling.fishtype, "shark");
+        assert.strictEqual(result.sibling.age, 15);
       });
 
       it("should be deserialized properly when polymorphicDiscriminator specified in the parent", function () {
@@ -1555,10 +1555,10 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
-        assert.strictEqual("shark", result.sibling.fishtype);
-        assert.strictEqual(15, result.sibling.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
+        assert.strictEqual(result.sibling.fishtype, "shark");
+        assert.strictEqual(result.sibling.age, 15);
       });
 
       it("should be deserialized properly when responseBody is an empty string", function () {
