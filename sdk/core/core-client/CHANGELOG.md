@@ -1,16 +1,10 @@
 # Release History
 
-## 1.10.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.10.2 (2026-04-07)
 
 ### Bugs Fixed
 
-- Fixes to additional property serialization.
-
-### Other Changes
+- Fixes to additional property serialization. [PR #38006](https://github.com/Azure/azure-sdk-for-js/pull/38006/)
 
 ## 1.10.1 (2025-09-11)
 
