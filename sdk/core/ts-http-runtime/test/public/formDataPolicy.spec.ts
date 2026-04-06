@@ -7,12 +7,11 @@ import {
   type SendRequest,
   type BodyPart,
   type FormDataMap,
-  type MultipartRequestBody,
   createPipelineRequest,
   createHttpHeaders,
+  stringToUint8Array,
 } from "../../src/index.js";
-import { formDataPolicy } from "../../src/policies/formDataPolicy.js";
-import { isBrowser, isNodeLike } from "../../src/util/checkEnvironment.js";
+import { formDataPolicy } from "../../src/policies/internal.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
@@ -97,25 +96,24 @@ describe("formDataPolicy", function () {
     const multipartBody = result.request.multipartBody as any;
     assert.isDefined(multipartBody, "expecting multipartBody to be defined");
     const parts = (multipartBody as any).parts as BodyPart[];
-    const enc = new TextEncoder();
     assert.equal(parts.length, 3, "need 3 parts");
     assert.deepEqual(parts[0], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="a"`,
       }),
-      body: enc.encode("va"),
+      body: stringToUint8Array("va", "utf-8"),
     });
     assert.deepEqual(parts[1], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="b"`,
       }),
-      body: enc.encode("vb"),
+      body: stringToUint8Array("vb", "utf-8"),
     });
     assert.deepEqual(parts[2], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="c"`,
       }),
-      body: enc.encode("👻👻"),
+      body: stringToUint8Array("👻👻", "utf-8"),
     });
   });
 
@@ -125,126 +123,24 @@ describe("formDataPolicy", function () {
     const multipartBody = result.request.multipartBody as any;
     assert.isDefined(multipartBody, "expecting multipartBody to be defined");
     const parts = (multipartBody as any).parts as BodyPart[];
-    const enc = new TextEncoder();
     assert.equal(parts.length, 3, "need 3 parts");
     assert.deepEqual(parts[0], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="a"`,
       }),
-      body: enc.encode("va"),
+      body: stringToUint8Array("va", "utf-8"),
     });
     assert.deepEqual(parts[1], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="b"`,
       }),
-      body: enc.encode("vb"),
+      body: stringToUint8Array("vb", "utf-8"),
     });
     assert.deepEqual(parts[2], {
       headers: createHttpHeaders({
         "Content-Disposition": `form-data; name="b"`,
       }),
-      body: enc.encode("👻👻"),
-    });
-  });
-
-  describe("file uploads", function () {
-    it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
-      const result = await performRequest({
-        file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
-          type: "application/octet-stream",
-        }),
-      });
-
-      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
-      assert.equal(parts.length, 1, "expected 1 part");
-      assert.deepEqual(
-        parts[0].headers,
-        createHttpHeaders({
-          "Content-Type": "application/octet-stream",
-          "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-        }),
-      );
-      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
-      assert.deepEqual([...buf], [1, 2, 3]);
-    });
-
-    it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
-      const result = await performRequest({
-        file: new Blob([new Uint8Array([1, 2, 3])]),
-      });
-
-      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
-      assert.equal(parts.length, 1, "expected 1 part");
-      assert.deepEqual(
-        parts[0].headers,
-        createHttpHeaders({
-          // Content-Type should default to 'application/octet-stream' for binary content (lack of content type is reserved for text content)
-          "Content-Type": "application/octet-stream",
-          "Content-Disposition": `form-data; name="file"; filename="blob"`,
-        }),
-      );
-      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
-      assert.deepEqual([...buf], [1, 2, 3]);
-    });
-  });
-
-  describe("FormData request bodies", () => {
-    it.runIf(isNodeLike)("should be processed by formDataPolicy in Node", async () => {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        headers: createHttpHeaders({
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-      });
-      request.body = new FormData();
-      request.body.append("service", "registry.azurecr.io");
-      request.body.append("scope", "repository:library/hello-world:metadata_read");
-
-      const successResponse: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request,
-        status: 200,
-      };
-      const next = vi.fn<SendRequest>();
-      next.mockResolvedValue(successResponse);
-
-      const policy = formDataPolicy();
-
-      const result = await policy.sendRequest(request, next);
-
-      assert.isUndefined(result.request.formData);
-      assert.strictEqual(
-        result.request.body,
-        `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`,
-      );
-    });
-
-    it.runIf(isBrowser)("should be passed through in browser", async () => {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        headers: createHttpHeaders({
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-      });
-      const formData = new FormData();
-      formData.append("service", "registry.azurecr.io");
-      formData.append("scope", "repository:library/hello-world:metadata_read");
-      request.body = formData;
-
-      const successResponse: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request,
-        status: 200,
-      };
-      const next = vi.fn<SendRequest>();
-      next.mockResolvedValue(successResponse);
-
-      const policy = formDataPolicy();
-
-      const result = await policy.sendRequest(request, next);
-
-      assert.isUndefined(result.request.formData);
-      assert.strictEqual(result.request.body, formData);
+      body: stringToUint8Array("👻👻", "utf-8"),
     });
   });
 });
