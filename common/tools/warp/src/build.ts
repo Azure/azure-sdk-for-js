@@ -12,7 +12,12 @@ import {
   getExportsDiff,
   verifyDistFiles,
 } from "./exports.ts";
-import { readPackageImports, resolveImportsInDir, buildConditionsSet } from "./resolveImports.ts";
+import {
+  readPackageImports,
+  resolveImportsInDir,
+  buildConditionsSet,
+  resolveSubpathImport,
+} from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -103,6 +108,27 @@ async function resolveStep(
   log.info(`[warp] Targets: ${config.targets.map((t) => `${t.name} (${t.condition})`).join(", ")}`);
 
   const parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
+
+  // Populate resolvedImports so programIdentity can differentiate targets
+  // that resolve #-prefixed imports to different files (e.g., browser vs
+  // react-native mapping #platform/* to different platform variants).
+  const importsMap = await readPackageImports(packageRoot);
+  if (importsMap) {
+    for (const pc of parsedConfigs) {
+      const conditions = buildConditionsSet(
+        pc.parsedConfig.options.customConditions,
+        (pc.target.moduleType as "module" | "commonjs") ?? "module",
+      );
+      const resolved: string[] = [];
+      for (const key of Object.keys(importsMap)) {
+        const target = resolveSubpathImport(key, importsMap, conditions);
+        if (target) {
+          resolved.push(`${key}→${target}`);
+        }
+      }
+      pc.resolvedImports = resolved;
+    }
+  }
 
   log.info("");
   for (const pc of parsedConfigs) {

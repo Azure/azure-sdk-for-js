@@ -444,7 +444,7 @@ describe("build (integration)", () => {
   });
 
   it("CJS source maps preserve subdirectory paths (no basename truncation)", async () => {
-    // Regression test: buildCjsFromSources must preserve directory structure
+    // Regression test: buildTransformedOutput must preserve directory structure
     // in source map paths (previously used path.basename which lost the directory).
     await fs.mkdir(path.join(tmpDir, "src/internal"), { recursive: true });
     await fs.writeFile(
