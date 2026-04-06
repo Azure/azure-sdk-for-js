@@ -712,7 +712,21 @@ export class Container {
    * @returns The reranking results including scored documents, latency, and token usage.
    *
    * @example Semantic reranking of query results
-   * ```ts
+   * ```ts snippet:ContainerSemanticRerank
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const aadCredentials = new DefaultAzureCredential();
+   * const client = new CosmosClient({
+   *   endpoint,
+   *   aadCredentials,
+   *   inferenceEndpoint: "https://your-account.dbinference.azure.com",
+   * });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
    * const result = await container.semanticRerank(
    *   "most economical with multiple adjustments",
