@@ -3,10 +3,8 @@
 
 import { describe, it, assert, vi } from "vitest";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import type { PipelinePolicy } from "../src/pipeline.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
+import { type PipelinePolicy, createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { isBrowser, isNodeLike } from "../src/util/checkEnvironment.js";
 
 describe("defaultLogPolicy", function () {

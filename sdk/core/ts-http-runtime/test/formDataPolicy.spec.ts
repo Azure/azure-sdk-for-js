@@ -2,10 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { PipelineResponse, SendRequest } from "../src/index.js";
-import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
+import {
+  type PipelineResponse,
+  type SendRequest,
+  type BodyPart,
+  type FormDataMap,
+  type MultipartRequestBody,
+  createPipelineRequest,
+  createHttpHeaders,
+} from "../src/index.js";
 import { formDataPolicy } from "../src/policies/formDataPolicy.js";
 import { isBrowser, isNodeLike } from "../src/util/checkEnvironment.js";
 

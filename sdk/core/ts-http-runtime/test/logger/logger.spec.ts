@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import * as Logger from "../../src/logger/logger.js";
+import { createClientLogger, setLogLevel, TypeSpecRuntimeLogger } from "../../src/index.js";
 
-const testLogger = Logger.createClientLogger("test");
+const testLogger = createClientLogger("test");
 
 describe("TypeSpecRuntimeLogger", function () {
   it("is not enabled", () => {
     // TypeSpecRuntimeLogger is only used to enable a way to redirect logs.
     // This test ensures logs aren't redirected to the root logger.
     // Log redirection works because all the client loggers inherit from the root logger.
-    Logger.setLogLevel("verbose");
-    assert.isFalse(Logger.TypeSpecRuntimeLogger.enabled);
+    setLogLevel("verbose");
+    assert.isFalse(TypeSpecRuntimeLogger.enabled);
   });
 });
 
 describe("setLogLevel", () => {
   it("enables all relevant loggers for verbose setting", () => {
-    Logger.setLogLevel("verbose");
+    setLogLevel("verbose");
     assert.isTrue(testLogger.verbose.enabled);
     assert.isTrue(testLogger.info.enabled);
     assert.isTrue(testLogger.warning.enabled);
@@ -26,7 +26,7 @@ describe("setLogLevel", () => {
   });
 
   it("enables all relevant loggers for info setting", () => {
-    Logger.setLogLevel("info");
+    setLogLevel("info");
     assert.isFalse(testLogger.verbose.enabled);
     assert.isTrue(testLogger.info.enabled);
     assert.isTrue(testLogger.warning.enabled);
@@ -34,7 +34,7 @@ describe("setLogLevel", () => {
   });
 
   it("enables all relevant loggers for warning setting", () => {
-    Logger.setLogLevel("warning");
+    setLogLevel("warning");
     assert.isFalse(testLogger.verbose.enabled);
     assert.isFalse(testLogger.info.enabled);
     assert.isTrue(testLogger.warning.enabled);
@@ -42,7 +42,7 @@ describe("setLogLevel", () => {
   });
 
   it("enables all relevant loggers for warning setting", () => {
-    Logger.setLogLevel("error");
+    setLogLevel("error");
     assert.isFalse(testLogger.verbose.enabled);
     assert.isFalse(testLogger.info.enabled);
     assert.isFalse(testLogger.warning.enabled);
@@ -50,13 +50,13 @@ describe("setLogLevel", () => {
   });
 
   it("clears all relevant loggers when undefined", () => {
-    Logger.setLogLevel("verbose");
+    setLogLevel("verbose");
     assert.isTrue(testLogger.verbose.enabled);
     assert.isTrue(testLogger.info.enabled);
     assert.isTrue(testLogger.warning.enabled);
     assert.isTrue(testLogger.error.enabled);
 
-    Logger.setLogLevel(undefined);
+    setLogLevel(undefined);
     assert.isFalse(testLogger.verbose.enabled);
     assert.isFalse(testLogger.info.enabled);
     assert.isFalse(testLogger.warning.enabled);
@@ -65,25 +65,25 @@ describe("setLogLevel", () => {
 
   it("throws when setting to an unknown log level", () => {
     assert.throws(() => {
-      Logger.setLogLevel("debug" as any);
+      setLogLevel("debug" as any);
     }, /Unknown log level/);
   });
 });
 
 describe("ClientLoggers", () => {
   it("logs to parent loggers", () => {
-    Logger.setLogLevel("verbose");
+    setLogLevel("verbose");
 
-    const oldLog = Logger.TypeSpecRuntimeLogger.log.bind(Logger.TypeSpecRuntimeLogger);
+    const oldLog = TypeSpecRuntimeLogger.log.bind(TypeSpecRuntimeLogger);
     let called = false;
 
-    Logger.TypeSpecRuntimeLogger.log = () => {
+    TypeSpecRuntimeLogger.log = () => {
       called = true;
     };
 
     testLogger.info("hello");
     assert.isTrue(called);
 
-    Logger.TypeSpecRuntimeLogger.log = oldLog;
+    TypeSpecRuntimeLogger.log = oldLog;
   });
 });

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import * as Logger from "../../src/logger/logger.js";
+import { createClientLogger, setLogLevel } from "../../src/index.js";
 
-const testLogger = Logger.createClientLogger("test");
+const testLogger = createClientLogger("test");
 
 describe("TypeSpecRuntimeLogger (browser)", function () {
   function expectedTestMessage(namespace: string, message: string): string {
@@ -12,12 +12,12 @@ describe("TypeSpecRuntimeLogger (browser)", function () {
   }
 
   afterEach(() => {
-    Logger.setLogLevel(undefined);
+    setLogLevel(undefined);
     vi.restoreAllMocks();
   });
 
   it("logs to the correct console function", () => {
-    Logger.setLogLevel("verbose");
+    setLogLevel("verbose");
 
     const debugStub = vi.spyOn(console, "debug");
     testLogger.verbose("verbose");
