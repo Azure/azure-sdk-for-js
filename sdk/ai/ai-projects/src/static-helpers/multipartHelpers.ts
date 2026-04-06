@@ -11,12 +11,20 @@ export type FileContents =
   | Uint8Array
   | Blob;
 
+/** Descriptor for a multipart file part. */
+export interface FilePartDescriptor {
+  name: string;
+  body: FileContents;
+  contentType?: string;
+  filename?: string;
+}
+
 export function createFilePartDescriptor(
   partName: string,
-  fileInput: any,
+  fileInput: FileContents | { contents: FileContents; contentType?: string; filename?: string },
   defaultContentType?: string,
-): any {
-  if (fileInput.contents) {
+): FilePartDescriptor {
+  if (typeof fileInput === "object" && fileInput !== null && "contents" in fileInput) {
     return {
       name: partName,
       body: fileInput.contents,
@@ -26,7 +34,7 @@ export function createFilePartDescriptor(
   } else {
     return {
       name: partName,
-      body: fileInput,
+      body: fileInput as FileContents,
       contentType: defaultContentType,
     };
   }
