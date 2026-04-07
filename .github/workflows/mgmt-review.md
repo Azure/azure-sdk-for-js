@@ -29,7 +29,8 @@ safe-outputs:
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   push-to-pull-request-branch:
     max: 3
-    allowed-files: ["sdk/", "eng/"]
+    protected-files: allowed
+    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -87,8 +88,8 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
 | `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | Yes |
-| `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
-| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
+| PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
+| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
 
 Besides above cases also:
 - Only log one failure case if `UnitTest` failed with same errors across environments
@@ -115,6 +116,15 @@ Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch
 #### 3b. verify-links broken URL
 
 Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-request-branch`.
+
+#### 3c. pnpm-lock.yaml merge conflict
+
+This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale/broken lockfile)or if `mergeable_state: dirty` with pnpm-lock.yaml file conflict, attempt to resolve it:
+
+1. Taking origin/main's version of pnpm-lock.yaml as the base
+2. Running pnpm install --no-frozen-lockfile to regenerate the lockfile incorporating both main's dependency bumps (from fee53d148) and our yargs 18 upgrade changes
+9. Committing the merge as a proper two-parent merge commit via `push-to-pull-request-branch`. If any step fails, stop and report in comment with manual guidance.
+
 
 ### Step 4. Post a comment
 
