@@ -4,7 +4,7 @@
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import type { PipelineResponse, SendRequest } from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { throttlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy.js";
+import { throttlingRetryPolicy } from "../../src/policies/internal.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../../src/constants.js";
 
 describe("throttlingRetryPolicy", function () {
@@ -257,9 +257,11 @@ describe("throttlingRetryPolicy", function () {
   });
 
   it("throttlingRetryPolicy should honor abort signal", async () => {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 100);
     const request = createPipelineRequest({
       url: "https://bing.com",
-      abortSignal: AbortSignal.timeout(100), // test should end at 100ms
+      abortSignal: controller.signal,
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({

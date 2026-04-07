@@ -4,7 +4,7 @@
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import type { PipelineResponse, SendRequest } from "../../src/index.js";
 import { RestError, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { retryPolicy } from "../../src/policies/retryPolicy.js";
+import { retryPolicy } from "../../src/policies/internal.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../../src/constants.js";
 import { makeTestLogger } from "../util.js";
 

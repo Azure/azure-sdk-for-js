@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
-import { redirectPolicy } from "../../src/policies/redirectPolicy.js";
+import { redirectPolicy } from "../../src/policies/internal.js";
 import type { PipelineResponse, SendRequest } from "../../src/index.js";
 import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 
