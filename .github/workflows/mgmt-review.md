@@ -122,7 +122,7 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale/broken lockfile)or if `mergeable_state: dirty` with pnpm-lock.yaml file conflict, attempt to resolve it:
 
 1. Taking origin/main's version of pnpm-lock.yaml as the base
-2. Running pnpm install --no-frozen-lockfile to regenerate the lockfile incorporating both main's dependency bumps (from fee53d148) and our yargs 18 upgrade changes
+2. Running pnpm install --no-frozen-lockfile to regenerate the lockfile incorporating both main's changes.
 9. Committing the merge as a proper two-parent merge commit via `push-to-pull-request-branch`. If any step fails, stop and report in comment with manual guidance.
 
 
