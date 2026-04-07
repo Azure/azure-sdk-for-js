@@ -279,7 +279,7 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - add a linting npm script as follows:
   - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm turbo build --filter @azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm turbo build` under your package directory.
+You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm turbo build --filter @azure-tools/eslint-plugin-azure-sdk... --token 1`, or indirectly as your package's dependency by `pnpm turbo build --token 1` under your package directory.
 
 If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
 

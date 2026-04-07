@@ -18,7 +18,7 @@
 ## Coding Style & Naming Conventions
 - TypeScript; 2-space indent; semicolons; printWidth 100; double quotes (see `.prettierrc.json`).
 - Run `pnpm format` before PRs.
-- ESLint via `@azure/eslint-plugin-azure-sdk` (do not disable rules). If the plugin isn’t built: `pnpm build --filter @azure/eslint-plugin-azure-sdk...`.
+- ESLint via `@azure/eslint-plugin-azure-sdk` (do not disable rules). If the plugin isn’t built: `pnpm build --filter @azure/eslint-plugin-azure-sdk... --token 1`.
 - Naming: PascalCase classes; camelCase functions/vars; UPPER_SNAKE_CASE constants.
 
 ## Testing Guidelines

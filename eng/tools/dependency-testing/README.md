@@ -17,13 +17,13 @@ In order to run the minimum and maximum semver dependency testing **locally on y
 
 ```
    pnpm install
-   pnpm build --filter <package-name>... --verbose
+   pnpm build --filter <package-name>... --verbose --token 1
 ```
 
 For example:
 
 ```
-   pnpm build --filter @azure/communication-sms... --verbose
+   pnpm build --filter @azure/communication-sms... --verbose --token 1
 ```
 
 2. Install the dependency-testing package dependencies:
