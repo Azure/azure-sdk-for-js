@@ -74,11 +74,14 @@ export async function sendRequest(
  * @returns returns the content-type
  */
 function getRequestContentType(options: InternalRequestParameters = {}): string | undefined {
-  return (
-    options.contentType ??
-    (options.headers?.["content-type"] as string) ??
-    getContentType(options.body)
-  );
+  if (options.contentType) {
+    return options.contentType;
+  }
+  const headerContentType = options.headers?.["content-type"];
+  if (typeof headerContentType === "string") {
+    return headerContentType;
+  }
+  return getContentType(options.body);
 }
 
 /**
@@ -172,8 +175,12 @@ export function getRequestBody(body?: unknown, contentType: string = ""): Reques
     return { body };
   }
 
-  if (isReadableStream(body) || typeof body === "function") {
-    return { body } as RequestBody;
+  if (isReadableStream(body)) {
+    return { body };
+  }
+
+  if (typeof body === "function") {
+    return { body: body as RequestBodyType };
   }
 
   if (ArrayBuffer.isView(body)) {

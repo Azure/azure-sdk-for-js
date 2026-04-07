@@ -350,7 +350,7 @@ export class BlobBatchClient {
       async (updatedOptions) => {
         const batchRequestBody = batchRequest.getHttpRequestBody();
 
-        const context = this.storageClientContext.blobClient["_client"];
+        const context = this.storageClientContext.client["_client"];
         const path = getURLPath(this.url);
         const isContainer = path && path !== "/";
         const _submitBatchFunc = isContainer ? _submitBatchContainer : _submitBatchService;

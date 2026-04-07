@@ -1325,10 +1325,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             allCollectedItems.push(item);
           }
 
-          // Store the latest continuation token
-          if (response.continuationToken) {
-            sessionToken = response.continuationToken;
-          }
+          // Always store the continuation token from the latest response,
+          // even if undefined, to avoid resuming from a stale token
+          sessionToken = response.continuationToken;
         }
 
         // If we have a continuation token, create a new iterator
@@ -1426,10 +1425,9 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
             allCollectedItems.push(item);
           }
 
-          // Store the latest continuation token
-          if (response.continuationToken) {
-            sessionToken = response.continuationToken;
-          }
+          // Always store the continuation token from the latest response,
+          // even if undefined, to avoid resuming from a stale token
+          sessionToken = response.continuationToken;
         }
 
         // If we have a continuation token, create a new iterator

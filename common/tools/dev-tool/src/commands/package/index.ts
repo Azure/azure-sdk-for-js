@@ -7,4 +7,5 @@ export const commandInfo = makeCommandInfo("package", "manage SDK packages in th
 
 export default subCommand(commandInfo, {
   resolve: () => import("./resolve"),
+  "increment-version": () => import("./increment-version"),
 });

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByFleet, $delete, createOrUpdate, get } from "./operations.js";
-export {
-  type AutoUpgradeProfilesListByFleetOptionalParams,
-  type AutoUpgradeProfilesDeleteOptionalParams,
-  type AutoUpgradeProfilesCreateOrUpdateOptionalParams,
-  type AutoUpgradeProfilesGetOptionalParams,
+export type {
+  AutoUpgradeProfilesListByFleetOptionalParams,
+  AutoUpgradeProfilesDeleteOptionalParams,
+  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  AutoUpgradeProfilesGetOptionalParams,
 } from "./options.js";

@@ -4,13 +4,20 @@
 
 ### Breaking Changes
 
-- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 8KB by default.
 
 ### Features Added
 
+- Persisted telemetry files from previous sessions are now sent immediately on startup instead of waiting for the first successful export plus a 60-second retry interval.
+- All persisted files are now processed at startup, not just one file per retry cycle.
+- Outdated persisted telemetry is cleaned from disk before sending on startup.
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
 - Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+
+### Other Changes
+
+- Revert custom properties limit to 8KB.
 
 ### Bugs Fixed
 

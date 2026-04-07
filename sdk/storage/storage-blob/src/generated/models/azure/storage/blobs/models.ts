@@ -2495,6 +2495,8 @@ export interface BlobProperties {
   accessTierInferred?: boolean;
   /** The archive status of the blob. */
   archiveStatus?: ArchiveStatus;
+  /** The smart access tier of the blob. */
+  smartAccessTier?: AccessTier;
   /** Customer provided key sha256 */
   customerProvidedKeySha256?: string;
   /** The encryption scope of the blob. */
@@ -2556,6 +2558,7 @@ export function blobPropertiesDeserializer(item: any): BlobProperties {
     accessTier: item["accessTier"],
     accessTierInferred: item["accessTierInferred"],
     archiveStatus: item["archiveStatus"],
+    smartAccessTier: item["smartAccessTier"],
     customerProvidedKeySha256: item["customerProvidedKeySha256"],
     encryptionScope: item["encryptionScope"],
     accessTierChangedOn: !item["accessTierChangedOn"]
@@ -2749,6 +2752,12 @@ export function blobPropertiesXmlDeserializer(xmlString: string): BlobProperties
     {
       propertyName: "archiveStatus",
       xmlOptions: { name: "ArchiveStatus" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "smartAccessTier",
+      xmlOptions: { name: "SmartAccessTier" },
       type: "primitive",
       primitiveSubtype: "string",
     },
@@ -3001,6 +3010,12 @@ export function blobPropertiesXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
+      propertyName: "smartAccessTier",
+      xmlOptions: { name: "SmartAccessTier" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
       propertyName: "customerProvidedKeySha256",
       xmlOptions: { name: "CustomerProvidedKeySha256" },
       type: "primitive",
@@ -3091,12 +3106,14 @@ export type AccessTier =
   | "Cool"
   | "Archive"
   | "Premium"
-  | "Cold";
+  | "Cold"
+  | "Smart";
 /** The archive status. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
-  | "rehydrate-pending-to-cold";
+  | "rehydrate-pending-to-cold"
+  | "rehydrate-pending-to-smart";
 /** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are High and Standard. */
 export type RehydratePriority = "High" | "Standard";
 /** The immutability policy mode used in requests and responses. */
@@ -4095,4 +4112,6 @@ export enum KnownVersions {
   V20260206 = "2026-02-06",
   /** The 2026-04-06 version of the Azure.Storage.Blob service. */
   V20260406 = "2026-04-06",
+  /** The 2026-06-06 version of the Azure.Storage.Blob service. */
+  V20260606 = "2026-06-06",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Project resource, which is a logical grouping of related jobs.
  *
  * @summary creates or updates a Project resource, which is a logical grouping of related jobs.
- * x-ms-original-file: 2025-07-01/Projects_CreateOrUpdate.json
+ * x-ms-original-file: 2025-12-01/Projects_CreateOrUpdate.json
  */
 async function projectsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

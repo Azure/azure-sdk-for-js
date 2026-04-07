@@ -16,7 +16,7 @@ export interface ContainerServiceFleetClientOptionalParams extends ClientOptions
 
 // @public
 export interface ContainerServiceFleetContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

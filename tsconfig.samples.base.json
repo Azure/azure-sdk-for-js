@@ -1,4 +1,7 @@
 {
   "extends": ["./tsconfig", "./tsconfig.nonlib"],
+  "compilerOptions": {
+    "types": ["node"]
+  },
   "include": ["${configDir}/samples-dev"]
 }

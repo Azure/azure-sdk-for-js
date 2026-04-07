@@ -598,6 +598,7 @@ export interface BlobOperations {
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
       accessTierChangeTime?: Date;
+      smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
       tagCount?: number;
@@ -649,6 +650,7 @@ export interface BlobOperations {
         accessTierInferred?: boolean;
         archiveStatus?: ArchiveStatus;
         accessTierChangeTime?: Date;
+        smartAccessTier?: string;
         versionId: string;
         isCurrentVersion?: boolean;
         tagCount?: number;
