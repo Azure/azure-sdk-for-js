@@ -11,10 +11,6 @@ export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.
  *
- * React Native's Blob constructor only accepts Blob or string arrays and throws
- * for ArrayBufferView (including Uint8Array), so Uint8Array parts are decoded
- * to strings before being passed to the Blob constructor.
- *
  * @param sources - array of sources for the concatenation
  * @returns a `Blob` representing all the concatenated inputs.
  *
@@ -23,14 +19,11 @@ export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | 
 export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
-  const parts: (Blob | string)[] = [];
+  const parts: (Blob | Uint8Array)[] = [];
   for (const source of sources) {
     const resolved = typeof source === "function" ? source() : source;
-    if (resolved instanceof Blob) {
+    if (resolved instanceof Blob || resolved instanceof Uint8Array) {
       parts.push(resolved);
-    } else if (resolved instanceof Uint8Array) {
-      // RN's Blob constructor throws for Uint8Array, decode to string first
-      parts.push(new TextDecoder().decode(resolved));
     } else {
       throw new Error(
         "Unsupported source type. Only Blob and Uint8Array are supported in React Native.",
@@ -38,5 +31,7 @@ export async function concat(
     }
   }
 
-  return new Blob(parts);
+  // RN's Blob constructor natively accepts only Blob | string, but many apps
+  // polyfill it to also accept Uint8Array. Let the runtime decide.
+  return new Blob(parts as (Blob | string)[]);
 }
