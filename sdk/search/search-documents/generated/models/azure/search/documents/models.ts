@@ -1112,4 +1112,3 @@ export function autocompleteItemDeserializer(item: any): AutocompleteItem {
 
 /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context in producing autocomplete terms. */
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
-
