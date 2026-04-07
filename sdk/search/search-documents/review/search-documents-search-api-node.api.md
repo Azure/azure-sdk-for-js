@@ -15,6 +15,7 @@ export function autocompleteGet(context: SearchContext, searchText: string, sugg
 
 // @public
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -31,6 +32,7 @@ export function autocompletePost(context: SearchContext, searchText: string, sug
 
 // @public
 export interface AutocompletePostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -49,15 +51,17 @@ export function createSearch(endpointParam: string, credential: KeyCredential | 
 export function getDocument(context: SearchContext, key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
 
 // @public
-export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
+export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<number>;
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetDocumentOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     selectedFields?: string;
 }
@@ -67,6 +71,7 @@ export function index(context: SearchContext, batch: IndexDocumentsBatch, option
 
 // @public
 export interface IndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
@@ -86,6 +91,7 @@ export function searchGet(context: SearchContext, options?: SearchGetOptionalPar
 
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -120,6 +126,7 @@ export function searchPost(context: SearchContext, options?: SearchPostOptionalP
 
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -156,6 +163,7 @@ export function suggestGet(context: SearchContext, searchText: string, suggester
 
 // @public
 export interface SuggestGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;
@@ -173,6 +181,7 @@ export function suggestPost(context: SearchContext, searchText: string, suggeste
 
 // @public
 export interface SuggestPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;

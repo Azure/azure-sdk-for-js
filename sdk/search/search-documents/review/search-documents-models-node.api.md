@@ -4,11 +4,6 @@
 
 ```ts
 
-// @public (undocumented)
-export type GetDocumentCountResponse = {
-    body: number;
-};
-
 // @public
 export enum KnownVersions {
     V20260401 = "2026-04-01"

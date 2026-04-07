@@ -13,6 +13,7 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -26,6 +27,7 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
 
 // @public
 export interface AutocompletePostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -39,17 +41,20 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetDocumentOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     selectedFields?: string;
 }
 
 // @public
 export interface IndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
@@ -59,7 +64,7 @@ export class SearchClient {
     autocompleteGet(searchText: string, suggesterName: string, options?: AutocompleteGetOptionalParams): Promise<AutocompleteResult>;
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
-    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
+    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
     searchGet(options?: SearchGetOptionalParams): Promise<SearchDocumentsResult>;
@@ -81,6 +86,7 @@ export interface SearchContext extends Client {
 
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -112,6 +118,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -145,6 +152,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;
@@ -159,6 +167,7 @@ export interface SuggestGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;

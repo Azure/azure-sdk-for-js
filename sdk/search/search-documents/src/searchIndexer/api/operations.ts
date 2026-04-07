@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SearchIndexerContext as Client } from "./index.js";
-import {
+import type { SearchIndexerContext as Client } from "./index.js";
+import type {
   SearchIndexerDataSourceConnection,
+  ListDataSourcesResult,
+  SearchIndexer,
+  ListIndexersResult,
+  SearchIndexerStatus,
+  SearchIndexerSkillset,
+  ListSkillsetsResult} from "../../models/azure/search/documents/indexes/models.js";
+import {
   searchIndexerDataSourceConnectionSerializer,
   searchIndexerDataSourceConnectionDeserializer,
-  ListDataSourcesResult,
   listDataSourcesResultDeserializer,
-  SearchIndexer,
   searchIndexerSerializer,
   searchIndexerDeserializer,
-  ListIndexersResult,
   listIndexersResultDeserializer,
-  SearchIndexerStatus,
   searchIndexerStatusDeserializer,
-  SearchIndexerSkillset,
   searchIndexerSkillsetSerializer,
   searchIndexerSkillsetDeserializer,
-  ListSkillsetsResult,
   listSkillsetsResultDeserializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -43,9 +44,10 @@ import {
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

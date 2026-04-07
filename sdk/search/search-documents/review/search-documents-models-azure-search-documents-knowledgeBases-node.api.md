@@ -31,7 +31,7 @@ export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourcePara
 
 // @public
 export interface KnowledgeBaseActivityRecord {
-    elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -58,7 +58,7 @@ export interface KnowledgeBaseAzureBlobReference extends KnowledgeBaseReference 
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -116,7 +116,7 @@ export interface KnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, unknown>;
+    sourceData?: Record<string, any>;
     type: KnowledgeBaseReferenceType;
 }
 
@@ -222,7 +222,7 @@ export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | Azur
 export interface KnowledgeSourceStatistics {
     averageItemsProcessedPerSynchronization: number;
     averageSynchronizationDuration: string;
-    totalSynchronizations: number;
+    totalSynchronization: number;
 }
 
 // @public

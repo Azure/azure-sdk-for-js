@@ -7,7 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -15,6 +15,7 @@ export function analyzeText(context: SearchIndexContext, request: AnalyzeTextOpt
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -23,6 +24,7 @@ export function createAlias(context: SearchIndexContext, alias: SearchAlias, opt
 
 // @public
 export interface CreateAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -31,6 +33,7 @@ export function createIndex(context: SearchIndexContext, index: SearchIndex, opt
 
 // @public
 export interface CreateIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -39,6 +42,7 @@ export function createKnowledgeBase(context: SearchIndexContext, knowledgeBase: 
 
 // @public
 export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -47,6 +51,7 @@ export function createKnowledgeSource(context: SearchIndexContext, knowledgeSour
 
 // @public
 export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -55,6 +60,7 @@ export function createOrUpdateAlias(context: SearchIndexContext, alias: SearchAl
 
 // @public
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -65,6 +71,7 @@ export function createOrUpdateIndex(context: SearchIndexContext, index: SearchIn
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     allowIndexDowntime?: boolean;
     clientRequestId?: string;
     ifMatch?: string;
@@ -76,6 +83,7 @@ export function createOrUpdateKnowledgeBase(context: SearchIndexContext, knowled
 
 // @public
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -86,6 +94,7 @@ export function createOrUpdateKnowledgeSource(context: SearchIndexContext, knowl
 
 // @public
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -96,6 +105,7 @@ export function createOrUpdateSynonymMap(context: SearchIndexContext, synonymMap
 
 // @public
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -109,6 +119,7 @@ export function createSynonymMap(context: SearchIndexContext, synonymMap: Synony
 
 // @public
 export interface CreateSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -117,6 +128,7 @@ export function deleteAlias(context: SearchIndexContext, name: string, options?:
 
 // @public
 export interface DeleteAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -127,6 +139,7 @@ export function deleteIndex(context: SearchIndexContext, name: string, options?:
 
 // @public
 export interface DeleteIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -137,6 +150,7 @@ export function deleteKnowledgeBase(context: SearchIndexContext, name: string, o
 
 // @public
 export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -147,6 +161,7 @@ export function deleteKnowledgeSource(context: SearchIndexContext, name: string,
 
 // @public
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -157,6 +172,7 @@ export function deleteSynonymMap(context: SearchIndexContext, name: string, opti
 
 // @public
 export interface DeleteSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -167,6 +183,7 @@ export function getAlias(context: SearchIndexContext, name: string, options?: Ge
 
 // @public
 export interface GetAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -175,6 +192,7 @@ export function getIndex(context: SearchIndexContext, name: string, options?: Ge
 
 // @public
 export interface GetIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -183,6 +201,7 @@ export function getIndexStatistics(context: SearchIndexContext, name: string, op
 
 // @public
 export interface GetIndexStatisticsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -191,6 +210,7 @@ export function getKnowledgeBase(context: SearchIndexContext, name: string, opti
 
 // @public
 export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -199,6 +219,7 @@ export function getKnowledgeSource(context: SearchIndexContext, name: string, op
 
 // @public
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -207,6 +228,7 @@ export function getKnowledgeSourceStatus(context: SearchIndexContext, name: stri
 
 // @public
 export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -215,6 +237,7 @@ export function getServiceStatistics(context: SearchIndexContext, options?: GetS
 
 // @public
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -223,6 +246,7 @@ export function getSynonymMap(context: SearchIndexContext, name: string, options
 
 // @public
 export interface GetSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -231,6 +255,7 @@ export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonym
 
 // @public
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
@@ -240,6 +265,7 @@ export function listAliases(context: SearchIndexContext, options?: ListAliasesOp
 
 // @public
 export interface ListAliasesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -248,6 +274,7 @@ export function listIndexes(context: SearchIndexContext, options?: ListIndexesOp
 
 // @public
 export interface ListIndexesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -256,6 +283,7 @@ export function listIndexesWithSelectedProperties(context: SearchIndexContext, o
 
 // @public
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
@@ -265,6 +293,7 @@ export function listKnowledgeBases(context: SearchIndexContext, options?: ListKn
 
 // @public
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -273,6 +302,7 @@ export function listKnowledgeSources(context: SearchIndexContext, options?: List
 
 // @public
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 

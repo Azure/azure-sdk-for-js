@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   SearchIndexContext,
-  SearchIndexClientOptionalParams,
+  SearchIndexClientOptionalParams} from "./api/index.js";
+import {
   createSearchIndex,
 } from "./api/index.js";
-import {
+import type {
   SynonymMap,
   ListSynonymMapsResult,
   SearchIndex,
@@ -19,8 +20,8 @@ import {
   KnowledgeSourceUnion,
   SearchServiceStatistics,
 } from "../models/azure/search/documents/indexes/models.js";
-import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   getServiceStatistics,
   getKnowledgeSourceStatus,
@@ -53,7 +54,7 @@ import {
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
-import {
+import type {
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -85,10 +86,10 @@ import {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
+export type { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
 
 export class SearchIndexClient {
   private _client: SearchIndexContext;

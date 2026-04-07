@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KnowledgeBaseRetrievalContext,
-  KnowledgeBaseRetrievalClientOptionalParams,
+  KnowledgeBaseRetrievalClientOptionalParams} from "./api/index.js";
+import {
   createKnowledgeBaseRetrieval,
 } from "./api/index.js";
-import {
+import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { retrieve } from "./api/operations.js";
-import { RetrieveOptionalParams } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { RetrieveOptionalParams } from "./api/options.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KnowledgeBaseRetrievalClientOptionalParams } from "./api/knowledgeBaseRetrievalContext.js";
+export type { KnowledgeBaseRetrievalClientOptionalParams } from "./api/knowledgeBaseRetrievalContext.js";
 
 export class KnowledgeBaseRetrievalClient {
   private _client: KnowledgeBaseRetrievalContext;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   QueryType,
   ScoringStatistics,
   QueryDebugMode,
@@ -13,7 +13,7 @@ import {
   VectorFilterMode,
   AutocompleteMode,
 } from "../../models/azure/search/documents/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {

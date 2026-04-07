@@ -4,17 +4,18 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function createDataSourceConnection(context: SearchIndexerContext, dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
 
 // @public
 export interface CreateDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -23,6 +24,7 @@ export function createIndexer(context: SearchIndexerContext, indexer: SearchInde
 
 // @public
 export interface CreateIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -31,6 +33,7 @@ export function createOrUpdateDataSourceConnection(context: SearchIndexerContext
 
 // @public
 export interface CreateOrUpdateDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -41,6 +44,7 @@ export function createOrUpdateIndexer(context: SearchIndexerContext, indexer: Se
 
 // @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -51,6 +55,7 @@ export function createOrUpdateSkillset(context: SearchIndexerContext, skillset: 
 
 // @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -64,6 +69,7 @@ export function createSkillset(context: SearchIndexerContext, skillset: SearchIn
 
 // @public
 export interface CreateSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -72,6 +78,7 @@ export function deleteDataSourceConnection(context: SearchIndexerContext, name: 
 
 // @public
 export interface DeleteDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -82,6 +89,7 @@ export function deleteIndexer(context: SearchIndexerContext, name: string, optio
 
 // @public
 export interface DeleteIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -92,6 +100,7 @@ export function deleteSkillset(context: SearchIndexerContext, name: string, opti
 
 // @public
 export interface DeleteSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -102,6 +111,7 @@ export function getDataSourceConnection(context: SearchIndexerContext, name: str
 
 // @public
 export interface GetDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -110,6 +120,7 @@ export function getDataSourceConnections(context: SearchIndexerContext, options?
 
 // @public
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
@@ -119,6 +130,7 @@ export function getIndexer(context: SearchIndexerContext, name: string, options?
 
 // @public
 export interface GetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -127,6 +139,7 @@ export function getIndexers(context: SearchIndexerContext, options?: GetIndexers
 
 // @public
 export interface GetIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
@@ -136,6 +149,7 @@ export function getIndexerStatus(context: SearchIndexerContext, name: string, op
 
 // @public
 export interface GetIndexerStatusOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -144,6 +158,7 @@ export function getSkillset(context: SearchIndexerContext, name: string, options
 
 // @public
 export interface GetSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -152,6 +167,7 @@ export function getSkillsets(context: SearchIndexerContext, options?: GetSkillse
 
 // @public
 export interface GetSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
@@ -161,6 +177,7 @@ export function resetIndexer(context: SearchIndexerContext, name: string, option
 
 // @public
 export interface ResetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -169,6 +186,7 @@ export function runIndexer(context: SearchIndexerContext, name: string, options?
 
 // @public
 export interface RunIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 

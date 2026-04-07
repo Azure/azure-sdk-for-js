@@ -4,8 +4,8 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
@@ -13,16 +13,19 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface CreateDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateOrUpdateDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -30,6 +33,7 @@ export interface CreateOrUpdateDataSourceConnectionOptionalParams extends Operat
 
 // @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -37,6 +41,7 @@ export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
 
 // @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -44,11 +49,13 @@ export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
 
 // @public
 export interface CreateSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface DeleteDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -56,6 +63,7 @@ export interface DeleteDataSourceConnectionOptionalParams extends OperationOptio
 
 // @public
 export interface DeleteIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -63,6 +71,7 @@ export interface DeleteIndexerOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -70,49 +79,58 @@ export interface DeleteSkillsetOptionalParams extends OperationOptions {
 
 // @public
 export interface GetDataSourceConnectionOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
 
 // @public
 export interface GetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetIndexersOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
 
 // @public
 export interface GetIndexerStatusOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetSkillsetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetSkillsetsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
 
 // @public
 export interface ResetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface RunIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 

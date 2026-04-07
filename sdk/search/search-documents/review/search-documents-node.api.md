@@ -193,7 +193,7 @@ export interface BaseDataDeletionDetectionPolicy {
 
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
-    elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -214,7 +214,7 @@ export interface BaseKnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, unknown>;
+    sourceData?: Record<string, any>;
     type: KnowledgeBaseReferenceType;
 }
 
@@ -517,6 +517,11 @@ export type ContentUnderstandingSkillChunkingUnit = string;
 
 // @public
 export type ContentUnderstandingSkillExtractionOptions = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CorsOptions {
@@ -1243,7 +1248,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -1422,7 +1427,7 @@ export interface KnowledgeSourceReference {
 export interface KnowledgeSourceStatistics {
     averageItemsProcessedPerSynchronization: number;
     averageSynchronizationDuration: string;
-    totalSynchronizations: number;
+    totalSynchronization: number;
 }
 
 // @public
@@ -2681,14 +2686,16 @@ export interface OutputFieldMappingEntry {
     targetName?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageSettings" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    // Warning: (ae-forgotten-export) The symbol "ContinuablePage" needs to be exported by the entry point index.d.ts
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
     next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public

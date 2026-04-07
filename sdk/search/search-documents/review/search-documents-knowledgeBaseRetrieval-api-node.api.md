@@ -7,7 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -28,6 +28,7 @@ export function retrieve(context: KnowledgeBaseRetrievalContext, knowledgeBaseNa
 
 // @public
 export interface RetrieveOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 

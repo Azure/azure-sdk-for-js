@@ -20,13 +20,17 @@ export interface AutocompleteResult {
 }
 
 // @public
+export interface DebugInfo {
+}
+
+// @public
 export interface DocumentDebugInfo {
     readonly vectors?: VectorsDebugInfo;
 }
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 

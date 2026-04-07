@@ -1,58 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SearchIndexContext as Client } from "./index.js";
-import {
+import type { SearchIndexContext as Client } from "./index.js";
+import type {
   SynonymMap,
-  synonymMapSerializer,
-  synonymMapDeserializer,
   ListSynonymMapsResult,
-  listSynonymMapsResultDeserializer,
   SearchIndex,
-  searchIndexSerializer,
-  searchIndexDeserializer,
   _ListIndexesResult,
-  _listIndexesResultDeserializer,
   SearchIndexResponse,
   GetIndexStatisticsResult,
-  getIndexStatisticsResultDeserializer,
   AnalyzeTextOptions,
-  analyzeTextOptionsSerializer,
   AnalyzeResult,
-  analyzeResultDeserializer,
   SearchAlias,
+  _ListAliasesResult,
+  KnowledgeBase,
+  _ListKnowledgeBasesResult,
+  KnowledgeSourceUnion,
+  _ListKnowledgeSourcesResult,
+  SearchServiceStatistics} from "../../models/azure/search/documents/indexes/models.js";
+import {
+  synonymMapSerializer,
+  synonymMapDeserializer,
+  listSynonymMapsResultDeserializer,
+  searchIndexSerializer,
+  searchIndexDeserializer,
+  _listIndexesResultDeserializer,
+  getIndexStatisticsResultDeserializer,
+  analyzeTextOptionsSerializer,
+  analyzeResultDeserializer,
   searchAliasSerializer,
   searchAliasDeserializer,
-  _ListAliasesResult,
   _listAliasesResultDeserializer,
-  KnowledgeBase,
   knowledgeBaseSerializer,
   knowledgeBaseDeserializer,
-  _ListKnowledgeBasesResult,
   _listKnowledgeBasesResultDeserializer,
   knowledgeSourceUnionSerializer,
   knowledgeSourceUnionDeserializer,
-  KnowledgeSourceUnion,
-  _ListKnowledgeSourcesResult,
   _listKnowledgeSourcesResultDeserializer,
-  SearchServiceStatistics,
   searchServiceStatisticsDeserializer,
 } from "../../models/azure/search/documents/indexes/models.js";
+import type {
+  KnowledgeSourceStatus} from "../../models/azure/search/documents/knowledgeBases/models.js";
 import {
-  KnowledgeSourceStatus,
   knowledgeSourceStatusDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
+import type {
+  _ListIndexesSelectedResult} from "../../models/models.js";
 import {
-  _ListIndexesSelectedResult,
   _listIndexesSelectedResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -84,9 +88,10 @@ import {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

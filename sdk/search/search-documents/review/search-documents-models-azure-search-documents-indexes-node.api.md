@@ -79,7 +79,7 @@ export interface AzureMachineLearningParameters {
     modelName?: AIFoundryModelCatalogName;
     region?: string;
     resourceId?: string;
-    scoringUri: string;
+    scoringUri: string | null;
     timeout?: string;
 }
 
@@ -700,7 +700,7 @@ export interface KeywordTokenizerV2 extends LexicalTokenizer {
 export interface KnowledgeBase {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
-    eTag?: string;
+    etag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModelUnion[];
     name: string;
