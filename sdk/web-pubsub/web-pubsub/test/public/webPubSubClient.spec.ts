@@ -31,8 +31,6 @@ describe("WebPubSubClient", () => {
     try {
       await client.getServiceStatus();
     } catch (e: any) {
-      // The generated deserializer expects 204 but the service returns 200 for healthy;
-      // both indicate the service is up.
       if (e?.statusCode === 200) {
         return;
       }
