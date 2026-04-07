@@ -8,7 +8,6 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export type { GetDocumentCountResponse } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,

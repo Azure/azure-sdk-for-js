@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { AzureKeyCredential } from "@azure/core-auth";
+export { type PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 export {
   type AutocompleteItem,
   type AutocompleteMode,
@@ -23,6 +24,7 @@ export {
   type SingleVectorFieldResult,
   type TextResult,
   type VectorsDebugInfo,
+  type SemanticSearchResultsType,
 } from "./models/azure/search/documents/index.js";
 
 export {

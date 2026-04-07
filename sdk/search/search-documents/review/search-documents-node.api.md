@@ -35,8 +35,6 @@ export interface AIServicesAccountKey extends BaseCognitiveServicesAccount {
     subdomainUrl: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
@@ -2683,6 +2681,16 @@ export interface OutputFieldMappingEntry {
     targetName?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PageSettings" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    // Warning: (ae-forgotten-export) The symbol "ContinuablePage" needs to be exported by the entry point index.d.ts
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
 // @public
 export interface PathHierarchyTokenizer extends BaseLexicalTokenizer {
     delimiter?: string;
@@ -2922,7 +2930,6 @@ export interface SearchDocumentsResultBase {
         [propertyName: string]: FacetResult[];
     };
     readonly semanticErrorReason?: SemanticErrorReason;
-    // Warning: (ae-forgotten-export) The symbol "SemanticSearchResultsType" needs to be exported by the entry point index.d.ts
     readonly semanticSearchResultsType?: SemanticSearchResultsType;
 }
 
@@ -3421,6 +3428,9 @@ export interface SemanticSearchOptions {
     semanticFields?: string[];
     semanticQuery?: string;
 }
+
+// @public
+export type SemanticSearchResultsType = string;
 
 // @public @deprecated
 export interface SentimentSkill extends BaseSearchIndexerSkill {

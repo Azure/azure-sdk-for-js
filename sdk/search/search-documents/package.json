@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update -d --emitter-options=\"ignore-nullable-on-optional=true\" && npm run format && npx dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d --emitter-options=\"ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
@@ -34,19 +34,19 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/search/api/searchContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/search/api/searchContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndex/api/searchIndexContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndex/api/searchIndexContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndexer/api/searchIndexerContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndexer/api/searchIndexerContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

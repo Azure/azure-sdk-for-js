@@ -29,5 +29,3 @@ export enum KnownVersions {
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
 }
-
-export type GetDocumentCountResponse = { body: number };
