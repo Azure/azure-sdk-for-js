@@ -91,6 +91,14 @@ export enum KnownFreeTrialState {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -114,8 +122,22 @@ export enum KnownQuotaName {
 
 // @public
 export enum KnownVersions {
-    V20250901 = "2025-09-01"
+    V20250701Preview = "2025-07-01-preview",
+    V20250901 = "2025-09-01",
+    V20260101Preview = "2026-01-01-preview",
+    V20260201Preview = "2026-02-01-preview"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -150,6 +172,7 @@ export interface PlaywrightQuotaProperties {
 
 // @public
 export interface PlaywrightWorkspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: PlaywrightWorkspaceProperties;
 }
 
@@ -168,6 +191,8 @@ export interface PlaywrightWorkspaceProperties {
     localAuth?: EnablementStatus;
     readonly provisioningState?: ProvisioningState;
     regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    storageUri?: string;
     readonly workspaceId?: string;
 }
 
@@ -184,6 +209,7 @@ export interface PlaywrightWorkspaceQuotaProperties {
 
 // @public
 export interface PlaywrightWorkspaceUpdate {
+    identity?: ManagedServiceIdentity;
     properties?: PlaywrightWorkspaceUpdateProperties;
     tags?: Record<string, string>;
 }
@@ -192,6 +218,8 @@ export interface PlaywrightWorkspaceUpdate {
 export interface PlaywrightWorkspaceUpdateProperties {
     localAuth?: EnablementStatus;
     regionalAffinity?: EnablementStatus;
+    reporting?: EnablementStatus;
+    storageUri?: string;
 }
 
 // @public
@@ -226,6 +254,12 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -42,6 +42,9 @@
     },
     "updateVersionScript": {
       "path": "./eng/scripts/update-version.ps1"
+    },
+    "updateMetadataScript": {
+      "path": "./eng/scripts/update-metadata.ps1"
     }
   }
 }

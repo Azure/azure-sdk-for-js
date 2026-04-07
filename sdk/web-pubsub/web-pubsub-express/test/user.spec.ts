@@ -73,7 +73,7 @@ describe("Can handle user event", function () {
       handleUserEvent: async (request, response) => {
         assert.equal(request.dataType, "json");
         assert.equal(typeof request.data, "number");
-        assert.strictEqual(1, request.data);
+        assert.strictEqual(request.data, 1);
         response.success();
       },
     });
@@ -82,7 +82,7 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
     expect(endSpy).toBeCalledTimes(1);
   });
 
@@ -94,7 +94,7 @@ describe("Can handle user event", function () {
       handleUserEvent: async (request, response) => {
         assert.equal(request.dataType, "json");
         assert.equal(typeof request.data, "boolean");
-        assert.strictEqual(true, request.data);
+        assert.strictEqual(request.data, true);
         response.success();
       },
     });
@@ -103,7 +103,7 @@ describe("Can handle user event", function () {
     const result = await process;
 
     assert.isTrue(result);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
     expect(endSpy).toBeCalledTimes(1);
   });
 
@@ -223,7 +223,7 @@ describe("Can handle user event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response with 200 when handler is not specified", async () => {
@@ -234,7 +234,7 @@ describe("Can handle user event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response with error when handler returns error", async () => {
@@ -251,7 +251,7 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(500, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 500, "should be error");
   });
 
   it("Should response with success when handler returns success", async () => {
@@ -268,7 +268,7 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
   });
 
   it("Should response with success when returns success binary", async () => {
@@ -285,8 +285,8 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
-    assert.equal("application/octet-stream", res.getHeader("content-type"), "should be binary");
+    assert.equal(res.statusCode, 200, "should be success");
+    assert.equal(res.getHeader("content-type"), "application/octet-stream", "should be binary");
   });
 
   it("Should response with success when returns success text", async () => {
@@ -303,8 +303,8 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
-    assert.equal("text/plain; charset=utf-8", res.getHeader("content-type"), "should be text");
+    assert.equal(res.statusCode, 200, "should be success");
+    assert.equal(res.getHeader("content-type"), "text/plain; charset=utf-8", "should be text");
   });
 
   it("Should response with success when returns success json", async () => {
@@ -321,7 +321,7 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
     assert.equal(
       "application/json; charset=utf-8",
       res.getHeader("content-type"),
@@ -347,7 +347,7 @@ describe("Can handle user event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
 
     assert.equal(
       Buffer.from(

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for a Job Definition resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/JobDefinitions_Update.json
+ * x-ms-original-file: 2025-12-01/JobDefinitions_Update.json
  */
 async function jobDefinitionsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,6 +23,9 @@ async function jobDefinitionsUpdate(): Promise<void> {
       properties: {
         description: "Updated Job Definition Description",
         agentName: "updatedAgentName",
+        connections: [
+          "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/connections/example-connection",
+        ],
       },
     },
   );

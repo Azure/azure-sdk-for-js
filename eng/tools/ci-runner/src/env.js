@@ -6,7 +6,7 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-/** @type {string} */
+/** @type {string|undefined} */
 let cachedBaseDir = undefined;
 
 export function getBaseDir() {

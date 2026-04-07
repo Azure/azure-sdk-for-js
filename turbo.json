@@ -6,6 +6,7 @@
     "teamSlug": "azsdkjs",
     "teamId": "azsdkjs",
     "enabled": true,
+    // Reach out to netiso@microsoft.com before changing apiUrl and loginUrl to ensure pipelines will continue to run.
     "apiUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io",
     "loginUrl": "https://turborepo-remote-cache-vnet.whitesky-6b33c444.westus2.azurecontainerapps.io"
   },

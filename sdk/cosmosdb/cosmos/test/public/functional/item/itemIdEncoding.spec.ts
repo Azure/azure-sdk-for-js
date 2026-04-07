@@ -67,7 +67,7 @@ const executeTestCase = async function (
       console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
       assert.strictEqual(err.code, scenario.expectedCreateStatusCode);
     } else {
-      assert.strictEqual(400, scenario.expectedCreateStatusCode);
+      assert.strictEqual(scenario.expectedCreateStatusCode, 400);
       if (err) {
         assert.strictEqual(err.message, scenario.expectedCreateErrorMessage);
       }
