@@ -1,0 +1,65 @@
+name: GitHub Event Processor Test (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to apply labels to'
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  event-handler-test:
+    permissions:
+      pull-requests: write
+      contents: read
+    name: Test event processor from source (testLabel branch)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tools repo for GitHub Event Processor sources
+        uses: actions/checkout@v3
+        with:
+          repository: Azure/azure-sdk-tools
+          path: azure-sdk-tools
+          ref: testLabel
+
+      - name: Build and install GitHubEventProcessor from sources
+        run: |
+          dotnet pack
+          dotnet tool install --global --prerelease --add-source ../../../artifacts/packages/Debug Azure.Sdk.Tools.GitHubEventProcessor
+        shell: bash
+        working-directory: azure-sdk-tools/tools/github-event-processor/Azure.Sdk.Tools.GitHubEventProcessor
+
+      - name: Generate pull_request_target event JSON
+        run: |
+          cat > /tmp/event.json << EOF
+          {
+            "action": "synchronize",
+            "number": ${{ inputs.pr_number }},
+            "pull_request": {
+              "number": ${{ inputs.pr_number }},
+              "state": "open",
+              "title": "Test PR",
+              "user": { "login": "azure-sdk", "type": "Bot" },
+              "head": { "ref": "testOwner", "sha": "abc123" },
+              "base": { "ref": "main", "sha": "def456" },
+              "body": ""
+            },
+            "repository": {
+              "name": "azure-sdk-for-js",
+              "full_name": "Azure/azure-sdk-for-js",
+              "owner": { "login": "Azure" }
+            },
+            "sender": { "login": "azure-sdk", "type": "Bot" }
+          }
+          EOF
+        shell: bash
+
+      - name: Process Event
+        run: |
+          github-event-processor pull_request_target /tmp/event.json
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
