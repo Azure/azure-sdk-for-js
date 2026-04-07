@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Project resource.
  *
  * @summary gets a Project resource.
- * x-ms-original-file: 2025-07-01/Projects_Get.json
+ * x-ms-original-file: 2025-12-01/Projects_Get.json
  */
 async function projectsGet() {
   const credential = new DefaultAzureCredential();

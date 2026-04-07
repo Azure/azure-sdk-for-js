@@ -1746,7 +1746,7 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
-/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
+/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

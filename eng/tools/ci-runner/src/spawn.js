@@ -12,7 +12,7 @@ function isWindows() {
 /**
  * Helper function to spawn a command
  *
- * @param {string} cmd - current working directory
+ * @param {string} cmd - command to execute
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
  */
@@ -25,7 +25,7 @@ function spawnWithLog(cmd, cwd, ...args) {
 }
 
 /**
- * Helper function to spawn npx to run programs
+ * Helper function to spawn pnpm to run programs
  *
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
@@ -36,7 +36,7 @@ export function spawnPnpm(cwd, ...args) {
 }
 
 /**
- * Helper function to spawn `npm run` commands
+ * Helper function to spawn `pnpm run` commands
  *
  * @param {string} cwd - current working directory
  * @param {string[]} args - rest of arguments
@@ -46,7 +46,12 @@ export function spawnPnpmRun(cwd, ...args) {
   return spawnWithLog(command, cwd, "run", ...args);
 }
 
-export function spawnPnpmWithOutput(cwd, ...args) {
+/**
+ * Helper function to spawn `pnpm run` commands with output capture
+ *
+ * @param {string} cwd - current working directory
+ * @param {string[]} args - rest of arguments
+ */ export function spawnPnpmWithOutput(cwd, ...args) {
   const command = isWindows() ? "pnpm.CMD" : "pnpm";
   console.log(`Executing: "${command} ${args.join(" ")}" in ${cwd}\n\n`);
   const proc = spawnSync(command, args, { cwd, stdio: "pipe", shell: isWindows() });

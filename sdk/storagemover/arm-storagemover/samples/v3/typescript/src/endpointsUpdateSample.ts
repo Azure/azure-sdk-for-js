@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_AzureMultiCloudConnector.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_AzureMultiCloudConnector.json
  */
 async function endpointsUpdateAzureMultiCloudConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function endpointsUpdateAzureMultiCloudConnector(): Promise<void> {
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_AzureStorageBlobContainer.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_AzureStorageBlobContainer.json
  */
 async function endpointsUpdateAzureStorageBlobContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function endpointsUpdateAzureStorageBlobContainer(): Promise<void> {
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_AzureStorageNfsFileShare.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_AzureStorageNfsFileShare.json
  */
 async function endpointsUpdateAzureStorageNfsFileShare(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function endpointsUpdateAzureStorageNfsFileShare(): Promise<void> {
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_AzureStorageSmbFileShare.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_AzureStorageSmbFileShare.json
  */
 async function endpointsUpdateAzureStorageSmbFileShare(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +104,7 @@ async function endpointsUpdateAzureStorageSmbFileShare(): Promise<void> {
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_NfsMount.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_NfsMount.json
  */
 async function endpointsUpdateNfsMount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -114,12 +114,7 @@ async function endpointsUpdateNfsMount(): Promise<void> {
     "examples-rg",
     "examples-storageMoverName",
     "examples-endpointName",
-    {
-      properties: {
-        description: "Updated Endpoint Description",
-        endpointType: "NfsMount",
-      },
-    },
+    { properties: { description: "Updated Endpoint Description", endpointType: "NfsMount" } },
   );
   console.log(result);
 }
@@ -128,7 +123,26 @@ async function endpointsUpdateNfsMount(): Promise<void> {
  * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
  *
  * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
- * x-ms-original-file: 2025-07-01/Endpoints_Update_SmbMount.json
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_S3WithHMAC.json
+ */
+async function endpointsUpdateS3WithHmac(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
+  const client = new StorageMoverClient(credential, subscriptionId);
+  const result = await client.endpoints.update(
+    "examples-rg",
+    "examples-storageMoverName",
+    "examples-endpointName",
+    { properties: { description: "Updated Endpoint Description", endpointType: "S3WithHMAC" } },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
+ *
+ * @summary updates properties for an Endpoint resource. Properties not specified in the request body will be unchanged.
+ * x-ms-original-file: 2025-12-01/Endpoints_Update_SmbMount.json
  */
 async function endpointsUpdateSmbMount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,6 +175,7 @@ async function main(): Promise<void> {
   await endpointsUpdateAzureStorageNfsFileShare();
   await endpointsUpdateAzureStorageSmbFileShare();
   await endpointsUpdateNfsMount();
+  await endpointsUpdateS3WithHmac();
   await endpointsUpdateSmbMount();
 }
 

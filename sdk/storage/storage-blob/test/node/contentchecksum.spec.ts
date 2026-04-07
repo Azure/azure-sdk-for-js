@@ -131,7 +131,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       }
     });
 
-    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.blobClient.pipeline;
+    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.client.pipeline;
     pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
     try {
       // Try to get current response body to the buffer
