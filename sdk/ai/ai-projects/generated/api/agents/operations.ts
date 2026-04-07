@@ -25,6 +25,12 @@ import {
   deleteAgentVersionResponseDeserializer,
   _AgentsPagedResultAgentVersionObject,
   _agentsPagedResultAgentVersionObjectDeserializer,
+  versionIndicatorUnionSerializer,
+  VersionIndicatorUnion,
+  AgentSessionResource,
+  agentSessionResourceDeserializer,
+  _AgentsPagedResultAgentSessionResource,
+  _agentsPagedResultAgentSessionResourceDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -32,6 +38,10 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  AgentsListSessionsOptionalParams,
+  AgentsDeleteSessionOptionalParams,
+  AgentsGetSessionOptionalParams,
+  AgentsCreateSessionOptionalParams,
   AgentsCreateAgentVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
@@ -46,7 +56,7 @@ import {
   AgentsUpdateAgentFromCodeOptionalParams,
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentFromCodeOptionalParams,
-  AgentsCreateOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
 import {
@@ -55,6 +65,256 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _listSessionsSend(
+  context: Client,
+  agentName: string,
+  options: AgentsListSessionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api%2Dversion}",
+    {
+      agent_name: agentName,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listSessionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultAgentSessionResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _agentsPagedResultAgentSessionResourceDeserializer(result.body);
+}
+
+/** Returns a list of sessions for the specified agent. */
+export function listSessions(
+  context: Client,
+  agentName: string,
+  options: AgentsListSessionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<AgentSessionResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSessionsSend(context, agentName, options),
+    _listSessionsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _deleteSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  isolationKey: string,
+  options: AgentsDeleteSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "x-session-isolation-key": isolationKey,
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteSessionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Deletes a session synchronously.
+ * Returns 204 No Content when the session is deleted or does not exist.
+ */
+export async function deleteSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  isolationKey: string,
+  options: AgentsDeleteSessionOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteSessionSend(context, agentName, sessionId, isolationKey, options);
+  return _deleteSessionDeserialize(result);
+}
+
+export function _getSessionSend(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsGetSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getSessionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentSessionResource> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentSessionResourceDeserializer(result.body);
+}
+
+/** Retrieves a session by ID. */
+export async function getSession(
+  context: Client,
+  agentName: string,
+  sessionId: string,
+  options: AgentsGetSessionOptionalParams = { requestOptions: {} },
+): Promise<AgentSessionResource> {
+  const result = await _getSessionSend(context, agentName, sessionId, options);
+  return _getSessionDeserialize(result);
+}
+
+export function _createSessionSend(
+  context: Client,
+  agentName: string,
+  isolationKey: string,
+  versionIndicator: VersionIndicatorUnion,
+  options: AgentsCreateSessionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/endpoint/sessions{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        "x-session-isolation-key": isolationKey,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        agent_session_id: options?.agentSessionId,
+        version_indicator: versionIndicatorUnionSerializer(versionIndicator),
+      },
+    });
+}
+
+export async function _createSessionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentSessionResource> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentSessionResourceDeserializer(result.body);
+}
+
+/**
+ * Creates a new session for an agent endpoint.
+ * The endpoint resolves the backing agent version from `version_indicator` and
+ * enforces session ownership using the provided isolation key for session-mutating operations.
+ */
+export async function createSession(
+  context: Client,
+  agentName: string,
+  isolationKey: string,
+  versionIndicator: VersionIndicatorUnion,
+  options: AgentsCreateSessionOptionalParams = { requestOptions: {} },
+): Promise<AgentSessionResource> {
+  const result = await _createSessionSend(
+    context,
+    agentName,
+    isolationKey,
+    versionIndicator,
+    options,
+  );
+  return _createSessionDeserialize(result);
+}
 
 export function _createAgentVersionFromCodeSend(
   context: Client,
@@ -900,7 +1160,7 @@ export function _createAgentSend(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateOptionalParams = { requestOptions: {} },
+  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents{?api%2Dversion}",
@@ -958,7 +1218,7 @@ export async function createAgent(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateOptionalParams = { requestOptions: {} },
+  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _createAgentSend(context, name, definition, options);
   return _createAgentDeserialize(result);

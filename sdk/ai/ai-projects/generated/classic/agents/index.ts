@@ -3,6 +3,10 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
+  listSessions,
+  deleteSession,
+  getSession,
+  createSession,
   createAgentVersionFromCode,
   patchAgentObject,
   listVersions,
@@ -21,6 +25,10 @@ import {
   get,
 } from "../../api/agents/operations.js";
 import {
+  AgentsListSessionsOptionalParams,
+  AgentsDeleteSessionOptionalParams,
+  AgentsGetSessionOptionalParams,
+  AgentsCreateSessionOptionalParams,
   AgentsCreateAgentVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
@@ -35,7 +43,7 @@ import {
   AgentsUpdateAgentFromCodeOptionalParams,
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentFromCodeOptionalParams,
-  AgentsCreateOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
 import {
@@ -46,11 +54,45 @@ import {
   CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
+  VersionIndicatorUnion,
+  AgentSessionResource,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
+  /** Returns a list of sessions for the specified agent. */
+  listSessions: (
+    agentName: string,
+    options?: AgentsListSessionsOptionalParams,
+  ) => PagedAsyncIterableIterator<AgentSessionResource>;
+  /**
+   * Deletes a session synchronously.
+   * Returns 204 No Content when the session is deleted or does not exist.
+   */
+  deleteSession: (
+    agentName: string,
+    sessionId: string,
+    isolationKey: string,
+    options?: AgentsDeleteSessionOptionalParams,
+  ) => Promise<void>;
+  /** Retrieves a session by ID. */
+  getSession: (
+    agentName: string,
+    sessionId: string,
+    options?: AgentsGetSessionOptionalParams,
+  ) => Promise<AgentSessionResource>;
+  /**
+   * Creates a new session for an agent endpoint.
+   * The endpoint resolves the backing agent version from `version_indicator` and
+   * enforces session ownership using the provided isolation key for session-mutating operations.
+   */
+  createSession: (
+    agentName: string,
+    isolationKey: string,
+    versionIndicator: VersionIndicatorUnion,
+    options?: AgentsCreateSessionOptionalParams,
+  ) => Promise<AgentSessionResource>;
   createAgentVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
@@ -156,7 +198,7 @@ export interface AgentsOperations {
   createAgent: (
     name: string,
     definition: AgentDefinitionUnion,
-    options?: AgentsCreateOptionalParams,
+    options?: AgentsCreateAgentOptionalParams,
   ) => Promise<Agent>;
   /** Retrieves the agent. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
@@ -164,6 +206,22 @@ export interface AgentsOperations {
 
 function _getAgents(context: AIProjectContext) {
   return {
+    listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) =>
+      listSessions(context, agentName, options),
+    deleteSession: (
+      agentName: string,
+      sessionId: string,
+      isolationKey: string,
+      options?: AgentsDeleteSessionOptionalParams,
+    ) => deleteSession(context, agentName, sessionId, isolationKey, options),
+    getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) =>
+      getSession(context, agentName, sessionId, options),
+    createSession: (
+      agentName: string,
+      isolationKey: string,
+      versionIndicator: VersionIndicatorUnion,
+      options?: AgentsCreateSessionOptionalParams,
+    ) => createSession(context, agentName, isolationKey, versionIndicator, options),
     createAgentVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
@@ -230,7 +288,7 @@ function _getAgents(context: AIProjectContext) {
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
-      options?: AgentsCreateOptionalParams,
+      options?: AgentsCreateAgentOptionalParams,
     ) => createAgent(context, name, definition, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };

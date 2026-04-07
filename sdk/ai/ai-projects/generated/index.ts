@@ -189,6 +189,12 @@ export type {
   CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
+  VersionIndicator,
+  VersionIndicatorUnion,
+  VersionIndicatorType,
+  VersionRefIndicator,
+  AgentSessionResource,
+  AgentSessionStatus,
   EvaluationRule,
   EvaluationRuleAction,
   EvaluationRuleActionUnion,
@@ -231,8 +237,6 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
-  ToolboxVersionObject,
-  ToolboxPolicies,
   EvaluationTaxonomy,
   EvaluationTaxonomyInput,
   EvaluationTaxonomyInputUnion,
@@ -338,7 +342,16 @@ export type {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
+  ToolboxPolicies,
+  ToolboxVersionObject,
   ToolboxObject,
+  SkillObject,
+  DeleteSkillResponse,
+  SessionFileWriteResponse,
+  SessionDirectoryListResponse,
+  SessionDirectoryEntry,
+  ManagedAgentIdentityBlueprint,
+  PagedManagedAgentIdentityBlueprint,
   UpdateToolboxRequest,
   AgentObjectType,
   AgentDefinitionOptInKeys,
@@ -346,10 +359,19 @@ export type {
   FoundryFeaturesOptInKeys,
   PendingUploadType,
   MemoryStoreObjectType,
+  BetaAgentSessionFilesDownloadResponse,
+  BetaAgentInvocationsCancelResponse,
+  BetaAgentInvocationsGetResponse,
+  BetaAgentInvocationsCreateResponse,
+  BetaSkillsDownloadResponse,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type {
+  AgentsListSessionsOptionalParams,
+  AgentsDeleteSessionOptionalParams,
+  AgentsGetSessionOptionalParams,
+  AgentsCreateSessionOptionalParams,
   AgentsCreateAgentVersionFromCodeOptionalParams,
   AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
@@ -364,7 +386,7 @@ export type {
   AgentsUpdateAgentFromCodeOptionalParams,
   AgentsUpdateAgentOptionalParams,
   AgentsCreateAgentFromCodeOptionalParams,
-  AgentsCreateOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./api/agents/index.js";
 export type {
@@ -399,10 +421,17 @@ export type {
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
 export type {
-  ToolboxesDeleteToolboxVersionOptionalParams,
-  ToolboxesGetToolboxVersionOptionalParams,
-  ToolboxesListToolboxVersionsOptionalParams,
-} from "./api/toolboxes/index.js";
+  BetaAgentInvocationsCancelOptionalParams,
+  BetaAgentInvocationsGetOptionalParams,
+  BetaAgentInvocationsCreateOptionalParams,
+  GetOpenApiSpecOptionalParams,
+} from "./api/beta/agentInvocations/index.js";
+export type {
+  BetaAgentSessionFilesDeleteOptionalParams,
+  BetaAgentSessionFilesListOptionalParams,
+  BetaAgentSessionFilesDownloadOptionalParams,
+  BetaAgentSessionFilesUploadOptionalParams,
+} from "./api/beta/agentSessionFiles/index.js";
 export type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
@@ -425,6 +454,12 @@ export type {
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
 } from "./api/beta/insights/index.js";
+export type {
+  BetaManagedAgentIdentityBlueprintsListOptionalParams,
+  BetaManagedAgentIdentityBlueprintsDeleteOptionalParams,
+  BetaManagedAgentIdentityBlueprintsGetOptionalParams,
+  CreateOrUpdateOptionalParams,
+} from "./api/beta/managedAgentIdentityBlueprints/index.js";
 export type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
@@ -450,11 +485,23 @@ export type {
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
 export type {
+  BetaSkillsDeleteOptionalParams,
+  BetaSkillsUpdateOptionalParams,
+  BetaSkillsListOptionalParams,
+  BetaSkillsDownloadOptionalParams,
+  BetaSkillsGetOptionalParams,
+  CreateFromPackageOptionalParams,
+  BetaSkillsCreateOptionalParams,
+} from "./api/beta/skills/index.js";
+export type {
+  DeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  BetaToolboxesCreateOptionalParams,
+  CreateVersionOptionalParams,
 } from "./api/beta/toolboxes/index.js";
 export type {
   AgentsOperations,
@@ -464,13 +511,16 @@ export type {
   DeploymentsOperations,
   EvaluationRulesOperations,
   IndexesOperations,
-  ToolboxesOperations,
+  BetaAgentInvocationsOperations,
+  BetaAgentSessionFilesOperations,
   BetaEvaluationTaxonomiesOperations,
   BetaEvaluatorsOperations,
   BetaInsightsOperations,
+  BetaManagedAgentIdentityBlueprintsOperations,
   BetaMemoryStoresOperations,
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
+  BetaSkillsOperations,
   BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

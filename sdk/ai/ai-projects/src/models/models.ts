@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import type { FileContents } from "../static-helpers/multipartHelpers.js";
+import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
@@ -5067,6 +5068,135 @@ export function agentVersionArrayDeserializer(result: Array<AgentVersion>): any[
   });
 }
 
+/** Version indicator determining which agent version backs the session. */
+export interface VersionIndicator {
+  /** The type of version indicator. */
+  /** The discriminator possible values: version_ref */
+  type: VersionIndicatorType;
+}
+
+export function versionIndicatorSerializer(item: VersionIndicator): any {
+  return { type: item["type"] };
+}
+
+export function versionIndicatorDeserializer(item: any): VersionIndicator {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VersionIndicatorUnion */
+export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
+
+export function versionIndicatorUnionSerializer(item: VersionIndicatorUnion): any {
+  switch (item.type) {
+    case "version_ref":
+      return versionRefIndicatorSerializer(item as VersionRefIndicator);
+
+    default:
+      return versionIndicatorSerializer(item);
+  }
+}
+
+export function versionIndicatorUnionDeserializer(item: any): VersionIndicatorUnion {
+  switch (item["type"]) {
+    case "version_ref":
+      return versionRefIndicatorDeserializer(item as VersionRefIndicator);
+
+    default:
+      return versionIndicatorDeserializer(item);
+  }
+}
+
+/** The type of version indicator used to determine the agent version backing a session. */
+export type VersionIndicatorType = "version_ref";
+
+/** Version indicator that references a specific agent version by name. */
+export interface VersionRefIndicator extends VersionIndicator {
+  /** Discriminator value for version_ref. */
+  type: "version_ref";
+  /** The agent version identifier returned by the agent version APIs. */
+  agent_version: string;
+}
+
+export function versionRefIndicatorSerializer(item: VersionRefIndicator): any {
+  return { type: item["type"], agent_version: item["agent_version"] };
+}
+
+export function versionRefIndicatorDeserializer(item: any): VersionRefIndicator {
+  return {
+    type: item["type"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** An agent session providing a long-lived compute sandbox for hosted agent invocations. */
+export interface AgentSessionResource {
+  /** The session identifier. */
+  agent_session_id: string;
+  /** The version indicator determining which agent version backs this session. */
+  version_indicator: VersionIndicatorUnion;
+  /** The current status of the session. */
+  status: AgentSessionStatus;
+  /** The Unix timestamp (in seconds) when the session was created. */
+  readonly created_at: Date;
+  /** The Unix timestamp (in seconds) when the session was last accessed. */
+  readonly last_accessed_at: Date;
+  /** The Unix timestamp (in seconds) when the session expires (rolling, 30 days from last activity). */
+  readonly expires_at: Date;
+}
+
+export function agentSessionResourceDeserializer(item: any): AgentSessionResource {
+  return {
+    agent_session_id: item["agent_session_id"],
+    version_indicator: versionIndicatorUnionDeserializer(item["version_indicator"]),
+    status: item["status"],
+    created_at: new Date(item["created_at"] * 1000),
+    last_accessed_at: new Date(item["last_accessed_at"] * 1000),
+    expires_at: new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** The status of an agent session. */
+export type AgentSessionStatus =
+  | "creating"
+  | "active"
+  | "idle"
+  | "updating"
+  | "failed"
+  | "deleting"
+  | "deleted"
+  | "expired";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentSessionResource {
+  /** The requested list of items. */
+  data: AgentSessionResource[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentSessionResourceDeserializer(
+  item: any,
+): _AgentsPagedResultAgentSessionResource {
+  return {
+    data: agentSessionResourceArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentSessionResourceArrayDeserializer(result: Array<AgentSessionResource>): any[] {
+  return result.map((item) => {
+    return agentSessionResourceDeserializer(item);
+  });
+}
+
 /** Evaluation rule model. */
 export interface EvaluationRule {
   /** Unique identifier for the evaluation rule. */
@@ -6091,99 +6221,6 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   return {
     modelDeploymentName: item["modelDeploymentName"],
     embeddingField: item["embeddingField"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultToolboxVersionObject {
-  /** The requested list of items. */
-  data: ToolboxVersionObject[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultToolboxVersionObjectDeserializer(
-  item: any,
-): _AgentsPagedResultToolboxVersionObject {
-  return {
-    data: toolboxVersionObjectArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersionObject>): any[] {
-  return result.map((item) => {
-    return toolboxVersionObjectDeserializer(item);
-  });
-}
-
-/** A specific version of a toolbox. */
-export interface ToolboxVersionObject {
-  /**
-   * Set of 16 key-value pairs that can be attached to an object. This can be
-   * useful for storing additional information about the object in a structured
-   * format, and querying for objects via API or the dashboard.
-   *
-   * Keys are strings with a maximum length of 64 characters. Values are strings
-   * with a maximum length of 512 characters.
-   */
-  metadata: Record<string, string> | null;
-  /** The unique identifier of the toolbox version. */
-  id: string;
-  /** The name of the toolbox. */
-  name: string;
-  /** The version identifier of the toolbox. Toolbox versions are immutable and every update creates a new version. */
-  version: string;
-  /** A human-readable description of the toolbox. */
-  description?: string;
-  /** The Unix timestamp (seconds) when the toolbox version was created. */
-  created_at: Date;
-  /** The list of tools contained in this toolbox version. */
-  tools: ToolUnion[];
-  /** Policy configuration for the toolbox version. */
-  policies?: ToolboxPolicies;
-}
-
-export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObject {
-  return {
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(
-          Object.entries(item["metadata"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    created_at: new Date(item["created_at"] * 1000),
-    tools: toolUnionArrayDeserializer(item["tools"]),
-    policies: !item["policies"] ? item["policies"] : toolboxPoliciesDeserializer(item["policies"]),
-  };
-}
-
-/** Policy configuration for a toolbox, including content safety and other governance settings. */
-export interface ToolboxPolicies {
-  /** Responsible AI content filtering configuration. */
-  rai_config?: RaiConfig;
-}
-
-export function toolboxPoliciesSerializer(item: ToolboxPolicies): any {
-  return {
-    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
-  };
-}
-
-export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
-  return {
-    rai_config: !item["rai_config"]
-      ? item["rai_config"]
-      : raiConfigDeserializer(item["rai_config"]),
   };
 }
 
@@ -8794,6 +8831,70 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   });
 }
 
+/** Policy configuration for a toolbox, including content safety and other governance settings. */
+export interface ToolboxPolicies {
+  /** Responsible AI content filtering configuration. */
+  rai_config?: RaiConfig;
+}
+
+export function toolboxPoliciesSerializer(item: ToolboxPolicies): any {
+  return {
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+  };
+}
+
+export function toolboxPoliciesDeserializer(item: any): ToolboxPolicies {
+  return {
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+  };
+}
+
+/** A specific version of a toolbox. */
+export interface ToolboxVersionObject {
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
+  metadata: Record<string, string> | null;
+  /** The unique identifier of the toolbox version. */
+  id: string;
+  /** The name of the toolbox. */
+  name: string;
+  /** The version identifier of the toolbox. Toolbox versions are immutable and every update creates a new version. */
+  version: string;
+  /** A human-readable description of the toolbox. */
+  description?: string;
+  /** The Unix timestamp (seconds) when the toolbox version was created. */
+  created_at: Date;
+  /** The list of tools contained in this toolbox version. */
+  tools: ToolUnion[];
+  /** Policy configuration for the toolbox version. */
+  policies?: ToolboxPolicies;
+}
+
+export function toolboxVersionObjectDeserializer(item: any): ToolboxVersionObject {
+  return {
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(
+          Object.entries(item["metadata"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    created_at: new Date(item["created_at"] * 1000),
+    tools: toolUnionArrayDeserializer(item["tools"]),
+    policies: !item["policies"] ? item["policies"] : toolboxPoliciesDeserializer(item["policies"]),
+  };
+}
+
 /** A toolbox that stores reusable tool definitions for agents. */
 export interface ToolboxObject {
   /** The unique identifier of the toolbox. */
@@ -8838,6 +8939,209 @@ export function _agentsPagedResultToolboxObjectDeserializer(
 export function toolboxObjectArrayDeserializer(result: Array<ToolboxObject>): any[] {
   return result.map((item) => {
     return toolboxObjectDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultToolboxVersionObject {
+  /** The requested list of items. */
+  data: ToolboxVersionObject[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultToolboxVersionObjectDeserializer(
+  item: any,
+): _AgentsPagedResultToolboxVersionObject {
+  return {
+    data: toolboxVersionObjectArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersionObject>): any[] {
+  return result.map((item) => {
+    return toolboxVersionObjectDeserializer(item);
+  });
+}
+
+/** A skill object. */
+export interface SkillObject {
+  /** The unique identifier of the skill. */
+  skill_id: string;
+  /** Whether the skill was created from a gzip blob package. */
+  has_blob: boolean;
+  /** The unique name of the skill. */
+  name: string;
+  /** A human-readable description of the skill. */
+  description?: string;
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
+  metadata?: Record<string, string>;
+}
+
+export function skillObjectDeserializer(item: any): SkillObject {
+  return {
+    skill_id: item["skill_id"],
+    has_blob: item["has_blob"],
+    name: item["name"],
+    description: item["description"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultSkillObject {
+  /** The requested list of items. */
+  data: SkillObject[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultSkillObjectDeserializer(
+  item: any,
+): _AgentsPagedResultSkillObject {
+  return {
+    data: skillObjectArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function skillObjectArrayDeserializer(result: Array<SkillObject>): any[] {
+  return result.map((item) => {
+    return skillObjectDeserializer(item);
+  });
+}
+
+/** A deleted skill Object */
+export interface DeleteSkillResponse {
+  /** The unique name of the skill. */
+  name: string;
+  /** Whether the skill was successfully deleted. */
+  deleted: boolean;
+}
+
+export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse {
+  return {
+    name: item["name"],
+    deleted: item["deleted"],
+  };
+}
+
+/** Response from uploading a file to a session sandbox. */
+export interface SessionFileWriteResponse {
+  /** The path where the file was written, relative to the session home directory. */
+  path: string;
+  /** Number of bytes written. */
+  bytes_written: number;
+}
+
+export function sessionFileWriteResponseDeserializer(item: any): SessionFileWriteResponse {
+  return {
+    path: item["path"],
+    bytes_written: item["bytes_written"],
+  };
+}
+
+/** Response from listing a directory in a session sandbox. */
+export interface SessionDirectoryListResponse {
+  /** The path that was listed, relative to the session home directory. */
+  path: string;
+  /** The directory entries. */
+  entries: SessionDirectoryEntry[];
+}
+
+export function sessionDirectoryListResponseDeserializer(item: any): SessionDirectoryListResponse {
+  return {
+    path: item["path"],
+    entries: sessionDirectoryEntryArrayDeserializer(item["entries"]),
+  };
+}
+
+export function sessionDirectoryEntryArrayDeserializer(
+  result: Array<SessionDirectoryEntry>,
+): any[] {
+  return result.map((item) => {
+    return sessionDirectoryEntryDeserializer(item);
+  });
+}
+
+/** A single entry in a directory listing. */
+export interface SessionDirectoryEntry {
+  /** The name of the file or directory. */
+  name: string;
+  /** The size in bytes (0 for directories). */
+  size: number;
+  /** Whether this entry is a directory. */
+  is_directory: boolean;
+  /** The last modification time in UTC (ISO 8601). */
+  modified_time: Date;
+}
+
+export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEntry {
+  return {
+    name: item["name"],
+    size: item["size"],
+    is_directory: item["is_directory"],
+    modified_time: new Date(item["modified_time"]),
+  };
+}
+
+/** model interface ManagedAgentIdentityBlueprint */
+export interface ManagedAgentIdentityBlueprint {
+  readonly name: string;
+}
+
+export function managedAgentIdentityBlueprintDeserializer(
+  item: any,
+): ManagedAgentIdentityBlueprint {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Paged collection of ManagedAgentIdentityBlueprint items */
+export interface PagedManagedAgentIdentityBlueprint {
+  /** The ManagedAgentIdentityBlueprint items on this page */
+  value: ManagedAgentIdentityBlueprint[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function pagedManagedAgentIdentityBlueprintDeserializer(
+  item: any,
+): PagedManagedAgentIdentityBlueprint {
+  return {
+    value: managedAgentIdentityBlueprintArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function managedAgentIdentityBlueprintArrayDeserializer(
+  result: Array<ManagedAgentIdentityBlueprint>,
+): any[] {
+  return result.map((item) => {
+    return managedAgentIdentityBlueprintDeserializer(item);
   });
 }
 
@@ -8898,3 +9202,43 @@ export enum KnownApiVersions {
   /** Microsoft Foundry API version v1. */
   v1 = "v1",
 }
+
+export type BetaAgentSessionFilesDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+export type BetaAgentInvocationsCancelResponse = { body: any };
+
+export type BetaAgentInvocationsGetResponse = { body: any };
+
+export type BetaAgentInvocationsCreateResponse = { body: any };
+
+export type BetaSkillsDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};

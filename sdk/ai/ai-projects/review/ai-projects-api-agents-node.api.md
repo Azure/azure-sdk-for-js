@@ -44,6 +44,12 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsCreateSessionOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
@@ -56,11 +62,21 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface AgentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentsGetSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -72,6 +88,15 @@ export interface AgentsListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     kind?: AgentKind;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentsListSessionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -126,7 +151,13 @@ export function createAgentVersionFromManifest(context: AIProjectContext, agentN
 export function createFromCode(context: AIProjectContext, agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: AgentsCreateFromCodeOptionalParams): Promise<Agent>;
 
 // @public
+export function createSession(context: AIProjectContext, agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams): Promise<AgentSessionResource>;
+
+// @public
 export function createVersion(context: AIProjectContext, agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateVersionOptionalParams): Promise<AgentVersion>;
+
+// @public
+export function deleteSession(context: AIProjectContext, agentName: string, sessionId: string, isolationKey: string, options?: AgentsDeleteSessionOptionalParams): Promise<void>;
 
 // @public
 export function deleteVersion(context: AIProjectContext, agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams): Promise<DeleteAgentVersionResponse>;
@@ -135,10 +166,16 @@ export function deleteVersion(context: AIProjectContext, agentName: string, agen
 export function get(context: AIProjectContext, agentName: string, options?: AgentsGetOptionalParams): Promise<Agent>;
 
 // @public
+export function getSession(context: AIProjectContext, agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams): Promise<AgentSessionResource>;
+
+// @public
 export function getVersion(context: AIProjectContext, agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams): Promise<AgentVersion>;
 
 // @public
 export function list(context: AIProjectContext, options?: AgentsListOptionalParams): PagedAsyncIterableIterator<Agent>;
+
+// @public
+export function listSessions(context: AIProjectContext, agentName: string, options?: AgentsListSessionsOptionalParams): PagedAsyncIterableIterator<AgentSessionResource>;
 
 // @public
 export function listVersions(context: AIProjectContext, agentName: string, options?: AgentsListVersionsOptionalParams): PagedAsyncIterableIterator<AgentVersion>;

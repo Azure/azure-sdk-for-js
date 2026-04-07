@@ -37,7 +37,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 export function generate(context: AIProjectContext, insight: Insight, options?: BetaInsightsGenerateOptionalParams): Promise<Insight>;
 
 // @public
-export function get(context: AIProjectContext, id: string, options?: BetaInsightsGetOptionalParams): Promise<Insight>;
+export function get(context: AIProjectContext, insightId: string, options?: BetaInsightsGetOptionalParams): Promise<Insight>;
 
 // @public
 export function list(context: AIProjectContext, options?: BetaInsightsListOptionalParams): PagedAsyncIterableIterator<Insight>;

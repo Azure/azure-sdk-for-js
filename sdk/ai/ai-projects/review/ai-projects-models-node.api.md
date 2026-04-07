@@ -121,6 +121,19 @@ export type AgentKind = "prompt" | "hosted" | "workflow";
 export type AgentProtocol = "activity_protocol" | "responses" | "invocations";
 
 // @public
+export interface AgentSessionResource {
+    agent_session_id: string;
+    readonly created_at: Date;
+    readonly expires_at: Date;
+    readonly last_accessed_at: Date;
+    status: AgentSessionStatus;
+    version_indicator: VersionIndicatorUnion;
+}
+
+// @public
+export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
+
+// @public
 export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
     riskCategories: RiskCategory[];
     target: TargetUnion;
@@ -271,6 +284,33 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+// @public (undocumented)
+export type BetaAgentInvocationsCancelResponse = {
+    body: any;
+};
+
+// @public (undocumented)
+export type BetaAgentInvocationsCreateResponse = {
+    body: any;
+};
+
+// @public (undocumented)
+export type BetaAgentInvocationsGetResponse = {
+    body: any;
+};
+
+// @public (undocumented)
+export type BetaAgentSessionFilesDownloadResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public (undocumented)
+export type BetaSkillsDownloadResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 // @public
 export interface BingCustomSearchConfiguration {
@@ -656,6 +696,12 @@ export interface DeleteMemoryStoreResponse {
     deleted: boolean;
     name: string;
     object: "memory_store.deleted";
+}
+
+// @public
+export interface DeleteSkillResponse {
+    deleted: boolean;
+    name: string;
 }
 
 // @public
@@ -1216,6 +1262,12 @@ export interface LocalSkillParam {
 }
 
 // @public
+export interface ManagedAgentIdentityBlueprint {
+    // (undocumented)
+    readonly name: string;
+}
+
+// @public
 export interface ManagedAgentIdentityBlueprintReference extends AgentBlueprintReference {
     blueprint_id: string;
     // (undocumented)
@@ -1504,6 +1556,12 @@ export interface OpenApiTool extends Tool {
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
+export interface PagedManagedAgentIdentityBlueprint {
+    nextLink?: string;
+    value: ManagedAgentIdentityBlueprint[];
+}
+
+// @public
 export type PageOrder = "asc" | "desc";
 
 // @public
@@ -1696,6 +1754,26 @@ export type SearchContentType = "text" | "image";
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
+export interface SessionDirectoryEntry {
+    is_directory: boolean;
+    modified_time: Date;
+    name: string;
+    size: number;
+}
+
+// @public
+export interface SessionDirectoryListResponse {
+    entries: SessionDirectoryEntry[];
+    path: string;
+}
+
+// @public
+export interface SessionFileWriteResponse {
+    bytes_written: number;
+    path: string;
+}
+
+// @public
 export interface SharepointGroundingToolParameters {
     project_connections?: ToolProjectConnection[];
 }
@@ -1704,6 +1782,15 @@ export interface SharepointGroundingToolParameters {
 export interface SharepointPreviewTool extends Tool {
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
+}
+
+// @public
+export interface SkillObject {
+    description?: string;
+    has_blob: boolean;
+    metadata?: Record<string, string>;
+    name: string;
+    skill_id: string;
 }
 
 // @public
@@ -1968,6 +2055,23 @@ export interface UpdateToolboxRequest {
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface VersionIndicator {
+    type: VersionIndicatorType;
+}
+
+// @public
+export type VersionIndicatorType = "version_ref";
+
+// @public
+export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
+
+// @public
+export interface VersionRefIndicator extends VersionIndicator {
+    agent_version: string;
+    type: "version_ref";
 }
 
 // @public

@@ -1,11 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { $delete, update, list, get, create } from "./operations.js";
+export {
+  deleteVersion,
+  $delete,
+  update,
+  getVersion,
+  listVersions,
+  list,
+  get,
+  createVersion,
+} from "./operations.js";
 export type {
+  DeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  BetaToolboxesCreateOptionalParams,
+  CreateVersionOptionalParams,
 } from "./options.js";

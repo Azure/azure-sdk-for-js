@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -145,24 +145,6 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/toolboxes": {
-      "browser": {
-        "types": "./dist/browser/api/toolboxes/index.d.ts",
-        "default": "./dist/browser/api/toolboxes/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/toolboxes/index.d.ts",
-        "default": "./dist/react-native/api/toolboxes/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/toolboxes/index.d.ts",
-        "default": "./dist/esm/api/toolboxes/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/toolboxes/index.d.ts",
-        "default": "./dist/commonjs/api/toolboxes/index.js"
-      }
-    },
     "./api/indexes": {
       "browser": {
         "types": "./dist/browser/api/indexes/index.d.ts",
@@ -269,6 +251,78 @@
       "require": {
         "types": "./dist/commonjs/api/agents/index.d.ts",
         "default": "./dist/commonjs/api/agents/index.js"
+      }
+    },
+    "./api/beta/managedAgentIdentityBlueprints": {
+      "browser": {
+        "types": "./dist/browser/api/beta/managedAgentIdentityBlueprints/index.d.ts",
+        "default": "./dist/browser/api/beta/managedAgentIdentityBlueprints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/beta/managedAgentIdentityBlueprints/index.d.ts",
+        "default": "./dist/react-native/api/beta/managedAgentIdentityBlueprints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/beta/managedAgentIdentityBlueprints/index.d.ts",
+        "default": "./dist/esm/api/beta/managedAgentIdentityBlueprints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/beta/managedAgentIdentityBlueprints/index.d.ts",
+        "default": "./dist/commonjs/api/beta/managedAgentIdentityBlueprints/index.js"
+      }
+    },
+    "./api/beta/agentSessionFiles": {
+      "browser": {
+        "types": "./dist/browser/api/beta/agentSessionFiles/index.d.ts",
+        "default": "./dist/browser/api/beta/agentSessionFiles/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/beta/agentSessionFiles/index.d.ts",
+        "default": "./dist/react-native/api/beta/agentSessionFiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/beta/agentSessionFiles/index.d.ts",
+        "default": "./dist/esm/api/beta/agentSessionFiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/beta/agentSessionFiles/index.d.ts",
+        "default": "./dist/commonjs/api/beta/agentSessionFiles/index.js"
+      }
+    },
+    "./api/beta/agentInvocations": {
+      "browser": {
+        "types": "./dist/browser/api/beta/agentInvocations/index.d.ts",
+        "default": "./dist/browser/api/beta/agentInvocations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/beta/agentInvocations/index.d.ts",
+        "default": "./dist/react-native/api/beta/agentInvocations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/beta/agentInvocations/index.d.ts",
+        "default": "./dist/esm/api/beta/agentInvocations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/beta/agentInvocations/index.d.ts",
+        "default": "./dist/commonjs/api/beta/agentInvocations/index.js"
+      }
+    },
+    "./api/beta/skills": {
+      "browser": {
+        "types": "./dist/browser/api/beta/skills/index.d.ts",
+        "default": "./dist/browser/api/beta/skills/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/beta/skills/index.d.ts",
+        "default": "./dist/react-native/api/beta/skills/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/beta/skills/index.d.ts",
+        "default": "./dist/esm/api/beta/skills/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/beta/skills/index.d.ts",
+        "default": "./dist/commonjs/api/beta/skills/index.js"
       }
     },
     "./api/beta/toolboxes": {

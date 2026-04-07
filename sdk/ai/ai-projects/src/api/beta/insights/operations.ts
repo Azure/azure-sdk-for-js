@@ -89,14 +89,14 @@ export function list(
 
 export function _getSend(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/insights/{id}{?api-version,includeCoordinates}",
     {
-      id: id,
+      id: insightId,
       includeCoordinates: options?.includeCoordinates,
       "api-version": context.apiVersion,
     },
@@ -132,10 +132,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 /** Get a specific insight by Id. */
 export async function get(
   context: Client,
-  id: string,
+  insightId: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _getSend(context, id, options);
+  const result = await _getSend(context, insightId, options);
   return _getDeserialize(result);
 }
 

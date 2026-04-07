@@ -8,9 +8,9 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import type { KeyCredential } from '@azure/core-auth';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
@@ -164,6 +164,12 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsCreateSessionOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
@@ -176,11 +182,34 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface AgentSessionResource {
+    agent_session_id: string;
+    readonly created_at: Date;
+    readonly expires_at: Date;
+    readonly last_accessed_at: Date;
+    status: AgentSessionStatus;
+    version_indicator: VersionIndicatorUnion;
+}
+
+// @public
+export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
+
+// @public
 export interface AgentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentsGetSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -192,6 +221,15 @@ export interface AgentsListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     kind?: AgentKind;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentsListSessionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -211,13 +249,17 @@ export interface AgentsOperations {
     // (undocumented)
     createAgentVersionFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: AgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     createFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: AgentsCreateFromCodeOptionalParams) => Promise<Agent>;
+    createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<AgentVersion>;
     createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
+    deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
@@ -290,7 +332,6 @@ export class AIProjectClient {
     getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
-    readonly toolboxes: ToolboxesOperations;
 }
 
 // @public
@@ -425,6 +466,79 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
+export interface BetaAgentInvocationsCancelOptionalParams extends OperationOptions {
+    contentType?: string;
+    request?: any;
+}
+
+// @public (undocumented)
+export type BetaAgentInvocationsCancelResponse = {
+    body: any;
+};
+
+// @public
+export interface BetaAgentInvocationsCreateOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+}
+
+// @public (undocumented)
+export type BetaAgentInvocationsCreateResponse = {
+    body: any;
+};
+
+// @public
+export interface BetaAgentInvocationsGetOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type BetaAgentInvocationsGetResponse = {
+    body: any;
+};
+
+// @public
+export interface BetaAgentInvocationsOperations {
+    cancel: (agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCancelOptionalParams) => Promise<BetaAgentInvocationsCancelResponse>;
+    create: (agentName: string, contentType: string, request: unknown, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCreateOptionalParams) => Promise<BetaAgentInvocationsCreateResponse>;
+    get: (agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsGetOptionalParams) => Promise<BetaAgentInvocationsGetResponse>;
+    getOpenApiSpec: (agentName: string, foundryFeatures: "HostedAgents=V1Preview", options?: GetOpenApiSpecOptionalParams) => Promise<Record<string, any>>;
+}
+
+// @public
+export interface BetaAgentSessionFilesDeleteOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+    recursive?: boolean;
+}
+
+// @public
+export interface BetaAgentSessionFilesDownloadOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public (undocumented)
+export type BetaAgentSessionFilesDownloadResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaAgentSessionFilesListOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentSessionFilesOperations {
+    delete: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesDeleteOptionalParams) => Promise<void>;
+    download: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesDownloadOptionalParams) => Promise<BetaAgentSessionFilesDownloadResponse>;
+    list: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesListOptionalParams) => Promise<SessionDirectoryListResponse>;
+    upload: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentSessionFilesUploadOptionalParams) => Promise<SessionFileWriteResponse>;
+}
+
+// @public
+export interface BetaAgentSessionFilesUploadOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -537,8 +651,32 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsOperations {
     generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
-    get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
+    get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
+}
+
+// @public
+export interface BetaManagedAgentIdentityBlueprintsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaManagedAgentIdentityBlueprintsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaManagedAgentIdentityBlueprintsListOptionalParams extends OperationOptions {
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaManagedAgentIdentityBlueprintsOperations {
+    // (undocumented)
+    createOrUpdate: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    delete: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams) => Promise<void>;
+    get: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    // (undocumented)
+    list: (foundryFeatures: "AgentEndpoints=V1Preview", options?: BetaManagedAgentIdentityBlueprintsListOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
 }
 
 // @public
@@ -607,13 +745,21 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
+    // (undocumented)
+    agentInvocations: BetaAgentInvocationsOperations;
+    // (undocumented)
+    agentSessionFiles: BetaAgentSessionFilesOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
     insights: BetaInsightsOperations;
+    // (undocumented)
+    managedAgentIdentityBlueprints: BetaManagedAgentIdentityBlueprintsOperations;
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
     // (undocumented)
     schedules: BetaSchedulesOperations;
+    // (undocumented)
+    skills: BetaSkillsOperations;
     // (undocumented)
     toolboxes: BetaToolboxesOperations;
 }
@@ -683,10 +829,54 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
-export interface BetaToolboxesCreateOptionalParams extends OperationOptions {
+export interface BetaSkillsCreateOptionalParams extends OperationOptions {
     description?: string;
+    instructions?: string;
     metadata?: Record<string, string>;
-    policies?: ToolboxPolicies;
+}
+
+// @public
+export interface BetaSkillsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsDownloadOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type BetaSkillsDownloadResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaSkillsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaSkillsOperations {
+    create: (name: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsCreateOptionalParams) => Promise<SkillObject>;
+    createFromPackage: (body: Uint8Array, foundryFeatures: "Skills=V1Preview", options?: CreateFromPackageOptionalParams) => Promise<SkillObject>;
+    delete: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+    download: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    get: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
+    list: (foundryFeatures: "Skills=V1Preview", options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<SkillObject>;
+    update: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsUpdateOptionalParams) => Promise<SkillObject>;
+}
+
+// @public
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
+    description?: string;
+    instructions?: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -707,10 +897,13 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaToolboxesOperations {
-    create: (toolboxName: string, tools: ToolUnion[], foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesCreateOptionalParams) => Promise<ToolboxVersionObject>;
+    createVersion: (toolboxName: string, tools: ToolUnion[], foundryFeatures: "Toolboxes=V1Preview", options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
     delete: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
+    deleteVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: DeleteVersionOptionalParams) => Promise<void>;
     get: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
+    getVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: GetVersionOptionalParams) => Promise<ToolboxVersionObject>;
     list: (foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
+    listVersions: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
     update: (toolboxName: string, defaultVersion: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
 }
 
@@ -1036,6 +1229,21 @@ export interface CreateAgentVersionFromCodeRequest {
 }
 
 // @public
+export interface CreateFromPackageOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface CreateVersionOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+    policies?: ToolboxPolicies;
+}
+
+// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 // @public
@@ -1185,6 +1393,16 @@ export interface DeleteMemoryStoreResponse {
     deleted: boolean;
     name: string;
     object: "memory_store.deleted";
+}
+
+// @public
+export interface DeleteSkillResponse {
+    deleted: boolean;
+    name: string;
+}
+
+// @public
+export interface DeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1580,6 +1798,14 @@ export interface FunctionToolParam {
 }
 
 // @public
+export interface GetOpenApiSpecOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
 export type GrammarSyntax = "lark" | "regex";
 
 // @public
@@ -1808,6 +2034,14 @@ export enum KnownApiVersions {
 }
 
 // @public
+export interface ListVersionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
 export interface LocalShellToolParam extends Tool {
     description?: string;
     name?: string;
@@ -1819,6 +2053,12 @@ export interface LocalSkillParam {
     description: string;
     name: string;
     path: string;
+}
+
+// @public
+export interface ManagedAgentIdentityBlueprint {
+    // (undocumented)
+    readonly name: string;
 }
 
 // @public
@@ -2112,6 +2352,12 @@ export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" |
 export { PagedAsyncIterableIterator }
 
 // @public
+export interface PagedManagedAgentIdentityBlueprint {
+    nextLink?: string;
+    value: ManagedAgentIdentityBlueprint[];
+}
+
+// @public
 export type PageOrder = "asc" | "desc";
 
 export { PageSettings }
@@ -2306,6 +2552,26 @@ export type SearchContentType = "text" | "image";
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
+export interface SessionDirectoryEntry {
+    is_directory: boolean;
+    modified_time: Date;
+    name: string;
+    size: number;
+}
+
+// @public
+export interface SessionDirectoryListResponse {
+    entries: SessionDirectoryEntry[];
+    path: string;
+}
+
+// @public
+export interface SessionFileWriteResponse {
+    bytes_written: number;
+    path: string;
+}
+
+// @public
 export interface SharepointGroundingToolParameters {
     project_connections?: ToolProjectConnection[];
 }
@@ -2314,6 +2580,15 @@ export interface SharepointGroundingToolParameters {
 export interface SharepointPreviewTool extends Tool {
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
+}
+
+// @public
+export interface SkillObject {
+    description?: string;
+    has_blob: boolean;
+    metadata?: Record<string, string>;
+    name: string;
+    skill_id: string;
 }
 
 // @public
@@ -2420,29 +2695,6 @@ export type TextResponseFormatUnion = TextResponseFormatJsonSchema | TextRespons
 // @public
 export interface Tool {
     type: ToolType;
-}
-
-// @public
-export interface ToolboxesDeleteToolboxVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ToolboxesGetToolboxVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ToolboxesListToolboxVersionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface ToolboxesOperations {
-    deleteToolboxVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: ToolboxesDeleteToolboxVersionOptionalParams) => Promise<void>;
-    getToolboxVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: ToolboxesGetToolboxVersionOptionalParams) => Promise<ToolboxVersionObject>;
-    listToolboxVersions: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: ToolboxesListToolboxVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
 }
 
 // @public
@@ -2611,6 +2863,23 @@ export interface UpdateToolboxRequest {
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface VersionIndicator {
+    type: VersionIndicatorType;
+}
+
+// @public
+export type VersionIndicatorType = "version_ref";
+
+// @public
+export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
+
+// @public
+export interface VersionRefIndicator extends VersionIndicator {
+    agent_version: string;
+    type: "version_ref";
 }
 
 // @public

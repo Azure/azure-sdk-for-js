@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.3 (Unreleased)
+
+### Features Added
+
+- Add `project.beta.agentInvocations` route for accessing agent invocations
+- Add `project.beta.agentSessionFiles` route for accessing agent session files
+- Add `project.beta.managedAgentIdentityBlueprints` route for accessing agent identity blueprints
+- Add `project.beta.skills` route for accessing skills
+- Add `project.beta.toolboxes` route for accessing toolbox features
+
 ## 2.0.2 (2026-04-06)
 
 ### Bugs Fixed
