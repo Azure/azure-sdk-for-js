@@ -125,11 +125,13 @@ Besides above cases also:
 
 For failures with `Auto Fix: Yes` from your Step 2 list, attempt fixes and push directly to the PR branch via `push-to-pull-request-branch`.
 
-> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head:
+> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head **using the PR's actual branch name** so that `push-to-pull-request-branch` can find it:
 >
 > 1. `git fetch --unshallow || true`
-> 2. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
-> 3. `git checkout pr-head`
+> 2. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:${{ github.event.pull_request.head.ref }}`
+> 3. `git checkout ${{ github.event.pull_request.head.ref }}`
+>
+> This creates a local branch with the same name as the PR's source branch (e.g., `sdkauto-azure-arm-servicefabric`), which is required for `push-to-pull-request-branch` to work correctly.
 >
 > All sub-steps below assume you have completed this checkout.
 
