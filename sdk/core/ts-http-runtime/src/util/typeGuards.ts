@@ -27,7 +27,7 @@ export function isBinaryBody(
     (body instanceof Uint8Array ||
       isReadableStream(body) ||
       typeof body === "function" ||
-      body instanceof Blob)
+      (typeof Blob !== "undefined" && body instanceof Blob))
   );
 }
 
@@ -36,5 +36,5 @@ export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.Reada
 }
 
 export function isBlob(x: unknown): x is Blob {
-  return typeof (x as Blob).stream === "function";
+  return typeof Blob !== "undefined" && x instanceof Blob;
 }

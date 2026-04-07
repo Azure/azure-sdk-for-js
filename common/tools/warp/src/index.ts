@@ -4,7 +4,7 @@
 // Public API for @microsoft/warp
 export { build } from "./build.ts";
 export type { BuildOptions, BuildResult } from "./build.ts";
-export { findWarpConfig, inferModuleType, validateTsconfigPaths } from "./config.ts";
+export { findWarpConfig, validateTsconfigPaths } from "./config.ts";
 export type {
   WarpConfig,
   WarpTarget,
@@ -21,12 +21,14 @@ export {
   createPolyfillHost,
   discoverPolyfills,
   optionsSignature,
+  programIdentity,
   sourceIdentity,
   groupBySignature,
+  copyDtsFiles,
   validateOutDirs,
   cleanOutDir,
   copyDir,
-  copyDtsFiles,
+  buildCjsFromSources,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";
@@ -42,14 +44,18 @@ export {
   readPackageImports,
   buildConditionsSet,
   sourcePathToOutputPath,
+  collectImportTargetPaths,
+  buildImportTargetIndex,
+  validateNoDirectImports,
 } from "./resolveImports.ts";
 export type {
   ImportsMap,
   ResolveImportsResult,
   UnresolvedSpecifier,
   MissingResolvedTarget,
+  DirectImportViolation,
 } from "./resolveImports.ts";
-export { Logger, getLogger, setLogLevel, setJsonMode, isJsonMode } from "./logger.ts";
+export { Logger, getLogger, setLogLevel } from "./logger.ts";
 export type { LogLevel } from "./logger.ts";
 export { watch } from "./watch.ts";
 export type { WatchOptions } from "./watch.ts";

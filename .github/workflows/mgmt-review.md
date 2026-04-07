@@ -10,6 +10,11 @@ permissions:
   pull-requests: read
   actions: read
 strict: false
+network:
+  allowed:
+    - defaults
+    - node
+    - "dev.azure.com"
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
@@ -29,7 +34,8 @@ safe-outputs:
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   push-to-pull-request-branch:
     max: 3
-    allowed-files: ["sdk/", "eng/"]
+    protected-files: allowed
+    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -55,14 +61,31 @@ You are an SDK release assistant that helps
 
 - Fetch PR details, check statuses, changed files, and workflow runs using GitHub MCP tools.
 - **Distinguish between CI systems:**
-  - **Azure DevOps pipelines** (e.g., `js - PullRequest`): These are NOT GitHub Actions jobs. Do NOT call `get_job_logs` for them — it will return 404. Do NOT try to fetch the ADO URL — it requires authentication and will fail. Instead, extract the ADO URL from the check's `target_url` or `details_url` field. The correct public URL pattern is `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`. Include it in the comment as a clickable link for the user. Determine success/failure from the check's `state` or `conclusion` field only.
+  - **Azure DevOps pipelines** (e.g., `js - PullRequest`): These are NOT GitHub Actions jobs. Do NOT call `get_job_logs` for them — it will return 404. Instead, extract the `target_url` or `details_url` from the check run API. The URL pattern is `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`. Include it in the comment as a clickable link.
+    - **Fetching ADO logs**: ADO logs for the `azure-sdk/public` project are publicly accessible. Extract the `buildId` from the `target_url`, then use `curl` (via bash) to query the ADO REST API:
+      1. **Timeline** (lists all jobs/tasks and their results): `curl -s "https://dev.azure.com/azure-sdk/public/_apis/build/builds/<buildId>/timeline?api-version=7.1"` — look for `records` with `result: "failed"`. Each record has a `log.url` field.
+      2. **Logs** (actual log content for a failed task): `curl -s "<log.url>"` — returns plain-text log output. Search for error messages.
+      Use these logs to diagnose failures with specifics rather than guessing from check names alone.
     - **CRITICAL**: You MUST use the real `target_url` from the check run API response for ADO links. NEVER use placeholder URLs like `dev.azure.com/redacted` or fabricate URLs. If the `target_url` is unavailable, omit the link entirely rather than using a fake one.
   - **GitHub Actions workflows** (e.g., `mgmt-review`, `pnpm-lock-conflict-resolver`): These ARE GitHub Actions jobs. Use the GitHub MCP Actions toolset (`get_job_logs`) to fetch their log content.
+- **Diagnosing ADO pipeline failures**: ADO pipelines report sub-checks with names like `js - pullrequest (Build Analyze)`, `js - pullrequest (Build Build)`, `js - pullrequest (UnitTest node22 linux)`, etc. The text in parentheses maps to the CI Check Name table below. When an ADO sub-check fails:
+  1. Identify which sub-check failed from its name (e.g., `Build Analyze` → Analyze, `Build Build` → Build).
+  2. Use the CI Check Name → Failure Mapping table to determine what it validates.
+  3. **Fetch ADO logs** for the failed sub-check using the ADO REST API (timeline → find failed record → fetch its `log.url`). Search the log output for error messages.
+  4. **Inspect the PR's changed files directly** to cross-reference with log errors — e.g., read the package's source files for compile errors, check if `pnpm run check-format` would fail, look for broken markdown links.
+  5. Match the diagnosis against the Log Symptom → Root Cause Mapping table to provide specific guidance.
+  6. Do NOT just say "check failed" with generic guesses. Provide the **specific** failure reason based on log output and code inspection.
 
 ### Step 2. Identify gaps to merge
 
 - If the PR is ready to merge means there will be a button `Squash and merge` enabled, stop the analysis and comment `## PR is ready to merge`;
-- Otherwise classify each blocking using the CI check mapping and log symptom patterns below. Also inspect the PR's code directly (e.g., read generated files for compile errors). Also pay attention to PR `Merging is blocking` messages.
+- Otherwise, **build a complete list of ALL blocking items before proceeding to Step 3**. Do NOT start fixing anything until you have catalogued every failure. Classify each blocker using the CI check mapping and log symptom patterns below.
+- Check **all** of the following sources:
+  1. PR merge status (`mergeable_state`) — look for merge conflicts
+  2. All CI check runs — list every check with `conclusion: failure` or `state: error`
+  3. ADO pipeline results — check `state`/`conclusion` fields; for failures, fetch ADO logs via the REST API to get specific error details
+- For checks still `pending` or `in_progress`, note them as "⏳ still running" — do NOT skip them.
+- **Important**: Record each failure in a structured list before moving to Step 3. This list will be used for both auto-fix attempts and the final comment.
 
 #### CI Check Name → Failure Mapping
 
@@ -87,8 +110,8 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
 | `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | Yes |
-| `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
-| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
+| PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
+| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
 
 Besides above cases also:
 - Only log one failure case if `UnitTest` failed with same errors across environments
@@ -98,13 +121,19 @@ Besides above cases also:
 
 ### Step 3. Auto-fix failures if possible
 
-For failures with `Auto Fix: Yes`, fix them and push directly to the PR branch via `push-to-pull-request-branch`.
+> **Time budget**: Spend at most **10 minutes** on all auto-fix attempts combined. If an auto-fix fails or takes too long, stop immediately and report it as a manual-fix item in Step 4. Never let auto-fix attempts prevent you from posting the complete failure report.
 
-> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head:
+For failures with `Auto Fix: Yes` from your Step 2 list, attempt fixes and push directly to the PR branch via `push-to-pull-request-branch`.
+
+> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head **using the PR's actual branch name** so that `push-to-pull-request-branch` can find it:
 >
-> 1. `git fetch --unshallow || true`
-> 2. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-head`
-> 3. `git checkout pr-head`
+> 1. Use the GitHub API to get the PR's head branch name: `gh pr view ${{ github.event.pull_request.number }} --json headRefName -q .headRefName`
+> 2. Store the branch name in a variable, e.g., `PR_BRANCH=<result>`
+> 3. `git fetch --unshallow || true`
+> 4. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:$PR_BRANCH`
+> 5. `git checkout $PR_BRANCH`
+>
+> This creates a local branch with the same name as the PR's source branch (e.g., `sdkauto-azure-arm-servicefabric`), which is required for `push-to-pull-request-branch` to work correctly.
 >
 > All sub-steps below assume you have completed this checkout.
 
@@ -116,26 +145,42 @@ Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch
 
 Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-request-branch`.
 
+#### 3c. pnpm-lock.yaml conflict
+
+This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale or broken lockfile) or when `mergeable_state: dirty` indicates a `pnpm-lock.yaml` merge conflict. To resolve it:
+
+1. Merge `origin/main` into the pull request branch.
+2. Check out `origin/main`'s version of `pnpm-lock.yaml`.
+3. Run `NPM_CONFIG_REGISTRY=https://registry.npmjs.org pnpm install --no-frozen-lockfile` to regenerate the lockfile.
+4. Commit and push the updated merge result via `push-to-pull-request-branch`.
+
+If any step fails (e.g., `pnpm` not found, auth errors, branch name issues), **stop immediately** and include the pnpm-lock conflict as a manual-fix item in Step 4.
+
+
 ### Step 4. Post a comment
 
-The comment is mainly for pipeline failures so:
-- Do NOT include passed checks or extra sections. 
+The comment must report **every** blocking item from your Step 2 list — not just the ones you attempted to auto-fix. This is the most important step.
+
+- Do NOT include passed checks or extra sections.
 - Do NOT include any review comments.
+- Do NOT skip failures just because auto-fix was attempted but failed.
 
 Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
-- Only include currently failing/blocking checks. 
-- Not auto-fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).` 
+- Include **all** currently failing/blocking checks from your Step 2 list:
+  - Successfully auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
+  - Not auto-fixed (or auto-fix failed): `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
+  - pnpm-lock conflict (manual): `- 🔄 pnpm-lock conflict: <reason>. Follow the [conflict guide](...).`
+  - Still running: `- ⏳ <Check name>: still running.`
   - **Note:** Always include the real ADO `target_url` link; never use placeholder URLs.
-- Auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
-- Keep concise (target <= 12 lines). If nothing blocks: `## PR is ready to merge`.
+- Keep concise (target <= 15 lines). If nothing blocks: `## PR is ready to merge`.
 
 Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
 
 ### Required Output Template
 
-Use this exact shape and keep it short:
+Use this exact shape and keep it short. The comment MUST include ALL blocking items from Step 2:
 
 ```markdown
 ## Next Steps to Merge
@@ -144,6 +189,7 @@ Only failed checks and required actions are listed below.
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>. Review [ADO logs](<real target_url from check API>).
 - ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to fix this issue.
+- ⏳ <pending check name>: still running.
 ```
 
 

@@ -147,7 +147,7 @@ describe("Can handle connect event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response with 204 when handler is not specified for an mqtt request", async () => {
@@ -158,7 +158,7 @@ describe("Can handle connect event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(204, res.statusCode, "should be 204");
+    assert.equal(res.statusCode, 204, "should be 204");
   });
 
   it("Should response with 200 when handler is not specified", async () => {
@@ -169,7 +169,7 @@ describe("Can handle connect event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response with error when handler returns error", async () => {
@@ -186,7 +186,7 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(400, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 400, "should be error");
   });
 
   it("Should response with mqtt error when handler returns error and request is mqtt", async () => {
@@ -205,7 +205,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
     expect(endSpy).toBeCalledWith('{"mqtt":{"code":4}}');
-    assert.equal(400, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 400, "should be error");
   });
 
   it("Should response with correct status code and body when handler returns mqtt error", async () => {
@@ -229,7 +229,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
     expect(endSpy).toBeCalledWith('{"mqtt":{"code":4,"reason":"Bad username or password"}}');
-    assert.equal(401, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 401, "should be error");
   });
 
   it("Should respond with correct mqtt response and body when handler returns default error but request is mqtt", async () => {
@@ -248,7 +248,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
     expect(endSpy).toBeCalledWith('{"mqtt":{"code":5,"reason":"Auth failed"}}');
-    assert.equal(401, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 401, "should be error");
   });
 
   it("Should response with success when handler returns success", async () => {
@@ -265,7 +265,7 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
   });
 
   it("Should response with correct body when handler returns success for an mqtt request", async () => {
@@ -295,7 +295,7 @@ describe("Can handle connect event", function () {
     expect(endSpy).toBeCalledWith(
       '{"subprotocol":"mqtt","mqtt":{"userProperties":[{"name":"userId","value":"vic"}]}}',
     );
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
   });
 
   it("Should response with success when handler returns success value", async () => {
@@ -312,7 +312,7 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 200, "should be success");
   });
 
   it("Should be able to set connection state", async () => {
@@ -354,9 +354,9 @@ describe("Can handle connect event", function () {
     buildRequest(req, "hub1", "conn1", undefined, states);
     const dispatcher = new CloudEventsDispatcher("hub1", {
       handleConnect: (request, response) => {
-        assert.equal("val3", request.context.states["key1"][0]);
-        assert.equal("val2", request.context.states["key2"]);
-        assert.equal("", request.context.states["key3"]);
+        assert.equal(request.context.states["key1"][0], "val3");
+        assert.equal(request.context.states["key2"], "val2");
+        assert.equal(request.context.states["key3"], "");
         response.success();
       },
     });
@@ -365,7 +365,7 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(204, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 204, "should be success");
   });
 
   it("Invalid state header gets ignored", async () => {
@@ -373,7 +373,7 @@ describe("Can handle connect event", function () {
     buildRequest(req, "hub1", "conn1", undefined, "");
     const dispatcher = new CloudEventsDispatcher("hub1", {
       handleConnect: (request, response) => {
-        assert.deepEqual({}, request.context.states);
+        assert.deepEqual(request.context.states, {});
         response.success();
       },
     });
@@ -382,6 +382,6 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(204, res.statusCode, "should be success");
+    assert.equal(res.statusCode, 204, "should be success");
   });
 });

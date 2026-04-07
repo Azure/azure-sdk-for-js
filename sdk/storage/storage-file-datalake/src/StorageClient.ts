@@ -4,9 +4,8 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { Pipeline } from "./Pipeline.js";
-import type { AnonymousCredential } from "@azure/storage-blob";
+import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms.js";
 import {
   escapeURLPath,
@@ -16,7 +15,7 @@ import {
 } from "./utils/utils.common.js";
 import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import { DataLakeClientConfig } from "./models.js";
+import type { DataLakeClientConfig } from "./models.js";
 import {
   DataLakeClient,
   type FileSystemOperations,

@@ -26,14 +26,14 @@ describe("AttestationTokenTests", () => {
 
   it("#testUtf8ConversionFunctions", async () => {
     const buffer = stringToBytes("ABCDEF");
-    assert.equal(65, buffer[0]);
-    assert.equal(66, buffer[1]);
-    assert.equal(67, buffer[2]);
-    assert.equal(68, buffer[3]);
-    assert.equal(69, buffer[4]);
+    assert.equal(buffer[0], 65);
+    assert.equal(buffer[1], 66);
+    assert.equal(buffer[2], 67);
+    assert.equal(buffer[3], 68);
+    assert.equal(buffer[4], 69);
 
     const str = bytesToString(buffer);
-    assert.equal("ABCDEF", str);
+    assert.equal(str, "ABCDEF");
   });
 
   it("#createRsaSigningKey", async () => {
@@ -78,8 +78,8 @@ describe("AttestationTokenTests", () => {
     const token = AttestationTokenImpl.create({ body: sourceObject });
 
     const body = token.getBody();
-    assert.deepEqual({ foo: "foo", bar: 10 }, body);
-    assert.equal("none", token.algorithm);
+    assert.deepEqual(body, { foo: "foo", bar: 10 });
+    assert.equal(token.algorithm, "none");
   });
 
   /**
@@ -92,7 +92,7 @@ describe("AttestationTokenTests", () => {
     assert("eyJhbGciOiJub25lIn0..", token.serialize());
     const body = token.getBody();
     assert.isNull(body);
-    assert.equal("none", token.algorithm);
+    assert.equal(token.algorithm, "none");
   });
 
   /**
@@ -104,8 +104,8 @@ describe("AttestationTokenTests", () => {
 
     const token = AttestationTokenImpl.create({ privateKey: privKey, certificate: cert });
 
-    assert.notEqual("none", token.algorithm);
-    assert.equal(1, token.certificateChain?.certificates.length);
+    assert.notEqual(token.algorithm, "none");
+    assert.equal(token.certificateChain?.certificates.length, 1);
     if (token.certificateChain) {
       const pemCert: string = token.certificateChain.certificates[0];
 
@@ -119,7 +119,7 @@ describe("AttestationTokenTests", () => {
     }
 
     // The token of course should validate.
-    assert.deepEqual([], token.getTokenProblems());
+    assert.deepEqual(token.getTokenProblems(), []);
   });
 
   /**
@@ -153,7 +153,7 @@ describe("AttestationTokenTests", () => {
     const body = token.getBody();
     expect(sourceObject).to.deep.equal(body);
     assert.deepEqual(sourceObject, body);
-    assert.notEqual("none", token.algorithm);
+    assert.notEqual(token.algorithm, "none");
 
     expect(token.issuedAt?.getTime()).to.equal(currentDate.getTime());
     expect(token.notBefore?.getTime()).to.equal(currentDate.getTime());

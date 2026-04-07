@@ -13,8 +13,7 @@
       "args": [
         "aw",
         "mcp-server"
-      ],
-      "cwd": "${workspaceFolder}"
+      ]
     }
   }
 }

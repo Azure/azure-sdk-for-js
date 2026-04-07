@@ -42,6 +42,7 @@ extends:
         safeName: azurestorageblob
         triggeringPaths:
         - /sdk/identity/
+        - /common/tools/warp/
       - name: azure-storage-file-share
         safeName: azurestoragefileshare
       - name: azure-storage-file-datalake

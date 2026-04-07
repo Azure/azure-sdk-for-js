@@ -213,7 +213,7 @@ describe("LinkEntity unit tests", () => {
         await linkEntity.initLink({});
         assert.fail("Should throw");
       } catch (err: any) {
-        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal(err.message, "Link has been permanently closed. Not reopening.");
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
         // We shouldn't attempt to re-open the link.
         expect(negotiateClaimSpy).not.toHaveBeenCalled();

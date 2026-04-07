@@ -8,7 +8,7 @@ import { isNodeLike } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
 import type { UserDelegationKey } from "@azure/storage-common";
