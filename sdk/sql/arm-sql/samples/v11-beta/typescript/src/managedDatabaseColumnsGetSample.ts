@@ -1,35 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get managed database column
+ * This sample demonstrates how to get managed database column
  *
- * @summary Get managed database column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseColumnGet.json
+ * @summary get managed database column
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseColumnGet.json
  */
 async function getManagedDatabaseColumn(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const managedInstanceName = "myManagedInstanceName";
-  const databaseName = "myDatabase";
-  const schemaName = "dbo";
-  const tableName = "table1";
-  const columnName = "column1";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.managedDatabaseColumns.get(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    schemaName,
-    tableName,
-    columnName,
+    "myRG",
+    "myManagedInstanceName",
+    "myDatabase",
+    "dbo",
+    "table1",
+    "column1",
   );
   console.log(result);
 }

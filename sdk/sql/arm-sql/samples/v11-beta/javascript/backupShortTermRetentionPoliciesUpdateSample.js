@@ -1,35 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates a database's short term retention policy.
+ * This sample demonstrates how to updates a database's short term retention policy.
  *
- * @summary Updates a database's short term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/UpdateShortTermRetentionPolicy.json
+ * @summary updates a database's short term retention policy.
+ * x-ms-original-file: 2025-02-01-preview/UpdateShortTermRetentionPolicy.json
  */
 async function updateTheShortTermRetentionPolicyForTheDatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "resourceGroup";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const policyName = "default";
-  const parameters = {
-    diffBackupIntervalInHours: 24,
-    retentionDays: 7,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.backupShortTermRetentionPolicies.beginUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    policyName,
-    parameters,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.backupShortTermRetentionPolicies.update(
+    "resourceGroup",
+    "testsvr",
+    "testdb",
+    "default",
+    { diffBackupIntervalInHours: 24, retentionDays: 7 },
   );
   console.log(result);
 }

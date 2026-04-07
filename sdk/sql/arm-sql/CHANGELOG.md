@@ -1,5 +1,899 @@
 # Release History
 
+## 11.0.0-beta.5 (2026-04-07)
+Compared with version 10.0.0
+
+### Features Added
+  - Added operation group InstancePoolOperationsOperations
+  - Added operation group JobPrivateEndpointsOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation BackupShortTermRetentionPoliciesOperations.createOrUpdate
+  - Added operation BackupShortTermRetentionPoliciesOperations.update
+  - Added operation DatabaseEncryptionProtectorsOperations.revalidate
+  - Added operation DatabaseEncryptionProtectorsOperations.revert
+  - Added operation DatabaseExtensionsOperations.createOrUpdate
+  - Added operation DatabasesOperations.createOrUpdate
+  - Added operation DatabasesOperations.delete
+  - Added operation DatabasesOperations.export
+  - Added operation DatabasesOperations.failover
+  - Added operation DatabasesOperations.import
+  - Added operation DatabasesOperations.pause
+  - Added operation DatabasesOperations.resume
+  - Added operation DatabasesOperations.update
+  - Added operation DatabasesOperations.upgradeDataWarehouse
+  - Added operation DatabaseSqlVulnerabilityAssessmentExecuteScanOperations.execute
+  - Added operation DatabaseVulnerabilityAssessmentScansOperations.initiateScan
+  - Added operation DeletedServersOperations.recover
+  - Added operation DistributedAvailabilityGroupsOperations.beginFailover
+  - Added operation DistributedAvailabilityGroupsOperations.beginFailoverAndWait
+  - Added operation DistributedAvailabilityGroupsOperations.beginSetRole
+  - Added operation DistributedAvailabilityGroupsOperations.beginSetRoleAndWait
+  - Added operation DistributedAvailabilityGroupsOperations.createOrUpdate
+  - Added operation DistributedAvailabilityGroupsOperations.delete
+  - Added operation DistributedAvailabilityGroupsOperations.failover
+  - Added operation DistributedAvailabilityGroupsOperations.setRole
+  - Added operation DistributedAvailabilityGroupsOperations.update
+  - Added operation ElasticPoolsOperations.createOrUpdate
+  - Added operation ElasticPoolsOperations.delete
+  - Added operation ElasticPoolsOperations.failover
+  - Added operation ElasticPoolsOperations.update
+  - Added operation EncryptionProtectorsOperations.createOrUpdate
+  - Added operation EncryptionProtectorsOperations.revalidate
+  - Added operation ExtendedServerBlobAuditingPoliciesOperations.createOrUpdate
+  - Added operation FailoverGroupsOperations.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroupsOperations.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added operation FailoverGroupsOperations.createOrUpdate
+  - Added operation FailoverGroupsOperations.delete
+  - Added operation FailoverGroupsOperations.failover
+  - Added operation FailoverGroupsOperations.forceFailoverAllowDataLoss
+  - Added operation FailoverGroupsOperations.tryPlannedBeforeForcedFailover
+  - Added operation FailoverGroupsOperations.update
+  - Added operation GeoBackupPoliciesOperations.list
+  - Added operation InstanceFailoverGroupsOperations.createOrUpdate
+  - Added operation InstanceFailoverGroupsOperations.delete
+  - Added operation InstanceFailoverGroupsOperations.failover
+  - Added operation InstanceFailoverGroupsOperations.forceFailoverAllowDataLoss
+  - Added operation InstancePoolsOperations.createOrUpdate
+  - Added operation InstancePoolsOperations.delete
+  - Added operation InstancePoolsOperations.update
+  - Added operation JobAgentsOperations.createOrUpdate
+  - Added operation JobAgentsOperations.delete
+  - Added operation JobAgentsOperations.update
+  - Added operation JobExecutionsOperations.create
+  - Added operation JobExecutionsOperations.createOrUpdate
+  - Added operation LedgerDigestUploadsOperations.createOrUpdate
+  - Added operation LedgerDigestUploadsOperations.disable
+  - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTier
+  - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTierAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTierByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTierByResourceGroupAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginLockTimeBasedImmutability
+  - Added operation LongTermRetentionBackupsOperations.beginLockTimeBasedImmutabilityAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginLockTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.beginLockTimeBasedImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveLegalHoldImmutability
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveLegalHoldImmutabilityAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveLegalHoldImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveTimeBasedImmutability
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveTimeBasedImmutabilityAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.beginRemoveTimeBasedImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginSetLegalHoldImmutability
+  - Added operation LongTermRetentionBackupsOperations.beginSetLegalHoldImmutabilityAndWait
+  - Added operation LongTermRetentionBackupsOperations.beginSetLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.beginSetLegalHoldImmutabilityByResourceGroupAndWait
+  - Added operation LongTermRetentionBackupsOperations.changeAccessTier
+  - Added operation LongTermRetentionBackupsOperations.changeAccessTierByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.copy
+  - Added operation LongTermRetentionBackupsOperations.copyByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.delete
+  - Added operation LongTermRetentionBackupsOperations.deleteByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.lockTimeBasedImmutability
+  - Added operation LongTermRetentionBackupsOperations.lockTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.removeLegalHoldImmutability
+  - Added operation LongTermRetentionBackupsOperations.removeLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.removeTimeBasedImmutability
+  - Added operation LongTermRetentionBackupsOperations.removeTimeBasedImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.setLegalHoldImmutability
+  - Added operation LongTermRetentionBackupsOperations.setLegalHoldImmutabilityByResourceGroup
+  - Added operation LongTermRetentionBackupsOperations.update
+  - Added operation LongTermRetentionBackupsOperations.updateByResourceGroup
+  - Added operation LongTermRetentionManagedInstanceBackupsOperations.delete
+  - Added operation LongTermRetentionManagedInstanceBackupsOperations.deleteByResourceGroup
+  - Added operation LongTermRetentionPoliciesOperations.createOrUpdate
+  - Added operation ManagedBackupShortTermRetentionPoliciesOperations.createOrUpdate
+  - Added operation ManagedBackupShortTermRetentionPoliciesOperations.update
+  - Added operation ManagedDatabasesOperations.beginReevaluateInaccessibleDatabaseState
+  - Added operation ManagedDatabasesOperations.beginReevaluateInaccessibleDatabaseStateAndWait
+  - Added operation ManagedDatabasesOperations.cancelMove
+  - Added operation ManagedDatabasesOperations.completeMove
+  - Added operation ManagedDatabasesOperations.completeRestore
+  - Added operation ManagedDatabasesOperations.createOrUpdate
+  - Added operation ManagedDatabasesOperations.delete
+  - Added operation ManagedDatabasesOperations.reevaluateInaccessibleDatabaseState
+  - Added operation ManagedDatabasesOperations.startMove
+  - Added operation ManagedDatabasesOperations.update
+  - Added operation ManagedDatabaseSensitivityLabelsOperations.listByDatabase
+  - Added operation ManagedDatabaseVulnerabilityAssessmentScansOperations.initiateScan
+  - Added operation ManagedInstanceAdministratorsOperations.createOrUpdate
+  - Added operation ManagedInstanceAdministratorsOperations.delete
+  - Added operation ManagedInstanceAdvancedThreatProtectionSettingsOperations.createOrUpdate
+  - Added operation ManagedInstanceAzureADOnlyAuthenticationsOperations.createOrUpdate
+  - Added operation ManagedInstanceAzureADOnlyAuthenticationsOperations.delete
+  - Added operation ManagedInstanceDtcsOperations.createOrUpdate
+  - Added operation ManagedInstanceEncryptionProtectorsOperations.createOrUpdate
+  - Added operation ManagedInstanceEncryptionProtectorsOperations.revalidate
+  - Added operation ManagedInstanceKeysOperations.createOrUpdate
+  - Added operation ManagedInstanceKeysOperations.delete
+  - Added operation ManagedInstanceLongTermRetentionPoliciesOperations.beginDelete
+  - Added operation ManagedInstanceLongTermRetentionPoliciesOperations.beginDeleteAndWait
+  - Added operation ManagedInstanceLongTermRetentionPoliciesOperations.createOrUpdate
+  - Added operation ManagedInstanceLongTermRetentionPoliciesOperations.delete
+  - Added operation ManagedInstancePrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation ManagedInstancePrivateEndpointConnectionsOperations.delete
+  - Added operation ManagedInstancesOperations.beginReevaluateInaccessibleDatabaseState
+  - Added operation ManagedInstancesOperations.beginReevaluateInaccessibleDatabaseStateAndWait
+  - Added operation ManagedInstancesOperations.beginRefreshStatus
+  - Added operation ManagedInstancesOperations.beginRefreshStatusAndWait
+  - Added operation ManagedInstancesOperations.beginValidateAzureKeyVaultEncryptionKey
+  - Added operation ManagedInstancesOperations.beginValidateAzureKeyVaultEncryptionKeyAndWait
+  - Added operation ManagedInstancesOperations.createOrUpdate
+  - Added operation ManagedInstancesOperations.delete
+  - Added operation ManagedInstancesOperations.failover
+  - Added operation ManagedInstancesOperations.reevaluateInaccessibleDatabaseState
+  - Added operation ManagedInstancesOperations.refreshStatus
+  - Added operation ManagedInstancesOperations.start
+  - Added operation ManagedInstancesOperations.stop
+  - Added operation ManagedInstancesOperations.update
+  - Added operation ManagedInstancesOperations.validateAzureKeyVaultEncryptionKey
+  - Added operation ManagedInstanceTdeCertificatesOperations.create
+  - Added operation ManagedLedgerDigestUploadsOperations.createOrUpdate
+  - Added operation ManagedLedgerDigestUploadsOperations.disable
+  - Added operation ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations.createOrUpdate
+  - Added operation ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations.update
+  - Added operation ManagedServerDnsAliasesOperations.acquire
+  - Added operation ManagedServerDnsAliasesOperations.createOrUpdate
+  - Added operation ManagedServerDnsAliasesOperations.delete
+  - Added operation ManagedServerSecurityAlertPoliciesOperations.createOrUpdate
+  - Added operation OutboundFirewallRulesOperations.createOrUpdate
+  - Added operation OutboundFirewallRulesOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation ReplicationLinksOperations.beginCreateOrUpdate
+  - Added operation ReplicationLinksOperations.beginCreateOrUpdateAndWait
+  - Added operation ReplicationLinksOperations.beginUpdate
+  - Added operation ReplicationLinksOperations.beginUpdateAndWait
+  - Added operation ReplicationLinksOperations.createOrUpdate
+  - Added operation ReplicationLinksOperations.delete
+  - Added operation ReplicationLinksOperations.failover
+  - Added operation ReplicationLinksOperations.failoverAllowDataLoss
+  - Added operation ReplicationLinksOperations.update
+  - Added operation RestorePointsOperations.create
+  - Added operation SensitivityLabelsOperations.listByDatabase
+  - Added operation ServerAdvancedThreatProtectionSettingsOperations.createOrUpdate
+  - Added operation ServerAzureADAdministratorsOperations.createOrUpdate
+  - Added operation ServerAzureADAdministratorsOperations.delete
+  - Added operation ServerAzureADOnlyAuthenticationsOperations.createOrUpdate
+  - Added operation ServerAzureADOnlyAuthenticationsOperations.delete
+  - Added operation ServerBlobAuditingPoliciesOperations.createOrUpdate
+  - Added operation ServerConfigurationOptionsOperations.createOrUpdate
+  - Added operation ServerConnectionPoliciesOperations.createOrUpdate
+  - Added operation ServerDevOpsAuditSettingsOperations.createOrUpdate
+  - Added operation ServerDnsAliasesOperations.acquire
+  - Added operation ServerDnsAliasesOperations.createOrUpdate
+  - Added operation ServerDnsAliasesOperations.delete
+  - Added operation ServerKeysOperations.createOrUpdate
+  - Added operation ServerKeysOperations.delete
+  - Added operation ServersOperations.createOrUpdate
+  - Added operation ServersOperations.delete
+  - Added operation ServersOperations.importDatabase
+  - Added operation ServersOperations.refreshStatus
+  - Added operation ServersOperations.update
+  - Added operation ServerSecurityAlertPoliciesOperations.createOrUpdate
+  - Added operation ServerTrustCertificatesOperations.createOrUpdate
+  - Added operation ServerTrustCertificatesOperations.delete
+  - Added operation ServerTrustGroupsOperations.createOrUpdate
+  - Added operation ServerTrustGroupsOperations.delete
+  - Added operation SqlVulnerabilityAssessmentExecuteScanOperations.execute
+  - Added operation SyncAgentsOperations.createOrUpdate
+  - Added operation SyncAgentsOperations.delete
+  - Added operation SyncGroupsOperations.createOrUpdate
+  - Added operation SyncGroupsOperations.delete
+  - Added operation SyncGroupsOperations.refreshHubSchema
+  - Added operation SyncGroupsOperations.update
+  - Added operation SyncMembersOperations.createOrUpdate
+  - Added operation SyncMembersOperations.delete
+  - Added operation SyncMembersOperations.refreshMemberSchema
+  - Added operation SyncMembersOperations.update
+  - Added operation TdeCertificatesOperations.create
+  - Added operation TransparentDataEncryptionsOperations.beginResume
+  - Added operation TransparentDataEncryptionsOperations.beginResumeAndWait
+  - Added operation TransparentDataEncryptionsOperations.beginSuspend
+  - Added operation TransparentDataEncryptionsOperations.beginSuspendAndWait
+  - Added operation TransparentDataEncryptionsOperations.createOrUpdate
+  - Added operation TransparentDataEncryptionsOperations.resume
+  - Added operation TransparentDataEncryptionsOperations.suspend
+  - Added operation VirtualClustersOperations.beginCreateOrUpdate
+  - Added operation VirtualClustersOperations.beginCreateOrUpdateAndWait
+  - Added operation VirtualClustersOperations.createOrUpdate
+  - Added operation VirtualClustersOperations.delete
+  - Added operation VirtualClustersOperations.update
+  - Added operation VirtualClustersOperations.updateDnsServers
+  - Added operation VirtualNetworkRulesOperations.createOrUpdate
+  - Added operation VirtualNetworkRulesOperations.delete
+  - Added operation WorkloadClassifiersOperations.createOrUpdate
+  - Added operation WorkloadClassifiersOperations.delete
+  - Added operation WorkloadGroupsOperations.createOrUpdate
+  - Added operation WorkloadGroupsOperations.delete
+  - Added Class SqlClient
+  - Added Interface AdministratorProperties
+  - Added Interface AdvancedThreatProtectionProperties
+  - Added Interface AdvisorProperties
+  - Added Interface AutomaticTuningServerProperties
+  - Added Interface AzureADOnlyAuthProperties
+  - Added Interface BackupShortTermRetentionPolicyProperties
+  - Added Interface CertificateInfo
+  - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
+  - Added Interface CopyLongTermRetentionBackupParametersProperties
+  - Added Interface DatabaseAutomaticTuningProperties
+  - Added Interface DatabaseBlobAuditingPolicyProperties
+  - Added Interface DatabaseColumnProperties
+  - Added Interface DatabaseExtensionsProperties
+  - Added Interface DatabaseOperationProperties
+  - Added Interface DatabaseProperties
+  - Added Interface DatabaseSqlVulnerabilityAssessmentBaselineSetProperties
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInputProperties
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputProperties
+  - Added Interface DatabaseSqlVulnerabilityAssessmentRuleBaselineProperties
+  - Added Interface DatabaseTableProperties
+  - Added Interface DatabaseUpdateProperties
+  - Added Interface DatabaseUsageProperties
+  - Added Interface DatabaseVulnerabilityAssessmentProperties
+  - Added Interface DatabaseVulnerabilityAssessmentRuleBaselineProperties
+  - Added Interface DatabaseVulnerabilityAssessmentScanExportProperties
+  - Added Interface DataMaskingPolicyProperties
+  - Added Interface DataMaskingRuleProperties
+  - Added Interface DataSyncParticipantIdentity
+  - Added Interface DataSyncParticipantUserAssignedIdentity
+  - Added Interface DataWarehouseUserActivitiesProperties
+  - Added Interface DeletedServerProperties
+  - Added Interface DistributedAvailabilityGroupDatabase
+  - Added Interface DistributedAvailabilityGroupProperties
+  - Added Interface DistributedAvailabilityGroupSetRole
+  - Added Interface DistributedAvailabilityGroupsFailoverOptionalParams
+  - Added Interface DistributedAvailabilityGroupsFailoverRequest
+  - Added Interface DistributedAvailabilityGroupsSetRoleOptionalParams
+  - Added Interface ElasticPoolOperationProperties
+  - Added Interface ElasticPoolProperties
+  - Added Interface ElasticPoolUpdateProperties
+  - Added Interface EncryptionProtectorProperties
+  - Added Interface EndpointCertificateProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ExtendedDatabaseBlobAuditingPolicyProperties
+  - Added Interface ExtendedServerBlobAuditingPolicyProperties
+  - Added Interface FailoverGroupProperties
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Interface FailoverGroupUpdateProperties
+  - Added Interface FreeLimitExhaustionBehaviorCapability
+  - Added Interface GeoBackupPoliciesListOptionalParams
+  - Added Interface GeoBackupPolicyProperties
+  - Added Interface ImportExportExtensionsOperationResultProperties
+  - Added Interface ImportExportOperationResultProperties
+  - Added Interface InstanceFailoverGroupProperties
+  - Added Interface InstancePoolOperation
+  - Added Interface InstancePoolOperationProperties
+  - Added Interface InstancePoolOperationsGetOptionalParams
+  - Added Interface InstancePoolOperationsListByInstancePoolOptionalParams
+  - Added Interface InstancePoolProperties
+  - Added Interface IPv6ServerFirewallRuleProperties
+  - Added Interface JobAgentEditionCapability
+  - Added Interface JobAgentIdentity
+  - Added Interface JobAgentProperties
+  - Added Interface JobAgentServiceLevelObjectiveCapability
+  - Added Interface JobAgentUserAssignedIdentity
+  - Added Interface JobAgentVersionCapability
+  - Added Interface JobCredentialProperties
+  - Added Interface JobExecutionProperties
+  - Added Interface JobPrivateEndpoint
+  - Added Interface JobPrivateEndpointProperties
+  - Added Interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  - Added Interface JobPrivateEndpointsDeleteOptionalParams
+  - Added Interface JobPrivateEndpointsGetOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentOptionalParams
+  - Added Interface JobProperties
+  - Added Interface JobStepProperties
+  - Added Interface JobTargetGroupProperties
+  - Added Interface LedgerDigestUploadsProperties
+  - Added Interface LongTermRetentionBackupProperties
+  - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsLockTimeBasedImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveLegalHoldImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsRemoveTimeBasedImmutabilityOptionalParams
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityOptionalParams
+  - Added Interface LongTermRetentionOperationResultProperties
+  - Added Interface LongTermRetentionPolicyProperties
+  - Added Interface MaintenanceWindowOptionsProperties
+  - Added Interface MaintenanceWindowsProperties
+  - Added Interface ManagedBackupShortTermRetentionPolicyProperties
+  - Added Interface ManagedDatabaseExtendedAccessibilityInfo
+  - Added Interface ManagedDatabaseMoveOperationResultProperties
+  - Added Interface ManagedDatabaseProperties
+  - Added Interface ManagedDatabaseRestoreDetailsProperties
+  - Added Interface ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams
+  - Added Interface ManagedDatabasesReevaluateInaccessibleDatabaseStateOptionalParams
+  - Added Interface ManagedInstanceAdministratorProperties
+  - Added Interface ManagedInstanceAzureADOnlyAuthProperties
+  - Added Interface ManagedInstanceDtcProperties
+  - Added Interface ManagedInstanceEncryptionProtectorProperties
+  - Added Interface ManagedInstanceKeyProperties
+  - Added Interface ManagedInstanceLongTermRetentionBackupProperties
+  - Added Interface ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams
+  - Added Interface ManagedInstanceLongTermRetentionPolicyProperties
+  - Added Interface ManagedInstanceOperationProperties
+  - Added Interface ManagedInstanceProperties
+  - Added Interface ManagedInstancesReevaluateInaccessibleDatabaseStateOptionalParams
+  - Added Interface ManagedInstancesRefreshStatusOptionalParams
+  - Added Interface ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams
+  - Added Interface ManagedInstanceValidateAzureKeyVaultEncryptionKeyRequest
+  - Added Interface ManagedInstanceVulnerabilityAssessmentProperties
+  - Added Interface ManagedLedgerDigestUploadsProperties
+  - Added Interface ManagedServerDnsAliasProperties
+  - Added Interface ManagedTransparentDataEncryptionProperties
+  - Added Interface MaxLimitRangeCapability
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListByServerOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NSPConfigAccessRule
+  - Added Interface NSPConfigAccessRuleProperties
+  - Added Interface NSPConfigAssociation
+  - Added Interface NSPConfigNetworkSecurityPerimeterRule
+  - Added Interface NSPConfigPerimeter
+  - Added Interface NSPConfigProfile
+  - Added Interface NSPProvisioningIssue
+  - Added Interface NSPProvisioningIssueProperties
+  - Added Interface OutboundFirewallRuleProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PerDatabaseAutoPauseDelayTimeRange
+  - Added Interface PhaseDetails
+  - Added Interface ProxyResourceAutoGenerated
+  - Added Interface QueryProperties
+  - Added Interface RecommendedActionProperties
+  - Added Interface RecommendedSensitivityLabelUpdateProperties
+  - Added Interface RecoverableDatabaseProperties
+  - Added Interface RecoverableManagedDatabaseProperties
+  - Added Interface RefreshExternalGovernanceStatusOperationResultMI
+  - Added Interface RefreshExternalGovernanceStatusOperationResultProperties
+  - Added Interface RefreshExternalGovernanceStatusOperationResultPropertiesMI
+  - Added Interface ReplicationLinkProperties
+  - Added Interface ReplicationLinksCreateOrUpdateOptionalParams
+  - Added Interface ReplicationLinksUpdateOptionalParams
+  - Added Interface ReplicationLinkUpdate
+  - Added Interface ReplicationLinkUpdateProperties
+  - Added Interface ResourceAutoGenerated
+  - Added Interface RestorableDroppedDatabaseProperties
+  - Added Interface RestorableDroppedManagedDatabaseProperties
+  - Added Interface RestorePointProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SecurityAlertPolicyProperties
+  - Added Interface SecurityAlertsPolicyProperties
+  - Added Interface SecurityEventProperties
+  - Added Interface SensitivityLabelProperties
+  - Added Interface SensitivityLabelsListByDatabaseOptionalParams
+  - Added Interface SensitivityLabelUpdateProperties
+  - Added Interface ServerBlobAuditingPolicyProperties
+  - Added Interface ServerConfigurationOptionProperties
+  - Added Interface ServerConnectionPolicyProperties
+  - Added Interface ServerDevOpsAuditSettingsProperties
+  - Added Interface ServerDnsAliasProperties
+  - Added Interface ServerFirewallRuleProperties
+  - Added Interface ServerKeyProperties
+  - Added Interface ServerOperationProperties
+  - Added Interface ServerProperties
+  - Added Interface ServerTrustCertificateProperties
+  - Added Interface ServerTrustGroupProperties
+  - Added Interface ServerUsageProperties
+  - Added Interface ServerVulnerabilityAssessmentProperties
+  - Added Interface SimplePollerLike
+  - Added Interface SqlAgentConfigurationProperties
+  - Added Interface SqlClientOptionalParams
+  - Added Interface SqlVulnerabilityAssessmentPolicyProperties
+  - Added Interface SqlVulnerabilityAssessmentScanRecordProperties
+  - Added Interface SqlVulnerabilityAssessmentScanResultProperties
+  - Added Interface StartStopManagedInstanceScheduleProperties
+  - Added Interface SubscriptionUsageProperties
+  - Added Interface SynapseLinkWorkspaceProperties
+  - Added Interface SyncAgentLinkedDatabaseProperties
+  - Added Interface SyncAgentProperties
+  - Added Interface SyncGroupProperties
+  - Added Interface SyncMemberProperties
+  - Added Interface Systemdata
+  - Added Interface TdeCertificateProperties
+  - Added Interface TimeZoneProperties
+  - Added Interface TransparentDataEncryptionProperties
+  - Added Interface TransparentDataEncryptionsResumeOptionalParams
+  - Added Interface TransparentDataEncryptionsSuspendOptionalParams
+  - Added Interface UpdateLongTermRetentionBackupParametersProperties
+  - Added Interface UpsertManagedServerOperationStepWithEstimatesAndDuration
+  - Added Interface VirtualClusterDnsServersProperties
+  - Added Interface VirtualClusterProperties
+  - Added Interface VirtualClustersCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkRuleProperties
+  - Added Interface VulnerabilityAssessmentScanRecordProperties
+  - Added Interface WorkloadClassifierProperties
+  - Added Interface WorkloadGroupProperties
+  - Added Interface ZonePinningCapability
+  - Interface Advisor has a new optional parameter systemData
+  - Interface BackupShortTermRetentionPolicy has a new optional parameter systemData
+  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
+  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter provisioningState
+  - Interface Database has a new optional parameter useFreeLimit
+  - Interface Database has a new optional parameter systemData
+  - Interface DatabaseAutomaticTuning has a new optional parameter systemData
+  - Interface DatabaseBlobAuditingPolicy has a new optional parameter systemData
+  - Interface DatabaseColumn has a new optional parameter systemData
+  - Interface DatabaseExtensions has a new optional parameter administratorLogin
+  - Interface DatabaseExtensions has a new optional parameter administratorLoginPassword
+  - Interface DatabaseExtensions has a new optional parameter authenticationType
+  - Interface DatabaseExtensions has a new optional parameter databaseEdition
+  - Interface DatabaseExtensions has a new optional parameter maxSizeBytes
+  - Interface DatabaseExtensions has a new optional parameter networkIsolation
+  - Interface DatabaseExtensions has a new optional parameter serviceObjectiveName
+  - Interface DatabaseKey has a new optional parameter keyVersion
+  - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
+  - Interface DatabaseSchema has a new optional parameter systemData
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter skip
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter top
+  - Interface DatabaseTable has a new optional parameter systemData
+  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
+  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter provisioningState
+  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface DatabaseVulnerabilityAssessment has a new optional parameter systemData
+  - Interface DatabaseVulnerabilityAssessmentRuleBaseline has a new optional parameter systemData
+  - Interface DataMaskingPolicy has a new optional parameter systemData
+  - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
+  - Interface DataWarehouseUserActivities has a new optional parameter systemData
+  - Interface DeletedServer has a new optional parameter systemData
+  - Interface DistributedAvailabilityGroup has a new optional parameter databases
+  - Interface DistributedAvailabilityGroup has a new optional parameter distributedAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter failoverMode
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter instanceLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerEndpoint
+  - Interface DistributedAvailabilityGroup has a new optional parameter partnerLinkRole
+  - Interface DistributedAvailabilityGroup has a new optional parameter seedingMode
+  - Interface DistributedAvailabilityGroup has a new optional parameter systemData
+  - Interface EditionCapability has a new optional parameter zonePinning
+  - Interface ElasticPool has a new optional parameter autoPauseDelay
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter currentSku
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPool has a new optional parameter systemData
+  - Interface ElasticPoolEditionCapability has a new optional parameter zonePinning
+  - Interface ElasticPoolPerDatabaseSettings has a new optional parameter autoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedAutoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedMinCapacities
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedPerDatabaseAutoPauseDelay
+  - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedZones
+  - Interface ElasticPoolUpdate has a new optional parameter autoPauseDelay
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter currentSku
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface EncryptionProtector has a new optional parameter keyVersion
+  - Interface EncryptionProtector has a new optional parameter systemData
+  - Interface EndpointCertificate has a new optional parameter systemData
+  - Interface ExtendedDatabaseBlobAuditingPolicy has a new optional parameter systemData
+  - Interface ExtendedServerBlobAuditingPolicy has a new optional parameter systemData
+  - Interface FailoverGroup has a new optional parameter secondaryType
+  - Interface FailoverGroup has a new optional parameter systemData
+  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
+  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface FailoverGroupUpdate has a new optional parameter secondaryType
+  - Interface GeoBackupPolicy has a new optional parameter systemData
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter blobUri
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter privateEndpointConnections
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter queuedTime
+  - Interface ImportExportExtensionsOperationResult has a new optional parameter systemData
+  - Interface InstanceFailoverGroup has a new optional parameter systemData
+  - Interface InstancePool has a new optional parameter dnsZone
+  - Interface InstancePool has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePool has a new optional parameter systemData
+  - Interface InstancePoolUpdate has a new optional parameter dnsZone
+  - Interface InstancePoolUpdate has a new optional parameter licenseType
+  - Interface InstancePoolUpdate has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter sku
+  - Interface InstancePoolUpdate has a new optional parameter subnetId
+  - Interface InstancePoolUpdate has a new optional parameter vCores
+  - Interface Job has a new optional parameter systemData
+  - Interface JobAgent has a new optional parameter identity
+  - Interface JobAgent has a new optional parameter systemData
+  - Interface JobAgentUpdate has a new optional parameter identity
+  - Interface JobAgentUpdate has a new optional parameter sku
+  - Interface JobCredential has a new optional parameter systemData
+  - Interface JobExecution has a new optional parameter systemData
+  - Interface JobStep has a new optional parameter systemData
+  - Interface JobTargetGroup has a new optional parameter systemData
+  - Interface JobVersion has a new optional parameter systemData
+  - Interface LedgerDigestUploads has a new optional parameter systemData
+  - Interface LocationCapabilities has a new optional parameter isZoneResilientProvisioningAllowed
+  - Interface LocationCapabilities has a new optional parameter supportedJobAgentVersions
+  - Interface LogicalDatabaseTransparentDataEncryption has a new optional parameter scanState
+  - Interface LogicalDatabaseTransparentDataEncryption has a new optional parameter systemData
+  - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface LongTermRetentionBackup has a new optional parameter legalHoldImmutability
+  - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutability
+  - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutabilityMode
+  - Interface LongTermRetentionBackup has a new optional parameter systemData
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter filter
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter skip
+  - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter filter
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter skip
+  - Interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionPolicy has a new optional parameter timeBasedImmutability
+  - Interface LongTermRetentionPolicy has a new optional parameter timeBasedImmutabilityMode
+  - Interface LongTermRetentionPolicy has a new optional parameter systemData
+  - Interface MaintenanceWindowOptions has a new optional parameter systemData
+  - Interface MaintenanceWindows has a new optional parameter systemData
+  - Interface ManagedBackupShortTermRetentionPolicy has a new optional parameter systemData
+  - Interface ManagedDatabase has a new optional parameter extendedAccessibilityInfo
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabase has a new optional parameter systemData
+  - Interface ManagedDatabaseMoveOperationResult has a new optional parameter systemData
+  - Interface ManagedDatabaseRestoreDetailsResult has a new optional parameter systemData
+  - Interface ManagedDatabaseSecurityAlertPolicy has a new optional parameter systemData
+  - Interface ManagedDatabaseUpdate has a new optional parameter extendedAccessibilityInfo
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface ManagedInstance has a new optional parameter authenticationMetadata
+  - Interface ManagedInstance has a new optional parameter createTime
+  - Interface ManagedInstance has a new optional parameter databaseFormat
+  - Interface ManagedInstance has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstance has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstance has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstance has a new optional parameter memorySizeInGB
+  - Interface ManagedInstance has a new optional parameter pricingModel
+  - Interface ManagedInstance has a new optional parameter requestedLogicalAvailabilityZone
+  - Interface ManagedInstance has a new optional parameter storageIOps
+  - Interface ManagedInstance has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstance has a new optional parameter virtualClusterId
+  - Interface ManagedInstance has a new optional parameter systemData
+  - Interface ManagedInstanceAdministrator has a new optional parameter systemData
+  - Interface ManagedInstanceAzureADOnlyAuthentication has a new optional parameter systemData
+  - Interface ManagedInstanceDtc has a new optional parameter fqdnEnabled
+  - Interface ManagedInstanceDtc has a new optional parameter systemData
+  - Interface ManagedInstanceEditionCapability has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstanceEncryptionProtector has a new optional parameter systemData
+  - Interface ManagedInstanceFamilyCapability has a new optional parameter zoneRedundant
+  - Interface ManagedInstanceKey has a new optional parameter systemData
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter systemData
+  - Interface ManagedInstanceLongTermRetentionPolicy has a new optional parameter backupStorageAccessTier
+  - Interface ManagedInstanceLongTermRetentionPolicy has a new optional parameter systemData
+  - Interface ManagedInstanceOperation has a new optional parameter systemData
+  - Interface ManagedInstancePrivateEndpointConnection has a new optional parameter systemData
+  - Interface ManagedInstancePrivateLink has a new optional parameter systemData
+  - Interface ManagedInstancePrivateLinkProperties has a new optional parameter requiredZoneNames
+  - Interface ManagedInstanceQuery has a new optional parameter systemData
+  - Interface ManagedInstanceUpdate has a new optional parameter authenticationMetadata
+  - Interface ManagedInstanceUpdate has a new optional parameter createTime
+  - Interface ManagedInstanceUpdate has a new optional parameter databaseFormat
+  - Interface ManagedInstanceUpdate has a new optional parameter externalGovernanceStatus
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsage
+  - Interface ManagedInstanceUpdate has a new optional parameter hybridSecondaryUsageDetected
+  - Interface ManagedInstanceUpdate has a new optional parameter isGeneralPurposeV2
+  - Interface ManagedInstanceUpdate has a new optional parameter memorySizeInGB
+  - Interface ManagedInstanceUpdate has a new optional parameter pricingModel
+  - Interface ManagedInstanceUpdate has a new optional parameter requestedLogicalAvailabilityZone
+  - Interface ManagedInstanceUpdate has a new optional parameter storageIOps
+  - Interface ManagedInstanceUpdate has a new optional parameter storageThroughputMBps
+  - Interface ManagedInstanceUpdate has a new optional parameter virtualClusterId
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter includedStorageIOps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter includedStorageThroughputMBps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter iopsIncludedValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter iopsMinValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedMemoryLimitsMB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedMemorySizesInGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedStorageIOps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter supportedStorageThroughputMBps
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter throughputMBpsIncludedValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVcoresCapability has a new optional parameter throughputMBpsMinValueOverrideFactorPerSelectedStorageGB
+  - Interface ManagedInstanceVulnerabilityAssessment has a new optional parameter systemData
+  - Interface ManagedLedgerDigestUploads has a new optional parameter systemData
+  - Interface ManagedServerDnsAlias has a new optional parameter systemData
+  - Interface ManagedTransparentDataEncryption has a new optional parameter systemData
+  - Interface OutboundFirewallRule has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface RecommendedAction has a new optional parameter systemData
+  - Interface RecoverableDatabase has a new optional parameter systemData
+  - Interface RecoverableManagedDatabase has a new optional parameter systemData
+  - Interface ReplicationLink has a new optional parameter partnerDatabaseId
+  - Interface ReplicationLink has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface RestorableDroppedDatabase has a new optional parameter systemData
+  - Interface RestorableDroppedManagedDatabase has a new optional parameter systemData
+  - Interface RestorePoint has a new optional parameter systemData
+  - Interface SensitivityLabel has a new optional parameter clientClassificationSource
+  - Interface SensitivityLabel has a new optional parameter systemData
+  - Interface Server has a new optional parameter createMode
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface Server has a new optional parameter retentionDays
+  - Interface Server has a new optional parameter systemData
+  - Interface ServerAutomaticTuning has a new optional parameter systemData
+  - Interface ServerAzureADAdministrator has a new optional parameter systemData
+  - Interface ServerAzureADOnlyAuthentication has a new optional parameter systemData
+  - Interface ServerBlobAuditingPolicy has a new optional parameter systemData
+  - Interface ServerConfigurationOption has a new optional parameter systemData
+  - Interface ServerConnectionPolicy has a new optional parameter systemData
+  - Interface ServerDnsAlias has a new optional parameter systemData
+  - Interface ServerKey has a new optional parameter keyVersion
+  - Interface ServerKey has a new optional parameter systemData
+  - Interface ServerTrustCertificate has a new optional parameter systemData
+  - Interface ServerTrustGroup has a new optional parameter systemData
+  - Interface ServerUpdate has a new optional parameter createMode
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter retentionDays
+  - Interface ServerUsage has a new optional parameter id
+  - Interface ServerUsage has a new optional parameter type
+  - Interface ServerVulnerabilityAssessment has a new optional parameter systemData
+  - Interface ServiceObjectiveCapability has a new optional parameter supportedFreeLimitExhaustionBehaviors
+  - Interface ServiceObjectiveCapability has a new optional parameter supportedZones
+  - Interface ServiceObjectiveCapability has a new optional parameter zonePinning
+  - Interface SqlAgentConfiguration has a new optional parameter systemData
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Interface SubscriptionUsage has a new optional parameter systemData
+  - Interface SyncAgent has a new optional parameter systemData
+  - Interface SyncGroup has a new optional parameter identity
+  - Interface SyncGroup has a new optional parameter systemData
+  - Interface SyncMember has a new optional parameter identity
+  - Interface SyncMember has a new optional parameter systemData
+  - Interface TimeZone has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Interface VirtualCluster has a new optional parameter systemData
+  - Interface VirtualNetworkRule has a new optional parameter systemData
+  - Interface VulnerabilityAssessmentScanRecord has a new optional parameter systemData
+  - Interface WorkloadClassifier has a new optional parameter systemData
+  - Interface WorkloadGroup has a new optional parameter systemData
+  - Added Type Alias AuthMetadataLookupModes
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackupStorageAccessTier
+  - Added Type Alias BlobAuditingPolicyName
+  - Added Type Alias CheckNameAvailabilityResourceType
+  - Added Type Alias ClientClassificationSource
+  - Added Type Alias CurrentSensitivityLabelSource
+  - Added Type Alias DataMaskingPolicyName
+  - Added Type Alias DataSyncParticipantIdentityType
+  - Added Type Alias ErrorType
+  - Added Type Alias FailoverGroupDatabasesSecondaryType
+  - Added Type Alias FailoverModeType
+  - Added Type Alias FailoverType
+  - Added Type Alias FreeLimitExhaustionBehavior
+  - Added Type Alias HybridSecondaryUsage
+  - Added Type Alias HybridSecondaryUsageDetected
+  - Added Type Alias InaccessibilityReason
+  - Added Type Alias InstanceRole
+  - Added Type Alias JobAgentIdentityType
+  - Added Type Alias LinkRole
+  - Added Type Alias ManagedInstanceDatabaseFormat
+  - Added Type Alias MinimalTlsVersion
+  - Added Type Alias Phase
+  - Added Type Alias PricingModel
+  - Added Type Alias RecommendedSensitivityLabelSource
+  - Added Type Alias ReplicaConnectedState
+  - Added Type Alias ReplicaSynchronizationHealth
+  - Added Type Alias ReplicationModeType
+  - Added Type Alias RoleChangeType
+  - Added Type Alias SeedingModeType
+  - Added Type Alias ServerCreateMode
+  - Added Type Alias SetLegalHoldImmutability
+  - Added Type Alias TimeBasedImmutability
+  - Added Type Alias TimeBasedImmutabilityMode
+  - Added Type Alias TransparentDataEncryptionScanState
+  - Added Type Alias UpsertManagedServerOperationStepWithEstimatesAndDurationStatus
+  - Added Type Alias VulnerabilityAssessmentSystemDatabaseName
+  - Added Enum AzureClouds
+  - Added Enum KnownAuthMetadataLookupModes
+  - Added Enum KnownBackupStorageAccessTier
+  - Added Enum KnownClientClassificationSource
+  - Added Enum KnownDataMaskingFunction
+  - Added Enum KnownDataMaskingPolicyName
+  - Added Enum KnownDataMaskingRuleState
+  - Added Enum KnownDataSyncParticipantIdentityType
+  - Added Enum KnownErrorType
+  - Added Enum KnownFailoverGroupDatabasesSecondaryType
+  - Added Enum KnownFailoverModeType
+  - Added Enum KnownFailoverType
+  - Added Enum KnownFreeLimitExhaustionBehavior
+  - Added Enum KnownHybridSecondaryUsage
+  - Added Enum KnownHybridSecondaryUsageDetected
+  - Added Enum KnownInaccessibilityReason
+  - Added Enum KnownInstanceRole
+  - Added Enum KnownJobAgentIdentityType
+  - Added Enum KnownLinkRole
+  - Added Enum KnownManagedInstanceDatabaseFormat
+  - Added Enum KnownMinimalTlsVersion
+  - Added Enum KnownPhase
+  - Added Enum KnownPricingModel
+  - Added Enum KnownReplicaConnectedState
+  - Added Enum KnownReplicaSynchronizationHealth
+  - Added Enum KnownReplicationModeType
+  - Added Enum KnownRoleChangeType
+  - Added Enum KnownSeedingModeType
+  - Added Enum KnownServerCreateMode
+  - Added Enum KnownSetLegalHoldImmutability
+  - Added Enum KnownTimeBasedImmutability
+  - Added Enum KnownTimeBasedImmutabilityMode
+  - Added Enum KnownTransparentDataEncryptionScanState
+  - Added Enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus
+  - Added Enum KnownVersions
+  - Enum KnownCapabilityGroup has a new value SupportedJobAgentVersions
+  - Enum KnownOperationMode has a new value Export
+  - Enum KnownOperationMode has a new value Import
+  - Enum KnownStorageCapabilityStorageAccountType has a new value Gzrs
+  - Enum KnownStorageKeyType has a new value ManagedIdentity
+
+### Breaking Changes
+  - Removed operation Databases.listMetricDefinitions
+  - Removed operation Databases.listMetrics
+  - Removed operation ElasticPools.listMetricDefinitions
+  - Removed operation ElasticPools.listMetrics
+  - Removed operation GeoBackupPolicies.listByDatabase
+  - Operation DatabaseAdvisors.get has a new signature
+  - Operation DatabaseAdvisors.listByDatabase has a new signature
+  - Operation DatabaseAdvisors.update has a new signature
+  - Operation DatabaseBlobAuditingPolicies.createOrUpdate has a new signature
+  - Operation DatabaseBlobAuditingPolicies.get has a new signature
+  - Operation DatabaseRecommendedActions.get has a new signature
+  - Operation DatabaseRecommendedActions.listByDatabaseAdvisor has a new signature
+  - Operation DatabaseRecommendedActions.update has a new signature
+  - Operation Databases.beginExport has a new signature
+  - Operation Databases.beginExportAndWait has a new signature
+  - Operation Databases.beginImport has a new signature
+  - Operation Databases.beginImportAndWait has a new signature
+  - Operation Databases.listByServer has a new signature
+  - Operation DataMaskingPolicies.createOrUpdate has a new signature
+  - Operation DataMaskingPolicies.get has a new signature
+  - Operation DataMaskingRules.createOrUpdate has a new signature
+  - Operation DataMaskingRules.listByDatabase has a new signature
+  - Operation ExtendedDatabaseBlobAuditingPolicies.createOrUpdate has a new signature
+  - Operation ExtendedDatabaseBlobAuditingPolicies.get has a new signature
+  - Operation ExtendedServerBlobAuditingPolicies.beginCreateOrUpdate has a new signature
+  - Operation ExtendedServerBlobAuditingPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Operation ExtendedServerBlobAuditingPolicies.get has a new signature
+  - Operation GeoBackupPolicies.createOrUpdate has a new signature
+  - Operation GeoBackupPolicies.get has a new signature
+  - Operation JobSteps.createOrUpdate has a new signature
+  - Operation JobSteps.get has a new signature
+  - Operation JobSteps.getByVersion has a new signature
+  - Operation ManagedDatabaseSensitivityLabels.createOrUpdate has a new signature
+  - Operation ManagedDatabaseSensitivityLabels.delete has a new signature
+  - Operation ManagedDatabaseSensitivityLabels.disableRecommendation has a new signature
+  - Operation ManagedDatabaseSensitivityLabels.enableRecommendation has a new signature
+  - Operation ManagedInstances.beginStartAndWait has a new signature
+  - Operation ManagedInstances.beginStopAndWait has a new signature
+  - Operation OutboundFirewallRules.beginCreateOrUpdate has a new signature
+  - Operation OutboundFirewallRules.beginCreateOrUpdateAndWait has a new signature
+  - Operation SensitivityLabels.createOrUpdate has a new signature
+  - Operation SensitivityLabels.delete has a new signature
+  - Operation SensitivityLabels.disableRecommendation has a new signature
+  - Operation SensitivityLabels.enableRecommendation has a new signature
+  - Operation ServerAdvisors.get has a new signature
+  - Operation ServerAdvisors.listByServer has a new signature
+  - Operation ServerAdvisors.update has a new signature
+  - Operation ServerBlobAuditingPolicies.beginCreateOrUpdate has a new signature
+  - Operation ServerBlobAuditingPolicies.beginCreateOrUpdateAndWait has a new signature
+  - Operation ServerBlobAuditingPolicies.get has a new signature
+  - Operation Servers.beginImportDatabase has a new signature
+  - Operation Servers.beginImportDatabaseAndWait has a new signature
+  - Operation SqlVulnerabilityAssessmentBaseline.get has a new signature
+  - Operation SqlVulnerabilityAssessmentBaseline.listBySqlVulnerabilityAssessment has a new signature
+  - Operation SqlVulnerabilityAssessmentBaselines.createOrUpdate has a new signature
+  - Operation SqlVulnerabilityAssessmentExecuteScan.beginExecute has a new signature
+  - Operation SqlVulnerabilityAssessmentExecuteScan.beginExecuteAndWait has a new signature
+  - Operation SqlVulnerabilityAssessmentRuleBaseline.createOrUpdate has a new signature
+  - Operation SqlVulnerabilityAssessmentRuleBaseline.get has a new signature
+  - Operation SqlVulnerabilityAssessmentRuleBaseline.listByBaseline has a new signature
+  - Operation SqlVulnerabilityAssessmentRuleBaselines.delete has a new signature
+  - Operation SqlVulnerabilityAssessmentScanResult.get has a new signature
+  - Operation SqlVulnerabilityAssessmentScanResult.listByScan has a new signature
+  - Operation SqlVulnerabilityAssessmentScans.get has a new signature
+  - Operation SqlVulnerabilityAssessmentScans.listBySqlVulnerabilityAssessments has a new signature
+  - Deleted Class SqlManagementClient
+  - Removed Interface DatabasesListMetricDefinitionsOptionalParams
+  - Removed Interface DatabasesListMetricsOptionalParams
+  - Removed Interface ElasticPoolActivities
+  - Removed Interface ElasticPoolActivitiesListByElasticPoolOptionalParams
+  - Removed Interface ElasticPoolActivity
+  - Removed Interface ElasticPoolDatabaseActivities
+  - Removed Interface ElasticPoolDatabaseActivitiesListByElasticPoolOptionalParams
+  - Removed Interface ElasticPoolDatabaseActivity
+  - Removed Interface ElasticPoolsListMetricDefinitionsOptionalParams
+  - Removed Interface ElasticPoolsListMetricsOptionalParams
+  - Removed Interface GeoBackupPoliciesListByDatabaseOptionalParams
+  - Removed Interface ManagedInstanceQueryStatistics
+  - Removed Interface Metric
+  - Removed Interface MetricAvailability
+  - Removed Interface MetricDefinition
+  - Removed Interface MetricName
+  - Removed Interface MetricValue
+  - Removed Interface OperationImpact
+  - Removed Interface OutboundEnvironmentEndpointCollection
+  - Removed Interface SecurityEventCollection
+  - Removed Interface SecurityEventsFilterParameters
+  - Removed Interface ServerCommunicationLink
+  - Removed Interface ServerCommunicationLinks
+  - Removed Interface ServerCommunicationLinksCreateOrUpdateOptionalParams
+  - Removed Interface ServerCommunicationLinksDeleteOptionalParams
+  - Removed Interface ServerCommunicationLinksGetOptionalParams
+  - Removed Interface ServerCommunicationLinksListByServerOptionalParams
+  - Removed Interface ServiceObjective
+  - Removed Interface ServiceObjectives
+  - Removed Interface ServiceObjectivesGetOptionalParams
+  - Removed Interface ServiceObjectivesListByServerOptionalParams
+  - Removed Interface SloUsageMetric
+  - Removed Interface SqlManagementClientOptionalParams
+  - Removed Interface SystemData
+  - Removed Interface UpsertManagedServerOperationStep
+  - Type of parameter details of interface RecommendedAction is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to Record<string, string>
+  - Interface DatabasesListByServerOptionalParams no longer has parameter skipToken
+  - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
+  - Interface DistributedAvailabilityGroup no longer has parameter linkState
+  - Interface DistributedAvailabilityGroup no longer has parameter primaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter secondaryAvailabilityGroupName
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceEndpoint
+  - Interface DistributedAvailabilityGroup no longer has parameter sourceReplicaId
+  - Interface DistributedAvailabilityGroup no longer has parameter targetDatabase
+  - Interface DistributedAvailabilityGroup no longer has parameter targetReplicaId
+  - Interface ManagedInstanceEditionCapability no longer has parameter zoneRedundant
+  - Interface ServerUsage no longer has parameter nextResetTime
+  - Interface ServerUsage no longer has parameter resourceName
+  - Parameter administratorLoginPassword of interface ExportDatabaseDefinition is now optional
+  - Parameter state of interface GeoBackupPolicy is now optional
+  - Parameter administratorLoginPassword of interface ImportExistingDatabaseDefinition is now optional
+  - Parameter administratorLoginPassword of interface ImportNewDatabaseDefinition is now optional
+  - Parameter credential of interface JobStepOutput is now optional
+  - Removed Type Alias ManagedInstancePropertiesProvisioningState
+  - Removed Type Alias PrimaryAggregationType
+  - Removed Type Alias ReplicationMode
+  - Removed Type Alias ServiceObjectiveName
+  - Removed Type Alias SQLVulnerabilityAssessmentName
+  - Removed Type Alias UnitDefinitionType
+  - Removed Type Alias UnitType
+  - Removed Type Alias UpsertManagedServerOperationStepStatus
+  - Type alias "DataMaskingFunction" has been changed
+  - Type alias "DataMaskingRuleState" has been changed
+  - Removed Enum KnownManagedInstancePropertiesProvisioningState
+  - Removed Enum KnownPrimaryAggregationType
+  - Removed Enum KnownReplicationMode
+  - Removed Enum KnownServiceObjectiveName
+  - Removed Enum KnownSQLVulnerabilityAssessmentName
+  - Removed Enum KnownUnitDefinitionType
+  - Removed Enum KnownUnitType
+  - Removed Enum KnownUpsertManagedServerOperationStepStatus
+
 ## 11.0.0-beta.4 (2025-09-24)
 Compared with version 10.0.0
 

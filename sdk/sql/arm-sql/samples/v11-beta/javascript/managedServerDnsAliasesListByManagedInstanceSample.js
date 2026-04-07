@@ -1,35 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of managed server DNS aliases for a managed server.
+ * This sample demonstrates how to gets a list of managed server DNS aliases for a managed server.
  *
- * @summary Gets a list of managed server DNS aliases for a managed server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasList.json
+ * @summary gets a list of managed server DNS aliases for a managed server.
+ * x-ms-original-file: 2025-02-01-preview/ManagedServerDnsAliasList.json
  */
-async function listManagedServerDnsAliases() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const managedInstanceName = "dns-mi";
+async function listManagedServerDNSAliases() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedServerDnsAliases.listByManagedInstance(
-    resourceGroupName,
-    managedInstanceName,
+    "Default",
+    "dns-mi",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await listManagedServerDnsAliases();
+  await listManagedServerDNSAliases();
 }
 
 main().catch(console.error);

@@ -1,32 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OutboundFirewallRule, SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a outbound firewall rule with a given name.
+ * This sample demonstrates how to create a outbound firewall rule with a given name.
  *
- * @summary Create a outbound firewall rule with a given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/OutboundFirewallRuleCreate.json
+ * @summary create a outbound firewall rule with a given name.
+ * x-ms-original-file: 2025-02-01-preview/OutboundFirewallRuleCreate.json
  */
 async function approveOrRejectAOutboundFirewallRuleWithAGivenName(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const serverName = "sqlcrudtest-4645";
-  const outboundRuleFqdn = "server.database.windows.net";
-  const parameters: OutboundFirewallRule = {};
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.outboundFirewallRules.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    outboundRuleFqdn,
-    parameters,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.outboundFirewallRules.createOrUpdate(
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "server.database.windows.net",
   );
   console.log(result);
 }

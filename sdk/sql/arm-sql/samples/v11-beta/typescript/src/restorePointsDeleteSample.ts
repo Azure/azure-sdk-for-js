@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a restore point.
+ * This sample demonstrates how to deletes a restore point.
  *
- * @summary Deletes a restore point.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsDelete.json
+ * @summary deletes a restore point.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseRestorePointsDelete.json
  */
 async function deletesARestorePoint(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testserver";
-  const databaseName = "testDatabase";
-  const restorePointName = "131546477590000000";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.restorePoints.delete(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    restorePointName,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  await client.restorePoints.delete(
+    "Default-SQL-SouthEastAsia",
+    "testserver",
+    "testDatabase",
+    "131546477590000000",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,48 +1,107 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncGroup, SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a sync group.
+ * This sample demonstrates how to updates a sync group.
  *
- * @summary Updates a sync group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupPatch.json
+ * @summary updates a sync group.
+ * x-ms-original-file: 2025-02-01-preview/SyncGroupPatch.json
  */
 async function updateASyncGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const parameters: SyncGroup = {
-    conflictResolutionPolicy: "HubWin",
-    hubDatabasePassword: "hubPassword",
-    hubDatabaseUserName: "hubUser",
-    interval: -1,
-    syncDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
-    usePrivateLinkConnection: true,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncGroups.beginUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    parameters,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.syncGroups.update(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    {
+      conflictResolutionPolicy: "HubWin",
+      hubDatabasePassword: "hubPassword",
+      hubDatabaseUserName: "hubUser",
+      interval: -1,
+      syncDatabaseId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+      usePrivateLinkConnection: true,
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates a sync group.
+ *
+ * @summary updates a sync group.
+ * x-ms-original-file: 2025-02-01-preview/SyncGroupPatchAddAndRemoveIdentity.json
+ */
+async function updateASyncGroupWithNewUserAssignedIdentityAndRemoveOlderAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.syncGroups.update(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-umi-2":
+            {},
+        },
+      },
+      interval: -1,
+      conflictResolutionPolicy: "HubWin",
+      syncDatabaseId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+      usePrivateLinkConnection: false,
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates a sync group.
+ *
+ * @summary updates a sync group.
+ * x-ms-original-file: 2025-02-01-preview/SyncGroupPatchWithIdentity.json
+ */
+async function updateASyncGroupWithUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.syncGroups.update(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-umi":
+            {},
+        },
+      },
+      interval: -1,
+      conflictResolutionPolicy: "HubWin",
+      syncDatabaseId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+      usePrivateLinkConnection: true,
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await updateASyncGroup();
+  await updateASyncGroupWithNewUserAssignedIdentityAndRemoveOlderAssignedIdentity();
+  await updateASyncGroupWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

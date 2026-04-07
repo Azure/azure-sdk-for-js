@@ -1,109 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ManagedDatabaseQueriesListByQueryOptionalParams,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get query execution statistics by query id.
+ * This sample demonstrates how to get query execution statistics by query id.
  *
- * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsList.json
+ * @summary get query execution statistics by query id.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceQueryStatisticsList.json
  */
 async function obtainQueryExecutionStatistics(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const managedInstanceName = "sqlcrudtest-4645";
-  const databaseName = "database_1";
-  const queryId = "42";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseQueries.listByQuery(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    queryId,
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "database_1",
+    "42",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Get query execution statistics by query id.
+ * This sample demonstrates how to get query execution statistics by query id.
  *
- * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMax.json
+ * @summary get query execution statistics by query id.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceQueryStatisticsListMax.json
  */
 async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const managedInstanceName = "sqlcrudtest-4645";
-  const databaseName = "database_1";
-  const queryId = "42";
-  const startTime = "03/01/2020 16:23:09";
-  const endTime = "03/11/2020 14:00:00";
-  const interval = "P1D";
-  const options: ManagedDatabaseQueriesListByQueryOptionalParams = {
-    startTime,
-    endTime,
-    interval,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseQueries.listByQuery(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    queryId,
-    options,
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "database_1",
+    "42",
+    { startTime: "03/01/2020 16:23:09", endTime: "03/11/2020 14:00:00", interval: "P1D" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Get query execution statistics by query id.
+ * This sample demonstrates how to get query execution statistics by query id.
  *
- * @summary Get query execution statistics by query id.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMin.json
+ * @summary get query execution statistics by query id.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceQueryStatisticsListMin.json
  */
 async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const managedInstanceName = "sqlcrudtest-4645";
-  const databaseName = "database_1";
-  const queryId = "42";
-  const interval = "PT1H";
-  const options: ManagedDatabaseQueriesListByQueryOptionalParams = { interval };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseQueries.listByQuery(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    queryId,
-    options,
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "database_1",
+    "42",
+    { interval: "PT1H" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

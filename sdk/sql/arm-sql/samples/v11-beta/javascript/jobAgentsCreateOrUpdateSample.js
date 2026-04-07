@@ -1,40 +1,75 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates or updates a job agent.
+ * This sample demonstrates how to creates or updates a job agent.
  *
- * @summary Creates or updates a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobAgent.json
+ * @summary creates or updates a job agent.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateJobAgent.json
  */
 async function createOrUpdateAJobAgent() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
+    location: "southeastasia",
     databaseId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/databases/db1",
-    location: "southeastasia",
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a job agent.
+ *
+ * @summary creates or updates a job agent.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateJobAgentWithIdentity.json
+ */
+async function createOrUpdateAJobAgentWithIdentity() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.jobAgents.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    parameters,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-umi":
+          {},
+      },
+    },
+    location: "southeastasia",
+    databaseId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/databases/db1",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a job agent.
+ *
+ * @summary creates or updates a job agent.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateJobAgentWithSku.json
+ */
+async function createOrUpdateAJobAgentWithSku() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
+    location: "southeastasia",
+    databaseId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/databases/db1",
+    sku: { name: "JA400" },
+  });
   console.log(result);
 }
 
 async function main() {
   await createOrUpdateAJobAgent();
+  await createOrUpdateAJobAgentWithIdentity();
+  await createOrUpdateAJobAgentWithSku();
 }
 
 main().catch(console.error);

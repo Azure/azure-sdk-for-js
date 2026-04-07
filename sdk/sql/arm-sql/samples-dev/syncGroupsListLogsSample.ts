@@ -1,42 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a collection of sync group logs.
+ * This sample demonstrates how to gets a collection of sync group logs.
  *
- * @summary Gets a collection of sync group logs.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupGetLog.json
+ * @summary gets a collection of sync group logs.
+ * x-ms-original-file: 2025-02-01-preview/SyncGroupGetLog.json
  */
 async function getSyncGroupLogs(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const startTime = "2017-01-01T00:00:00";
-  const endTime = "2017-12-31T00:00:00";
-  const typeParam = "All";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.syncGroups.listLogs(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    startTime,
-    endTime,
-    typeParam,
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "2017-01-01T00:00:00",
+    "2017-12-31T00:00:00",
+    "All",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

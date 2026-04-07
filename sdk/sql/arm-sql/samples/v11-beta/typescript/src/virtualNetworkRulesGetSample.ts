@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a virtual network rule.
+ * This sample demonstrates how to gets a virtual network rule.
  *
- * @summary Gets a virtual network rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesGet.json
+ * @summary gets a virtual network rule.
+ * x-ms-original-file: 2025-02-01-preview/VirtualNetworkRulesGet.json
  */
 async function getsAVirtualNetworkRule(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "vnet-test-svr";
-  const virtualNetworkRuleName = "vnet-firewall-rule";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.virtualNetworkRules.get(
-    resourceGroupName,
-    serverName,
-    virtualNetworkRuleName,
+    "Default",
+    "vnet-test-svr",
+    "vnet-firewall-rule",
   );
   console.log(result);
 }

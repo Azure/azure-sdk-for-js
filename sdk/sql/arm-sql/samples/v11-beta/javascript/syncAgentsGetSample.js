@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a sync agent.
+ * This sample demonstrates how to gets a sync agent.
  *
- * @summary Gets a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentGet.json
+ * @summary gets a sync agent.
+ * x-ms-original-file: 2025-02-01-preview/SyncAgentGet.json
  */
 async function getASyncAgent() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "syncagentcrud-65440";
-  const serverName = "syncagentcrud-8475";
-  const syncAgentName = "syncagentcrud-3187";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncAgents.get(resourceGroupName, serverName, syncAgentName);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.syncAgents.get(
+    "syncagentcrud-65440",
+    "syncagentcrud-8475",
+    "syncagentcrud-3187",
+  );
   console.log(result);
 }
 

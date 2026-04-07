@@ -1,74 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of security events.
+ * This sample demonstrates how to gets a list of security events.
  *
- * @summary Gets a list of security events.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityEventsGetMax.json
+ * @summary gets a list of security events.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseSecurityEventsGetMax.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testcl";
-  const databaseName = "database1";
-  const filter = "ShowServerRecords eq true";
-  const skip = 0;
-  const top = 1;
-  const skiptoken =
-    "eyJCbG9iTmFtZURhdGVUaW1lIjoiXC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbG92ZXJJbmRleCI6IjAiLCJFbmREYXRlIjoiXC9EYXRlKDE1MTI0NjYyMDA1MjkpXC8iLCJJc1NraXBUb2tlblNldCI6ZmFsc2UsIklzVjJCbG9iVGltZUZvcm1hdCI6dHJ1ZSwiU2hvd1NlcnZlclJlY29yZHMiOmZhbHNlLCJTa2lwVmFsdWUiOjAsIlRha2VWYWx1ZSI6MTB9";
-  const options: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams = {
-    filter,
-    skip,
-    top,
-    skiptoken,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    options,
+    "testrg",
+    "testcl",
+    "database1",
+    {
+      filter: "ShowServerRecords eq true",
+      skip: 0,
+      top: 1,
+      skiptoken:
+        "eyJCbG9iTmFtZURhdGVUaW1lIjoiXC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbG92ZXJJbmRleCI6IjAiLCJFbmREYXRlIjoiXC9EYXRlKDE1MTI0NjYyMDA1MjkpXC8iLCJJc1NraXBUb2tlblNldCI6ZmFsc2UsIklzVjJCbG9iVGltZUZvcm1hdCI6dHJ1ZSwiU2hvd1NlcnZlclJlY29yZHMiOmZhbHNlLCJTa2lwVmFsdWUiOjAsIlRha2VWYWx1ZSI6MTB9",
+    },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets a list of security events.
+ * This sample demonstrates how to gets a list of security events.
  *
- * @summary Gets a list of security events.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityEventsGetMin.json
+ * @summary gets a list of security events.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseSecurityEventsGetMin.json
  */
 async function getTheManagedDatabaseSecurityEventsWithMinimalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testcl";
-  const databaseName = "database1";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
+    "testrg",
+    "testcl",
+    "database1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

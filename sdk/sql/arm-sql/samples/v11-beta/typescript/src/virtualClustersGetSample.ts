@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a virtual cluster.
+ * This sample demonstrates how to gets a virtual cluster.
  *
- * @summary Gets a virtual cluster.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterGet.json
+ * @summary gets a virtual cluster.
+ * x-ms-original-file: 2025-02-01-preview/VirtualClusterGet.json
  */
 async function getsAVirtualCluster(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20d7082a-0fc7-4468-82bd-542694d5042b";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const virtualClusterName = "vc-f769ed71-b3ad-491a-a9d5-26eeceaa6be2";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.virtualClusters.get(
-    resourceGroupName,
-    virtualClusterName,
+    "testrg",
+    "vc-f769ed71-b3ad-491a-a9d5-26eeceaa6be2",
   );
   console.log(result);
 }

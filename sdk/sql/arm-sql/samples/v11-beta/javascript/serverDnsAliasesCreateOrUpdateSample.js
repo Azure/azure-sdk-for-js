@@ -1,34 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates a server DNS alias.
+ * This sample demonstrates how to creates a server DNS alias.
  *
- * @summary Creates a server DNS alias.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerDnsAliasCreateOrUpdate.json
+ * @summary creates a server DNS alias.
+ * x-ms-original-file: 2025-02-01-preview/ServerDnsAliasCreateOrUpdate.json
  */
-async function createServerDnsAlias() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "dns-alias-server";
-  const dnsAliasName = "dns-alias-name-1";
+async function createServerDNSAlias() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverDnsAliases.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    dnsAliasName,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.serverDnsAliases.createOrUpdate(
+    "Default",
+    "dns-alias-server",
+    "dns-alias-name-1",
   );
   console.log(result);
 }
 
 async function main() {
-  await createServerDnsAlias();
+  await createServerDNSAlias();
 }
 
 main().catch(console.error);

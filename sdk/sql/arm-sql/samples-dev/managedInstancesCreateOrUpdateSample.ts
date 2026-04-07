@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagedInstance, SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a managed instance.
+ * This sample demonstrates how to creates or updates a managed instance.
  *
- * @summary Creates or updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceCreateMax.json
+ * @summary creates or updates a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceCreateMax.json
  */
 async function createManagedInstanceWithAllProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20D7082A-0FC7-4468-82BD-542694D5042B";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const parameters: ManagedInstance = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "20D7082A-0FC7-4468-82BD-542694D5042B";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.managedInstances.createOrUpdate("testrg", "testinstance", {
+    location: "Japan East",
     administratorLogin: "dummylogin",
     administratorLoginPassword: "PLACEHOLDER",
     administrators: {
@@ -27,6 +25,7 @@ async function createManagedInstanceWithAllProperties(): Promise<void> {
       sid: "00000011-1111-2222-2222-123456789111",
       tenantId: "00000011-1111-2222-2222-123456789111",
     },
+    authenticationMetadata: "AzureAD",
     collation: "SQL_Latin1_General_CP1_CI_AS",
     databaseFormat: "AlwaysUpToDate",
     dnsZonePartner:
@@ -35,62 +34,46 @@ async function createManagedInstanceWithAllProperties(): Promise<void> {
     instancePoolId:
       "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1",
     licenseType: "LicenseIncluded",
-    location: "Japan East",
     maintenanceConfigurationId:
       "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
     minimalTlsVersion: "1.2",
     proxyOverride: "Redirect",
     publicDataEndpointEnabled: false,
     requestedBackupStorageRedundancy: "Geo",
+    requestedLogicalAvailabilityZone: "1",
     servicePrincipal: { type: "SystemAssigned" },
-    sku: { name: "GP_Gen5", tier: "GeneralPurpose" },
     storageSizeInGB: 1024,
     subnetId:
       "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-    tags: { tagKey1: "TagValue1" },
     timezoneId: "UTC",
     vCores: 8,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    parameters,
-  );
+    sku: { name: "GP_Gen5", tier: "GeneralPurpose" },
+    tags: { tagKey1: "TagValue1" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a managed instance.
+ * This sample demonstrates how to creates or updates a managed instance.
  *
- * @summary Creates or updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceCreateMin.json
+ * @summary creates or updates a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceCreateMin.json
  */
 async function createManagedInstanceWithMinimalProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20D7082A-0FC7-4468-82BD-542694D5042B";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const parameters: ManagedInstance = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "20D7082A-0FC7-4468-82BD-542694D5042B";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.managedInstances.createOrUpdate("testrg", "testinstance", {
+    location: "Japan East",
     administratorLogin: "dummylogin",
     administratorLoginPassword: "PLACEHOLDER",
     licenseType: "LicenseIncluded",
-    location: "Japan East",
-    sku: { name: "GP_Gen5", tier: "GeneralPurpose" },
     storageSizeInGB: 1024,
     subnetId:
       "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
     vCores: 8,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    parameters,
-  );
+    sku: { name: "GP_Gen5", tier: "GeneralPurpose" },
+  });
   console.log(result);
 }
 

@@ -1,98 +1,18 @@
 {
   "name": "@azure/arm-sql",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
-  "description": "A generated SDK for SqlManagementClient.",
-  "version": "11.0.0-beta.4",
+  "version": "11.0.0-beta.5",
+  "description": "A generated SDK for SqlClient.",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.3",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "echo skipped.",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/sqlManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sql/arm-sql",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-sql?view=azure-node-preview"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -112,6 +32,2792 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/capabilities": {
+      "browser": {
+        "types": "./dist/browser/api/capabilities/index.d.ts",
+        "default": "./dist/browser/api/capabilities/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/capabilities/index.d.ts",
+        "default": "./dist/react-native/api/capabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capabilities/index.d.ts",
+        "default": "./dist/esm/api/capabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capabilities/index.d.ts",
+        "default": "./dist/commonjs/api/capabilities/index.js"
+      }
+    },
+    "./api/transparentDataEncryptions": {
+      "browser": {
+        "types": "./dist/browser/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/browser/api/transparentDataEncryptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/react-native/api/transparentDataEncryptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/esm/api/transparentDataEncryptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/transparentDataEncryptions/index.d.ts",
+        "default": "./dist/commonjs/api/transparentDataEncryptions/index.js"
+      }
+    },
+    "./api/sqlAgent": {
+      "browser": {
+        "types": "./dist/browser/api/sqlAgent/index.d.ts",
+        "default": "./dist/browser/api/sqlAgent/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlAgent/index.d.ts",
+        "default": "./dist/react-native/api/sqlAgent/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlAgent/index.d.ts",
+        "default": "./dist/esm/api/sqlAgent/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlAgent/index.d.ts",
+        "default": "./dist/commonjs/api/sqlAgent/index.js"
+      }
+    },
+    "./api/serverAutomaticTuning": {
+      "browser": {
+        "types": "./dist/browser/api/serverAutomaticTuning/index.d.ts",
+        "default": "./dist/browser/api/serverAutomaticTuning/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverAutomaticTuning/index.d.ts",
+        "default": "./dist/react-native/api/serverAutomaticTuning/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverAutomaticTuning/index.d.ts",
+        "default": "./dist/esm/api/serverAutomaticTuning/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverAutomaticTuning/index.d.ts",
+        "default": "./dist/commonjs/api/serverAutomaticTuning/index.js"
+      }
+    },
+    "./api/serverAdvancedThreatProtectionSettings": {
+      "browser": {
+        "types": "./dist/browser/api/serverAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/browser/api/serverAdvancedThreatProtectionSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/react-native/api/serverAdvancedThreatProtectionSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/esm/api/serverAdvancedThreatProtectionSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/commonjs/api/serverAdvancedThreatProtectionSettings/index.js"
+      }
+    },
+    "./api/managedLedgerDigestUploads": {
+      "browser": {
+        "types": "./dist/browser/api/managedLedgerDigestUploads/index.d.ts",
+        "default": "./dist/browser/api/managedLedgerDigestUploads/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedLedgerDigestUploads/index.d.ts",
+        "default": "./dist/react-native/api/managedLedgerDigestUploads/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedLedgerDigestUploads/index.d.ts",
+        "default": "./dist/esm/api/managedLedgerDigestUploads/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedLedgerDigestUploads/index.d.ts",
+        "default": "./dist/commonjs/api/managedLedgerDigestUploads/index.js"
+      }
+    },
+    "./api/managedInstancePrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstancePrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/managedInstancePrivateLinkResources/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstancePrivateLinkResources/index.d.ts",
+        "default": "./dist/react-native/api/managedInstancePrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstancePrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/managedInstancePrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstancePrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstancePrivateLinkResources/index.js"
+      }
+    },
+    "./api/managedInstanceAdvancedThreatProtectionSettings": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceAdvancedThreatProtectionSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceAdvancedThreatProtectionSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceAdvancedThreatProtectionSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceAdvancedThreatProtectionSettings/index.js"
+      }
+    },
+    "./api/managedDatabaseTransparentDataEncryption": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseTransparentDataEncryption/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseTransparentDataEncryption/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseTransparentDataEncryption/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseTransparentDataEncryption/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseTransparentDataEncryption/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseTransparentDataEncryption/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseTransparentDataEncryption/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseTransparentDataEncryption/index.js"
+      }
+    },
+    "./api/managedDatabaseRestoreDetails": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseRestoreDetails/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseRestoreDetails/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseRestoreDetails/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseRestoreDetails/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseRestoreDetails/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseRestoreDetails/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseRestoreDetails/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseRestoreDetails/index.js"
+      }
+    },
+    "./api/managedDatabaseQueries": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseQueries/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseQueries/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseQueries/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseQueries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseQueries/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseQueries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseQueries/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseQueries/index.js"
+      }
+    },
+    "./api/managedDatabaseMoveOperations": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseMoveOperations/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseMoveOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseMoveOperations/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseMoveOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseMoveOperations/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseMoveOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseMoveOperations/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseMoveOperations/index.js"
+      }
+    },
+    "./api/managedDatabaseAdvancedThreatProtectionSettings": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseAdvancedThreatProtectionSettings/index.js"
+      }
+    },
+    "./api/maintenanceWindows": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/browser/api/maintenanceWindows/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/react-native/api/maintenanceWindows/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/esm/api/maintenanceWindows/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceWindows/index.js"
+      }
+    },
+    "./api/maintenanceWindowOptions": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceWindowOptions/index.d.ts",
+        "default": "./dist/browser/api/maintenanceWindowOptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/maintenanceWindowOptions/index.d.ts",
+        "default": "./dist/react-native/api/maintenanceWindowOptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceWindowOptions/index.d.ts",
+        "default": "./dist/esm/api/maintenanceWindowOptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceWindowOptions/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceWindowOptions/index.js"
+      }
+    },
+    "./api/ledgerDigestUploads": {
+      "browser": {
+        "types": "./dist/browser/api/ledgerDigestUploads/index.d.ts",
+        "default": "./dist/browser/api/ledgerDigestUploads/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ledgerDigestUploads/index.d.ts",
+        "default": "./dist/react-native/api/ledgerDigestUploads/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ledgerDigestUploads/index.d.ts",
+        "default": "./dist/esm/api/ledgerDigestUploads/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ledgerDigestUploads/index.d.ts",
+        "default": "./dist/commonjs/api/ledgerDigestUploads/index.js"
+      }
+    },
+    "./api/usages": {
+      "browser": {
+        "types": "./dist/browser/api/usages/index.d.ts",
+        "default": "./dist/browser/api/usages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/usages/index.d.ts",
+        "default": "./dist/react-native/api/usages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usages/index.d.ts",
+        "default": "./dist/esm/api/usages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usages/index.d.ts",
+        "default": "./dist/commonjs/api/usages/index.js"
+      }
+    },
+    "./api/elasticPoolOperations": {
+      "browser": {
+        "types": "./dist/browser/api/elasticPoolOperations/index.d.ts",
+        "default": "./dist/browser/api/elasticPoolOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticPoolOperations/index.d.ts",
+        "default": "./dist/react-native/api/elasticPoolOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticPoolOperations/index.d.ts",
+        "default": "./dist/esm/api/elasticPoolOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticPoolOperations/index.d.ts",
+        "default": "./dist/commonjs/api/elasticPoolOperations/index.js"
+      }
+    },
+    "./api/managedInstanceTdeCertificates": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceTdeCertificates/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceTdeCertificates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceTdeCertificates/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceTdeCertificates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceTdeCertificates/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceTdeCertificates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceTdeCertificates/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceTdeCertificates/index.js"
+      }
+    },
+    "./api/managedDatabaseRecommendedSensitivityLabels": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseRecommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseRecommendedSensitivityLabels/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseRecommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseRecommendedSensitivityLabels/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseRecommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseRecommendedSensitivityLabels/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseRecommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseRecommendedSensitivityLabels/index.js"
+      }
+    },
+    "./api/managedDatabaseSecurityEvents": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseSecurityEvents/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseSecurityEvents/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseSecurityEvents/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseSecurityEvents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseSecurityEvents/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseSecurityEvents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseSecurityEvents/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseSecurityEvents/index.js"
+      }
+    },
+    "./api/dataWarehouseUserActivities": {
+      "browser": {
+        "types": "./dist/browser/api/dataWarehouseUserActivities/index.d.ts",
+        "default": "./dist/browser/api/dataWarehouseUserActivities/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataWarehouseUserActivities/index.d.ts",
+        "default": "./dist/react-native/api/dataWarehouseUserActivities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataWarehouseUserActivities/index.d.ts",
+        "default": "./dist/esm/api/dataWarehouseUserActivities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataWarehouseUserActivities/index.d.ts",
+        "default": "./dist/commonjs/api/dataWarehouseUserActivities/index.js"
+      }
+    },
+    "./api/dataMaskingRules": {
+      "browser": {
+        "types": "./dist/browser/api/dataMaskingRules/index.d.ts",
+        "default": "./dist/browser/api/dataMaskingRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataMaskingRules/index.d.ts",
+        "default": "./dist/react-native/api/dataMaskingRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataMaskingRules/index.d.ts",
+        "default": "./dist/esm/api/dataMaskingRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataMaskingRules/index.d.ts",
+        "default": "./dist/commonjs/api/dataMaskingRules/index.js"
+      }
+    },
+    "./api/databaseVulnerabilityAssessmentScans": {
+      "browser": {
+        "types": "./dist/browser/api/databaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/browser/api/databaseVulnerabilityAssessmentScans/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/react-native/api/databaseVulnerabilityAssessmentScans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/esm/api/databaseVulnerabilityAssessmentScans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/commonjs/api/databaseVulnerabilityAssessmentScans/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentScans": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentScans/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentScans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentScans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentScans/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentRuleBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentRuleBaselines/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentExecuteScan": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentExecuteScan/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentExecuteScan": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentExecuteScan/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentsSettings": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentsSettings/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaselines/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentBaselines/index.js"
+      }
+    },
+    "./api/databaseRecommendedActions": {
+      "browser": {
+        "types": "./dist/browser/api/databaseRecommendedActions/index.d.ts",
+        "default": "./dist/browser/api/databaseRecommendedActions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseRecommendedActions/index.d.ts",
+        "default": "./dist/react-native/api/databaseRecommendedActions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseRecommendedActions/index.d.ts",
+        "default": "./dist/esm/api/databaseRecommendedActions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseRecommendedActions/index.d.ts",
+        "default": "./dist/commonjs/api/databaseRecommendedActions/index.js"
+      }
+    },
+    "./api/databaseExtensions": {
+      "browser": {
+        "types": "./dist/browser/api/databaseExtensions/index.d.ts",
+        "default": "./dist/browser/api/databaseExtensions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseExtensions/index.d.ts",
+        "default": "./dist/react-native/api/databaseExtensions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseExtensions/index.d.ts",
+        "default": "./dist/esm/api/databaseExtensions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseExtensions/index.d.ts",
+        "default": "./dist/commonjs/api/databaseExtensions/index.js"
+      }
+    },
+    "./api/databaseAutomaticTuning": {
+      "browser": {
+        "types": "./dist/browser/api/databaseAutomaticTuning/index.d.ts",
+        "default": "./dist/browser/api/databaseAutomaticTuning/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseAutomaticTuning/index.d.ts",
+        "default": "./dist/react-native/api/databaseAutomaticTuning/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseAutomaticTuning/index.d.ts",
+        "default": "./dist/esm/api/databaseAutomaticTuning/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseAutomaticTuning/index.d.ts",
+        "default": "./dist/commonjs/api/databaseAutomaticTuning/index.js"
+      }
+    },
+    "./api/databaseAdvisors": {
+      "browser": {
+        "types": "./dist/browser/api/databaseAdvisors/index.d.ts",
+        "default": "./dist/browser/api/databaseAdvisors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseAdvisors/index.d.ts",
+        "default": "./dist/react-native/api/databaseAdvisors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseAdvisors/index.d.ts",
+        "default": "./dist/esm/api/databaseAdvisors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseAdvisors/index.d.ts",
+        "default": "./dist/commonjs/api/databaseAdvisors/index.js"
+      }
+    },
+    "./api/databaseAdvancedThreatProtectionSettings": {
+      "browser": {
+        "types": "./dist/browser/api/databaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/browser/api/databaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/react-native/api/databaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/esm/api/databaseAdvancedThreatProtectionSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseAdvancedThreatProtectionSettings/index.d.ts",
+        "default": "./dist/commonjs/api/databaseAdvancedThreatProtectionSettings/index.js"
+      }
+    },
+    "./api/tdeCertificates": {
+      "browser": {
+        "types": "./dist/browser/api/tdeCertificates/index.d.ts",
+        "default": "./dist/browser/api/tdeCertificates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/tdeCertificates/index.d.ts",
+        "default": "./dist/react-native/api/tdeCertificates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tdeCertificates/index.d.ts",
+        "default": "./dist/esm/api/tdeCertificates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tdeCertificates/index.d.ts",
+        "default": "./dist/commonjs/api/tdeCertificates/index.js"
+      }
+    },
+    "./api/serverUsages": {
+      "browser": {
+        "types": "./dist/browser/api/serverUsages/index.d.ts",
+        "default": "./dist/browser/api/serverUsages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverUsages/index.d.ts",
+        "default": "./dist/react-native/api/serverUsages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverUsages/index.d.ts",
+        "default": "./dist/esm/api/serverUsages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverUsages/index.d.ts",
+        "default": "./dist/commonjs/api/serverUsages/index.js"
+      }
+    },
+    "./api/serverOperations": {
+      "browser": {
+        "types": "./dist/browser/api/serverOperations/index.d.ts",
+        "default": "./dist/browser/api/serverOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverOperations/index.d.ts",
+        "default": "./dist/react-native/api/serverOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverOperations/index.d.ts",
+        "default": "./dist/esm/api/serverOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverOperations/index.d.ts",
+        "default": "./dist/commonjs/api/serverOperations/index.js"
+      }
+    },
+    "./api/synapseLinkWorkspaces": {
+      "browser": {
+        "types": "./dist/browser/api/synapseLinkWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/synapseLinkWorkspaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/synapseLinkWorkspaces/index.d.ts",
+        "default": "./dist/react-native/api/synapseLinkWorkspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/synapseLinkWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/synapseLinkWorkspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/synapseLinkWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/synapseLinkWorkspaces/index.js"
+      }
+    },
+    "./api/recommendedSensitivityLabels": {
+      "browser": {
+        "types": "./dist/browser/api/recommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/browser/api/recommendedSensitivityLabels/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/recommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/react-native/api/recommendedSensitivityLabels/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/esm/api/recommendedSensitivityLabels/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recommendedSensitivityLabels/index.d.ts",
+        "default": "./dist/commonjs/api/recommendedSensitivityLabels/index.js"
+      }
+    },
+    "./api/databaseUsages": {
+      "browser": {
+        "types": "./dist/browser/api/databaseUsages/index.d.ts",
+        "default": "./dist/browser/api/databaseUsages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseUsages/index.d.ts",
+        "default": "./dist/react-native/api/databaseUsages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseUsages/index.d.ts",
+        "default": "./dist/esm/api/databaseUsages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseUsages/index.d.ts",
+        "default": "./dist/commonjs/api/databaseUsages/index.js"
+      }
+    },
+    "./api/databaseOperations": {
+      "browser": {
+        "types": "./dist/browser/api/databaseOperations/index.d.ts",
+        "default": "./dist/browser/api/databaseOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseOperations/index.d.ts",
+        "default": "./dist/react-native/api/databaseOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseOperations/index.d.ts",
+        "default": "./dist/esm/api/databaseOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseOperations/index.d.ts",
+        "default": "./dist/commonjs/api/databaseOperations/index.js"
+      }
+    },
+    "./api/databaseEncryptionProtectors": {
+      "browser": {
+        "types": "./dist/browser/api/databaseEncryptionProtectors/index.d.ts",
+        "default": "./dist/browser/api/databaseEncryptionProtectors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseEncryptionProtectors/index.d.ts",
+        "default": "./dist/react-native/api/databaseEncryptionProtectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseEncryptionProtectors/index.d.ts",
+        "default": "./dist/esm/api/databaseEncryptionProtectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseEncryptionProtectors/index.d.ts",
+        "default": "./dist/commonjs/api/databaseEncryptionProtectors/index.js"
+      }
+    },
+    "./api/managedDatabaseSensitivityLabels": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseSensitivityLabels/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseSensitivityLabels/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseSensitivityLabels/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseSensitivityLabels/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseSensitivityLabels/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseSensitivityLabels/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseSensitivityLabels/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseSensitivityLabels/index.js"
+      }
+    },
+    "./api/workloadGroups": {
+      "browser": {
+        "types": "./dist/browser/api/workloadGroups/index.d.ts",
+        "default": "./dist/browser/api/workloadGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workloadGroups/index.d.ts",
+        "default": "./dist/react-native/api/workloadGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workloadGroups/index.d.ts",
+        "default": "./dist/esm/api/workloadGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workloadGroups/index.d.ts",
+        "default": "./dist/commonjs/api/workloadGroups/index.js"
+      }
+    },
+    "./api/workloadClassifiers": {
+      "browser": {
+        "types": "./dist/browser/api/workloadClassifiers/index.d.ts",
+        "default": "./dist/browser/api/workloadClassifiers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workloadClassifiers/index.d.ts",
+        "default": "./dist/react-native/api/workloadClassifiers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workloadClassifiers/index.d.ts",
+        "default": "./dist/esm/api/workloadClassifiers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workloadClassifiers/index.d.ts",
+        "default": "./dist/commonjs/api/workloadClassifiers/index.js"
+      }
+    },
+    "./api/virtualNetworkRules": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkRules/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualNetworkRules/index.d.ts",
+        "default": "./dist/react-native/api/virtualNetworkRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkRules/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkRules/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkRules/index.js"
+      }
+    },
+    "./api/virtualClusters": {
+      "browser": {
+        "types": "./dist/browser/api/virtualClusters/index.d.ts",
+        "default": "./dist/browser/api/virtualClusters/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualClusters/index.d.ts",
+        "default": "./dist/react-native/api/virtualClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualClusters/index.d.ts",
+        "default": "./dist/esm/api/virtualClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualClusters/index.d.ts",
+        "default": "./dist/commonjs/api/virtualClusters/index.js"
+      }
+    },
+    "./api/timeZones": {
+      "browser": {
+        "types": "./dist/browser/api/timeZones/index.d.ts",
+        "default": "./dist/browser/api/timeZones/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/timeZones/index.d.ts",
+        "default": "./dist/react-native/api/timeZones/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/timeZones/index.d.ts",
+        "default": "./dist/esm/api/timeZones/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/timeZones/index.d.ts",
+        "default": "./dist/commonjs/api/timeZones/index.js"
+      }
+    },
+    "./api/syncMembers": {
+      "browser": {
+        "types": "./dist/browser/api/syncMembers/index.d.ts",
+        "default": "./dist/browser/api/syncMembers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/syncMembers/index.d.ts",
+        "default": "./dist/react-native/api/syncMembers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/syncMembers/index.d.ts",
+        "default": "./dist/esm/api/syncMembers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/syncMembers/index.d.ts",
+        "default": "./dist/commonjs/api/syncMembers/index.js"
+      }
+    },
+    "./api/syncGroups": {
+      "browser": {
+        "types": "./dist/browser/api/syncGroups/index.d.ts",
+        "default": "./dist/browser/api/syncGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/syncGroups/index.d.ts",
+        "default": "./dist/react-native/api/syncGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/syncGroups/index.d.ts",
+        "default": "./dist/esm/api/syncGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/syncGroups/index.d.ts",
+        "default": "./dist/commonjs/api/syncGroups/index.js"
+      }
+    },
+    "./api/syncAgents": {
+      "browser": {
+        "types": "./dist/browser/api/syncAgents/index.d.ts",
+        "default": "./dist/browser/api/syncAgents/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/syncAgents/index.d.ts",
+        "default": "./dist/react-native/api/syncAgents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/syncAgents/index.d.ts",
+        "default": "./dist/esm/api/syncAgents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/syncAgents/index.d.ts",
+        "default": "./dist/commonjs/api/syncAgents/index.js"
+      }
+    },
+    "./api/subscriptionUsages": {
+      "browser": {
+        "types": "./dist/browser/api/subscriptionUsages/index.d.ts",
+        "default": "./dist/browser/api/subscriptionUsages/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/subscriptionUsages/index.d.ts",
+        "default": "./dist/react-native/api/subscriptionUsages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/subscriptionUsages/index.d.ts",
+        "default": "./dist/esm/api/subscriptionUsages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/subscriptionUsages/index.d.ts",
+        "default": "./dist/commonjs/api/subscriptionUsages/index.js"
+      }
+    },
+    "./api/startStopManagedInstanceSchedules": {
+      "browser": {
+        "types": "./dist/browser/api/startStopManagedInstanceSchedules/index.d.ts",
+        "default": "./dist/browser/api/startStopManagedInstanceSchedules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/startStopManagedInstanceSchedules/index.d.ts",
+        "default": "./dist/react-native/api/startStopManagedInstanceSchedules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/startStopManagedInstanceSchedules/index.d.ts",
+        "default": "./dist/esm/api/startStopManagedInstanceSchedules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/startStopManagedInstanceSchedules/index.d.ts",
+        "default": "./dist/commonjs/api/startStopManagedInstanceSchedules/index.js"
+      }
+    },
+    "./api/serverVulnerabilityAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/serverVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/browser/api/serverVulnerabilityAssessments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/react-native/api/serverVulnerabilityAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/esm/api/serverVulnerabilityAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/serverVulnerabilityAssessments/index.js"
+      }
+    },
+    "./api/serverTrustCertificates": {
+      "browser": {
+        "types": "./dist/browser/api/serverTrustCertificates/index.d.ts",
+        "default": "./dist/browser/api/serverTrustCertificates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverTrustCertificates/index.d.ts",
+        "default": "./dist/react-native/api/serverTrustCertificates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverTrustCertificates/index.d.ts",
+        "default": "./dist/esm/api/serverTrustCertificates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverTrustCertificates/index.d.ts",
+        "default": "./dist/commonjs/api/serverTrustCertificates/index.js"
+      }
+    },
+    "./api/serverSecurityAlertPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/serverSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/browser/api/serverSecurityAlertPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/react-native/api/serverSecurityAlertPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/esm/api/serverSecurityAlertPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/serverSecurityAlertPolicies/index.js"
+      }
+    },
+    "./api/serverKeys": {
+      "browser": {
+        "types": "./dist/browser/api/serverKeys/index.d.ts",
+        "default": "./dist/browser/api/serverKeys/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverKeys/index.d.ts",
+        "default": "./dist/react-native/api/serverKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverKeys/index.d.ts",
+        "default": "./dist/esm/api/serverKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverKeys/index.d.ts",
+        "default": "./dist/commonjs/api/serverKeys/index.js"
+      }
+    },
+    "./api/serverDnsAliases": {
+      "browser": {
+        "types": "./dist/browser/api/serverDnsAliases/index.d.ts",
+        "default": "./dist/browser/api/serverDnsAliases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverDnsAliases/index.d.ts",
+        "default": "./dist/react-native/api/serverDnsAliases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverDnsAliases/index.d.ts",
+        "default": "./dist/esm/api/serverDnsAliases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverDnsAliases/index.d.ts",
+        "default": "./dist/commonjs/api/serverDnsAliases/index.js"
+      }
+    },
+    "./api/serverDevOpsAuditSettings": {
+      "browser": {
+        "types": "./dist/browser/api/serverDevOpsAuditSettings/index.d.ts",
+        "default": "./dist/browser/api/serverDevOpsAuditSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverDevOpsAuditSettings/index.d.ts",
+        "default": "./dist/react-native/api/serverDevOpsAuditSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverDevOpsAuditSettings/index.d.ts",
+        "default": "./dist/esm/api/serverDevOpsAuditSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverDevOpsAuditSettings/index.d.ts",
+        "default": "./dist/commonjs/api/serverDevOpsAuditSettings/index.js"
+      }
+    },
+    "./api/serverConnectionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/serverConnectionPolicies/index.d.ts",
+        "default": "./dist/browser/api/serverConnectionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverConnectionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/serverConnectionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverConnectionPolicies/index.d.ts",
+        "default": "./dist/esm/api/serverConnectionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverConnectionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/serverConnectionPolicies/index.js"
+      }
+    },
+    "./api/serverConfigurationOptions": {
+      "browser": {
+        "types": "./dist/browser/api/serverConfigurationOptions/index.d.ts",
+        "default": "./dist/browser/api/serverConfigurationOptions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverConfigurationOptions/index.d.ts",
+        "default": "./dist/react-native/api/serverConfigurationOptions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverConfigurationOptions/index.d.ts",
+        "default": "./dist/esm/api/serverConfigurationOptions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverConfigurationOptions/index.d.ts",
+        "default": "./dist/commonjs/api/serverConfigurationOptions/index.js"
+      }
+    },
+    "./api/serverAzureADOnlyAuthentications": {
+      "browser": {
+        "types": "./dist/browser/api/serverAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/browser/api/serverAzureADOnlyAuthentications/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/react-native/api/serverAzureADOnlyAuthentications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/esm/api/serverAzureADOnlyAuthentications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/commonjs/api/serverAzureADOnlyAuthentications/index.js"
+      }
+    },
+    "./api/serverAzureADAdministrators": {
+      "browser": {
+        "types": "./dist/browser/api/serverAzureADAdministrators/index.d.ts",
+        "default": "./dist/browser/api/serverAzureADAdministrators/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverAzureADAdministrators/index.d.ts",
+        "default": "./dist/react-native/api/serverAzureADAdministrators/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverAzureADAdministrators/index.d.ts",
+        "default": "./dist/esm/api/serverAzureADAdministrators/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverAzureADAdministrators/index.d.ts",
+        "default": "./dist/commonjs/api/serverAzureADAdministrators/index.js"
+      }
+    },
+    "./api/restorableDroppedManagedDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/restorableDroppedManagedDatabases/index.d.ts",
+        "default": "./dist/browser/api/restorableDroppedManagedDatabases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/restorableDroppedManagedDatabases/index.d.ts",
+        "default": "./dist/react-native/api/restorableDroppedManagedDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorableDroppedManagedDatabases/index.d.ts",
+        "default": "./dist/esm/api/restorableDroppedManagedDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorableDroppedManagedDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/restorableDroppedManagedDatabases/index.js"
+      }
+    },
+    "./api/restorableDroppedDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/restorableDroppedDatabases/index.d.ts",
+        "default": "./dist/browser/api/restorableDroppedDatabases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/restorableDroppedDatabases/index.d.ts",
+        "default": "./dist/react-native/api/restorableDroppedDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorableDroppedDatabases/index.d.ts",
+        "default": "./dist/esm/api/restorableDroppedDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorableDroppedDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/restorableDroppedDatabases/index.js"
+      }
+    },
+    "./api/recoverableManagedDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/recoverableManagedDatabases/index.d.ts",
+        "default": "./dist/browser/api/recoverableManagedDatabases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/recoverableManagedDatabases/index.d.ts",
+        "default": "./dist/react-native/api/recoverableManagedDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recoverableManagedDatabases/index.d.ts",
+        "default": "./dist/esm/api/recoverableManagedDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recoverableManagedDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/recoverableManagedDatabases/index.js"
+      }
+    },
+    "./api/recoverableDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/recoverableDatabases/index.d.ts",
+        "default": "./dist/browser/api/recoverableDatabases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/recoverableDatabases/index.d.ts",
+        "default": "./dist/react-native/api/recoverableDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recoverableDatabases/index.d.ts",
+        "default": "./dist/esm/api/recoverableDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recoverableDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/recoverableDatabases/index.js"
+      }
+    },
+    "./api/privateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateLinkResources/index.d.ts",
+        "default": "./dist/react-native/api/privateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/outboundFirewallRules": {
+      "browser": {
+        "types": "./dist/browser/api/outboundFirewallRules/index.d.ts",
+        "default": "./dist/browser/api/outboundFirewallRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/outboundFirewallRules/index.d.ts",
+        "default": "./dist/react-native/api/outboundFirewallRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/outboundFirewallRules/index.d.ts",
+        "default": "./dist/esm/api/outboundFirewallRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/outboundFirewallRules/index.d.ts",
+        "default": "./dist/commonjs/api/outboundFirewallRules/index.js"
+      }
+    },
+    "./api/networkSecurityPerimeterConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/react-native/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.js"
+      }
+    },
+    "./api/managedServerSecurityAlertPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/managedServerSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/browser/api/managedServerSecurityAlertPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedServerSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/react-native/api/managedServerSecurityAlertPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedServerSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/esm/api/managedServerSecurityAlertPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedServerSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/managedServerSecurityAlertPolicies/index.js"
+      }
+    },
+    "./api/managedServerDnsAliases": {
+      "browser": {
+        "types": "./dist/browser/api/managedServerDnsAliases/index.d.ts",
+        "default": "./dist/browser/api/managedServerDnsAliases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedServerDnsAliases/index.d.ts",
+        "default": "./dist/react-native/api/managedServerDnsAliases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedServerDnsAliases/index.d.ts",
+        "default": "./dist/esm/api/managedServerDnsAliases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedServerDnsAliases/index.d.ts",
+        "default": "./dist/commonjs/api/managedServerDnsAliases/index.js"
+      }
+    },
+    "./api/managedInstanceVulnerabilityAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceVulnerabilityAssessments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceVulnerabilityAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceVulnerabilityAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceVulnerabilityAssessments/index.js"
+      }
+    },
+    "./api/managedInstancePrivateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstancePrivateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/managedInstancePrivateEndpointConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstancePrivateEndpointConnections/index.d.ts",
+        "default": "./dist/react-native/api/managedInstancePrivateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstancePrivateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/managedInstancePrivateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstancePrivateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstancePrivateEndpointConnections/index.js"
+      }
+    },
+    "./api/managedInstanceOperations": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceOperations/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceOperations/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceOperations/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceOperations/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceOperations/index.js"
+      }
+    },
+    "./api/managedInstanceLongTermRetentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceLongTermRetentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceLongTermRetentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceLongTermRetentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceLongTermRetentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceLongTermRetentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceLongTermRetentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceLongTermRetentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceLongTermRetentionPolicies/index.js"
+      }
+    },
+    "./api/managedInstanceKeys": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceKeys/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceKeys/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceKeys/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceKeys/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceKeys/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceKeys/index.js"
+      }
+    },
+    "./api/managedInstanceEncryptionProtectors": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceEncryptionProtectors/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceEncryptionProtectors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceEncryptionProtectors/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceEncryptionProtectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceEncryptionProtectors/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceEncryptionProtectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceEncryptionProtectors/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceEncryptionProtectors/index.js"
+      }
+    },
+    "./api/managedInstanceDtcs": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceDtcs/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceDtcs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceDtcs/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceDtcs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceDtcs/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceDtcs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceDtcs/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceDtcs/index.js"
+      }
+    },
+    "./api/managedInstanceAzureADOnlyAuthentications": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceAzureADOnlyAuthentications/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceAzureADOnlyAuthentications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceAzureADOnlyAuthentications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceAzureADOnlyAuthentications/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceAzureADOnlyAuthentications/index.js"
+      }
+    },
+    "./api/managedInstanceAdministrators": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstanceAdministrators/index.d.ts",
+        "default": "./dist/browser/api/managedInstanceAdministrators/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstanceAdministrators/index.d.ts",
+        "default": "./dist/react-native/api/managedInstanceAdministrators/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstanceAdministrators/index.d.ts",
+        "default": "./dist/esm/api/managedInstanceAdministrators/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstanceAdministrators/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstanceAdministrators/index.js"
+      }
+    },
+    "./api/managedDatabaseSecurityAlertPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseSecurityAlertPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseSecurityAlertPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseSecurityAlertPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseSecurityAlertPolicies/index.js"
+      }
+    },
+    "./api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies/index.js"
+      }
+    },
+    "./api/managedBackupShortTermRetentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/managedBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/managedBackupShortTermRetentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/managedBackupShortTermRetentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/managedBackupShortTermRetentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedBackupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/managedBackupShortTermRetentionPolicies/index.js"
+      }
+    },
+    "./api/longTermRetentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/longTermRetentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/longTermRetentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/longTermRetentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/longTermRetentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/longTermRetentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/longTermRetentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/longTermRetentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/longTermRetentionPolicies/index.js"
+      }
+    },
+    "./api/longTermRetentionManagedInstanceBackups": {
+      "browser": {
+        "types": "./dist/browser/api/longTermRetentionManagedInstanceBackups/index.d.ts",
+        "default": "./dist/browser/api/longTermRetentionManagedInstanceBackups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/longTermRetentionManagedInstanceBackups/index.d.ts",
+        "default": "./dist/react-native/api/longTermRetentionManagedInstanceBackups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/longTermRetentionManagedInstanceBackups/index.d.ts",
+        "default": "./dist/esm/api/longTermRetentionManagedInstanceBackups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/longTermRetentionManagedInstanceBackups/index.d.ts",
+        "default": "./dist/commonjs/api/longTermRetentionManagedInstanceBackups/index.js"
+      }
+    },
+    "./api/longTermRetentionBackups": {
+      "browser": {
+        "types": "./dist/browser/api/longTermRetentionBackups/index.d.ts",
+        "default": "./dist/browser/api/longTermRetentionBackups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/longTermRetentionBackups/index.d.ts",
+        "default": "./dist/react-native/api/longTermRetentionBackups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/longTermRetentionBackups/index.d.ts",
+        "default": "./dist/esm/api/longTermRetentionBackups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/longTermRetentionBackups/index.d.ts",
+        "default": "./dist/commonjs/api/longTermRetentionBackups/index.js"
+      }
+    },
+    "./api/jobVersions": {
+      "browser": {
+        "types": "./dist/browser/api/jobVersions/index.d.ts",
+        "default": "./dist/browser/api/jobVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobVersions/index.d.ts",
+        "default": "./dist/react-native/api/jobVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobVersions/index.d.ts",
+        "default": "./dist/esm/api/jobVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobVersions/index.d.ts",
+        "default": "./dist/commonjs/api/jobVersions/index.js"
+      }
+    },
+    "./api/jobTargetGroups": {
+      "browser": {
+        "types": "./dist/browser/api/jobTargetGroups/index.d.ts",
+        "default": "./dist/browser/api/jobTargetGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobTargetGroups/index.d.ts",
+        "default": "./dist/react-native/api/jobTargetGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobTargetGroups/index.d.ts",
+        "default": "./dist/esm/api/jobTargetGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobTargetGroups/index.d.ts",
+        "default": "./dist/commonjs/api/jobTargetGroups/index.js"
+      }
+    },
+    "./api/jobSteps": {
+      "browser": {
+        "types": "./dist/browser/api/jobSteps/index.d.ts",
+        "default": "./dist/browser/api/jobSteps/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobSteps/index.d.ts",
+        "default": "./dist/react-native/api/jobSteps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobSteps/index.d.ts",
+        "default": "./dist/esm/api/jobSteps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobSteps/index.d.ts",
+        "default": "./dist/commonjs/api/jobSteps/index.js"
+      }
+    },
+    "./api/jobPrivateEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/jobPrivateEndpoints/index.d.ts",
+        "default": "./dist/browser/api/jobPrivateEndpoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobPrivateEndpoints/index.d.ts",
+        "default": "./dist/react-native/api/jobPrivateEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobPrivateEndpoints/index.d.ts",
+        "default": "./dist/esm/api/jobPrivateEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobPrivateEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/jobPrivateEndpoints/index.js"
+      }
+    },
+    "./api/jobs": {
+      "browser": {
+        "types": "./dist/browser/api/jobs/index.d.ts",
+        "default": "./dist/browser/api/jobs/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobs/index.d.ts",
+        "default": "./dist/react-native/api/jobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobs/index.d.ts",
+        "default": "./dist/esm/api/jobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobs/index.d.ts",
+        "default": "./dist/commonjs/api/jobs/index.js"
+      }
+    },
+    "./api/jobTargetExecutions": {
+      "browser": {
+        "types": "./dist/browser/api/jobTargetExecutions/index.d.ts",
+        "default": "./dist/browser/api/jobTargetExecutions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobTargetExecutions/index.d.ts",
+        "default": "./dist/react-native/api/jobTargetExecutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobTargetExecutions/index.d.ts",
+        "default": "./dist/esm/api/jobTargetExecutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobTargetExecutions/index.d.ts",
+        "default": "./dist/commonjs/api/jobTargetExecutions/index.js"
+      }
+    },
+    "./api/jobStepExecutions": {
+      "browser": {
+        "types": "./dist/browser/api/jobStepExecutions/index.d.ts",
+        "default": "./dist/browser/api/jobStepExecutions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobStepExecutions/index.d.ts",
+        "default": "./dist/react-native/api/jobStepExecutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobStepExecutions/index.d.ts",
+        "default": "./dist/esm/api/jobStepExecutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobStepExecutions/index.d.ts",
+        "default": "./dist/commonjs/api/jobStepExecutions/index.js"
+      }
+    },
+    "./api/jobCredentials": {
+      "browser": {
+        "types": "./dist/browser/api/jobCredentials/index.d.ts",
+        "default": "./dist/browser/api/jobCredentials/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobCredentials/index.d.ts",
+        "default": "./dist/react-native/api/jobCredentials/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobCredentials/index.d.ts",
+        "default": "./dist/esm/api/jobCredentials/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobCredentials/index.d.ts",
+        "default": "./dist/commonjs/api/jobCredentials/index.js"
+      }
+    },
+    "./api/jobAgents": {
+      "browser": {
+        "types": "./dist/browser/api/jobAgents/index.d.ts",
+        "default": "./dist/browser/api/jobAgents/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobAgents/index.d.ts",
+        "default": "./dist/react-native/api/jobAgents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobAgents/index.d.ts",
+        "default": "./dist/esm/api/jobAgents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobAgents/index.d.ts",
+        "default": "./dist/commonjs/api/jobAgents/index.js"
+      }
+    },
+    "./api/jobExecutions": {
+      "browser": {
+        "types": "./dist/browser/api/jobExecutions/index.d.ts",
+        "default": "./dist/browser/api/jobExecutions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jobExecutions/index.d.ts",
+        "default": "./dist/react-native/api/jobExecutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jobExecutions/index.d.ts",
+        "default": "./dist/esm/api/jobExecutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jobExecutions/index.d.ts",
+        "default": "./dist/commonjs/api/jobExecutions/index.js"
+      }
+    },
+    "./api/iPv6FirewallRules": {
+      "browser": {
+        "types": "./dist/browser/api/iPv6FirewallRules/index.d.ts",
+        "default": "./dist/browser/api/iPv6FirewallRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/iPv6FirewallRules/index.d.ts",
+        "default": "./dist/react-native/api/iPv6FirewallRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/iPv6FirewallRules/index.d.ts",
+        "default": "./dist/esm/api/iPv6FirewallRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/iPv6FirewallRules/index.d.ts",
+        "default": "./dist/commonjs/api/iPv6FirewallRules/index.js"
+      }
+    },
+    "./api/instancePools": {
+      "browser": {
+        "types": "./dist/browser/api/instancePools/index.d.ts",
+        "default": "./dist/browser/api/instancePools/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/instancePools/index.d.ts",
+        "default": "./dist/react-native/api/instancePools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/instancePools/index.d.ts",
+        "default": "./dist/esm/api/instancePools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/instancePools/index.d.ts",
+        "default": "./dist/commonjs/api/instancePools/index.js"
+      }
+    },
+    "./api/instancePoolOperations": {
+      "browser": {
+        "types": "./dist/browser/api/instancePoolOperations/index.d.ts",
+        "default": "./dist/browser/api/instancePoolOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/instancePoolOperations/index.d.ts",
+        "default": "./dist/react-native/api/instancePoolOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/instancePoolOperations/index.d.ts",
+        "default": "./dist/esm/api/instancePoolOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/instancePoolOperations/index.d.ts",
+        "default": "./dist/commonjs/api/instancePoolOperations/index.js"
+      }
+    },
+    "./api/instanceFailoverGroups": {
+      "browser": {
+        "types": "./dist/browser/api/instanceFailoverGroups/index.d.ts",
+        "default": "./dist/browser/api/instanceFailoverGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/instanceFailoverGroups/index.d.ts",
+        "default": "./dist/react-native/api/instanceFailoverGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/instanceFailoverGroups/index.d.ts",
+        "default": "./dist/esm/api/instanceFailoverGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/instanceFailoverGroups/index.d.ts",
+        "default": "./dist/commonjs/api/instanceFailoverGroups/index.js"
+      }
+    },
+    "./api/geoBackupPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/geoBackupPolicies/index.d.ts",
+        "default": "./dist/browser/api/geoBackupPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/geoBackupPolicies/index.d.ts",
+        "default": "./dist/react-native/api/geoBackupPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/geoBackupPolicies/index.d.ts",
+        "default": "./dist/esm/api/geoBackupPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/geoBackupPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/geoBackupPolicies/index.js"
+      }
+    },
+    "./api/failoverGroups": {
+      "browser": {
+        "types": "./dist/browser/api/failoverGroups/index.d.ts",
+        "default": "./dist/browser/api/failoverGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/failoverGroups/index.d.ts",
+        "default": "./dist/react-native/api/failoverGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/failoverGroups/index.d.ts",
+        "default": "./dist/esm/api/failoverGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/failoverGroups/index.d.ts",
+        "default": "./dist/commonjs/api/failoverGroups/index.js"
+      }
+    },
+    "./api/endpointCertificates": {
+      "browser": {
+        "types": "./dist/browser/api/endpointCertificates/index.d.ts",
+        "default": "./dist/browser/api/endpointCertificates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/endpointCertificates/index.d.ts",
+        "default": "./dist/react-native/api/endpointCertificates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/endpointCertificates/index.d.ts",
+        "default": "./dist/esm/api/endpointCertificates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/endpointCertificates/index.d.ts",
+        "default": "./dist/commonjs/api/endpointCertificates/index.js"
+      }
+    },
+    "./api/encryptionProtectors": {
+      "browser": {
+        "types": "./dist/browser/api/encryptionProtectors/index.d.ts",
+        "default": "./dist/browser/api/encryptionProtectors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/encryptionProtectors/index.d.ts",
+        "default": "./dist/react-native/api/encryptionProtectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/encryptionProtectors/index.d.ts",
+        "default": "./dist/esm/api/encryptionProtectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/encryptionProtectors/index.d.ts",
+        "default": "./dist/commonjs/api/encryptionProtectors/index.js"
+      }
+    },
+    "./api/elasticPools": {
+      "browser": {
+        "types": "./dist/browser/api/elasticPools/index.d.ts",
+        "default": "./dist/browser/api/elasticPools/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/elasticPools/index.d.ts",
+        "default": "./dist/react-native/api/elasticPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/elasticPools/index.d.ts",
+        "default": "./dist/esm/api/elasticPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/elasticPools/index.d.ts",
+        "default": "./dist/commonjs/api/elasticPools/index.js"
+      }
+    },
+    "./api/managedInstances": {
+      "browser": {
+        "types": "./dist/browser/api/managedInstances/index.d.ts",
+        "default": "./dist/browser/api/managedInstances/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedInstances/index.d.ts",
+        "default": "./dist/react-native/api/managedInstances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedInstances/index.d.ts",
+        "default": "./dist/esm/api/managedInstances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedInstances/index.d.ts",
+        "default": "./dist/commonjs/api/managedInstances/index.js"
+      }
+    },
+    "./api/serverTrustGroups": {
+      "browser": {
+        "types": "./dist/browser/api/serverTrustGroups/index.d.ts",
+        "default": "./dist/browser/api/serverTrustGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverTrustGroups/index.d.ts",
+        "default": "./dist/react-native/api/serverTrustGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverTrustGroups/index.d.ts",
+        "default": "./dist/esm/api/serverTrustGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverTrustGroups/index.d.ts",
+        "default": "./dist/commonjs/api/serverTrustGroups/index.js"
+      }
+    },
+    "./api/managedDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabases/index.d.ts",
+        "default": "./dist/browser/api/managedDatabases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabases/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabases/index.d.ts",
+        "default": "./dist/esm/api/managedDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabases/index.js"
+      }
+    },
+    "./api/distributedAvailabilityGroups": {
+      "browser": {
+        "types": "./dist/browser/api/distributedAvailabilityGroups/index.d.ts",
+        "default": "./dist/browser/api/distributedAvailabilityGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/distributedAvailabilityGroups/index.d.ts",
+        "default": "./dist/react-native/api/distributedAvailabilityGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/distributedAvailabilityGroups/index.d.ts",
+        "default": "./dist/esm/api/distributedAvailabilityGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/distributedAvailabilityGroups/index.d.ts",
+        "default": "./dist/commonjs/api/distributedAvailabilityGroups/index.js"
+      }
+    },
+    "./api/deletedServers": {
+      "browser": {
+        "types": "./dist/browser/api/deletedServers/index.d.ts",
+        "default": "./dist/browser/api/deletedServers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deletedServers/index.d.ts",
+        "default": "./dist/react-native/api/deletedServers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deletedServers/index.d.ts",
+        "default": "./dist/esm/api/deletedServers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deletedServers/index.d.ts",
+        "default": "./dist/commonjs/api/deletedServers/index.js"
+      }
+    },
+    "./api/dataMaskingPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/dataMaskingPolicies/index.d.ts",
+        "default": "./dist/browser/api/dataMaskingPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/dataMaskingPolicies/index.d.ts",
+        "default": "./dist/react-native/api/dataMaskingPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataMaskingPolicies/index.d.ts",
+        "default": "./dist/esm/api/dataMaskingPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataMaskingPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/dataMaskingPolicies/index.js"
+      }
+    },
+    "./api/managedDatabaseVulnerabilityAssessmentScans": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseVulnerabilityAssessmentScans/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseVulnerabilityAssessmentScans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseVulnerabilityAssessmentScans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessmentScans/index.js"
+      }
+    },
+    "./api/managedDatabaseVulnerabilityAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseVulnerabilityAssessments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseVulnerabilityAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseVulnerabilityAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessments/index.js"
+      }
+    },
+    "./api/databaseVulnerabilityAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/databaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/browser/api/databaseVulnerabilityAssessments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/react-native/api/databaseVulnerabilityAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/esm/api/databaseVulnerabilityAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/databaseVulnerabilityAssessments/index.js"
+      }
+    },
+    "./api/managedDatabaseVulnerabilityAssessmentRuleBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseVulnerabilityAssessmentRuleBaselines/index.js"
+      }
+    },
+    "./api/databaseVulnerabilityAssessmentRuleBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/databaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/browser/api/databaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/react-native/api/databaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/esm/api/databaseVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/databaseVulnerabilityAssessmentRuleBaselines/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentScans": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentScans/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentScans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentScans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentScans/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentScanResult": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentScanResult/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentScanResult": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentScanResult/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentScanResult/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentScanResult/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentRuleBaseline": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentRuleBaseline/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentRuleBaseline/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentRuleBaseline/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentRuleBaseline/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentRuleBaseline/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentRuleBaseline/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentRuleBaseline/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentRuleBaseline/index.js"
+      }
+    },
+    "./api/databaseSqlVulnerabilityAssessmentRuleBaselines": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/browser/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/react-native/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/esm/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSqlVulnerabilityAssessmentRuleBaselines/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentsSettings": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentsSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentsSettings/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessments/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentBaseline": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentBaseline/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentBaseline/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sqlVulnerabilityAssessmentBaseline/index.d.ts",
+        "default": "./dist/react-native/api/sqlVulnerabilityAssessmentBaseline/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentBaseline/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentBaseline/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaseline/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaseline/index.js"
+      }
+    },
+    "./api/databaseSecurityAlertPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/browser/api/databaseSecurityAlertPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/react-native/api/databaseSecurityAlertPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/esm/api/databaseSecurityAlertPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSecurityAlertPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSecurityAlertPolicies/index.js"
+      }
+    },
+    "./api/managedDatabaseSchemas": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseSchemas/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseSchemas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseSchemas/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseSchemas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseSchemas/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseSchemas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseSchemas/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseSchemas/index.js"
+      }
+    },
+    "./api/databaseSchemas": {
+      "browser": {
+        "types": "./dist/browser/api/databaseSchemas/index.d.ts",
+        "default": "./dist/browser/api/databaseSchemas/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseSchemas/index.d.ts",
+        "default": "./dist/react-native/api/databaseSchemas/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseSchemas/index.d.ts",
+        "default": "./dist/esm/api/databaseSchemas/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseSchemas/index.d.ts",
+        "default": "./dist/commonjs/api/databaseSchemas/index.js"
+      }
+    },
+    "./api/managedDatabaseTables": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseTables/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseTables/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseTables/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseTables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseTables/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseTables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseTables/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseTables/index.js"
+      }
+    },
+    "./api/databaseTables": {
+      "browser": {
+        "types": "./dist/browser/api/databaseTables/index.d.ts",
+        "default": "./dist/browser/api/databaseTables/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseTables/index.d.ts",
+        "default": "./dist/react-native/api/databaseTables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseTables/index.d.ts",
+        "default": "./dist/esm/api/databaseTables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseTables/index.d.ts",
+        "default": "./dist/commonjs/api/databaseTables/index.js"
+      }
+    },
+    "./api/managedDatabaseColumns": {
+      "browser": {
+        "types": "./dist/browser/api/managedDatabaseColumns/index.d.ts",
+        "default": "./dist/browser/api/managedDatabaseColumns/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedDatabaseColumns/index.d.ts",
+        "default": "./dist/react-native/api/managedDatabaseColumns/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedDatabaseColumns/index.d.ts",
+        "default": "./dist/esm/api/managedDatabaseColumns/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedDatabaseColumns/index.d.ts",
+        "default": "./dist/commonjs/api/managedDatabaseColumns/index.js"
+      }
+    },
+    "./api/serverAdvisors": {
+      "browser": {
+        "types": "./dist/browser/api/serverAdvisors/index.d.ts",
+        "default": "./dist/browser/api/serverAdvisors/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverAdvisors/index.d.ts",
+        "default": "./dist/react-native/api/serverAdvisors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverAdvisors/index.d.ts",
+        "default": "./dist/esm/api/serverAdvisors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverAdvisors/index.d.ts",
+        "default": "./dist/commonjs/api/serverAdvisors/index.js"
+      }
+    },
+    "./api/extendedServerBlobAuditingPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/extendedServerBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/browser/api/extendedServerBlobAuditingPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/extendedServerBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/react-native/api/extendedServerBlobAuditingPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/extendedServerBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/esm/api/extendedServerBlobAuditingPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/extendedServerBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/extendedServerBlobAuditingPolicies/index.js"
+      }
+    },
+    "./api/extendedDatabaseBlobAuditingPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/extendedDatabaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/browser/api/extendedDatabaseBlobAuditingPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/extendedDatabaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/react-native/api/extendedDatabaseBlobAuditingPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/extendedDatabaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/esm/api/extendedDatabaseBlobAuditingPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/extendedDatabaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/extendedDatabaseBlobAuditingPolicies/index.js"
+      }
+    },
+    "./api/databaseBlobAuditingPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/databaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/browser/api/databaseBlobAuditingPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/react-native/api/databaseBlobAuditingPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/esm/api/databaseBlobAuditingPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/databaseBlobAuditingPolicies/index.js"
+      }
+    },
+    "./api/serverBlobAuditingPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/serverBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/browser/api/serverBlobAuditingPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/serverBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/react-native/api/serverBlobAuditingPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/esm/api/serverBlobAuditingPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverBlobAuditingPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/serverBlobAuditingPolicies/index.js"
+      }
+    },
+    "./api/servers": {
+      "browser": {
+        "types": "./dist/browser/api/servers/index.d.ts",
+        "default": "./dist/browser/api/servers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/servers/index.d.ts",
+        "default": "./dist/react-native/api/servers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/servers/index.d.ts",
+        "default": "./dist/esm/api/servers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/servers/index.d.ts",
+        "default": "./dist/commonjs/api/servers/index.js"
+      }
+    },
+    "./api/replicationLinks": {
+      "browser": {
+        "types": "./dist/browser/api/replicationLinks/index.d.ts",
+        "default": "./dist/browser/api/replicationLinks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/replicationLinks/index.d.ts",
+        "default": "./dist/react-native/api/replicationLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/replicationLinks/index.d.ts",
+        "default": "./dist/esm/api/replicationLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/replicationLinks/index.d.ts",
+        "default": "./dist/commonjs/api/replicationLinks/index.js"
+      }
+    },
+    "./api/firewallRules": {
+      "browser": {
+        "types": "./dist/browser/api/firewallRules/index.d.ts",
+        "default": "./dist/browser/api/firewallRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/firewallRules/index.d.ts",
+        "default": "./dist/react-native/api/firewallRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firewallRules/index.d.ts",
+        "default": "./dist/esm/api/firewallRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firewallRules/index.d.ts",
+        "default": "./dist/commonjs/api/firewallRules/index.js"
+      }
+    },
+    "./api/databases": {
+      "browser": {
+        "types": "./dist/browser/api/databases/index.d.ts",
+        "default": "./dist/browser/api/databases/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databases/index.d.ts",
+        "default": "./dist/react-native/api/databases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databases/index.d.ts",
+        "default": "./dist/esm/api/databases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databases/index.d.ts",
+        "default": "./dist/commonjs/api/databases/index.js"
+      }
+    },
+    "./api/sensitivityLabels": {
+      "browser": {
+        "types": "./dist/browser/api/sensitivityLabels/index.d.ts",
+        "default": "./dist/browser/api/sensitivityLabels/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sensitivityLabels/index.d.ts",
+        "default": "./dist/react-native/api/sensitivityLabels/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sensitivityLabels/index.d.ts",
+        "default": "./dist/esm/api/sensitivityLabels/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sensitivityLabels/index.d.ts",
+        "default": "./dist/commonjs/api/sensitivityLabels/index.js"
+      }
+    },
+    "./api/restorePoints": {
+      "browser": {
+        "types": "./dist/browser/api/restorePoints/index.d.ts",
+        "default": "./dist/browser/api/restorePoints/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/restorePoints/index.d.ts",
+        "default": "./dist/react-native/api/restorePoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/restorePoints/index.d.ts",
+        "default": "./dist/esm/api/restorePoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/restorePoints/index.d.ts",
+        "default": "./dist/commonjs/api/restorePoints/index.js"
+      }
+    },
+    "./api/databaseColumns": {
+      "browser": {
+        "types": "./dist/browser/api/databaseColumns/index.d.ts",
+        "default": "./dist/browser/api/databaseColumns/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/databaseColumns/index.d.ts",
+        "default": "./dist/react-native/api/databaseColumns/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/databaseColumns/index.d.ts",
+        "default": "./dist/esm/api/databaseColumns/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/databaseColumns/index.d.ts",
+        "default": "./dist/commonjs/api/databaseColumns/index.js"
+      }
+    },
+    "./api/backupShortTermRetentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/backupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/backupShortTermRetentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/backupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/backupShortTermRetentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/backupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/backupShortTermRetentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/backupShortTermRetentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/backupShortTermRetentionPolicies/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sql/arm-sql/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/sqlContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-sql",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-sql?view=azure-node-preview"
   }
 }

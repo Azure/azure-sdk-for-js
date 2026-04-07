@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a distributed availability group info.
+ * This sample demonstrates how to gets a distributed availability group info.
  *
- * @summary Gets a distributed availability group info.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/DistributedAvailabilityGroupsGet.json
+ * @summary gets a distributed availability group info.
+ * x-ms-original-file: 2025-02-01-preview/DistributedAvailabilityGroupsGet.json
  */
 async function getsTheDistributedAvailabilityGroupInfo() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testcl";
-  const distributedAvailabilityGroupName = "dag";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.distributedAvailabilityGroups.get(
-    resourceGroupName,
-    managedInstanceName,
-    distributedAvailabilityGroupName,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.distributedAvailabilityGroups.get("testrg", "testcl", "dag");
   console.log(result);
 }
 

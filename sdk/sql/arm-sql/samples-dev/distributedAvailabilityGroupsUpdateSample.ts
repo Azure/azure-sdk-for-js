@@ -1,35 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DistributedAvailabilityGroup,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a distributed availability group replication mode.
+ * This sample demonstrates how to updates a distributed availability group replication mode.
  *
- * @summary Updates a distributed availability group replication mode.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/DistributedAvailabilityGroupsUpdate.json
+ * @summary updates a distributed availability group replication mode.
+ * x-ms-original-file: 2025-02-01-preview/DistributedAvailabilityGroupsUpdate.json
  */
 async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testcl";
-  const distributedAvailabilityGroupName = "dag";
-  const parameters: DistributedAvailabilityGroup = { replicationMode: "Sync" };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.distributedAvailabilityGroups.beginUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    distributedAvailabilityGroupName,
-    parameters,
-  );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.distributedAvailabilityGroups.update("testrg", "testcl", "dag", {
+    replicationMode: "Sync",
+  });
   console.log(result);
 }
 

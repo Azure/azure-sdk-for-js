@@ -1,43 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of server advisors.
+ * This sample demonstrates how to gets a list of server advisors.
  *
- * @summary Gets a list of server advisors.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAdvisorList.json
+ * @summary gets a list of server advisors.
+ * x-ms-original-file: 2025-02-01-preview/ServerAdvisorList.json
  */
 async function listOfServerAdvisors() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "workloadinsight-demos";
-  const serverName = "misosisvr";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAdvisors.listByServer(resourceGroupName, serverName);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.serverAdvisors.listByServer("workloadinsight-demos", "misosisvr");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a list of server advisors.
+ * This sample demonstrates how to gets a list of server advisors.
  *
- * @summary Gets a list of server advisors.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerRecommendedActionListExpand.json
+ * @summary gets a list of server advisors.
+ * x-ms-original-file: 2025-02-01-preview/ServerRecommendedActionListExpand.json
  */
 async function listOfServerRecommendedActionsForAllAdvisors() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "workloadinsight-demos";
-  const serverName = "misosisvr";
-  const expand = "recommendedActions";
-  const options = { expand };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAdvisors.listByServer(resourceGroupName, serverName, options);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.serverAdvisors.listByServer("workloadinsight-demos", "misosisvr", {
+    expand: "recommendedActions",
+  });
   console.log(result);
 }
 

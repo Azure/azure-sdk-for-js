@@ -1,73 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadClassifier, SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a workload classifier.
+ * This sample demonstrates how to creates or updates a workload classifier.
  *
- * @summary Creates or updates a workload classifier.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadClassifierMax.json
+ * @summary creates or updates a workload classifier.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateWorkloadClassifierMax.json
  */
 async function createAWorkloadGroupWithAllPropertiesSpecified(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const workloadGroupName = "wlm_workloadgroup";
-  const workloadClassifierName = "wlm_workloadclassifier";
-  const parameters: WorkloadClassifier = {
-    context: "test_context",
-    endTime: "14:00",
-    importance: "high",
-    label: "test_label",
-    memberName: "dbo",
-    startTime: "12:00",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.workloadClassifiers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    workloadGroupName,
-    workloadClassifierName,
-    parameters,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.workloadClassifiers.createOrUpdate(
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    "testdb",
+    "wlm_workloadgroup",
+    "wlm_workloadclassifier",
+    {
+      context: "test_context",
+      endTime: "14:00",
+      importance: "high",
+      label: "test_label",
+      memberName: "dbo",
+      startTime: "12:00",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a workload classifier.
+ * This sample demonstrates how to creates or updates a workload classifier.
  *
- * @summary Creates or updates a workload classifier.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadClassifierMin.json
+ * @summary creates or updates a workload classifier.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateWorkloadClassifierMin.json
  */
 async function createAWorkloadGroupWithTheRequiredPropertiesSpecified(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const workloadGroupName = "wlm_workloadgroup";
-  const workloadClassifierName = "wlm_workloadclassifier";
-  const parameters: WorkloadClassifier = { memberName: "dbo" };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.workloadClassifiers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    workloadGroupName,
-    workloadClassifierName,
-    parameters,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.workloadClassifiers.createOrUpdate(
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    "testdb",
+    "wlm_workloadgroup",
+    "wlm_workloadclassifier",
+    { memberName: "dbo" },
   );
   console.log(result);
 }

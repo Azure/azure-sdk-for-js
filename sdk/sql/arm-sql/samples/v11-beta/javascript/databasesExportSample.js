@@ -1,23 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Exports a database.
+ * This sample demonstrates how to exports a database.
  *
- * @summary Exports a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabaseWithNetworkIsolation.json
+ * @summary exports a database.
+ * x-ms-original-file: 2025-02-01-preview/ExportDatabase.json
  */
-async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const parameters = {
+async function exportsADatabase() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.databases.export("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
+    administratorLogin: "login",
+    administratorLoginPassword: "password",
+    authenticationType: "Sql",
+    storageKey:
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+    storageKeyType: "StorageAccessKey",
+    storageUri: "https://test.blob.core.windows.net/test.bacpac",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to exports a database.
+ *
+ * @summary exports a database.
+ * x-ms-original-file: 2025-02-01-preview/ExportDatabaseWithManagedIdentity.json
+ */
+async function exportsADatabaseUsingManagedIdentityToCommunicateWithSQLServerAndStorageAccount() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.databases.export("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
+    administratorLogin:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
+    authenticationType: "ManagedIdentity",
+    storageKey:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
+    storageKeyType: "ManagedIdentity",
+    storageUri: "https://test.blob.core.windows.net/test.bacpac",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to exports a database.
+ *
+ * @summary exports a database.
+ * x-ms-original-file: 2025-02-01-preview/ExportDatabaseWithNetworkIsolation.json
+ */
+async function exportsADatabaseUsingPrivateLinkToCommunicateWithSQLServerAndStorageAccount() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.databases.export("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     administratorLogin: "login",
     administratorLoginPassword: "password",
     authenticationType: "Sql",
@@ -31,53 +72,14 @@ async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStor
       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
     storageKeyType: "StorageAccessKey",
     storageUri: "https://test.blob.core.windows.net/test.bacpac",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginExportAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Exports a database.
- *
- * @summary Exports a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabase.json
- */
-async function exportsADatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const parameters = {
-    administratorLogin: "login",
-    administratorLoginPassword: "password",
-    authenticationType: "Sql",
-    storageKey:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
-    storageKeyType: "StorageAccessKey",
-    storageUri: "https://test.blob.core.windows.net/test.bacpac",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginExportAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main() {
-  await exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
   await exportsADatabase();
+  await exportsADatabaseUsingManagedIdentityToCommunicateWithSQLServerAndStorageAccount();
+  await exportsADatabaseUsingPrivateLinkToCommunicateWithSQLServerAndStorageAccount();
 }
 
 main().catch(console.error);

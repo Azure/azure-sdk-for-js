@@ -1,110 +1,85 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabaseBlobAuditingPolicy,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a database's blob auditing policy.
+ * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
- * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseAzureMonitorAuditingCreateMin.json
+ * @summary creates or updates a database's blob auditing policy.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseAzureMonitorAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "blobauditingtest-4799";
-  const serverName = "blobauditingtest-6440";
-  const databaseName = "testdb";
-  const parameters: DatabaseBlobAuditingPolicy = {
-    isAzureMonitorTargetEnabled: true,
-    state: "Enabled",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
+    "blobauditingtest-4799",
+    "blobauditingtest-6440",
+    "testdb",
+    "default",
+    { isAzureMonitorTargetEnabled: true, state: "Enabled" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database's blob auditing policy.
+ * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
- * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseBlobAuditingCreateMax.json
+ * @summary creates or updates a database's blob auditing policy.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseBlobAuditingCreateMax.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "blobauditingtest-4799";
-  const serverName = "blobauditingtest-6440";
-  const databaseName = "testdb";
-  const parameters: DatabaseBlobAuditingPolicy = {
-    auditActionsAndGroups: [
-      "DATABASE_LOGOUT_GROUP",
-      "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
-      "UPDATE on database::TestDatabaseName by public",
-    ],
-    isAzureMonitorTargetEnabled: true,
-    isStorageSecondaryKeyInUse: false,
-    queueDelayMs: 4000,
-    retentionDays: 6,
-    state: "Enabled",
-    storageAccountAccessKey:
-      "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageAccountSubscriptionId: "00000000-1234-0000-5678-000000000000",
-    storageEndpoint: "https://mystorage.blob.core.windows.net",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
+    "blobauditingtest-4799",
+    "blobauditingtest-6440",
+    "testdb",
+    "default",
+    {
+      auditActionsAndGroups: [
+        "DATABASE_LOGOUT_GROUP",
+        "DATABASE_ROLE_MEMBER_CHANGE_GROUP",
+        "UPDATE on database::TestDatabaseName by public",
+      ],
+      isAzureMonitorTargetEnabled: true,
+      isStorageSecondaryKeyInUse: false,
+      queueDelayMs: 4000,
+      retentionDays: 6,
+      state: "Enabled",
+      storageAccountAccessKey:
+        "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+      storageAccountSubscriptionId: "00000000-1234-0000-5678-000000000000",
+      storageEndpoint: "https://mystorage.blob.core.windows.net",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database's blob auditing policy.
+ * This sample demonstrates how to creates or updates a database's blob auditing policy.
  *
- * @summary Creates or updates a database's blob auditing policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DatabaseBlobAuditingCreateMin.json
+ * @summary creates or updates a database's blob auditing policy.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseBlobAuditingCreateMin.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "blobauditingtest-4799";
-  const serverName = "blobauditingtest-6440";
-  const databaseName = "testdb";
-  const parameters: DatabaseBlobAuditingPolicy = {
-    state: "Enabled",
-    storageAccountAccessKey:
-      "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageEndpoint: "https://mystorage.blob.core.windows.net",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    parameters,
+    "blobauditingtest-4799",
+    "blobauditingtest-6440",
+    "testdb",
+    "default",
+    {
+      state: "Enabled",
+      storageAccountAccessKey:
+        "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+      storageEndpoint: "https://mystorage.blob.core.windows.net",
+    },
   );
   console.log(result);
 }

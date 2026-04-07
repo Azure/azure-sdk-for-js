@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a managed database's security alert policy.
+ * This sample demonstrates how to gets a managed database's security alert policy.
  *
- * @summary Gets a managed database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSecurityAlertGet.json
+ * @summary gets a managed database's security alert policy.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseSecurityAlertGet.json
  */
 async function getADatabaseThreatDetectionPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "securityalert-6852";
-  const managedInstanceName = "securityalert-2080";
-  const databaseName = "testdb";
-  const securityAlertPolicyName = "Default";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.managedDatabaseSecurityAlertPolicies.get(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    securityAlertPolicyName,
+    "securityalert-6852",
+    "securityalert-2080",
+    "testdb",
+    "Default",
   );
   console.log(result);
 }

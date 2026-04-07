@@ -1,27 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ImportNewDatabaseDefinition,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Imports a bacpac into a new database.
+ * This sample demonstrates how to imports a bacpac into a new database.
  *
- * @summary Imports a bacpac into a new database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ImportNewDatabaseWithManagedIdentity.json
+ * @summary imports a bacpac into a new database.
+ * x-ms-original-file: 2025-02-01-preview/ImportNewDatabase.json
  */
-async function importsToANewDatabaseUsingManagedIdentityForTheSqlServerAndStorageAccount(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const parameters: ImportNewDatabaseDefinition = {
+async function importsToANewDatabase(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.servers.importDatabase("Default-SQL-SouthEastAsia", "testsvr", {
+    administratorLogin: "login",
+    administratorLoginPassword: "password",
+    authenticationType: "Sql",
+    databaseName: "testdb",
+    storageKey:
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+    storageKeyType: "StorageAccessKey",
+    storageUri: "https://test.blob.core.windows.net/test.bacpac",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to imports a bacpac into a new database.
+ *
+ * @summary imports a bacpac into a new database.
+ * x-ms-original-file: 2025-02-01-preview/ImportNewDatabaseWithManagedIdentity.json
+ */
+async function importsToANewDatabaseUsingManagedIdentityForTheSQLServerAndStorageAccount(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.servers.importDatabase("Default-SQL-SouthEastAsia", "testsvr", {
     administratorLogin:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
     authenticationType: "ManagedIdentity",
@@ -30,31 +46,21 @@ async function importsToANewDatabaseUsingManagedIdentityForTheSqlServerAndStorag
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
     storageKeyType: "ManagedIdentity",
     storageUri: "https://test.blob.core.windows.net/test.bacpac",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginImportDatabaseAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Imports a bacpac into a new database.
+ * This sample demonstrates how to imports a bacpac into a new database.
  *
- * @summary Imports a bacpac into a new database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ImportNewDatabaseWithNetworkIsolation.json
+ * @summary imports a bacpac into a new database.
+ * x-ms-original-file: 2025-02-01-preview/ImportNewDatabaseWithNetworkIsolation.json
  */
-async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const parameters: ImportNewDatabaseDefinition = {
+async function importsToANewDatabaseUsingPrivateLinkForTheSQLServerAndStorageAccount(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.servers.importDatabase("Default-SQL-SouthEastAsia", "testsvr", {
     administratorLogin: "login",
     administratorLoginPassword: "password",
     authenticationType: "Sql",
@@ -69,54 +75,14 @@ async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAcc
       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
     storageKeyType: "StorageAccessKey",
     storageUri: "https://test.blob.core.windows.net/test.bacpac",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginImportDatabaseAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Imports a bacpac into a new database.
- *
- * @summary Imports a bacpac into a new database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ImportNewDatabase.json
- */
-async function importsToANewDatabase(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const parameters: ImportNewDatabaseDefinition = {
-    administratorLogin: "login",
-    administratorLoginPassword: "password",
-    authenticationType: "Sql",
-    databaseName: "testdb",
-    storageKey:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
-    storageKeyType: "StorageAccessKey",
-    storageUri: "https://test.blob.core.windows.net/test.bacpac",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginImportDatabaseAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await importsToANewDatabaseUsingManagedIdentityForTheSqlServerAndStorageAccount();
-  await importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount();
   await importsToANewDatabase();
+  await importsToANewDatabaseUsingManagedIdentityForTheSQLServerAndStorageAccount();
+  await importsToANewDatabaseUsingPrivateLinkForTheSQLServerAndStorageAccount();
 }
 
 main().catch(console.error);

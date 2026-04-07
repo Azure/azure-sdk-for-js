@@ -1,93 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates or updates a job step. This will implicitly create a new job version.
+ * This sample demonstrates how to creates or updates a job step. This will implicitly create a new job version.
  *
- * @summary Creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobStepMax.json
+ * @summary creates or updates a job step. This will implicitly create a new job version.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateJobStepMax.json
  */
 async function createOrUpdateAJobStepWithAllPropertiesSpecified() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const jobName = "job1";
-  const stepName = "step1";
-  const parameters = {
-    action: { type: "TSql", source: "Inline", value: "select 2" },
-    credential:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
-    executionOptions: {
-      initialRetryIntervalSeconds: 11,
-      maximumRetryIntervalSeconds: 222,
-      retryAttempts: 42,
-      retryIntervalBackoffMultiplier: 3,
-      timeoutSeconds: 1234,
-    },
-    output: {
-      type: "SqlDatabase",
-      credential:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
-      databaseName: "database3",
-      resourceGroupName: "group3",
-      schemaName: "myschema1234",
-      serverName: "server3",
-      subscriptionId: "3501b905-a848-4b5d-96e8-b253f62d735a",
-      tableName: "mytable5678",
-    },
-    stepId: 1,
-    targetGroup:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.jobSteps.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    jobName,
-    stepName,
-    parameters,
+    "group1",
+    "server1",
+    "agent1",
+    "job1",
+    "step1",
+    {
+      action: { type: "TSql", source: "Inline", value: "select 2" },
+      credential:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+      executionOptions: {
+        initialRetryIntervalSeconds: 11,
+        maximumRetryIntervalSeconds: 222,
+        retryAttempts: 42,
+        retryIntervalBackoffMultiplier: 3,
+        timeoutSeconds: 1234,
+      },
+      output: {
+        type: "SqlDatabase",
+        credential:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
+        databaseName: "database3",
+        resourceGroupName: "group3",
+        schemaName: "myschema1234",
+        serverName: "server3",
+        subscriptionId: "3501b905-a848-4b5d-96e8-b253f62d735a",
+        tableName: "mytable5678",
+      },
+      stepId: 1,
+      targetGroup:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a job step. This will implicitly create a new job version.
+ * This sample demonstrates how to creates or updates a job step. This will implicitly create a new job version.
  *
- * @summary Creates or updates a job step. This will implicitly create a new job version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobStepMin.json
+ * @summary creates or updates a job step. This will implicitly create a new job version.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateJobStepMin.json
  */
 async function createOrUpdateAJobStepWithMinimalPropertiesSpecified() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const jobName = "job1";
-  const stepName = "step1";
-  const parameters = {
-    action: { value: "select 1" },
-    credential:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
-    targetGroup:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.jobSteps.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    jobName,
-    stepName,
-    parameters,
+    "group1",
+    "server1",
+    "agent1",
+    "job1",
+    "step1",
+    {
+      action: { value: "select 1" },
+      targetGroup:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
+    },
   );
   console.log(result);
 }

@@ -1,53 +1,67 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of databases.
+ * This sample demonstrates how to gets a list of databases.
  *
- * @summary Gets a list of databases.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesEnclaveTypeByServer.json
+ * @summary gets a list of databases.
+ * x-ms-original-file: 2025-02-01-preview/ListVCoreDatabasesByServer.json
  */
-async function getsAListOfDatabasesConfiguredWithEnclaveType() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
+async function getsAListOfDatabases() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.databases.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.databases.listByServer("Default-SQL-SouthEastAsia", "testsvr")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets a list of databases.
+ * This sample demonstrates how to gets a list of databases.
  *
- * @summary Gets a list of databases.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreDatabasesByServer.json
+ * @summary gets a list of databases.
+ * x-ms-original-file: 2025-02-01-preview/ListVCoreDatabasesByServerWithOdata.json
  */
-async function getsAListOfDatabases() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
+async function getsAListOfDatabasesWithODataFiltering() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.databases.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.databases.listByServer("Default-SQL-SouthEastAsia", "testsvr")) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to gets a list of databases.
+ *
+ * @summary gets a list of databases.
+ * x-ms-original-file: 2025-02-01-preview/ListVCoreDatabasesEnclaveTypeByServer.json
+ */
+async function getsAListOfDatabasesConfiguredWithEnclaveType() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.databases.listByServer("Default-SQL-SouthEastAsia", "testsvr")) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main() {
-  await getsAListOfDatabasesConfiguredWithEnclaveType();
   await getsAListOfDatabases();
+  await getsAListOfDatabasesWithODataFiltering();
+  await getsAListOfDatabasesConfiguredWithEnclaveType();
 }
 
 main().catch(console.error);

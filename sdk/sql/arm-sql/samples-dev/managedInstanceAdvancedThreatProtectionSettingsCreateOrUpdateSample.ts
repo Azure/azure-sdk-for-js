@@ -1,68 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ManagedInstanceAdvancedThreatProtection,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates Advanced Threat Protection settings.
+ * This sample demonstrates how to creates or updates Advanced Threat Protection settings.
  *
- * @summary Creates or updates Advanced Threat Protection settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsCreateMax.json
+ * @summary creates or updates Advanced Threat Protection settings.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceAdvancedThreatProtectionSettingsCreateMax.json
  */
 async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "threatprotection-4799";
-  const managedInstanceName = "threatprotection-6440";
-  const advancedThreatProtectionName = "Default";
-  const parameters: ManagedInstanceAdvancedThreatProtection = {
-    state: "Enabled",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result =
-    await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      advancedThreatProtectionName,
-      parameters,
-    );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.managedInstanceAdvancedThreatProtectionSettings.createOrUpdate(
+    "threatprotection-4799",
+    "threatprotection-6440",
+    "Default",
+    { state: "Enabled" },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates Advanced Threat Protection settings.
+ * This sample demonstrates how to creates or updates Advanced Threat Protection settings.
  *
- * @summary Creates or updates Advanced Threat Protection settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsCreateMin.json
+ * @summary creates or updates Advanced Threat Protection settings.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceAdvancedThreatProtectionSettingsCreateMin.json
  */
 async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "threatprotection-4799";
-  const managedInstanceName = "threatprotection-6440";
-  const advancedThreatProtectionName = "Default";
-  const parameters: ManagedInstanceAdvancedThreatProtection = {
-    state: "Disabled",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result =
-    await client.managedInstanceAdvancedThreatProtectionSettings.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      advancedThreatProtectionName,
-      parameters,
-    );
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  const result = await client.managedInstanceAdvancedThreatProtectionSettings.createOrUpdate(
+    "threatprotection-4799",
+    "threatprotection-6440",
+    "Default",
+    { state: "Disabled" },
+  );
   console.log(result);
 }
 

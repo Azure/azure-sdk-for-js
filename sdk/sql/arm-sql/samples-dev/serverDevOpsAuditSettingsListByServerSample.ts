@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists DevOps audit settings of a server.
+ * This sample demonstrates how to lists DevOps audit settings of a server.
  *
- * @summary Lists DevOps audit settings of a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ServerDevOpsAuditList.json
+ * @summary lists DevOps audit settings of a server.
+ * x-ms-original-file: 2025-02-01-preview/ServerDevOpsAuditList.json
  */
 async function listDevOpsAuditSettingsOfAServer(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "devAuditTestRG";
-  const serverName = "devOpsAuditTestSvr";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.serverDevOpsAuditSettings.listByServer(
-    resourceGroupName,
-    serverName,
+    "devAuditTestRG",
+    "devOpsAuditTestSvr",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

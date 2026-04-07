@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes the database.
+ * This sample demonstrates how to deletes the database.
  *
- * @summary Deletes the database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/DeleteDatabase.json
+ * @summary deletes the database.
+ * x-ms-original-file: 2025-02-01-preview/DeleteDatabase.json
  */
 async function deletesADatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
-  console.log(result);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  await client.databases.delete("Default-SQL-SouthEastAsia", "testsvr", "testdb");
 }
 
 async function main() {

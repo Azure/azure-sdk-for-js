@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of IPv6 firewall rules.
+ * This sample demonstrates how to gets a list of IPv6 firewall rules.
  *
- * @summary Gets a list of IPv6 firewall rules.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/IPv6FirewallRuleList.json
+ * @summary gets a list of IPv6 firewall rules.
+ * x-ms-original-file: 2025-02-01-preview/IPv6FirewallRuleList.json
  */
 async function listIPv6FirewallRules(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "firewallrulecrudtest-12";
-  const serverName = "firewallrulecrudtest-6285";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.iPv6FirewallRules.listByServer(
-    resourceGroupName,
-    serverName,
+    "firewallrulecrudtest-12",
+    "firewallrulecrudtest-6285",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

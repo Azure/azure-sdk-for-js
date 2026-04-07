@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets all private endpoint connections on a server.
+ * This sample demonstrates how to gets all private endpoint connections on a server.
  *
- * @summary Gets all private endpoint connections on a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PrivateEndpointConnectionList.json
+ * @summary gets all private endpoint connections on a server.
+ * x-ms-original-file: 2025-02-01-preview/PrivateEndpointConnectionList.json
  */
 async function getsListOfPrivateEndpointConnectionsOnAServer() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "test-svr";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.privateEndpointConnections.listByServer(
-    resourceGroupName,
-    serverName,
-  )) {
+  for await (const item of client.privateEndpointConnections.listByServer("Default", "test-svr")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

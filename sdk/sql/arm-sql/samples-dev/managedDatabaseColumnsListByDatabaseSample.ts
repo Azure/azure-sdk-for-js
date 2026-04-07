@@ -1,73 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ManagedDatabaseColumnsListByDatabaseOptionalParams,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List managed database columns
+ * This sample demonstrates how to list managed database columns
  *
- * @summary List managed database columns
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedColumnsListByDatabaseMax.json
+ * @summary list managed database columns
+ * x-ms-original-file: 2025-02-01-preview/ManagedColumnsListByDatabaseMax.json
  */
 async function filterManagedDatabaseColumns(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const managedInstanceName = "serverName";
-  const databaseName = "myDatabase";
-  const schema = ["dbo"];
-  const table = ["customer", "address"];
-  const column = ["username"];
-  const orderBy = ["schema asc", "table", "column desc"];
-  const options: ManagedDatabaseColumnsListByDatabaseOptionalParams = {
-    schema,
-    table,
-    column,
-    orderBy,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseColumns.listByDatabase(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    options,
+    "myRG",
+    "serverName",
+    "myDatabase",
+    {
+      schema: ["dbo"],
+      table: ["customer", "address"],
+      column: ["username"],
+      orderBy: ["schema asc", "table", "column desc"],
+    },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List managed database columns
+ * This sample demonstrates how to list managed database columns
  *
- * @summary List managed database columns
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedColumnsListByDatabaseMin.json
+ * @summary list managed database columns
+ * x-ms-original-file: 2025-02-01-preview/ManagedColumnsListByDatabaseMin.json
  */
 async function listManagedDatabaseColumns(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const managedInstanceName = "serverName";
-  const databaseName = "myDatabase";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseColumns.listByDatabase(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
+    "myRG",
+    "serverName",
+    "myDatabase",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

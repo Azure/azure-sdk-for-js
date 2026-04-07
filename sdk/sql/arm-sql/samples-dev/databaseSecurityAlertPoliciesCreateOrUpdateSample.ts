@@ -1,74 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabaseSecurityAlertPolicy,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a database's security alert policy.
+ * This sample demonstrates how to creates or updates a database's security alert policy.
  *
- * @summary Creates or updates a database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSecurityAlertCreateMax.json
+ * @summary creates or updates a database's security alert policy.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseSecurityAlertCreateMax.json
  */
 async function updateADatabaseThreatDetectionPolicyWithAllParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "securityalert-4799";
-  const serverName = "securityalert-6440";
-  const databaseName = "testdb";
-  const securityAlertPolicyName = "Default";
-  const parameters: DatabaseSecurityAlertPolicy = {
-    disabledAlerts: ["Sql_Injection", "Usage_Anomaly"],
-    emailAccountAdmins: true,
-    emailAddresses: ["test@microsoft.com", "user@microsoft.com"],
-    retentionDays: 6,
-    state: "Enabled",
-    storageAccountAccessKey:
-      "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
-    storageEndpoint: "https://mystorage.blob.core.windows.net",
-  };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.databaseSecurityAlertPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    securityAlertPolicyName,
-    parameters,
+    "securityalert-4799",
+    "securityalert-6440",
+    "testdb",
+    "Default",
+    {
+      disabledAlerts: ["Sql_Injection", "Usage_Anomaly"],
+      emailAccountAdmins: true,
+      emailAddresses: ["test@microsoft.com", "user@microsoft.com"],
+      retentionDays: 6,
+      state: "Enabled",
+      storageAccountAccessKey:
+        "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+      storageEndpoint: "https://mystorage.blob.core.windows.net",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database's security alert policy.
+ * This sample demonstrates how to creates or updates a database's security alert policy.
  *
- * @summary Creates or updates a database's security alert policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSecurityAlertCreateMin.json
+ * @summary creates or updates a database's security alert policy.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseSecurityAlertCreateMin.json
  */
 async function updateADatabaseThreatDetectionPolicyWithMinimalParameters(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "securityalert-4799";
-  const serverName = "securityalert-6440";
-  const databaseName = "testdb";
-  const securityAlertPolicyName = "Default";
-  const parameters: DatabaseSecurityAlertPolicy = { state: "Enabled" };
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const result = await client.databaseSecurityAlertPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    securityAlertPolicyName,
-    parameters,
+    "securityalert-4799",
+    "securityalert-6440",
+    "testdb",
+    "Default",
+    { state: "Enabled" },
   );
   console.log(result);
 }

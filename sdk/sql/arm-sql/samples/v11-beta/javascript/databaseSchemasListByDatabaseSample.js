@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to List database schemas
+ * This sample demonstrates how to list database schemas
  *
- * @summary List database schemas
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSchemaListByDatabase.json
+ * @summary list database schemas
+ * x-ms-original-file: 2025-02-01-preview/DatabaseSchemaListByDatabase.json
  */
 async function listDatabaseSchemas() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const serverName = "serverName";
-  const databaseName = "myDatabase";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.databaseSchemas.listByDatabase(
-    resourceGroupName,
-    serverName,
-    databaseName,
+    "myRG",
+    "serverName",
+    "myDatabase",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists the failover groups in a location.
+ * This sample demonstrates how to lists the failover groups in a location.
  *
- * @summary Lists the failover groups in a location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/InstanceFailoverGroupList.json
+ * @summary lists the failover groups in a location.
+ * x-ms-original-file: 2025-02-01-preview/InstanceFailoverGroupList.json
  */
 async function listFailoverGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const locationName = "Japan East";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.instanceFailoverGroups.listByLocation(
-    resourceGroupName,
-    locationName,
-  )) {
+  for await (const item of client.instanceFailoverGroups.listByLocation("Default", "Japan East")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

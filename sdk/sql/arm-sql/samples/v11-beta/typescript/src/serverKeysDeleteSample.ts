@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the server key with the given name.
+ * This sample demonstrates how to deletes the server key with the given name.
  *
- * @summary Deletes the server key with the given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerKeyDelete.json
+ * @summary deletes the server key with the given name.
+ * x-ms-original-file: 2025-02-01-preview/ServerKeyDelete.json
  */
 async function deleteTheServerKey(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const serverName = "sqlcrudtest-4645";
-  const keyName = "someVault_someKey_01234567890123456789012345678901";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverKeys.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    keyName,
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  await client.serverKeys.delete(
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "someVault_someKey_01234567890123456789012345678901",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -1,32 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
+import { SqlClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a private endpoint connection with a given name.
+ * This sample demonstrates how to deletes a private endpoint connection with a given name.
  *
- * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstancePrivateEndpointConnectionDelete.json
+ * @summary deletes a private endpoint connection with a given name.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstancePrivateEndpointConnectionDelete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const managedInstanceName = "test-cl";
-  const privateEndpointConnectionName = "private-endpoint-connection-name";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result =
-    await client.managedInstancePrivateEndpointConnections.beginDeleteAndWait(
-      resourceGroupName,
-      managedInstanceName,
-      privateEndpointConnectionName,
-    );
-  console.log(result);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
+  await client.managedInstancePrivateEndpointConnections.delete(
+    "Default",
+    "test-cl",
+    "private-endpoint-connection-name",
+  );
 }
 
 async function main(): Promise<void> {

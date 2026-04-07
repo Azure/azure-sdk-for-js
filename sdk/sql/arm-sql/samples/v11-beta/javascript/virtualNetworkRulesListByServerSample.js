@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlManagementClient } = require("@azure/arm-sql");
+const { SqlClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of virtual network rules in a server.
+ * This sample demonstrates how to gets a list of virtual network rules in a server.
  *
- * @summary Gets a list of virtual network rules in a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesList.json
+ * @summary gets a list of virtual network rules in a server.
+ * x-ms-original-file: 2025-02-01-preview/VirtualNetworkRulesList.json
  */
 async function listVirtualNetworkRules() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "vnet-test-svr";
   const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.virtualNetworkRules.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.virtualNetworkRules.listByServer("Default", "vnet-test-svr")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
