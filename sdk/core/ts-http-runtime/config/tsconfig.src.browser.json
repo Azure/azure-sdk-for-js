@@ -1,0 +1,4 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "include": ["../src/index.ts", "../src/**/internal.ts"]
+}

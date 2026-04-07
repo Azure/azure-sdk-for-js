@@ -8,6 +8,87 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/types": {
+      "browser": "./src/types-browser.mts",
+      "react-native": "./src/types-react-native.mts",
+      "default": "./src/types.ts"
+    },
+    "#platform/env": {
+      "browser": "./src/env-browser.mts",
+      "react-native": "./src/env-react-native.mts",
+      "default": "./src/env.ts"
+    },
+    "#platform/encoding": {
+      "react-native": "./src/encoding-react-native.mts",
+      "default": "./src/encoding.ts"
+    },
+    "#platform/httpClient": {
+      "browser": "./src/defaultHttpClient-browser.mts",
+      "react-native": "./src/defaultHttpClient-react-native.mts",
+      "default": "./src/defaultHttpClient.ts"
+    },
+    "#platform/formData": {
+      "browser": "./src/formData-web.mts",
+      "react-native": "./src/formData-web.mts",
+      "default": "./src/formData.ts"
+    },
+    "#platform/log": {
+      "browser": "./src/logger/log-web.mts",
+      "react-native": "./src/logger/log-web.mts",
+      "default": "./src/logger/log.ts"
+    },
+    "#platform/decompress": {
+      "browser": "./src/policies/decompressResponsePolicy-web.mts",
+      "react-native": "./src/policies/decompressResponsePolicy-web.mts",
+      "default": "./src/policies/decompressResponsePolicy.ts"
+    },
+    "#platform/proxy": {
+      "browser": "./src/policies/proxyPolicy-web.mts",
+      "react-native": "./src/policies/proxyPolicy-web.mts",
+      "default": "./src/policies/proxyPolicy.ts"
+    },
+    "#platform/bytesEncoding": {
+      "browser": "./src/util/bytesEncoding-web.mts",
+      "react-native": "./src/util/bytesEncoding-web.mts",
+      "default": "./src/util/bytesEncoding.ts"
+    },
+    "#platform/concat": {
+      "browser": "./src/util/concat-browser.mts",
+      "react-native": "./src/util/concat-react-native.mts",
+      "default": "./src/util/concat.ts"
+    },
+    "#platform/inspect": {
+      "browser": "./src/util/inspect-web.mts",
+      "react-native": "./src/util/inspect-web.mts",
+      "default": "./src/util/inspect.ts"
+    },
+    "#platform/sha256": {
+      "browser": "./src/util/sha256-web.mts",
+      "react-native": "./src/util/sha256-web.mts",
+      "default": "./src/util/sha256.ts"
+    },
+    "#platform/userAgent": {
+      "browser": "./src/util/userAgentPlatform-browser.mts",
+      "react-native": "./src/util/userAgentPlatform-react-native.mts",
+      "default": "./src/util/userAgentPlatform.ts"
+    },
+    "#platform/uuid": {
+      "browser": "./src/util/uuidUtils-browser.mts",
+      "react-native": "./src/util/uuidUtils-react-native.mts",
+      "default": "./src/util/uuidUtils.ts"
+    },
+    "#platform/typeGuards": {
+      "browser": "./src/util/typeGuards-browser.mts",
+      "react-native": "./src/util/typeGuards-react-native.mts",
+      "default": "./src/util/typeGuards-node.ts"
+    },
+    "#platform/policies": {
+      "browser": "./src/policies/platformPolicies-web.mts",
+      "react-native": "./src/policies/platformPolicies-web.mts",
+      "default": "./src/policies/platformPolicies.ts"
+    }
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -109,16 +190,17 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf --glob dist temp *.tsbuildinfo coverage test-results.*",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\"  \"*.{js,cjs,mjs,json}\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser && npm run test:react-native",
+    "test:browser": "dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test:react-native": "dev-tool run test:vitest --no-test-proxy --browser -- -c vitest.react-native.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {

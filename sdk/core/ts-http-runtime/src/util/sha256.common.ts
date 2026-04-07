@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { stringToUint8Array, uint8ArrayToString } from "./bytesEncoding.js";
+import { stringToUint8Array, uint8ArrayToString } from "./bytesEncoding.common.js";
 
 // stubs for browser self.crypto
 interface JsonWebKey {}

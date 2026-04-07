@@ -4,15 +4,11 @@
 import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
 import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
-import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
+import type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
-import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";
-import { isNodeLike } from "./util/checkEnvironment.js";
-import { proxyPolicy } from "./policies/proxyPolicy.js";
-import { agentPolicy } from "./policies/agentPolicy.js";
-import { tlsPolicy } from "./policies/tlsPolicy.js";
+import { addPlatformPolicies } from "#platform/policies";
 import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 
 /**
@@ -80,16 +76,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = createEmptyPipeline();
 
-  if (isNodeLike) {
-    if (options.agent) {
-      pipeline.addPolicy(agentPolicy(options.agent));
-    }
-    if (options.tlsOptions) {
-      pipeline.addPolicy(tlsPolicy(options.tlsOptions));
-    }
-    pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-    pipeline.addPolicy(decompressResponsePolicy());
-  }
+  addPlatformPolicies(pipeline, options);
 
   pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -98,11 +85,6 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   // properties (e.g., making the boundary constant in recorded tests).
   pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
-  if (isNodeLike) {
-    // Both XHR and Fetch expect to handle redirects automatically,
-    // so only include this policy when we're in Node.
-    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  }
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Sign" });
 
   return pipeline;

@@ -1,9 +1,6 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default [
-  // React Native test files require a dedicated tsconfig project that will be
-  // added in a follow-up migration PR. Until then, exclude them from linting.
-  { ignores: ["test/**/react-native/**"] },
   ...azsdkEslint.config([
     {
       rules: {
@@ -13,4 +10,13 @@ export default [
       },
     },
   ]),
+  {
+    files: ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: "./config/tsconfig.lint.json",
+      },
+    },
+  },
 ];
