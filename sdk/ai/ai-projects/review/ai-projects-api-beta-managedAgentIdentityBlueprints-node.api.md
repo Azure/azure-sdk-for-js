@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: AIProjectContext, foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams): Promise<void>;
+export function $delete(context: AIProjectContext, blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams): Promise<void>;
 
 // @public
 export interface BetaManagedAgentIdentityBlueprintsDeleteOptionalParams extends OperationOptions {
@@ -25,17 +25,17 @@ export interface BetaManagedAgentIdentityBlueprintsListOptionalParams extends Op
 }
 
 // @public (undocumented)
-export function createOrUpdate(context: AIProjectContext, foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams): Promise<ManagedAgentIdentityBlueprint>;
+export function createOrUpdate(context: AIProjectContext, blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams): Promise<ManagedAgentIdentityBlueprint>;
 
 // @public
 export interface CreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: AIProjectContext, foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams): Promise<ManagedAgentIdentityBlueprint>;
+export function get(context: AIProjectContext, blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams): Promise<ManagedAgentIdentityBlueprint>;
 
 // @public (undocumented)
-export function list(context: AIProjectContext, foundryFeatures: "AgentEndpoints=V1Preview", options?: BetaManagedAgentIdentityBlueprintsListOptionalParams): Promise<PagedManagedAgentIdentityBlueprint>;
+export function list(context: AIProjectContext, options?: BetaManagedAgentIdentityBlueprintsListOptionalParams): Promise<PagedManagedAgentIdentityBlueprint>;
 
 // (No @packageDocumentation comment for this package)
 

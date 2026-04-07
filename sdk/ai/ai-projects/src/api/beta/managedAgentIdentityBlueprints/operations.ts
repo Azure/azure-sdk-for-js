@@ -24,9 +24,9 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 
 export function _listSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   options: BetaManagedAgentIdentityBlueprintsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/managedAgentIdentityBlueprints{?order,limit,api-version}",
     {
@@ -64,19 +64,18 @@ export async function _listDeserialize(
 
 export async function list(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   options: BetaManagedAgentIdentityBlueprintsListOptionalParams = { requestOptions: {} },
 ): Promise<PagedManagedAgentIdentityBlueprint> {
-  const result = await _listSend(context, foundryFeatures, options);
+  const result = await _listSend(context, options);
   return _listDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   options: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
@@ -108,20 +107,19 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /** Deletes a managed agent identity blueprint by name. */
 export async function $delete(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   options: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, foundryFeatures, blueprintName, options);
+  const result = await _$deleteSend(context, blueprintName, options);
   return _$deleteDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   options: BetaManagedAgentIdentityBlueprintsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
@@ -159,21 +157,20 @@ export async function _getDeserialize(
 /** Retrieves a managed agent identity blueprint by name. */
 export async function get(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   options: BetaManagedAgentIdentityBlueprintsGetOptionalParams = { requestOptions: {} },
 ): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _getSend(context, foundryFeatures, blueprintName, options);
+  const result = await _getSend(context, blueprintName, options);
   return _getDeserialize(result);
 }
 
 export function _createOrUpdateSend(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   name: string,
   options: CreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
@@ -212,11 +209,10 @@ export async function _createOrUpdateDeserialize(
 
 export async function createOrUpdate(
   context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
   blueprintName: string,
   name: string,
   options: CreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _createOrUpdateSend(context, foundryFeatures, blueprintName, name, options);
+  const result = await _createOrUpdateSend(context, blueprintName, name, options);
   return _createOrUpdateDeserialize(result);
 }

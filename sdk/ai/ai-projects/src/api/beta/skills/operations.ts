@@ -34,9 +34,9 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _$deleteSend(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{skill_name}{?api-version}",
     {
@@ -75,19 +75,18 @@ export async function _$deleteDeserialize(
 export async function $delete(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteSkillResponse> {
-  const result = await _$deleteSend(context, skillName, foundryFeatures, options);
+  const result = await _$deleteSend(context, skillName, options);
   return _$deleteDeserialize(result);
 }
 
 export function _updateSend(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{skill_name}{?api-version}",
     {
@@ -130,18 +129,17 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 export async function update(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _updateSend(context, skillName, foundryFeatures, options);
+  const result = await _updateSend(context, skillName, options);
   return _updateDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills{?limit,order,after,before,api-version}",
     {
@@ -182,12 +180,11 @@ export async function _listDeserialize(
 /** Returns the list of all skills. */
 export function list(
   context: Client,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SkillObject> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, foundryFeatures, options),
+    () => _listSend(context, options),
     _listDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
@@ -197,9 +194,9 @@ export function list(
 export function _downloadSend(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{skill_name}:download{?api-version}",
     {
@@ -238,10 +235,9 @@ export async function _downloadDeserialize(
 export async function download(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): Promise<BetaSkillsDownloadResponse> {
-  const streamableMethod = _downloadSend(context, skillName, foundryFeatures, options);
+  const streamableMethod = _downloadSend(context, skillName, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadDeserialize(result);
 }
@@ -249,9 +245,9 @@ export async function download(
 export function _getSend(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills/{skill_name}{?api-version}",
     {
@@ -288,19 +284,18 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
 export async function get(
   context: Client,
   skillName: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _getSend(context, skillName, foundryFeatures, options);
+  const result = await _getSend(context, skillName, options);
   return _getDeserialize(result);
 }
 
 export function _createFromPackageSend(
   context: Client,
   body: Uint8Array,
-  foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills:import{?api-version}",
     {
@@ -340,19 +335,18 @@ export async function _createFromPackageDeserialize(
 export async function createFromPackage(
   context: Client,
   body: Uint8Array,
-  foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _createFromPackageSend(context, body, foundryFeatures, options);
+  const result = await _createFromPackageSend(context, body, options);
   return _createFromPackageDeserialize(result);
 }
 
 export function _createSend(
   context: Client,
   name: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
     "/skills{?api-version}",
     {
@@ -395,9 +389,8 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   name: string,
-  foundryFeatures: "Skills=V1Preview",
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _createSend(context, name, foundryFeatures, options);
+  const result = await _createSend(context, name, options);
   return _createDeserialize(result);
 }

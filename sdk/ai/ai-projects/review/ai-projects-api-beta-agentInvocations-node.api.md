@@ -23,16 +23,16 @@ export interface BetaAgentInvocationsGetOptionalParams extends OperationOptions 
 }
 
 // @public
-export function cancel(context: AIProjectContext, agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCancelOptionalParams): Promise<BetaAgentInvocationsCancelResponse>;
+export function cancel(context: AIProjectContext, agentName: string, invocationId: string, options?: BetaAgentInvocationsCancelOptionalParams): Promise<BetaAgentInvocationsCancelResponse>;
 
 // @public
-export function create(context: AIProjectContext, agentName: string, contentType: string, request: unknown, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCreateOptionalParams): Promise<BetaAgentInvocationsCreateResponse>;
+export function create(context: AIProjectContext, agentName: string, contentType: string, request: unknown, options?: BetaAgentInvocationsCreateOptionalParams): Promise<BetaAgentInvocationsCreateResponse>;
 
 // @public
-export function get(context: AIProjectContext, agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsGetOptionalParams): Promise<BetaAgentInvocationsGetResponse>;
+export function get(context: AIProjectContext, agentName: string, invocationId: string, options?: BetaAgentInvocationsGetOptionalParams): Promise<BetaAgentInvocationsGetResponse>;
 
 // @public
-export function getOpenApiSpec(context: AIProjectContext, agentName: string, foundryFeatures: "HostedAgents=V1Preview", options?: GetOpenApiSpecOptionalParams): Promise<Record<string, any>>;
+export function getOpenApiSpec(context: AIProjectContext, agentName: string, options?: GetOpenApiSpecOptionalParams): Promise<Record<string, any>>;
 
 // @public
 export interface GetOpenApiSpecOptionalParams extends OperationOptions {

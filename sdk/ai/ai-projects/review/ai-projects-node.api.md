@@ -497,10 +497,10 @@ export type BetaAgentInvocationsGetResponse = {
 
 // @public
 export interface BetaAgentInvocationsOperations {
-    cancel: (agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCancelOptionalParams) => Promise<BetaAgentInvocationsCancelResponse>;
-    create: (agentName: string, contentType: string, request: unknown, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsCreateOptionalParams) => Promise<BetaAgentInvocationsCreateResponse>;
-    get: (agentName: string, invocationId: string, foundryFeatures: "HostedAgents=V1Preview", options?: BetaAgentInvocationsGetOptionalParams) => Promise<BetaAgentInvocationsGetResponse>;
-    getOpenApiSpec: (agentName: string, foundryFeatures: "HostedAgents=V1Preview", options?: GetOpenApiSpecOptionalParams) => Promise<Record<string, any>>;
+    cancel: (agentName: string, invocationId: string, options?: BetaAgentInvocationsCancelOptionalParams) => Promise<BetaAgentInvocationsCancelResponse>;
+    create: (agentName: string, contentType: string, request: unknown, options?: BetaAgentInvocationsCreateOptionalParams) => Promise<BetaAgentInvocationsCreateResponse>;
+    get: (agentName: string, invocationId: string, options?: BetaAgentInvocationsGetOptionalParams) => Promise<BetaAgentInvocationsGetResponse>;
+    getOpenApiSpec: (agentName: string, options?: GetOpenApiSpecOptionalParams) => Promise<Record<string, any>>;
 }
 
 // @public
@@ -672,11 +672,11 @@ export interface BetaManagedAgentIdentityBlueprintsListOptionalParams extends Op
 // @public
 export interface BetaManagedAgentIdentityBlueprintsOperations {
     // (undocumented)
-    createOrUpdate: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
-    delete: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams) => Promise<void>;
-    get: (foundryFeatures: "AgentEndpoints=V1Preview", blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    createOrUpdate: (blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    delete: (blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams) => Promise<void>;
+    get: (blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
     // (undocumented)
-    list: (foundryFeatures: "AgentEndpoints=V1Preview", options?: BetaManagedAgentIdentityBlueprintsListOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
+    list: (options?: BetaManagedAgentIdentityBlueprintsListOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
 }
 
 // @public
@@ -863,13 +863,13 @@ export interface BetaSkillsListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaSkillsOperations {
-    create: (name: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsCreateOptionalParams) => Promise<SkillObject>;
-    createFromPackage: (body: Uint8Array, foundryFeatures: "Skills=V1Preview", options?: CreateFromPackageOptionalParams) => Promise<SkillObject>;
-    delete: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
-    download: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
-    get: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
-    list: (foundryFeatures: "Skills=V1Preview", options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<SkillObject>;
-    update: (skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsUpdateOptionalParams) => Promise<SkillObject>;
+    create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillObject>;
+    createFromPackage: (body: Uint8Array, options?: CreateFromPackageOptionalParams) => Promise<SkillObject>;
+    delete: (skillName: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+    download: (skillName: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    get: (skillName: string, options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
+    list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<SkillObject>;
+    update: (skillName: string, options?: BetaSkillsUpdateOptionalParams) => Promise<SkillObject>;
 }
 
 // @public

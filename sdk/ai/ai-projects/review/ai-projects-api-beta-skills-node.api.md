@@ -9,7 +9,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export function $delete(context: AIProjectContext, skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDeleteOptionalParams): Promise<DeleteSkillResponse>;
+export function $delete(context: AIProjectContext, skillName: string, options?: BetaSkillsDeleteOptionalParams): Promise<DeleteSkillResponse>;
 
 // @public
 export interface BetaSkillsCreateOptionalParams extends OperationOptions {
@@ -46,26 +46,26 @@ export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function create(context: AIProjectContext, name: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsCreateOptionalParams): Promise<SkillObject>;
+export function create(context: AIProjectContext, name: string, options?: BetaSkillsCreateOptionalParams): Promise<SkillObject>;
 
 // @public
-export function createFromPackage(context: AIProjectContext, body: Uint8Array, foundryFeatures: "Skills=V1Preview", options?: CreateFromPackageOptionalParams): Promise<SkillObject>;
+export function createFromPackage(context: AIProjectContext, body: Uint8Array, options?: CreateFromPackageOptionalParams): Promise<SkillObject>;
 
 // @public
 export interface CreateFromPackageOptionalParams extends OperationOptions {
 }
 
 // @public
-export function download(context: AIProjectContext, skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsDownloadOptionalParams): Promise<BetaSkillsDownloadResponse>;
+export function download(context: AIProjectContext, skillName: string, options?: BetaSkillsDownloadOptionalParams): Promise<BetaSkillsDownloadResponse>;
 
 // @public
-export function get(context: AIProjectContext, skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsGetOptionalParams): Promise<SkillObject>;
+export function get(context: AIProjectContext, skillName: string, options?: BetaSkillsGetOptionalParams): Promise<SkillObject>;
 
 // @public
-export function list(context: AIProjectContext, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsListOptionalParams): PagedAsyncIterableIterator<SkillObject>;
+export function list(context: AIProjectContext, options?: BetaSkillsListOptionalParams): PagedAsyncIterableIterator<SkillObject>;
 
 // @public
-export function update(context: AIProjectContext, skillName: string, foundryFeatures: "Skills=V1Preview", options?: BetaSkillsUpdateOptionalParams): Promise<SkillObject>;
+export function update(context: AIProjectContext, skillName: string, options?: BetaSkillsUpdateOptionalParams): Promise<SkillObject>;
 
 // (No @packageDocumentation comment for this package)
 

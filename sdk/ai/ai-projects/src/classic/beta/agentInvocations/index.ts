@@ -29,7 +29,6 @@ export interface BetaAgentInvocationsOperations {
   cancel: (
     agentName: string,
     invocationId: string,
-    foundryFeatures: "HostedAgents=V1Preview",
     options?: BetaAgentInvocationsCancelOptionalParams,
   ) => Promise<BetaAgentInvocationsCancelResponse>;
   /**
@@ -39,7 +38,6 @@ export interface BetaAgentInvocationsOperations {
   get: (
     agentName: string,
     invocationId: string,
-    foundryFeatures: "HostedAgents=V1Preview",
     options?: BetaAgentInvocationsGetOptionalParams,
   ) => Promise<BetaAgentInvocationsGetResponse>;
   /** Creates an invocation for the specified agent version. */
@@ -47,7 +45,6 @@ export interface BetaAgentInvocationsOperations {
     agentName: string,
     contentType: string,
     request: unknown,
-    foundryFeatures: "HostedAgents=V1Preview",
     options?: BetaAgentInvocationsCreateOptionalParams,
   ) => Promise<BetaAgentInvocationsCreateResponse>;
   /**
@@ -56,7 +53,6 @@ export interface BetaAgentInvocationsOperations {
    */
   getOpenApiSpec: (
     agentName: string,
-    foundryFeatures: "HostedAgents=V1Preview",
     options?: GetOpenApiSpecOptionalParams,
   ) => Promise<Record<string, any>>;
 }
@@ -66,27 +62,21 @@ function _getBetaAgentInvocations(context: AIProjectContext) {
     cancel: (
       agentName: string,
       invocationId: string,
-      foundryFeatures: "HostedAgents=V1Preview",
       options?: BetaAgentInvocationsCancelOptionalParams,
-    ) => cancel(context, agentName, invocationId, foundryFeatures, options),
+    ) => cancel(context, agentName, invocationId, options),
     get: (
       agentName: string,
       invocationId: string,
-      foundryFeatures: "HostedAgents=V1Preview",
       options?: BetaAgentInvocationsGetOptionalParams,
-    ) => get(context, agentName, invocationId, foundryFeatures, options),
+    ) => get(context, agentName, invocationId, options),
     create: (
       agentName: string,
       contentType: string,
       request: unknown,
-      foundryFeatures: "HostedAgents=V1Preview",
       options?: BetaAgentInvocationsCreateOptionalParams,
-    ) => create(context, agentName, contentType, request, foundryFeatures, options),
-    getOpenApiSpec: (
-      agentName: string,
-      foundryFeatures: "HostedAgents=V1Preview",
-      options?: GetOpenApiSpecOptionalParams,
-    ) => getOpenApiSpec(context, agentName, foundryFeatures, options),
+    ) => create(context, agentName, contentType, request, options),
+    getOpenApiSpec: (agentName: string, options?: GetOpenApiSpecOptionalParams) =>
+      getOpenApiSpec(context, agentName, options),
   };
 }
 

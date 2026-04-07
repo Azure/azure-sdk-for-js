@@ -22,23 +22,19 @@ import type {
 /** Interface representing a BetaManagedAgentIdentityBlueprints operations. */
 export interface BetaManagedAgentIdentityBlueprintsOperations {
   list: (
-    foundryFeatures: "AgentEndpoints=V1Preview",
     options?: BetaManagedAgentIdentityBlueprintsListOptionalParams,
   ) => Promise<PagedManagedAgentIdentityBlueprint>;
   /** Deletes a managed agent identity blueprint by name. */
   delete: (
-    foundryFeatures: "AgentEndpoints=V1Preview",
     blueprintName: string,
     options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams,
   ) => Promise<void>;
   /** Retrieves a managed agent identity blueprint by name. */
   get: (
-    foundryFeatures: "AgentEndpoints=V1Preview",
     blueprintName: string,
     options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams,
   ) => Promise<ManagedAgentIdentityBlueprint>;
   createOrUpdate: (
-    foundryFeatures: "AgentEndpoints=V1Preview",
     blueprintName: string,
     name: string,
     options?: CreateOrUpdateOptionalParams,
@@ -47,26 +43,16 @@ export interface BetaManagedAgentIdentityBlueprintsOperations {
 
 function _getBetaManagedAgentIdentityBlueprints(context: AIProjectContext) {
   return {
-    list: (
-      foundryFeatures: "AgentEndpoints=V1Preview",
-      options?: BetaManagedAgentIdentityBlueprintsListOptionalParams,
-    ) => list(context, foundryFeatures, options),
+    list: (options?: BetaManagedAgentIdentityBlueprintsListOptionalParams) =>
+      list(context, options),
     delete: (
-      foundryFeatures: "AgentEndpoints=V1Preview",
       blueprintName: string,
       options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams,
-    ) => $delete(context, foundryFeatures, blueprintName, options),
-    get: (
-      foundryFeatures: "AgentEndpoints=V1Preview",
-      blueprintName: string,
-      options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams,
-    ) => get(context, foundryFeatures, blueprintName, options),
-    createOrUpdate: (
-      foundryFeatures: "AgentEndpoints=V1Preview",
-      blueprintName: string,
-      name: string,
-      options?: CreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, foundryFeatures, blueprintName, name, options),
+    ) => $delete(context, blueprintName, options),
+    get: (blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams) =>
+      get(context, blueprintName, options),
+    createOrUpdate: (blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams) =>
+      createOrUpdate(context, blueprintName, name, options),
   };
 }
 

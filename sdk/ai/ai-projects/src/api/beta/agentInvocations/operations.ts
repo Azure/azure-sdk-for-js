@@ -22,9 +22,9 @@ export function _cancelSend(
   context: Client,
   agentName: string,
   invocationId: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsCancelOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}/cancel{?api-version}",
     {
@@ -70,10 +70,9 @@ export async function cancel(
   context: Client,
   agentName: string,
   invocationId: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsCancelOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentInvocationsCancelResponse> {
-  const result = await _cancelSend(context, agentName, invocationId, foundryFeatures, options);
+  const result = await _cancelSend(context, agentName, invocationId, options);
   return _cancelDeserialize(result);
 }
 
@@ -81,9 +80,9 @@ export function _getSend(
   context: Client,
   agentName: string,
   invocationId: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}{?api-version}",
     {
@@ -127,10 +126,9 @@ export async function get(
   context: Client,
   agentName: string,
   invocationId: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsGetOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentInvocationsGetResponse> {
-  const result = await _getSend(context, agentName, invocationId, foundryFeatures, options);
+  const result = await _getSend(context, agentName, invocationId, options);
   return _getDeserialize(result);
 }
 
@@ -139,9 +137,9 @@ export function _createSend(
   agentName: string,
   contentType: string,
   request: unknown,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/protocols/invocations{?agent_session_id,api-version}",
     {
@@ -185,26 +183,18 @@ export async function create(
   agentName: string,
   contentType: string,
   request: unknown,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: BetaAgentInvocationsCreateOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentInvocationsCreateResponse> {
-  const result = await _createSend(
-    context,
-    agentName,
-    contentType,
-    request,
-    foundryFeatures,
-    options,
-  );
+  const result = await _createSend(context, agentName, contentType, request, options);
   return _createDeserialize(result);
 }
 
 export function _getOpenApiSpecSend(
   context: Client,
   agentName: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: GetOpenApiSpecOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/protocols/invocations/docs/openapi.json{?api-version}",
     {
@@ -246,9 +236,8 @@ export async function _getOpenApiSpecDeserialize(
 export async function getOpenApiSpec(
   context: Client,
   agentName: string,
-  foundryFeatures: "HostedAgents=V1Preview",
   options: GetOpenApiSpecOptionalParams = { requestOptions: {} },
 ): Promise<Record<string, any>> {
-  const result = await _getOpenApiSpecSend(context, agentName, foundryFeatures, options);
+  const result = await _getOpenApiSpecSend(context, agentName, options);
   return _getOpenApiSpecDeserialize(result);
 }
