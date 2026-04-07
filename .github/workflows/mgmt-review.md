@@ -10,6 +10,10 @@ permissions:
   pull-requests: read
   actions: read
 strict: false
+network:
+  allowed:
+    - defaults
+    - node
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
