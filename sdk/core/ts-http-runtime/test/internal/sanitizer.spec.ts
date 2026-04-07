@@ -37,4 +37,25 @@ describe("Sanitizer", function () {
     const result = sanitizer.sanitize(recursive);
     assert.strictEqual(result, expected);
   });
+
+  it("Sanitizes headers even when value is not an object", function () {
+    const sanitizer = new Sanitizer();
+    // When "headers" is a non-object (e.g. a string), it should pass through
+    const result = sanitizer.sanitize({ headers: "not-an-object" });
+    assert.strictEqual(result, `{\n  "headers": "not-an-object"\n}`);
+  });
+
+  it("Sanitizes url even when value is not a string", function () {
+    const sanitizer = new Sanitizer();
+    // When "url" is a non-string (e.g. a number), it should pass through
+    const result = sanitizer.sanitize({ url: 12345 });
+    assert.strictEqual(result, `{\n  "url": 12345\n}`);
+  });
+
+  it("Sanitizes query even when value is not an object", function () {
+    const sanitizer = new Sanitizer();
+    // When "query" is a non-object (e.g. a string), it should pass through
+    const result = sanitizer.sanitize({ query: "not-an-object" });
+    assert.strictEqual(result, `{\n  "query": "not-an-object"\n}`);
+  });
 });
