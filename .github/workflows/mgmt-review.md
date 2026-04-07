@@ -127,7 +127,7 @@ This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEP
 
 1. Merge `origin/main` into the pull request branch.
 2. Check out `origin/main`'s version of `pnpm-lock.yaml`.
-3. Run `pnpm install --no-frozen-lockfile` to regenerate the lockfile.
+3. Run `NPM_CONFIG_REGISTRY=https://registry.npmjs.org pnpm install --no-frozen-lockfile` to regenerate the lockfile.
 4. Commit and push the updated merge result via `push-to-pull-request-branch`. If any step fails, stop and report in the comment with manual guidance.
 
 
