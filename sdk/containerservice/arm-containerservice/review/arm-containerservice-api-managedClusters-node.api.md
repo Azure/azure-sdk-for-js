@@ -28,10 +28,16 @@ export function getAccessProfile(context: ContainerServiceContext, resourceGroup
 export function getCommandResult(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams): Promise<RunCommandResult>;
 
 // @public
+export function getGuardrailsVersions(context: ContainerServiceContext, location: string, version: string, options?: ManagedClustersGetGuardrailsVersionsOptionalParams): Promise<GuardrailsAvailableVersion>;
+
+// @public
 export function getMeshRevisionProfile(context: ContainerServiceContext, location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams): Promise<MeshRevisionProfile>;
 
 // @public
 export function getMeshUpgradeProfile(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams): Promise<MeshUpgradeProfile>;
+
+// @public
+export function getSafeguardsVersions(context: ContainerServiceContext, location: string, version: string, options?: ManagedClustersGetSafeguardsVersionsOptionalParams): Promise<SafeguardsAvailableVersion>;
 
 // @public
 export function getUpgradeProfile(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams): Promise<ManagedClusterUpgradeProfile>;
@@ -52,6 +58,9 @@ export function listClusterMonitoringUserCredentials(context: ContainerServiceCo
 export function listClusterUserCredentials(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, options?: ManagedClustersListClusterUserCredentialsOptionalParams): Promise<CredentialResults>;
 
 // @public
+export function listGuardrailsVersions(context: ContainerServiceContext, location: string, options?: ManagedClustersListGuardrailsVersionsOptionalParams): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
+
+// @public
 export function listKubernetesVersions(context: ContainerServiceContext, location: string, options?: ManagedClustersListKubernetesVersionsOptionalParams): Promise<KubernetesVersionListResult>;
 
 // @public
@@ -62,6 +71,9 @@ export function listMeshUpgradeProfiles(context: ContainerServiceContext, resour
 
 // @public
 export function listOutboundNetworkDependenciesEndpoints(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+
+// @public
+export function listSafeguardsVersions(context: ContainerServiceContext, location: string, options?: ManagedClustersListSafeguardsVersionsOptionalParams): PagedAsyncIterableIterator<SafeguardsAvailableVersion>;
 
 // @public
 export interface ManagedClustersAbortLatestOperationOptionalParams extends OperationOptions {
@@ -78,6 +90,7 @@ export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOp
 // @public
 export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
+    ignorePodDisruptionBudget?: boolean;
     updateIntervalInMs?: number;
 }
 
@@ -90,6 +103,10 @@ export interface ManagedClustersGetCommandResultOptionalParams extends Operation
 }
 
 // @public
+export interface ManagedClustersGetGuardrailsVersionsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ManagedClustersGetMeshRevisionProfileOptionalParams extends OperationOptions {
 }
 
@@ -99,6 +116,10 @@ export interface ManagedClustersGetMeshUpgradeProfileOptionalParams extends Oper
 
 // @public
 export interface ManagedClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedClustersGetSafeguardsVersionsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -126,6 +147,10 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams extends
 }
 
 // @public
+export interface ManagedClustersListGuardrailsVersionsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ManagedClustersListKubernetesVersionsOptionalParams extends OperationOptions {
 }
 
@@ -143,6 +168,15 @@ export interface ManagedClustersListOptionalParams extends OperationOptions {
 
 // @public
 export interface ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedClustersListSafeguardsVersionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedClustersRebalanceLoadBalancersOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -185,6 +219,9 @@ export interface ManagedClustersUpdateTagsOptionalParams extends OperationOption
     ifMatch?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export function rebalanceLoadBalancers(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, parameters: RebalanceLoadBalancersRequestBody, options?: ManagedClustersRebalanceLoadBalancersOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function resetAADProfile(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): PollerLike<OperationState<void>, void>;
