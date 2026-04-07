@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FleetManagedNamespace resources by Fleet
  *
  * @summary list FleetManagedNamespace resources by Fleet
- * x-ms-original-file: 2026-02-01-preview/FleetManagedNamespaces_ListByFleet.json
+ * x-ms-original-file: 2025-08-01-preview/FleetManagedNamespaces_ListByFleet.json
  */
 async function fleetManagedNamespacesListByFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();
