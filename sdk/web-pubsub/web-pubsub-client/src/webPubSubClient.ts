@@ -25,7 +25,7 @@ import type {
   GetClientAccessUrlOptions,
   InvokeEventOptions,
   InvokeEventResult,
-  StreamOptions,
+  StreamToGroupOptions,
   SendStreamDataOptions,
   SendStreamKeepaliveOptions,
   EndStreamOptions,
@@ -679,7 +679,10 @@ export class WebPubSubClient {
    * @param groupName - Target group name.
    * @param options - Stream start options.
    */
-  public async stream(groupName: string, options?: StreamOptions): Promise<StreamPublisher> {
+  public async streamToGroup(
+    groupName: string,
+    options?: StreamToGroupOptions,
+  ): Promise<StreamPublisher> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -1365,7 +1368,7 @@ export class WebPubSubClient {
   private async _sendStreamStart(
     streamId: string,
     groupName: string,
-    options?: StreamOptions,
+    options?: StreamToGroupOptions,
   ): Promise<void> {
     const message: SendToGroupMessage = {
       kind: "sendToGroup",

@@ -410,13 +410,6 @@ export interface StreamNackMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface StreamOptions {
-    idleTimeoutMs?: number;
-    noEcho?: boolean;
-    streamId?: string;
-}
-
-// @public
 export interface StreamPublisher {
     complete(options?: EndStreamOptions): Promise<void>;
     keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
@@ -428,6 +421,13 @@ export interface StreamPublisher {
 // @public
 export interface StreamSubscription {
     close(): void;
+}
+
+// @public
+export interface StreamToGroupOptions {
+    idleTimeoutMs?: number;
+    noEcho?: boolean;
+    streamId?: string;
 }
 
 // @public
@@ -497,7 +497,7 @@ export class WebPubSubClient {
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    stream(groupName: string, options?: StreamOptions): Promise<StreamPublisher>;
+    streamToGroup(groupName: string, options?: StreamToGroupOptions): Promise<StreamPublisher>;
 }
 
 // @public

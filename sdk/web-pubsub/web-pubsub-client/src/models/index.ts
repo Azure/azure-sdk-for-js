@@ -180,9 +180,9 @@ export interface InvokeEventOptions {
 }
 
 /**
- * stream operation options.
+ * streamToGroup operation options.
  */
-export interface StreamOptions {
+export interface StreamToGroupOptions {
   /**
    * Optional stream identifier. If not specified, client will generate one.
    */

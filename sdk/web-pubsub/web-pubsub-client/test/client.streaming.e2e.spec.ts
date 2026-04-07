@@ -314,7 +314,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const socket = await startClientAndConnect(client, wss);
 
     enableAutoStartAck(socket);
-    const stream = await client.stream("g1", { streamId: "publisher-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "publisher-s1" });
     const receivedErrors: Array<{ name: string; message?: string }> = [];
     const streamClosedError = createDeferred<{ name: string; message?: string }>();
     stream.onError((error) => {
@@ -361,7 +361,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(socket);
-    const stream = await client.stream("g1", { streamId: "invalid-ack-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "invalid-ack-s1" });
     const protocolError = createDeferred<{ name: string; message?: string }>();
     stream.onError((error) => {
       protocolError.resolve(error);
@@ -708,7 +708,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const socket = await startClientAndConnect(client, wss);
 
     enableAutoStartAck(socket);
-    const stream = await client.stream("g1", { streamId: "publisher-dispose-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "publisher-dispose-s1" });
     let removedHandlerCalled = false;
     const remove = stream.onError(() => {
       removedHandlerCalled = true;
@@ -793,7 +793,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(socket);
-    const stream = await client.stream("g1", { streamId: "s1", idleTimeoutMs: 15000 });
+    const stream = await client.streamToGroup("g1", { streamId: "s1", idleTimeoutMs: 15000 });
     await stream.publish("chunk-1", "text");
     await stream.keepalive();
     await stream.complete({
@@ -857,7 +857,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(socket);
-    const stream = await client.stream("g1", { streamId: "keepalive-best-effort-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "keepalive-best-effort-s1" });
     await stream.publish("chunk-1", "text");
     await waitForCollectedMessages(sent, 2);
 
@@ -892,7 +892,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(firstSocket);
-    const stream = await client.stream("g1", { streamId: "recovery-replay-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "recovery-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
 
@@ -967,7 +967,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(firstSocket);
-    const stream = await client.stream("g1", { streamId: "restart-replay-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "restart-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
 
@@ -1012,7 +1012,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await expect(stream.publish("after-reconnect", "text")).rejects.toThrow("is completed");
 
     enableAutoStartAck(secondSocket);
-    const fresh = await client.stream("g1", { streamId: "restart-replay-s2" });
+    const fresh = await client.streamToGroup("g1", { streamId: "restart-replay-s2" });
     await fresh.publish("fresh-1", "text");
     await waitForCollectedMessages(secondSent, 2);
     expect(secondSent[0]).toEqual({
@@ -1056,7 +1056,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(firstSocket);
-    const stream = await client.stream("g1", { streamId: "ended-no-replay-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "ended-no-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.complete();
 
@@ -1109,7 +1109,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
 
     enableAutoStartAck(firstSocket);
-    const stream = await client.stream("g1", { streamId: "replay-no-skip-s1" });
+    const stream = await client.streamToGroup("g1", { streamId: "replay-no-skip-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
     await stream.publish("chunk-3", "text");

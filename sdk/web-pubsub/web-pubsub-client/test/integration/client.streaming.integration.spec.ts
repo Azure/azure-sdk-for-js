@@ -11,11 +11,11 @@ async function waitForStreamIdReusable(
   group: string,
   streamId: string,
   timeoutInMs = 5000,
-): Promise<Awaited<ReturnType<WebPubSubClient["stream"]>>> {
+): Promise<Awaited<ReturnType<WebPubSubClient["streamToGroup"]>>> {
   const start = Date.now();
   while (true) {
     try {
-      return await client.stream(group, { streamId });
+      return await client.streamToGroup(group, { streamId });
     } catch (err) {
       if (!(err instanceof Error) || !err.message.includes("already exists")) {
         throw err;
@@ -115,7 +115,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-text-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-text-${ts}` });
     await stream.publish("hello ", "text");
     await stream.publish("world", "text");
     await stream.complete();
@@ -150,7 +150,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-terminal-nodata-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-terminal-nodata-${ts}` });
     await stream.complete();
 
     await expect(
@@ -193,7 +193,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-json-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-json-${ts}` });
     await stream.publish({ index: 1, payload: "A" }, "json");
     await stream.publish({ index: 2, payload: "B" }, "json");
     await stream.complete();
@@ -231,7 +231,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-binary-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-binary-${ts}` });
     await stream.publish(new Uint8Array([9, 8, 7, 6]).buffer, "binary");
     await stream.complete();
 
@@ -266,8 +266,8 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const streamA = await sender.stream(group, { streamId: `sA-${ts}` });
-    const streamB = await sender.stream(group, { streamId: `sB-${ts}` });
+    const streamA = await sender.streamToGroup(group, { streamId: `sA-${ts}` });
+    const streamB = await sender.streamToGroup(group, { streamId: `sB-${ts}` });
 
     await streamA.publish("A1", "text");
     await streamB.publish("B1", "text");
@@ -299,7 +299,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const senderError = createDeferred<{ name: string; message?: string }>();
     await sender.start();
 
-    const stream = await sender.stream(group, {
+    const stream = await sender.streamToGroup(group, {
       streamId: `s-service-expire-${ts}`,
       idleTimeoutMs: 300,
     });
@@ -359,7 +359,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-receiver-expire-start-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-receiver-expire-start-${ts}` });
     await stream.publish("chunk-1", "text");
     await withTimeout(firstMessage.promise, 10000, "Timed out waiting for first stream message.");
 
@@ -426,7 +426,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const original = await sender.stream(group, { streamId });
+    const original = await sender.streamToGroup(group, { streamId });
     await original.publish("old-1", "text");
     await withTimeout(
       firstMessage.promise,
@@ -482,7 +482,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = await sender.stream(group, { streamId: `s-error-${ts}` });
+    const stream = await sender.streamToGroup(group, { streamId: `s-error-${ts}` });
     await stream.complete({
       error: { message: "publisher failed", userErrorCode: "APP_42" },
     });

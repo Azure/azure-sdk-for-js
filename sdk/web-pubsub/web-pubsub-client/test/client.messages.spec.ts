@@ -257,7 +257,7 @@ describe("WebPubSubClient", () => {
       const client = new WebPubSubClient("wss://service.com");
       const mock = mockSendMessageWithAutoStreamStartAck(client);
 
-      const stream = await client.stream("groupName", {
+      const stream = await client.streamToGroup("groupName", {
         streamId: "stream1",
         idleTimeoutMs: 15000,
       });
@@ -304,7 +304,7 @@ describe("WebPubSubClient", () => {
       const client = new WebPubSubClient("wss://service.com");
       const mock = mockSendMessageWithAutoStreamStartAck(client);
 
-      await client.stream("groupName", {
+      await client.streamToGroup("groupName", {
         streamId: "stream-noecho-true",
         noEcho: true,
       });
@@ -324,7 +324,7 @@ describe("WebPubSubClient", () => {
     it("stream publisher generates guid streamId by default", async () => {
       const client = new WebPubSubClient("wss://service.com");
       mockSendMessageWithAutoStreamStartAck(client);
-      const stream = await client.stream("groupName");
+      const stream = await client.streamToGroup("groupName");
 
       expect(stream.streamId).toMatch(
         /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
@@ -334,8 +334,8 @@ describe("WebPubSubClient", () => {
     it("stream publisher throws when streamId is duplicated", async () => {
       const client = new WebPubSubClient("wss://service.com");
       mockSendMessageWithAutoStreamStartAck(client);
-      await client.stream("groupName", { streamId: "stream1" });
-      await expect(client.stream("groupName", { streamId: "stream1" })).rejects.toThrow(
+      await client.streamToGroup("groupName", { streamId: "stream1" });
+      await expect(client.streamToGroup("groupName", { streamId: "stream1" })).rejects.toThrow(
         "Stream 'stream1' already exists.",
       );
     });
@@ -344,7 +344,7 @@ describe("WebPubSubClient", () => {
       const client = new WebPubSubClient("wss://service.com");
       mockSendMessageWithAutoStreamStartAck(client);
 
-      const stream = await client.stream("groupName", { streamId: "stream1" });
+      const stream = await client.streamToGroup("groupName", { streamId: "stream1" });
       await stream.complete();
 
       await expect(stream.publish("chunk-after-end", "text")).rejects.toThrow(
@@ -370,10 +370,10 @@ describe("WebPubSubClient", () => {
           return Promise.resolve();
         });
 
-      await expect(client.stream("groupName", { streamId: "stream1" })).rejects.toThrow(
+      await expect(client.streamToGroup("groupName", { streamId: "stream1" })).rejects.toThrow(
         "start failed",
       );
-      const stream = await client.stream("groupName", { streamId: "stream1" });
+      const stream = await client.streamToGroup("groupName", { streamId: "stream1" });
 
       await expect(stream.publish("second", "text")).resolves.toBeUndefined();
 
