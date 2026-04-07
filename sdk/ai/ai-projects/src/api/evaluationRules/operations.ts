@@ -7,6 +7,7 @@ import {
   evaluationRuleSerializer,
   evaluationRuleDeserializer,
   _pagedEvaluationRuleDeserializer,
+  KnownApiVersions,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -27,7 +28,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/evaluationrules{?api-version,actionType,agentName,enabled}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
       actionType: options?.actionType,
       agentName: options?.agentName,
       enabled: options?.enabled,
@@ -72,7 +73,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "v1",
+      apiVersion: context.apiVersion ?? KnownApiVersions.v1,
       nextPageRequestOptions: {
         headers: {
           ...(options?.foundryFeatures !== undefined
@@ -94,7 +95,7 @@ export function _createOrUpdateSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +146,7 @@ export function _$deleteSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +191,7 @@ export function _getSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

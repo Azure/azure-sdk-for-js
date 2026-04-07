@@ -10,6 +10,7 @@ import type {
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
+  KnownApiVersions,
   skillObjectDeserializer,
   _agentsPagedResultSkillObjectDeserializer,
   deleteSkillResponseDeserializer,
@@ -37,10 +38,10 @@ export function _$deleteSend(
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api%2Dversion}",
+    "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,10 +89,10 @@ export function _updateSend(
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api%2Dversion}",
+    "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,13 +143,13 @@ export function _listSend(
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?limit,order,after,before,api%2Dversion}",
+    "/skills{?limit,order,after,before,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +190,7 @@ export function list(
     () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
   );
 }
 
@@ -200,10 +201,10 @@ export function _downloadSend(
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{skill_name}:download{?api%2Dversion}",
+    "/skills/{skill_name}:download{?api-version}",
     {
       skill_name: skillName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,10 +253,10 @@ export function _getSend(
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{skill_name}{?api%2Dversion}",
+    "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -301,9 +302,9 @@ export function _createFromPackageSend(
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills:import{?api%2Dversion}",
+    "/skills:import{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -353,9 +354,9 @@ export function _createSend(
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?api%2Dversion}",
+    "/skills{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

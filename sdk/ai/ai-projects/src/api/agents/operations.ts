@@ -33,6 +33,7 @@ import {
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
+  KnownApiVersions,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -68,14 +69,14 @@ export function _listSessionsSend(
   options: AgentsListSessionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +119,7 @@ export function listSessions(
     () => _listSessionsSend(context, agentName, options),
     _listSessionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
   );
 }
 
@@ -130,11 +131,11 @@ export function _deleteSessionSend(
   options: AgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,11 +187,11 @@ export function _getSessionSend(
   options: AgentsGetSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,10 +242,10 @@ export function _createSessionSend(
   options: AgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,7 +316,7 @@ export function _createAgentVersionFromCodeSend(
     "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,7 +377,7 @@ export function _patchAgentObjectSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,7 +439,7 @@ export function _listVersionsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -474,7 +475,7 @@ export function listVersions(
     () => _listVersionsSend(context, agentName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
   );
 }
 
@@ -489,7 +490,7 @@ export function _deleteVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -536,7 +537,7 @@ export function _getVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,7 +582,7 @@ export function _createAgentVersionFromManifestSend(
     "/agents/{agent_name}/versions:import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -641,7 +642,7 @@ export function _createVersionSend(
     "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -704,7 +705,7 @@ export function _listSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -739,7 +740,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
   );
 }
 
@@ -752,7 +753,7 @@ export function _deleteSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -798,7 +799,7 @@ export function _updateAgentFromManifestSend(
     "/agents/{agent_name}/import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -861,7 +862,7 @@ export function _createAgentFromManifestSend(
   const path = expandUrlTemplate(
     "/agents:import{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -923,7 +924,7 @@ export function _updateFromCodeSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -983,7 +984,7 @@ export function _updateSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1045,7 +1046,7 @@ export function _createFromCodeSend(
   const path = expandUrlTemplate(
     "/agents{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1106,7 +1107,7 @@ export function _createSend(
   const path = expandUrlTemplate(
     "/agents{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1171,7 +1172,7 @@ export function _getSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

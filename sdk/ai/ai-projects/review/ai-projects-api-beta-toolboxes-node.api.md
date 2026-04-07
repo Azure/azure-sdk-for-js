@@ -9,7 +9,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export function $delete(context: AIProjectContext, toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesDeleteOptionalParams): Promise<void>;
+export function $delete(context: AIProjectContext, toolboxName: string, options?: BetaToolboxesDeleteOptionalParams): Promise<void>;
 
 // @public
 export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {
@@ -32,7 +32,7 @@ export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createVersion(context: AIProjectContext, toolboxName: string, tools: ToolUnion[], foundryFeatures: "Toolboxes=V1Preview", options?: CreateVersionOptionalParams): Promise<ToolboxVersionObject>;
+export function createVersion(context: AIProjectContext, toolboxName: string, tools: ToolUnion[], options?: CreateVersionOptionalParams): Promise<ToolboxVersionObject>;
 
 // @public
 export interface CreateVersionOptionalParams extends OperationOptions {
@@ -42,27 +42,27 @@ export interface CreateVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function deleteVersion(context: AIProjectContext, toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: DeleteVersionOptionalParams): Promise<void>;
+export function deleteVersion(context: AIProjectContext, toolboxName: string, version: string, options?: DeleteVersionOptionalParams): Promise<void>;
 
 // @public
 export interface DeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: AIProjectContext, toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesGetOptionalParams): Promise<ToolboxObject>;
+export function get(context: AIProjectContext, toolboxName: string, options?: BetaToolboxesGetOptionalParams): Promise<ToolboxObject>;
 
 // @public
-export function getVersion(context: AIProjectContext, toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: GetVersionOptionalParams): Promise<ToolboxVersionObject>;
+export function getVersion(context: AIProjectContext, toolboxName: string, version: string, options?: GetVersionOptionalParams): Promise<ToolboxVersionObject>;
 
 // @public
 export interface GetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function list(context: AIProjectContext, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesListOptionalParams): PagedAsyncIterableIterator<ToolboxObject>;
+export function list(context: AIProjectContext, options?: BetaToolboxesListOptionalParams): PagedAsyncIterableIterator<ToolboxObject>;
 
 // @public
-export function listVersions(context: AIProjectContext, toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: ListVersionsOptionalParams): PagedAsyncIterableIterator<ToolboxVersionObject>;
+export function listVersions(context: AIProjectContext, toolboxName: string, options?: ListVersionsOptionalParams): PagedAsyncIterableIterator<ToolboxVersionObject>;
 
 // @public
 export interface ListVersionsOptionalParams extends OperationOptions {
@@ -73,7 +73,7 @@ export interface ListVersionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: AIProjectContext, toolboxName: string, defaultVersion: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesUpdateOptionalParams): Promise<ToolboxObject>;
+export function update(context: AIProjectContext, toolboxName: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams): Promise<ToolboxObject>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -897,14 +897,14 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaToolboxesOperations {
-    createVersion: (toolboxName: string, tools: ToolUnion[], foundryFeatures: "Toolboxes=V1Preview", options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
-    delete: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
-    deleteVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: DeleteVersionOptionalParams) => Promise<void>;
-    get: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
-    getVersion: (toolboxName: string, version: string, foundryFeatures: "Toolboxes=V1Preview", options?: GetVersionOptionalParams) => Promise<ToolboxVersionObject>;
-    list: (foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
-    listVersions: (toolboxName: string, foundryFeatures: "Toolboxes=V1Preview", options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
-    update: (toolboxName: string, defaultVersion: string, foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
+    createVersion: (toolboxName: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
+    deleteVersion: (toolboxName: string, version: string, options?: DeleteVersionOptionalParams) => Promise<void>;
+    get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
+    getVersion: (toolboxName: string, version: string, options?: GetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
+    listVersions: (toolboxName: string, options?: ListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
+    update: (toolboxName: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
 }
 
 // @public

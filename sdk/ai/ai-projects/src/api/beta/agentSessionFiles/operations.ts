@@ -9,6 +9,7 @@ import type {
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
+  KnownApiVersions,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
 } from "../../../models/models.js";
@@ -30,13 +31,13 @@ export function _$deleteSend(
   options: BetaAgentSessionFilesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
       recursive: options?.recursive,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,12 +89,12 @@ export function _listSend(
   options: BetaAgentSessionFilesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,12 +149,12 @@ export function _downloadSend(
   options: BetaAgentSessionFilesDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,12 +207,12 @@ export function _uploadSend(
   options: BetaAgentSessionFilesUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

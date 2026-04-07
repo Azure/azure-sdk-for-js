@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import { apiErrorResponseDeserializer } from "../../../models/models.js";
+import { apiErrorResponseDeserializer, KnownApiVersions } from "../../../models/models.js";
 import type {
   BetaAgentInvocationsCancelResponse,
   BetaAgentInvocationsGetResponse,
@@ -26,11 +26,11 @@ export function _cancelSend(
   options: BetaAgentInvocationsCancelOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}/cancel{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}/cancel{?api-version}",
     {
       agent_name: agentName,
       invocation_id: invocationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,11 +85,11 @@ export function _getSend(
   options: BetaAgentInvocationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/invocations/{invocation_id}{?api-version}",
     {
       agent_name: agentName,
       invocation_id: invocationId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,11 +143,11 @@ export function _createSend(
   options: BetaAgentInvocationsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/invocations{?agent_session_id,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/invocations{?agent_session_id,api-version}",
     {
       agent_name: agentName,
       agent_session_id: options?.agentSessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,10 +206,10 @@ export function _getOpenApiSpecSend(
   options: GetOpenApiSpecOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/invocations/docs/openapi.json{?api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/invocations/docs/openapi.json{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

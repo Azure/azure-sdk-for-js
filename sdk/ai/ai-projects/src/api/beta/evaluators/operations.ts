@@ -16,6 +16,7 @@ import {
   evaluatorCredentialRequestSerializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  KnownApiVersions,
   pendingUploadRequestSerializer,
   pendingUploadResponseDeserializer,
   _pagedEvaluatorVersionDeserializer,
@@ -48,7 +49,7 @@ export function _getCredentialsSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +107,7 @@ export function _startPendingUploadSend(
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

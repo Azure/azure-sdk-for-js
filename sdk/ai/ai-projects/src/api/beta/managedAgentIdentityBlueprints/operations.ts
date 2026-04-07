@@ -8,6 +8,7 @@ import type {
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
+  KnownApiVersions,
   managedAgentIdentityBlueprintDeserializer,
   pagedManagedAgentIdentityBlueprintDeserializer,
 } from "../../../models/models.js";
@@ -27,11 +28,11 @@ export function _listSend(
   options: BetaManagedAgentIdentityBlueprintsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints{?order,limit,api%2Dversion}",
+    "/managedAgentIdentityBlueprints{?order,limit,api-version}",
     {
       order: options?.order,
       limit: options?.limit,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,10 +78,10 @@ export function _$deleteSend(
   options: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,10 +123,10 @@ export function _getSend(
   options: BetaManagedAgentIdentityBlueprintsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,10 +175,10 @@ export function _createOrUpdateSend(
   options: CreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
+    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? KnownApiVersions.v1,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
