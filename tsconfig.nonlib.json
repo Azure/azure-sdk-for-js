@@ -3,7 +3,6 @@
     "target": "ES2023",
     "lib": ["ESNext"],
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "noEmit": true,
     "composite": true
   }

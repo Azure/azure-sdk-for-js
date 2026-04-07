@@ -8,12 +8,9 @@
     "inlineSources": true,
     "sourceMap": true,
     "importHelpers": true,
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true
+    "noFallthroughCasesInSwitch": true
   }
 }

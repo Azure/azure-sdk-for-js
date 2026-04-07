@@ -186,8 +186,8 @@ describe("build (integration)", () => {
     );
 
     // 3 targets with different module formats — all will fail type-checking
-    // due to the type error above. Each forms a distinct group because
-    // groupBySignature includes module/moduleResolution in the signature.
+    // due to the type error above. Each has a distinct optionsSignature because
+    // module/moduleResolution are included in the type-check identity.
     const esmTsconfig = {
       compilerOptions: {
         outDir: "./dist/esm",

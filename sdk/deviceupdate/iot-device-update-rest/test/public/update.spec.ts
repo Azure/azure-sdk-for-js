@@ -35,7 +35,7 @@ describe("update test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("list names", async () => {
@@ -53,7 +53,7 @@ describe("update test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get name not found", async () => {
@@ -80,7 +80,7 @@ describe("update test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get version not found", async () => {
@@ -113,7 +113,7 @@ describe("update test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("get update not found", async () => {
@@ -147,7 +147,7 @@ describe("update test", () => {
       );
     }
 
-    assert.equal("200", response.status);
+    assert.equal(response.status, "200");
   });
 
   it("list files not found", { timeout: 600000 }, async () => {

@@ -12,7 +12,14 @@ import {
   getExportsDiff,
   verifyDistFiles,
 } from "./exports.ts";
-import { readPackageImports, resolveImportsInDir, buildConditionsSet } from "./resolveImports.ts";
+import {
+  readPackageImports,
+  resolveImportsInDir,
+  buildConditionsSet,
+  validateNoDirectImports,
+  resolveSubpathImport,
+} from "./resolveImports.ts";
+import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
@@ -59,7 +66,11 @@ async function resolveStep(
   configPath?: string,
   target?: string[],
   preResolved?: ResolvedWarpConfig,
-): Promise<{ resolved: ResolvedWarpConfig; parsedConfigs: ParsedTargetConfig[] }> {
+): Promise<{
+  resolved: ResolvedWarpConfig;
+  parsedConfigs: ParsedTargetConfig[];
+  importsMap: ImportsMap | undefined;
+}> {
   const log = getLogger();
 
   const found = preResolved ?? (await findWarpConfig(packageRoot, configPath));
@@ -104,6 +115,31 @@ async function resolveStep(
 
   const parsedConfigs = config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
 
+  // Populate resolvedImports so programIdentity can differentiate targets
+  // that resolve #-prefixed imports to different files (e.g., browser vs
+  // react-native mapping #platform/* to different platform variants).
+  // Note: this resolves all keys in package.json "imports", which may
+  // over-differentiate when unused keys differ across targets. If dedup
+  // hit rate becomes a concern, we could filter to only specifiers that
+  // actually appear in the target's source files.
+  const importsMap = await readPackageImports(packageRoot);
+  if (importsMap) {
+    for (const pc of parsedConfigs) {
+      const conditions = buildConditionsSet(
+        pc.parsedConfig.options.customConditions,
+        pc.target.moduleType ?? "module",
+      );
+      const resolved: string[] = [];
+      for (const key of Object.keys(importsMap)) {
+        const target = resolveSubpathImport(key, importsMap, conditions);
+        if (target) {
+          resolved.push(`${key}→${target}`);
+        }
+      }
+      pc.resolvedImports = resolved;
+    }
+  }
+
   log.info("");
   for (const pc of parsedConfigs) {
     const relOut = path.relative(packageRoot, pc.outDir);
@@ -113,7 +149,7 @@ async function resolveStep(
     );
   }
 
-  return { resolved, parsedConfigs };
+  return { resolved, parsedConfigs, importsMap };
 }
 
 /** Step 2: Compile all targets. */
@@ -139,6 +175,7 @@ async function compileStep(
   } else {
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,
+      packageRoot,
     });
   }
 
@@ -213,7 +250,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const packageRoot = path.resolve(cwd);
 
   // Step 1: Resolve config
-  const { resolved, parsedConfigs } = await resolveStep(
+  const { resolved, parsedConfigs, importsMap } = await resolveStep(
     packageRoot,
     options.configPath,
     options.target,
@@ -244,6 +281,34 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     return { success: true, config, totalTimeMs: performance.now() - buildStart };
   }
 
+  // Step 1b: Validate no direct imports bypassing #imports
+  if (importsMap) {
+    const allSourceFiles = new Set<string>();
+    for (const pc of parsedConfigs) {
+      for (const f of pc.parsedConfig.fileNames) allSourceFiles.add(f);
+    }
+    const violations = validateNoDirectImports([...allSourceFiles], importsMap, packageRoot);
+    if (violations.length > 0) {
+      log.error(
+        `\n[warp] Found ${violations.length} direct import(s) bypassing the #imports mechanism:`,
+      );
+      for (const v of violations) {
+        log.error(
+          `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+        );
+      }
+      log.error(
+        `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
+      );
+      log.flush();
+      return {
+        success: false,
+        config,
+        totalTimeMs: performance.now() - buildStart,
+      };
+    }
+  }
+
   // Step 2: Compile
   const { results, compileTimeMs } = await compileStep(parsedConfigs, options, packageRoot);
 
@@ -271,7 +336,6 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   // Step 2b: Resolve #-prefixed imports in output.
   // Automatic: when package.json has an "imports" field, all targets get
   // their #-prefixed specifiers resolved to concrete relative paths.
-  const importsMap = await readPackageImports(packageRoot);
 
   if (importsMap) {
     let hasResolveErrors = false;
