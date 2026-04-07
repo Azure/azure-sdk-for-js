@@ -8330,8 +8330,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       undici:
-        specifier: ^7.1.0
-        version: 7.24.7
+        specifier: ^8.0.2
+        version: 8.0.2
     devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
@@ -37454,9 +37454,9 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha1-aR0ArzkJvpOn+qE75hs6W1DvEss=}
 
-  undici@7.24.7:
-    resolution: {integrity: sha1-r5U1NBu+gGJcpAOgJBhHelxqh2A=}
-    engines: {node: '>=20.18.1'}
+  undici@8.0.2:
+    resolution: {integrity: sha512-B9MeU5wuFhkFAuNeA19K2GDFcQXZxq33fL0nRy2Aq30wdufZbyyvxW3/ChaeipXVfy/wUweZyzovQGk39+9k2w==}
+    engines: {node: '>=22.19.0'}
 
   unicode-emoji-modifier-base@1.0.0:
     resolution: {integrity: sha1-271bVLow8ofiqNWiSdpsDO82lFk=}
@@ -43226,7 +43226,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.24.7: {}
+  undici@8.0.2: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
