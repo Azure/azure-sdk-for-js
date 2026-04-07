@@ -119,11 +119,12 @@ Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-reque
 
 #### 3c. pnpm-lock.yaml merge conflict
 
-This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale/broken lockfile)or if `mergeable_state: dirty` with pnpm-lock.yaml file conflict, attempt to resolve it:
+This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale or broken lockfile) or when `mergeable_state: dirty` indicates a `pnpm-lock.yaml` merge conflict. To resolve it:
 
-1. Taking origin/main's version of pnpm-lock.yaml as the base
-2. Running pnpm install --no-frozen-lockfile to regenerate the lockfile incorporating both main's changes.
-9. Committing the merge as a proper two-parent merge commit via `push-to-pull-request-branch`. If any step fails, stop and report in comment with manual guidance.
+1. Merge `origin/main` into the pull request branch.
+2. Check out `origin/main`'s version of `pnpm-lock.yaml`.
+3. Run `pnpm install --no-frozen-lockfile` to regenerate the lockfile.
+4. Commit and push the updated merge result via `push-to-pull-request-branch`. If any step fails, stop and report in the comment with manual guidance.
 
 
 ### Step 4. Post a comment
