@@ -352,9 +352,6 @@ export type {
   MemoryStoreType,
   KnownApiVersions,
   BetaAgentSessionFilesDownloadResponse,
-  BetaAgentInvocationsCancelResponse,
-  BetaAgentInvocationsGetResponse,
-  BetaAgentInvocationsCreateResponse,
   BetaSkillsDownloadResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
@@ -412,12 +409,6 @@ export type {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
-export type {
-  BetaAgentInvocationsCancelOptionalParams,
-  BetaAgentInvocationsGetOptionalParams,
-  BetaAgentInvocationsCreateOptionalParams,
-  GetOpenApiSpecOptionalParams,
-} from "./api/beta/agentInvocations/index.js";
 export type {
   BetaAgentSessionFilesDeleteOptionalParams,
   BetaAgentSessionFilesListOptionalParams,
@@ -503,7 +494,6 @@ export type {
   DeploymentsOperations,
   EvaluationRulesOperations,
   IndexesOperations,
-  BetaAgentInvocationsOperations,
   BetaAgentSessionFilesOperations,
   TelemetryOperations,
   BetaEvaluationTaxonomiesOperations,

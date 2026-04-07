@@ -350,8 +350,5 @@ export type {
   MemoryStoreType,
   KnownApiVersions,
   BetaAgentSessionFilesDownloadResponse,
-  BetaAgentInvocationsCancelResponse,
-  BetaAgentInvocationsGetResponse,
-  BetaAgentInvocationsCreateResponse,
   BetaSkillsDownloadResponse,
 } from "./models.js";

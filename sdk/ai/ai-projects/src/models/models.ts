@@ -1939,7 +1939,7 @@ export interface FunctionTool extends Tool {
   /** The parameters schema for the function. */
   parameters: Record<string, unknown>;
   /** Whether the function arguments must strictly match the parameters schema. */
-  strict: boolean | null;
+  strict: boolean;
   /** Whether this function is deferred and loaded via tool search. */
   defer_loading?: boolean;
 }
@@ -3601,7 +3601,7 @@ export function reasoningDeserializer(item: any): Reasoning {
  * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
  * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
  */
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -8861,7 +8861,7 @@ export interface ToolboxVersionObject {
    * Keys are strings with a maximum length of 64 characters. Values are strings
    * with a maximum length of 512 characters.
    */
-  metadata: Record<string, string> | null;
+  metadata: Record<string, string>;
   /** The unique identifier of the toolbox version. */
   id: string;
   /** The name of the toolbox. */
@@ -9219,12 +9219,6 @@ export type BetaAgentSessionFilesDownloadResponse = {
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
-
-export type BetaAgentInvocationsCancelResponse = { body: any };
-
-export type BetaAgentInvocationsGetResponse = { body: any };
-
-export type BetaAgentInvocationsCreateResponse = { body: any };
 
 export type BetaSkillsDownloadResponse = {
   /**

@@ -8,8 +8,6 @@ import type { BetaManagedAgentIdentityBlueprintsOperations } from "./managedAgen
 import { _getBetaManagedAgentIdentityBlueprintsOperations } from "./managedAgentIdentityBlueprints/index.js";
 import type { BetaAgentSessionFilesOperations } from "./agentSessionFiles/index.js";
 import { _getBetaAgentSessionFilesOperations } from "./agentSessionFiles/index.js";
-import type { BetaAgentInvocationsOperations } from "./agentInvocations/index.js";
-import { _getBetaAgentInvocationsOperations } from "./agentInvocations/index.js";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import { _getBetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import type { BetaEvaluatorsOperations } from "./evaluators/index.js";
@@ -29,7 +27,6 @@ import { _getBetaToolboxesOperations } from "./toolboxes/index.js";
 export interface BetaOperations {
   managedAgentIdentityBlueprints: BetaManagedAgentIdentityBlueprintsOperations;
   agentSessionFiles: BetaAgentSessionFilesOperations;
-  agentInvocations: BetaAgentInvocationsOperations;
   skills: BetaSkillsOperations;
   toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
@@ -49,7 +46,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
     managedAgentIdentityBlueprints: _getBetaManagedAgentIdentityBlueprintsOperations(context),
     agentSessionFiles: _getBetaAgentSessionFilesOperations(context),
-    agentInvocations: _getBetaAgentInvocationsOperations(context),
     skills: _getBetaSkillsOperations(context),
     toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),

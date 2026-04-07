@@ -286,21 +286,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public (undocumented)
-export type BetaAgentInvocationsCancelResponse = {
-    body: any;
-};
-
-// @public (undocumented)
-export type BetaAgentInvocationsCreateResponse = {
-    body: any;
-};
-
-// @public (undocumented)
-export type BetaAgentInvocationsGetResponse = {
-    body: any;
-};
-
-// @public (undocumented)
 export type BetaAgentSessionFilesDownloadResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
@@ -1029,7 +1014,7 @@ export interface FunctionTool extends Tool {
     description?: string;
     name: string;
     parameters: Record<string, unknown>;
-    strict: boolean | null;
+    strict: boolean;
     type: "function";
 }
 
@@ -1642,7 +1627,7 @@ export interface Reasoning {
 }
 
 // @public
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
 
 // @public
 export interface RecurrenceSchedule {
@@ -1908,7 +1893,7 @@ export interface ToolboxVersionObject {
     created_at: Date;
     description?: string;
     id: string;
-    metadata: Record<string, string> | null;
+    metadata: Record<string, string>;
     name: string;
     policies?: ToolboxPolicies;
     tools: ToolUnion[];

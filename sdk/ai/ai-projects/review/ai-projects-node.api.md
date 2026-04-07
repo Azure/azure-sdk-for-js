@@ -466,44 +466,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
-export interface BetaAgentInvocationsCancelOptionalParams extends OperationOptions {
-    contentType?: string;
-    request?: any;
-}
-
-// @public (undocumented)
-export type BetaAgentInvocationsCancelResponse = {
-    body: any;
-};
-
-// @public
-export interface BetaAgentInvocationsCreateOptionalParams extends OperationOptions {
-    agentSessionId?: string;
-}
-
-// @public (undocumented)
-export type BetaAgentInvocationsCreateResponse = {
-    body: any;
-};
-
-// @public
-export interface BetaAgentInvocationsGetOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export type BetaAgentInvocationsGetResponse = {
-    body: any;
-};
-
-// @public
-export interface BetaAgentInvocationsOperations {
-    cancel: (agentName: string, invocationId: string, options?: BetaAgentInvocationsCancelOptionalParams) => Promise<BetaAgentInvocationsCancelResponse>;
-    create: (agentName: string, contentType: string, request: unknown, options?: BetaAgentInvocationsCreateOptionalParams) => Promise<BetaAgentInvocationsCreateResponse>;
-    get: (agentName: string, invocationId: string, options?: BetaAgentInvocationsGetOptionalParams) => Promise<BetaAgentInvocationsGetResponse>;
-    getOpenApiSpec: (agentName: string, options?: GetOpenApiSpecOptionalParams) => Promise<Record<string, any>>;
-}
-
-// @public
 export interface BetaAgentSessionFilesDeleteOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
     recursive?: boolean;
@@ -745,8 +707,6 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
-    // (undocumented)
-    agentInvocations: BetaAgentInvocationsOperations;
     // (undocumented)
     agentSessionFiles: BetaAgentSessionFilesOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
@@ -1778,7 +1738,7 @@ export interface FunctionTool extends Tool {
     description?: string;
     name: string;
     parameters: Record<string, unknown>;
-    strict: boolean | null;
+    strict: boolean;
     type: "function";
 }
 
@@ -1795,10 +1755,6 @@ export interface FunctionToolParam {
     strict?: boolean;
     // (undocumented)
     type: "function";
-}
-
-// @public
-export interface GetOpenApiSpecOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2440,7 +2396,7 @@ export interface Reasoning {
 }
 
 // @public
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
 
 // @public
 export interface RecurrenceSchedule {
@@ -2714,7 +2670,7 @@ export interface ToolboxVersionObject {
     created_at: Date;
     description?: string;
     id: string;
-    metadata: Record<string, string> | null;
+    metadata: Record<string, string>;
     name: string;
     policies?: ToolboxPolicies;
     tools: ToolUnion[];
