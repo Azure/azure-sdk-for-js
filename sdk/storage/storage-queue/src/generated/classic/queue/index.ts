@@ -4,7 +4,7 @@
 import { QueuesContext } from "../../api/queuesContext.js";
 import {
   deleteMessage,
-  update,
+  updateMessage,
   peekMessages,
   sendMessage,
   clear,
@@ -13,12 +13,12 @@ import {
   getAccessPolicy,
   setMetadata,
   $delete,
-  getMetadata,
+  getProperties,
   create,
 } from "../../api/queue/operations.js";
 import {
   QueueDeleteMessageOptionalParams,
-  QueueUpdateOptionalParams,
+  QueueUpdateMessageOptionalParams,
   QueuePeekMessagesOptionalParams,
   QueueSendMessageOptionalParams,
   QueueClearOptionalParams,
@@ -27,15 +27,15 @@ import {
   QueueGetAccessPolicyOptionalParams,
   QueueSetMetadataOptionalParams,
   QueueDeleteOptionalParams,
-  QueueGetMetadataOptionalParams,
+  QueueGetPropertiesOptionalParams,
   QueueCreateOptionalParams,
 } from "../../api/queue/options.js";
 import {
   SignedIdentifiers,
-  ListOfReceivedMessage,
+  ReceivedMessages,
   QueueMessage,
   ListOfSentMessage,
-  ListOfPeekedMessage,
+  PeekedMessages,
 } from "../../models/azure/storage/queues/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
@@ -64,11 +64,11 @@ export interface QueueOperations {
    * message must be in a format that can be included in an XML request with UTF-8
    * encoding, and the encoded message can be up to 64KB in size.
    */
-  update: (
+  updateMessage: (
     messageId: string,
     popReceipt: string,
     visibilityTimeout: number,
-    options?: QueueUpdateOptionalParams,
+    options?: QueueUpdateMessageOptionalParams,
   ) => Promise<
     {
       popReceipt: string;
@@ -102,9 +102,9 @@ export interface QueueOperations {
       clientRequestId?: string;
       date: Date;
       contentType: "application/xml";
-    } & ListOfPeekedMessage &
+    } & PeekedMessages &
       StorageCompatResponseInfo<
-        ListOfPeekedMessage,
+        PeekedMessages,
         {
           version: string;
           requestId?: string;
@@ -171,9 +171,9 @@ export interface QueueOperations {
       clientRequestId?: string;
       date: Date;
       contentType: "application/xml";
-    } & ListOfReceivedMessage &
+    } & ReceivedMessages &
       StorageCompatResponseInfo<
-        ListOfReceivedMessage,
+        ReceivedMessages,
         {
           version: string;
           requestId?: string;
@@ -185,7 +185,6 @@ export interface QueueOperations {
   >;
   /** sets the permissions for the specified queue. */
   setAccessPolicy: (
-    queueAcl: SignedIdentifiers,
     options?: QueueSetAccessPolicyOptionalParams,
   ) => Promise<
     {
@@ -222,7 +221,6 @@ export interface QueueOperations {
   >;
   /** operation sets one or more user-defined name-value pairs for the specified queue. */
   setMetadata: (
-    metadata: string,
     options?: QueueSetMetadataOptionalParams,
   ) => Promise<
     {
@@ -255,8 +253,8 @@ export interface QueueOperations {
     >
   >;
   /** returns all user-defined metadata and system properties for the specified queue. */
-  getMetadata: (
-    options?: QueueGetMetadataOptionalParams,
+  getProperties: (
+    options?: QueueGetPropertiesOptionalParams,
   ) => Promise<
     {
       approximateMessagesCount?: number;
@@ -275,7 +273,7 @@ export interface QueueOperations {
       }
     >
   >;
-  /** Creates a new queue under the specified account. If the queue with the same name already exists, the operation fails. */
+  /** Creates a new queue under the specified account. If a queue with the same name already exists, the operation succeeds when the metadata is identical and returns 204; if the metadata differs, the operation returns 409. */
   create: (
     options?: QueueCreateOptionalParams,
   ) => Promise<
@@ -298,26 +296,25 @@ function _getQueue(context: QueuesContext) {
       popReceipt: string,
       options?: QueueDeleteMessageOptionalParams,
     ) => deleteMessage(context, messageId, popReceipt, options),
-    update: (
+    updateMessage: (
       messageId: string,
       popReceipt: string,
       visibilityTimeout: number,
-      options?: QueueUpdateOptionalParams,
-    ) => update(context, messageId, popReceipt, visibilityTimeout, options),
+      options?: QueueUpdateMessageOptionalParams,
+    ) => updateMessage(context, messageId, popReceipt, visibilityTimeout, options),
     peekMessages: (options?: QueuePeekMessagesOptionalParams) => peekMessages(context, options),
     sendMessage: (queueMessage: QueueMessage, options?: QueueSendMessageOptionalParams) =>
       sendMessage(context, queueMessage, options),
     clear: (options?: QueueClearOptionalParams) => clear(context, options),
     receiveMessages: (options?: QueueReceiveMessagesOptionalParams) =>
       receiveMessages(context, options),
-    setAccessPolicy: (queueAcl: SignedIdentifiers, options?: QueueSetAccessPolicyOptionalParams) =>
-      setAccessPolicy(context, queueAcl, options),
+    setAccessPolicy: (options?: QueueSetAccessPolicyOptionalParams) =>
+      setAccessPolicy(context, options),
     getAccessPolicy: (options?: QueueGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
-    setMetadata: (metadata: string, options?: QueueSetMetadataOptionalParams) =>
-      setMetadata(context, metadata, options),
+    setMetadata: (options?: QueueSetMetadataOptionalParams) => setMetadata(context, options),
     delete: (options?: QueueDeleteOptionalParams) => $delete(context, options),
-    getMetadata: (options?: QueueGetMetadataOptionalParams) => getMetadata(context, options),
+    getProperties: (options?: QueueGetPropertiesOptionalParams) => getProperties(context, options),
     create: (options?: QueueCreateOptionalParams) => create(context, options),
   };
 }

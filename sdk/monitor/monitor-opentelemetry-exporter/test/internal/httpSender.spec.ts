@@ -11,10 +11,12 @@ import {
 } from "../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, it, assert, afterAll } from "vitest";
 import { delay } from "@azure/core-util";
+import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -55,6 +57,69 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       assert.isDefined(sender);
+    });
+  });
+
+  describe("configuration", () => {
+    const envelope: Envelope = {
+      name: "name",
+      time: new Date(),
+    };
+
+    it("respects a custom endpoint provided through exporter options", async () => {
+      const customEndpoint = "https://custom.example/v2.1";
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          endpoint: customEndpoint,
+        },
+      });
+
+      const customScope = nock(customEndpoint)
+        .post("/track")
+        .reply(200, JSON.stringify(successfulBreezeResponse(1)));
+
+      const { statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      customScope.done();
+    });
+
+    it("applies additional pipeline policies from exporter options", async () => {
+      const policy: PipelinePolicy = {
+        name: "testAdditionalPolicy",
+        async sendRequest(request, next) {
+          request.headers.set("x-test-policy", "applied");
+          return next(request);
+        },
+      };
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          host: "https://custom.policy.example",
+          additionalPolicies: [
+            {
+              policy,
+              position: "perRetry",
+            },
+          ],
+        },
+      });
+
+      const policyScope = nock("https://custom.policy.example")
+        .matchHeader("x-test-policy", "applied")
+        .post("/v2.1/track")
+        .reply(200, JSON.stringify(successfulBreezeResponse(1)));
+
+      const { statusCode } = await sender.send([envelope]);
+
+      assert.strictEqual(statusCode, 200);
+      policyScope.done();
     });
   });
 
@@ -431,7 +496,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
     });
 
@@ -456,7 +522,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
@@ -480,12 +547,14 @@ describe("HttpSender", () => {
       let result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
       result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+        const client = (sender as any)["appInsightsClient"] as any;
+        assert.strictEqual(client["host"], redirectHost);
       }, 1500);
 
       await delay(4000); // wait enough time for timeout callbacks
@@ -551,7 +620,9 @@ describe("HttpSender", () => {
           credential: new TestTokenCredential(),
         },
       });
-      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentialScopes, ["testAudience"]);
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
     });
   });
 
@@ -566,12 +637,181 @@ describe("HttpSender", () => {
             host: "http://www.testproxy.com",
             port: 123,
           },
-        },
+        } as any,
       });
       assert.isDefined(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
         }),
+      );
+    });
+
+    it("propagates proxy options from exporter options", () => {
+      const exporter = new AzureMonitorTraceExporter({
+        connectionString:
+          "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://dc.services.visualstudio.com",
+        proxyOptions: {
+          host: "http://www.testproxy.com",
+          port: 123,
+        },
+      });
+
+      const policies = (exporter as any)["sender"][
+        "appInsightsClient"
+      ].pipeline.getOrderedPolicies();
+
+      assert.isDefined(
+        policies.find((policy: PipelinePolicy) => {
+          return policy.name === "proxyPolicy";
+        }),
+      );
+    });
+  });
+
+  describe("#backward compatibility with ServiceClientOptions", () => {
+    it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: ["https://custom.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should map legacy credentialScopes (string) to credentials.scopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentialScopes: "https://custom.scope/.default",
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://custom.scope/.default"],
+      });
+    });
+
+    it("should prefer credentials.scopes over legacy credentialScopes", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credentials: { scopes: ["https://new.scope/.default"] },
+          credentialScopes: ["https://old.scope/.default"],
+        } as any,
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://new.scope/.default"],
+      });
+    });
+
+    it("should adopt policies from a user-provided pipeline", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "myCustomPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myCustomPolicy"),
+        "Custom policy from user pipeline should be adopted",
+      );
+    });
+
+    it("should not duplicate policies when user pipeline has overlapping names", () => {
+      const customPipeline: Pipeline = createEmptyPipeline();
+      // Add a policy that already exists on the generated client
+      const duplicatePolicy: PipelinePolicy = {
+        name: "userAgentPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      customPipeline.addPolicy(duplicatePolicy);
+
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          pipeline: customPipeline,
+        } as any,
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      const userAgentPolicies = clientPolicies.filter(
+        (p: PipelinePolicy) => p.name === "userAgentPolicy",
+      );
+      assert.strictEqual(
+        userAgentPolicies.length,
+        1,
+        "Should not have duplicated the userAgentPolicy",
+      );
+    });
+
+    it("should set credentials.scopes via aadAudience with credential (new pattern)", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        aadAudience: "testAudience",
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["testAudience"],
+      });
+    });
+
+    it("should set default credentials.scopes when credential present but no aadAudience", () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          credential: new TestTokenCredential(),
+        },
+      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
+        scopes: ["https://monitor.azure.com/.default"],
+      });
+    });
+
+    it("should pass through additionalPolicies", () => {
+      const customPolicy: PipelinePolicy = {
+        name: "myAdditionalPolicy",
+        sendRequest: (req, next) => next(req),
+      };
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          additionalPolicies: [{ policy: customPolicy, position: "perCall" }],
+        },
+      });
+
+      const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
+      assert.isDefined(
+        clientPolicies.find((p: PipelinePolicy) => p.name === "myAdditionalPolicy"),
+        "additionalPolicies should be added to the client pipeline",
       );
     });
   });

@@ -1376,7 +1376,7 @@ export async function findBlobsByTags(
 
 export function _submitBatchSend(
   context: Client,
-  multipartContentType: string,
+  contentType: string,
   contentLength: number,
   body: string,
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
@@ -1394,7 +1394,7 @@ export function _submitBatchSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: multipartContentType,
+      contentType: contentType,
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -1471,7 +1471,7 @@ export function _submitBatchDeserializeExceptionHeaders(result: PathUncheckedRes
 /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
-  multipartContentType: string,
+  contentType: string,
   contentLength: number,
   body: string,
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
@@ -1486,7 +1486,7 @@ export async function submitBatch(
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _submitBatchSend(context, multipartContentType, contentLength, body, {
+  const result = await _submitBatchSend(context, contentType, contentLength, body, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -1732,7 +1732,6 @@ export async function restore(
 
 export function _setAccessPolicySend(
   context: Client,
-  containerAcl: SignedIdentifiers,
   options: ContainerSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1772,7 +1771,9 @@ export function _setAccessPolicySend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: signedIdentifiersXmlSerializer(containerAcl),
+      body: !options["containerAcl"]
+        ? options["containerAcl"]
+        : signedIdentifiersXmlSerializer(options["containerAcl"]),
     });
 }
 
@@ -1847,7 +1848,6 @@ export function _setAccessPolicyDeserializeExceptionHeaders(result: PathUnchecke
 /** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
 export async function setAccessPolicy(
   context: Client,
-  containerAcl: SignedIdentifiers,
   options: ContainerSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -1870,7 +1870,7 @@ export async function setAccessPolicy(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setAccessPolicySend(context, containerAcl, {
+  const result = await _setAccessPolicySend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });

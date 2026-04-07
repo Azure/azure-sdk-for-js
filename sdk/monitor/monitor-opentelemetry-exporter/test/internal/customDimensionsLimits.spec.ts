@@ -2,26 +2,11 @@
 // Licensed under the MIT License.
 
 import { truncateCustomDimensions } from "../../src/utils/common.js";
-import { ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT } from "../../src/Declarations/Constants.js";
+import { CUSTOM_DIMENSIONS_GENAI_KEYS } from "../../src/Declarations/Constants.js";
 import { MaxPropertyLengths } from "../../src/types.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("Custom Dimensions Size Limits", () => {
-  let originalEnvValue: string | undefined;
-
-  beforeEach(() => {
-    originalEnvValue = process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-    delete process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-  });
-
-  afterEach(() => {
-    if (originalEnvValue !== undefined) {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = originalEnvValue;
-    } else {
-      delete process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-    }
-  });
-
   describe("#truncateCustomDimensions", () => {
     it("should return properties unchanged when under 64KB limit", () => {
       const properties: { [key: string]: string } = {
@@ -91,85 +76,58 @@ describe("Custom Dimensions Size Limits", () => {
       assert.strictEqual(result["key2"].length, halfSize);
     });
 
-    it("should not truncate when env var disables the limit", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "true";
+    it("should truncate gen_ai keys at 256KB instead of 64KB", () => {
+      const over64KBValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
+      const over256KBValue = "x".repeat(MaxPropertyLengths.EIGHTEEN_BIT + 1000);
 
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
+      for (const genAiKey of CUSTOM_DIMENSIONS_GENAI_KEYS) {
+        // Value over 64KB but under 256KB should NOT be truncated
+        const smallResult = truncateCustomDimensions({ [genAiKey]: over64KBValue });
+        assert.strictEqual(
+          smallResult[genAiKey],
+          over64KBValue,
+          `Gen AI key '${genAiKey}' under 256KB should not be truncated`,
+        );
 
-      const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-      assert.strictEqual(result["largeKey"].length, largeValue.length);
+        // Value over 256KB SHOULD be truncated
+        const largeResult = truncateCustomDimensions({ [genAiKey]: over256KBValue });
+        assert.isTrue(
+          Buffer.byteLength(largeResult[genAiKey], "utf-8") <= MaxPropertyLengths.EIGHTEEN_BIT,
+          `Gen AI key '${genAiKey}' over 256KB should be truncated to 256KB`,
+        );
+      }
     });
 
-    it("should not truncate when env var is set to TRUE (uppercase)", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "TRUE";
-
+    it("should truncate non-gen_ai keys at 64KB while gen_ai keys use 256KB limit", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
-        largeKey: largeValue,
+        "gen_ai.input.messages": largeValue,
+        regularKey: largeValue,
       };
 
       const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-    });
 
-    it("should not truncate when env var is set to ' true ' (with spaces)", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = " true ";
+      // Gen AI key should be preserved (under 256KB)
+      assert.strictEqual(result["gen_ai.input.messages"], largeValue);
 
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-    });
-
-    it("should truncate when env var is set to 'false'", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "false";
-
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
+      // Non-gen_ai key should be truncated to 64KB
       assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is 'false'",
+        Buffer.byteLength(result["regularKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
+        "Non-gen_ai key should be truncated to 64KB",
       );
     });
 
-    it("should truncate when env var is empty string", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "";
-
+    it("should truncate keys not in the gen_ai list even if they start with gen_ai", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
-        largeKey: largeValue,
+        "gen_ai.other_attribute": largeValue,
       };
 
       const result = truncateCustomDimensions(properties);
       assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is empty string",
-      );
-    });
-
-    it("should truncate when env var is an invalid value", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "yes";
-
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
-      assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is not 'true'",
+        Buffer.byteLength(result["gen_ai.other_attribute"], "utf-8") <=
+          MaxPropertyLengths.SIXTEEN_BIT,
+        "Non-listed gen_ai key should still be truncated",
       );
     });
 
@@ -215,6 +173,10 @@ describe("Custom Dimensions Size Limits", () => {
 
     it("should verify default limit is 64KB", () => {
       assert.strictEqual(MaxPropertyLengths.SIXTEEN_BIT, 64 * 1024);
+    });
+
+    it("should verify gen_ai limit is 256KB", () => {
+      assert.strictEqual(MaxPropertyLengths.EIGHTEEN_BIT, 256 * 1024);
     });
 
     it("should stringify non-string values (number, boolean, object, array)", () => {

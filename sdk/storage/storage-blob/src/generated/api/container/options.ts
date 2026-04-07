@@ -3,6 +3,7 @@
 
 import {
   PublicAccessType,
+  SignedIdentifiers,
   FilterBlobsIncludeItem,
   ListBlobsIncludeItem,
 } from "../../models/azure/storage/blobs/models.js";
@@ -164,6 +165,10 @@ export interface ContainerRestoreOptionalParams extends OperationOptions {
 export interface ContainerSetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The media type of the requestbody */
+  contentType?: "application/xml";
+  /** The access control list for the container. */
+  containerAcl?: SignedIdentifiers;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */

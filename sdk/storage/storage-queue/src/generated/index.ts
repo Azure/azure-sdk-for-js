@@ -12,7 +12,7 @@ export type {
   StorageErrorCode,
   QueueServiceStats,
   GeoReplication,
-  GeoReplicationStatusType,
+  GeoReplicationStatus,
   KeyInfo,
   UserDelegationKey,
   ListQueuesResponse,
@@ -20,12 +20,12 @@ export type {
   SignedIdentifiers,
   SignedIdentifier,
   AccessPolicy,
-  ListOfReceivedMessage,
+  ReceivedMessages,
   ReceivedMessage,
   QueueMessage,
   ListOfSentMessage,
   SentMessage,
-  ListOfPeekedMessage,
+  PeekedMessages,
   PeekedMessage,
   ListQueuesIncludeType,
 } from "./models/azure/storage/queues/index.js";
@@ -33,7 +33,7 @@ export { KnownVersions } from "./models/azure/storage/queues/index.js";
 export type { QueuesClientOptionalParams } from "./api/index.js";
 export type {
   QueueDeleteMessageOptionalParams,
-  QueueUpdateOptionalParams,
+  QueueUpdateMessageOptionalParams,
   QueuePeekMessagesOptionalParams,
   QueueSendMessageOptionalParams,
   QueueClearOptionalParams,
@@ -42,7 +42,7 @@ export type {
   QueueGetAccessPolicyOptionalParams,
   QueueSetMetadataOptionalParams,
   QueueDeleteOptionalParams,
-  QueueGetMetadataOptionalParams,
+  QueueGetPropertiesOptionalParams,
   QueueCreateOptionalParams,
 } from "./api/queue/index.js";
 export type {

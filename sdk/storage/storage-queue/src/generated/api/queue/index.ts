@@ -3,7 +3,7 @@
 
 export {
   deleteMessage,
-  update,
+  updateMessage,
   peekMessages,
   sendMessage,
   clear,
@@ -12,12 +12,12 @@ export {
   getAccessPolicy,
   setMetadata,
   $delete,
-  getMetadata,
+  getProperties,
   create,
 } from "./operations.js";
 export type {
   QueueDeleteMessageOptionalParams,
-  QueueUpdateOptionalParams,
+  QueueUpdateMessageOptionalParams,
   QueuePeekMessagesOptionalParams,
   QueueSendMessageOptionalParams,
   QueueClearOptionalParams,
@@ -26,6 +26,6 @@ export type {
   QueueGetAccessPolicyOptionalParams,
   QueueSetMetadataOptionalParams,
   QueueDeleteOptionalParams,
-  QueueGetMetadataOptionalParams,
+  QueueGetPropertiesOptionalParams,
   QueueCreateOptionalParams,
 } from "./options.js";

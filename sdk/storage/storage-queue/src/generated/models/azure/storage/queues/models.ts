@@ -586,11 +586,7 @@ export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>
   return deserializeXmlObject<CorsRule>(xmlObject, properties);
 }
 
-/**
- * The error response.
- *
- * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
- */
+/** The error response. */
 export interface ErrorModel {
   /** The error code. */
   code?: StorageErrorCode;
@@ -716,7 +712,7 @@ export function queueServiceStatsXmlDeserializer(xmlString: string): QueueServic
 /** Geo-Replication information for the Secondary Storage Service */
 export interface GeoReplication {
   /** The status of the secondary location */
-  status: GeoReplicationStatusType;
+  status: GeoReplicationStatus;
   /** A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
   lastSyncOn: Date;
 }
@@ -767,7 +763,7 @@ export function geoReplicationXmlObjectDeserializer(
 }
 
 /** The geo replication status. */
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatus = "live" | "bootstrap" | "unavailable";
 
 /** Key information for user delegation key */
 export interface KeyInfo {
@@ -1229,18 +1225,18 @@ export function accessPolicyXmlObjectDeserializer(
 }
 
 /** List wrapper for DequeuedMessageItem array */
-export interface ListOfReceivedMessage {
+export interface ReceivedMessages {
   /** The list of dequeued messages. */
   items: ReceivedMessage[];
 }
 
-export function listOfReceivedMessageDeserializer(item: any): ListOfReceivedMessage {
+export function receivedMessagesDeserializer(item: any): ReceivedMessages {
   return {
     items: receivedMessageArrayDeserializer(item["items"]),
   };
 }
 
-export function listOfReceivedMessageXmlDeserializer(xmlString: string): ListOfReceivedMessage {
+export function receivedMessagesXmlDeserializer(xmlString: string): ReceivedMessages {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "items",
@@ -1249,7 +1245,7 @@ export function listOfReceivedMessageXmlDeserializer(xmlString: string): ListOfR
       deserializer: receivedMessageXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<ListOfReceivedMessage>(xmlString, properties, "QueueMessagesList");
+  return deserializeFromXml<ReceivedMessages>(xmlString, properties, "QueueMessagesList");
 }
 
 export function receivedMessageArrayDeserializer(result: Array<ReceivedMessage>): any[] {
@@ -1339,7 +1335,7 @@ export function receivedMessageXmlDeserializer(xmlString: string): ReceivedMessa
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<ReceivedMessage>(xmlString, properties, "ReceivedMessage");
+  return deserializeFromXml<ReceivedMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function receivedMessageXmlObjectDeserializer(
@@ -1502,7 +1498,7 @@ export function sentMessageXmlDeserializer(xmlString: string): SentMessage {
       dateEncoding: "rfc7231",
     },
   ];
-  return deserializeFromXml<SentMessage>(xmlString, properties, "SentMessage");
+  return deserializeFromXml<SentMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unknown>): SentMessage {
@@ -1542,18 +1538,18 @@ export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unkno
 }
 
 /** List wrapper for PeekedMessageItem array */
-export interface ListOfPeekedMessage {
+export interface PeekedMessages {
   /** The list of peeked messages. */
   items: PeekedMessage[];
 }
 
-export function listOfPeekedMessageDeserializer(item: any): ListOfPeekedMessage {
+export function peekedMessagesDeserializer(item: any): PeekedMessages {
   return {
     items: peekedMessageArrayDeserializer(item["items"]),
   };
 }
 
-export function listOfPeekedMessageXmlDeserializer(xmlString: string): ListOfPeekedMessage {
+export function peekedMessagesXmlDeserializer(xmlString: string): PeekedMessages {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "items",
@@ -1562,7 +1558,7 @@ export function listOfPeekedMessageXmlDeserializer(xmlString: string): ListOfPee
       deserializer: peekedMessageXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<ListOfPeekedMessage>(xmlString, properties, "QueueMessagesList");
+  return deserializeFromXml<PeekedMessages>(xmlString, properties, "QueueMessagesList");
 }
 
 export function peekedMessageArrayDeserializer(result: Array<PeekedMessage>): any[] {
@@ -1631,7 +1627,7 @@ export function peekedMessageXmlDeserializer(xmlString: string): PeekedMessage {
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<PeekedMessage>(xmlString, properties, "PeekedMessage");
+  return deserializeFromXml<PeekedMessage>(xmlString, properties, "QueueMessage");
 }
 
 export function peekedMessageXmlObjectDeserializer(

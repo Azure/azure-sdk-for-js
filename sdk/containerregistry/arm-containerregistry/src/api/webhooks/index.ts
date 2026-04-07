@@ -11,13 +11,13 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type WebhooksGetCallbackConfigOptionalParams,
-  type WebhooksListEventsOptionalParams,
-  type WebhooksPingOptionalParams,
-  type WebhooksListOptionalParams,
-  type WebhooksDeleteOptionalParams,
-  type WebhooksUpdateOptionalParams,
-  type WebhooksCreateOptionalParams,
-  type WebhooksGetOptionalParams,
+export type {
+  WebhooksGetCallbackConfigOptionalParams,
+  WebhooksListEventsOptionalParams,
+  WebhooksPingOptionalParams,
+  WebhooksListOptionalParams,
+  WebhooksDeleteOptionalParams,
+  WebhooksUpdateOptionalParams,
+  WebhooksCreateOptionalParams,
+  WebhooksGetOptionalParams,
 } from "./options.js";

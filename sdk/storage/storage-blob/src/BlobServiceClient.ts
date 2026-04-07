@@ -615,7 +615,11 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
+        return assertResponse<
+          ServiceGetPropertiesResponseInternal,
+          ServiceGetPropertiesHeaders,
+          BlobServiceProperties
+        >(
           adjustResponse(
             await this.serviceContext.getProperties({
               abortSignal: options.abortSignal,
@@ -1204,7 +1208,6 @@ export class BlobServiceClient extends StorageClient {
             },
             {
               abortSignal: getUserDelegationKeyOptions.abortSignal,
-              ...updatedOptions, // TODO: (jeremymeng) why this?
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),

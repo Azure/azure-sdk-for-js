@@ -62,7 +62,7 @@ export interface ServiceOperations {
   >;
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
-    multipartContentType: string,
+    contentType: string,
     contentLength: number,
     body: string,
     options?: ServiceSubmitBatchOptionalParams,
@@ -222,11 +222,11 @@ function _getService(context: BlobContext) {
     findBlobsByTags: (filterExpression: string, options?: ServiceFindBlobsByTagsOptionalParams) =>
       findBlobsByTags(context, filterExpression, options),
     submitBatch: (
-      multipartContentType: string,
+      contentType: string,
       contentLength: number,
       body: string,
       options?: ServiceSubmitBatchOptionalParams,
-    ) => submitBatch(context, multipartContentType, contentLength, body, options),
+    ) => submitBatch(context, contentType, contentLength, body, options),
     getAccountInfo: (options?: ServiceGetAccountInfoOptionalParams) =>
       getAccountInfo(context, options),
     getUserDelegationKey: (keyInfo: KeyInfo, options?: ServiceGetUserDelegationKeyOptionalParams) =>

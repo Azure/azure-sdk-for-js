@@ -321,23 +321,16 @@ export interface RetentionPolicy {
   enabled: boolean;
   /** The number of days to retain the logs. */
   days?: number;
-  /** Whether to allow permanent delete. */
-  allowPermanentDelete?: boolean;
 }
 
 export function retentionPolicySerializer(item: RetentionPolicy): any {
-  return {
-    enabled: item["enabled"],
-    days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { enabled: item["enabled"], days: item["days"] };
 }
 
 export function retentionPolicyDeserializer(item: any): RetentionPolicy {
   return {
     enabled: item["enabled"],
     days: item["days"],
-    allowPermanentDelete: item["allowPermanentDelete"],
   };
 }
 
@@ -345,11 +338,6 @@ export function retentionPolicyXmlSerializer(item: RetentionPolicy): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
     { propertyName: "days", xmlOptions: { name: "Days" }, type: "primitive" },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-    },
   ];
   return serializeToXml(item, properties, "RetentionPolicy");
 }
@@ -368,22 +356,12 @@ export function retentionPolicyXmlDeserializer(xmlString: string): RetentionPoli
       type: "primitive",
       primitiveSubtype: "number",
     },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
   ];
   return deserializeFromXml<RetentionPolicy>(xmlString, properties, "RetentionPolicy");
 }
 
 export function retentionPolicyXmlObjectSerializer(item: RetentionPolicy): XmlSerializedObject {
-  return {
-    Enabled: item["enabled"],
-    Days: item["days"],
-    AllowPermanentDelete: item["allowPermanentDelete"],
-  };
+  return { Enabled: item["enabled"], Days: item["days"] };
 }
 
 export function retentionPolicyXmlObjectDeserializer(
@@ -401,12 +379,6 @@ export function retentionPolicyXmlObjectDeserializer(
       xmlOptions: { name: "Days" },
       type: "primitive",
       primitiveSubtype: "number",
-    },
-    {
-      propertyName: "allowPermanentDelete",
-      xmlOptions: { name: "AllowPermanentDelete" },
-      type: "primitive",
-      primitiveSubtype: "boolean",
     },
   ];
   return deserializeXmlObject<RetentionPolicy>(xmlObject, properties);
@@ -875,6 +847,7 @@ export type StorageErrorCode =
   | "ConditionHeadersNotSupported"
   | "ConditionNotMet"
   | "EmptyMetadataKey"
+  | "IncrementalCopyOfEarlierSnapshotNotAllowed"
   | "InsufficientAccountPermissions"
   | "InternalError"
   | "InvalidAuthenticationInfo"
@@ -886,6 +859,7 @@ export type StorageErrorCode =
   | "InvalidQueryParameterValue"
   | "InvalidRange"
   | "InvalidRequestUrl"
+  | "InvalidResourceName"
   | "InvalidUri"
   | "InvalidXmlDocument"
   | "InvalidXmlNodeValue"
@@ -896,6 +870,7 @@ export type StorageErrorCode =
   | "MissingRequiredHeader"
   | "MissingRequiredQueryParameter"
   | "MultipleConditionHeadersNotSupported"
+  | "NoAuthenticationInformation"
   | "OperationTimedOut"
   | "OutOfRangeInput"
   | "OutOfRangeQueryParameterValue"
@@ -1277,10 +1252,10 @@ export function containerPropertiesDeserializer(item: any): ContainerProperties 
     hasImmutabilityPolicy: item["hasImmutabilityPolicy"],
     hasLegalHold: item["hasLegalHold"],
     defaultEncryptionScope: item["defaultEncryptionScope"],
-    preventEncryptionScopeOverride: item["PreventEncryptionScopeOverride"],
+    preventEncryptionScopeOverride: item["preventEncryptionScopeOverride"],
     deletedOn: !item["deletedOn"] ? item["deletedOn"] : new Date(item["deletedOn"]),
     remainingRetentionDays: item["remainingRetentionDays"],
-    isImmutableStorageWithVersioningEnabled: item["IsImmutableStorageWithVersioningEnabled"],
+    isImmutableStorageWithVersioningEnabled: item["isImmutableStorageWithVersioningEnabled"],
   };
 }
 
@@ -1943,17 +1918,24 @@ export interface SignedIdentifier {
   /** The unique ID for the signed identifier. */
   id: string;
   /** The access policy for the signed identifier. */
-  accessPolicy: AccessPolicy;
+  accessPolicy?: AccessPolicy;
 }
 
 export function signedIdentifierSerializer(item: SignedIdentifier): any {
-  return { id: item["id"], accessPolicy: accessPolicySerializer(item["accessPolicy"]) };
+  return {
+    id: item["id"],
+    accessPolicy: !item["accessPolicy"]
+      ? item["accessPolicy"]
+      : accessPolicySerializer(item["accessPolicy"]),
+  };
 }
 
 export function signedIdentifierDeserializer(item: any): SignedIdentifier {
   return {
     id: item["id"],
-    accessPolicy: accessPolicyDeserializer(item["accessPolicy"]),
+    accessPolicy: !item["accessPolicy"]
+      ? item["accessPolicy"]
+      : accessPolicyDeserializer(item["accessPolicy"]),
   };
 }
 
@@ -2021,11 +2003,11 @@ export function signedIdentifierXmlObjectDeserializer(
 /** Represents an access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
-  startsOn: string;
+  startsOn?: string;
   /** The date-time the policy expires. */
-  expiresOn: string;
+  expiresOn?: string;
   /** The permissions for acl the policy. */
-  permissions: string;
+  permissions?: string;
 }
 
 export function accessPolicySerializer(item: AccessPolicy): any {
@@ -2580,15 +2562,15 @@ export function blobPropertiesDeserializer(item: any): BlobProperties {
       ? item["accessTierChangedOn"]
       : new Date(item["accessTierChangedOn"]),
     tagCount: item["tagCount"],
-    expiresOn: !item["ExpiresOn"] ? item["ExpiresOn"] : new Date(item["ExpiresOn"]),
-    isSealed: item["IsSealed"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    isSealed: item["isSealed"],
     rehydratePriority: item["rehydratePriority"],
-    lastAccessedOn: !item["LastAccessedOn"]
-      ? item["LastAccessedOn"]
-      : new Date(item["LastAccessedOn"]),
-    immutabilityPolicyExpiresOn: !item["ImmutabilityPolicyExpiresOn"]
-      ? item["ImmutabilityPolicyExpiresOn"]
-      : new Date(item["ImmutabilityPolicyExpiresOn"]),
+    lastAccessedOn: !item["lastAccessedOn"]
+      ? item["lastAccessedOn"]
+      : new Date(item["lastAccessedOn"]),
+    immutabilityPolicyExpiresOn: !item["immutabilityPolicyExpiresOn"]
+      ? item["immutabilityPolicyExpiresOn"]
+      : new Date(item["immutabilityPolicyExpiresOn"]),
     immutabilityPolicyMode: item["immutabilityPolicyMode"],
     legalHold: item["legalHold"],
   };
@@ -3681,7 +3663,7 @@ export function queryFormatXmlSerializer(item: QueryFormat): string {
     },
     {
       propertyName: "parquetTextConfiguration",
-      xmlOptions: { name: "ParquetConfiguration" },
+      xmlOptions: { name: "ParquetTextConfiguration" },
       type: "object",
       serializer: parquetConfigurationXmlObjectSerializer,
     },
@@ -3704,7 +3686,7 @@ export function queryFormatXmlObjectSerializer(item: QueryFormat): XmlSerialized
       item["arrowConfiguration"] !== undefined
         ? arrowConfigurationXmlObjectSerializer(item["arrowConfiguration"])
         : undefined,
-    ParquetConfiguration:
+    ParquetTextConfiguration:
       item["parquetTextConfiguration"] !== undefined
         ? parquetConfigurationXmlObjectSerializer(item["parquetTextConfiguration"])
         : undefined,

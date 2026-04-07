@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Tags } from "./index.js";
-import type { BlobPropertiesInternal as BlobProperties } from "./generated-classic-models.js";
+import type {
+  BlobPropertiesInternal as BlobProperties,
+  BlobServiceProperties,
+} from "./generated-classic-models.js";
 import type { NodeJSReadableStream } from "@azure/storage-common";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -328,7 +331,8 @@ export type ServiceGetAccountInfoResponse = WithResponse<
 /** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = WithResponse<
   ServiceGetPropertiesResponseInternal,
-  ServiceGetPropertiesHeaders
+  ServiceGetPropertiesHeaders,
+  BlobServiceProperties
 >;
 /** Contains response data for the getStatistics operation. */
 export type ServiceGetStatisticsResponse = WithResponse<

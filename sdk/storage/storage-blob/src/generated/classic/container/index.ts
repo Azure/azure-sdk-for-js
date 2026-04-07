@@ -282,7 +282,7 @@ export interface ContainerOperations {
   >;
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
-    multipartContentType: string,
+    contentType: string,
     contentLength: number,
     body: string,
     options?: ContainerSubmitBatchOptionalParams,
@@ -327,7 +327,6 @@ export interface ContainerOperations {
   >;
   /** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
   setAccessPolicy: (
-    containerAcl: SignedIdentifiers,
     options?: ContainerSetAccessPolicyOptionalParams,
   ) => Promise<
     {
@@ -509,18 +508,16 @@ function _getContainer(context: BlobContext) {
     findBlobsByTags: (filterExpression: string, options?: ContainerFindBlobsByTagsOptionalParams) =>
       findBlobsByTags(context, filterExpression, options),
     submitBatch: (
-      multipartContentType: string,
+      contentType: string,
       contentLength: number,
       body: string,
       options?: ContainerSubmitBatchOptionalParams,
-    ) => submitBatch(context, multipartContentType, contentLength, body, options),
+    ) => submitBatch(context, contentType, contentLength, body, options),
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>
       rename(context, sourceContainerName, options),
     restore: (options?: ContainerRestoreOptionalParams) => restore(context, options),
-    setAccessPolicy: (
-      containerAcl: SignedIdentifiers,
-      options?: ContainerSetAccessPolicyOptionalParams,
-    ) => setAccessPolicy(context, containerAcl, options),
+    setAccessPolicy: (options?: ContainerSetAccessPolicyOptionalParams) =>
+      setAccessPolicy(context, options),
     getAccessPolicy: (options?: ContainerGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
     setMetadata: (options?: ContainerSetMetadataOptionalParams) => setMetadata(context, options),

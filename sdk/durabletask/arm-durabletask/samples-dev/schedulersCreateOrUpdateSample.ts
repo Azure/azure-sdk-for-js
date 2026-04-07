@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Scheduler
  *
  * @summary create or update a Scheduler
- * x-ms-original-file: 2025-11-01/Schedulers_CreateOrUpdate.json
+ * x-ms-original-file: 2026-02-01/Schedulers_CreateOrUpdate.json
  */
 async function schedulersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

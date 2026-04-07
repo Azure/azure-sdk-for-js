@@ -89,7 +89,7 @@ describe("BlockBlobClient", () => {
       },
     };
     await blockBlobClient.upload(body, body.length, {
-      blobHTTPHeaders: { ...options },
+      blobHTTPHeaders: options,
       metadata: options.metadata,
       tier: BlockBlobTier.Cool,
     });
@@ -226,7 +226,7 @@ describe("BlockBlobClient", () => {
       },
     };
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
-      blobHTTPHeaders: { ...options },
+      blobHTTPHeaders: options,
       metadata: options.metadata,
       tier: BlockBlobTier.Cool,
     });
@@ -336,7 +336,7 @@ describe("BlockBlobClient", () => {
       },
     };
     const uResp = await blockBlobClient.upload(body, body.length, {
-      blobHTTPHeaders: { ...options },
+      blobHTTPHeaders: options,
       metadata: options.metadata,
       customerProvidedKey: Test_CPK_INFO,
     });

@@ -1,8 +1,10 @@
 # Release History
 
-## 2.3.3 (Unreleased)
+## 2.4.0 (Unreleased)
 
 ### Features Added
+
+export `toCompatResponse`
 
 ### Breaking Changes
 

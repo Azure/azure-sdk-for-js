@@ -1,15 +1,15 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-kubernetesconfiguration-extensions client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-kubernetesconfiguration-extensions in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [extensionsCreateSample.ts][extensionscreatesample]     | Create a new Kubernetes Cluster Extension. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/CreateExtension.json                                                                    |
-| [extensionsDeleteSample.ts][extensionsdeletesample]     | Delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/DeleteExtension.json |
-| [extensionsGetSample.ts][extensionsgetsample]           | Gets Kubernetes Cluster Extension. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/GetExtension.json                                                                               |
-| [extensionsListSample.ts][extensionslistsample]         | List all Extensions in the cluster. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/ListExtensions.json                                                                            |
-| [extensionsUpdateSample.ts][extensionsupdatesample]     | Patch an existing Kubernetes Cluster Extension. x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/PatchExtension.json                                                                |
-| [operationStatusGetSample.ts][operationstatusgetsample] | Get Async Operation status x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/GetExtensionAsyncOperationStatus.json                                                                   |
+| **File Name**                                           | **Description**                                                                                                                                                   |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [extensionsCreateSample.ts][extensionscreatesample]     | create a new Kubernetes Cluster Extension. x-ms-original-file: 2024-11-01/CreateExtension.json                                                                    |
+| [extensionsDeleteSample.ts][extensionsdeletesample]     | delete a Kubernetes Cluster Extension. This will cause the Agent to Uninstall the extension from the cluster. x-ms-original-file: 2024-11-01/DeleteExtension.json |
+| [extensionsGetSample.ts][extensionsgetsample]           | gets Kubernetes Cluster Extension. x-ms-original-file: 2024-11-01/GetExtension.json                                                                               |
+| [extensionsListSample.ts][extensionslistsample]         | list all Extensions in the cluster. x-ms-original-file: 2024-11-01/ListExtensions.json                                                                            |
+| [extensionsUpdateSample.ts][extensionsupdatesample]     | patch an existing Kubernetes Cluster Extension. x-ms-original-file: 2024-11-01/PatchExtension.json                                                                |
+| [operationStatusGetSample.ts][operationstatusgetsample] | get Async Operation status x-ms-original-file: 2024-11-01/GetExtensionAsyncOperationStatus.json                                                                   |
 
 ## Prerequisites
 
@@ -51,10 +51,10 @@ npm run build
 node dist/extensionsCreateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KUBERNETESCONFIGURATION_SUBSCRIPTION_ID="<kubernetesconfiguration subscription id>" KUBERNETESCONFIGURATION_RESOURCE_GROUP="<kubernetesconfiguration resource group>" node dist/extensionsCreateSample.js
+node dist/extensionsCreateSample.js
 ```
 
 ## Next Steps
