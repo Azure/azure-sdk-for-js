@@ -10,7 +10,8 @@ import type {
   IndexingSchedule,
   KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
-  KnowledgeSourceSynchronizationStatus} from "../indexes/models.js";
+  KnowledgeSourceSynchronizationStatus,
+} from "../indexes/models.js";
 import {
   searchIndexerDataIdentityUnionSerializer,
   searchIndexerDataIdentityUnionDeserializer,
@@ -19,7 +20,7 @@ import {
   knowledgeBaseModelUnionSerializer,
   knowledgeBaseModelUnionDeserializer,
   indexingScheduleSerializer,
-  indexingScheduleDeserializer
+  indexingScheduleDeserializer,
 } from "../indexes/models.js";
 
 /**

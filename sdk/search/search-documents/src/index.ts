@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 export { AzureKeyCredential } from "@azure/core-auth";
-export type { PagedAsyncIterableIterator, PageSettings, ContinuablePage } from "./static-helpers/pagingHelpers.js";
+export type {
+  PagedAsyncIterableIterator,
+  PageSettings,
+  ContinuablePage,
+} from "./static-helpers/pagingHelpers.js";
 export {
   type AutocompleteItem,
   type AutocompleteMode,

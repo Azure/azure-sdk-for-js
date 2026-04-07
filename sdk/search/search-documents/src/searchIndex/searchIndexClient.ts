@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SearchIndexContext,
-  SearchIndexClientOptionalParams} from "./api/index.js";
-import {
-  createSearchIndex,
-} from "./api/index.js";
+import type { SearchIndexContext, SearchIndexClientOptionalParams } from "./api/index.js";
+import { createSearchIndex } from "./api/index.js";
 import type {
   SynonymMap,
   ListSynonymMapsResult,

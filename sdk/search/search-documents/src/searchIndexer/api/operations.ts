@@ -9,7 +9,8 @@ import type {
   ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
-  ListSkillsetsResult} from "../../models/azure/search/documents/indexes/models.js";
+  ListSkillsetsResult,
+} from "../../models/azure/search/documents/indexes/models.js";
 import {
   searchIndexerDataSourceConnectionSerializer,
   searchIndexerDataSourceConnectionDeserializer,
@@ -44,13 +45,8 @@ import type {
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createSkillsetSend(
   context: Client,

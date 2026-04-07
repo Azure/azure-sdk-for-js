@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SearchIndexerContext,
-  SearchIndexerClientOptionalParams} from "./api/index.js";
-import {
-  createSearchIndexer,
-} from "./api/index.js";
+import type { SearchIndexerContext, SearchIndexerClientOptionalParams } from "./api/index.js";
+import { createSearchIndexer } from "./api/index.js";
 import type {
   SearchIndexerDataSourceConnection,
   ListDataSourcesResult,

@@ -8,7 +8,8 @@ import type {
   SuggestDocumentsResult,
   IndexDocumentsBatch,
   IndexDocumentsResult,
-  AutocompleteResult} from "../../models/azure/search/documents/models.js";
+  AutocompleteResult,
+} from "../../models/azure/search/documents/models.js";
 import {
   errorResponseDeserializer,
   searchDocumentsResultDeserializer,
@@ -32,13 +33,8 @@ import type {
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _autocompletePostSend(
   context: Client,

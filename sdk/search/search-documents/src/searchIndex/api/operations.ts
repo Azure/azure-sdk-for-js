@@ -17,7 +17,8 @@ import type {
   _ListKnowledgeBasesResult,
   KnowledgeSourceUnion,
   _ListKnowledgeSourcesResult,
-  SearchServiceStatistics} from "../../models/azure/search/documents/indexes/models.js";
+  SearchServiceStatistics,
+} from "../../models/azure/search/documents/indexes/models.js";
 import {
   synonymMapSerializer,
   synonymMapDeserializer,
@@ -39,22 +40,13 @@ import {
   _listKnowledgeSourcesResultDeserializer,
   searchServiceStatisticsDeserializer,
 } from "../../models/azure/search/documents/indexes/models.js";
-import type {
-  KnowledgeSourceStatus} from "../../models/azure/search/documents/knowledgeBases/models.js";
-import {
-  knowledgeSourceStatusDeserializer,
-} from "../../models/azure/search/documents/knowledgeBases/models.js";
+import type { KnowledgeSourceStatus } from "../../models/azure/search/documents/knowledgeBases/models.js";
+import { knowledgeSourceStatusDeserializer } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import type {
-  _ListIndexesSelectedResult} from "../../models/models.js";
-import {
-  _listIndexesSelectedResultDeserializer,
-} from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { _ListIndexesSelectedResult } from "../../models/models.js";
+import { _listIndexesSelectedResultDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   GetServiceStatisticsOptionalParams,
@@ -88,13 +80,8 @@ import type {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getServiceStatisticsSend(
   context: Client,

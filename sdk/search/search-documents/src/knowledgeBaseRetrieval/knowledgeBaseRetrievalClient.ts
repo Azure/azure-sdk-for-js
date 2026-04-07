@@ -3,10 +3,9 @@
 
 import type {
   KnowledgeBaseRetrievalContext,
-  KnowledgeBaseRetrievalClientOptionalParams} from "./api/index.js";
-import {
-  createKnowledgeBaseRetrieval,
+  KnowledgeBaseRetrievalClientOptionalParams,
 } from "./api/index.js";
+import { createKnowledgeBaseRetrieval } from "./api/index.js";
 import type {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
