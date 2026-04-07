@@ -10,6 +10,10 @@ permissions:
   pull-requests: read
   actions: read
 strict: false
+network:
+  allowed:
+    - defaults
+    - node
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
@@ -29,7 +33,8 @@ safe-outputs:
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   push-to-pull-request-branch:
     max: 3
-    allowed-files: ["sdk/", "eng/"]
+    protected-files: allowed
+    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
@@ -87,8 +92,8 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
 | `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | Yes |
-| `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
-| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Follow [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
+| PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
+| `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | Yes |
 
 Besides above cases also:
 - Only log one failure case if `UnitTest` failed with same errors across environments
@@ -115,6 +120,16 @@ Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch
 #### 3b. verify-links broken URL
 
 Append broken URL(s) to `eng/ignore-links.txt` then push via `push-to-pull-request-branch`.
+
+#### 3c. pnpm-lock.yaml merge conflict
+
+This auto-fix applies **only** when CI fails with `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` (stale or broken lockfile) or when `mergeable_state: dirty` indicates a `pnpm-lock.yaml` merge conflict. To resolve it:
+
+1. Merge `origin/main` into the pull request branch.
+2. Check out `origin/main`'s version of `pnpm-lock.yaml`.
+3. Run `pnpm install --no-frozen-lockfile` to regenerate the lockfile.
+4. Commit and push the updated merge result via `push-to-pull-request-branch`. If any step fails, stop and report in the comment with manual guidance.
+
 
 ### Step 4. Post a comment
 
