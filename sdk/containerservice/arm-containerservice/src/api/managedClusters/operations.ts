@@ -14,7 +14,12 @@ import type {
   RunCommandResult,
   _OutboundEnvironmentEndpointCollection,
   OutboundEnvironmentEndpoint,
+  RebalanceLoadBalancersRequestBody,
   ManagedClusterUpgradeProfile,
+  GuardrailsAvailableVersion,
+  _GuardrailsAvailableVersionsList,
+  SafeguardsAvailableVersion,
+  _SafeguardsAvailableVersionsList,
   MeshRevisionProfile,
   _MeshRevisionProfileList,
   MeshUpgradeProfile,
@@ -34,7 +39,12 @@ import {
   runCommandRequestSerializer,
   runCommandResultDeserializer,
   _outboundEnvironmentEndpointCollectionDeserializer,
+  rebalanceLoadBalancersRequestBodySerializer,
   managedClusterUpgradeProfileDeserializer,
+  guardrailsAvailableVersionDeserializer,
+  _guardrailsAvailableVersionsListDeserializer,
+  safeguardsAvailableVersionDeserializer,
+  _safeguardsAvailableVersionsListDeserializer,
   meshRevisionProfileDeserializer,
   _meshRevisionProfileListDeserializer,
   meshUpgradeProfileDeserializer,
@@ -51,7 +61,12 @@ import type {
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
+  ManagedClustersListSafeguardsVersionsOptionalParams,
+  ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ManagedClustersListGuardrailsVersionsOptionalParams,
+  ManagedClustersGetGuardrailsVersionsOptionalParams,
   ManagedClustersGetUpgradeProfileOptionalParams,
+  ManagedClustersRebalanceLoadBalancersOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersRunCommandOptionalParams,
@@ -87,7 +102,7 @@ export function _listKubernetesVersionsSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +150,7 @@ export function _listMeshUpgradeProfilesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +188,11 @@ export function listMeshUpgradeProfiles(
     () => _listMeshUpgradeProfilesSend(context, resourceGroupName, resourceName, options),
     _listMeshUpgradeProfilesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
   );
 }
 
@@ -191,7 +210,7 @@ export function _getMeshUpgradeProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       mode: mode,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +264,7 @@ export function _listMeshRevisionProfilesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +301,11 @@ export function listMeshRevisionProfiles(
     () => _listMeshRevisionProfilesSend(context, location, options),
     _listMeshRevisionProfilesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
   );
 }
 
@@ -298,7 +321,7 @@ export function _getMeshRevisionProfileSend(
       subscriptionId: context.subscriptionId,
       location: location,
       mode: mode,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,6 +358,214 @@ export async function getMeshRevisionProfile(
   return _getMeshRevisionProfileDeserialize(result);
 }
 
+export function _listSafeguardsVersionsSend(
+  context: Client,
+  location: string,
+  options: ManagedClustersListSafeguardsVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listSafeguardsVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_SafeguardsAvailableVersionsList> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _safeguardsAvailableVersionsListDeserializer(result.body);
+}
+
+/** Contains list of Safeguards version along with its support info and whether it is a default version. */
+export function listSafeguardsVersions(
+  context: Client,
+  location: string,
+  options: ManagedClustersListSafeguardsVersionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<SafeguardsAvailableVersion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSafeguardsVersionsSend(context, location, options),
+    _listSafeguardsVersionsDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
+  );
+}
+
+export function _getSafeguardsVersionsSend(
+  context: Client,
+  location: string,
+  version: string,
+  options: ManagedClustersGetSafeguardsVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions/{version}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getSafeguardsVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SafeguardsAvailableVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return safeguardsAvailableVersionDeserializer(result.body);
+}
+
+/** Contains Safeguards version along with its support info and whether it is a default version. */
+export async function getSafeguardsVersions(
+  context: Client,
+  location: string,
+  version: string,
+  options: ManagedClustersGetSafeguardsVersionsOptionalParams = { requestOptions: {} },
+): Promise<SafeguardsAvailableVersion> {
+  const result = await _getSafeguardsVersionsSend(context, location, version, options);
+  return _getSafeguardsVersionsDeserialize(result);
+}
+
+export function _listGuardrailsVersionsSend(
+  context: Client,
+  location: string,
+  options: ManagedClustersListGuardrailsVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listGuardrailsVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_GuardrailsAvailableVersionsList> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _guardrailsAvailableVersionsListDeserializer(result.body);
+}
+
+/** Contains list of Guardrails version along with its support info and whether it is a default version. */
+export function listGuardrailsVersions(
+  context: Client,
+  location: string,
+  options: ManagedClustersListGuardrailsVersionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<GuardrailsAvailableVersion> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGuardrailsVersionsSend(context, location, options),
+    _listGuardrailsVersionsDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
+  );
+}
+
+export function _getGuardrailsVersionsSend(
+  context: Client,
+  location: string,
+  version: string,
+  options: ManagedClustersGetGuardrailsVersionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions/{version}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      location: location,
+      version: version,
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getGuardrailsVersionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GuardrailsAvailableVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return guardrailsAvailableVersionDeserializer(result.body);
+}
+
+/** Contains Guardrails version along with its support info and whether it is a default version. */
+export async function getGuardrailsVersions(
+  context: Client,
+  location: string,
+  version: string,
+  options: ManagedClustersGetGuardrailsVersionsOptionalParams = { requestOptions: {} },
+): Promise<GuardrailsAvailableVersion> {
+  const result = await _getGuardrailsVersionsSend(context, location, version, options);
+  return _getGuardrailsVersionsDeserialize(result);
+}
+
 export function _getUpgradeProfileSend(
   context: Client,
   resourceGroupName: string,
@@ -347,7 +578,7 @@ export function _getUpgradeProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,6 +615,69 @@ export async function getUpgradeProfile(
   return _getUpgradeProfileDeserialize(result);
 }
 
+export function _rebalanceLoadBalancersSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  parameters: RebalanceLoadBalancersRequestBody,
+  options: ManagedClustersRebalanceLoadBalancersOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: rebalanceLoadBalancersRequestBodySerializer(parameters),
+  });
+}
+
+export async function _rebalanceLoadBalancersDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Rebalance nodes across specific load balancers. */
+export function rebalanceLoadBalancers(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  parameters: RebalanceLoadBalancersRequestBody,
+  options: ManagedClustersRebalanceLoadBalancersOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _rebalanceLoadBalancersDeserialize,
+    ["202", "204", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _rebalanceLoadBalancersSend(context, resourceGroupName, resourceName, parameters, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
+
 export function _listOutboundNetworkDependenciesEndpointsSend(
   context: Client,
   resourceGroupName: string,
@@ -398,7 +692,7 @@ export function _listOutboundNetworkDependenciesEndpointsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,7 +738,11 @@ export function listOutboundNetworkDependenciesEndpoints(
       ),
     _listOutboundNetworkDependenciesEndpointsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
   );
 }
 
@@ -462,7 +760,7 @@ export function _getCommandResultSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       commandId: commandId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -519,7 +817,7 @@ export function _runCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -561,7 +859,7 @@ export function runCommand(
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, resourceName, requestPayload, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -577,7 +875,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -610,7 +908,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -626,7 +924,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -659,7 +957,7 @@ export function stop(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _stopSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -675,7 +973,7 @@ export function _rotateServiceAccountSigningKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -715,7 +1013,7 @@ export function rotateServiceAccountSigningKeys(
       getInitialResponse: () =>
         _rotateServiceAccountSigningKeysSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -732,7 +1030,7 @@ export function _abortLatestOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -772,7 +1070,7 @@ export function abortLatestOperation(
       getInitialResponse: () =>
         _abortLatestOperationSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -789,7 +1087,7 @@ export function _rotateClusterCertificatesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -829,7 +1127,7 @@ export function rotateClusterCertificates(
       getInitialResponse: () =>
         _rotateClusterCertificatesSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -847,7 +1145,7 @@ export function _resetAADProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -886,7 +1184,7 @@ export function resetAADProfile(
     getInitialResponse: () =>
       _resetAADProfileSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -903,7 +1201,7 @@ export function _resetServicePrincipalProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -954,7 +1252,7 @@ export function resetServicePrincipalProfile(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -973,7 +1271,7 @@ export function _listClusterMonitoringUserCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
       "server%2Dfqdn": options?.serverFqdn,
     },
     {
@@ -1030,7 +1328,7 @@ export function _listClusterUserCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
       "server%2Dfqdn": options?.serverFqdn,
       format: options?.format,
     },
@@ -1086,7 +1384,7 @@ export function _listClusterAdminCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
       "server%2Dfqdn": options?.serverFqdn,
     },
     {
@@ -1143,7 +1441,7 @@ export function _getAccessProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1195,7 +1493,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1231,7 +1529,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
   );
 }
 
@@ -1245,7 +1547,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1282,7 +1584,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+    },
   );
 }
 
@@ -1293,12 +1599,13 @@ export function _$deleteSend(
   options: ManagedClustersDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}{?api%2Dversion,ignore%2Dpod%2Ddisruption%2Dbudget}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "ignore%2Dpod%2Ddisruption%2Dbudget": options?.ignorePodDisruptionBudget,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1342,7 +1649,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1359,7 +1666,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1405,7 +1712,7 @@ export function updateTags(
     getInitialResponse: () =>
       _updateTagsSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
@@ -1422,7 +1729,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1469,7 +1776,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-01-02-preview",
   }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
@@ -1485,7 +1792,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

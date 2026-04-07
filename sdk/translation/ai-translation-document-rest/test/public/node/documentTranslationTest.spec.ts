@@ -529,7 +529,7 @@ describe("DocumentTranslation tests", () => {
     }
     assert.notEqual(new Date(), new Date(documentStatusOutput.createdDateTimeUtc));
     assert.notEqual(new Date(), new Date(documentStatusOutput.lastActionDateTimeUtc));
-    assert.equal(1, documentStatusOutput.progress);
+    assert.equal(documentStatusOutput.progress, 1);
 
     return;
   }

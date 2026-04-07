@@ -1,29 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StandbyPoolManagementContext as Client } from "../index.js";
+import type {
   StandbyVirtualMachineResource,
-  standbyVirtualMachineResourceDeserializer,
   _StandbyVirtualMachineResourceListResult,
-  _standbyVirtualMachineResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  standbyVirtualMachineResourceDeserializer,
+  _standbyVirtualMachineResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByStandbyVirtualMachinePoolResourceSend(
   context: Client,
@@ -39,7 +35,7 @@ export function _listByStandbyVirtualMachinePoolResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,10 +43,7 @@ export function _listByStandbyVirtualMachinePoolResourceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -61,6 +54,7 @@ export async function _listByStandbyVirtualMachinePoolResourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -87,7 +81,7 @@ export function listByStandbyVirtualMachinePoolResource(
       ),
     _listByStandbyVirtualMachinePoolResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
   );
 }
 
@@ -105,7 +99,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       standbyVirtualMachinePoolName: standbyVirtualMachinePoolName,
       standbyVirtualMachineName: standbyVirtualMachineName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,10 +107,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -127,6 +118,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

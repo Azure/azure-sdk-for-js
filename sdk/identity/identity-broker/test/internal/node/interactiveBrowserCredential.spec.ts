@@ -5,7 +5,6 @@ import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { nativeBrokerPlugin } from "../../../src/index.js";
 import type http from "node:http";
 import type { MockInstance } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -53,6 +52,7 @@ describe("InteractiveBrowserCredential (internal)", () => {
   // - The test requires user interaction, so it cannot run in live mode
   // - The test with broker is hanging, so it's skipped in playback mode for CI
   it.skip("Accepts interactiveBrowserCredentialOptions", async () => {
+    const { nativeBrokerPlugin } = await import("../../../src/index.js");
     useIdentityPlugin(nativeBrokerPlugin);
     const winHandle = Buffer.from("srefleqr93285329lskadjffa");
     const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
@@ -74,7 +74,7 @@ describe("InteractiveBrowserCredential (internal)", () => {
       assert.exists(accessToken.token);
       expect(doGetTokenSpy).toHaveBeenCalledOnce();
       expect(doGetTokenSpy.mock.results[0].value).toEqual(
-        expect.objectContaining({ fromNativeBroker: true }),
+        expect.objectContaining({ fromPlatformBroker: true }),
       );
     } catch (e) {
       console.log(e);

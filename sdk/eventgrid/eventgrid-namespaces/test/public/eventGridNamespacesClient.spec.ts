@@ -114,7 +114,7 @@ describe("Event Grid Namespace Client", () => {
         maxEvents: 2,
       });
 
-      assert.equal(2, receiveResult.details.length);
+      assert.equal(receiveResult.details.length, 2);
 
       const deserializer: EventGridDeserializer = new EventGridDeserializer();
       for (const value of receiveResult.details) {

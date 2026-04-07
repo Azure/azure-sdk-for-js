@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "types": ["node"],
     "composite": true,
     "isolatedModules": true

@@ -20,25 +20,25 @@ class TestCase {
 describe("AvroReader", () => {
   it("test with local avro files", async () => {
     const testCases: TestCase[] = [
-      new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
-      new TestCase("test_null_1.avro", (o) => assert.strictEqual(true, o as any)), // boolean
+      new TestCase("test_null_0.avro", (o) => assert.strictEqual(o, null)), // null
+      new TestCase("test_null_1.avro", (o) => assert.strictEqual(o as any, true)), // boolean
       new TestCase("test_null_2.avro", (o) =>
-        assert.strictEqual("adsfasdf09809dsf-=adsf", o as any),
+        assert.strictEqual(o as any, "adsfasdf09809dsf-=adsf"),
       ), // string
       new TestCase("test_null_3.avro", (o) =>
         assert.isTrue(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array)),
       ), // byte[]
-      new TestCase("test_null_4.avro", (o) => assert.strictEqual(1234, o as any)), // int
-      new TestCase("test_null_5.avro", (o) => assert.strictEqual(1234, o as any)), // long
-      new TestCase("test_null_6.avro", (o) => assert.strictEqual(1234.0, o as any)), // float
-      new TestCase("test_null_7.avro", (o) => assert.strictEqual(1234.0, o as any)), // double
+      new TestCase("test_null_4.avro", (o) => assert.strictEqual(o as any, 1234)), // int
+      new TestCase("test_null_5.avro", (o) => assert.strictEqual(o as any, 1234)), // long
+      new TestCase("test_null_6.avro", (o) => assert.strictEqual(o as any, 1234.0)), // float
+      new TestCase("test_null_7.avro", (o) => assert.strictEqual(o as any, 1234.0)), // double
       // Not supported today.
       // new TestCase("test_null_8.avro", o => assert.ok(arraysEqual(new TextEncoder().encode("B"), o as Uint8Array))), // fixed
-      new TestCase("test_null_9.avro", (o) => assert.strictEqual("B", o as any)), // enum
+      new TestCase("test_null_9.avro", (o) => assert.strictEqual(o as any, "B")), // enum
       // Not supported today.
       // new TestCase("test_null_10.avro", o => assert.deepStrictEqual([1, 2, 3], o)), // array
-      new TestCase("test_null_11.avro", (o) => assert.deepStrictEqual({ a: 1, b: 3, c: 2 }, o)), // map
-      new TestCase("test_null_12.avro", (o) => assert.strictEqual(null, o)), // union
+      new TestCase("test_null_11.avro", (o) => assert.deepStrictEqual(o, { a: 1, b: 3, c: 2 })), // map
+      new TestCase("test_null_12.avro", (o) => assert.strictEqual(o, null)), // union
       new TestCase("test_null_13.avro", (o) => {
         const expected = { $schema: "Test", f: 5 };
         const expectedEntries = Object.entries(expected);

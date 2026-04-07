@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The secret set parameters. */
 export interface SecretSetParameters {
   /** The value of the secret. */
@@ -113,6 +119,8 @@ export interface SecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** The version of the previous certificate, if applicable. Applies only to certificates created after June 1, 2025. Certificates created before this date are not retroactively updated. */
+  previousVersion?: string;
 }
 
 export function secretBundleDeserializer(item: any): SecretBundle {
@@ -123,9 +131,12 @@ export function secretBundleDeserializer(item: any): SecretBundle {
     attributes: !item["attributes"]
       ? item["attributes"]
       : secretAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
   };
 }
 
@@ -141,7 +152,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   };
 }
 
-/** Alias for ErrorModel */
+/** The key vault server error. */
 export type ErrorModel = {
   code?: string;
   message?: string;
@@ -184,6 +195,8 @@ export interface DeletedSecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** The version of the previous certificate, if applicable. Applies only to certificates created after June 1, 2025. Certificates created before this date are not retroactively updated. */
+  previousVersion?: string;
   /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
   /** The time when the secret is scheduled to be purged, in UTC */
@@ -200,9 +213,12 @@ export function deletedSecretBundleDeserializer(item: any): DeletedSecretBundle 
     attributes: !item["attributes"]
       ? item["attributes"]
       : secretAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
@@ -272,7 +288,9 @@ export function secretItemDeserializer(item: any): SecretItem {
     attributes: !item["attributes"]
       ? item["attributes"]
       : secretAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     contentType: item["contentType"],
     managed: item["managed"],
   };
@@ -325,7 +343,9 @@ export function deletedSecretItemDeserializer(item: any): DeletedSecretItem {
     attributes: !item["attributes"]
       ? item["attributes"]
       : secretAttributesDeserializer(item["attributes"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     contentType: item["contentType"],
     managed: item["managed"],
     recoveryId: item["recoveryId"],
@@ -362,6 +382,24 @@ export function secretRestoreParametersSerializer(item: SecretRestoreParameters)
   return { value: uint8ArrayToString(item["secretBundleBackup"], "base64url") };
 }
 
+/** The media type (MIME type). */
+export enum KnownContentType {
+  /** The PKCS#12 file format. */
+  PFX = "application/x-pkcs12",
+  /** The PEM file format. */
+  PEM = "application/x-pem-file",
+}
+
+/**
+ * The media type (MIME type). \
+ * {@link KnownContentType} can be used interchangeably with ContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **application\/x-pkcs12**: The PKCS#12 file format. \
+ * **application\/x-pem-file**: The PEM file format.
+ */
+export type ContentType = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
@@ -370,4 +408,6 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
 }

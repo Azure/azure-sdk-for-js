@@ -113,6 +113,8 @@ export interface SecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** Identifier of the previous secret version. */
+  readonly previousVersion?: string;
 }
 
 export function secretBundleDeserializer(item: any): SecretBundle {
@@ -126,6 +128,7 @@ export function secretBundleDeserializer(item: any): SecretBundle {
     tags: item["tags"],
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
   };
 }
 
@@ -184,6 +187,8 @@ export interface DeletedSecretBundle {
   readonly kid?: string;
   /** True if the secret's lifetime is managed by key vault. If this is a secret backing a certificate, then managed will be true. */
   readonly managed?: boolean;
+  /** Identifier of the previous secret version. */
+  readonly previousVersion?: string;
   /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
   /** The time when the secret is scheduled to be purged, in UTC */
@@ -203,6 +208,7 @@ export function deletedSecretBundleDeserializer(item: any): DeletedSecretBundle 
     tags: item["tags"],
     kid: item["kid"],
     managed: item["managed"],
+    previousVersion: item["previousVersion"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
@@ -362,6 +368,21 @@ export function secretRestoreParametersSerializer(item: SecretRestoreParameters)
   return { value: uint8ArrayToString(item["secretBundleBackup"], "base64url") };
 }
 
+/** Known values of {@link ContentType} that the service accepts. */
+export enum KnownContentType {
+  /** The PKCS#12 (PFX) certificate format. */
+  PFX = "application/x-pkcs12",
+  /** The PEM certificate format. */
+  PEM = "application/x-pem-file",
+}
+
+/**
+ * The media type (MIME type) of the certificate. If a supported format is specified,
+ * the certificate content is converted to the requested format. Currently, only PFX to PEM
+ * conversion is supported.
+ */
+export type ContentType = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
@@ -370,4 +391,6 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-07-01 API version. */
+  V20250701 = "2025-07-01",
 }

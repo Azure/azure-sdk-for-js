@@ -1,14 +1,10 @@
 # Release History
 
-## 0.3.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.5 (2026-04-07)
 
 ### Bugs Fixed
 
-### Other Changes
+- Request headers are no longer forwarded to the proxy server as additional headers when establishing HTTPS CONNECT tunnels; headers on proxied HTTP(S) requests sent through an established tunnel are unchanged. [PR #37808](https://github.com/Azure/azure-sdk-for-js/pull/37808)
 
 ## 0.3.4 (2026-03-05)
 
