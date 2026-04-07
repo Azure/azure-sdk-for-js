@@ -465,7 +465,7 @@
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1661,9 +1661,6 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %mgmt-review-needed
-/sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
