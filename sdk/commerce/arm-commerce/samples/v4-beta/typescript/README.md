@@ -1,11 +1,11 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-commerce client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-commerce in some common scenarios.
 
-| **File Name**                             | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [getRateCard.ts][getratecard]             | Enables you to query for the resource/meter metadata and related prices used in a given subscription by Offer ID, Currency, Locale and Region. The metadata associated with the billing meters, including but not limited to service names, types, resources, units of measure, and regions, is subject to change at any time and without notice. If you intend to use this billing data in an automated fashion, please use the billing meter GUID to uniquely identify each billable item. If the billing meter GUID is scheduled to change due to a new billing model, you will be notified in advance of the change. x-ms-original-file: specification/commerce/resource-manager/Microsoft.Commerce/preview/2015-06-01-preview/examples/GetRateCard.json |
-| [rateCardGetSample.ts][ratecardgetsample] | Enables you to query for the resource/meter metadata and related prices used in a given subscription by Offer ID, Currency, Locale and Region. The metadata associated with the billing meters, including but not limited to service names, types, resources, units of measure, and regions, is subject to change at any time and without notice. If you intend to use this billing data in an automated fashion, please use the billing meter GUID to uniquely identify each billable item. If the billing meter GUID is scheduled to change due to a new billing model, you will be notified in advance of the change. x-ms-original-file: specification/commerce/resource-manager/Microsoft.Commerce/preview/2015-06-01-preview/examples/GetRateCard.json |
+| **File Name**                                             | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [rateCardGetSample.ts][ratecardgetsample]                 | enables you to query for the resource/meter metadata and related prices used in a given subscription by Offer ID, Currency, Locale and Region. The metadata associated with the billing meters, including but not limited to service names, types, resources, units of measure, and regions, is subject to change at any time and without notice. If you intend to use this billing data in an automated fashion, please use the billing meter GUID to uniquely identify each billable item. If the billing meter GUID is scheduled to change due to a new billing model, you will be notified in advance of the change. x-ms-original-file: 2015-06-01-preview/GetRateCard.json |
+| [usageAggregatesListSample.ts][usageaggregateslistsample] | query aggregated Azure subscription consumption data for a date range. x-ms-original-file: 2015-06-01-preview/GetUsageAggregatesList.json                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ## Prerequisites
 
@@ -44,21 +44,21 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/getRateCard.js
+node dist/rateCardGetSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/getRateCard.js
+node dist/rateCardGetSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getratecard]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4-beta/typescript/src/getRateCard.ts
 [ratecardgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4-beta/typescript/src/rateCardGetSample.ts
+[usageaggregateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4-beta/typescript/src/usageAggregatesListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-commerce?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/commerce/arm-commerce/README.md

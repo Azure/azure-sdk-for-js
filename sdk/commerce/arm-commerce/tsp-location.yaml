@@ -1,0 +1,4 @@
+directory: specification/commerce/resource-manager/Microsoft.Commerce/Commerce
+commit: 813668be08edde6b03e617d9ca8e6ae192635e1a
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
