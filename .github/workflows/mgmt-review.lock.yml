@@ -26,7 +26,7 @@
 
 name: "Management Release Assistant"
 "on":
-  pull_request_target:
+  pull_request:
     types:
     - labeled
 

@@ -1,6 +1,6 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
 labels: [docs-review-needed]
 if: github.event.label.name == 'docs-review-needed'

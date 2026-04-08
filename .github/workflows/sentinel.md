@@ -1,6 +1,6 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
 labels: [security-review-needed]
 if: github.event.label.name == 'security-review-needed'
