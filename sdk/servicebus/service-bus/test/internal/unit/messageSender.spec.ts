@@ -214,7 +214,7 @@ describe("MessageSender unit tests", () => {
       );
     });
 
-    it("falls back to maxMessageSize when vendor property is absent", async () => {
+    it("falls back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is absent", async () => {
       const sender = createSender();
       sender["open"] = async () => {
         sender["_link"] = {
@@ -228,11 +228,11 @@ describe("MessageSender unit tests", () => {
       assert.equal(
         batch.maxSizeInBytes,
         262144,
-        "Batch size should fall back to maxMessageSize when vendor property is absent",
+        "Batch size should be Math.min(maxMessageSize, defaultMaxBatchSize) = Math.min(256KB, 1MB) = 256KB",
       );
     });
 
-    it("falls back to maxMessageSize when properties dict is undefined", async () => {
+    it("falls back to Math.min(maxMessageSize, defaultMaxBatchSize) when properties dict is undefined", async () => {
       const sender = createSender();
       sender["open"] = async () => {
         sender["_link"] = {
@@ -245,7 +245,7 @@ describe("MessageSender unit tests", () => {
       assert.equal(
         batch.maxSizeInBytes,
         262144,
-        "Batch size should fall back when properties is undefined",
+        "Batch size should be Math.min(maxMessageSize, defaultMaxBatchSize) when properties is undefined",
       );
     });
 
