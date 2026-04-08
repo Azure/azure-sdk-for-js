@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [labeled]
 labels: [test-review-needed]
-if: github.event.label.name == 'test-review-needed'
+if: github.event.label.name == 'test-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Tester: Review a pull request for test coverage and quality"
 permissions:
   contents: read

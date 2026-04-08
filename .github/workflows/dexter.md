@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [labeled]
 labels: [dependency-review-needed]
-if: github.event.label.name == 'dependency-review-needed'
+if: github.event.label.name == 'dependency-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Dexter: Audit dependency changes in a pull request"
 permissions:
   contents: read

@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [labeled]
 labels: [mgmt-review-needed]
-if: github.event.label.name == 'mgmt-review-needed'
+if: github.event.label.name == 'mgmt-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Review a pull request for management-plane SDKs"
 permissions:
   contents: read

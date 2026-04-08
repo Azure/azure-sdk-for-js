@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [labeled]
 labels: [docs-review-needed]
-if: github.event.label.name == 'docs-review-needed'
+if: github.event.label.name == 'docs-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Scribe: Review a pull request for documentation completeness and consistency"
 permissions:
   contents: read

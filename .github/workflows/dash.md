@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [labeled]
 labels: [performance-review-needed]
-if: github.event.label.name == 'performance-review-needed'
+if: github.event.label.name == 'performance-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Dash: Review a pull request for performance regressions"
 permissions:
   contents: read

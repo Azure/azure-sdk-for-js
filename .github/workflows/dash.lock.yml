@@ -41,7 +41,7 @@ run-name: "Performance Review"
 jobs:
   activation:
     needs: pre_activation
-    if: needs.pre_activation.outputs.activated == 'true' && (github.event.label.name == 'performance-review-needed')
+    if: needs.pre_activation.outputs.activated == 'true' && (github.event.label.name == 'performance-review-needed') && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1094,7 +1094,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: github.event.label.name == 'performance-review-needed'
+    if: github.event.label.name == 'performance-review-needed' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
