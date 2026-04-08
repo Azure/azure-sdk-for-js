@@ -17,7 +17,6 @@ import {
   toolboxObjectDeserializer,
   _agentsPagedResultToolboxObjectDeserializer,
   _agentsPagedResultToolboxVersionObjectDeserializer,
-  KnownApiVersions,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -47,7 +46,7 @@ export function _deleteVersionSend(
     {
       toolbox_name: toolboxName,
       version: version,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,7 +91,7 @@ export function _$deleteSend(
     "/toolboxes/{toolbox_name}{?api-version}",
     {
       toolbox_name: toolboxName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +136,7 @@ export function _updateSend(
     "/toolboxes/{toolbox_name}{?api-version}",
     {
       toolbox_name: toolboxName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +189,7 @@ export function _getVersionSend(
     {
       toolbox_name: toolboxName,
       version: version,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +244,7 @@ export function _listVersionsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +285,7 @@ export function listVersions(
     () => _listVersionsSend(context, toolboxName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -302,7 +301,7 @@ export function _listSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,7 +341,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -356,7 +355,7 @@ export function _getSend(
     "/toolboxes/{toolbox_name}{?api-version}",
     {
       toolbox_name: toolboxName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -405,7 +404,7 @@ export function _createVersionSend(
     "/toolboxes/{toolbox_name}/versions{?api-version}",
     {
       toolbox_name: toolboxName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

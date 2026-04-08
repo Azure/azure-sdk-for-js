@@ -24,7 +24,6 @@ import {
   _agentsPagedResultAgentObjectDeserializer,
   deleteAgentVersionResponseDeserializer,
   _agentsPagedResultAgentVersionObjectDeserializer,
-  KnownApiVersions,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -272,9 +271,6 @@ export function _createVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -553,9 +549,6 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -614,9 +607,6 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

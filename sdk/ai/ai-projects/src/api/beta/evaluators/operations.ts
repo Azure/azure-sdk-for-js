@@ -16,7 +16,6 @@ import {
   evaluatorCredentialRequestSerializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
-  KnownApiVersions,
   pendingUploadRequestSerializer,
   pendingUploadResponseDeserializer,
   _pagedEvaluatorVersionDeserializer,
@@ -44,12 +43,13 @@ export function _getCredentialsSend(
   version: string,
   options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}/credentials{?api-version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,9 +59,7 @@ export function _getCredentialsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -102,12 +100,13 @@ export function _startPendingUploadSend(
   pendingUploadRequest: PendingUploadRequest,
   options: BetaEvaluatorsStartPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,9 +116,7 @@ export function _startPendingUploadSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

@@ -7,7 +7,6 @@ import {
   evaluationRuleSerializer,
   evaluationRuleDeserializer,
   _pagedEvaluationRuleDeserializer,
-  KnownApiVersions,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -40,9 +39,6 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -74,13 +70,6 @@ export function list(
       itemName: "value",
       nextLinkName: "nextLink",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: {
-        headers: {
-          ...(options?.foundryFeatures !== undefined
-            ? { "foundry-features": options?.foundryFeatures }
-            : {}),
-        },
-      },
     },
   );
 }
@@ -105,9 +94,6 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -155,9 +141,6 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -200,9 +183,6 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

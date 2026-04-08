@@ -10,7 +10,6 @@ import type {
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  KnownApiVersions,
   skillObjectDeserializer,
   _agentsPagedResultSkillObjectDeserializer,
   deleteSkillResponseDeserializer,
@@ -41,7 +40,7 @@ export function _$deleteSend(
     "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +90,7 @@ export function _updateSend(
     "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +146,7 @@ export function _listSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +186,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -201,7 +200,7 @@ export function _downloadSend(
     "/skills/{skill_name}:download{?api-version}",
     {
       skill_name: skillName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,7 +251,7 @@ export function _getSend(
     "/skills/{skill_name}{?api-version}",
     {
       skill_name: skillName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +298,7 @@ export function _createFromPackageSend(
   const path = expandUrlTemplate(
     "/skills:import{?api-version}",
     {
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +349,7 @@ export function _createSend(
   const path = expandUrlTemplate(
     "/skills{?api-version}",
     {
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -25,7 +25,6 @@ import {
   sessionDirectoryListResponseDeserializer,
   managedAgentIdentityBlueprintDeserializer,
   pagedManagedAgentIdentityBlueprintDeserializer,
-  KnownApiVersions,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -58,7 +57,7 @@ export function _listManagedIdentityBlueprintsSend(
     {
       order: options?.order,
       limit: options?.limit,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +105,7 @@ export function _deleteManagedIdentityBlueprintSend(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -152,7 +151,7 @@ export function _getManagedIdentityBlueprintSend(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,7 +202,7 @@ export function _createOrUpdateManagedIdentityBlueprintSend(
     "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
     {
       blueprint_name: blueprintName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,6 +256,7 @@ export function _deleteSessionFileSend(
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api-version}",
     {
@@ -264,7 +264,7 @@ export function _deleteSessionFileSend(
       session_id: sessionId,
       path: path,
       recursive: options?.recursive,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,9 +273,7 @@ export function _deleteSessionFileSend(
   return context.path(path_1).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       ...options.requestOptions?.headers,
     },
   });
@@ -315,13 +313,14 @@ export function _listSessionFilesSend(
   path: string,
   options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,9 +329,7 @@ export function _listSessionFilesSend(
   return context.path(path_1).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -375,13 +372,15 @@ export function _downloadSessionFileSend(
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
+
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -390,9 +389,7 @@ export function _downloadSessionFileSend(
   return context.path(path_1).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/octet-stream",
       ...options.requestOptions?.headers,
     },
@@ -433,13 +430,15 @@ export function _uploadSessionFileSend(
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
+
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
       path: path,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -449,9 +448,7 @@ export function _uploadSessionFileSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/octet-stream",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -501,6 +498,7 @@ export function _listSessionsSend(
   agentName: string,
   options: BetaAgentsListSessionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api-version}",
     {
@@ -509,7 +507,7 @@ export function _listSessionsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,9 +516,7 @@ export function _listSessionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -552,7 +548,7 @@ export function listSessions(
     () => _listSessionsSend(context, agentName, options),
     _listSessionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? KnownApiVersions.v1 },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -563,12 +559,13 @@ export function _deleteSessionSend(
   isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -577,9 +574,7 @@ export function _deleteSessionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       "x-session-isolation-key": isolationKey,
       ...options.requestOptions?.headers,
     },
@@ -619,12 +614,14 @@ export function _getSessionSend(
   sessionId: string,
   options: BetaAgentsGetSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
+
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
       agent_name: agentName,
       session_id: sessionId,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -633,9 +630,7 @@ export function _getSessionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -674,11 +669,13 @@ export function _createSessionSend(
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
+
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -688,9 +685,7 @@ export function _createSessionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       "x-session-isolation-key": isolationKey,
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -743,11 +738,12 @@ export function _patchAgentObjectSend(
   agentName: string,
   options: BetaAgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -757,9 +753,7 @@ export function _patchAgentObjectSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
