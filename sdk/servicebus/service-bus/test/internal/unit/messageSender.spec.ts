@@ -249,7 +249,7 @@ describe("MessageSender unit tests", () => {
       );
     });
 
-    it("falls back to maxMessageSize when vendor property has wrong type", async () => {
+    it("falls back to capped size when vendor property has wrong type", async () => {
       const sender = createSender();
       sender["open"] = async () => {
         sender["_link"] = {
@@ -265,11 +265,11 @@ describe("MessageSender unit tests", () => {
       assert.equal(
         batch.maxSizeInBytes,
         262144,
-        "Batch size should fall back when vendor property is not a number",
+        "Batch size should fall back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is not a number",
       );
     });
 
-    it("falls back to maxMessageSize when vendor property is zero", async () => {
+    it("falls back to capped size when vendor property is zero", async () => {
       const sender = createSender();
       sender["open"] = async () => {
         sender["_link"] = {
@@ -285,7 +285,7 @@ describe("MessageSender unit tests", () => {
       assert.equal(
         batch.maxSizeInBytes,
         262144,
-        "Batch size should fall back when vendor property is zero",
+        "Batch size should fall back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is zero",
       );
     });
 
