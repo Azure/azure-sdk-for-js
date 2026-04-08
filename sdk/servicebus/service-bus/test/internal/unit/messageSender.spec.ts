@@ -359,7 +359,7 @@ describe("MessageSender unit tests", () => {
       assert.equal(
         batch.maxSizeInBytes,
         1048576,
-        "Batch size should be capped at 1 MB (DefaultMaxBatchSize) when vendor property is absent, even if maxMessageSize is 100 MB",
+        "Batch size should be capped at 1 MB (defaultMaxBatchSize) when vendor property is absent, even if maxMessageSize is 100 MB",
       );
     });
 

@@ -37,7 +37,7 @@ import { defaultDataTransformer } from "../dataTransformer.js";
  * advertise a batch size limit on the AMQP link.
  * @internal
  */
-const DefaultMaxBatchSize = 1048576;
+const defaultMaxBatchSize = 1048576;
 
 /**
  * @internal
@@ -405,7 +405,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Returns the maximum batch size allowed by the service, reading the
    * vendor-specific batch size property from the AMQP link if available.
-   * Falls back to `Math.min(maxMessageSize, DefaultMaxBatchSize)` when
+   * Falls back to `Math.min(maxMessageSize, defaultMaxBatchSize)` when
    * the property is absent.
    */
   private getMaxBatchSizeFromLink(): number {
@@ -415,11 +415,11 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         return vendorBatchSize;
       }
     }
-    // Fallback: cap at DefaultMaxBatchSize to avoid using the raw
+    // Fallback: cap at defaultMaxBatchSize to avoid using the raw
     // max-message-size (which can be 100 MB on Premium large-message entities)
     // as the batch limit.  Matches the .NET SDK pattern.
     const maxMessageSize = this.link?.maxMessageSize ?? 0;
-    return maxMessageSize > 0 ? Math.min(maxMessageSize, DefaultMaxBatchSize) : 0;
+    return maxMessageSize > 0 ? Math.min(maxMessageSize, defaultMaxBatchSize) : 0;
   }
 
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
@@ -430,10 +430,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       abortSignal: options?.abortSignal,
     });
     // Use the vendor batch size if available; fall back to
-    // min(maxMessageSize, DefaultMaxBatchSize) to prevent using the raw
+    // min(maxMessageSize, defaultMaxBatchSize) to prevent using the raw
     // max-message-size as the batch limit on large-message entities.
     let maxBatchSize =
-      this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, DefaultMaxBatchSize);
+      this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, defaultMaxBatchSize);
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(
