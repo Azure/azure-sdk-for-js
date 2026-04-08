@@ -114,8 +114,8 @@ describe("InferenceService", { timeout: 10000 }, () => {
         status: 200,
         bodyAsText: JSON.stringify({
           Scores: [
-            { document: { id: "1", name: "Doc 1" }, score: 0.95, index: 0 },
-            { document: { id: "2", name: "Doc 2" }, score: 0.8, index: 1 },
+            { document: "Doc 1 content", score: 0.95, index: 0 },
+            { document: "Doc 2 content", score: 0.8, index: 1 },
           ],
           latency: { total_ms: 100 },
           token_usage: { prompt_tokens: 50, total_tokens: 100 },
@@ -141,7 +141,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.equal(result.rerankScores.length, 2);
       assert.equal(result.rerankScores[0].score, 0.95);
       assert.equal(result.rerankScores[0].index, 0);
-      assert.deepEqual(result.rerankScores[0].document, { id: "1", name: "Doc 1" });
+      assert.equal(result.rerankScores[0].document, "Doc 1 content");
       assert.equal(result.rerankScores[1].score, 0.8);
       assert.isDefined(result.latency);
       assert.isDefined(result.tokenUsage);

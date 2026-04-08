@@ -6,7 +6,7 @@
  */
 export interface RerankScore {
   /** The document content that was reranked. May be null if `returnDocuments` was not set. */
-  document: Record<string, unknown> | null;
+  document: string | null;
   /** The relevance score assigned to the document after reranking. */
   score: number;
   /** The original index of the document in the input list before reranking. */
