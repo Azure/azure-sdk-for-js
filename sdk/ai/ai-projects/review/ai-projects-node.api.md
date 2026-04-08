@@ -6,7 +6,6 @@
 
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
-import type { KeyCredential } from '@azure/core-auth';
 import OpenAI from 'openai';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
@@ -265,7 +264,7 @@ export interface AgentVersion {
 
 // @public
 export class AIProjectClient {
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams);
+    constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
     readonly beta: BetaOperations;
     readonly connections: ConnectionsOperations;

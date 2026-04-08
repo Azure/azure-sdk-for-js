@@ -5,7 +5,7 @@ import { logger } from "../logger.js";
 import { KnownApiVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "../constants.js";
 
 export interface AIProjectContext extends Client {
@@ -23,7 +23,7 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 
 export function createAIProject(
   endpoint: string,
-  credential: KeyCredential | TokenCredential,
+  credential: TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? String(endpoint);
