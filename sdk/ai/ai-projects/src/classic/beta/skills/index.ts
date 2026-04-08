@@ -45,7 +45,7 @@ export interface BetaSkillsOperations {
   ) => Promise<BetaSkillsDownloadResponse>;
   /** Retrieves a skill. */
   get: (skillName: string, options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
-  /** Creates a skill from a gzip package. */
+  /** Creates a skill from a zip package. */
   createFromPackage: (
     body: Uint8Array,
     options?: CreateFromPackageOptionalParams,

@@ -36,6 +36,7 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+  /** Operations for managing agents. */
   agents: BetaAgentsOperations;
 }
 
@@ -54,6 +55,7 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
+    /** Operations for managing agents. */
     agents: _getBetaAgentsOperations(context),
   };
 }

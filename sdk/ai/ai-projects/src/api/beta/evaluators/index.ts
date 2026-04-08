@@ -8,7 +8,7 @@ export {
   createVersion,
   deleteVersion,
   getVersion,
-  listLatestVersions,
+  list,
   listVersions,
 } from "./operations.js";
 export type {
@@ -18,6 +18,6 @@ export type {
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./options.js";

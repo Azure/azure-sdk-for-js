@@ -9,7 +9,7 @@ import {
   createVersion,
   deleteVersion,
   getVersion,
-  listLatestVersions,
+  list,
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import type {
@@ -19,7 +19,7 @@ import type {
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
 import type {
@@ -74,7 +74,7 @@ export interface BetaEvaluatorsOperations {
   ) => Promise<EvaluatorVersion>;
   /** List the latest version of each evaluator */
   list: (
-    options?: BetaEvaluatorsListLatestVersionsOptionalParams,
+    options?: BetaEvaluatorsListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
   /** List all versions of the given evaluator */
   listVersions: (
@@ -115,8 +115,7 @@ function _getBetaEvaluators(context: AIProjectContext) {
     ) => deleteVersion(context, name, version, options),
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) =>
       getVersion(context, name, version, options),
-    list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) =>
-      listLatestVersions(context, options),
+    list: (options?: BetaEvaluatorsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) =>
       listVersions(context, name, options),
   };

@@ -29,7 +29,7 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
   /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
   evaluatorType?: EvaluatorType | "all";
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */

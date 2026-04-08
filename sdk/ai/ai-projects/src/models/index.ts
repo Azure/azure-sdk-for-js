@@ -144,6 +144,8 @@ export type {
   TextResponseFormatUnion,
   TextResponseFormatConfigurationType,
   TextResponseFormatJsonSchema,
+  TextResponseFormatText,
+  TextResponseFormatJsonObject,
   StructuredInputDefinition,
   WorkflowAgentDefinition,
   AgentIdentity,

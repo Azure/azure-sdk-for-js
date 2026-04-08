@@ -2526,7 +2526,7 @@ export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
   /** The model to use for image generation. */
-  model?: "gpt-image-1" | "gpt-image-1-mini";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
    *   or `auto`. Default: `auto`.
@@ -2610,7 +2610,7 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   };
 }
 
-/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
+/** Control how much effort the model will exert to match the style and features, especially facial features, of input images. This parameter is only supported for `gpt-image-1` and `gpt-image-1.5` and later models, unsupported for `gpt-image-1-mini`. Supports `high` and `low`. Defaults to `low`. */
 export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
@@ -2903,7 +2903,7 @@ export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkil
 
 /** model interface ContainerSkill */
 export interface ContainerSkill {
-  /** The type discriminator, always 'container'. */
+  /** The type discriminator for the container skill. */
   type: ContainerSkillType;
 }
 
@@ -4159,7 +4159,6 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormat {
    * The name of the response format. Must be a-z, A-Z, 0-9, or contain
    *   underscores and dashes, with a maximum length of 64.
    */
-  tools: Record<string, unknown>[];
   name: string;
   schema: Record<string, any>;
   strict?: boolean;
@@ -4172,7 +4171,6 @@ export function textResponseFormatJsonSchemaSerializer(item: TextResponseFormatJ
     name: item["name"],
     schema: item["schema"],
     strict: item["strict"],
-    tools: item["tools"],
   };
 }
 
@@ -4185,7 +4183,6 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
       Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
     ),
     strict: item["strict"],
-    tools: item["tools"],
   };
 }
 
@@ -5100,7 +5097,7 @@ export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
-  /** The type discriminator, always 'continuous_evaluation'. */
+  /** The type discriminator, always 'continuousEvaluation'. */
   type: "continuousEvaluation";
   /** Eval Id to add continuous evaluation runs to. */
   evalId: string;
@@ -5126,7 +5123,7 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
-  /** The type discriminator, always 'human_evaluation_preview'. */
+  /** The type discriminator, always 'humanEvaluationPreview'. */
   type: "humanEvaluationPreview";
   /** Human evaluation template Id. */
   templateId: string;
@@ -6950,7 +6947,7 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-  /** The type discriminator, always 'prompt_based'. */
+  /** The type discriminator, always 'prompt'. */
   type: "prompt";
   /** The prompt text used for evaluation */
   prompt_text: string;
@@ -6995,7 +6992,7 @@ export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRe
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id?: string;
+  readonly insight_id?: string;
   /** Metadata about the insights report. */
   readonly metadata?: InsightsMetadata;
   /** The current state of the insights. */
@@ -7017,7 +7014,7 @@ export function insightSerializer(item: Insight): any {
 
 export function insightDeserializer(item: any): Insight {
   return {
-    id: item["id"],
+    insight_id: item["id"],
     metadata: insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
@@ -8258,7 +8255,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
-  /** The type discriminator, always 'azure_openai'. */
+  /** The type discriminator, always 'AzureOpenAIModel'. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -8307,7 +8304,7 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
-  readonly id?: string;
+  readonly schedule_id?: string;
   /** Name of the schedule. */
   displayName?: string;
   /** Description of the schedule. */
@@ -8342,7 +8339,7 @@ export function scheduleSerializer(item: Schedule): any {
 
 export function scheduleDeserializer(item: any): Schedule {
   return {
-    id: item["id"],
+    schedule_id: item["id"],
     displayName: item["displayName"],
     description: item["description"],
     enabled: item["enabled"],
@@ -8558,7 +8555,7 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-  /** The type discriminator, always 'HourlyRecurrence'. */
+  /** The type discriminator, always 'Hourly'. */
   type: "Hourly";
 }
 
@@ -9010,7 +9007,7 @@ export function toolboxVersionObjectArrayDeserializer(result: Array<ToolboxVersi
 export interface SkillObject {
   /** The unique identifier of the skill. */
   skill_id: string;
-  /** Whether the skill was created from a gzip blob package. */
+  /** Whether the skill was created from a zip blob package. */
   has_blob: boolean;
   /** The unique name of the skill. */
   name: string;

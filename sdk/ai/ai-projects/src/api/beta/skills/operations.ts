@@ -210,7 +210,7 @@ export function _downloadSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      accept: "application/gzip",
+      accept: "application/zip",
       ...options.requestOptions?.headers,
     },
   });
@@ -306,7 +306,7 @@ export function _createFromPackageSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/gzip",
+    contentType: "application/zip",
     headers: {
       "foundry-features": foundryFeatures,
       accept: "application/json",
@@ -330,7 +330,7 @@ export async function _createFromPackageDeserialize(
   return skillObjectDeserializer(result.body);
 }
 
-/** Creates a skill from a gzip package. */
+/** Creates a skill from a zip package. */
 export async function createFromPackage(
   context: Client,
   body: Uint8Array,
