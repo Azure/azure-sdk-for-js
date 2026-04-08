@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
+  SearchManagementRequestOptions,
   QuotaUsageResult,
   QuotaUsageResultName,
   CloudError,
@@ -87,7 +88,6 @@ export type {
   ShareablePrivateLinkResourceType,
   ShareablePrivateLinkResourceProperties,
   AdminKeyKind,
-  SearchManagementRequestOptions,
 } from "./models.js";
 export {
   KnownSkuName,

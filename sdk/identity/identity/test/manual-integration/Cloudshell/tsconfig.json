@@ -6,11 +6,11 @@
     "sourceMap": true,
     "newLine": "LF",
     "target": "es5",
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "module": "commonjs",
+    "module": "Node16",
     /*"outDir": "./dist-esm",*/
     "declaration": true,
     "declarationMap": true,

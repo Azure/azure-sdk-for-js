@@ -13,7 +13,7 @@ import type { PollerLike } from '@azure/core-lro';
 export function $delete(context: SearchManagementContext, resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function checkNameAvailability(context: SearchManagementContext, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityOutput>;
+export function checkNameAvailability(context: SearchManagementContext, name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityOutput>;
 
 // @public
 export function createOrUpdate(context: SearchManagementContext, resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): PollerLike<OperationState<SearchService>, SearchService>;
@@ -29,37 +29,44 @@ export function listBySubscription(context: SearchManagementContext, options?: S
 
 // @public
 export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface ServicesDeleteOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesGetOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesListBySubscriptionOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 // @public
 export interface ServicesUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 

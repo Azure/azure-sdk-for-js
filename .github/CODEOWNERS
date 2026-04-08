@@ -1688,6 +1688,9 @@ sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
+# PRLabel: %warp
+/common/tools/warp/ @Azure/azure-sdk-for-js-core
+
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
 
@@ -1749,7 +1752,7 @@ sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
-/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
+/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 
