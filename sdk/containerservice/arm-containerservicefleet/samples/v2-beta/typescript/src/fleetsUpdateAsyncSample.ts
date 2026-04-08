@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-02-01-preview/Fleets_PatchTags.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_PatchTags.json
  */
-async function patchTagsOfAFleetDuringUpdate(): Promise<void> {
+async function updateAFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -27,9 +27,9 @@ async function patchTagsOfAFleetDuringUpdate(): Promise<void> {
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2026-02-01-preview/Fleets_Update.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_Update_MaximumSet_Gen.json
  */
-async function updateAFleet(): Promise<void> {
+async function updateAFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -43,8 +43,8 @@ async function updateAFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await patchTagsOfAFleetDuringUpdate();
   await updateAFleet();
+  await updateAFleetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

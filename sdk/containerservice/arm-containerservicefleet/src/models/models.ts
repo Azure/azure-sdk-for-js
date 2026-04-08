@@ -469,8 +469,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -519,8 +519,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -787,8 +787,8 @@ export function fleetMemberStatusDeserializer(item: any): FleetMemberStatus {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -2072,21 +2072,6 @@ export interface UpdateStage {
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
-  /**
-   * The max number of upgrades that can run concurrently across all groups in this stage.
-   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the stage you want to tolerate at a time.
-   * Actual concurrency may be lower depending on group-level concurrency limits or individual member conditions.
-   * Stage maxConcurrency has a min value of "1".
-   * Accepts either:
-   *     • A fixed count, e.g., "3"
-   *     • A percentage, e.g., "25%" (range 1–100). Percentage is of the total number of clusters across all groups in the stage.
-   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
-   * Examples:
-   *     • "3"     --> up to 3 clusters from this stage upgrade at once (across all groups).
-   *     • "100%"  --> “all at once”; up to all clusters in this stage upgrade at the same time.
-   *     • "25%"   --> up to 25% of the stage’s total clusters upgrade at the same time.
-   */
-  maxConcurrency?: string;
   /** A list of Gates that will be created before this Stage is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Stage is executed. */
@@ -2098,7 +2083,6 @@ export function updateStageSerializer(item: UpdateStage): any {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArraySerializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
-    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2113,7 +2097,6 @@ export function updateStageDeserializer(item: any): UpdateStage {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArrayDeserializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
-    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2142,22 +2125,6 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
-  /**
-   * The max number of upgrades that can run concurrently in this specific group.
-   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the group you want to tolerate at a time.
-   * Actual concurrency may be lower depending on stage-level concurrency limits or individual member conditions.
-   * Group maxConcurrency has a min value of "1". The max value is min(number of clusters in the group, the stage maxConcurrency).
-   * If no value is provided, defaults to 1.
-   * Accepts either:
-   *     • A fixed count, e.g. "3"
-   *     • A percentage, e.g. "25%" (range 1–100). Percentage is of the number of clusters in the group.
-   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
-   * Examples:
-   *     • "3" --> up to 3 members from this group upgrade at once.
-   *     • "100%" --> “all at once”, up to all members for this group upgrade at the same time.
-   *     • "25%" --> up to 25% of the members in the group will be upgraded at the same time.
-   */
-  maxConcurrency?: string;
   /** A list of Gates that will be created before this Group is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Group is executed. */
@@ -2167,7 +2134,6 @@ export interface UpdateGroup {
 export function updateGroupSerializer(item: UpdateGroup): any {
   return {
     name: item["name"],
-    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2180,7 +2146,6 @@ export function updateGroupSerializer(item: UpdateGroup): any {
 export function updateGroupDeserializer(item: any): UpdateGroup {
   return {
     name: item["name"],
-    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2352,8 +2317,8 @@ export interface NodeImageVersion {
   readonly version?: string;
 }
 
-export function nodeImageVersionSerializer(item: NodeImageVersion): any {
-  return item;
+export function nodeImageVersionSerializer(_item: NodeImageVersion): any {
+  return {};
 }
 
 export function nodeImageVersionDeserializer(item: any): NodeImageVersion {
@@ -2451,8 +2416,6 @@ export interface UpdateStageStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateStage. */
   readonly name?: string;
-  /** The max number of upgrades that can run concurrently across all groups in this stage, resolved from the UpdateStrategy.UpdateStage.maxConcurrency value. */
-  readonly maxConcurrency?: number;
   /** The list of groups to be updated as part of this UpdateStage. */
   readonly groups?: UpdateGroupStatus[];
   /** The list of Gates that will run before this UpdateStage. */
@@ -2467,7 +2430,6 @@ export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
-    maxConcurrency: item["maxConcurrency"],
     groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
@@ -2493,8 +2455,6 @@ export interface UpdateGroupStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateGroup. */
   readonly name?: string;
-  /**   The max number of upgrades that can run concurrently in this group, resolved from the UpdateStrategy.UpdateGroup.maxConcurrency value. If no value was provided, this value defaults to "1". */
-  readonly maxConcurrency?: number;
   /** The list of member this UpdateGroup updates. */
   readonly members?: MemberUpdateStatus[];
   /** The list of Gates that will run before this UpdateGroup. */
@@ -2507,7 +2467,6 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
-    maxConcurrency: item["maxConcurrency"],
     members: !item["members"]
       ? item["members"]
       : memberUpdateStatusArrayDeserializer(item["members"]),
@@ -2991,8 +2950,8 @@ export interface AutoUpgradeProfileStatus {
   readonly lastTriggerUpgradeVersions?: string[];
 }
 
-export function autoUpgradeProfileStatusSerializer(item: AutoUpgradeProfileStatus): any {
-  return item;
+export function autoUpgradeProfileStatusSerializer(_item: AutoUpgradeProfileStatus): any {
+  return {};
 }
 
 export function autoUpgradeProfileStatusDeserializer(item: any): AutoUpgradeProfileStatus {
@@ -3095,8 +3054,6 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
   V20250801Preview = "2025-08-01-preview",
-  /** Azure Kubernetes Fleet Manager api version 2026-02-01-preview. */
-  V20260201Preview = "2026-02-01-preview",
 }
 
 export function _fleetManagedNamespacePropertiesSerializer(item: FleetManagedNamespace): any {
