@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -235,7 +241,9 @@ export function assetSerializer(item: Asset): any {
 
 export function assetDeserializer(item: any): Asset {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -350,7 +358,11 @@ export function assetPropertiesDeserializer(item: any): AssetProperties {
     softwareRevision: item["softwareRevision"],
     documentationUri: item["documentationUri"],
     serialNumber: item["serialNumber"],
-    attributes: item["attributes"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     discoveredAssetRefs: !item["discoveredAssetRefs"]
       ? item["discoveredAssetRefs"]
       : item["discoveredAssetRefs"].map((p: any) => {
@@ -800,7 +812,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -817,8 +831,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1012,7 +1026,9 @@ export function assetEndpointProfileSerializer(item: AssetEndpointProfile): any 
 
 export function assetEndpointProfileDeserializer(item: any): AssetEndpointProfile {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1321,8 +1337,8 @@ export function billingContainerPropertiesDeserializer(item: any): BillingContai
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1380,7 +1396,9 @@ export function namespaceSerializer(item: Namespace): any {
 
 export function namespaceDeserializer(item: any): Namespace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1653,6 +1671,424 @@ export function errorDetailsDeserializer(item: any): ErrorDetails {
   };
 }
 
+/** A Credential Resource */
+export interface Credential extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CredentialProperties;
+}
+
+export function credentialSerializer(item: Credential): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : credentialPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function credentialDeserializer(item: any): Credential {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : credentialPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Credential Resource. */
+export interface CredentialProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function credentialPropertiesSerializer(_item: CredentialProperties): any {
+  return {};
+}
+
+export function credentialPropertiesDeserializer(item: any): CredentialProperties {
+  return {
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The type used for update operations of the Credential. */
+export interface CredentialUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function credentialUpdateSerializer(item: CredentialUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a Credential list operation. */
+export interface _CredentialListResult {
+  /** The Credential items on this page */
+  value: Credential[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _credentialListResultDeserializer(item: any): _CredentialListResult {
+  return {
+    value: credentialArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function credentialArraySerializer(result: Array<Credential>): any[] {
+  return result.map((item) => {
+    return credentialSerializer(item);
+  });
+}
+
+export function credentialArrayDeserializer(result: Array<Credential>): any[] {
+  return result.map((item) => {
+    return credentialDeserializer(item);
+  });
+}
+
+/** A Credential Policy */
+export interface Policy extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PolicyProperties;
+}
+
+export function policySerializer(item: Policy): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : policyPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function policyDeserializer(item: any): Policy {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : policyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Credential Policy. */
+export interface PolicyProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+  /** The certificate configuration. */
+  certificate?: CertificateConfiguration;
+}
+
+export function policyPropertiesSerializer(item: PolicyProperties): any {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificateConfigurationSerializer(item["certificate"]),
+  };
+}
+
+export function policyPropertiesDeserializer(item: any): PolicyProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificateConfigurationDeserializer(item["certificate"]),
+  };
+}
+
+/** The certificate configuration. */
+export interface CertificateConfiguration {
+  /** The configuration to set up an ICA. */
+  certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
+  /** The leaf certificate configuration. */
+  leafCertificateConfiguration: LeafCertificateConfiguration;
+}
+
+export function certificateConfigurationSerializer(item: CertificateConfiguration): any {
+  return {
+    certificateAuthorityConfiguration: certificateAuthorityConfigurationSerializer(
+      item["certificateAuthorityConfiguration"],
+    ),
+    leafCertificateConfiguration: leafCertificateConfigurationSerializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+export function certificateConfigurationDeserializer(item: any): CertificateConfiguration {
+  return {
+    certificateAuthorityConfiguration: certificateAuthorityConfigurationDeserializer(
+      item["certificateAuthorityConfiguration"],
+    ),
+    leafCertificateConfiguration: leafCertificateConfigurationDeserializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+/** The configuration to set up an ICA. */
+export interface CertificateAuthorityConfiguration {
+  /** Crypto type: ECC. */
+  keyType: SupportedKeyType;
+  /** Certificate subject. */
+  readonly subject?: string;
+  /** Certificate is valid not before this date. Format ISO8601. Generated based on on validity period. */
+  readonly validityNotBefore?: Date;
+  /** Certificate is valid not after this date. Format ISO8601. Generated based on validity period. */
+  readonly validityNotAfter?: Date;
+  /** Configuration for Bring Your Own Root. */
+  bringYourOwnRoot?: BringYourOwnRoot;
+}
+
+export function certificateAuthorityConfigurationSerializer(
+  item: CertificateAuthorityConfiguration,
+): any {
+  return {
+    keyType: item["keyType"],
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootSerializer(item["bringYourOwnRoot"]),
+  };
+}
+
+export function certificateAuthorityConfigurationDeserializer(
+  item: any,
+): CertificateAuthorityConfiguration {
+  return {
+    keyType: item["keyType"],
+    subject: item["subject"],
+    validityNotBefore: !item["validityNotBefore"]
+      ? item["validityNotBefore"]
+      : new Date(item["validityNotBefore"]),
+    validityNotAfter: !item["validityNotAfter"]
+      ? item["validityNotAfter"]
+      : new Date(item["validityNotAfter"]),
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootDeserializer(item["bringYourOwnRoot"]),
+  };
+}
+
+/** Supported key types. */
+export enum KnownSupportedKeyType {
+  /** Indicates the ECC key type. */
+  ECC = "ECC",
+}
+
+/**
+ * Supported key types. \
+ * {@link KnownSupportedKeyType} can be used interchangeably with SupportedKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ECC**: Indicates the ECC key type.
+ */
+export type SupportedKeyType = string;
+
+/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
+export interface BringYourOwnRoot {
+  /** Indicates whether Bring Your Own Root is enabled. This can only be set at creation time and cannot be changed afterward. */
+  enabled: boolean;
+  /** Certificate Signing Request (CSR) in PEM format, generated by the service. Sign this CSR with your Certificate Authority and activate via the activateBringYourOwnRoot action. A new CSR is generated at policy creation and when certificates near expiration. */
+  readonly certificateSigningRequest?: string;
+  /** Thumbprint of the issuing certificate. */
+  readonly issuingCertificateThumbprint?: string;
+  /** The status of the Bring Your Own Root configuration, indicating the current state of the certificate lifecycle. */
+  readonly status?: BringYourOwnRootStatus;
+}
+
+export function bringYourOwnRootSerializer(item: BringYourOwnRoot): any {
+  return { enabled: item["enabled"] };
+}
+
+export function bringYourOwnRootDeserializer(item: any): BringYourOwnRoot {
+  return {
+    enabled: item["enabled"],
+    certificateSigningRequest: item["certificateSigningRequest"],
+    issuingCertificateThumbprint: item["issuingCertificateThumbprint"],
+    status: item["status"],
+  };
+}
+
+/** Status of the Bring Your Own Root configuration. */
+export enum KnownBringYourOwnRootStatus {
+  /** The CSR has been generated and is waiting for the customer to provide the signed certificate. */
+  PendingActivation = "PendingActivation",
+  /** The signed certificate has been successfully uploaded and validated, and the CA is active. */
+  Active = "Active",
+  /** The certificate is nearing expiration (within renewal window) or has expired. A new CSR has been generated and is waiting for the customer to provide a new signed certificate. */
+  ActiveButPendingRenewal = "ActiveButPendingRenewal",
+}
+
+/**
+ * Status of the Bring Your Own Root configuration. \
+ * {@link KnownBringYourOwnRootStatus} can be used interchangeably with BringYourOwnRootStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingActivation**: The CSR has been generated and is waiting for the customer to provide the signed certificate. \
+ * **Active**: The signed certificate has been successfully uploaded and validated, and the CA is active. \
+ * **ActiveButPendingRenewal**: The certificate is nearing expiration (within renewal window) or has expired. A new CSR has been generated and is waiting for the customer to provide a new signed certificate.
+ */
+export type BringYourOwnRootStatus = string;
+
+/** The leaf certificate configuration. */
+export interface LeafCertificateConfiguration {
+  /** The validity period in days. */
+  validityPeriodInDays: number;
+}
+
+export function leafCertificateConfigurationSerializer(item: LeafCertificateConfiguration): any {
+  return { validityPeriodInDays: item["validityPeriodInDays"] };
+}
+
+export function leafCertificateConfigurationDeserializer(item: any): LeafCertificateConfiguration {
+  return {
+    validityPeriodInDays: item["validityPeriodInDays"],
+  };
+}
+
+/** A Credential Policy */
+export interface PolicyUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: PolicyUpdateProperties;
+}
+
+export function policyUpdateSerializer(item: PolicyUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : policyUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Details of the Credential Policy. */
+export interface PolicyUpdateProperties {
+  /** The certificate configuration. */
+  certificate?: CertificateConfigurationUpdate;
+}
+
+export function policyUpdatePropertiesSerializer(item: PolicyUpdateProperties): any {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificateConfigurationUpdateSerializer(item["certificate"]),
+  };
+}
+
+/** The updatable certificate configuration for Policy. */
+export interface CertificateConfigurationUpdate {
+  /** The configuration to set up an ICA. */
+  certificateAuthorityConfiguration?: CertificateAuthorityConfigurationUpdate;
+  /** The leaf certificate configuration. */
+  leafCertificateConfiguration: LeafCertificateConfigurationUpdate;
+}
+
+export function certificateConfigurationUpdateSerializer(
+  item: CertificateConfigurationUpdate,
+): any {
+  return {
+    certificateAuthorityConfiguration: !item["certificateAuthorityConfiguration"]
+      ? item["certificateAuthorityConfiguration"]
+      : certificateAuthorityConfigurationUpdateSerializer(
+          item["certificateAuthorityConfiguration"],
+        ),
+    leafCertificateConfiguration: leafCertificateConfigurationUpdateSerializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+/** The configuration to set up an ICA. */
+export interface CertificateAuthorityConfigurationUpdate {
+  /** Configuration for Bring Your Own Root. */
+  bringYourOwnRoot?: BringYourOwnRootUpdate;
+}
+
+export function certificateAuthorityConfigurationUpdateSerializer(
+  item: CertificateAuthorityConfigurationUpdate,
+): any {
+  return {
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootUpdateSerializer(item["bringYourOwnRoot"]),
+  };
+}
+
+/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
+export interface BringYourOwnRootUpdate {}
+
+export function bringYourOwnRootUpdateSerializer(_item: BringYourOwnRootUpdate): any {
+  return {};
+}
+
+/** The updatable leaf certificate configuration for Policy. */
+export interface LeafCertificateConfigurationUpdate {
+  /** The validity period in days. */
+  validityPeriodInDays: number;
+}
+
+export function leafCertificateConfigurationUpdateSerializer(
+  item: LeafCertificateConfigurationUpdate,
+): any {
+  return { validityPeriodInDays: item["validityPeriodInDays"] };
+}
+
+/** The response of a Policy list operation. */
+export interface _PolicyListResult {
+  /** The Policy items on this page */
+  value: Policy[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _policyListResultDeserializer(item: any): _PolicyListResult {
+  return {
+    value: policyArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function policyArraySerializer(result: Array<Policy>): any[] {
+  return result.map((item) => {
+    return policySerializer(item);
+  });
+}
+
+export function policyArrayDeserializer(result: Array<Policy>): any[] {
+  return result.map((item) => {
+    return policyDeserializer(item);
+  });
+}
+
+/** Request payload for activating a Bring Your Own Root policy with a customer-provided signed certificate. */
+export interface ActivateBringYourOwnRootRequest {
+  /** Certificate chain in PEM format, including the signed certificate. The first certificate must be the signed certificate (matching the CSR generated by the service), followed by any intermediate CAs, and optionally the root CA. Certificates must be ordered from leaf to root and concatenated in PEM format. */
+  certificateChain: string;
+}
+
+export function activateBringYourOwnRootRequestSerializer(
+  item: ActivateBringYourOwnRootRequest,
+): any {
+  return { certificateChain: item["certificateChain"] };
+}
+
 /** Asset definition. */
 export interface NamespaceAsset extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -1674,7 +2110,9 @@ export function namespaceAssetSerializer(item: NamespaceAsset): any {
 
 export function namespaceAssetDeserializer(item: any): NamespaceAsset {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1834,7 +2272,11 @@ export function namespaceAssetPropertiesDeserializer(item: any): NamespaceAssetP
     softwareRevision: item["softwareRevision"],
     documentationUri: item["documentationUri"],
     serialNumber: item["serialNumber"],
-    attributes: item["attributes"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     discoveredAssetRefs: !item["discoveredAssetRefs"]
       ? item["discoveredAssetRefs"]
       : item["discoveredAssetRefs"].map((p: any) => {
@@ -1946,7 +2388,7 @@ export function datasetDestinationUnionSerializer(item: DatasetDestinationUnion)
 }
 
 export function datasetDestinationUnionDeserializer(item: any): DatasetDestinationUnion {
-  switch (item.target) {
+  switch (item["target"]) {
     case "Mqtt":
       return datasetMqttDestinationDeserializer(item as DatasetMqttDestination);
 
@@ -2019,12 +2461,7 @@ export interface MqttDestinationConfiguration {
 }
 
 export function mqttDestinationConfigurationSerializer(item: MqttDestinationConfiguration): any {
-  return {
-    topic: item["topic"],
-    retain: item["retain"],
-    qos: item["qos"],
-    ttl: item["ttl"],
-  };
+  return { topic: item["topic"], retain: item["retain"], qos: item["qos"], ttl: item["ttl"] };
 }
 
 export function mqttDestinationConfigurationDeserializer(item: any): MqttDestinationConfiguration {
@@ -2193,7 +2630,7 @@ export function eventDestinationUnionSerializer(item: EventDestinationUnion): an
 }
 
 export function eventDestinationUnionDeserializer(item: any): EventDestinationUnion {
-  switch (item.target) {
+  switch (item["target"]) {
     case "Mqtt":
       return eventMqttDestinationDeserializer(item as EventMqttDestination);
 
@@ -2320,7 +2757,7 @@ export function streamDestinationUnionSerializer(item: StreamDestinationUnion): 
 }
 
 export function streamDestinationUnionDeserializer(item: any): StreamDestinationUnion {
-  switch (item.target) {
+  switch (item["target"]) {
     case "Mqtt":
       return streamMqttDestinationDeserializer(item as StreamMqttDestination);
 
@@ -3210,7 +3647,9 @@ export function namespaceDeviceSerializer(item: NamespaceDevice): any {
 
 export function namespaceDeviceDeserializer(item: any): NamespaceDevice {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3258,6 +3697,8 @@ export interface NamespaceDeviceProperties {
   readonly lastTransitionTime?: Date;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ProvisioningState;
+  /** Policy used to issue device certificates. */
+  policy?: DeviceCredentialPolicy;
 }
 
 export function namespaceDevicePropertiesSerializer(item: NamespaceDeviceProperties): any {
@@ -3273,6 +3714,7 @@ export function namespaceDevicePropertiesSerializer(item: NamespaceDevicePropert
       ? item["endpoints"]
       : messagingEndpointsSerializer(item["endpoints"]),
     attributes: item["attributes"],
+    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicySerializer(item["policy"]),
   };
 }
 
@@ -3289,13 +3731,18 @@ export function namespaceDevicePropertiesDeserializer(item: any): NamespaceDevic
     endpoints: !item["endpoints"]
       ? item["endpoints"]
       : messagingEndpointsDeserializer(item["endpoints"]),
-    attributes: item["attributes"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     status: !item["status"] ? item["status"] : deviceStatusDeserializer(item["status"]),
     version: item["version"],
     lastTransitionTime: !item["lastTransitionTime"]
       ? item["lastTransitionTime"]
       : new Date(item["lastTransitionTime"]),
     provisioningState: item["provisioningState"],
+    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicyDeserializer(item["policy"]),
   };
 }
 
@@ -3585,6 +4032,22 @@ export function deviceStatusEndpointDeserializer(item: any): DeviceStatusEndpoin
   };
 }
 
+/** Defines the Policy used to issue device certificates if any. */
+export interface DeviceCredentialPolicy {
+  /** Resource Id of the Policy. */
+  resourceId?: string;
+}
+
+export function deviceCredentialPolicySerializer(item: DeviceCredentialPolicy): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function deviceCredentialPolicyDeserializer(item: any): DeviceCredentialPolicy {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
 /** The type used for update operations of the NamespaceDevice. */
 export interface NamespaceDeviceUpdate {
   /** Resource tags. */
@@ -3610,6 +4073,8 @@ export interface NamespaceDeviceUpdateProperties {
   endpoints?: MessagingEndpoints;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
   attributes?: Record<string, any>;
+  /** Policy used to issue device certificates. */
+  policy?: DeviceCredentialPolicy;
   /** Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID. */
   enabled?: boolean;
 }
@@ -3623,6 +4088,7 @@ export function namespaceDeviceUpdatePropertiesSerializer(
       ? item["endpoints"]
       : messagingEndpointsSerializer(item["endpoints"]),
     attributes: item["attributes"],
+    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicySerializer(item["policy"]),
     enabled: item["enabled"],
   };
 }
@@ -3654,6 +4120,18 @@ export function namespaceDeviceArrayDeserializer(result: Array<NamespaceDevice>)
   });
 }
 
+/** Request payload for revoking device credentials. */
+export interface DeviceCredentialsRevokeRequest {
+  /** Indicates whether to disable the device(s) after revoking credentials. Prevents new credentials to be issued. */
+  disable?: boolean;
+}
+
+export function deviceCredentialsRevokeRequestSerializer(
+  item: DeviceCredentialsRevokeRequest,
+): any {
+  return { disable: item["disable"] };
+}
+
 /** Discovered asset definition. */
 export interface NamespaceDiscoveredAsset extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -3675,7 +4153,9 @@ export function namespaceDiscoveredAssetSerializer(item: NamespaceDiscoveredAsse
 
 export function namespaceDiscoveredAssetDeserializer(item: any): NamespaceDiscoveredAsset {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3825,7 +4305,11 @@ export function namespaceDiscoveredAssetPropertiesDeserializer(
     softwareRevision: item["softwareRevision"],
     documentationUri: item["documentationUri"],
     serialNumber: item["serialNumber"],
-    attributes: item["attributes"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
     defaultEventsConfiguration: item["defaultEventsConfiguration"],
     defaultStreamsConfiguration: item["defaultStreamsConfiguration"],
@@ -4500,7 +4984,9 @@ export function namespaceDiscoveredDeviceSerializer(item: NamespaceDiscoveredDev
 
 export function namespaceDiscoveredDeviceDeserializer(item: any): NamespaceDiscoveredDevice {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -4569,7 +5055,11 @@ export function namespaceDiscoveredDevicePropertiesDeserializer(
     model: item["model"],
     operatingSystem: item["operatingSystem"],
     operatingSystemVersion: item["operatingSystemVersion"],
-    attributes: item["attributes"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     discoveryId: item["discoveryId"],
     version: item["version"],
     provisioningState: item["provisioningState"],
@@ -4681,9 +5171,7 @@ export interface DiscoveredOutboundEndpoints {
 }
 
 export function discoveredOutboundEndpointsSerializer(item: DiscoveredOutboundEndpoints): any {
-  return {
-    assigned: deviceMessagingEndpointRecordSerializer(item["assigned"]),
-  };
+  return { assigned: deviceMessagingEndpointRecordSerializer(item["assigned"]) };
 }
 
 export function discoveredOutboundEndpointsDeserializer(item: any): DiscoveredOutboundEndpoints {
@@ -4798,7 +5286,9 @@ export function schemaRegistrySerializer(item: SchemaRegistry): any {
 
 export function schemaRegistryDeserializer(item: any): SchemaRegistry {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -4978,7 +5468,9 @@ export function schemaPropertiesDeserializer(item: any): SchemaProperties {
     format: item["format"],
     schemaType: item["schemaType"],
     provisioningState: item["provisioningState"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -5085,10 +5577,7 @@ export interface SchemaVersionProperties {
 }
 
 export function schemaVersionPropertiesSerializer(item: SchemaVersionProperties): any {
-  return {
-    description: item["description"],
-    schemaContent: item["schemaContent"],
-  };
+  return { description: item["description"], schemaContent: item["schemaContent"] };
 }
 
 export function schemaVersionPropertiesDeserializer(item: any): SchemaVersionProperties {
@@ -5130,8 +5619,18 @@ export function schemaVersionArrayDeserializer(result: Array<SchemaVersion>): an
 
 /** Microsoft.DeviceRegistry Resource Provider supported API versions. */
 export enum KnownVersions {
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2023-11-01-preview. */
+  V20231101Preview = "2023-11-01-preview",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2024-09-01-preview. */
+  V20240901Preview = "2024-09-01-preview",
   /** Microsoft.DeviceRegistry Resource Provider management API version 2024-11-01. */
   V20241101 = "2024-11-01",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2025-07-01-preview. */
+  V20250701Preview = "2025-07-01-preview",
   /** Microsoft.DeviceRegistry Resource Provider management API version 2025-10-01. */
   V20251001 = "2025-10-01",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2025-11-01-preview. */
+  V20251101Preview = "2025-11-01-preview",
+  /** Microsoft.DeviceRegistry Resource Provider management API version 2026-03-01-preview. */
+  V20260301Preview = "2026-03-01-preview",
 }

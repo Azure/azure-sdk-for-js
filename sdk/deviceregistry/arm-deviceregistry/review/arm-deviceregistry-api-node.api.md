@@ -19,7 +19,7 @@ export interface DeviceRegistryManagementClientOptionalParams extends ClientOpti
 
 // @public
 export interface DeviceRegistryManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

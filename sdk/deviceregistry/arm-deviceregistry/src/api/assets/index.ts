@@ -9,11 +9,11 @@ export {
   createOrReplace,
   get,
 } from "./operations.js";
-export {
-  type AssetsListBySubscriptionOptionalParams,
-  type AssetsListByResourceGroupOptionalParams,
-  type AssetsDeleteOptionalParams,
-  type AssetsUpdateOptionalParams,
-  type AssetsCreateOrReplaceOptionalParams,
-  type AssetsGetOptionalParams,
+export type {
+  AssetsListBySubscriptionOptionalParams,
+  AssetsListByResourceGroupOptionalParams,
+  AssetsDeleteOptionalParams,
+  AssetsUpdateOptionalParams,
+  AssetsCreateOrReplaceOptionalParams,
+  AssetsGetOptionalParams,
 } from "./options.js";

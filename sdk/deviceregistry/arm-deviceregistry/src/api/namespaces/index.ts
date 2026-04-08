@@ -10,12 +10,12 @@ export {
   createOrReplace,
   get,
 } from "./operations.js";
-export {
-  type NamespacesMigrateOptionalParams,
-  type NamespacesListBySubscriptionOptionalParams,
-  type NamespacesListByResourceGroupOptionalParams,
-  type NamespacesDeleteOptionalParams,
-  type NamespacesUpdateOptionalParams,
-  type NamespacesCreateOrReplaceOptionalParams,
-  type NamespacesGetOptionalParams,
+export type {
+  NamespacesMigrateOptionalParams,
+  NamespacesListBySubscriptionOptionalParams,
+  NamespacesListByResourceGroupOptionalParams,
+  NamespacesDeleteOptionalParams,
+  NamespacesUpdateOptionalParams,
+  NamespacesCreateOrReplaceOptionalParams,
+  NamespacesGetOptionalParams,
 } from "./options.js";

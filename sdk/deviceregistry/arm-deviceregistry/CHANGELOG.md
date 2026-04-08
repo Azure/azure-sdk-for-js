@@ -1,5 +1,56 @@
 # Release History
 
+## 1.2.0-beta.1 (2026-04-08)
+Compared with version 1.1.0
+
+### Features Added
+  - Added operation group CredentialsOperations
+  - Added operation group PoliciesOperations
+  - Added operation NamespaceDevicesOperations.revoke
+  - Added Interface ActivateBringYourOwnRootRequest
+  - Added Interface BringYourOwnRoot
+  - Added Interface BringYourOwnRootUpdate
+  - Added Interface CertificateAuthorityConfiguration
+  - Added Interface CertificateAuthorityConfigurationUpdate
+  - Added Interface CertificateConfiguration
+  - Added Interface CertificateConfigurationUpdate
+  - Added Interface Credential
+  - Added Interface CredentialProperties
+  - Added Interface CredentialsCreateOrUpdateOptionalParams
+  - Added Interface CredentialsDeleteOptionalParams
+  - Added Interface CredentialsGetOptionalParams
+  - Added Interface CredentialsListByResourceGroupOptionalParams
+  - Added Interface CredentialsSynchronizeOptionalParams
+  - Added Interface CredentialsUpdateOptionalParams
+  - Added Interface CredentialUpdate
+  - Added Interface DeviceCredentialPolicy
+  - Added Interface DeviceCredentialsRevokeRequest
+  - Added Interface LeafCertificateConfiguration
+  - Added Interface LeafCertificateConfigurationUpdate
+  - Added Interface NamespaceDevicesRevokeOptionalParams
+  - Added Interface PoliciesActivateBringYourOwnRootOptionalParams
+  - Added Interface PoliciesCreateOrUpdateOptionalParams
+  - Added Interface PoliciesDeleteOptionalParams
+  - Added Interface PoliciesGetOptionalParams
+  - Added Interface PoliciesListByResourceGroupOptionalParams
+  - Added Interface PoliciesRevokeIssuerOptionalParams
+  - Added Interface PoliciesUpdateOptionalParams
+  - Added Interface Policy
+  - Added Interface PolicyProperties
+  - Added Interface PolicyUpdate
+  - Added Interface PolicyUpdateProperties
+  - Interface NamespaceDeviceProperties has a new optional parameter policy
+  - Interface NamespaceDeviceUpdateProperties has a new optional parameter policy
+  - Added Type Alias BringYourOwnRootStatus
+  - Added Type Alias SupportedKeyType
+  - Added Enum KnownBringYourOwnRootStatus
+  - Added Enum KnownSupportedKeyType
+  - Enum KnownVersions has a new value V20231101Preview
+  - Enum KnownVersions has a new value V20240901Preview
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20251101Preview
+  - Enum KnownVersions has a new value V20260301Preview
+
 ## 1.1.0 (2025-11-10)
 
 ### Features Added

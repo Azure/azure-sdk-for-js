@@ -33,9 +33,7 @@ export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets{?api%2Dversion}",
@@ -43,7 +41,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,10 +49,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -65,6 +60,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -76,16 +72,18 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<NamespaceDiscoveredAsset> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, namespaceName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -94,9 +92,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   namespaceName: string,
   discoveredAssetName: string,
-  options: NamespaceDiscoveredAssetsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}{?api%2Dversion}",
@@ -105,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       discoveredAssetName: discoveredAssetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,6 +115,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -136,9 +133,7 @@ export function $delete(
   resourceGroupName: string,
   namespaceName: string,
   discoveredAssetName: string,
-  options: NamespaceDiscoveredAssetsDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -146,6 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, namespaceName, discoveredAssetName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -155,9 +151,7 @@ export function _updateSend(
   namespaceName: string,
   discoveredAssetName: string,
   properties: NamespaceDiscoveredAssetUpdate,
-  options: NamespaceDiscoveredAssetsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}{?api%2Dversion}",
@@ -166,7 +160,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       discoveredAssetName: discoveredAssetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,10 +169,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: namespaceDiscoveredAssetUpdateSerializer(properties),
   });
 }
@@ -186,10 +177,11 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NamespaceDiscoveredAsset> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -203,11 +195,9 @@ export function update(
   namespaceName: string,
   discoveredAssetName: string,
   properties: NamespaceDiscoveredAssetUpdate,
-  options: NamespaceDiscoveredAssetsUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -219,7 +209,8 @@ export function update(
         properties,
         options,
       ),
-    resourceLocationConfig: "original-uri",
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
 }
 
@@ -229,9 +220,7 @@ export function _createOrReplaceSend(
   namespaceName: string,
   discoveredAssetName: string,
   resource: NamespaceDiscoveredAsset,
-  options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/discoveredAssets/{discoveredAssetName}{?api%2Dversion}",
@@ -240,7 +229,7 @@ export function _createOrReplaceSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       discoveredAssetName: discoveredAssetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,10 +238,7 @@ export function _createOrReplaceSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: namespaceDiscoveredAssetSerializer(resource),
   });
 }
@@ -264,6 +250,7 @@ export async function _createOrReplaceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -277,9 +264,7 @@ export function createOrReplace(
   namespaceName: string,
   discoveredAssetName: string,
   resource: NamespaceDiscoveredAsset,
-  options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = {
-    requestOptions: {},
-  },
+  options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -294,6 +279,7 @@ export function createOrReplace(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
 }
 
@@ -311,7 +297,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       discoveredAssetName: discoveredAssetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,10 +305,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -333,6 +316,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
