@@ -26,7 +26,7 @@
 
 name: "Management Release Assistant"
 "on":
-  pull_request_target:
+  pull_request:
     types:
     - labeled
 
@@ -41,7 +41,7 @@ run-name: "Management Release Assistant"
 jobs:
   activation:
     needs: pre_activation
-    if: needs.pre_activation.outputs.activated == 'true' && (github.event.label.name == 'mgmt-review-needed')
+    if: needs.pre_activation.outputs.activated == 'true' && (github.event.label.name == 'mgmt-review-needed') && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1143,7 +1143,7 @@ jobs:
             await main();
 
   pre_activation:
-    if: github.event.label.name == 'mgmt-review-needed'
+    if: github.event.label.name == 'mgmt-review-needed' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-slim
     outputs:
       activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}

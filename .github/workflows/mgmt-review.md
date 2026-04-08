@@ -1,9 +1,9 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
 labels: [mgmt-review-needed]
-if: github.event.label.name == 'mgmt-review-needed'
+if: github.event.label.name == 'mgmt-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Review a pull request for management-plane SDKs"
 permissions:
   contents: read
@@ -124,18 +124,6 @@ Besides above cases also:
 > **Time budget**: Spend at most **10 minutes** on all auto-fix attempts combined. If an auto-fix fails or takes too long, stop immediately and report it as a manual-fix item in Step 4. Never let auto-fix attempts prevent you from posting the complete failure report.
 
 For failures with `Auto Fix: Yes` from your Step 2 list, attempt fixes and push directly to the PR branch via `push-to-pull-request-branch`.
-
-> **Important (`pull_request_target` checkout):** This workflow runs on `pull_request_target`, so the default checkout is the **base** branch (e.g., `main`), not the PR's source branch. The PR head ref is not available as a local branch. Before making any changes, you **must** fetch and check out the PR head **using the PR's actual branch name** so that `push-to-pull-request-branch` can find it:
->
-> 1. Use the GitHub API to get the PR's head branch name: `gh pr view ${{ github.event.pull_request.number }} --json headRefName -q .headRefName`
-> 2. Store the branch name in a variable, e.g., `PR_BRANCH=<result>`
-> 3. `git fetch --unshallow || true`
-> 4. `git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:$PR_BRANCH`
-> 5. `git checkout $PR_BRANCH`
->
-> This creates a local branch with the same name as the PR's source branch (e.g., `sdkauto-azure-arm-servicefabric`), which is required for `push-to-pull-request-branch` to work correctly.
->
-> All sub-steps below assume you have completed this checkout.
 
 #### 3a. Check-format failure
 
