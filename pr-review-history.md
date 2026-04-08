@@ -10,3 +10,4 @@
 ## PR #37913 @azure/arm-computelimit 1.0.0 - 1 issue (first release must be preview 1.0.0-beta.1, not stable 1.0.0); CI pending
 ## PR #37954 @azure/arm-relationships 1.0.0-beta.1 - 2 issues (delete reserved keyword in DependencyOfRelationshipsOperations and ServiceGroupMemberRelationshipsOperations; fix via @clientName in spec); CI pending
 ## PR #38015 @azure/arm-commerce 4.0.0-beta.4 - 1 issue (userAgentInfo version mismatch 1.0.0-beta.1 vs 4.0.0-beta.4); pnpm-lock conflict
+## PR #38013 @azure/arm-containerservicefleet 2.1.0-beta.4 - clean; CI pending (ADO 6121881)
