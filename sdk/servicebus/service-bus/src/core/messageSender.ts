@@ -33,6 +33,19 @@ import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer.js";
 
 /**
+ * Default maximum batch size (1 MB).  Applied when the service does not
+ * advertise `com.microsoft:max-message-batch-size` in the AMQP link attach
+ * frame.  The batch size limit can differ from the per-entity `max-message-size`
+ * (which may be up to 100 MB on Premium large-message entities).  Without this
+ * cap the SDK would accept batches up to `max-message-size`, only for the
+ * service to reject them.
+ *
+ * @see https://github.com/Azure/azure-sdk-for-net/issues/44914
+ * @internal
+ */
+const DefaultMaxBatchSize = 1048576;
+
+/**
  * @internal
  * Describes the MessageSender that will send messages to ServiceBus.
  */
@@ -400,9 +413,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * `com.microsoft:max-message-batch-size` vendor property from the AMQP link
    * attach frame, which correctly reports the batch size limit (e.g. 1 MB on
    * Premium) independent of the per-entity `max-message-size` (which can be up
-   * to 100 MB on Premium large-message entities). Falls back to
-   * `max-message-size` for older service versions that don't advertise the
-   * vendor property.
+   * to 100 MB on Premium large-message entities). When the vendor property is
+   * absent (older service versions), falls back to
+   * `Math.min(maxMessageSize, DefaultMaxBatchSize)` to prevent using the raw
+   * `max-message-size` (potentially 100 MB) as the batch limit.
    */
   private getMaxBatchSizeFromLink(): number {
     if (this.link) {
@@ -412,8 +426,11 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         return vendorBatchSize;
       }
     }
-    // Fallback: use max-message-size (standard AMQP property).
-    return this.link?.maxMessageSize ?? 0;
+    // Fallback: cap at DefaultMaxBatchSize to avoid using the raw
+    // max-message-size (which can be 100 MB on Premium large-message entities)
+    // as the batch limit.  Matches the .NET SDK pattern.
+    const maxMessageSize = this.link?.maxMessageSize ?? 0;
+    return maxMessageSize > 0 ? Math.min(maxMessageSize, DefaultMaxBatchSize) : 0;
   }
 
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
@@ -423,9 +440,10 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     });
-    // Use the vendor batch size if available; fall back to maxMessageSize
-    // (which was just returned from the now-open link).
-    let maxBatchSize = this.getMaxBatchSizeFromLink() || maxMessageSize;
+    // Use the vendor batch size if available; fall back to
+    // min(maxMessageSize, DefaultMaxBatchSize) to prevent using the raw
+    // max-message-size as the batch limit on large-message entities.
+    let maxBatchSize = this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, DefaultMaxBatchSize);
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(

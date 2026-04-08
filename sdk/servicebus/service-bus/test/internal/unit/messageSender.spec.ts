@@ -320,5 +320,61 @@ describe("MessageSender unit tests", () => {
       const batch = await sender.createBatch();
       assert.equal(batch.maxSizeInBytes, 262144, "Standard tier should use 256 KB batch size");
     });
+
+    it("caps batch size at 1 MB when vendor property is absent and maxMessageSize is 100 MB", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024, // 100 MB (Premium large-message)
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should be capped at 1 MB (DefaultMaxBatchSize) when vendor property is absent, even if maxMessageSize is 100 MB",
+      );
+    });
+
+    it("caps batch size at 1 MB when vendor property is absent and maxMessageSize is 2 MB", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 2 * 1024 * 1024, // 2 MB
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should be capped at 1 MB even when maxMessageSize is only slightly larger",
+      );
+    });
+
+    it("rejects user-specified maxSizeInBytes above capped batch limit (no vendor property)", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024, // 100 MB
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      try {
+        // Without the cap, this would succeed (2 MB < 100 MB).
+        // With the cap, it should fail (2 MB > 1 MB cap).
+        await sender.createBatch({ maxSizeInBytes: 2 * 1024 * 1024 });
+        assert.fail("Should have thrown for maxSizeInBytes > capped batch limit");
+      } catch (e: any) {
+        assert.include(e.message, "Requested max batch size");
+      }
+    });
   });
 });
