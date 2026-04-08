@@ -3,10 +3,6 @@
   "compilerOptions": {
     "outDir": "${configDir}/dist/esm",
     "rootDir": "${configDir}/src",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
-    "types": ["node"],
     "skipLibCheck": true
   },
   "include": ["${configDir}/src/**/*.ts"]

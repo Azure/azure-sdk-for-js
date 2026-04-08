@@ -110,7 +110,7 @@ describe("Various error cases", () => {
         onlyIfChanged: true,
       });
 
-      assert.equal(304, response.statusCode);
+      assert.equal(response.statusCode, 304);
       assert.ok(!response.value);
     });
 

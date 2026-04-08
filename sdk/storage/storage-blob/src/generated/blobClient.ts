@@ -11,7 +11,7 @@ import { ServiceOperations, _getServiceOperations } from "./classic/service/inde
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { BlobClientOptionalParams } from "./api/blobContext.js";
+export type { BlobClientOptionalParams } from "./api/blobContext.js";
 
 export class BlobClient {
   private _client: BlobContext;

@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import * as ts from "typescript";
-import * as esbuild from "esbuild";
 import * as fs from "node:fs";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import * as crypto from "node:crypto";
+import { transform as esbuildTransform } from "esbuild";
 import type { WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
-import { inferModuleType } from "./config.ts";
 import { getLogger } from "./logger.ts";
 
 /**
@@ -20,6 +19,13 @@ export interface ParsedTargetConfig {
   parsedConfig: ts.ParsedCommandLine;
   outDir: string;
   rootDir: string;
+  /**
+   * Resolved import map patterns for the target's active conditions.
+   * Used by `programIdentity` to determine when two targets with different
+   * `customConditions` resolve to the same program graph (e.g., both
+   * react-native and browser mapping `#platform/*` to `*-browser.mts`).
+   */
+  resolvedImports?: readonly string[];
 }
 
 /**
@@ -361,13 +367,30 @@ export function createPolyfillHost(
 }
 
 // ---------------------------------------------------------------------------
-// Target deduplication
+// Target deduplication — two independent dimensions
+// ---------------------------------------------------------------------------
+//
+// Type-check identity (`optionsSignature`): ALL compiler options + fileNames.
+//   Same identity → type checking produces identical diagnostics → safe to skip.
+//   Controls `typeCheck` in compileTarget.
+//
+// Emit identity (`programIdentity`): emit-affecting options + fileNames + resolvedImports.
+//   Same identity → emitted JS + declarations are identical → safe to copyDir.
+//   Controls whether we compile or copy output.
+//
+// A target can match on emit identity (copy output) without matching on
+// type-check identity (must still type-check) — e.g. workerd and esm share
+// the same module/target/fileNames but differ in `lib`.
 // ---------------------------------------------------------------------------
 
 /**
- * Compute a signature for a target's compiler options + polyfill config
- * + file list. Targets with the same signature produce identical output
- * (modulo outDir) and can be compiled once then copied.
+ * Compute a type-check identity for a target's compiler options + file list.
+ * Targets with the same identity produce identical type-checking results
+ * (same diagnostics) because ALL compiler options — including `lib`, `types`,
+ * `strict`, etc. — are included. Only `outDir` and `configFilePath` are
+ * excluded as they don't affect semantics.
+ *
+ * Used to decide when type checking can be safely skipped.
  */
 export function optionsSignature(
   options: ts.CompilerOptions,
@@ -393,12 +416,85 @@ export function optionsSignature(
 }
 
 /**
- * Compute a "source identity" hash — the set of source files that will be
- * type-checked. Two targets with the same source identity (same fileNames,
- * same polyfillSuffix) produce the same type-checking result regardless of
- * module format. The first target type-checked in a source group validates
- * types for all subsequent targets in that group.
+ * Compute an emit identity hash — determines when two targets produce
+ * byte-identical output (JS + declarations).
+ *
+ * The identity includes only factors that affect emitted output:
+ * - Emit-affecting compiler options (module, target, jsx, declaration, etc.)
+ * - `fileNames` — the root files from tsconfig include
+ * - `resolvedImports` — the resolved import map entries for the active
+ *   conditions. This captures how `#platform/*` imports resolve: two targets
+ *   with different `customConditions` that resolve to the same files (e.g.,
+ *   both react-native and browser mapping to `*-web.mts`) will share an
+ *   identity, while targets resolving to different files will not.
+ *
+ * NOT included (type-check only, no effect on output):
+ * - `lib`, `types`, `typeRoots` — affect available type definitions
+ * - `strict` and its sub-flags — affect error reporting
+ * - `customConditions` — affects import resolution, already captured by
+ *   resolvedImports
  */
+
+/** Compiler options that affect emitted JS/declarations (not just type-checking). */
+const EMIT_AFFECTING_OPTIONS: readonly (keyof ts.CompilerOptions)[] = [
+  "module",
+  "moduleResolution",
+  "target",
+  "jsx",
+  "jsxFactory",
+  "jsxFragmentFactory",
+  "jsxImportSource",
+  "declaration",
+  "declarationMap",
+  "emitDeclarationOnly",
+  "sourceMap",
+  "inlineSourceMap",
+  "inlineSources",
+  "importHelpers",
+  "noEmitHelpers",
+  "downlevelIteration",
+  "esModuleInterop",
+  "verbatimModuleSyntax",
+  "isolatedModules",
+  "emitDecoratorMetadata",
+  "removeComments",
+  "preserveConstEnums",
+  "stripInternal",
+  "newLine",
+];
+
+export function programIdentity(
+  options: ts.CompilerOptions,
+  fileNames: readonly string[],
+  resolvedImports?: readonly string[],
+  polyfillSuffix?: string,
+  moduleType?: string,
+): string {
+  const hash = crypto.createHash("sha256");
+  // Hash only emit-affecting options (sorted for stability)
+  const emitOpts: Record<string, unknown> = {};
+  for (const key of EMIT_AFFECTING_OPTIONS) {
+    if (options[key] !== undefined) {
+      emitOpts[key] = options[key];
+    }
+  }
+  hash.update(JSON.stringify(emitOpts));
+  hash.update("\0files:" + [...fileNames].sort().join("\0"));
+  if (resolvedImports && resolvedImports.length > 0) {
+    hash.update("\0imports:" + [...resolvedImports].sort().join("\0"));
+  }
+  if (polyfillSuffix) {
+    hash.update("\0polyfill:" + polyfillSuffix);
+  }
+  if (moduleType) {
+    hash.update("\0moduleType:" + moduleType);
+  }
+  return hash.digest("hex").slice(0, 16);
+}
+
+// ── Aliases consumed by parallel.ts (will be removed when parallel.ts adopts programIdentity) ──
+
+/** @deprecated Use optionsSignature + programIdentity instead. */
 export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
   const filesHash = crypto
     .createHash("sha256")
@@ -409,21 +505,11 @@ export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: st
 }
 
 interface DedupGroup {
-  /** The target that will be compiled. */
   primary: ParsedTargetConfig;
-  /** Targets that share the same options and will receive copies. */
   copies: ParsedTargetConfig[];
 }
 
-/**
- * Group parsed targets by options signature (including polyfillSuffix and fileNames).
- * The first target in each group is the primary; the rest are copies.
- *
- * When `getEffectiveSuffix` is provided it overrides `target.polyfillSuffix`
- * for signature computation.  This lets callers exclude the suffix for
- * targets that have a configured polyfillSuffix but no actual polyfill files
- * on disk, enabling output deduplication across such targets.
- */
+/** @deprecated Use per-target dedup with optionsSignature + programIdentity. */
 export function groupBySignature(
   configs: ParsedTargetConfig[],
   getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
@@ -441,6 +527,32 @@ export function groupBySignature(
   }
   return [...map.values()];
 }
+
+/** @deprecated Use copyDir instead. */
+export async function copyDtsFiles(src: string, dest: string): Promise<void> {
+  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
+  const copies: { srcPath: string; destPath: string }[] = [];
+  const dirs = new Set<string>([dest]);
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    if (!entry.name.endsWith(".d.ts") && !entry.name.endsWith(".d.ts.map")) continue;
+    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
+    const srcPath = path.join(parentPath, entry.name);
+    const relPath = path.relative(src, srcPath);
+    const destPath = path.join(dest, relPath);
+    dirs.add(path.dirname(destPath));
+    copies.push({ srcPath, destPath });
+  }
+  if (copies.length === 0) return;
+  await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
+    fsp.mkdir(d, { recursive: true }),
+  );
+  await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
+    fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
+  );
+}
+
+// ── End backward-compatible aliases ──
 
 /**
  * Remove a directory and its contents if it exists.
@@ -466,9 +578,7 @@ async function runWithConcurrency<T>(
       while (true) {
         const idx = nextIndex++;
         if (idx >= items.length) return;
-        const item = items.at(idx);
-        if (item === undefined) return;
-        await run(item);
+        await run(items[idx]);
       }
     }),
   );
@@ -514,7 +624,13 @@ export async function copyDir(src: string, dest: string): Promise<void> {
           fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
     ),
     ...symlinks.map(({ srcPath, destPath }) => async () => {
-      const linkTarget = await fsp.readlink(srcPath);
+      let linkTarget: string;
+      try {
+        linkTarget = await fsp.readlink(srcPath);
+      } catch (err) {
+        if ((err as NodeJS.ErrnoException).code === "ENOENT") return;
+        throw err;
+      }
       if (path.isAbsolute(linkTarget)) {
         await fsp.symlink(linkTarget, destPath);
       } else {
@@ -530,212 +646,112 @@ export async function copyDir(src: string, dest: string): Promise<void> {
 }
 
 /**
- * Copy only .d.ts and .d.ts.map files from src to dest, preserving directory structure (#14).
+ * Build CJS output from TypeScript sources using esbuild, copying
+ * declarations from a previously emitted ESM target.
+ *
+ * For each `.ts` source file (relative to `rootDir`), esbuild strips types
+ * and emits CommonJS `.js` + `.js.map` into `dest`, preserving directory
+ * structure. Source maps point directly to the original `.ts` files.
+ *
+ * Declaration files (`.d.ts`, `.d.ts.map`) are copied as-is from `esmOutDir`
+ * since they are identical between ESM and CJS targets.
+ *
+ * This is much faster than a full tsc program creation for the CJS target,
+ * since esbuild only does syntax transformation — no resolution, type
+ * checking, or program analysis.
  */
-export async function copyDtsFiles(src: string, dest: string): Promise<void> {
-  // Single recursive readdir replaces O(depth) nested readdir calls.
-  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
+export async function buildCjsFromSources(
+  rootDir: string,
+  dest: string,
+  esmOutDir: string,
+  sourceFiles: readonly string[],
+): Promise<void> {
+  const absRoot = path.resolve(rootDir);
 
-  const copies: { srcPath: string; destPath: string }[] = [];
-  const dirs = new Set<string>([dest]);
-
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith(".d.ts") && !entry.name.endsWith(".d.ts.map")) continue;
-    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
-    const srcPath = path.join(parentPath, entry.name);
-    const relPath = path.relative(src, srcPath);
-    const destPath = path.join(dest, relPath);
-    dirs.add(path.dirname(destPath));
-    copies.push({ srcPath, destPath });
+  // Partition source files into TS files (for esbuild) and others
+  const tsFiles: Array<{ srcPath: string; relPath: string; destPath: string }> = [];
+  for (const srcPath of sourceFiles) {
+    const ext = path.extname(srcPath);
+    if (ext !== ".ts" && ext !== ".mts" && ext !== ".cts") continue;
+    // Skip declaration files — they come from the ESM output
+    if (srcPath.endsWith(".d.ts") || srcPath.endsWith(".d.mts") || srcPath.endsWith(".d.cts"))
+      continue;
+    // Skip files outside rootDir (e.g. node_modules type references)
+    const relPath = path.relative(absRoot, srcPath);
+    if (relPath.startsWith("..")) continue;
+    // Map source extension to output: .ts→.js, .mts→.mjs, .cts→.cjs
+    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+    const destRel = relPath.slice(0, -ext.length) + outExt;
+    const destPath = path.join(dest, destRel);
+    tsFiles.push({ srcPath, relPath, destPath });
   }
 
-  if (copies.length === 0) return;
+  // Collect declaration files from ESM output to copy
+  const dtsFiles: Array<{ srcPath: string; destPath: string }> = [];
+  try {
+    const entries = await fsp.readdir(esmOutDir, { withFileTypes: true, recursive: true });
+    for (const entry of entries) {
+      if (!entry.isFile()) continue;
+      if (
+        !entry.name.endsWith(".d.ts") &&
+        !entry.name.endsWith(".d.ts.map") &&
+        !entry.name.endsWith(".d.mts") &&
+        !entry.name.endsWith(".d.mts.map") &&
+        !entry.name.endsWith(".d.cts") &&
+        !entry.name.endsWith(".d.cts.map")
+      )
+        continue;
+      const parentPath = entry.parentPath ?? (entry as { path: string }).path;
+      const srcPath = path.join(parentPath, entry.name);
+      const relPath = path.relative(esmOutDir, srcPath);
+      dtsFiles.push({ srcPath, destPath: path.join(dest, relPath) });
+    }
+  } catch {
+    // ESM output dir may not have declarations if declarationMap is off — that's fine
+  }
 
-  // Create all destination directories, then copy files with bounded concurrency
+  // Collect all directories we need to create
+  const dirs = new Set<string>();
+  for (const { destPath } of tsFiles) dirs.add(path.dirname(destPath));
+  for (const { destPath } of dtsFiles) dirs.add(path.dirname(destPath));
+
   await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
     fsp.mkdir(d, { recursive: true }),
   );
-  await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
-    fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
-  );
+
+  const ops: Array<() => Promise<void>> = [
+    // Transform TS→CJS via esbuild
+    ...tsFiles.map(({ srcPath, destPath }) => async () => {
+      const source = await fsp.readFile(srcPath, "utf-8");
+      const result = await esbuildTransform(source, {
+        format: "cjs",
+        loader: "ts",
+        sourcemap: "external",
+        // Use relative path from dest to source so maps point to .ts files
+        sourcefile: path.relative(path.dirname(destPath), srcPath),
+        platform: "node",
+      });
+      const mapFile = path.basename(destPath) + ".map";
+      const code = result.code + `//# sourceMappingURL=${mapFile}\n`;
+      await Promise.all([
+        fsp.writeFile(destPath, code),
+        fsp.writeFile(destPath + ".map", result.map),
+      ]);
+    }),
+    // Copy declaration files from ESM output
+    ...dtsFiles.map(
+      ({ srcPath, destPath }) =>
+        () =>
+          fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
+    ),
+  ];
+
+  await runWithConcurrency(ops, MAX_COPY_CONCURRENCY, (op) => op());
 }
 
 // ---------------------------------------------------------------------------
 // Compilation
 // ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Fast transpilation (esbuild)
-// ---------------------------------------------------------------------------
-
-/** Map TypeScript ScriptTarget to an esbuild target string. */
-function tsTargetToEsbuild(target: ts.ScriptTarget | undefined): string {
-  switch (target) {
-    case ts.ScriptTarget.ES5:
-      return "es5";
-    case ts.ScriptTarget.ES2015:
-      return "es2015";
-    case ts.ScriptTarget.ES2016:
-      return "es2016";
-    case ts.ScriptTarget.ES2017:
-      return "es2017";
-    case ts.ScriptTarget.ES2018:
-      return "es2018";
-    case ts.ScriptTarget.ES2019:
-      return "es2019";
-    case ts.ScriptTarget.ES2020:
-      return "es2020";
-    case ts.ScriptTarget.ES2021:
-      return "es2021";
-    case ts.ScriptTarget.ES2022:
-      return "es2022";
-    case ts.ScriptTarget.ES2023:
-      return "es2023";
-    case ts.ScriptTarget.ES2024:
-      return "es2024";
-    default:
-      return "esnext";
-  }
-}
-
-/**
- * Transpile all source files using esbuild.
- * All transforms run concurrently via Promise.all.
- */
-async function transpileWithEsbuild(
-  sources: Array<{ fileName: string; content: string }>,
-  options: ts.CompilerOptions,
-  outDir: string,
-  rootDir: string,
-): Promise<Array<{ outPath: string; js: string; map?: string }>> {
-  const format: esbuild.Format =
-    options.module === ts.ModuleKind.CommonJS || options.module === ts.ModuleKind.None
-      ? "cjs"
-      : "esm";
-  const target = tsTargetToEsbuild(options.target);
-  const sourcemap = options.sourceMap !== false;
-
-  // platform:"node" makes esbuild annotate CJS output with
-  // `0 && (module.exports = {...})` so that Node's cjs-module-lexer
-  // can statically detect named exports for ESM→CJS interop.
-  const platform: esbuild.Platform | undefined = format === "cjs" ? "node" : undefined;
-
-  return Promise.all(
-    sources.map(async ({ fileName, content }) => {
-      const result = await esbuild.transform(content, {
-        loader: "ts",
-        format,
-        target,
-        platform,
-        sourcemap: sourcemap ? "external" : false,
-        sourcefile: fileName,
-      });
-
-      const relPath = path.relative(rootDir, fileName);
-      const ext = path.extname(fileName);
-      const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
-      const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
-
-      return {
-        outPath,
-        js: result.code,
-        map: result.map || undefined,
-      };
-    }),
-  );
-}
-
-// ---------------------------------------------------------------------------
-// transpileFiles fast path
-// ---------------------------------------------------------------------------
-
-/**
- * Fast-path compilation using esbuild for targets that skip type-checking
- * and declaration emit.
- *
- * ~3-10× faster than createProgram for format-only conversions because
- * it bypasses module resolution, program graph construction, and the type
- * system entirely.  All files are transpiled concurrently via esbuild.
- *
- * Used automatically for targets with typeCheck=false + skipDeclarations=true
- * (e.g. CommonJS re-emit of already-validated source files).
- */
-export async function transpileFiles(
-  parsed: ParsedTargetConfig,
-  polyfillMap?: Map<string, string>,
-): Promise<CompileResult> {
-  const t0 = performance.now();
-  const options: ts.CompilerOptions = {
-    ...parsed.parsedConfig.options,
-    declaration: false,
-    declarationMap: false,
-  };
-
-  // esbuild cannot read package.json "type" to determine the module format
-  // for .ts files under module: NodeNext/Node16. Resolve the ambiguity by
-  // setting an unambiguous module kind derived from the target's moduleType
-  // (or inferModuleType from compiler options).
-  const moduleKind = options.module;
-  if (moduleKind === ts.ModuleKind.NodeNext || moduleKind === ts.ModuleKind.Node16) {
-    const effectiveType = parsed.target.moduleType ?? inferModuleType(moduleKind);
-    if (effectiveType === "commonjs") {
-      options.module = ts.ModuleKind.CommonJS;
-      options.moduleResolution = ts.ModuleResolutionKind.Node10;
-    } else {
-      options.module = ts.ModuleKind.ESNext;
-      options.moduleResolution = ts.ModuleResolutionKind.Bundler;
-    }
-  }
-
-  let fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
-
-  // Filter out polyfill source files (injected via content substitution)
-  const suffix = parsed.target.polyfillSuffix;
-  if (suffix) {
-    fileNames = filterPolyfillRootNames(fileNames, suffix);
-  }
-
-  const { outDir, rootDir } = parsed;
-
-  // Read all source files concurrently, applying polyfill substitution
-  const sources = await Promise.all(
-    fileNames.map(async (fileName) => {
-      const absPath = path.resolve(fileName);
-      const polyfillPath = polyfillMap?.get(absPath);
-      const content = await fsp.readFile(polyfillPath ?? fileName, "utf-8");
-      return { fileName, content };
-    }),
-  );
-
-  const outputs = await transpileWithEsbuild(sources, options, outDir, rootDir);
-
-  // Write output files
-  const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
-  await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
-    fsp.mkdir(d, { recursive: true }),
-  );
-
-  const writeOps = outputs.flatMap(({ outPath, js, map }) => {
-    const ops: Array<{ p: string; content: string }> = [{ p: outPath, content: js }];
-    if (map) ops.push({ p: `${outPath}.map`, content: map });
-    return ops;
-  });
-
-  await runWithConcurrency(writeOps, MAX_COPY_CONCURRENCY, ({ p, content }) =>
-    fsp.writeFile(p, content, "utf-8"),
-  );
-
-  return {
-    target: parsed.target,
-    diagnostics: [],
-    success: true,
-    outDir,
-    rootDir,
-    compileTimeMs: performance.now() - t0,
-    deduped: false,
-  };
-}
 
 /**
  * Filter rootNames to exclude polyfill source files.
@@ -759,9 +775,11 @@ interface CompileTargetOptions {
   /** When false, skip getPreEmitDiagnostics (type checking). Default: true. */
   typeCheck?: boolean;
   /**
-   * When true, skip declaration emit (set declaration:false in effective options).
-   * Declarations will be copied from another target's outDir instead.
+   * When true, run type-checking only — skip emit entirely (noEmit: true).
+   * Used when output will be copied from another target with the same emit identity.
    */
+  skipEmit?: boolean;
+  /** @deprecated When true, emit JS only — suppress .d.ts/.d.ts.map. Kept for compat. */
   skipDeclarations?: boolean;
 }
 
@@ -770,19 +788,23 @@ interface CompileTargetOptions {
  *
  * Performance optimizations controlled by options:
  * - `typeCheck: false` — skip getPreEmitDiagnostics (~30% faster)
- * - `skipDeclarations: true` — emit JS only (~17% faster)
+ * - `skipEmit: true` — type-check only, no output files
  *
- * When the target has a polyfillSuffix, polyfill source files are
- * filtered from rootNames (they are injected via the host instead)
- * so they don't produce extra `.mjs` output files.
+ * CJS virtual package.json: when the target's `moduleType` is `"commonjs"`,
+ * a virtual `{"type":"commonjs"}` package.json is injected into the
+ * compiler host so TypeScript's Node16/NodeNext resolution emits CommonJS.
+ * The tsconfig on disk should already specify `module: "Node16"` /
+ * `moduleResolution: "Node16"` so all tools (IDE, eslint, api-extractor)
+ * see the same resolution algorithm that warp uses.
  */
-export function compileTarget(
+export async function compileTarget(
   parsed: ParsedTargetConfig,
   host?: ts.CompilerHost,
   compileOptions?: CompileTargetOptions,
-): CompileResult {
+): Promise<CompileResult> {
   const t0 = performance.now();
   const doTypeCheck = compileOptions?.typeCheck ?? true;
+  const skipEmit = compileOptions?.skipEmit ?? false;
   const skipDecl = compileOptions?.skipDeclarations ?? false;
 
   let rootNames: readonly string[] = parsed.parsedConfig.fileNames;
@@ -793,28 +815,107 @@ export function compileTarget(
     rootNames = filterPolyfillRootNames(rootNames, suffix);
   }
 
-  // Build effective compiler options with performance flags
   const effectiveOptions: ts.CompilerOptions = {
     ...parsed.parsedConfig.options,
   };
 
-  if (skipDecl) {
+  if (skipEmit) {
+    effectiveOptions.declaration = false;
+    effectiveOptions.declarationMap = false;
+    effectiveOptions.noEmit = true;
+  } else if (skipDecl) {
     effectiveOptions.declaration = false;
     effectiveOptions.declarationMap = false;
   }
 
-  // Standard compilation path with shared SourceFile cache
+  // Inject virtual {"type":"commonjs"} package.json when the target
+  // explicitly requests CJS output via moduleType. The tsconfig should
+  // already use module/moduleResolution Node16 or NodeNext — we only
+  // override the package.json "type" field so TypeScript emits CJS.
+  let effectiveHost = host;
+  if (parsed.target.moduleType === "commonjs") {
+    // Build package.json override: inject {"type":"commonjs"} for the
+    // source root directory (and its ancestors up to the real package.json).
+    // Preserve the real package.json's "imports" field so that TypeScript
+    // can still resolve #-prefixed subpath imports under Node16.
+    const overridePaths = new Map<string, string>();
+    const rootDir = parsed.rootDir ?? path.dirname(rootNames[0] ?? "");
+    const absRoot = path.resolve(rootDir);
+
+    // Read the real package.json to preserve its "imports" and "exports" fields
+    let realPkgImports: unknown;
+    let realPkgExports: unknown;
+    let dir = absRoot;
+    while (dir) {
+      const pkgPath = path.join(dir, "package.json");
+      try {
+        const pkgContent = JSON.parse(await fsp.readFile(pkgPath, "utf-8")) as Record<
+          string,
+          unknown
+        >;
+        realPkgImports = pkgContent.imports;
+        realPkgExports = pkgContent.exports;
+        break;
+      } catch {
+        // file doesn't exist or parse error — walk up
+      }
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+
+    const virtualPkg: Record<string, unknown> = { type: "commonjs" };
+    if (realPkgImports) virtualPkg.imports = realPkgImports;
+    if (realPkgExports) virtualPkg.exports = realPkgExports;
+    const cjsPackageJson = JSON.stringify(virtualPkg);
+
+    dir = absRoot;
+    while (dir) {
+      overridePaths.set(path.resolve(dir, "package.json"), cjsPackageJson);
+      try {
+        await fsp.access(path.join(dir, "package.json"));
+        break;
+      } catch {
+        // doesn't exist — walk up
+      }
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+
+    // Layer virtual package.json overrides on top of the existing host
+    // (which may be a polyfill host). We must NOT replace the host entirely
+    // or we lose polyfill source-file substitution.
+    //
+    // NOTE: CJS targets with polyfills already receive an isolated
+    // SharedSourceFileCache (see compileAllTargets) to prevent
+    // impliedNodeFormat poisoning from ESM SourceFile entries.
+    const existingHost = host!;
+    effectiveHost = {
+      ...existingHost,
+      fileExists(fileName: string) {
+        if (overridePaths.has(path.resolve(fileName))) return true;
+        return existingHost.fileExists(fileName);
+      },
+      readFile(fileName: string) {
+        const override = overridePaths.get(path.resolve(fileName));
+        if (override !== undefined) return override;
+        return existingHost.readFile(fileName);
+      },
+    };
+  }
+
   const program = ts.createProgram({
     rootNames: [...rootNames],
     options: effectiveOptions,
-    host,
+    host: effectiveHost,
   });
   const preEmit = doTypeCheck ? ts.getPreEmitDiagnostics(program) : [];
 
-  const emitResult = program.emit();
+  const emitResult = skipEmit
+    ? { diagnostics: [] as readonly ts.Diagnostic[], emitSkipped: true }
+    : program.emit();
   const allDiagnostics: readonly ts.Diagnostic[] = [...preEmit, ...emitResult.diagnostics];
-
-  const compileTimeMs = performance.now() - t0;
 
   return {
     target: parsed.target,
@@ -822,42 +923,37 @@ export function compileTarget(
     success: !allDiagnostics.some((d) => d.category === ts.DiagnosticCategory.Error),
     outDir: parsed.outDir,
     rootDir: parsed.rootDir,
-    compileTimeMs,
+    compileTimeMs: performance.now() - t0,
     deduped: false,
   };
 }
 
 /**
- * Compile all targets with deduplication, shared source caching,
- * and per-target polyfill substitution via getSourceFile interception.
+ * Compile all targets with two-dimensional optimization:
  *
- * Performance strategy:
- * - **Type check once per source set**: targets sharing the same source
- *   files (same fileNames + polyfillSuffix) are grouped into "source groups".
- *   Only the first target in each source group runs type checking. Subsequent
- *   targets skip getPreEmitDiagnostics.
- * - **Declaration sharing**: when multiple targets differ only in module format
- *   (same source identity), declarations are emitted once by the first target
- *   and .d.ts files are copied to subsequent targets' outDirs.
- * - **Deduplication**: targets with fully identical options + files are compiled
- *   once and the entire outDir is copied.
+ * 1. **Type-check identity** (`optionsSignature` — ALL options + fileNames):
+ *    Targets with identical type-check identity produce the same diagnostics.
+ *    Only the first is type-checked; subsequent ones skip `getPreEmitDiagnostics`.
  *
- * Accepts pre-parsed configs to avoid redundant tsconfig parsing.
+ * 2. **Emit identity** (`programIdentity` — emit options + fileNames + resolvedImports):
+ *    Targets with identical emit identity produce byte-identical output.
+ *    Only the first emits; subsequent ones get `copyDir`.
+ *
+ * These are independent: a target may share emit identity (copy output) but
+ * differ in type-check identity (must still type-check). For example, workerd
+ * and esm share module/target/fileNames but differ in `lib` — esm must be
+ * type-checked but can reuse workerd's output.
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
-  options?: { clean?: boolean },
+  options?: { clean?: boolean; packageRoot?: string },
 ): Promise<CompileResult[]> {
   const clean = options?.clean ?? true;
-
   validateOutDirs(parsedConfigs);
-
   const log = getLogger();
+  const cache = new SharedSourceFileCache();
 
-  // Pre-discover polyfills for all targets in parallel.  Targets whose
-  // configured suffix matches zero actual files on disk are treated as
-  // no-polyfill targets during dedup — they can share type-checking and
-  // output with other targets that also have no polyfills.
+  // Pre-discover polyfills for all targets in parallel.
   const polyfillResults = new Map<string, Map<string, string>>();
   await Promise.all(
     parsedConfigs.map(async (pc) => {
@@ -870,138 +966,190 @@ export async function compileAllTargets(
   );
 
   // Effective suffix: only non-empty when polyfill files were actually found.
-  // This lets targets with different configured suffixes but no real polyfills
-  // share the same dedup group and source identity.
   const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
     const map = polyfillResults.get(pc.target.name);
     return map && map.size > 0 ? pc.target.polyfillSuffix : undefined;
   };
 
-  const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
-  const cache = new SharedSourceFileCache();
-
-  const dedupCount = parsedConfigs.length - groups.length;
-  if (dedupCount > 0) {
-    log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
-  }
-
-  // Clean outDirs before compilation (async / parallel) (#13)
   if (clean) {
     await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
-  // Track which source groups have been type-checked already.
-  // Key: sourceIdentity hash. Value: outDir of the target that first type-checked this source set.
-  const typeCheckedSources = new Map<string, string>();
+  // Two-dimensional dedup
+  const emittedPrograms = new Map<string, string>(); // emitId → outDir
+  const typeCheckedIds = new Set<string>();
+  // Track ESM targets by base identity (without moduleType) for esbuild CJS fast path.
+  // Stores { outDir, rootDir, fileNames } so buildCjsFromSources can read .ts sources.
+  const esmTargetsByBaseId = new Map<
+    string,
+    { outDir: string; rootDir: string; fileNames: readonly string[] }
+  >();
 
-  const resultMap = new Map<string, CompileResult>();
+  const results: CompileResult[] = [];
+  const total = parsedConfigs.length;
 
-  let completedCount = 0;
-  const totalTargets = parsedConfigs.length;
-
-  for (const group of groups) {
-    const suffix = group.primary.target.polyfillSuffix;
-    const polyfillMap = polyfillResults.get(group.primary.target.name);
+  for (let i = 0; i < total; i++) {
+    const parsed = parsedConfigs[i];
+    const effSuffix = getEffectiveSuffix(parsed);
+    const polyfillMap = polyfillResults.get(parsed.target.name);
     const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
 
     let host: ts.CompilerHost;
     if (hasPolyfills) {
-      const polyfillEntries = polyfillMap;
       log.info(
-        `[warp] [${group.primary.target.name}] ${polyfillEntries.size} polyfill(s) via "${suffix}"`,
+        `[warp] [${parsed.target.name}] ${polyfillMap.size} polyfill(s) via "${parsed.target.polyfillSuffix}"`,
       );
-      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillEntries, cache));
+      // CJS targets get an isolated cache to avoid impliedNodeFormat poisoning:
+      // under Node16, TypeScript embeds CJS vs ESM format in each SourceFile
+      // based on the nearest package.json. Our virtual {"type":"commonjs"}
+      // override changes that format, so sharing cache with ESM targets would
+      // produce wrong output.
+      const hostCache =
+        parsed.target.moduleType === "commonjs" ? new SharedSourceFileCache() : cache;
+      ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, hostCache));
     } else {
-      host = createCachedHost(group.primary.parsedConfig.options, cache);
+      // CJS targets get an isolated cache for the same impliedNodeFormat reason.
+      const hostCache =
+        parsed.target.moduleType === "commonjs" ? new SharedSourceFileCache() : cache;
+      host = createCachedHost(parsed.parsedConfig.options, hostCache);
     }
 
-    // Use effective suffix for sourceIdentity — targets with a configured
-    // suffix but no actual polyfill files share the same source identity
-    // as unsuffixed targets, enabling type-check dedup across them.
-    const effSuffix = getEffectiveSuffix(group.primary);
-    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
-    const alreadyCheckedOutDir = typeCheckedSources.get(srcId);
-    const needsTypeCheck = !alreadyCheckedOutDir;
-    const canSkipDeclarations = !!alreadyCheckedOutDir;
+    const typeCheckId = optionsSignature(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      effSuffix,
+    );
+    const emitId = programIdentity(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      parsed.resolvedImports,
+      effSuffix,
+      parsed.target.moduleType,
+    );
+    const baseEmitId = programIdentity(
+      parsed.parsedConfig.options,
+      parsed.parsedConfig.fileNames,
+      parsed.resolvedImports,
+      effSuffix,
+    );
 
-    if (needsTypeCheck) {
-      typeCheckedSources.set(srcId, group.primary.outDir);
+    const alreadyEmittedOutDir = emittedPrograms.get(emitId);
+    // Check if an ESM target with the same base identity was already emitted,
+    // allowing us to use esbuild to build CJS directly from .ts sources.
+    const esmTarget =
+      !alreadyEmittedOutDir && parsed.target.moduleType === "commonjs"
+        ? esmTargetsByBaseId.get(baseEmitId)
+        : undefined;
+    const needsTypeCheck = !typeCheckedIds.has(typeCheckId);
+
+    if (needsTypeCheck) typeCheckedIds.add(typeCheckId);
+    if (!alreadyEmittedOutDir) emittedPrograms.set(emitId, parsed.outDir);
+    if (!parsed.target.moduleType || parsed.target.moduleType === "module") {
+      esmTargetsByBaseId.set(baseEmitId, {
+        outDir: parsed.outDir,
+        rootDir: parsed.rootDir,
+        fileNames: parsed.parsedConfig.fileNames,
+      });
     }
 
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
-    if (canSkipDeclarations) label.push("skip-dts");
+    if (alreadyEmittedOutDir) label.push("reuse-output");
+    if (esmTarget) label.push("esbuild-cjs");
 
-    // Progress indicator
     log.info(
-      `[warp] [${completedCount + 1}/${totalTargets}] ${group.primary.target.name}${label.length > 0 ? ` (${label.join(", ")})` : ""}...`,
+      `[warp] [${i + 1}/${total}] ${parsed.target.name}${label.length ? ` (${label.join(", ")})` : ""}...`,
     );
 
-    // Fast path: when type-checking and declarations are both skipped,
-    // use transpileFiles (esbuild per-file transpilation) to bypass program
-    // creation entirely — ~3-10× faster for format-only re-emit.
-    let primaryResult: CompileResult;
-    if (!needsTypeCheck && canSkipDeclarations) {
-      primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
-    } else {
-      primaryResult = compileTarget(group.primary, host, {
-        typeCheck: needsTypeCheck,
-        skipDeclarations: canSkipDeclarations,
-      });
-    }
+    let result: CompileResult;
 
-    completedCount++;
-    log.info(
-      `[warp] [${completedCount}/${totalTargets}] ${group.primary.target.name} done (${primaryResult.compileTimeMs.toFixed(0)}ms)`,
-    );
-
-    // If we skipped declarations, copy .d.ts from the source group's first target
-    if (canSkipDeclarations && alreadyCheckedOutDir && primaryResult.success) {
-      await copyDtsFiles(alreadyCheckedOutDir, group.primary.outDir);
-    }
-
-    resultMap.set(group.primary.target.name, primaryResult);
-
-    // Fail-fast: stop building remaining targets on first error
-    if (!primaryResult.success) {
-      break;
-    }
-
-    // Copy output to secondary targets (full dedup) — run copies in parallel
-    // since they write to independent outDirs.
-    if (group.copies.length > 0) {
-      const copyResults = await Promise.all(
-        group.copies.map(async (copy) => {
-          const t0 = performance.now();
-          if (primaryResult.success) {
-            await copyDir(group.primary.outDir, copy.outDir);
-          }
-          const copyTimeMs = performance.now() - t0;
-          return { copy, copyTimeMs };
-        }),
-      );
-
-      for (const { copy, copyTimeMs } of copyResults) {
-        completedCount++;
-        log.info(
-          `[warp] [${completedCount}/${totalTargets}] ${copy.target.name} copied (${copyTimeMs.toFixed(0)}ms)`,
+    if (alreadyEmittedOutDir && !needsTypeCheck) {
+      // Both already done — pure copy
+      const t0 = performance.now();
+      await copyDir(alreadyEmittedOutDir, parsed.outDir);
+      result = {
+        target: parsed.target,
+        diagnostics: [],
+        success: true,
+        outDir: parsed.outDir,
+        rootDir: parsed.rootDir,
+        compileTimeMs: performance.now() - t0,
+        deduped: true,
+      };
+    } else if (esmTarget && !needsTypeCheck) {
+      // CJS target with matching ESM — build CJS from .ts sources, copy .d.ts from ESM
+      const t0 = performance.now();
+      try {
+        await buildCjsFromSources(
+          esmTarget.rootDir,
+          parsed.outDir,
+          esmTarget.outDir,
+          esmTarget.fileNames,
         );
-
-        resultMap.set(copy.target.name, {
-          target: copy.target,
-          diagnostics: primaryResult.diagnostics,
-          success: primaryResult.success,
-          outDir: copy.outDir,
-          rootDir: copy.rootDir,
-          compileTimeMs: copyTimeMs,
+        result = {
+          target: parsed.target,
+          diagnostics: [],
+          success: true,
+          outDir: parsed.outDir,
+          rootDir: parsed.rootDir,
+          compileTimeMs: performance.now() - t0,
           deduped: true,
-        });
+        };
+      } catch (err) {
+        result = {
+          target: parsed.target,
+          diagnostics: [],
+          success: false,
+          outDir: parsed.outDir,
+          rootDir: parsed.rootDir,
+          compileTimeMs: performance.now() - t0,
+          deduped: true,
+          diagnosticText: `CJS build failed: ${err instanceof Error ? err.message : String(err)}`,
+        };
       }
+    } else if (esmTarget) {
+      // CJS with matching ESM but needs type-check — typecheck-only + esbuild CJS
+      result = await compileTarget(parsed, host, { typeCheck: true, skipEmit: true });
+      if (result.success) {
+        try {
+          await buildCjsFromSources(
+            esmTarget.rootDir,
+            parsed.outDir,
+            esmTarget.outDir,
+            esmTarget.fileNames,
+          );
+        } catch (err) {
+          result = {
+            target: parsed.target,
+            diagnostics: [],
+            success: false,
+            outDir: parsed.outDir,
+            rootDir: parsed.rootDir,
+            compileTimeMs: result.compileTimeMs,
+            deduped: true,
+            diagnosticText: `CJS build failed: ${err instanceof Error ? err.message : String(err)}`,
+          };
+        }
+      }
+    } else if (alreadyEmittedOutDir) {
+      // Need type-check but can reuse output — skipEmit + copy
+      result = await compileTarget(parsed, host, { typeCheck: true, skipEmit: true });
+      if (result.success) {
+        await copyDir(alreadyEmittedOutDir, parsed.outDir);
+      }
+    } else {
+      // First time seeing this emit identity — full or typecheck-less compile
+      result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
     }
+
+    const timeLabel = (alreadyEmittedOutDir || esmTarget) && !needsTypeCheck ? "copied" : "done";
+    log.info(
+      `[warp] [${i + 1}/${total}] ${parsed.target.name} ${timeLabel} (${result.compileTimeMs.toFixed(0)}ms)`,
+    );
+
+    results.push(result);
+    if (!result.success) break;
   }
 
-  // Return results in original target declaration order (skip targets not compiled due to fail-fast)
-  return parsedConfigs
-    .map((pc) => resultMap.get(pc.target.name))
-    .filter((r): r is CompileResult => r !== undefined);
+  return results;
 }
