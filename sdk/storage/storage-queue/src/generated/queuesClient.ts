@@ -7,7 +7,7 @@ import { ServiceOperations, _getServiceOperations } from "./classic/service/inde
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { QueuesClientOptionalParams } from "./api/queuesContext.js";
+export type { QueuesClientOptionalParams } from "./api/queuesContext.js";
 
 export class QueuesClient {
   private _client: QueuesContext;

@@ -10,8 +10,7 @@ import type { StoragePipelineOptions } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { getAccountNameFromUrl } from "./utils/utils.common.js";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { AnonymousCredential } from "@azure/storage-common";
-import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 
 export class StorageClientContext {
   queuesClient: QueuesClient;
@@ -19,17 +18,17 @@ export class StorageClientContext {
   queue: QueueOperations;
 
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
-    const cr = {} as TokenCredential;
-    this.queuesClient = new QueuesClient(url, cr, options);
+    const placeholderCredential: TokenCredential = {
+      async getToken() {
+        throw new Error(
+          "Placeholder TokenCredential was used. Authentication must be configured via the HTTP pipeline.",
+        );
+      },
+    };
+
+    this.queuesClient = new QueuesClient(url, placeholderCredential, options);
     this.service = this.queuesClient.service;
     this.queue = this.queuesClient.queue;
-
-    const { pipeline: corePipeline } = options;
-    if (!corePipeline) {
-      throw new Error("Pipeline is required in options");
-    }
-    (this.queuesClient as any).pipeline = corePipeline;
-    this.queuesClient["_client"].pipeline = corePipeline;
   }
 }
 
