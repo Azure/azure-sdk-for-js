@@ -2,7 +2,7 @@
   "apiVersions": {
     "WebPubSubService": "2024-12-01"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.52.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "WebPubSubService",
     "CrossLanguageDefinitionId": {

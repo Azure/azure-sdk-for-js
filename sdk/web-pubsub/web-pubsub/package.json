@@ -31,7 +31,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "C:\\Users\\shiyingchen\\azure-sdk-for-js\\sdk\\web-pubsub\\web-pubsub\\generated/api/webPubSubServiceContext.ts",
+        "path": "src/api/webPubSubServiceContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

@@ -72,7 +72,7 @@ import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { WebPubSubServiceClientOptionalParams } from "./api/webPubSubServiceContext.js";
+export type { WebPubSubServiceClientOptionalParams } from "./api/webPubSubServiceContext.js";
 
 export class WebPubSubServiceClient {
   private _client: WebPubSubServiceContext;
