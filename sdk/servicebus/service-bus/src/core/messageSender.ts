@@ -419,15 +419,17 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
     // Ensure the link is open so we can read link properties.
-    await this.getMaxMessageSize({
+    const maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     });
-    let maxBatchSize = this.getMaxBatchSizeFromLink();
+    // Use the vendor batch size if available; fall back to maxMessageSize
+    // (which was just returned from the now-open link).
+    let maxBatchSize = this.getMaxBatchSizeFromLink() || maxMessageSize;
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxBatchSize} bytes) on the AMQP sender link.`,
+          `Requested max batch size (${options.maxSizeInBytes} bytes) exceeds the maximum batch size (${maxBatchSize} bytes) on the AMQP sender link.`,
         );
         throw error;
       }

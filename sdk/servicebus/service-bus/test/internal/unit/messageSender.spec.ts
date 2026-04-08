@@ -301,7 +301,7 @@ describe("MessageSender unit tests", () => {
         await sender.createBatch({ maxSizeInBytes: 2 * 1024 * 1024 });
         assert.fail("Should have thrown for maxSizeInBytes > batch limit");
       } catch (e: any) {
-        assert.include(e.message, "Max message size");
+        assert.include(e.message, "Requested max batch size");
       }
     });
 
