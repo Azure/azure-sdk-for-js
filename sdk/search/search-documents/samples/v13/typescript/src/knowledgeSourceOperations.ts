@@ -87,7 +87,7 @@ async function getAndUpdateKnowledgeSource(
 
   // Update the description
   knowledgeSource.description = "Updated description for the sample knowledge source";
-  const updatedSource = await client.createOrUpdateKnowledgeSource(sourceName, knowledgeSource);
+  const updatedSource = await client.createOrUpdateKnowledgeSource(knowledgeSource);
   console.log(`Updated knowledge source description: ${updatedSource.description}`);
 }
 

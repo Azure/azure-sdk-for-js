@@ -25,7 +25,7 @@ async function retrieveKnowledge(retrievalClient) {
     ],
   };
 
-  const response = await retrievalClient.retrieveKnowledge(retrievalRequest);
+  const response = await retrievalClient.retrieve(retrievalRequest);
   console.log(`Retrieved knowledge response:`);
   console.log(`  Activity records: ${response.activity?.length ?? 0}`);
   console.log(`  References: ${response.references?.length ?? 0}`);
@@ -53,7 +53,7 @@ async function retrieveKnowledgeWithOptions(retrievalClient) {
     includeActivity: true,
   };
 
-  const response = await retrievalClient.retrieveKnowledge(retrievalRequest);
+  const response = await retrievalClient.retrieve(retrievalRequest);
   console.log(`Retrieved knowledge response:`);
   console.log(`  Activity records: ${response.activity?.length ?? 0}`);
   console.log(`  References: ${response.references?.length ?? 0}`);
