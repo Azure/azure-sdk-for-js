@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a SchemaRegistry
  *
  * @summary update a SchemaRegistry
- * x-ms-original-file: 2025-10-01/Update_SchemaRegistry.json
+ * x-ms-original-file: 2026-03-01-preview/Update_SchemaRegistry.json
  */
 async function updateSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();

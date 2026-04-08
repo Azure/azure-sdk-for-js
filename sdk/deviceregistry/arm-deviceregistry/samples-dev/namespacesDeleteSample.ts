@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Namespace
  *
  * @summary delete a Namespace
- * x-ms-original-file: 2025-10-01/Delete_Namespace.json
+ * x-ms-original-file: 2026-03-01-preview/Delete_Namespace.json
  */
 async function deleteNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

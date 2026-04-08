@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list SchemaRegistry resources by resource group
  *
  * @summary list SchemaRegistry resources by resource group
- * x-ms-original-file: 2025-10-01/List_SchemaRegistries_ByResourceGroup.json
+ * x-ms-original-file: 2026-03-01-preview/List_SchemaRegistries_ByResourceGroup.json
  */
 async function listSchemaRegistriesResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

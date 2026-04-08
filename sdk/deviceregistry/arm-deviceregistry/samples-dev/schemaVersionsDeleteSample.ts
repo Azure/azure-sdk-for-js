@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a SchemaVersion
  *
  * @summary delete a SchemaVersion
- * x-ms-original-file: 2025-10-01/Delete_SchemaVersion.json
+ * x-ms-original-file: 2026-03-01-preview/Delete_SchemaVersion.json
  */
 async function deleteSchemaVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

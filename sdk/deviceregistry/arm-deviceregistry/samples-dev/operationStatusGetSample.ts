@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the current status of an async operation.
  *
  * @summary returns the current status of an async operation.
- * x-ms-original-file: 2025-10-01/Get_OperationStatus.json
+ * x-ms-original-file: 2026-03-01-preview/Get_OperationStatus.json
  */
 async function getOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

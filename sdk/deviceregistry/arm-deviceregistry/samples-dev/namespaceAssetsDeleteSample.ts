@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a NamespaceAsset
  *
  * @summary delete a NamespaceAsset
- * x-ms-original-file: 2025-10-01/Delete_NamespaceAsset.json
+ * x-ms-original-file: 2026-03-01-preview/Delete_NamespaceAsset.json
  */
 async function deleteNamespaceAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();

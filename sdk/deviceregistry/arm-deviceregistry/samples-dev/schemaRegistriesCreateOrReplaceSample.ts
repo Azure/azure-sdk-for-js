@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a SchemaRegistry
  *
  * @summary create a SchemaRegistry
- * x-ms-original-file: 2025-10-01/CreateOrReplace_SchemaRegistry.json
+ * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_SchemaRegistry.json
  */
 async function createOrReplaceSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();

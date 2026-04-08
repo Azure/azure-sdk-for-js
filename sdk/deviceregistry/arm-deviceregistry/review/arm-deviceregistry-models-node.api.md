@@ -8,6 +8,11 @@
 export type ActionType = string;
 
 // @public
+export interface ActivateBringYourOwnRootRequest {
+    certificateChain: string;
+}
+
+// @public
 export interface Asset extends TrackedResource {
     extendedLocation: ExtendedLocation;
     properties?: AssetProperties;
@@ -159,12 +164,53 @@ export interface BillingContainerProperties {
 }
 
 // @public
+export interface BringYourOwnRoot {
+    readonly certificateSigningRequest?: string;
+    enabled: boolean;
+    readonly issuingCertificateThumbprint?: string;
+    readonly status?: BringYourOwnRootStatus;
+}
+
+// @public
+export type BringYourOwnRootStatus = string;
+
+// @public
 export interface BrokerStateStoreDestinationConfiguration {
     key: string;
 }
 
 // @public
+export interface CertificateAuthorityConfiguration {
+    bringYourOwnRoot?: BringYourOwnRoot;
+    keyType: SupportedKeyType;
+    readonly subject?: string;
+    readonly validityNotAfter?: Date;
+    readonly validityNotBefore?: Date;
+}
+
+// @public
+export interface CertificateConfiguration {
+    certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
+    leafCertificateConfiguration: LeafCertificateConfiguration;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface Credential extends TrackedResource {
+    properties?: CredentialProperties;
+}
+
+// @public
+export interface CredentialProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface CredentialUpdate {
+    tags?: Record<string, string>;
+}
 
 // @public
 export interface DataPoint extends DataPointBase {
@@ -216,6 +262,16 @@ export interface DatasetMqttDestination extends DatasetDestination {
 export interface DatasetStorageDestination extends DatasetDestination {
     configuration: StorageDestinationConfiguration;
     target: "Storage";
+}
+
+// @public
+export interface DeviceCredentialPolicy {
+    resourceId?: string;
+}
+
+// @public
+export interface DeviceCredentialsRevokeRequest {
+    disable?: boolean;
 }
 
 // @public
@@ -374,6 +430,13 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
+export enum KnownBringYourOwnRootStatus {
+    Active = "Active",
+    ActiveButPendingRenewal = "ActiveButPendingRenewal",
+    PendingActivation = "PendingActivation"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -468,6 +531,11 @@ export enum KnownStreamDestinationTarget {
 }
 
 // @public
+export enum KnownSupportedKeyType {
+    ECC = "ECC"
+}
+
+// @public
 export enum KnownSystemAssignedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
@@ -481,8 +549,18 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
+    V20231101Preview = "2023-11-01-preview",
+    V20240901Preview = "2024-09-01-preview",
     V20241101 = "2024-11-01",
-    V20251001 = "2025-10-01"
+    V20250701Preview = "2025-07-01-preview",
+    V20251001 = "2025-10-01",
+    V20251101Preview = "2025-11-01-preview",
+    V20260301Preview = "2026-03-01-preview"
+}
+
+// @public
+export interface LeafCertificateConfiguration {
+    validityPeriodInDays: number;
 }
 
 // @public
@@ -715,6 +793,7 @@ export interface NamespaceDeviceProperties {
     model?: string;
     operatingSystem?: string;
     operatingSystemVersion?: string;
+    policy?: DeviceCredentialPolicy;
     readonly provisioningState?: ProvisioningState;
     readonly status?: DeviceStatus;
     readonly uuid?: string;
@@ -733,6 +812,7 @@ export interface NamespaceDeviceUpdateProperties {
     enabled?: boolean;
     endpoints?: MessagingEndpoints;
     operatingSystemVersion?: string;
+    policy?: DeviceCredentialPolicy;
 }
 
 // @public
@@ -1020,6 +1100,27 @@ export interface OutboundEndpoints {
 }
 
 // @public
+export interface Policy extends ProxyResource {
+    properties?: PolicyProperties;
+}
+
+// @public
+export interface PolicyProperties {
+    certificate?: CertificateConfiguration;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PolicyUpdate {
+    properties?: PolicyUpdateProperties;
+}
+
+// @public
+export interface PolicyUpdateProperties {
+    certificate?: CertificateConfiguration;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -1140,6 +1241,9 @@ export interface StreamStorageDestination extends StreamDestination {
     configuration: StorageDestinationConfiguration;
     target: "Storage";
 }
+
+// @public
+export type SupportedKeyType = string;
 
 // @public
 export interface SystemAssignedServiceIdentity {

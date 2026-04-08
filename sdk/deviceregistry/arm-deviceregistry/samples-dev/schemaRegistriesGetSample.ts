@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SchemaRegistry
  *
  * @summary get a SchemaRegistry
- * x-ms-original-file: 2025-10-01/Get_SchemaRegistry.json
+ * x-ms-original-file: 2026-03-01-preview/Get_SchemaRegistry.json
  */
 async function getSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
