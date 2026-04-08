@@ -113,7 +113,7 @@ describe("Test Run Operations", () => {
       throw stopResult.body.error;
     }
 
-    assert.equal("200", stopResult.status);
+    assert.equal(stopResult.status, "200");
   });
 
   it("should be able to create a test run and poll", async () => {

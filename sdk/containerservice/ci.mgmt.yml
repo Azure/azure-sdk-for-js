@@ -38,6 +38,8 @@ extends:
     Artifacts:
       - name: azure-arm-containerservice
         safeName: azurearmcontainerservice
+        triggeringPaths:
+        - /common/tools/warp/
       - name: azure-rest-arm-containerservice
         safeName: azurerestarmcontainerservice
       - name: azure-arm-containerservicefleet

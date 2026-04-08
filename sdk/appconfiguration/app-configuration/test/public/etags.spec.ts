@@ -125,7 +125,7 @@ describe("etags", () => {
       "New content, new update, etags shouldn't match",
     );
 
-    assert.equal(200, updatedSetting.statusCode);
+    assert.equal(updatedSetting.statusCode, 200);
 
     // only get the setting if it changed (it has!)
     const configurationSetting = await client.getConfigurationSetting(originalSetting, {
@@ -133,7 +133,7 @@ describe("etags", () => {
     });
 
     // now our retrieved setting matches what's on the server
-    assert.equal("new world", configurationSetting.value);
+    assert.equal(configurationSetting.value, "new world");
     assert.equal(updatedSetting.etag, configurationSetting.etag);
   });
 

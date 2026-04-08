@@ -8,7 +8,6 @@ import type {
   OperationParameter,
   OperationRequest,
   OperationRequestInfo,
-  ParameterPath,
 } from "./interfaces.js";
 
 import { state } from "./state.js";
@@ -57,11 +56,10 @@ export function getOperationArgumentValueFromParameter(
       value = {};
     }
 
-    for (const propertyName in parameterPath) {
+    for (const [propertyName, propertyPath] of Object.entries(parameterPath)) {
       const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![
         propertyName
       ];
-      const propertyPath: ParameterPath = parameterPath[propertyName];
       const propertyValue: any = getOperationArgumentValueFromParameter(
         operationArguments,
         {
@@ -74,7 +72,12 @@ export function getOperationArgumentValueFromParameter(
         if (!value) {
           value = {};
         }
-        value[propertyName] = propertyValue;
+        Object.defineProperty(value, propertyName, {
+          value: propertyValue,
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        });
       }
     }
   }

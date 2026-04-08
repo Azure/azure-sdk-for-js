@@ -82,8 +82,8 @@ describe("target deduplication", () => {
       compilerOptions: {
         outDir: "./dist/commonjs",
         rootDir: "./src",
-        module: "CommonJS",
-        moduleResolution: "Node10",
+        module: "Node16",
+        moduleResolution: "Node16",
         target: "ES2023",
         declaration: true,
         strict: true,
@@ -103,7 +103,12 @@ describe("target deduplication", () => {
       targets: [
         { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
         { name: "workerd", condition: "workerd", tsconfig: "./tsconfig.workerd.json" },
-        { name: "commonjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+        {
+          name: "commonjs",
+          condition: "require",
+          tsconfig: "./tsconfig.cjs.json",
+          moduleType: "commonjs",
+        },
       ],
     };
     await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));

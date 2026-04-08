@@ -1020,7 +1020,7 @@ describe("ClientSideEncryption", () => {
       partitionKey,
     );
     assert.equal(StatusCodes.Conflict, response.result[0].statusCode);
-    assert.equal(1, response.result.length);
+    assert.equal(response.result.length, 1);
   });
 
   it("encryption patch items", async () => {

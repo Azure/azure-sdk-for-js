@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  *
  * @summary creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
- * x-ms-original-file: 2025-07-01/Agents_CreateOrUpdate_MaximumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_CreateOrUpdate_MaximumSet.json
  */
 async function agentsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function agentsCreateOrUpdateMaximumSet(): Promise<void> {
  * This sample demonstrates how to creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  *
  * @summary creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
- * x-ms-original-file: 2025-07-01/Agents_CreateOrUpdate_MinimumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_CreateOrUpdate_MinimumSet.json
  */
 async function agentsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function agentsCreateOrUpdateMinimumSet(): Promise<void> {
  * This sample demonstrates how to creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
  *
  * @summary creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
- * x-ms-original-file: 2025-07-01/Agents_CreateOrUpdate_UploadLimitSchedule_Overnight.json
+ * x-ms-original-file: 2025-12-01/Agents_CreateOrUpdate_UploadLimitSchedule_Overnight.json
  */
 async function agentsCreateOrUpdateWithOvernightUploadLimitSchedule(): Promise<void> {
   const credential = new DefaultAzureCredential();

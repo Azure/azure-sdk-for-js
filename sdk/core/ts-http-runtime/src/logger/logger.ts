@@ -119,7 +119,7 @@ function patchLogMethod(
 }
 
 function isTypeSpecRuntimeLogLevel(level: string): level is TypeSpecRuntimeLogLevel {
-  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(level as any);
+  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(level);
 }
 
 /**
