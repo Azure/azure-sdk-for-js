@@ -27,8 +27,7 @@ import {
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Consolidates all general ingestion settings for knowledge sources. */
 export interface KnowledgeSourceIngestionParameters {
   /** An explicit identity to use for this knowledge source. */
@@ -389,7 +388,7 @@ export function completedSynchronizationStateDeserializer(
 /** Statistical information about knowledge source synchronization history. */
 export interface KnowledgeSourceStatistics {
   /** Total number of synchronizations. */
-  totalSynchronization: number;
+  totalSynchronizations: number;
   /** Average synchronization duration in HH:MM:SS format. */
   averageSynchronizationDuration: string;
   /** Average items processed per synchronization. */
@@ -398,7 +397,7 @@ export interface KnowledgeSourceStatistics {
 
 export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatistics): any {
   return {
-    totalSynchronization: item["totalSynchronization"],
+    totalSynchronization: item["totalSynchronizations"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -406,7 +405,7 @@ export function knowledgeSourceStatisticsSerializer(item: KnowledgeSourceStatist
 
 export function knowledgeSourceStatisticsDeserializer(item: any): KnowledgeSourceStatistics {
   return {
-    totalSynchronization: item["totalSynchronization"],
+    totalSynchronizations: item["totalSynchronization"],
     averageSynchronizationDuration: item["averageSynchronizationDuration"],
     averageItemsProcessedPerSynchronization: item["averageItemsProcessedPerSynchronization"],
   };
@@ -819,7 +818,7 @@ export interface KnowledgeBaseActivityRecord {
   /** The discriminator possible values: agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedMs?: number;
+  elapsedInMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
   error?: KnowledgeBaseErrorDetail;
 }
@@ -828,7 +827,7 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
   };
 }
@@ -928,7 +927,7 @@ export interface KnowledgeBaseErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function knowledgeBaseErrorAdditionalInfoDeserializer(
@@ -938,7 +937,7 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
   };
 }
 
@@ -958,7 +957,7 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
@@ -1048,7 +1047,7 @@ export interface KnowledgeBaseReference {
   /** The source activity ID for the reference. */
   activitySource: number;
   /** The source data for the reference. */
-  sourceData?: Record<string, any>;
+  sourceData?: Record<string, unknown>;
   /** The reranker score for the document reference. */
   rerankerScore?: number;
 }
@@ -1061,7 +1060,7 @@ export function knowledgeBaseReferenceDeserializer(item: any): KnowledgeBaseRefe
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
   };
@@ -1140,7 +1139,7 @@ export function knowledgeBaseSearchIndexReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docKey: item["docKey"],
@@ -1165,7 +1164,7 @@ export function knowledgeBaseAzureBlobReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     blobUrl: item["blobUrl"],
@@ -1190,7 +1189,7 @@ export function knowledgeBaseIndexedOneLakeReferenceDeserializer(
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     docUrl: item["docUrl"],
@@ -1215,7 +1214,7 @@ export function knowledgeBaseWebReferenceDeserializer(item: any): KnowledgeBaseW
     sourceData: !item["sourceData"]
       ? item["sourceData"]
       : Object.fromEntries(
-          Object.entries(item["sourceData"]).map(([k, p]: [string, any]) => [k, p]),
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
         ),
     rerankerScore: item["rerankerScore"],
     url: item["url"],

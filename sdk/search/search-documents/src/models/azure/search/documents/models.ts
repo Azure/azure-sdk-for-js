@@ -8,8 +8,7 @@ import { serializeRecord } from "../../../../static-helpers/serialization/serial
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -65,7 +64,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -73,7 +72,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
     type: item["type"],
     info: !item["info"]
       ? item["info"]
-      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, any]) => [k, p])),
+      : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
   };
 }
 
@@ -621,7 +620,7 @@ export function vectorizableTextQueryDeserializer(item: any): VectorizableTextQu
 /** The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided. */
 export interface VectorizableImageUrlQuery extends VectorQuery {
   /** The URL of an image to be vectorized to perform a vector search query. */
-  url?: string;
+  url: string;
   /** The kind of vector query being performed. */
   kind: "imageUrl";
 }

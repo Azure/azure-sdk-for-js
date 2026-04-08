@@ -428,7 +428,7 @@ export type DocumentIntelligenceLayoutSkillOutputMode = string;
 
 // @public
 export interface DocumentKeysOrIds {
-    datasourceDocumentIds?: string[];
+    dataSourceDocumentIds?: string[];
     documentKeys?: string[];
 }
 

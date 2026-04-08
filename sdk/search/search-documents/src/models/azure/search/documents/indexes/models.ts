@@ -11058,7 +11058,7 @@ export interface DocumentKeysOrIds {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
-  datasourceDocumentIds?: string[];
+  dataSourceDocumentIds?: string[];
 }
 
 export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
@@ -11068,9 +11068,9 @@ export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
       : item["documentKeys"].map((p: any) => {
           return p;
         }),
-    datasourceDocumentIds: !item["datasourceDocumentIds"]
-      ? item["datasourceDocumentIds"]
-      : item["datasourceDocumentIds"].map((p: any) => {
+    datasourceDocumentIds: !item["dataSourceDocumentIds"]
+      ? item["dataSourceDocumentIds"]
+      : item["dataSourceDocumentIds"].map((p: any) => {
           return p;
         }),
   };

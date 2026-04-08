@@ -1116,7 +1116,7 @@ export interface SimpleField {
    */
   vectorEncodingFormat?: VectorEncodingFormat;
   /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
-  sensitivityLabel?: boolean;
+  hasSensitivityLabel?: boolean;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
