@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: VirtualNetworkRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: VirtualNetworkRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, parameters: VirtualNetworkRule, options?: VirtualNetworkRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualNetworkRule>, VirtualNetworkRule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, parameters: VirtualNetworkRule, options?: VirtualNetworkRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualNetworkRule>, VirtualNetworkRule>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: VirtualNetworkRulesGetOptionalParams): Promise<VirtualNetworkRule>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: VirtualNetworkRulesGetOptionalParams): Promise<VirtualNetworkRule>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: VirtualNetworkRulesListByServerOptionalParams): PagedAsyncIterableIterator<VirtualNetworkRule>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: VirtualNetworkRulesListByServerOptionalParams): PagedAsyncIterableIterator<VirtualNetworkRule>;
 
 // @public
 export interface VirtualNetworkRulesCreateOrUpdateOptionalParams extends OperationOptions {

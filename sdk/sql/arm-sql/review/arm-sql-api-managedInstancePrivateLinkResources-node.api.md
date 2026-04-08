@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, groupName: string, options?: ManagedInstancePrivateLinkResourcesGetOptionalParams): Promise<ManagedInstancePrivateLink>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, groupName: string, options?: ManagedInstancePrivateLinkResourcesGetOptionalParams): Promise<ManagedInstancePrivateLink>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstancePrivateLink>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstancePrivateLink>;
 
 // @public
 export interface ManagedInstancePrivateLinkResourcesGetOptionalParams extends OperationOptions {

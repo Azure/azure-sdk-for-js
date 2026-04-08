@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<FirewallRule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: FirewallRule, options?: FirewallRulesCreateOrUpdateOptionalParams): Promise<FirewallRule>;
 
 // @public
 export interface FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -34,13 +34,13 @@ export interface FirewallRulesReplaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams): Promise<FirewallRule>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: FirewallRulesGetOptionalParams): Promise<FirewallRule>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<FirewallRule>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<FirewallRule>;
 
 // @public
-export function replace(context: SqlContext, resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams): Promise<FirewallRule>;
+export function replace(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: FirewallRuleList, options?: FirewallRulesReplaceOptionalParams): Promise<FirewallRule>;
 
 // (No @packageDocumentation comment for this package)
 

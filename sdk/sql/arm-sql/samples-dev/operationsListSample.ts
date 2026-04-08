@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function listsAllOfTheAvailableSQLRestAPIOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new SqlClient(credential);
+  const client = new SqlManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

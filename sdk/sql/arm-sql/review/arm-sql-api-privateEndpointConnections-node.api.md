@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnection>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnection>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: PrivateEndpointConnectionsListByServerOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: PrivateEndpointConnectionsListByServerOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 
 // @public
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {

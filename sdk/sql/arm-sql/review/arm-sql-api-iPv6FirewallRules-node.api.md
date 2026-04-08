@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: IPv6FirewallRule, options?: IPv6FirewallRulesCreateOrUpdateOptionalParams): Promise<IPv6FirewallRule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: IPv6FirewallRule, options?: IPv6FirewallRulesCreateOrUpdateOptionalParams): Promise<IPv6FirewallRule>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesGetOptionalParams): Promise<IPv6FirewallRule>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, firewallRuleName: string, options?: IPv6FirewallRulesGetOptionalParams): Promise<IPv6FirewallRule>;
 
 // @public
 export interface IPv6FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -33,7 +33,7 @@ export interface IPv6FirewallRulesListByServerOptionalParams extends OperationOp
 }
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: IPv6FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<IPv6FirewallRule>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: IPv6FirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<IPv6FirewallRule>;
 
 // (No @packageDocumentation comment for this package)
 

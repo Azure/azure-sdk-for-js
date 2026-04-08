@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   cancel,
   listByManagedInstance,
@@ -39,7 +39,7 @@ export interface ManagedInstanceOperationsOperations {
   ) => Promise<ManagedInstanceOperation>;
 }
 
-function _getManagedInstanceOperations(context: SqlContext) {
+function _getManagedInstanceOperations(context: SqlManagementContext) {
   return {
     cancel: (
       resourceGroupName: string,
@@ -62,7 +62,7 @@ function _getManagedInstanceOperations(context: SqlContext) {
 }
 
 export function _getManagedInstanceOperationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceOperationsOperations {
   return {
     ..._getManagedInstanceOperations(context),

@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, instancePoolName: string, operationId: string, options?: InstancePoolOperationsGetOptionalParams): Promise<InstancePoolOperation>;
+export function get(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, operationId: string, options?: InstancePoolOperationsGetOptionalParams): Promise<InstancePoolOperation>;
 
 // @public
 export interface InstancePoolOperationsGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface InstancePoolOperationsListByInstancePoolOptionalParams extends 
 }
 
 // @public
-export function listByInstancePool(context: SqlContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolOperationsListByInstancePoolOptionalParams): PagedAsyncIterableIterator<InstancePoolOperation>;
+export function listByInstancePool(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolOperationsListByInstancePoolOptionalParams): PagedAsyncIterableIterator<InstancePoolOperation>;
 
 // (No @packageDocumentation comment for this package)
 

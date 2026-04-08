@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsCreateOrUpdateOptionalParams): PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, parameters: LedgerDigestUploads, options?: LedgerDigestUploadsCreateOrUpdateOptionalParams): PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
 
 // @public
-export function disable(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsDisableOptionalParams): PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
+export function disable(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsDisableOptionalParams): PollerLike<OperationState<LedgerDigestUploads>, LedgerDigestUploads>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsGetOptionalParams): Promise<LedgerDigestUploads>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, ledgerDigestUploads: LedgerDigestUploadsName, options?: LedgerDigestUploadsGetOptionalParams): Promise<LedgerDigestUploads>;
 
 // @public
 export interface LedgerDigestUploadsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface LedgerDigestUploadsListByDatabaseOptionalParams extends Operati
 }
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: LedgerDigestUploadsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LedgerDigestUploads>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: LedgerDigestUploadsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LedgerDigestUploads>;
 
 // (No @packageDocumentation comment for this package)
 

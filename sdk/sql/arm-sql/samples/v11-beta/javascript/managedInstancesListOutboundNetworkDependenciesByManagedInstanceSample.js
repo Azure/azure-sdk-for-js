@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "20d7082a-0fc7-4468-82bd-542694d5042b";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedInstances.listOutboundNetworkDependenciesByManagedInstance(
     "sqlcrudtest-7398",

@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, keyName: string, options?: ServerKeysDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, keyName: string, options?: ServerKeysDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, keyName: string, parameters: ServerKey, options?: ServerKeysCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerKey>, ServerKey>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, keyName: string, parameters: ServerKey, options?: ServerKeysCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerKey>, ServerKey>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, keyName: string, options?: ServerKeysGetOptionalParams): Promise<ServerKey>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, keyName: string, options?: ServerKeysGetOptionalParams): Promise<ServerKey>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerKeysListByServerOptionalParams): PagedAsyncIterableIterator<ServerKey>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerKeysListByServerOptionalParams): PagedAsyncIterableIterator<ServerKey>;
 
 // @public
 export interface ServerKeysCreateOrUpdateOptionalParams extends OperationOptions {

@@ -10,7 +10,7 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ExtendedServerBlobAuditingPolicy, options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ExtendedServerBlobAuditingPolicy>, ExtendedServerBlobAuditingPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: ExtendedServerBlobAuditingPolicy, options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ExtendedServerBlobAuditingPolicy>, ExtendedServerBlobAuditingPolicy>;
 
 // @public
 export interface ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -26,10 +26,10 @@ export interface ExtendedServerBlobAuditingPoliciesListByServerOptionalParams ex
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, blobAuditingPolicyName: BlobAuditingPolicyName, options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams): Promise<ExtendedServerBlobAuditingPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams): Promise<ExtendedServerBlobAuditingPolicy>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

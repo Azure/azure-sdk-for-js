@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   get,
@@ -30,7 +30,7 @@ export interface ManagedInstancePrivateLinkResourcesOperations {
   ) => Promise<ManagedInstancePrivateLink>;
 }
 
-function _getManagedInstancePrivateLinkResources(context: SqlContext) {
+function _getManagedInstancePrivateLinkResources(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
       resourceGroupName: string,
@@ -47,7 +47,7 @@ function _getManagedInstancePrivateLinkResources(context: SqlContext) {
 }
 
 export function _getManagedInstancePrivateLinkResourcesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstancePrivateLinkResourcesOperations {
   return {
     ..._getManagedInstancePrivateLinkResources(context),

@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams): Promise<ManagedBackupShortTermRetentionPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams): Promise<ManagedBackupShortTermRetentionPolicy>;
 
 // @public
-export function listByRestorableDroppedDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy>;
+export function listByRestorableDroppedDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy>;
 
 // @public
 export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

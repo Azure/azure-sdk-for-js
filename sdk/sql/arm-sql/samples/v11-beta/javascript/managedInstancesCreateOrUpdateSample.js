@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createManagedInstanceWithAllProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "20D7082A-0FC7-4468-82BD-542694D5042B";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.createOrUpdate("testrg", "testinstance", {
     location: "Japan East",
     administratorLogin: "dummylogin",
@@ -62,7 +62,7 @@ async function createManagedInstanceWithAllProperties() {
 async function createManagedInstanceWithMinimalProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "20D7082A-0FC7-4468-82BD-542694D5042B";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.createOrUpdate("testrg", "testinstance", {
     location: "Japan East",
     administratorLogin: "dummylogin",

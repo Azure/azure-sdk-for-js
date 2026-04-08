@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function cancel(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, operationId: string, options?: DatabaseOperationsCancelOptionalParams): Promise<void>;
+export function cancel(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, operationId: string, options?: DatabaseOperationsCancelOptionalParams): Promise<void>;
 
 // @public
 export interface DatabaseOperationsCancelOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface DatabaseOperationsListByDatabaseOptionalParams extends Operatio
 }
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseOperationsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseOperation>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseOperationsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseOperation>;
 
 // (No @packageDocumentation comment for this package)
 

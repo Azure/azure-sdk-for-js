@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   $delete,
@@ -114,7 +114,7 @@ export interface ManagedInstanceLongTermRetentionPoliciesOperations {
   ) => Promise<ManagedInstanceLongTermRetentionPolicy>;
 }
 
-function _getManagedInstanceLongTermRetentionPolicies(context: SqlContext) {
+function _getManagedInstanceLongTermRetentionPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -230,7 +230,7 @@ function _getManagedInstanceLongTermRetentionPolicies(context: SqlContext) {
 }
 
 export function _getManagedInstanceLongTermRetentionPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceLongTermRetentionPoliciesOperations {
   return {
     ..._getManagedInstanceLongTermRetentionPolicies(context),

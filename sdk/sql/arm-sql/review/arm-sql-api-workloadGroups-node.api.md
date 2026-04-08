@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, parameters: WorkloadGroup, options?: WorkloadGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<WorkloadGroup>, WorkloadGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, parameters: WorkloadGroup, options?: WorkloadGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<WorkloadGroup>, WorkloadGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadGroupsGetOptionalParams): Promise<WorkloadGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadGroupsGetOptionalParams): Promise<WorkloadGroup>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: WorkloadGroupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<WorkloadGroup>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: WorkloadGroupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<WorkloadGroup>;
 
 // @public
 export interface WorkloadGroupsCreateOrUpdateOptionalParams extends OperationOptions {

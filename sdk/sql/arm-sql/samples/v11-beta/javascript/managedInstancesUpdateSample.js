@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.update("testrg", "testinstance", {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
@@ -30,7 +30,7 @@ async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenanc
 async function updateManagedInstanceWithAllProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.update("testrg", "testinstance", {
     administratorLogin: "dummylogin",
     administratorLoginPassword: "PLACEHOLDER",
@@ -63,7 +63,7 @@ async function updateManagedInstanceWithAllProperties() {
 async function updateManagedInstanceWithMinimalProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.update("testrg", "testinstance", {
     tags: { tagKey1: "TagValue1" },
   });

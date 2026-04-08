@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listByInstancePool(context: SqlContext, resourceGroupName: string, instancePoolName: string, options?: UsagesListByInstancePoolOptionalParams): PagedAsyncIterableIterator<Usage>;
+export function listByInstancePool(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, options?: UsagesListByInstancePoolOptionalParams): PagedAsyncIterableIterator<Usage>;
 
 // @public
 export interface UsagesListByInstancePoolOptionalParams extends OperationOptions {

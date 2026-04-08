@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, update, get } from "../../api/databaseAdvisors/operations.js";
 import type {
   DatabaseAdvisorsListByDatabaseOptionalParams,
@@ -38,7 +38,7 @@ export interface DatabaseAdvisorsOperations {
   ) => Promise<Advisor>;
 }
 
-function _getDatabaseAdvisors(context: SqlContext) {
+function _getDatabaseAdvisors(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -73,7 +73,9 @@ function _getDatabaseAdvisors(context: SqlContext) {
   };
 }
 
-export function _getDatabaseAdvisorsOperations(context: SqlContext): DatabaseAdvisorsOperations {
+export function _getDatabaseAdvisorsOperations(
+  context: SqlManagementContext,
+): DatabaseAdvisorsOperations {
   return {
     ..._getDatabaseAdvisors(context),
   };

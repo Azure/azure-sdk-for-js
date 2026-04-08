@@ -16,10 +16,10 @@ export interface EndpointCertificatesListByInstanceOptionalParams extends Operat
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, endpointType: string, options?: EndpointCertificatesGetOptionalParams): Promise<EndpointCertificate>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, endpointType: string, options?: EndpointCertificatesGetOptionalParams): Promise<EndpointCertificate>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: EndpointCertificatesListByInstanceOptionalParams): PagedAsyncIterableIterator<EndpointCertificate>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: EndpointCertificatesListByInstanceOptionalParams): PagedAsyncIterableIterator<EndpointCertificate>;
 
 // (No @packageDocumentation comment for this package)
 

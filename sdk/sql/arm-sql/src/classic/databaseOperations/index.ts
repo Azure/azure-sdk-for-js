@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { cancel, listByDatabase } from "../../api/databaseOperations/operations.js";
 import type {
   DatabaseOperationsCancelOptionalParams,
@@ -29,7 +29,7 @@ export interface DatabaseOperationsOperations {
   ) => PagedAsyncIterableIterator<DatabaseOperation>;
 }
 
-function _getDatabaseOperations(context: SqlContext) {
+function _getDatabaseOperations(context: SqlManagementContext) {
   return {
     cancel: (
       resourceGroupName: string,
@@ -48,7 +48,7 @@ function _getDatabaseOperations(context: SqlContext) {
 }
 
 export function _getDatabaseOperationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseOperationsOperations {
   return {
     ..._getDatabaseOperations(context),

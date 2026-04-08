@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { list, createOrUpdate, get } from "../../api/geoBackupPolicies/operations.js";
 import type {
   GeoBackupPoliciesListOptionalParams,
@@ -39,7 +39,7 @@ export interface GeoBackupPoliciesOperations {
   ) => Promise<GeoBackupPolicy>;
 }
 
-function _getGeoBackupPolicies(context: SqlContext) {
+function _getGeoBackupPolicies(context: SqlManagementContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -74,7 +74,9 @@ function _getGeoBackupPolicies(context: SqlContext) {
   };
 }
 
-export function _getGeoBackupPoliciesOperations(context: SqlContext): GeoBackupPoliciesOperations {
+export function _getGeoBackupPoliciesOperations(
+  context: SqlManagementContext,
+): GeoBackupPoliciesOperations {
   return {
     ..._getGeoBackupPolicies(context),
   };

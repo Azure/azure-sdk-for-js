@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, options?: ManagedServerDnsAliasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, options?: ManagedServerDnsAliasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function acquire(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, parameters: ManagedServerDnsAliasAcquisition, options?: ManagedServerDnsAliasesAcquireOptionalParams): PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
+export function acquire(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, parameters: ManagedServerDnsAliasAcquisition, options?: ManagedServerDnsAliasesAcquireOptionalParams): PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, parameters: ManagedServerDnsAliasCreation, options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, parameters: ManagedServerDnsAliasCreation, options?: ManagedServerDnsAliasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, options?: ManagedServerDnsAliasesGetOptionalParams): Promise<ManagedServerDnsAlias>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dnsAliasName: string, options?: ManagedServerDnsAliasesGetOptionalParams): Promise<ManagedServerDnsAlias>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedServerDnsAlias>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedServerDnsAliasesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedServerDnsAlias>;
 
 // @public
 export interface ManagedServerDnsAliasesAcquireOptionalParams extends OperationOptions {

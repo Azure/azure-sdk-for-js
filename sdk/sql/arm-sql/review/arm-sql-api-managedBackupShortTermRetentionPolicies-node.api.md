@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, options?: ManagedBackupShortTermRetentionPoliciesGetOptionalParams): Promise<ManagedBackupShortTermRetentionPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, options?: ManagedBackupShortTermRetentionPoliciesGetOptionalParams): Promise<ManagedBackupShortTermRetentionPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedBackupShortTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedBackupShortTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedBackupShortTermRetentionPolicy>;
 
 // @public
 export interface ManagedBackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams ext
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedShortTermRetentionPolicyName, parameters: ManagedBackupShortTermRetentionPolicy, options?: ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<ManagedBackupShortTermRetentionPolicy>, ManagedBackupShortTermRetentionPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext as Client } from "../index.js";
+import type { SqlManagementContext as Client } from "../index.js";
 import type { _UsageListResult, Usage } from "../../models/models.js";
 import { errorResponseDeserializer, _usageListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";

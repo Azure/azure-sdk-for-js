@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function updatesADatabaseWithDefaultEnclaveType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     preferredEnclaveType: "Default",
   });
@@ -29,7 +29,7 @@ async function updatesADatabaseWithDefaultEnclaveType() {
 async function updatesADatabaseWithVBSEnclaveType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     preferredEnclaveType: "VBS",
   });
@@ -45,7 +45,7 @@ async function updatesADatabaseWithVBSEnclaveType() {
 async function updatesADatabase() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     licenseType: "LicenseIncluded",
     maxSizeBytes: 1073741824,
@@ -63,7 +63,7 @@ async function updatesADatabase() {
 async function assignsMaintenanceWindowToADatabase() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_SouthEastAsia_1",
@@ -81,7 +81,7 @@ async function assignsMaintenanceWindowToADatabase() {
 async function resetsMaintenanceWindowOfADatabaseToDefault() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
@@ -99,7 +99,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
 async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.update("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     identity: {
       type: "UserAssigned",

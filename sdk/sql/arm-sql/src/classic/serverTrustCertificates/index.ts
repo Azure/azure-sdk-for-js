@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
@@ -87,7 +87,7 @@ export interface ServerTrustCertificatesOperations {
   ) => Promise<ServerTrustCertificate>;
 }
 
-function _getServerTrustCertificates(context: SqlContext) {
+function _getServerTrustCertificates(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -189,7 +189,7 @@ function _getServerTrustCertificates(context: SqlContext) {
 }
 
 export function _getServerTrustCertificatesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerTrustCertificatesOperations {
   return {
     ..._getServerTrustCertificates(context),

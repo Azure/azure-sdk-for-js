@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   setRole,
   failover,
@@ -177,7 +177,7 @@ export interface DistributedAvailabilityGroupsOperations {
   ) => Promise<DistributedAvailabilityGroup>;
 }
 
-function _getDistributedAvailabilityGroups(context: SqlContext) {
+function _getDistributedAvailabilityGroups(context: SqlManagementContext) {
   return {
     setRole: (
       resourceGroupName: string,
@@ -440,7 +440,7 @@ function _getDistributedAvailabilityGroups(context: SqlContext) {
 }
 
 export function _getDistributedAvailabilityGroupsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DistributedAvailabilityGroupsOperations {
   return {
     ..._getDistributedAvailabilityGroups(context),

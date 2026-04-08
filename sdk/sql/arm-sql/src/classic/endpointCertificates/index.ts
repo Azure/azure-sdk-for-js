@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstance, get } from "../../api/endpointCertificates/operations.js";
 import type {
   EndpointCertificatesListByInstanceOptionalParams,
@@ -27,7 +27,7 @@ export interface EndpointCertificatesOperations {
   ) => Promise<EndpointCertificate>;
 }
 
-function _getEndpointCertificates(context: SqlContext) {
+function _getEndpointCertificates(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getEndpointCertificates(context: SqlContext) {
 }
 
 export function _getEndpointCertificatesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): EndpointCertificatesOperations {
   return {
     ..._getEndpointCertificates(context),

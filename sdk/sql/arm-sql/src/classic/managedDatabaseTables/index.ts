@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listBySchema, get } from "../../api/managedDatabaseTables/operations.js";
 import type {
   ManagedDatabaseTablesListBySchemaOptionalParams,
@@ -31,7 +31,7 @@ export interface ManagedDatabaseTablesOperations {
   ) => Promise<DatabaseTable>;
 }
 
-function _getManagedDatabaseTables(context: SqlContext) {
+function _getManagedDatabaseTables(context: SqlManagementContext) {
   return {
     listBySchema: (
       resourceGroupName: string,
@@ -69,7 +69,7 @@ function _getManagedDatabaseTables(context: SqlContext) {
 }
 
 export function _getManagedDatabaseTablesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseTablesOperations {
   return {
     ..._getManagedDatabaseTables(context),

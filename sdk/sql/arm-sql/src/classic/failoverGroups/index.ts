@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   tryPlannedBeforeForcedFailover,
   forceFailoverAllowDataLoss,
@@ -182,7 +182,7 @@ export interface FailoverGroupsOperations {
   ) => Promise<FailoverGroup>;
 }
 
-function _getFailoverGroups(context: SqlContext) {
+function _getFailoverGroups(context: SqlManagementContext) {
   return {
     tryPlannedBeforeForcedFailover: (
       resourceGroupName: string,
@@ -422,7 +422,9 @@ function _getFailoverGroups(context: SqlContext) {
   };
 }
 
-export function _getFailoverGroupsOperations(context: SqlContext): FailoverGroupsOperations {
+export function _getFailoverGroupsOperations(
+  context: SqlManagementContext,
+): FailoverGroupsOperations {
   return {
     ..._getFailoverGroups(context),
   };

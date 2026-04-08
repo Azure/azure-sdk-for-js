@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, parameters: ElasticPool, options?: ElasticPoolsCreateOrUpdateOptionalParams): PollerLike<OperationState<ElasticPool>, ElasticPool>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, parameters: ElasticPool, options?: ElasticPoolsCreateOrUpdateOptionalParams): PollerLike<OperationState<ElasticPool>, ElasticPool>;
 
 // @public
 export interface ElasticPoolsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -45,16 +45,16 @@ export interface ElasticPoolsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsFailoverOptionalParams): PollerLike<OperationState<void>, void>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsFailoverOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsGetOptionalParams): Promise<ElasticPool>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolsGetOptionalParams): Promise<ElasticPool>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ElasticPoolsListByServerOptionalParams): PagedAsyncIterableIterator<ElasticPool>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ElasticPoolsListByServerOptionalParams): PagedAsyncIterableIterator<ElasticPool>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, parameters: ElasticPoolUpdate, options?: ElasticPoolsUpdateOptionalParams): PollerLike<OperationState<ElasticPool>, ElasticPool>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, parameters: ElasticPoolUpdate, options?: ElasticPoolsUpdateOptionalParams): PollerLike<OperationState<ElasticPool>, ElasticPool>;
 
 // (No @packageDocumentation comment for this package)
 

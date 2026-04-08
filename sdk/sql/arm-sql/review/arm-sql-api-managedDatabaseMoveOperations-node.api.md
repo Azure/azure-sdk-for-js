@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, locationName: string, operationId: string, options?: ManagedDatabaseMoveOperationsGetOptionalParams): Promise<ManagedDatabaseMoveOperationResult>;
+export function get(context: SqlManagementContext, resourceGroupName: string, locationName: string, operationId: string, options?: ManagedDatabaseMoveOperationsGetOptionalParams): Promise<ManagedDatabaseMoveOperationResult>;
 
 // @public
-export function listByLocation(context: SqlContext, resourceGroupName: string, locationName: string, options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult>;
+export function listByLocation(context: SqlManagementContext, resourceGroupName: string, locationName: string, options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult>;
 
 // @public
 export interface ManagedDatabaseMoveOperationsGetOptionalParams extends OperationOptions {

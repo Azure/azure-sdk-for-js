@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,12 +13,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     { isAzureMonitorTargetEnabled: true, state: "Enabled" },
   );
   console.log(result);
@@ -33,12 +32,11 @@ async function createOrUpdateADatabaseAzureMonitorAuditingPolicyWithMinimalParam
 async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     {
       auditActionsAndGroups: [
         "DATABASE_LOGOUT_GROUP",
@@ -68,12 +66,11 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
 async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     {
       state: "Enabled",
       storageAccountAccessKey:

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   listByLocation,
@@ -95,7 +95,7 @@ export interface ServerTrustGroupsOperations {
   ) => Promise<ServerTrustGroup>;
 }
 
-function _getServerTrustGroups(context: SqlContext) {
+function _getServerTrustGroups(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -195,7 +195,9 @@ function _getServerTrustGroups(context: SqlContext) {
   };
 }
 
-export function _getServerTrustGroupsOperations(context: SqlContext): ServerTrustGroupsOperations {
+export function _getServerTrustGroupsOperations(
+  context: SqlManagementContext,
+): ServerTrustGroupsOperations {
   return {
     ..._getServerTrustGroups(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   $delete,
@@ -95,7 +95,7 @@ export interface WorkloadGroupsOperations {
   ) => Promise<WorkloadGroup>;
 }
 
-function _getWorkloadGroups(context: SqlContext) {
+function _getWorkloadGroups(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -209,7 +209,9 @@ function _getWorkloadGroups(context: SqlContext) {
   };
 }
 
-export function _getWorkloadGroupsOperations(context: SqlContext): WorkloadGroupsOperations {
+export function _getWorkloadGroupsOperations(
+  context: SqlManagementContext,
+): WorkloadGroupsOperations {
   return {
     ..._getWorkloadGroups(context),
   };

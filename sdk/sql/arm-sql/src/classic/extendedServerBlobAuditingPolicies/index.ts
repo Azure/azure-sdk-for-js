@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   createOrUpdate,
@@ -12,10 +12,7 @@ import type {
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesGetOptionalParams,
 } from "../../api/extendedServerBlobAuditingPolicies/options.js";
-import type {
-  ExtendedServerBlobAuditingPolicy,
-  BlobAuditingPolicyName,
-} from "../../models/models.js";
+import type { ExtendedServerBlobAuditingPolicy } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -33,7 +30,6 @@ export interface ExtendedServerBlobAuditingPoliciesOperations {
   createOrUpdate: (
     resourceGroupName: string,
     serverName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
     options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ) => PollerLike<
@@ -44,7 +40,6 @@ export interface ExtendedServerBlobAuditingPoliciesOperations {
   beginCreateOrUpdate: (
     resourceGroupName: string,
     serverName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
     options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<
@@ -57,7 +52,6 @@ export interface ExtendedServerBlobAuditingPoliciesOperations {
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     serverName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
     options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<ExtendedServerBlobAuditingPolicy>;
@@ -65,12 +59,11 @@ export interface ExtendedServerBlobAuditingPoliciesOperations {
   get: (
     resourceGroupName: string,
     serverName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ) => Promise<ExtendedServerBlobAuditingPolicy>;
 }
 
-function _getExtendedServerBlobAuditingPolicies(context: SqlContext) {
+function _getExtendedServerBlobAuditingPolicies(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -80,63 +73,37 @@ function _getExtendedServerBlobAuditingPolicies(context: SqlContext) {
     createOrUpdate: (
       resourceGroupName: string,
       serverName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       parameters: ExtendedServerBlobAuditingPolicy,
       options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        serverName,
-        blobAuditingPolicyName,
-        parameters,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, serverName, parameters, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       serverName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       parameters: ExtendedServerBlobAuditingPolicy,
       options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
     ) => {
-      const poller = createOrUpdate(
-        context,
-        resourceGroupName,
-        serverName,
-        blobAuditingPolicyName,
-        parameters,
-        options,
-      );
+      const poller = createOrUpdate(context, resourceGroupName, serverName, parameters, options);
       await poller.submitted();
       return getSimplePoller(poller);
     },
     beginCreateOrUpdateAndWait: async (
       resourceGroupName: string,
       serverName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       parameters: ExtendedServerBlobAuditingPolicy,
       options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
     ) => {
-      return await createOrUpdate(
-        context,
-        resourceGroupName,
-        serverName,
-        blobAuditingPolicyName,
-        parameters,
-        options,
-      );
+      return await createOrUpdate(context, resourceGroupName, serverName, parameters, options);
     },
     get: (
       resourceGroupName: string,
       serverName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, serverName, blobAuditingPolicyName, options),
+    ) => get(context, resourceGroupName, serverName, options),
   };
 }
 
 export function _getExtendedServerBlobAuditingPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ExtendedServerBlobAuditingPoliciesOperations {
   return {
     ..._getExtendedServerBlobAuditingPolicies(context),

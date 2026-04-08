@@ -20,10 +20,10 @@ export interface DatabaseEncryptionProtectorsRevertOptionalParams extends Operat
 }
 
 // @public
-export function revalidate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, encryptionProtectorName: EncryptionProtectorName, options?: DatabaseEncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
+export function revalidate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, encryptionProtectorName: EncryptionProtectorName, options?: DatabaseEncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function revert(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, encryptionProtectorName: EncryptionProtectorName, options?: DatabaseEncryptionProtectorsRevertOptionalParams): PollerLike<OperationState<void>, void>;
+export function revert(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, encryptionProtectorName: EncryptionProtectorName, options?: DatabaseEncryptionProtectorsRevertOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

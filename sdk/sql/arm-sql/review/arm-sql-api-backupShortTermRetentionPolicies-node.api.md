@@ -28,16 +28,16 @@ export interface BackupShortTermRetentionPoliciesUpdateOptionalParams extends Op
 }
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, parameters: BackupShortTermRetentionPolicy, options?: BackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, parameters: BackupShortTermRetentionPolicy, options?: BackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, options?: BackupShortTermRetentionPoliciesGetOptionalParams): Promise<BackupShortTermRetentionPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, options?: BackupShortTermRetentionPoliciesGetOptionalParams): Promise<BackupShortTermRetentionPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: BackupShortTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<BackupShortTermRetentionPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: BackupShortTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<BackupShortTermRetentionPolicy>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, parameters: BackupShortTermRetentionPolicy, options?: BackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: ShortTermRetentionPolicyName, parameters: BackupShortTermRetentionPolicy, options?: BackupShortTermRetentionPoliciesUpdateOptionalParams): PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

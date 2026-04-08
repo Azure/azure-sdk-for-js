@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, parameters: ServerTrustCertificate, options?: ServerTrustCertificatesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerTrustCertificate>, ServerTrustCertificate>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, parameters: ServerTrustCertificate, options?: ServerTrustCertificatesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerTrustCertificate>, ServerTrustCertificate>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesGetOptionalParams): Promise<ServerTrustCertificate>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, certificateName: string, options?: ServerTrustCertificatesGetOptionalParams): Promise<ServerTrustCertificate>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ServerTrustCertificatesListByInstanceOptionalParams): PagedAsyncIterableIterator<ServerTrustCertificate>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ServerTrustCertificatesListByInstanceOptionalParams): PagedAsyncIterableIterator<ServerTrustCertificate>;
 
 // @public
 export interface ServerTrustCertificatesCreateOrUpdateOptionalParams extends OperationOptions {

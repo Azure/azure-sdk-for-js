@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/dataMaskingPolicies/operations.js";
 import type {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
@@ -30,7 +30,7 @@ export interface DataMaskingPoliciesOperations {
   ) => Promise<DataMaskingPolicy>;
 }
 
-function _getDataMaskingPolicies(context: SqlContext) {
+function _getDataMaskingPolicies(context: SqlManagementContext) {
   return {
     createOrUpdate: (
       resourceGroupName: string,
@@ -60,7 +60,7 @@ function _getDataMaskingPolicies(context: SqlContext) {
 }
 
 export function _getDataMaskingPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DataMaskingPoliciesOperations {
   return {
     ..._getDataMaskingPolicies(context),

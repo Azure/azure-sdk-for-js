@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   failoverAllowDataLoss,
@@ -184,7 +184,7 @@ export interface ReplicationLinksOperations {
   ) => Promise<ReplicationLink>;
 }
 
-function _getReplicationLinks(context: SqlContext) {
+function _getReplicationLinks(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -411,7 +411,9 @@ function _getReplicationLinks(context: SqlContext) {
   };
 }
 
-export function _getReplicationLinksOperations(context: SqlContext): ReplicationLinksOperations {
+export function _getReplicationLinksOperations(
+  context: SqlManagementContext,
+): ReplicationLinksOperations {
   return {
     ..._getReplicationLinks(context),
   };

@@ -30,13 +30,13 @@ export interface DatabaseColumnsListByTableOptionalParams extends OperationOptio
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: DatabaseColumnsGetOptionalParams): Promise<DatabaseColumn>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: DatabaseColumnsGetOptionalParams): Promise<DatabaseColumn>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseColumnsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseColumn>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseColumnsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseColumn>;
 
 // @public
-export function listByTable(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, options?: DatabaseColumnsListByTableOptionalParams): PagedAsyncIterableIterator<DatabaseColumn>;
+export function listByTable(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, options?: DatabaseColumnsListByTableOptionalParams): PagedAsyncIterableIterator<DatabaseColumn>;
 
 // (No @packageDocumentation comment for this package)
 

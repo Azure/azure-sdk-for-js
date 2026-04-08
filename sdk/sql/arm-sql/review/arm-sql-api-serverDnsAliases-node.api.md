@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function acquire(context: SqlContext, resourceGroupName: string, serverName: string, dnsAliasName: string, parameters: ServerDnsAliasAcquisition, options?: ServerDnsAliasesAcquireOptionalParams): PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
+export function acquire(context: SqlManagementContext, resourceGroupName: string, serverName: string, dnsAliasName: string, parameters: ServerDnsAliasAcquisition, options?: ServerDnsAliasesAcquireOptionalParams): PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesGetOptionalParams): Promise<ServerDnsAlias>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, dnsAliasName: string, options?: ServerDnsAliasesGetOptionalParams): Promise<ServerDnsAlias>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerDnsAliasesListByServerOptionalParams): PagedAsyncIterableIterator<ServerDnsAlias>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerDnsAliasesListByServerOptionalParams): PagedAsyncIterableIterator<ServerDnsAlias>;
 
 // @public
 export interface ServerDnsAliasesAcquireOptionalParams extends OperationOptions {

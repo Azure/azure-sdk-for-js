@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, options?: ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, parameters: ManagedInstanceAzureADOnlyAuthentication, options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAzureADOnlyAuthentication>, ManagedInstanceAzureADOnlyAuthentication>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, parameters: ManagedInstanceAzureADOnlyAuthentication, options?: ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAzureADOnlyAuthentication>, ManagedInstanceAzureADOnlyAuthentication>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams): Promise<ManagedInstanceAzureADOnlyAuthentication>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, authenticationName: AuthenticationName, options?: ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams): Promise<ManagedInstanceAzureADOnlyAuthentication>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAzureADOnlyAuthentication>;
 
 // @public
 export interface ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams extends OperationOptions {

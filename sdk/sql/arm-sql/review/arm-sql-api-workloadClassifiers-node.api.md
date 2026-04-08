@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, options?: WorkloadClassifiersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, options?: WorkloadClassifiersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, parameters: WorkloadClassifier, options?: WorkloadClassifiersCreateOrUpdateOptionalParams): PollerLike<OperationState<WorkloadClassifier>, WorkloadClassifier>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, parameters: WorkloadClassifier, options?: WorkloadClassifiersCreateOrUpdateOptionalParams): PollerLike<OperationState<WorkloadClassifier>, WorkloadClassifier>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, options?: WorkloadClassifiersGetOptionalParams): Promise<WorkloadClassifier>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, workloadClassifierName: string, options?: WorkloadClassifiersGetOptionalParams): Promise<WorkloadClassifier>;
 
 // @public
-export function listByWorkloadGroup(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadClassifiersListByWorkloadGroupOptionalParams): PagedAsyncIterableIterator<WorkloadClassifier>;
+export function listByWorkloadGroup(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: WorkloadClassifiersListByWorkloadGroupOptionalParams): PagedAsyncIterableIterator<WorkloadClassifier>;
 
 // @public
 export interface WorkloadClassifiersCreateOrUpdateOptionalParams extends OperationOptions {

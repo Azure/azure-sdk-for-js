@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext as Client } from "../index.js";
+import type { SqlManagementContext as Client } from "../index.js";
 import type {
   _SensitivityLabelListResult,
   SensitivityLabel,
   SensitivityLabelUpdateList,
   SensitivityLabelSource,
-  CurrentSensitivityLabelSource,
-  RecommendedSensitivityLabelSource,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -42,7 +40,6 @@ export function _enableRecommendationSend(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: RecommendedSensitivityLabelSource,
   options: SensitivityLabelsEnableRecommendationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -55,7 +52,7 @@ export function _enableRecommendationSend(
       schemaName: schemaName,
       tableName: tableName,
       columnName: columnName,
-      sensitivityLabelSource: sensitivityLabelSource,
+      sensitivityLabelSource: "recommended",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -88,7 +85,6 @@ export async function enableRecommendation(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: RecommendedSensitivityLabelSource,
   options: SensitivityLabelsEnableRecommendationOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _enableRecommendationSend(
@@ -99,7 +95,6 @@ export async function enableRecommendation(
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource,
     options,
   );
   return _enableRecommendationDeserialize(result);
@@ -113,7 +108,6 @@ export function _disableRecommendationSend(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: RecommendedSensitivityLabelSource,
   options: SensitivityLabelsDisableRecommendationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -126,7 +120,7 @@ export function _disableRecommendationSend(
       schemaName: schemaName,
       tableName: tableName,
       columnName: columnName,
-      sensitivityLabelSource: sensitivityLabelSource,
+      sensitivityLabelSource: "recommended",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -159,7 +153,6 @@ export async function disableRecommendation(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: RecommendedSensitivityLabelSource,
   options: SensitivityLabelsDisableRecommendationOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _disableRecommendationSend(
@@ -170,7 +163,6 @@ export async function disableRecommendation(
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource,
     options,
   );
   return _disableRecommendationDeserialize(result);
@@ -184,7 +176,6 @@ export function _$deleteSend(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: CurrentSensitivityLabelSource,
   options: SensitivityLabelsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -197,7 +188,7 @@ export function _$deleteSend(
       schemaName: schemaName,
       tableName: tableName,
       columnName: columnName,
-      sensitivityLabelSource: sensitivityLabelSource,
+      sensitivityLabelSource: "current",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -233,7 +224,6 @@ export async function $delete(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: CurrentSensitivityLabelSource,
   options: SensitivityLabelsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(
@@ -244,7 +234,6 @@ export async function $delete(
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource,
     options,
   );
   return _$deleteDeserialize(result);
@@ -258,7 +247,6 @@ export function _createOrUpdateSend(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: CurrentSensitivityLabelSource,
   parameters: SensitivityLabel,
   options: SensitivityLabelsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -272,7 +260,7 @@ export function _createOrUpdateSend(
       schemaName: schemaName,
       tableName: tableName,
       columnName: columnName,
-      sensitivityLabelSource: sensitivityLabelSource,
+      sensitivityLabelSource: "current",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -310,7 +298,6 @@ export async function createOrUpdate(
   schemaName: string,
   tableName: string,
   columnName: string,
-  sensitivityLabelSource: CurrentSensitivityLabelSource,
   parameters: SensitivityLabel,
   options: SensitivityLabelsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SensitivityLabel> {
@@ -322,7 +309,6 @@ export async function createOrUpdate(
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource,
     parameters,
     options,
   );

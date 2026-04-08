@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ManagedServerSecurityAlertPolicy, options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedServerSecurityAlertPolicy>, ManagedServerSecurityAlertPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ManagedServerSecurityAlertPolicy, options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedServerSecurityAlertPolicy>, ManagedServerSecurityAlertPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ManagedServerSecurityAlertPoliciesGetOptionalParams): Promise<ManagedServerSecurityAlertPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ManagedServerSecurityAlertPoliciesGetOptionalParams): Promise<ManagedServerSecurityAlertPolicy>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedServerSecurityAlertPolicy>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedServerSecurityAlertPolicy>;
 
 // @public
 export interface ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

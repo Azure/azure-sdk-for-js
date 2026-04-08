@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createAFirewallRuleMaxOrMin() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.firewallRules.createOrUpdate(
     "firewallrulecrudtest-12",
     "firewallrulecrudtest-6285",
@@ -32,7 +32,7 @@ async function createAFirewallRuleMaxOrMin() {
 async function updateAFirewallRuleMaxOrMin() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.firewallRules.createOrUpdate(
     "firewallrulecrudtest-12",
     "firewallrulecrudtest-6285",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/maintenanceWindows/operations.js";
 import type {
   MaintenanceWindowsCreateOrUpdateOptionalParams,
@@ -30,7 +30,7 @@ export interface MaintenanceWindowsOperations {
   ) => Promise<MaintenanceWindows>;
 }
 
-function _getMaintenanceWindows(context: SqlContext) {
+function _getMaintenanceWindows(context: SqlManagementContext) {
   return {
     createOrUpdate: (
       resourceGroupName: string,
@@ -60,7 +60,7 @@ function _getMaintenanceWindows(context: SqlContext) {
 }
 
 export function _getMaintenanceWindowsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): MaintenanceWindowsOperations {
   return {
     ..._getMaintenanceWindows(context),

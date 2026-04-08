@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
@@ -57,7 +57,7 @@ export interface StartStopManagedInstanceSchedulesOperations {
   ) => Promise<StartStopManagedInstanceSchedule>;
 }
 
-function _getStartStopManagedInstanceSchedules(context: SqlContext) {
+function _getStartStopManagedInstanceSchedules(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -95,7 +95,7 @@ function _getStartStopManagedInstanceSchedules(context: SqlContext) {
 }
 
 export function _getStartStopManagedInstanceSchedulesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): StartStopManagedInstanceSchedulesOperations {
   return {
     ..._getStartStopManagedInstanceSchedules(context),

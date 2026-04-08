@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, get } from "../../api/sqlAgent/operations.js";
 import type {
   SqlAgentCreateOrUpdateOptionalParams,
@@ -26,7 +26,7 @@ export interface SqlAgentOperations {
   ) => Promise<SqlAgentConfiguration>;
 }
 
-function _getSqlAgent(context: SqlContext) {
+function _getSqlAgent(context: SqlManagementContext) {
   return {
     createOrUpdate: (
       resourceGroupName: string,
@@ -42,7 +42,7 @@ function _getSqlAgent(context: SqlContext) {
   };
 }
 
-export function _getSqlAgentOperations(context: SqlContext): SqlAgentOperations {
+export function _getSqlAgentOperations(context: SqlManagementContext): SqlAgentOperations {
   return {
     ..._getSqlAgent(context),
   };

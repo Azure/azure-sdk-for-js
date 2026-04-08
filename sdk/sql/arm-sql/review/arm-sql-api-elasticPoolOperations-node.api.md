@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function cancel(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: ElasticPoolOperationsCancelOptionalParams): Promise<void>;
+export function cancel(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: ElasticPoolOperationsCancelOptionalParams): Promise<void>;
 
 // @public
 export interface ElasticPoolOperationsCancelOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface ElasticPoolOperationsListByElasticPoolOptionalParams extends Op
 }
 
 // @public
-export function listByElasticPool(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolOperationsListByElasticPoolOptionalParams): PagedAsyncIterableIterator<ElasticPoolOperation>;
+export function listByElasticPool(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: ElasticPoolOperationsListByElasticPoolOptionalParams): PagedAsyncIterableIterator<ElasticPoolOperation>;
 
 // (No @packageDocumentation comment for this package)
 

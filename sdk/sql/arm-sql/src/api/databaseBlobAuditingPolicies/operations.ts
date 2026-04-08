@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext as Client } from "../index.js";
+import type { SqlManagementContext as Client } from "../index.js";
 import type {
   DatabaseBlobAuditingPolicy,
   _DatabaseBlobAuditingPolicyListResult,
-  BlobAuditingPolicyName,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -90,7 +89,6 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   parameters: DatabaseBlobAuditingPolicy,
   options: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -101,7 +99,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      blobAuditingPolicyName: blobAuditingPolicyName,
+      blobAuditingPolicyName: "default",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -136,7 +134,6 @@ export async function createOrUpdate(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   parameters: DatabaseBlobAuditingPolicy,
   options: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatabaseBlobAuditingPolicy> {
@@ -145,7 +142,6 @@ export async function createOrUpdate(
     resourceGroupName,
     serverName,
     databaseName,
-    blobAuditingPolicyName,
     parameters,
     options,
   );
@@ -157,7 +153,6 @@ export function _getSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   options: DatabaseBlobAuditingPoliciesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -167,7 +162,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      blobAuditingPolicyName: blobAuditingPolicyName,
+      blobAuditingPolicyName: "default",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -200,16 +195,8 @@ export async function get(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   options: DatabaseBlobAuditingPoliciesGetOptionalParams = { requestOptions: {} },
 ): Promise<DatabaseBlobAuditingPolicy> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    serverName,
-    databaseName,
-    blobAuditingPolicyName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, serverName, databaseName, options);
   return _getDeserialize(result);
 }

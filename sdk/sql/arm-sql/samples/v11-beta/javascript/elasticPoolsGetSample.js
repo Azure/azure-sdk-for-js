@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getAnElasticPool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.get(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -31,7 +31,7 @@ async function getAnElasticPool() {
 async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.get(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -49,7 +49,7 @@ async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
 async function getAnElasticPoolWithAvailabilityZone() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.get(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -67,7 +67,7 @@ async function getAnElasticPoolWithAvailabilityZone() {
 async function getAnElasticPoolWithServerlessProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.get(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -85,7 +85,7 @@ async function getAnElasticPoolWithServerlessProperties() {
 async function getAHyperscaleElasticPool() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.get(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",

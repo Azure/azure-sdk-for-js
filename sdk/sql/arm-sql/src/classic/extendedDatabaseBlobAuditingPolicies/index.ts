@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
@@ -12,10 +12,7 @@ import type {
   ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedDatabaseBlobAuditingPoliciesGetOptionalParams,
 } from "../../api/extendedDatabaseBlobAuditingPolicies/options.js";
-import type {
-  ExtendedDatabaseBlobAuditingPolicy,
-  BlobAuditingPolicyName,
-} from "../../models/models.js";
+import type { ExtendedDatabaseBlobAuditingPolicy } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtendedDatabaseBlobAuditingPolicies operations. */
@@ -32,7 +29,6 @@ export interface ExtendedDatabaseBlobAuditingPoliciesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedDatabaseBlobAuditingPolicy,
     options?: ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<ExtendedDatabaseBlobAuditingPolicy>;
@@ -41,12 +37,11 @@ export interface ExtendedDatabaseBlobAuditingPoliciesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    blobAuditingPolicyName: BlobAuditingPolicyName,
     options?: ExtendedDatabaseBlobAuditingPoliciesGetOptionalParams,
   ) => Promise<ExtendedDatabaseBlobAuditingPolicy>;
 }
 
-function _getExtendedDatabaseBlobAuditingPolicies(context: SqlContext) {
+function _getExtendedDatabaseBlobAuditingPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -58,31 +53,20 @@ function _getExtendedDatabaseBlobAuditingPolicies(context: SqlContext) {
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       parameters: ExtendedDatabaseBlobAuditingPolicy,
       options?: ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        serverName,
-        databaseName,
-        blobAuditingPolicyName,
-        parameters,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, serverName, databaseName, parameters, options),
     get: (
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      blobAuditingPolicyName: BlobAuditingPolicyName,
       options?: ExtendedDatabaseBlobAuditingPoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, serverName, databaseName, blobAuditingPolicyName, options),
+    ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
 
 export function _getExtendedDatabaseBlobAuditingPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ExtendedDatabaseBlobAuditingPoliciesOperations {
   return {
     ..._getExtendedDatabaseBlobAuditingPolicies(context),

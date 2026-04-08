@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { create } from "../../api/tdeCertificates/operations.js";
 import type { TdeCertificatesCreateOptionalParams } from "../../api/tdeCertificates/options.js";
 import type { TdeCertificate } from "../../models/models.js";
@@ -34,7 +34,7 @@ export interface TdeCertificatesOperations {
   ) => Promise<void>;
 }
 
-function _getTdeCertificates(context: SqlContext) {
+function _getTdeCertificates(context: SqlManagementContext) {
   return {
     create: (
       resourceGroupName: string,
@@ -63,7 +63,9 @@ function _getTdeCertificates(context: SqlContext) {
   };
 }
 
-export function _getTdeCertificatesOperations(context: SqlContext): TdeCertificatesOperations {
+export function _getTdeCertificatesOperations(
+  context: SqlManagementContext,
+): TdeCertificatesOperations {
   return {
     ..._getTdeCertificates(context),
   };

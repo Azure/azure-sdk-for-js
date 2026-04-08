@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext as Client } from "../index.js";
+import type { SqlManagementContext as Client } from "../index.js";
 import type { JobAgent, JobAgentUpdate, _JobAgentListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,

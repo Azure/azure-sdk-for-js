@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -84,7 +84,7 @@ export interface OutboundFirewallRulesOperations {
   ) => Promise<OutboundFirewallRule>;
 }
 
-function _getOutboundFirewallRules(context: SqlContext) {
+function _getOutboundFirewallRules(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -161,7 +161,7 @@ function _getOutboundFirewallRules(context: SqlContext) {
 }
 
 export function _getOutboundFirewallRulesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): OutboundFirewallRulesOperations {
   return {
     ..._getOutboundFirewallRules(context),

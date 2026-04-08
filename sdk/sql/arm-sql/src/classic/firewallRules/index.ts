@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   replace,
   listByServer,
@@ -63,7 +63,7 @@ export interface FirewallRulesOperations {
   ) => Promise<FirewallRule>;
 }
 
-function _getFirewallRules(context: SqlContext) {
+function _getFirewallRules(context: SqlManagementContext) {
   return {
     replace: (
       resourceGroupName: string,
@@ -99,7 +99,9 @@ function _getFirewallRules(context: SqlContext) {
   };
 }
 
-export function _getFirewallRulesOperations(context: SqlContext): FirewallRulesOperations {
+export function _getFirewallRulesOperations(
+  context: SqlManagementContext,
+): FirewallRulesOperations {
   return {
     ..._getFirewallRules(context),
   };

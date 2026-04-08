@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase } from "../../api/synapseLinkWorkspaces/operations.js";
 import type { SynapseLinkWorkspacesListByDatabaseOptionalParams } from "../../api/synapseLinkWorkspaces/options.js";
 import type { SynapseLinkWorkspace } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface SynapseLinkWorkspacesOperations {
   ) => PagedAsyncIterableIterator<SynapseLinkWorkspace>;
 }
 
-function _getSynapseLinkWorkspaces(context: SqlContext) {
+function _getSynapseLinkWorkspaces(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -30,7 +30,7 @@ function _getSynapseLinkWorkspaces(context: SqlContext) {
 }
 
 export function _getSynapseLinkWorkspacesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): SynapseLinkWorkspacesOperations {
   return {
     ..._getSynapseLinkWorkspaces(context),

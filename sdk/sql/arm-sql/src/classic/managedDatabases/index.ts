@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listInaccessibleByInstance,
   startMove,
@@ -254,7 +254,7 @@ export interface ManagedDatabasesOperations {
   ) => Promise<ManagedDatabase>;
 }
 
-function _getManagedDatabases(context: SqlContext) {
+function _getManagedDatabases(context: SqlManagementContext) {
   return {
     listInaccessibleByInstance: (
       resourceGroupName: string,
@@ -627,7 +627,9 @@ function _getManagedDatabases(context: SqlContext) {
   };
 }
 
-export function _getManagedDatabasesOperations(context: SqlContext): ManagedDatabasesOperations {
+export function _getManagedDatabasesOperations(
+  context: SqlManagementContext,
+): ManagedDatabasesOperations {
   return {
     ..._getManagedDatabases(context),
   };

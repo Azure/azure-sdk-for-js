@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowOptionsName: string, options?: MaintenanceWindowOptionsGetOptionalParams): Promise<MaintenanceWindowOptions>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowOptionsName: string, options?: MaintenanceWindowOptionsGetOptionalParams): Promise<MaintenanceWindowOptions>;
 
 // @public
 export interface MaintenanceWindowOptionsGetOptionalParams extends OperationOptions {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function listDatabaseExtensions() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "7b2515fe-f230-4017-8cf0-695163acab85";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.databaseExtensions.listByDatabase(
     "rg_4007c5a9-b3b0-41e1-bd46-9eef38768a4a",

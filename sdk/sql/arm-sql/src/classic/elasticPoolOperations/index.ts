@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { cancel, listByElasticPool } from "../../api/elasticPoolOperations/operations.js";
 import type {
   ElasticPoolOperationsCancelOptionalParams,
@@ -29,7 +29,7 @@ export interface ElasticPoolOperationsOperations {
   ) => PagedAsyncIterableIterator<ElasticPoolOperation>;
 }
 
-function _getElasticPoolOperations(context: SqlContext) {
+function _getElasticPoolOperations(context: SqlManagementContext) {
   return {
     cancel: (
       resourceGroupName: string,
@@ -48,7 +48,7 @@ function _getElasticPoolOperations(context: SqlContext) {
 }
 
 export function _getElasticPoolOperationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ElasticPoolOperationsOperations {
   return {
     ..._getElasticPoolOperations(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "../src/index.js";
+import { SqlManagementClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new SqlClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new SqlManagementClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -18,7 +18,7 @@ describe("snippets", () => {
       clientId: "<YOUR_CLIENT_ID>",
     });
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new SqlClient(credential, subscriptionId);
+    const client = new SqlManagementClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

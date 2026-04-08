@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer } from "../../api/serverUsages/operations.js";
 import type { ServerUsagesListByServerOptionalParams } from "../../api/serverUsages/options.js";
 import type { ServerUsage } from "../../models/models.js";
@@ -17,7 +17,7 @@ export interface ServerUsagesOperations {
   ) => PagedAsyncIterableIterator<ServerUsage>;
 }
 
-function _getServerUsages(context: SqlContext) {
+function _getServerUsages(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -27,7 +27,7 @@ function _getServerUsages(context: SqlContext) {
   };
 }
 
-export function _getServerUsagesOperations(context: SqlContext): ServerUsagesOperations {
+export function _getServerUsagesOperations(context: SqlManagementContext): ServerUsagesOperations {
   return {
     ..._getServerUsages(context),
   };

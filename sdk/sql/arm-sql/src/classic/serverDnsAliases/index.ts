@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   acquire,
   listByServer,
@@ -110,7 +110,7 @@ export interface ServerDnsAliasesOperations {
   ) => Promise<ServerDnsAlias>;
 }
 
-function _getServerDnsAliases(context: SqlContext) {
+function _getServerDnsAliases(context: SqlManagementContext) {
   return {
     acquire: (
       resourceGroupName: string,
@@ -215,7 +215,9 @@ function _getServerDnsAliases(context: SqlContext) {
   };
 }
 
-export function _getServerDnsAliasesOperations(context: SqlContext): ServerDnsAliasesOperations {
+export function _getServerDnsAliasesOperations(
+  context: SqlManagementContext,
+): ServerDnsAliasesOperations {
   return {
     ..._getServerDnsAliases(context),
   };

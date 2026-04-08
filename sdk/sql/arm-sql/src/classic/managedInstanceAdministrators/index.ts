@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
@@ -89,7 +89,7 @@ export interface ManagedInstanceAdministratorsOperations {
   ) => Promise<ManagedInstanceAdministrator>;
 }
 
-function _getManagedInstanceAdministrators(context: SqlContext) {
+function _getManagedInstanceAdministrators(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -191,7 +191,7 @@ function _getManagedInstanceAdministrators(context: SqlContext) {
 }
 
 export function _getManagedInstanceAdministratorsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceAdministratorsOperations {
   return {
     ..._getManagedInstanceAdministrators(context),

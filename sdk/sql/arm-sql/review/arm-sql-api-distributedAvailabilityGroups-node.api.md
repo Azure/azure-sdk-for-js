@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 
 // @public
 export interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -49,19 +49,19 @@ export interface DistributedAvailabilityGroupsUpdateOptionalParams extends Opera
 }
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupsFailoverRequest, options?: DistributedAvailabilityGroupsFailoverOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupsFailoverRequest, options?: DistributedAvailabilityGroupsFailoverOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsGetOptionalParams): Promise<DistributedAvailabilityGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, options?: DistributedAvailabilityGroupsGetOptionalParams): Promise<DistributedAvailabilityGroup>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: DistributedAvailabilityGroupsListByInstanceOptionalParams): PagedAsyncIterableIterator<DistributedAvailabilityGroup>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: DistributedAvailabilityGroupsListByInstanceOptionalParams): PagedAsyncIterableIterator<DistributedAvailabilityGroup>;
 
 // @public
-export function setRole(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupSetRole, options?: DistributedAvailabilityGroupsSetRoleOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
+export function setRole(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroupSetRole, options?: DistributedAvailabilityGroupsSetRoleOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, distributedAvailabilityGroupName: string, parameters: DistributedAvailabilityGroup, options?: DistributedAvailabilityGroupsUpdateOptionalParams): PollerLike<OperationState<DistributedAvailabilityGroup>, DistributedAvailabilityGroup>;
 
 // (No @packageDocumentation comment for this package)
 

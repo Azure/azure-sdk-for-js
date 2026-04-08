@@ -13,7 +13,7 @@ export interface CapabilitiesListByLocationOptionalParams extends OperationOptio
 }
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: CapabilitiesListByLocationOptionalParams): Promise<LocationCapabilities>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: CapabilitiesListByLocationOptionalParams): Promise<LocationCapabilities>;
 
 // (No @packageDocumentation comment for this package)
 

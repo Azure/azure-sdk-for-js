@@ -10,22 +10,22 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, parameters: SyncMember, options?: SyncMembersCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncMember>, SyncMember>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, parameters: SyncMember, options?: SyncMembersCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncMember>, SyncMember>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersGetOptionalParams): Promise<SyncMember>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersGetOptionalParams): Promise<SyncMember>;
 
 // @public
-export function listBySyncGroup(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncMembersListBySyncGroupOptionalParams): PagedAsyncIterableIterator<SyncMember>;
+export function listBySyncGroup(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncMembersListBySyncGroupOptionalParams): PagedAsyncIterableIterator<SyncMember>;
 
 // @public
-export function listMemberSchemas(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersListMemberSchemasOptionalParams): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
+export function listMemberSchemas(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersListMemberSchemasOptionalParams): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
 
 // @public
-export function refreshMemberSchema(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersRefreshMemberSchemaOptionalParams): PollerLike<OperationState<void>, void>;
+export function refreshMemberSchema(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, options?: SyncMembersRefreshMemberSchemaOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface SyncMembersCreateOrUpdateOptionalParams extends OperationOptions {
@@ -60,7 +60,7 @@ export interface SyncMembersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, parameters: SyncMember, options?: SyncMembersUpdateOptionalParams): PollerLike<OperationState<SyncMember>, SyncMember>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, syncMemberName: string, parameters: SyncMember, options?: SyncMembersUpdateOptionalParams): PollerLike<OperationState<SyncMember>, SyncMember>;
 
 // (No @packageDocumentation comment for this package)
 

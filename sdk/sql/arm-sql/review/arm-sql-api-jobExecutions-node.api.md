@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function cancel(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsCancelOptionalParams): Promise<void>;
+export function cancel(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsCancelOptionalParams): Promise<void>;
 
 // @public
-export function create(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobExecutionsCreateOptionalParams): PollerLike<OperationState<JobExecution>, JobExecution>;
+export function create(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobExecutionsCreateOptionalParams): PollerLike<OperationState<JobExecution>, JobExecution>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobExecution>, JobExecution>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobExecution>, JobExecution>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsGetOptionalParams): Promise<JobExecution>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobExecutionsGetOptionalParams): Promise<JobExecution>;
 
 // @public
 export interface JobExecutionsCancelOptionalParams extends OperationOptions {
@@ -62,10 +62,10 @@ export interface JobExecutionsListByJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByAgent(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobExecutionsListByAgentOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+export function listByAgent(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobExecutionsListByAgentOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 
 // @public
-export function listByJob(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobExecutionsListByJobOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+export function listByJob(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobExecutionsListByJobOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 
 // (No @packageDocumentation comment for this package)
 

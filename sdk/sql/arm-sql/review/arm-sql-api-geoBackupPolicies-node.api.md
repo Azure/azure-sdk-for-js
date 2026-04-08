@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, parameters: GeoBackupPolicy, options?: GeoBackupPoliciesCreateOrUpdateOptionalParams): Promise<GeoBackupPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, parameters: GeoBackupPolicy, options?: GeoBackupPoliciesCreateOrUpdateOptionalParams): Promise<GeoBackupPolicy>;
 
 // @public
 export interface GeoBackupPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -23,10 +23,10 @@ export interface GeoBackupPoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, options?: GeoBackupPoliciesGetOptionalParams): Promise<GeoBackupPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, options?: GeoBackupPoliciesGetOptionalParams): Promise<GeoBackupPolicy>;
 
 // @public
-export function list(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: GeoBackupPoliciesListOptionalParams): PagedAsyncIterableIterator<GeoBackupPolicy>;
+export function list(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: GeoBackupPoliciesListOptionalParams): PagedAsyncIterableIterator<GeoBackupPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

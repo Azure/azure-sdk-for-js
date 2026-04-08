@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   createOrUpdate,
@@ -59,7 +59,7 @@ export interface ServerConnectionPoliciesOperations {
   ) => Promise<ServerConnectionPolicy>;
 }
 
-function _getServerConnectionPolicies(context: SqlContext) {
+function _getServerConnectionPolicies(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -125,7 +125,7 @@ function _getServerConnectionPolicies(context: SqlContext) {
 }
 
 export function _getServerConnectionPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerConnectionPoliciesOperations {
   return {
     ..._getServerConnectionPolicies(context),

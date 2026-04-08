@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, $delete, createOrUpdate, get } from "../../api/serverKeys/operations.js";
 import type {
   ServerKeysListByServerOptionalParams,
@@ -82,7 +82,7 @@ export interface ServerKeysOperations {
   ) => Promise<ServerKey>;
 }
 
-function _getServerKeys(context: SqlContext) {
+function _getServerKeys(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -163,7 +163,7 @@ function _getServerKeys(context: SqlContext) {
   };
 }
 
-export function _getServerKeysOperations(context: SqlContext): ServerKeysOperations {
+export function _getServerKeysOperations(context: SqlManagementContext): ServerKeysOperations {
   return {
     ..._getServerKeys(context),
   };

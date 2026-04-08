@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { update, get } from "../../api/databaseAutomaticTuning/operations.js";
 import type {
   DatabaseAutomaticTuningUpdateOptionalParams,
@@ -28,7 +28,7 @@ export interface DatabaseAutomaticTuningOperations {
   ) => Promise<DatabaseAutomaticTuning>;
 }
 
-function _getDatabaseAutomaticTuning(context: SqlContext) {
+function _getDatabaseAutomaticTuning(context: SqlManagementContext) {
   return {
     update: (
       resourceGroupName: string,
@@ -47,7 +47,7 @@ function _getDatabaseAutomaticTuning(context: SqlContext) {
 }
 
 export function _getDatabaseAutomaticTuningOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseAutomaticTuningOperations {
   return {
     ..._getDatabaseAutomaticTuning(context),

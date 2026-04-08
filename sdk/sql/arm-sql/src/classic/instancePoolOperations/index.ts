@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstancePool, get } from "../../api/instancePoolOperations/operations.js";
 import type {
   InstancePoolOperationsListByInstancePoolOptionalParams,
@@ -27,7 +27,7 @@ export interface InstancePoolOperationsOperations {
   ) => Promise<InstancePoolOperation>;
 }
 
-function _getInstancePoolOperations(context: SqlContext) {
+function _getInstancePoolOperations(context: SqlManagementContext) {
   return {
     listByInstancePool: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getInstancePoolOperations(context: SqlContext) {
 }
 
 export function _getInstancePoolOperationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): InstancePoolOperationsOperations {
   return {
     ..._getInstancePoolOperations(context),

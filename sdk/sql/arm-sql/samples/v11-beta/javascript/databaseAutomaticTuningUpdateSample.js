@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function updatesDatabaseAutomaticTuningSettingsWithAllProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "c3aa9078-0000-0000-0000-e36f151182d7";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseAutomaticTuning.update(
     "default-sql-onebox",
     "testsvr11",
@@ -39,7 +39,7 @@ async function updatesDatabaseAutomaticTuningSettingsWithAllProperties() {
 async function updatesDatabaseAutomaticTuningSettingsWithMinimalProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "c3aa9078-0000-0000-0000-e36f151182d7";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseAutomaticTuning.update(
     "default-sql-onebox",
     "testsvr11",

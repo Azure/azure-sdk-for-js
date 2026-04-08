@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   updateDnsServers,
   list,
@@ -138,7 +138,7 @@ export interface VirtualClustersOperations {
   ) => Promise<VirtualCluster>;
 }
 
-function _getVirtualClusters(context: SqlContext) {
+function _getVirtualClusters(context: SqlManagementContext) {
   return {
     updateDnsServers: (
       resourceGroupName: string,
@@ -255,7 +255,9 @@ function _getVirtualClusters(context: SqlContext) {
   };
 }
 
-export function _getVirtualClustersOperations(context: SqlContext): VirtualClustersOperations {
+export function _getVirtualClustersOperations(
+  context: SqlManagementContext,
+): VirtualClustersOperations {
   return {
     ..._getVirtualClusters(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
@@ -87,7 +87,7 @@ export interface ManagedInstanceKeysOperations {
   ) => Promise<ManagedInstanceKey>;
 }
 
-function _getManagedInstanceKeys(context: SqlContext) {
+function _getManagedInstanceKeys(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -170,7 +170,7 @@ function _getManagedInstanceKeys(context: SqlContext) {
 }
 
 export function _getManagedInstanceKeysOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceKeysOperations {
   return {
     ..._getManagedInstanceKeys(context),

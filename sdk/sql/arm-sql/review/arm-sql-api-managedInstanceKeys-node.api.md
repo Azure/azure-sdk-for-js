@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, keyName: string, options?: ManagedInstanceKeysDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, keyName: string, options?: ManagedInstanceKeysDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, keyName: string, parameters: ManagedInstanceKey, options?: ManagedInstanceKeysCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceKey>, ManagedInstanceKey>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, keyName: string, parameters: ManagedInstanceKey, options?: ManagedInstanceKeysCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceKey>, ManagedInstanceKey>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, keyName: string, options?: ManagedInstanceKeysGetOptionalParams): Promise<ManagedInstanceKey>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, keyName: string, options?: ManagedInstanceKeysGetOptionalParams): Promise<ManagedInstanceKey>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceKeysListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceKey>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceKeysListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceKey>;
 
 // @public
 export interface ManagedInstanceKeysCreateOrUpdateOptionalParams extends OperationOptions {

@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, parameters: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<Job>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, parameters: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<Job>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobsGetOptionalParams): Promise<Job>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobsGetOptionalParams): Promise<Job>;
 
 // @public
 export interface JobsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -33,7 +33,7 @@ export interface JobsListByAgentOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByAgent(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobsListByAgentOptionalParams): PagedAsyncIterableIterator<Job>;
+export function listByAgent(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobsListByAgentOptionalParams): PagedAsyncIterableIterator<Job>;
 
 // (No @packageDocumentation comment for this package)
 

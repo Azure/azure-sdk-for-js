@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, get } from "../../api/databaseSchemas/operations.js";
 import type {
   DatabaseSchemasListByDatabaseOptionalParams,
@@ -29,7 +29,7 @@ export interface DatabaseSchemasOperations {
   ) => Promise<DatabaseSchema>;
 }
 
-function _getDatabaseSchemas(context: SqlContext) {
+function _getDatabaseSchemas(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -47,7 +47,9 @@ function _getDatabaseSchemas(context: SqlContext) {
   };
 }
 
-export function _getDatabaseSchemasOperations(context: SqlContext): DatabaseSchemasOperations {
+export function _getDatabaseSchemasOperations(
+  context: SqlManagementContext,
+): DatabaseSchemasOperations {
   return {
     ..._getDatabaseSchemas(context),
   };

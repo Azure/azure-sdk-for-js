@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: DatabaseSecurityAlertPolicy, options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams): Promise<DatabaseSecurityAlertPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: DatabaseSecurityAlertPolicy, options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams): Promise<DatabaseSecurityAlertPolicy>;
 
 // @public
 export interface DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -23,10 +23,10 @@ export interface DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams exten
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: DatabaseSecurityAlertPoliciesGetOptionalParams): Promise<DatabaseSecurityAlertPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: DatabaseSecurityAlertPoliciesGetOptionalParams): Promise<DatabaseSecurityAlertPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseSecurityAlertPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseSecurityAlertPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

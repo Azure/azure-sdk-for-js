@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listSyncDatabaseIds,
   triggerSync,
@@ -206,7 +206,7 @@ export interface SyncGroupsOperations {
   ) => Promise<SyncGroup>;
 }
 
-function _getSyncGroups(context: SqlContext) {
+function _getSyncGroups(context: SqlManagementContext) {
   return {
     listSyncDatabaseIds: (
       locationName: string,
@@ -471,7 +471,7 @@ function _getSyncGroups(context: SqlContext) {
   };
 }
 
-export function _getSyncGroupsOperations(context: SqlContext): SyncGroupsOperations {
+export function _getSyncGroupsOperations(context: SqlManagementContext): SyncGroupsOperations {
   return {
     ..._getSyncGroups(context),
   };

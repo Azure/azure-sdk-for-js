@@ -12,7 +12,7 @@ export interface ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: RecommendedSensitivityLabelUpdateList, options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams): Promise<void>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: RecommendedSensitivityLabelUpdateList, options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams): Promise<void>;
 
 // (No @packageDocumentation comment for this package)
 

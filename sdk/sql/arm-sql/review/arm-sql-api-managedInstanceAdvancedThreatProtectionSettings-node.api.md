@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: ManagedInstanceAdvancedThreatProtection, options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAdvancedThreatProtection>, ManagedInstanceAdvancedThreatProtection>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: ManagedInstanceAdvancedThreatProtection, options?: ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAdvancedThreatProtection>, ManagedInstanceAdvancedThreatProtection>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams): Promise<ManagedInstanceAdvancedThreatProtection>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams): Promise<ManagedInstanceAdvancedThreatProtection>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAdvancedThreatProtection>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAdvancedThreatProtection>;
 
 // @public
 export interface ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams extends OperationOptions {

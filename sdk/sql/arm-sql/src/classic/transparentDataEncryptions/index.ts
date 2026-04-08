@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   suspend,
   resume,
@@ -143,7 +143,7 @@ export interface TransparentDataEncryptionsOperations {
   ) => Promise<LogicalDatabaseTransparentDataEncryption>;
 }
 
-function _getTransparentDataEncryptions(context: SqlContext) {
+function _getTransparentDataEncryptions(context: SqlManagementContext) {
   return {
     suspend: (
       resourceGroupName: string,
@@ -278,7 +278,7 @@ function _getTransparentDataEncryptions(context: SqlContext) {
 }
 
 export function _getTransparentDataEncryptionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): TransparentDataEncryptionsOperations {
   return {
     ..._getTransparentDataEncryptions(context),

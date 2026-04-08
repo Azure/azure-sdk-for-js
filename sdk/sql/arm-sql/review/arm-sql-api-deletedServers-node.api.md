@@ -27,16 +27,16 @@ export interface DeletedServersRecoverOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: SqlContext, locationName: string, deletedServerName: string, options?: DeletedServersGetOptionalParams): Promise<DeletedServer>;
+export function get(context: SqlManagementContext, locationName: string, deletedServerName: string, options?: DeletedServersGetOptionalParams): Promise<DeletedServer>;
 
 // @public
-export function list(context: SqlContext, options?: DeletedServersListOptionalParams): PagedAsyncIterableIterator<DeletedServer>;
+export function list(context: SqlManagementContext, options?: DeletedServersListOptionalParams): PagedAsyncIterableIterator<DeletedServer>;
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: DeletedServersListByLocationOptionalParams): PagedAsyncIterableIterator<DeletedServer>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: DeletedServersListByLocationOptionalParams): PagedAsyncIterableIterator<DeletedServer>;
 
 // @public
-export function recover(context: SqlContext, locationName: string, deletedServerName: string, options?: DeletedServersRecoverOptionalParams): PollerLike<OperationState<DeletedServer>, DeletedServer>;
+export function recover(context: SqlManagementContext, locationName: string, deletedServerName: string, options?: DeletedServersRecoverOptionalParams): PollerLike<OperationState<DeletedServer>, DeletedServer>;
 
 // (No @packageDocumentation comment for this package)
 

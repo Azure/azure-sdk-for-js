@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByQuery, get } from "../../api/managedDatabaseQueries/operations.js";
 import type {
   ManagedDatabaseQueriesListByQueryOptionalParams,
@@ -30,7 +30,7 @@ export interface ManagedDatabaseQueriesOperations {
   ) => Promise<ManagedInstanceQuery>;
 }
 
-function _getManagedDatabaseQueries(context: SqlContext) {
+function _getManagedDatabaseQueries(context: SqlManagementContext) {
   return {
     listByQuery: (
       resourceGroupName: string,
@@ -51,7 +51,7 @@ function _getManagedDatabaseQueries(context: SqlContext) {
 }
 
 export function _getManagedDatabaseQueriesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseQueriesOperations {
   return {
     ..._getManagedDatabaseQueries(context),

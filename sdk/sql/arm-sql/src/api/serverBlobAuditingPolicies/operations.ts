@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext as Client } from "../index.js";
+import type { SqlManagementContext as Client } from "../index.js";
 import type {
   ServerBlobAuditingPolicy,
   _ServerBlobAuditingPolicyListResult,
-  BlobAuditingPolicyName,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -88,7 +87,6 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   parameters: ServerBlobAuditingPolicy,
   options: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -98,7 +96,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      blobAuditingPolicyName: blobAuditingPolicyName,
+      blobAuditingPolicyName: "default",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -132,7 +130,6 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   parameters: ServerBlobAuditingPolicy,
   options: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ServerBlobAuditingPolicy>, ServerBlobAuditingPolicy> {
@@ -140,14 +137,7 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        serverName,
-        blobAuditingPolicyName,
-        parameters,
-        options,
-      ),
+      _createOrUpdateSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<ServerBlobAuditingPolicy>, ServerBlobAuditingPolicy>;
@@ -157,7 +147,6 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   options: ServerBlobAuditingPoliciesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -166,7 +155,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      blobAuditingPolicyName: blobAuditingPolicyName,
+      blobAuditingPolicyName: "default",
       "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
@@ -198,15 +187,8 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   serverName: string,
-  blobAuditingPolicyName: BlobAuditingPolicyName,
   options: ServerBlobAuditingPoliciesGetOptionalParams = { requestOptions: {} },
 ): Promise<ServerBlobAuditingPolicy> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    serverName,
-    blobAuditingPolicyName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, serverName, options);
   return _getDeserialize(result);
 }

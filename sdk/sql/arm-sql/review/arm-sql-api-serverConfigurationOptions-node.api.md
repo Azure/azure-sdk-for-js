@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, serverConfigurationOptionName: ServerConfigurationOptionName, parameters: ServerConfigurationOption, options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerConfigurationOption>, ServerConfigurationOption>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, serverConfigurationOptionName: ServerConfigurationOptionName, parameters: ServerConfigurationOption, options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerConfigurationOption>, ServerConfigurationOption>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, serverConfigurationOptionName: ServerConfigurationOptionName, options?: ServerConfigurationOptionsGetOptionalParams): Promise<ServerConfigurationOption>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, serverConfigurationOptionName: ServerConfigurationOptionName, options?: ServerConfigurationOptionsGetOptionalParams): Promise<ServerConfigurationOption>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ServerConfigurationOption>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ServerConfigurationOption>;
 
 // @public
 export interface ServerConfigurationOptionsCreateOrUpdateOptionalParams extends OperationOptions {

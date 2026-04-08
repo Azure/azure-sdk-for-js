@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/timeZones/operations.js";
 import type {
   TimeZonesListByLocationOptionalParams,
@@ -25,7 +25,7 @@ export interface TimeZonesOperations {
   ) => Promise<TimeZone>;
 }
 
-function _getTimeZones(context: SqlContext) {
+function _getTimeZones(context: SqlManagementContext) {
   return {
     listByLocation: (locationName: string, options?: TimeZonesListByLocationOptionalParams) =>
       listByLocation(context, locationName, options),
@@ -34,7 +34,7 @@ function _getTimeZones(context: SqlContext) {
   };
 }
 
-export function _getTimeZonesOperations(context: SqlContext): TimeZonesOperations {
+export function _getTimeZonesOperations(context: SqlManagementContext): TimeZonesOperations {
   return {
     ..._getTimeZones(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobTargetGroups/operations.js";
 import type {
   JobTargetGroupsListByAgentOptionalParams,
@@ -53,7 +53,7 @@ export interface JobTargetGroupsOperations {
   ) => Promise<JobTargetGroup>;
 }
 
-function _getJobTargetGroups(context: SqlContext) {
+function _getJobTargetGroups(context: SqlManagementContext) {
   return {
     listByAgent: (
       resourceGroupName: string,
@@ -95,7 +95,9 @@ function _getJobTargetGroups(context: SqlContext) {
   };
 }
 
-export function _getJobTargetGroupsOperations(context: SqlContext): JobTargetGroupsOperations {
+export function _getJobTargetGroupsOperations(
+  context: SqlManagementContext,
+): JobTargetGroupsOperations {
   return {
     ..._getJobTargetGroups(context),
   };

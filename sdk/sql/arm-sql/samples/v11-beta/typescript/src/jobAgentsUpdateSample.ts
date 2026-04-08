@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateAJobAgentTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.update("group1", "server1", "agent1", {
     tags: { mytag1: "myvalue1" },
   });
@@ -29,7 +29,7 @@ async function updateAJobAgentTags(): Promise<void> {
 async function updateAJobAgentIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.update("group1", "server1", "agent1", {
     identity: {
       type: "UserAssigned",
@@ -51,7 +51,7 @@ async function updateAJobAgentIdentity(): Promise<void> {
 async function updateAJobAgentSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.update("group1", "server1", "agent1", {
     sku: { name: "JA200" },
   });

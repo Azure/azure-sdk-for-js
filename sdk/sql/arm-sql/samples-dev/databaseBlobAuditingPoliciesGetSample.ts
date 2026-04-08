@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,12 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getADatabaseBlobAuditingPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseBlobAuditingPolicies.get(
     "blobauditingtest-6852",
     "blobauditingtest-2080",
     "testdb",
-    "default",
   );
   console.log(result);
 }

@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, options?: JobStepExecutionsGetOptionalParams): Promise<JobExecution>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, options?: JobStepExecutionsGetOptionalParams): Promise<JobExecution>;
 
 // @public
 export interface JobStepExecutionsGetOptionalParams extends OperationOptions {
@@ -26,7 +26,7 @@ export interface JobStepExecutionsListByJobExecutionOptionalParams extends Opera
 }
 
 // @public
-export function listByJobExecution(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobStepExecutionsListByJobExecutionOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+export function listByJobExecution(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobStepExecutionsListByJobExecutionOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 
 // (No @packageDocumentation comment for this package)
 

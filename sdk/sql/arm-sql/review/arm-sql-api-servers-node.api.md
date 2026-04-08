@@ -10,28 +10,28 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function checkNameAvailability(context: SqlContext, parameters: CheckNameAvailabilityRequest, options?: ServersCheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
+export function checkNameAvailability(context: SqlManagementContext, parameters: CheckNameAvailabilityRequest, options?: ServersCheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOrUpdateOptionalParams): PollerLike<OperationState<Server>, Server>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: Server, options?: ServersCreateOrUpdateOptionalParams): PollerLike<OperationState<Server>, Server>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServersGetOptionalParams): Promise<Server>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServersGetOptionalParams): Promise<Server>;
 
 // @public
-export function importDatabase(context: SqlContext, resourceGroupName: string, serverName: string, parameters: ImportNewDatabaseDefinition, options?: ServersImportDatabaseOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
+export function importDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: ImportNewDatabaseDefinition, options?: ServersImportDatabaseOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 
 // @public
-export function list(context: SqlContext, options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server>;
+export function list(context: SqlManagementContext, options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server>;
 
 // @public
-export function listByResourceGroup(context: SqlContext, resourceGroupName: string, options?: ServersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Server>;
+export function listByResourceGroup(context: SqlManagementContext, resourceGroupName: string, options?: ServersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Server>;
 
 // @public
-export function refreshStatus(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServersRefreshStatusOptionalParams): PollerLike<OperationState<RefreshExternalGovernanceStatusOperationResult>, RefreshExternalGovernanceStatusOperationResult>;
+export function refreshStatus(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServersRefreshStatusOptionalParams): PollerLike<OperationState<RefreshExternalGovernanceStatusOperationResult>, RefreshExternalGovernanceStatusOperationResult>;
 
 // @public
 export interface ServersCheckNameAvailabilityOptionalParams extends OperationOptions {
@@ -78,7 +78,7 @@ export interface ServersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, parameters: ServerUpdate, options?: ServersUpdateOptionalParams): PollerLike<OperationState<Server>, Server>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: ServerUpdate, options?: ServersUpdateOptionalParams): PollerLike<OperationState<Server>, Server>;
 
 // (No @packageDocumentation comment for this package)
 

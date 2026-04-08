@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: ServerBlobAuditingPolicy, options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerBlobAuditingPolicy>, ServerBlobAuditingPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: ServerBlobAuditingPolicy, options?: ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerBlobAuditingPolicy>, ServerBlobAuditingPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, blobAuditingPolicyName: BlobAuditingPolicyName, options?: ServerBlobAuditingPoliciesGetOptionalParams): Promise<ServerBlobAuditingPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerBlobAuditingPoliciesGetOptionalParams): Promise<ServerBlobAuditingPolicy>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerBlobAuditingPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ServerBlobAuditingPolicy>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerBlobAuditingPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ServerBlobAuditingPolicy>;
 
 // @public
 export interface ServerBlobAuditingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

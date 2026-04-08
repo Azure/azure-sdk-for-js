@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer } from "../../api/serverOperations/operations.js";
 import type { ServerOperationsListByServerOptionalParams } from "../../api/serverOperations/options.js";
 import type { ServerOperation } from "../../models/models.js";
@@ -17,7 +17,7 @@ export interface ServerOperationsOperations {
   ) => PagedAsyncIterableIterator<ServerOperation>;
 }
 
-function _getServerOperations(context: SqlContext) {
+function _getServerOperations(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -27,7 +27,9 @@ function _getServerOperations(context: SqlContext) {
   };
 }
 
-export function _getServerOperationsOperations(context: SqlContext): ServerOperationsOperations {
+export function _getServerOperationsOperations(
+  context: SqlManagementContext,
+): ServerOperationsOperations {
   return {
     ..._getServerOperations(context),
   };

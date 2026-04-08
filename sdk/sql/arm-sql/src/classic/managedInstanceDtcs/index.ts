@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   createOrUpdate,
@@ -59,7 +59,7 @@ export interface ManagedInstanceDtcsOperations {
   ) => Promise<ManagedInstanceDtc>;
 }
 
-function _getManagedInstanceDtcs(context: SqlContext) {
+function _getManagedInstanceDtcs(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
       resourceGroupName: string,
@@ -118,7 +118,7 @@ function _getManagedInstanceDtcs(context: SqlContext) {
 }
 
 export function _getManagedInstanceDtcsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceDtcsOperations {
   return {
     ..._getManagedInstanceDtcs(context),

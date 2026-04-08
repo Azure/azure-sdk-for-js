@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ServerSecurityAlertPolicy, options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerSecurityAlertPolicy>, ServerSecurityAlertPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ServerSecurityAlertPolicy, options?: ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerSecurityAlertPolicy>, ServerSecurityAlertPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ServerSecurityAlertPoliciesGetOptionalParams): Promise<ServerSecurityAlertPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ServerSecurityAlertPoliciesGetOptionalParams): Promise<ServerSecurityAlertPolicy>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerSecurityAlertPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ServerSecurityAlertPolicy>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerSecurityAlertPoliciesListByServerOptionalParams): PagedAsyncIterableIterator<ServerSecurityAlertPolicy>;
 
 // @public
 export interface ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   disable,
   listByDatabase,
@@ -97,7 +97,7 @@ export interface ManagedLedgerDigestUploadsOperations {
   ) => Promise<ManagedLedgerDigestUploads>;
 }
 
-function _getManagedLedgerDigestUploads(context: SqlContext) {
+function _getManagedLedgerDigestUploads(context: SqlManagementContext) {
   return {
     disable: (
       resourceGroupName: string,
@@ -228,7 +228,7 @@ function _getManagedLedgerDigestUploads(context: SqlContext) {
 }
 
 export function _getManagedLedgerDigestUploadsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedLedgerDigestUploadsOperations {
   return {
     ..._getManagedLedgerDigestUploads(context),

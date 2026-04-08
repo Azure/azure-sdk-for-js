@@ -10,7 +10,7 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function create(context: SqlContext, resourceGroupName: string, serverName: string, parameters: TdeCertificate, options?: TdeCertificatesCreateOptionalParams): PollerLike<OperationState<void>, void>;
+export function create(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: TdeCertificate, options?: TdeCertificatesCreateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface TdeCertificatesCreateOptionalParams extends OperationOptions {

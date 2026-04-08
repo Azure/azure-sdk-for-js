@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, get } from "../../api/dataWarehouseUserActivities/operations.js";
 import type {
   DataWarehouseUserActivitiesListByDatabaseOptionalParams,
@@ -32,7 +32,7 @@ export interface DataWarehouseUserActivitiesOperations {
   ) => Promise<DataWarehouseUserActivities>;
 }
 
-function _getDataWarehouseUserActivities(context: SqlContext) {
+function _getDataWarehouseUserActivities(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -59,7 +59,7 @@ function _getDataWarehouseUserActivities(context: SqlContext) {
 }
 
 export function _getDataWarehouseUserActivitiesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DataWarehouseUserActivitiesOperations {
   return {
     ..._getDataWarehouseUserActivities(context),

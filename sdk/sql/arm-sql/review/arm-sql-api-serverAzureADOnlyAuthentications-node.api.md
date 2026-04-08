@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, options?: ServerAzureADOnlyAuthenticationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, parameters: ServerAzureADOnlyAuthentication, options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerAzureADOnlyAuthentication>, ServerAzureADOnlyAuthentication>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, parameters: ServerAzureADOnlyAuthentication, options?: ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerAzureADOnlyAuthentication>, ServerAzureADOnlyAuthentication>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, options?: ServerAzureADOnlyAuthenticationsGetOptionalParams): Promise<ServerAzureADOnlyAuthentication>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, authenticationName: AuthenticationName, options?: ServerAzureADOnlyAuthenticationsGetOptionalParams): Promise<ServerAzureADOnlyAuthentication>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams): PagedAsyncIterableIterator<ServerAzureADOnlyAuthentication>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerAzureADOnlyAuthenticationsListByServerOptionalParams): PagedAsyncIterableIterator<ServerAzureADOnlyAuthentication>;
 
 // @public
 export interface ServerAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams extends OperationOptions {

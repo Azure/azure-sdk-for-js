@@ -12,7 +12,7 @@ export interface RecommendedSensitivityLabelsUpdateOptionalParams extends Operat
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: RecommendedSensitivityLabelUpdateList, options?: RecommendedSensitivityLabelsUpdateOptionalParams): Promise<void>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: RecommendedSensitivityLabelUpdateList, options?: RecommendedSensitivityLabelsUpdateOptionalParams): Promise<void>;
 
 // (No @packageDocumentation comment for this package)
 

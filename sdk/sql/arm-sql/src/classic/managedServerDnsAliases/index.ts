@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   acquire,
   listByManagedInstance,
@@ -117,7 +117,7 @@ export interface ManagedServerDnsAliasesOperations {
   ) => Promise<ManagedServerDnsAlias>;
 }
 
-function _getManagedServerDnsAliases(context: SqlContext) {
+function _getManagedServerDnsAliases(context: SqlManagementContext) {
   return {
     acquire: (
       resourceGroupName: string,
@@ -255,7 +255,7 @@ function _getManagedServerDnsAliases(context: SqlContext) {
 }
 
 export function _getManagedServerDnsAliasesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedServerDnsAliasesOperations {
   return {
     ..._getManagedServerDnsAliases(context),

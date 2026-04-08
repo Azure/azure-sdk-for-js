@@ -10,34 +10,34 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: SqlContext, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsGetOptionalParams): Promise<ManagedInstanceLongTermRetentionBackup>;
+export function get(context: SqlManagementContext, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsGetOptionalParams): Promise<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function getByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsGetByResourceGroupOptionalParams): Promise<ManagedInstanceLongTermRetentionBackup>;
+export function getByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, backupName: string, options?: LongTermRetentionManagedInstanceBackupsGetByResourceGroupOptionalParams): Promise<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByDatabase(context: SqlContext, locationName: string, managedInstanceName: string, databaseName: string, options?: LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByDatabase(context: SqlManagementContext, locationName: string, managedInstanceName: string, databaseName: string, options?: LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByInstance(context: SqlContext, locationName: string, managedInstanceName: string, options?: LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByInstance(context: SqlManagementContext, locationName: string, managedInstanceName: string, options?: LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupDatabase(context: SqlContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByResourceGroupDatabase(context: SqlManagementContext, resourceGroupName: string, locationName: string, managedInstanceName: string, databaseName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupInstance(context: SqlContext, resourceGroupName: string, locationName: string, managedInstanceName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByResourceGroupInstance(context: SqlManagementContext, resourceGroupName: string, locationName: string, managedInstanceName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupLocation(context: SqlContext, resourceGroupName: string, locationName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
+export function listByResourceGroupLocation(context: SqlManagementContext, resourceGroupName: string, locationName: string, options?: LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup>;
 
 // @public
 export interface LongTermRetentionManagedInstanceBackupsDeleteByResourceGroupOptionalParams extends OperationOptions {

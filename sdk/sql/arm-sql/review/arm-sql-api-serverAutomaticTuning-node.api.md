@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerAutomaticTuningGetOptionalParams): Promise<ServerAutomaticTuning>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerAutomaticTuningGetOptionalParams): Promise<ServerAutomaticTuning>;
 
 // @public
 export interface ServerAutomaticTuningGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface ServerAutomaticTuningUpdateOptionalParams extends OperationOpti
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, parameters: ServerAutomaticTuning, options?: ServerAutomaticTuningUpdateOptionalParams): Promise<ServerAutomaticTuning>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, parameters: ServerAutomaticTuning, options?: ServerAutomaticTuningUpdateOptionalParams): Promise<ServerAutomaticTuning>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, get } from "../../api/privateLinkResources/operations.js";
 import type {
   PrivateLinkResourcesListByServerOptionalParams,
@@ -27,7 +27,7 @@ export interface PrivateLinkResourcesOperations {
   ) => Promise<PrivateLinkResource>;
 }
 
-function _getPrivateLinkResources(context: SqlContext) {
+function _getPrivateLinkResources(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getPrivateLinkResources(context: SqlContext) {
 }
 
 export function _getPrivateLinkResourcesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): PrivateLinkResourcesOperations {
   return {
     ..._getPrivateLinkResources(context),

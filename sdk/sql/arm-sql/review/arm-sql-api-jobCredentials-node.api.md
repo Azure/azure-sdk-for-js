@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: JobCredentialsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: JobCredentialsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: JobCredential, options?: JobCredentialsCreateOrUpdateOptionalParams): Promise<JobCredential>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: JobCredential, options?: JobCredentialsCreateOrUpdateOptionalParams): Promise<JobCredential>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: JobCredentialsGetOptionalParams): Promise<JobCredential>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: JobCredentialsGetOptionalParams): Promise<JobCredential>;
 
 // @public
 export interface JobCredentialsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -33,7 +33,7 @@ export interface JobCredentialsListByAgentOptionalParams extends OperationOption
 }
 
 // @public
-export function listByAgent(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobCredentialsListByAgentOptionalParams): PagedAsyncIterableIterator<JobCredential>;
+export function listByAgent(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobCredentialsListByAgentOptionalParams): PagedAsyncIterableIterator<JobCredential>;
 
 // (No @packageDocumentation comment for this package)
 

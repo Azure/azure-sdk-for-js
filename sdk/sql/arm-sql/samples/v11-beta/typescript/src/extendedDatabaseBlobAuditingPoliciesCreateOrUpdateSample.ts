@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,12 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.extendedDatabaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     { isAzureMonitorTargetEnabled: true, state: "Enabled" },
   );
   console.log(result);
@@ -33,12 +32,11 @@ async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMin
 async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.extendedDatabaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     {
       auditActionsAndGroups: [
         "DATABASE_LOGOUT_GROUP",
@@ -69,12 +67,11 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParamete
 async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.extendedDatabaseBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
     "testdb",
-    "default",
     {
       state: "Enabled",
       storageAccountAccessKey:

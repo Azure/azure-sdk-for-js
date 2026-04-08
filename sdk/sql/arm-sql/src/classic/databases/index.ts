@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByElasticPool,
   listInaccessibleByServer,
@@ -305,7 +305,7 @@ export interface DatabasesOperations {
   ) => Promise<Database>;
 }
 
-function _getDatabases(context: SqlContext) {
+function _getDatabases(context: SqlManagementContext) {
   return {
     listByElasticPool: (
       resourceGroupName: string,
@@ -635,7 +635,7 @@ function _getDatabases(context: SqlContext) {
   };
 }
 
-export function _getDatabasesOperations(context: SqlContext): DatabasesOperations {
+export function _getDatabasesOperations(context: SqlManagementContext): DatabasesOperations {
   return {
     ..._getDatabases(context),
   };

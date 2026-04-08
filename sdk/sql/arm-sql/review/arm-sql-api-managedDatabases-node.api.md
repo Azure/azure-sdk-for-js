@@ -10,28 +10,28 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function cancelMove(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseMoveDefinition, options?: ManagedDatabasesCancelMoveOptionalParams): PollerLike<OperationState<void>, void>;
+export function cancelMove(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseMoveDefinition, options?: ManagedDatabasesCancelMoveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function completeMove(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseMoveDefinition, options?: ManagedDatabasesCompleteMoveOptionalParams): PollerLike<OperationState<void>, void>;
+export function completeMove(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseMoveDefinition, options?: ManagedDatabasesCompleteMoveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function completeRestore(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: CompleteDatabaseRestoreDefinition, options?: ManagedDatabasesCompleteRestoreOptionalParams): PollerLike<OperationState<void>, void>;
+export function completeRestore(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: CompleteDatabaseRestoreDefinition, options?: ManagedDatabasesCompleteRestoreOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabase, options?: ManagedDatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabase, options?: ManagedDatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesGetOptionalParams): Promise<ManagedDatabase>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesGetOptionalParams): Promise<ManagedDatabase>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedDatabasesListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedDatabase>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedDatabasesListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedDatabase>;
 
 // @public
-export function listInaccessibleByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedDatabase>;
+export function listInaccessibleByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedDatabasesListInaccessibleByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedDatabase>;
 
 // @public
 export interface ManagedDatabasesCancelMoveOptionalParams extends OperationOptions {
@@ -86,13 +86,13 @@ export interface ManagedDatabasesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function reevaluateInaccessibleDatabaseState(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesReevaluateInaccessibleDatabaseStateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
+export function reevaluateInaccessibleDatabaseState(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabasesReevaluateInaccessibleDatabaseStateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 
 // @public
-export function startMove(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseStartMoveDefinition, options?: ManagedDatabasesStartMoveOptionalParams): PollerLike<OperationState<void>, void>;
+export function startMove(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseStartMoveDefinition, options?: ManagedDatabasesStartMoveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseUpdate, options?: ManagedDatabasesUpdateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: ManagedDatabaseUpdate, options?: ManagedDatabasesUpdateOptionalParams): PollerLike<OperationState<ManagedDatabase>, ManagedDatabase>;
 
 // (No @packageDocumentation comment for this package)
 

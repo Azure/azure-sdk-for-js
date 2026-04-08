@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function $export(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ExportDatabaseDefinition, options?: DatabasesExportOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
+export function $export(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ExportDatabaseDefinition, options?: DatabasesExportOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 
 // @public
-export function $import(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ImportExistingDatabaseDefinition, options?: DatabasesImportOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
+export function $import(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ImportExistingDatabaseDefinition, options?: DatabasesImportOptionalParams): PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<Database>, Database>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<Database>, Database>;
 
 // @public
 export interface DatabasesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -94,34 +94,34 @@ export interface DatabasesUpgradeDataWarehouseOptionalParams extends OperationOp
 }
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesFailoverOptionalParams): PollerLike<OperationState<void>, void>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesFailoverOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<Database>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<Database>;
 
 // @public
-export function listByElasticPool(context: SqlContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: DatabasesListByElasticPoolOptionalParams): PagedAsyncIterableIterator<Database>;
+export function listByElasticPool(context: SqlManagementContext, resourceGroupName: string, serverName: string, elasticPoolName: string, options?: DatabasesListByElasticPoolOptionalParams): PagedAsyncIterableIterator<Database>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: DatabasesListByServerOptionalParams): PagedAsyncIterableIterator<Database>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: DatabasesListByServerOptionalParams): PagedAsyncIterableIterator<Database>;
 
 // @public
-export function listInaccessibleByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: DatabasesListInaccessibleByServerOptionalParams): PagedAsyncIterableIterator<Database>;
+export function listInaccessibleByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: DatabasesListInaccessibleByServerOptionalParams): PagedAsyncIterableIterator<Database>;
 
 // @public
-export function pause(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesPauseOptionalParams): PollerLike<OperationState<Database>, Database>;
+export function pause(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesPauseOptionalParams): PollerLike<OperationState<Database>, Database>;
 
 // @public
-export function rename(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ResourceMoveDefinition, options?: DatabasesRenameOptionalParams): Promise<void>;
+export function rename(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: ResourceMoveDefinition, options?: DatabasesRenameOptionalParams): Promise<void>;
 
 // @public
-export function resume(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesResumeOptionalParams): PollerLike<OperationState<Database>, Database>;
+export function resume(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesResumeOptionalParams): PollerLike<OperationState<Database>, Database>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): PollerLike<OperationState<Database>, Database>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): PollerLike<OperationState<Database>, Database>;
 
 // @public
-export function upgradeDataWarehouse(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesUpgradeDataWarehouseOptionalParams): PollerLike<OperationState<void>, void>;
+export function upgradeDataWarehouse(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabasesUpgradeDataWarehouseOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   createOrUpdate,
@@ -70,7 +70,7 @@ export interface ManagedServerSecurityAlertPoliciesOperations {
   ) => Promise<ManagedServerSecurityAlertPolicy>;
 }
 
-function _getManagedServerSecurityAlertPolicies(context: SqlContext) {
+function _getManagedServerSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -136,7 +136,7 @@ function _getManagedServerSecurityAlertPolicies(context: SqlContext) {
 }
 
 export function _getManagedServerSecurityAlertPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedServerSecurityAlertPoliciesOperations {
   return {
     ..._getManagedServerSecurityAlertPolicies(context),

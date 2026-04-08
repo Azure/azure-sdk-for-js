@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, queryId: string, options?: ManagedDatabaseQueriesGetOptionalParams): Promise<ManagedInstanceQuery>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, queryId: string, options?: ManagedDatabaseQueriesGetOptionalParams): Promise<ManagedInstanceQuery>;
 
 // @public
-export function listByQuery(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, queryId: string, options?: ManagedDatabaseQueriesListByQueryOptionalParams): PagedAsyncIterableIterator<QueryStatistics>;
+export function listByQuery(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, queryId: string, options?: ManagedDatabaseQueriesListByQueryOptionalParams): PagedAsyncIterableIterator<QueryStatistics>;
 
 // @public
 export interface ManagedDatabaseQueriesGetOptionalParams extends OperationOptions {

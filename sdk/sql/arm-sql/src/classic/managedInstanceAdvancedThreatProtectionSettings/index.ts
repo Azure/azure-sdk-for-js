@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   createOrUpdate,
@@ -70,7 +70,7 @@ export interface ManagedInstanceAdvancedThreatProtectionSettingsOperations {
   ) => Promise<ManagedInstanceAdvancedThreatProtection>;
 }
 
-function _getManagedInstanceAdvancedThreatProtectionSettings(context: SqlContext) {
+function _getManagedInstanceAdvancedThreatProtectionSettings(context: SqlManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -137,7 +137,7 @@ function _getManagedInstanceAdvancedThreatProtectionSettings(context: SqlContext
 }
 
 export function _getManagedInstanceAdvancedThreatProtectionSettingsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceAdvancedThreatProtectionSettingsOperations {
   return {
     ..._getManagedInstanceAdvancedThreatProtectionSettings(context),

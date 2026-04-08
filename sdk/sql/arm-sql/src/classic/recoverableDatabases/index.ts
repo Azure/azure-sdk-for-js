@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, get } from "../../api/recoverableDatabases/operations.js";
 import type {
   RecoverableDatabasesListByServerOptionalParams,
@@ -27,7 +27,7 @@ export interface RecoverableDatabasesOperations {
   ) => Promise<RecoverableDatabase>;
 }
 
-function _getRecoverableDatabases(context: SqlContext) {
+function _getRecoverableDatabases(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getRecoverableDatabases(context: SqlContext) {
 }
 
 export function _getRecoverableDatabasesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): RecoverableDatabasesOperations {
   return {
     ..._getRecoverableDatabases(context),

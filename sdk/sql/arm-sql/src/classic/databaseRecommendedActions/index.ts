@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabaseAdvisor,
   update,
@@ -45,7 +45,7 @@ export interface DatabaseRecommendedActionsOperations {
   ) => Promise<RecommendedAction>;
 }
 
-function _getDatabaseRecommendedActions(context: SqlContext) {
+function _getDatabaseRecommendedActions(context: SqlManagementContext) {
   return {
     listByDatabaseAdvisor: (
       resourceGroupName: string,
@@ -102,7 +102,7 @@ function _getDatabaseRecommendedActions(context: SqlContext) {
 }
 
 export function _getDatabaseRecommendedActionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseRecommendedActionsOperations {
   return {
     ..._getDatabaseRecommendedActions(context),

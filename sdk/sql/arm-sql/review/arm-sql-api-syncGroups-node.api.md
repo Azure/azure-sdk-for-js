@@ -10,31 +10,31 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function cancelSync(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsCancelSyncOptionalParams): Promise<void>;
+export function cancelSync(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsCancelSyncOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: SyncGroup, options?: SyncGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncGroup>, SyncGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: SyncGroup, options?: SyncGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncGroup>, SyncGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsGetOptionalParams): Promise<SyncGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsGetOptionalParams): Promise<SyncGroup>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SyncGroupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SyncGroup>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SyncGroupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SyncGroup>;
 
 // @public
-export function listHubSchemas(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsListHubSchemasOptionalParams): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
+export function listHubSchemas(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsListHubSchemasOptionalParams): PagedAsyncIterableIterator<SyncFullSchemaProperties>;
 
 // @public
-export function listLogs(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, typeParam: SyncGroupsType, options?: SyncGroupsListLogsOptionalParams): PagedAsyncIterableIterator<SyncGroupLogProperties>;
+export function listLogs(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, typeParam: SyncGroupsType, options?: SyncGroupsListLogsOptionalParams): PagedAsyncIterableIterator<SyncGroupLogProperties>;
 
 // @public
-export function listSyncDatabaseIds(context: SqlContext, locationName: string, options?: SyncGroupsListSyncDatabaseIdsOptionalParams): PagedAsyncIterableIterator<SyncDatabaseIdProperties>;
+export function listSyncDatabaseIds(context: SqlManagementContext, locationName: string, options?: SyncGroupsListSyncDatabaseIdsOptionalParams): PagedAsyncIterableIterator<SyncDatabaseIdProperties>;
 
 // @public
-export function refreshHubSchema(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsRefreshHubSchemaOptionalParams): PollerLike<OperationState<void>, void>;
+export function refreshHubSchema(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsRefreshHubSchemaOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface SyncGroupsCancelSyncOptionalParams extends OperationOptions {
@@ -86,10 +86,10 @@ export interface SyncGroupsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function triggerSync(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsTriggerSyncOptionalParams): Promise<void>;
+export function triggerSync(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: SyncGroupsTriggerSyncOptionalParams): Promise<void>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: SyncGroup, options?: SyncGroupsUpdateOptionalParams): PollerLike<OperationState<SyncGroup>, SyncGroup>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: SyncGroup, options?: SyncGroupsUpdateOptionalParams): PollerLike<OperationState<SyncGroup>, SyncGroup>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { get } from "../../api/managedDatabaseRestoreDetails/operations.js";
 import type { ManagedDatabaseRestoreDetailsGetOptionalParams } from "../../api/managedDatabaseRestoreDetails/options.js";
 import type {
@@ -21,7 +21,7 @@ export interface ManagedDatabaseRestoreDetailsOperations {
   ) => Promise<ManagedDatabaseRestoreDetailsResult>;
 }
 
-function _getManagedDatabaseRestoreDetails(context: SqlContext) {
+function _getManagedDatabaseRestoreDetails(context: SqlManagementContext) {
   return {
     get: (
       resourceGroupName: string,
@@ -42,7 +42,7 @@ function _getManagedDatabaseRestoreDetails(context: SqlContext) {
 }
 
 export function _getManagedDatabaseRestoreDetailsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseRestoreDetailsOperations {
   return {
     ..._getManagedDatabaseRestoreDetails(context),

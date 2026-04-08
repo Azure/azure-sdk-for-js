@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroup, options?: FailoverGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroup, options?: FailoverGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsFailoverOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsFailoverOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 
 // @public
 export interface FailoverGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -57,19 +57,19 @@ export interface FailoverGroupsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function forceFailoverAllowDataLoss(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
+export function forceFailoverAllowDataLoss(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsGetOptionalParams): Promise<FailoverGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsGetOptionalParams): Promise<FailoverGroup>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: FailoverGroupsListByServerOptionalParams): PagedAsyncIterableIterator<FailoverGroup>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: FailoverGroupsListByServerOptionalParams): PagedAsyncIterableIterator<FailoverGroup>;
 
 // @public
-export function tryPlannedBeforeForcedFailover(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
+export function tryPlannedBeforeForcedFailover(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): PollerLike<OperationState<FailoverGroup>, FailoverGroup>;
 
 // (No @packageDocumentation comment for this package)
 

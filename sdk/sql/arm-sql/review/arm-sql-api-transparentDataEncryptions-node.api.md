@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, parameters: LogicalDatabaseTransparentDataEncryption, options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, parameters: LogicalDatabaseTransparentDataEncryption, options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsGetOptionalParams): Promise<LogicalDatabaseTransparentDataEncryption>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsGetOptionalParams): Promise<LogicalDatabaseTransparentDataEncryption>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: TransparentDataEncryptionsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LogicalDatabaseTransparentDataEncryption>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: TransparentDataEncryptionsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LogicalDatabaseTransparentDataEncryption>;
 
 // @public
-export function resume(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsResumeOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
+export function resume(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsResumeOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
 
 // @public
-export function suspend(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsSuspendOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
+export function suspend(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, tdeName: TransparentDataEncryptionName, options?: TransparentDataEncryptionsSuspendOptionalParams): PollerLike<OperationState<LogicalDatabaseTransparentDataEncryption>, LogicalDatabaseTransparentDataEncryption>;
 
 // @public
 export interface TransparentDataEncryptionsCreateOrUpdateOptionalParams extends OperationOptions {

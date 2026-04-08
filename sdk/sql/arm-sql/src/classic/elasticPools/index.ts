@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   failover,
   listByServer,
@@ -136,7 +136,7 @@ export interface ElasticPoolsOperations {
   ) => Promise<ElasticPool>;
 }
 
-function _getElasticPools(context: SqlContext) {
+function _getElasticPools(context: SqlManagementContext) {
   return {
     failover: (
       resourceGroupName: string,
@@ -283,7 +283,7 @@ function _getElasticPools(context: SqlContext) {
   };
 }
 
-export function _getElasticPoolsOperations(context: SqlContext): ElasticPoolsOperations {
+export function _getElasticPoolsOperations(context: SqlManagementContext): ElasticPoolsOperations {
   return {
     ..._getElasticPools(context),
   };

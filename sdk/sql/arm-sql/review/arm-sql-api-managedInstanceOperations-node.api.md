@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function cancel(context: SqlContext, resourceGroupName: string, managedInstanceName: string, operationId: string, options?: ManagedInstanceOperationsCancelOptionalParams): Promise<void>;
+export function cancel(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, operationId: string, options?: ManagedInstanceOperationsCancelOptionalParams): Promise<void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, operationId: string, options?: ManagedInstanceOperationsGetOptionalParams): Promise<ManagedInstanceOperation>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, operationId: string, options?: ManagedInstanceOperationsGetOptionalParams): Promise<ManagedInstanceOperation>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceOperation>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceOperationsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceOperation>;
 
 // @public
 export interface ManagedInstanceOperationsCancelOptionalParams extends OperationOptions {

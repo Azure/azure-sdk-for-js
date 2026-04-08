@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, options?: ManagedInstanceAdministratorsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, options?: ManagedInstanceAdministratorsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, parameters: ManagedInstanceAdministrator, options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAdministrator>, ManagedInstanceAdministrator>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, parameters: ManagedInstanceAdministrator, options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceAdministrator>, ManagedInstanceAdministrator>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, options?: ManagedInstanceAdministratorsGetOptionalParams): Promise<ManagedInstanceAdministrator>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, administratorName: AdministratorName, options?: ManagedInstanceAdministratorsGetOptionalParams): Promise<ManagedInstanceAdministrator>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAdministratorsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAdministrator>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceAdministratorsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceAdministrator>;
 
 // @public
 export interface ManagedInstanceAdministratorsCreateOrUpdateOptionalParams extends OperationOptions {

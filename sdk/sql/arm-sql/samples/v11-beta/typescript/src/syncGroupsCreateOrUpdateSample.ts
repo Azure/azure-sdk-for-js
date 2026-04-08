@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createASyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncGroups.createOrUpdate(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",
@@ -40,7 +40,7 @@ async function createASyncGroup(): Promise<void> {
 async function createASyncGroupWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncGroups.createOrUpdate(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",
@@ -73,7 +73,7 @@ async function createASyncGroupWithUserAssignedIdentity(): Promise<void> {
 async function updateASyncGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncGroups.createOrUpdate(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",

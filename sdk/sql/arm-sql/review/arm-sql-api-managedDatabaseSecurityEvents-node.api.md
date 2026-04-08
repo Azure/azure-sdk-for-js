@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SecurityEvent>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SecurityEvent>;
 
 // @public
 export interface ManagedDatabaseSecurityEventsListByDatabaseOptionalParams extends OperationOptions {

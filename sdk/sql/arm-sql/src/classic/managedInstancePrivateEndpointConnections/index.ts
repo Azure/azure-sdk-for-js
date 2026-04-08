@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   $delete,
@@ -95,7 +95,7 @@ export interface ManagedInstancePrivateEndpointConnectionsOperations {
   ) => Promise<ManagedInstancePrivateEndpointConnection>;
 }
 
-function _getManagedInstancePrivateEndpointConnections(context: SqlContext) {
+function _getManagedInstancePrivateEndpointConnections(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
       resourceGroupName: string,
@@ -205,7 +205,7 @@ function _getManagedInstancePrivateEndpointConnections(context: SqlContext) {
 }
 
 export function _getManagedInstancePrivateEndpointConnectionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstancePrivateEndpointConnectionsOperations {
   return {
     ..._getManagedInstancePrivateEndpointConnections(context),

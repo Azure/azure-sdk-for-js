@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -38,7 +38,7 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> 
 async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -61,7 +61,7 @@ async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
 async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -80,7 +80,7 @@ async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
 async function createOrUpdateAnElasticPoolWithServerlessProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -105,7 +105,7 @@ async function createOrUpdateAnElasticPoolWithServerlessProperties(): Promise<vo
 async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -128,7 +128,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter():
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -147,7 +147,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
 async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVBS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",
@@ -166,7 +166,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVBS()
 async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.elasticPools.createOrUpdate(
     "sqlcrudtest-2369",
     "sqlcrudtest-8069",

@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, targetId: string, options?: JobTargetExecutionsGetOptionalParams): Promise<JobExecution>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, targetId: string, options?: JobTargetExecutionsGetOptionalParams): Promise<JobExecution>;
 
 // @public
 export interface JobTargetExecutionsGetOptionalParams extends OperationOptions {
@@ -37,10 +37,10 @@ export interface JobTargetExecutionsListByStepOptionalParams extends OperationOp
 }
 
 // @public
-export function listByJobExecution(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobTargetExecutionsListByJobExecutionOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+export function listByJobExecution(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: JobTargetExecutionsListByJobExecutionOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 
 // @public
-export function listByStep(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, options?: JobTargetExecutionsListByStepOptionalParams): PagedAsyncIterableIterator<JobExecution>;
+export function listByStep(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, stepName: string, options?: JobTargetExecutionsListByStepOptionalParams): PagedAsyncIterableIterator<JobExecution>;
 
 // (No @packageDocumentation comment for this package)
 

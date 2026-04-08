@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
@@ -46,7 +46,7 @@ export interface ManagedDatabaseAdvancedThreatProtectionSettingsOperations {
   ) => Promise<ManagedDatabaseAdvancedThreatProtection>;
 }
 
-function _getManagedDatabaseAdvancedThreatProtectionSettings(context: SqlContext) {
+function _getManagedDatabaseAdvancedThreatProtectionSettings(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -90,7 +90,7 @@ function _getManagedDatabaseAdvancedThreatProtectionSettings(context: SqlContext
 }
 
 export function _getManagedDatabaseAdvancedThreatProtectionSettingsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseAdvancedThreatProtectionSettingsOperations {
   return {
     ..._getManagedDatabaseAdvancedThreatProtectionSettings(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function listsAllOfTheAvailableSQLRestAPIOperations() {
   const credential = new DefaultAzureCredential();
-  const client = new SqlClient(credential);
+  const client = new SqlManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

@@ -21,13 +21,13 @@ export interface DatabaseAdvisorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, options?: DatabaseAdvisorsGetOptionalParams): Promise<Advisor>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, options?: DatabaseAdvisorsGetOptionalParams): Promise<Advisor>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAdvisorsListByDatabaseOptionalParams): Promise<Advisor[]>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAdvisorsListByDatabaseOptionalParams): Promise<Advisor[]>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, parameters: Advisor, options?: DatabaseAdvisorsUpdateOptionalParams): Promise<Advisor>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, parameters: Advisor, options?: DatabaseAdvisorsUpdateOptionalParams): Promise<Advisor>;
 
 // (No @packageDocumentation comment for this package)
 

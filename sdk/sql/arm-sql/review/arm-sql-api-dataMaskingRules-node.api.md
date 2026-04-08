@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, dataMaskingRuleName: string, parameters: DataMaskingRule, options?: DataMaskingRulesCreateOrUpdateOptionalParams): Promise<DataMaskingRule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, dataMaskingRuleName: string, parameters: DataMaskingRule, options?: DataMaskingRulesCreateOrUpdateOptionalParams): Promise<DataMaskingRule>;
 
 // @public
 export interface DataMaskingRulesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -20,7 +20,7 @@ export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationO
 }
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, options?: DataMaskingRulesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DataMaskingRule>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, options?: DataMaskingRulesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DataMaskingRule>;
 
 // (No @packageDocumentation comment for this package)
 

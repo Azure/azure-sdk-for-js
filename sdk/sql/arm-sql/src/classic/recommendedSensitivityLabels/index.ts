@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { update } from "../../api/recommendedSensitivityLabels/operations.js";
 import type { RecommendedSensitivityLabelsUpdateOptionalParams } from "../../api/recommendedSensitivityLabels/options.js";
 import type { RecommendedSensitivityLabelUpdateList } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface RecommendedSensitivityLabelsOperations {
   ) => Promise<void>;
 }
 
-function _getRecommendedSensitivityLabels(context: SqlContext) {
+function _getRecommendedSensitivityLabels(context: SqlManagementContext) {
   return {
     update: (
       resourceGroupName: string,
@@ -31,7 +31,7 @@ function _getRecommendedSensitivityLabels(context: SqlContext) {
 }
 
 export function _getRecommendedSensitivityLabelsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): RecommendedSensitivityLabelsOperations {
   return {
     ..._getRecommendedSensitivityLabels(context),

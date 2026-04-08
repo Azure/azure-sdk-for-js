@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobPrivateEndpoint>, JobPrivateEndpoint>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobPrivateEndpoint>, JobPrivateEndpoint>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsGetOptionalParams): Promise<JobPrivateEndpoint>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsGetOptionalParams): Promise<JobPrivateEndpoint>;
 
 // @public
 export interface JobPrivateEndpointsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface JobPrivateEndpointsListByAgentOptionalParams extends OperationO
 }
 
 // @public
-export function listByAgent(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobPrivateEndpointsListByAgentOptionalParams): PagedAsyncIterableIterator<JobPrivateEndpoint>;
+export function listByAgent(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobPrivateEndpointsListByAgentOptionalParams): PagedAsyncIterableIterator<JobPrivateEndpoint>;
 
 // (No @packageDocumentation comment for this package)
 

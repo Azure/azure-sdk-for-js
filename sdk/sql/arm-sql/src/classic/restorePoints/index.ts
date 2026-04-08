@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { create, listByDatabase, $delete, get } from "../../api/restorePoints/operations.js";
 import type {
   RestorePointsCreateOptionalParams,
@@ -71,7 +71,7 @@ export interface RestorePointsOperations {
   ) => Promise<RestorePoint>;
 }
 
-function _getRestorePoints(context: SqlContext) {
+function _getRestorePoints(context: SqlManagementContext) {
   return {
     create: (
       resourceGroupName: string,
@@ -137,7 +137,9 @@ function _getRestorePoints(context: SqlContext) {
   };
 }
 
-export function _getRestorePointsOperations(context: SqlContext): RestorePointsOperations {
+export function _getRestorePointsOperations(
+  context: SqlManagementContext,
+): RestorePointsOperations {
   return {
     ..._getRestorePoints(context),
   };

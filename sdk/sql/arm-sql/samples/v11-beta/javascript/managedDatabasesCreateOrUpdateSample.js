@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createsANewManagedDatabaseWithLedgerOn() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -32,7 +32,7 @@ async function createsANewManagedDatabaseWithLedgerOn() {
 async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -59,7 +59,7 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
 async function createsANewManagedDatabaseWithMaximalProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -78,7 +78,7 @@ async function createsANewManagedDatabaseWithMaximalProperties() {
 async function createsANewManagedDatabaseWithMinimalProperties() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -97,7 +97,7 @@ async function createsANewManagedDatabaseWithMinimalProperties() {
 async function createsANewManagedDatabaseUsingPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -122,7 +122,7 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore() {
 async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "server1",
@@ -146,7 +146,7 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -173,7 +173,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
 async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",
@@ -200,7 +200,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
 async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedDatabases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "managedInstance",

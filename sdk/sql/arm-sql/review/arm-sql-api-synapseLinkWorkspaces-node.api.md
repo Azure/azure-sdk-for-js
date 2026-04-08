@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SynapseLinkWorkspacesListByDatabaseOptionalParams): PagedAsyncIterableIterator<SynapseLinkWorkspace>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SynapseLinkWorkspacesListByDatabaseOptionalParams): PagedAsyncIterableIterator<SynapseLinkWorkspace>;
 
 // @public
 export interface SynapseLinkWorkspacesListByDatabaseOptionalParams extends OperationOptions {

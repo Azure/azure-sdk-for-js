@@ -12,7 +12,7 @@ export interface DatabaseUsagesListByDatabaseOptionalParams extends OperationOpt
 }
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseUsagesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseUsage>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseUsagesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseUsage>;
 
 // (No @packageDocumentation comment for this package)
 

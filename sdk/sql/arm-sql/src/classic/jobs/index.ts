@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobs/operations.js";
 import type {
   JobsListByAgentOptionalParams,
@@ -53,7 +53,7 @@ export interface JobsOperations {
   ) => Promise<Job>;
 }
 
-function _getJobs(context: SqlContext) {
+function _getJobs(context: SqlManagementContext) {
   return {
     listByAgent: (
       resourceGroupName: string,
@@ -95,7 +95,7 @@ function _getJobs(context: SqlContext) {
   };
 }
 
-export function _getJobsOperations(context: SqlContext): JobsOperations {
+export function _getJobsOperations(context: SqlManagementContext): JobsOperations {
   return {
     ..._getJobs(context),
   };

@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfiguration>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfiguration>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: NetworkSecurityPerimeterConfigurationsListByServerOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends OperationOptions {
@@ -29,7 +29,7 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams e
 }
 
 // @public
-export function reconcile(context: SqlContext, resourceGroupName: string, serverName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
+export function reconcile(context: SqlManagementContext, resourceGroupName: string, serverName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): PollerLike<OperationState<NetworkSecurityPerimeterConfiguration>, NetworkSecurityPerimeterConfiguration>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createOrUpdateDatabaseExtensions() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a1c0814d-3c18-4e1e-a247-c128c12b1677";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseExtensions.createOrUpdate(
     "rg_20cbe0f0-c2d9-4522-9177-5469aad53029",
     "srv_1ffd1cf8-9951-47fb-807d-a9c384763849",
@@ -39,7 +39,7 @@ async function createOrUpdateDatabaseExtensions() {
 async function exportDatabaseUsingDatabaseExtension() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseExtensions.createOrUpdate(
     "rg_d1ef9eae-044d-4710-ba59-b82e84ad3157",
     "srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c",
@@ -68,7 +68,7 @@ async function exportDatabaseUsingDatabaseExtension() {
 async function exportDatabaseUsingDatabaseExtensionWithManagedIdentity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseExtensions.createOrUpdate(
     "rg_d1ef9eae-044d-4710-ba59-b82e84ad3157",
     "srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c",
@@ -97,7 +97,7 @@ async function exportDatabaseUsingDatabaseExtensionWithManagedIdentity() {
 async function importDatabaseUsingDatabaseExtension() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "17ca4d13-bf7d-4c33-a60e-b87a2820a325";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseExtensions.createOrUpdate(
     "rg_062866bf-c4f4-41f9-abf0-b59132ca7924",
     "srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82",

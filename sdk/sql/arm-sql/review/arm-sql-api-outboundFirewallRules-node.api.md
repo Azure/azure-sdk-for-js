@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<OutboundFirewallRule>, OutboundFirewallRule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<OutboundFirewallRule>, OutboundFirewallRule>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesGetOptionalParams): Promise<OutboundFirewallRule>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, outboundRuleFqdn: string, options?: OutboundFirewallRulesGetOptionalParams): Promise<OutboundFirewallRule>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: OutboundFirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<OutboundFirewallRule>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: OutboundFirewallRulesListByServerOptionalParams): PagedAsyncIterableIterator<OutboundFirewallRule>;
 
 // @public
 export interface OutboundFirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {

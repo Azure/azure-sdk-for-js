@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, get } from "../../api/restorableDroppedDatabases/operations.js";
 import type {
   RestorableDroppedDatabasesListByServerOptionalParams,
@@ -27,7 +27,7 @@ export interface RestorableDroppedDatabasesOperations {
   ) => Promise<RestorableDroppedDatabase>;
 }
 
-function _getRestorableDroppedDatabases(context: SqlContext) {
+function _getRestorableDroppedDatabases(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getRestorableDroppedDatabases(context: SqlContext) {
 }
 
 export function _getRestorableDroppedDatabasesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): RestorableDroppedDatabasesOperations {
   return {
     ..._getRestorableDroppedDatabases(context),

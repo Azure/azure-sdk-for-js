@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -92,7 +92,7 @@ export interface ServerAzureADOnlyAuthenticationsOperations {
   ) => Promise<ServerAzureADOnlyAuthentication>;
 }
 
-function _getServerAzureADOnlyAuthentications(context: SqlContext) {
+function _getServerAzureADOnlyAuthentications(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -182,7 +182,7 @@ function _getServerAzureADOnlyAuthentications(context: SqlContext) {
 }
 
 export function _getServerAzureADOnlyAuthenticationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerAzureADOnlyAuthenticationsOperations {
   return {
     ..._getServerAzureADOnlyAuthentications(context),

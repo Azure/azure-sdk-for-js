@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, locationName: string, usageName: string, options?: SubscriptionUsagesGetOptionalParams): Promise<SubscriptionUsage>;
+export function get(context: SqlManagementContext, locationName: string, usageName: string, options?: SubscriptionUsagesGetOptionalParams): Promise<SubscriptionUsage>;
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<SubscriptionUsage>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<SubscriptionUsage>;
 
 // @public
 export interface SubscriptionUsagesGetOptionalParams extends OperationOptions {

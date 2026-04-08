@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -87,7 +87,7 @@ export interface VirtualNetworkRulesOperations {
   ) => Promise<VirtualNetworkRule>;
 }
 
-function _getVirtualNetworkRules(context: SqlContext) {
+function _getVirtualNetworkRules(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -183,7 +183,7 @@ function _getVirtualNetworkRules(context: SqlContext) {
 }
 
 export function _getVirtualNetworkRulesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): VirtualNetworkRulesOperations {
   return {
     ..._getVirtualNetworkRules(context),

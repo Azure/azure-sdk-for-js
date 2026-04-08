@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase } from "../../api/databaseUsages/operations.js";
 import type { DatabaseUsagesListByDatabaseOptionalParams } from "../../api/databaseUsages/options.js";
 import type { DatabaseUsage } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface DatabaseUsagesOperations {
   ) => PagedAsyncIterableIterator<DatabaseUsage>;
 }
 
-function _getDatabaseUsages(context: SqlContext) {
+function _getDatabaseUsages(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -29,7 +29,9 @@ function _getDatabaseUsages(context: SqlContext) {
   };
 }
 
-export function _getDatabaseUsagesOperations(context: SqlContext): DatabaseUsagesOperations {
+export function _getDatabaseUsagesOperations(
+  context: SqlManagementContext,
+): DatabaseUsagesOperations {
   return {
     ..._getDatabaseUsages(context),
   };

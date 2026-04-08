@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -54,7 +54,7 @@ export interface IPv6FirewallRulesOperations {
   ) => Promise<IPv6FirewallRule>;
 }
 
-function _getIPv6FirewallRules(context: SqlContext) {
+function _getIPv6FirewallRules(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -84,7 +84,9 @@ function _getIPv6FirewallRules(context: SqlContext) {
   };
 }
 
-export function _getIPv6FirewallRulesOperations(context: SqlContext): IPv6FirewallRulesOperations {
+export function _getIPv6FirewallRulesOperations(
+  context: SqlManagementContext,
+): IPv6FirewallRulesOperations {
   return {
     ..._getIPv6FirewallRules(context),
   };

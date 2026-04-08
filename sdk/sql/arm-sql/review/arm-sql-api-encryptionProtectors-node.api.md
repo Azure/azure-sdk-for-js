@@ -10,7 +10,7 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, parameters: EncryptionProtector, options?: EncryptionProtectorsCreateOrUpdateOptionalParams): PollerLike<OperationState<EncryptionProtector>, EncryptionProtector>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, parameters: EncryptionProtector, options?: EncryptionProtectorsCreateOrUpdateOptionalParams): PollerLike<OperationState<EncryptionProtector>, EncryptionProtector>;
 
 // @public
 export interface EncryptionProtectorsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -31,13 +31,13 @@ export interface EncryptionProtectorsRevalidateOptionalParams extends OperationO
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, options?: EncryptionProtectorsGetOptionalParams): Promise<EncryptionProtector>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, options?: EncryptionProtectorsGetOptionalParams): Promise<EncryptionProtector>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: EncryptionProtectorsListByServerOptionalParams): PagedAsyncIterableIterator<EncryptionProtector>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: EncryptionProtectorsListByServerOptionalParams): PagedAsyncIterableIterator<EncryptionProtector>;
 
 // @public
-export function revalidate(context: SqlContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, options?: EncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
+export function revalidate(context: SqlManagementContext, resourceGroupName: string, serverName: string, encryptionProtectorName: EncryptionProtectorName, options?: EncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

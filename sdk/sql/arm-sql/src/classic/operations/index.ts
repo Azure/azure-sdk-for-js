@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,13 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: SqlContext) {
+function _getOperations(context: SqlManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: SqlContext): OperationsOperations {
+export function _getOperationsOperations(context: SqlManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams): PollerLike<OperationState<ManagedInstanceLongTermRetentionPolicy>, ManagedInstanceLongTermRetentionPolicy>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, options?: ManagedInstanceLongTermRetentionPoliciesDeleteOptionalParams): PollerLike<OperationState<ManagedInstanceLongTermRetentionPolicy>, ManagedInstanceLongTermRetentionPolicy>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, parameters: ManagedInstanceLongTermRetentionPolicy, options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceLongTermRetentionPolicy>, ManagedInstanceLongTermRetentionPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, parameters: ManagedInstanceLongTermRetentionPolicy, options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceLongTermRetentionPolicy>, ManagedInstanceLongTermRetentionPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams): Promise<ManagedInstanceLongTermRetentionPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, policyName: ManagedInstanceLongTermRetentionPolicyName, options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams): Promise<ManagedInstanceLongTermRetentionPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionPolicy>;
 
 // @public
 export interface ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

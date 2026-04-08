@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
   console.log(result);
 }
@@ -27,7 +27,7 @@ async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
 async function getsADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function getsADatabase(): Promise<void> {
 async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
 async function getsADatabaseConfiguredWithVBSEnclaveType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function getsADatabaseConfiguredWithVBSEnclaveType(): Promise<void> {
 async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     expand: "keys",
   });
@@ -85,7 +85,7 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
 async function getsADatabaseWithDatabaseLevelKeysExpandedUsingVersionlessKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     expand: "keys",
   });

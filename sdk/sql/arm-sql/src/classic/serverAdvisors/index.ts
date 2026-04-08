@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, update, get } from "../../api/serverAdvisors/operations.js";
 import type {
   ServerAdvisorsListByServerOptionalParams,
@@ -35,7 +35,7 @@ export interface ServerAdvisorsOperations {
   ) => Promise<Advisor>;
 }
 
-function _getServerAdvisors(context: SqlContext) {
+function _getServerAdvisors(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -58,7 +58,9 @@ function _getServerAdvisors(context: SqlContext) {
   };
 }
 
-export function _getServerAdvisorsOperations(context: SqlContext): ServerAdvisorsOperations {
+export function _getServerAdvisorsOperations(
+  context: SqlManagementContext,
+): ServerAdvisorsOperations {
   return {
     ..._getServerAdvisors(context),
   };

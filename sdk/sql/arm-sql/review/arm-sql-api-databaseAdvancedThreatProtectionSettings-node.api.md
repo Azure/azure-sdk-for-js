@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: DatabaseAdvancedThreatProtection, options?: DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): Promise<DatabaseAdvancedThreatProtection>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: DatabaseAdvancedThreatProtection, options?: DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): Promise<DatabaseAdvancedThreatProtection>;
 
 // @public
 export interface DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -23,10 +23,10 @@ export interface DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalP
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: DatabaseAdvancedThreatProtectionSettingsGetOptionalParams): Promise<DatabaseAdvancedThreatProtection>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: DatabaseAdvancedThreatProtectionSettingsGetOptionalParams): Promise<DatabaseAdvancedThreatProtection>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseAdvancedThreatProtection>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseAdvancedThreatProtection>;
 
 // (No @packageDocumentation comment for this package)
 

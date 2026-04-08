@@ -9,16 +9,16 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createSql(credential: TokenCredential, subscriptionId: string, options?: SqlClientOptionalParams): SqlContext;
+export function createSqlManagement(credential: TokenCredential, subscriptionId: string, options?: SqlManagementClientOptionalParams): SqlManagementContext;
 
 // @public
-export interface SqlClientOptionalParams extends ClientOptions {
+export interface SqlManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface SqlContext extends Client {
+export interface SqlManagementContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }

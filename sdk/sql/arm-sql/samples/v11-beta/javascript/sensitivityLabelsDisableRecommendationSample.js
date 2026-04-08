@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function disablesSensitivityRecommendationsOnAGivenColumn() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   await client.sensitivityLabels.disableRecommendation(
     "myRG",
     "myServer",
@@ -21,7 +21,6 @@ async function disablesSensitivityRecommendationsOnAGivenColumn() {
     "dbo",
     "myTable",
     "myColumn",
-    "recommended",
   );
 }
 

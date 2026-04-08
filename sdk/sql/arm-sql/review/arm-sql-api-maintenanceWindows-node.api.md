@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, parameters: MaintenanceWindows, options?: MaintenanceWindowsCreateOrUpdateOptionalParams): Promise<void>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, parameters: MaintenanceWindows, options?: MaintenanceWindowsCreateOrUpdateOptionalParams): Promise<void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, options?: MaintenanceWindowsGetOptionalParams): Promise<MaintenanceWindows>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, maintenanceWindowName: string, options?: MaintenanceWindowsGetOptionalParams): Promise<MaintenanceWindows>;
 
 // @public
 export interface MaintenanceWindowsCreateOrUpdateOptionalParams extends OperationOptions {

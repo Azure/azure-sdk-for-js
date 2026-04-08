@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByAgent,
   $delete,
@@ -95,7 +95,7 @@ export interface JobPrivateEndpointsOperations {
   ) => Promise<JobPrivateEndpoint>;
 }
 
-function _getJobPrivateEndpoints(context: SqlContext) {
+function _getJobPrivateEndpoints(context: SqlManagementContext) {
   return {
     listByAgent: (
       resourceGroupName: string,
@@ -211,7 +211,7 @@ function _getJobPrivateEndpoints(context: SqlContext) {
 }
 
 export function _getJobPrivateEndpointsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): JobPrivateEndpointsOperations {
   return {
     ..._getJobPrivateEndpoints(context),

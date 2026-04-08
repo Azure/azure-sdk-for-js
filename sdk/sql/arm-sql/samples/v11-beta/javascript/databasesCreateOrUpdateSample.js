@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -32,7 +32,7 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
 async function createsADatabaseAsACopy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -57,7 +57,7 @@ async function createsADatabaseAsACopy() {
 async function createsADatabaseWithDefaultEnclaveType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -76,7 +76,7 @@ async function createsADatabaseWithDefaultEnclaveType() {
 async function createsADatabaseWithDefaultMode() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -101,7 +101,7 @@ async function createsADatabaseWithDefaultMode() {
 async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -138,7 +138,7 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
 async function createsADatabaseWithDatabaseLevelVersionlessCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -175,7 +175,7 @@ async function createsADatabaseWithDatabaseLevelVersionlessCustomerManagedKeys()
 async function createsADatabaseWithLedgerOn() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -194,7 +194,7 @@ async function createsADatabaseWithLedgerOn() {
 async function createsADatabaseWithPreferredMaintenanceWindow() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -221,7 +221,7 @@ async function createsADatabaseWithPreferredMaintenanceWindow() {
 async function createsADatabaseWithMinimumNumberOfParameters() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -240,7 +240,7 @@ async function createsADatabaseWithMinimumNumberOfParameters() {
 async function createsADatabaseAsNamedReplicaSecondary() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -266,7 +266,7 @@ async function createsADatabaseAsNamedReplicaSecondary() {
 async function createsADatabaseFromPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -291,7 +291,7 @@ async function createsADatabaseFromPointInTimeRestore() {
 async function createsADatabaseAsAnOnLineSecondary() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -317,7 +317,7 @@ async function createsADatabaseAsAnOnLineSecondary() {
 async function createsADatabaseAsAStandbySecondary() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -343,7 +343,7 @@ async function createsADatabaseAsAStandbySecondary() {
 async function createsADatabaseWithVBSEnclaveType() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -362,7 +362,7 @@ async function createsADatabaseWithVBSEnclaveType() {
 async function createsADatabaseWithAvailabilityZoneSpecified() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -388,7 +388,7 @@ async function createsADatabaseWithAvailabilityZoneSpecified() {
 async function createsADatabaseWithEncryptionProtectorAutoRotation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -422,7 +422,7 @@ async function createsADatabaseWithEncryptionProtectorAutoRotation() {
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -447,7 +447,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate("Default-SQL-WestUS", "testsvr", "testdw", {
     location: "westus",
     createMode: "Recovery",
@@ -466,7 +466,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -490,7 +490,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
 async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -509,7 +509,7 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
 async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -528,7 +528,7 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
 async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",
@@ -557,7 +557,7 @@ async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMi
 async function updatesADatabaseToHyperscaleSLOWithManualCutover() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.createOrUpdate(
     "Default-SQL-SouthEastAsia",
     "testsvr",

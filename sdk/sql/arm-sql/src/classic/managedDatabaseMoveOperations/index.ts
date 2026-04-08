@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/managedDatabaseMoveOperations/operations.js";
 import type {
   ManagedDatabaseMoveOperationsListByLocationOptionalParams,
@@ -27,7 +27,7 @@ export interface ManagedDatabaseMoveOperationsOperations {
   ) => Promise<ManagedDatabaseMoveOperationResult>;
 }
 
-function _getManagedDatabaseMoveOperations(context: SqlContext) {
+function _getManagedDatabaseMoveOperations(context: SqlManagementContext) {
   return {
     listByLocation: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getManagedDatabaseMoveOperations(context: SqlContext) {
 }
 
 export function _getManagedDatabaseMoveOperationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseMoveOperationsOperations {
   return {
     ..._getManagedDatabaseMoveOperations(context),

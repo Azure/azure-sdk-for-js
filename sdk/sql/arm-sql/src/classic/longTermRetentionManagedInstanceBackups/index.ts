@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByResourceGroupInstance,
   listByResourceGroupLocation,
@@ -148,7 +148,7 @@ export interface LongTermRetentionManagedInstanceBackupsOperations {
   ) => Promise<ManagedInstanceLongTermRetentionBackup>;
 }
 
-function _getLongTermRetentionManagedInstanceBackups(context: SqlContext) {
+function _getLongTermRetentionManagedInstanceBackups(context: SqlManagementContext) {
   return {
     listByResourceGroupInstance: (
       resourceGroupName: string,
@@ -322,7 +322,7 @@ function _getLongTermRetentionManagedInstanceBackups(context: SqlContext) {
 }
 
 export function _getLongTermRetentionManagedInstanceBackupsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): LongTermRetentionManagedInstanceBackupsOperations {
   return {
     ..._getLongTermRetentionManagedInstanceBackups(context),

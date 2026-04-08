@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, advisorName: string, options?: ServerAdvisorsGetOptionalParams): Promise<Advisor>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, advisorName: string, options?: ServerAdvisorsGetOptionalParams): Promise<Advisor>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerAdvisorsListByServerOptionalParams): Promise<Advisor[]>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerAdvisorsListByServerOptionalParams): Promise<Advisor[]>;
 
 // @public
 export interface ServerAdvisorsGetOptionalParams extends OperationOptions {
@@ -27,7 +27,7 @@ export interface ServerAdvisorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, advisorName: string, parameters: Advisor, options?: ServerAdvisorsUpdateOptionalParams): Promise<Advisor>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, advisorName: string, parameters: Advisor, options?: ServerAdvisorsUpdateOptionalParams): Promise<Advisor>;
 
 // (No @packageDocumentation comment for this package)
 

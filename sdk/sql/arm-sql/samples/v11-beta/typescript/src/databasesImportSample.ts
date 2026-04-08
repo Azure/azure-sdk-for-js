@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function importsToAnExistingEmptyDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.import("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     administratorLogin: "login",
     administratorLoginPassword: "password",
@@ -35,7 +35,7 @@ async function importsToAnExistingEmptyDatabase(): Promise<void> {
 async function importsToAnExistingEmptyDatabaseUsingManagedIdentityToCommunicateWithSQLServerAndStorageAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.import("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     administratorLogin:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
@@ -57,7 +57,7 @@ async function importsToAnExistingEmptyDatabaseUsingManagedIdentityToCommunicate
 async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSQLServerAndStorageAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databases.import("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
     administratorLogin: "login",
     administratorLoginPassword: "password",

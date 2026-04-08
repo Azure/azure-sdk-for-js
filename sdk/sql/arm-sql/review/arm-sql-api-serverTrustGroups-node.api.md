@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, options?: ServerTrustGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, options?: ServerTrustGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, parameters: ServerTrustGroup, options?: ServerTrustGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerTrustGroup>, ServerTrustGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, parameters: ServerTrustGroup, options?: ServerTrustGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerTrustGroup>, ServerTrustGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, options?: ServerTrustGroupsGetOptionalParams): Promise<ServerTrustGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, locationName: string, serverTrustGroupName: string, options?: ServerTrustGroupsGetOptionalParams): Promise<ServerTrustGroup>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ServerTrustGroupsListByInstanceOptionalParams): PagedAsyncIterableIterator<ServerTrustGroup>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ServerTrustGroupsListByInstanceOptionalParams): PagedAsyncIterableIterator<ServerTrustGroup>;
 
 // @public
-export function listByLocation(context: SqlContext, resourceGroupName: string, locationName: string, options?: ServerTrustGroupsListByLocationOptionalParams): PagedAsyncIterableIterator<ServerTrustGroup>;
+export function listByLocation(context: SqlManagementContext, resourceGroupName: string, locationName: string, options?: ServerTrustGroupsListByLocationOptionalParams): PagedAsyncIterableIterator<ServerTrustGroup>;
 
 // @public
 export interface ServerTrustGroupsCreateOrUpdateOptionalParams extends OperationOptions {

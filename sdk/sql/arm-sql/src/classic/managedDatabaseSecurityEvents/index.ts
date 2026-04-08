@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase } from "../../api/managedDatabaseSecurityEvents/operations.js";
 import type { ManagedDatabaseSecurityEventsListByDatabaseOptionalParams } from "../../api/managedDatabaseSecurityEvents/options.js";
 import type { SecurityEvent } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface ManagedDatabaseSecurityEventsOperations {
   ) => PagedAsyncIterableIterator<SecurityEvent>;
 }
 
-function _getManagedDatabaseSecurityEvents(context: SqlContext) {
+function _getManagedDatabaseSecurityEvents(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -30,7 +30,7 @@ function _getManagedDatabaseSecurityEvents(context: SqlContext) {
 }
 
 export function _getManagedDatabaseSecurityEventsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseSecurityEventsOperations {
   return {
     ..._getManagedDatabaseSecurityEvents(context),

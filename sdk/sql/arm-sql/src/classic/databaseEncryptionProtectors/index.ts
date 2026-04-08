@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { revert, revalidate } from "../../api/databaseEncryptionProtectors/operations.js";
 import type {
   DatabaseEncryptionProtectorsRevertOptionalParams,
@@ -64,7 +64,7 @@ export interface DatabaseEncryptionProtectorsOperations {
   ) => Promise<void>;
 }
 
-function _getDatabaseEncryptionProtectors(context: SqlContext) {
+function _getDatabaseEncryptionProtectors(context: SqlManagementContext) {
   return {
     revert: (
       resourceGroupName: string,
@@ -168,7 +168,7 @@ function _getDatabaseEncryptionProtectors(context: SqlContext) {
 }
 
 export function _getDatabaseEncryptionProtectorsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseEncryptionProtectorsOperations {
   return {
     ..._getDatabaseEncryptionProtectors(context),

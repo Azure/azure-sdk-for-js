@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, options?: ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, parameters: ManagedInstancePrivateEndpointConnection, options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstancePrivateEndpointConnection>, ManagedInstancePrivateEndpointConnection>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, parameters: ManagedInstancePrivateEndpointConnection, options?: ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstancePrivateEndpointConnection>, ManagedInstancePrivateEndpointConnection>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, options?: ManagedInstancePrivateEndpointConnectionsGetOptionalParams): Promise<ManagedInstancePrivateEndpointConnection>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, privateEndpointConnectionName: string, options?: ManagedInstancePrivateEndpointConnectionsGetOptionalParams): Promise<ManagedInstancePrivateEndpointConnection>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstancePrivateEndpointConnection>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstancePrivateEndpointConnection>;
 
 // @public
 export interface ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {

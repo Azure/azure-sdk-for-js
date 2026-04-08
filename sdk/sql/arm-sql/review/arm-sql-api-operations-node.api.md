@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: SqlContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export function list(context: SqlManagementContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // @public
 export interface OperationsListOptionalParams extends OperationOptions {

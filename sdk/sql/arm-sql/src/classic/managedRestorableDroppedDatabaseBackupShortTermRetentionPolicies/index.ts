@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByRestorableDroppedDatabase,
   update,
@@ -112,7 +112,9 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
   ) => Promise<ManagedBackupShortTermRetentionPolicy>;
 }
 
-function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(context: SqlContext) {
+function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(
+  context: SqlManagementContext,
+) {
   return {
     listByRestorableDroppedDatabase: (
       resourceGroupName: string,
@@ -256,7 +258,7 @@ function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(co
 }
 
 export function _getManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations {
   return {
     ..._getManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(context),

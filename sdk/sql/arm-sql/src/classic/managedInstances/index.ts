@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstancePool,
   validateAzureKeyVaultEncryptionKey,
@@ -270,7 +270,7 @@ export interface ManagedInstancesOperations {
   ) => Promise<ManagedInstance>;
 }
 
-function _getManagedInstances(context: SqlContext) {
+function _getManagedInstances(context: SqlManagementContext) {
   return {
     listByInstancePool: (
       resourceGroupName: string,
@@ -546,7 +546,9 @@ function _getManagedInstances(context: SqlContext) {
   };
 }
 
-export function _getManagedInstancesOperations(context: SqlContext): ManagedInstancesOperations {
+export function _getManagedInstancesOperations(
+  context: SqlManagementContext,
+): ManagedInstancesOperations {
   return {
     ..._getManagedInstances(context),
   };

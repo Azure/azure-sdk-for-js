@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, locationName: string, timeZoneId: string, options?: TimeZonesGetOptionalParams): Promise<TimeZone>;
+export function get(context: SqlManagementContext, locationName: string, timeZoneId: string, options?: TimeZonesGetOptionalParams): Promise<TimeZone>;
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: TimeZonesListByLocationOptionalParams): PagedAsyncIterableIterator<TimeZone>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: TimeZonesListByLocationOptionalParams): PagedAsyncIterableIterator<TimeZone>;
 
 // @public
 export interface TimeZonesGetOptionalParams extends OperationOptions {

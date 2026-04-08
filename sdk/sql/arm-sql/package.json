@@ -2760,7 +2760,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/sqlContext.ts",
+        "path": "src/api/sqlManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

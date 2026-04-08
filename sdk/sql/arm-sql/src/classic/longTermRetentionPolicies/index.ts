@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
@@ -64,7 +64,7 @@ export interface LongTermRetentionPoliciesOperations {
   ) => Promise<LongTermRetentionPolicy>;
 }
 
-function _getLongTermRetentionPolicies(context: SqlContext) {
+function _getLongTermRetentionPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -138,7 +138,7 @@ function _getLongTermRetentionPolicies(context: SqlContext) {
 }
 
 export function _getLongTermRetentionPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): LongTermRetentionPoliciesOperations {
   return {
     ..._getLongTermRetentionPolicies(context),

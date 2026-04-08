@@ -10,22 +10,22 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, syncAgentName: string, parameters: SyncAgent, options?: SyncAgentsCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncAgent>, SyncAgent>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, syncAgentName: string, parameters: SyncAgent, options?: SyncAgentsCreateOrUpdateOptionalParams): PollerLike<OperationState<SyncAgent>, SyncAgent>;
 
 // @public
-export function generateKey(context: SqlContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsGenerateKeyOptionalParams): Promise<SyncAgentKeyProperties>;
+export function generateKey(context: SqlManagementContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsGenerateKeyOptionalParams): Promise<SyncAgentKeyProperties>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsGetOptionalParams): Promise<SyncAgent>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsGetOptionalParams): Promise<SyncAgent>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: SyncAgentsListByServerOptionalParams): PagedAsyncIterableIterator<SyncAgent>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: SyncAgentsListByServerOptionalParams): PagedAsyncIterableIterator<SyncAgent>;
 
 // @public
-export function listLinkedDatabases(context: SqlContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsListLinkedDatabasesOptionalParams): PagedAsyncIterableIterator<SyncAgentLinkedDatabase>;
+export function listLinkedDatabases(context: SqlManagementContext, resourceGroupName: string, serverName: string, syncAgentName: string, options?: SyncAgentsListLinkedDatabasesOptionalParams): PagedAsyncIterableIterator<SyncAgentLinkedDatabase>;
 
 // @public
 export interface SyncAgentsCreateOrUpdateOptionalParams extends OperationOptions {

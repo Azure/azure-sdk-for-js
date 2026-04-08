@@ -10,19 +10,19 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, locationName: string, failoverGroupName: string, parameters: InstanceFailoverGroup, options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, locationName: string, failoverGroupName: string, parameters: InstanceFailoverGroup, options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsFailoverOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsFailoverOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
 
 // @public
-export function forceFailoverAllowDataLoss(context: SqlContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
+export function forceFailoverAllowDataLoss(context: SqlManagementContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams): PollerLike<OperationState<InstanceFailoverGroup>, InstanceFailoverGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsGetOptionalParams): Promise<InstanceFailoverGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, locationName: string, failoverGroupName: string, options?: InstanceFailoverGroupsGetOptionalParams): Promise<InstanceFailoverGroup>;
 
 // @public
 export interface InstanceFailoverGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -53,7 +53,7 @@ export interface InstanceFailoverGroupsListByLocationOptionalParams extends Oper
 }
 
 // @public
-export function listByLocation(context: SqlContext, resourceGroupName: string, locationName: string, options?: InstanceFailoverGroupsListByLocationOptionalParams): PagedAsyncIterableIterator<InstanceFailoverGroup>;
+export function listByLocation(context: SqlManagementContext, resourceGroupName: string, locationName: string, options?: InstanceFailoverGroupsListByLocationOptionalParams): PagedAsyncIterableIterator<InstanceFailoverGroup>;
 
 // (No @packageDocumentation comment for this package)
 

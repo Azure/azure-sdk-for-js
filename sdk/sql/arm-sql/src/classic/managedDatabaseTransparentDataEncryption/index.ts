@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
@@ -46,7 +46,7 @@ export interface ManagedDatabaseTransparentDataEncryptionOperations {
   ) => Promise<ManagedTransparentDataEncryption>;
 }
 
-function _getManagedDatabaseTransparentDataEncryption(context: SqlContext) {
+function _getManagedDatabaseTransparentDataEncryption(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -82,7 +82,7 @@ function _getManagedDatabaseTransparentDataEncryption(context: SqlContext) {
 }
 
 export function _getManagedDatabaseTransparentDataEncryptionOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseTransparentDataEncryptionOperations {
   return {
     ..._getManagedDatabaseTransparentDataEncryption(context),

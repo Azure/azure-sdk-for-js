@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, parameters: SqlAgentConfiguration, options?: SqlAgentCreateOrUpdateOptionalParams): Promise<SqlAgentConfiguration>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, parameters: SqlAgentConfiguration, options?: SqlAgentCreateOrUpdateOptionalParams): Promise<SqlAgentConfiguration>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: SqlAgentGetOptionalParams): Promise<SqlAgentConfiguration>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: SqlAgentGetOptionalParams): Promise<SqlAgentConfiguration>;
 
 // @public
 export interface SqlAgentCreateOrUpdateOptionalParams extends OperationOptions {

@@ -10,7 +10,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
-export interface SqlContext extends Client {
+export interface SqlManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -19,7 +19,7 @@ export interface SqlContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface SqlClientOptionalParams extends ClientOptions {
+export interface SqlManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,11 +28,11 @@ export interface SqlClientOptionalParams extends ClientOptions {
 }
 
 /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
-export function createSql(
+export function createSqlManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: SqlClientOptionalParams = {},
-): SqlContext {
+  options: SqlManagementClientOptionalParams = {},
+): SqlManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -48,5 +48,5 @@ export function createSql(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as SqlContext;
+  return { ...clientContext, apiVersion, subscriptionId } as SqlManagementContext;
 }

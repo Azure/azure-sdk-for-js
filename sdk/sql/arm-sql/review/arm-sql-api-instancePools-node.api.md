@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, instancePoolName: string, parameters: InstancePool, options?: InstancePoolsCreateOrUpdateOptionalParams): PollerLike<OperationState<InstancePool>, InstancePool>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, parameters: InstancePool, options?: InstancePoolsCreateOrUpdateOptionalParams): PollerLike<OperationState<InstancePool>, InstancePool>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolsGetOptionalParams): Promise<InstancePool>;
+export function get(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, options?: InstancePoolsGetOptionalParams): Promise<InstancePool>;
 
 // @public
 export interface InstancePoolsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -46,13 +46,13 @@ export interface InstancePoolsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function list(context: SqlContext, options?: InstancePoolsListOptionalParams): PagedAsyncIterableIterator<InstancePool>;
+export function list(context: SqlManagementContext, options?: InstancePoolsListOptionalParams): PagedAsyncIterableIterator<InstancePool>;
 
 // @public
-export function listByResourceGroup(context: SqlContext, resourceGroupName: string, options?: InstancePoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<InstancePool>;
+export function listByResourceGroup(context: SqlManagementContext, resourceGroupName: string, options?: InstancePoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<InstancePool>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, instancePoolName: string, parameters: InstancePoolUpdate, options?: InstancePoolsUpdateOptionalParams): PollerLike<OperationState<InstancePool>, InstancePool>;
+export function update(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, parameters: InstancePoolUpdate, options?: InstancePoolsUpdateOptionalParams): PollerLike<OperationState<InstancePool>, InstancePool>;
 
 // (No @packageDocumentation comment for this package)
 

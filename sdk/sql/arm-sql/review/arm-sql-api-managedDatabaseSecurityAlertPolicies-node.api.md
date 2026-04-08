@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ManagedDatabaseSecurityAlertPolicy, options?: ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams): Promise<ManagedDatabaseSecurityAlertPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, parameters: ManagedDatabaseSecurityAlertPolicy, options?: ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams): Promise<ManagedDatabaseSecurityAlertPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ManagedDatabaseSecurityAlertPoliciesGetOptionalParams): Promise<ManagedDatabaseSecurityAlertPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, securityAlertPolicyName: SecurityAlertPolicyName, options?: ManagedDatabaseSecurityAlertPoliciesGetOptionalParams): Promise<ManagedDatabaseSecurityAlertPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedDatabaseSecurityAlertPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedDatabaseSecurityAlertPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedDatabaseSecurityAlertPolicy>;
 
 // @public
 export interface ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

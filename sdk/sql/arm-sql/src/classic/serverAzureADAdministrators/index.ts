@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -89,7 +89,7 @@ export interface ServerAzureADAdministratorsOperations {
   ) => Promise<ServerAzureADAdministrator>;
 }
 
-function _getServerAzureADAdministrators(context: SqlContext) {
+function _getServerAzureADAdministrators(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -179,7 +179,7 @@ function _getServerAzureADAdministrators(context: SqlContext) {
 }
 
 export function _getServerAzureADAdministratorsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerAzureADAdministratorsOperations {
   return {
     ..._getServerAzureADAdministrators(context),

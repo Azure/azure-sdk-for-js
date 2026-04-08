@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -113,7 +113,7 @@ export interface JobAgentsOperations {
   ) => Promise<JobAgent>;
 }
 
-function _getJobAgents(context: SqlContext) {
+function _getJobAgents(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -235,7 +235,7 @@ function _getJobAgents(context: SqlContext) {
   };
 }
 
-export function _getJobAgentsOperations(context: SqlContext): JobAgentsOperations {
+export function _getJobAgentsOperations(context: SqlManagementContext): JobAgentsOperations {
   return {
     ..._getJobAgents(context),
   };

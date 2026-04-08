@@ -20,13 +20,13 @@ export interface DatabaseRecommendedActionsUpdateOptionalParams extends Operatio
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, recommendedActionName: string, options?: DatabaseRecommendedActionsGetOptionalParams): Promise<RecommendedAction>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, recommendedActionName: string, options?: DatabaseRecommendedActionsGetOptionalParams): Promise<RecommendedAction>;
 
 // @public
-export function listByDatabaseAdvisor(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams): Promise<RecommendedAction[]>;
+export function listByDatabaseAdvisor(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams): Promise<RecommendedAction[]>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, recommendedActionName: string, parameters: RecommendedAction, options?: DatabaseRecommendedActionsUpdateOptionalParams): Promise<RecommendedAction>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, advisorName: string, recommendedActionName: string, parameters: RecommendedAction, options?: DatabaseRecommendedActionsUpdateOptionalParams): Promise<RecommendedAction>;
 
 // (No @packageDocumentation comment for this package)
 

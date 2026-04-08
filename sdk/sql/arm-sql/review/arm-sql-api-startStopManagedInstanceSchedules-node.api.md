@@ -8,16 +8,16 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, options?: StartStopManagedInstanceSchedulesDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, options?: StartStopManagedInstanceSchedulesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, parameters: StartStopManagedInstanceSchedule, options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams): Promise<StartStopManagedInstanceSchedule>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, parameters: StartStopManagedInstanceSchedule, options?: StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams): Promise<StartStopManagedInstanceSchedule>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, options?: StartStopManagedInstanceSchedulesGetOptionalParams): Promise<StartStopManagedInstanceSchedule>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, startStopScheduleName: StartStopScheduleName, options?: StartStopManagedInstanceSchedulesGetOptionalParams): Promise<StartStopManagedInstanceSchedule>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams): PagedAsyncIterableIterator<StartStopManagedInstanceSchedule>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams): PagedAsyncIterableIterator<StartStopManagedInstanceSchedule>;
 
 // @public
 export interface StartStopManagedInstanceSchedulesCreateOrUpdateOptionalParams extends OperationOptions {

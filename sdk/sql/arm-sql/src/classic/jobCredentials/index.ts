@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByAgent, $delete, createOrUpdate, get } from "../../api/jobCredentials/operations.js";
 import type {
   JobCredentialsListByAgentOptionalParams,
@@ -53,7 +53,7 @@ export interface JobCredentialsOperations {
   ) => Promise<JobCredential>;
 }
 
-function _getJobCredentials(context: SqlContext) {
+function _getJobCredentials(context: SqlManagementContext) {
   return {
     listByAgent: (
       resourceGroupName: string,
@@ -95,7 +95,9 @@ function _getJobCredentials(context: SqlContext) {
   };
 }
 
-export function _getJobCredentialsOperations(context: SqlContext): JobCredentialsOperations {
+export function _getJobCredentialsOperations(
+  context: SqlManagementContext,
+): JobCredentialsOperations {
   return {
     ..._getJobCredentials(context),
   };

@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: RecoverableDatabasesGetOptionalParams): Promise<RecoverableDatabase>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: RecoverableDatabasesGetOptionalParams): Promise<RecoverableDatabase>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: RecoverableDatabasesListByServerOptionalParams): PagedAsyncIterableIterator<RecoverableDatabase>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: RecoverableDatabasesListByServerOptionalParams): PagedAsyncIterableIterator<RecoverableDatabase>;
 
 // @public
 export interface RecoverableDatabasesGetOptionalParams extends OperationOptions {

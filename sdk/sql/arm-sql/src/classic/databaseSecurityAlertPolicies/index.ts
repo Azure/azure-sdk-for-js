@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
@@ -43,7 +43,7 @@ export interface DatabaseSecurityAlertPoliciesOperations {
   ) => Promise<DatabaseSecurityAlertPolicy>;
 }
 
-function _getDatabaseSecurityAlertPolicies(context: SqlContext) {
+function _getDatabaseSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -80,7 +80,7 @@ function _getDatabaseSecurityAlertPolicies(context: SqlContext) {
 }
 
 export function _getDatabaseSecurityAlertPoliciesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseSecurityAlertPoliciesOperations {
   return {
     ..._getDatabaseSecurityAlertPolicies(context),

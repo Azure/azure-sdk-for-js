@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, parameters: JobAgent, options?: JobAgentsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobAgent>, JobAgent>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, parameters: JobAgent, options?: JobAgentsCreateOrUpdateOptionalParams): PollerLike<OperationState<JobAgent>, JobAgent>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobAgentsGetOptionalParams): Promise<JobAgent>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobAgentsGetOptionalParams): Promise<JobAgent>;
 
 // @public
 export interface JobAgentsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -42,10 +42,10 @@ export interface JobAgentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: JobAgentsListByServerOptionalParams): PagedAsyncIterableIterator<JobAgent>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: JobAgentsListByServerOptionalParams): PagedAsyncIterableIterator<JobAgent>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, parameters: JobAgentUpdate, options?: JobAgentsUpdateOptionalParams): PollerLike<OperationState<JobAgent>, JobAgent>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, parameters: JobAgentUpdate, options?: JobAgentsUpdateOptionalParams): PollerLike<OperationState<JobAgent>, JobAgent>;
 
 // (No @packageDocumentation comment for this package)
 

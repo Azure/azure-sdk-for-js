@@ -16,10 +16,10 @@ export interface DataWarehouseUserActivitiesListByDatabaseOptionalParams extends
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, dataWarehouseUserActivityName: DataWarehouseUserActivityName, options?: DataWarehouseUserActivitiesGetOptionalParams): Promise<DataWarehouseUserActivities>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, dataWarehouseUserActivityName: DataWarehouseUserActivityName, options?: DataWarehouseUserActivitiesGetOptionalParams): Promise<DataWarehouseUserActivities>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DataWarehouseUserActivities>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DataWarehouseUserActivities>;
 
 // (No @packageDocumentation comment for this package)
 

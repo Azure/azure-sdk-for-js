@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   checkNameAvailability,
   refreshStatus,
@@ -174,7 +174,7 @@ export interface ServersOperations {
   ) => Promise<Server>;
 }
 
-function _getServers(context: SqlContext) {
+function _getServers(context: SqlManagementContext) {
   return {
     checkNameAvailability: (
       parameters: CheckNameAvailabilityRequest,
@@ -304,7 +304,7 @@ function _getServers(context: SqlContext) {
   };
 }
 
-export function _getServersOperations(context: SqlContext): ServersOperations {
+export function _getServersOperations(context: SqlManagementContext): ServersOperations {
   return {
     ..._getServers(context),
   };

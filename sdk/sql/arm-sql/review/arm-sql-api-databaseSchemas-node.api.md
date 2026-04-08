@@ -17,10 +17,10 @@ export interface DatabaseSchemasListByDatabaseOptionalParams extends OperationOp
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, options?: DatabaseSchemasGetOptionalParams): Promise<DatabaseSchema>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, options?: DatabaseSchemasGetOptionalParams): Promise<DatabaseSchema>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseSchemasListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseSchema>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseSchemasListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseSchema>;
 
 // (No @packageDocumentation comment for this package)
 

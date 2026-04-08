@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByVersion,
   getByVersion,
@@ -85,7 +85,7 @@ export interface JobStepsOperations {
   ) => Promise<JobStep>;
 }
 
-function _getJobSteps(context: SqlContext) {
+function _getJobSteps(context: SqlManagementContext) {
   return {
     listByVersion: (
       resourceGroupName: string,
@@ -168,7 +168,7 @@ function _getJobSteps(context: SqlContext) {
   };
 }
 
-export function _getJobStepsOperations(context: SqlContext): JobStepsOperations {
+export function _getJobStepsOperations(context: SqlManagementContext): JobStepsOperations {
   return {
     ..._getJobSteps(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByJobExecution, get } from "../../api/jobStepExecutions/operations.js";
 import type {
   JobStepExecutionsListByJobExecutionOptionalParams,
@@ -33,7 +33,7 @@ export interface JobStepExecutionsOperations {
   ) => Promise<JobExecution>;
 }
 
-function _getJobStepExecutions(context: SqlContext) {
+function _getJobStepExecutions(context: SqlManagementContext) {
   return {
     listByJobExecution: (
       resourceGroupName: string,
@@ -74,7 +74,9 @@ function _getJobStepExecutions(context: SqlContext) {
   };
 }
 
-export function _getJobStepExecutionsOperations(context: SqlContext): JobStepExecutionsOperations {
+export function _getJobStepExecutionsOperations(
+  context: SqlManagementContext,
+): JobStepExecutionsOperations {
   return {
     ..._getJobStepExecutions(context),
   };

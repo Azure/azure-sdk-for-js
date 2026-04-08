@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { list, recover, listByLocation, get } from "../../api/deletedServers/operations.js";
 import type {
   DeletedServersListOptionalParams,
@@ -50,7 +50,7 @@ export interface DeletedServersOperations {
   ) => Promise<DeletedServer>;
 }
 
-function _getDeletedServers(context: SqlContext) {
+function _getDeletedServers(context: SqlManagementContext) {
   return {
     list: (options?: DeletedServersListOptionalParams) => list(context, options),
     recover: (
@@ -84,7 +84,9 @@ function _getDeletedServers(context: SqlContext) {
   };
 }
 
-export function _getDeletedServersOperations(context: SqlContext): DeletedServersOperations {
+export function _getDeletedServersOperations(
+  context: SqlManagementContext,
+): DeletedServersOperations {
   return {
     ..._getDeletedServers(context),
   };

@@ -10,52 +10,52 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function changeAccessTier(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function changeAccessTier(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function changeAccessTierByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function changeAccessTierByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function copy(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
+export function copy(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
 
 // @public
-export function copyByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
+export function copyByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
 
 // @public
-export function deleteByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsGetOptionalParams): Promise<LongTermRetentionBackup>;
+export function get(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsGetOptionalParams): Promise<LongTermRetentionBackup>;
 
 // @public
-export function getByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams): Promise<LongTermRetentionBackup>;
+export function getByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams): Promise<LongTermRetentionBackup>;
 
 // @public
-export function listByDatabase(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: LongTermRetentionBackupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByDatabase(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: LongTermRetentionBackupsListByDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function listByLocation(context: SqlContext, locationName: string, options?: LongTermRetentionBackupsListByLocationOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByLocation(context: SqlManagementContext, locationName: string, options?: LongTermRetentionBackupsListByLocationOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupDatabase(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByResourceGroupDatabase(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupLocation(context: SqlContext, resourceGroupName: string, locationName: string, options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByResourceGroupLocation(context: SqlManagementContext, resourceGroupName: string, locationName: string, options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function listByResourceGroupServer(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByResourceGroupServer(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function listByServer(context: SqlContext, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+export function listByServer(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 
 // @public
-export function lockTimeBasedImmutability(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsLockTimeBasedImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function lockTimeBasedImmutability(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsLockTimeBasedImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function lockTimeBasedImmutabilityByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function lockTimeBasedImmutabilityByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsLockTimeBasedImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
 export interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams extends OperationOptions {
@@ -182,28 +182,28 @@ export interface LongTermRetentionBackupsUpdateOptionalParams extends OperationO
 }
 
 // @public
-export function removeLegalHoldImmutability(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveLegalHoldImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function removeLegalHoldImmutability(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveLegalHoldImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function removeLegalHoldImmutabilityByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function removeLegalHoldImmutabilityByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveLegalHoldImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function removeTimeBasedImmutability(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveTimeBasedImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function removeTimeBasedImmutability(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveTimeBasedImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function removeTimeBasedImmutabilityByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function removeTimeBasedImmutabilityByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsRemoveTimeBasedImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function setLegalHoldImmutability(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsSetLegalHoldImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function setLegalHoldImmutability(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsSetLegalHoldImmutabilityOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function setLegalHoldImmutabilityByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
+export function setLegalHoldImmutabilityByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: LongTermRetentionBackupsSetLegalHoldImmutabilityByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 
 // @public
-export function update(context: SqlContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: UpdateLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsUpdateOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
+export function update(context: SqlManagementContext, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: UpdateLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsUpdateOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
 
 // @public
-export function updateByResourceGroup(context: SqlContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: UpdateLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
+export function updateByResourceGroup(context: SqlManagementContext, resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: UpdateLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams): PollerLike<OperationState<LongTermRetentionBackupOperationResult>, LongTermRetentionBackupOperationResult>;
 
 // (No @packageDocumentation comment for this package)
 

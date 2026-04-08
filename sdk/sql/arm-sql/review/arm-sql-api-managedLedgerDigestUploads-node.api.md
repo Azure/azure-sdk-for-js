@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, parameters: ManagedLedgerDigestUploads, options?: ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
 
 // @public
-export function disable(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsDisableOptionalParams): PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
+export function disable(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsDisableOptionalParams): PollerLike<OperationState<ManagedLedgerDigestUploads>, ManagedLedgerDigestUploads>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsGetOptionalParams): Promise<ManagedLedgerDigestUploads>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, ledgerDigestUploads: ManagedLedgerDigestUploadsName, options?: ManagedLedgerDigestUploadsGetOptionalParams): Promise<ManagedLedgerDigestUploads>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedLedgerDigestUploads>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: ManagedLedgerDigestUploadsListByDatabaseOptionalParams): PagedAsyncIterableIterator<ManagedLedgerDigestUploads>;
 
 // @public
 export interface ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams extends OperationOptions {

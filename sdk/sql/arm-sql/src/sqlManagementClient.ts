@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext, SqlClientOptionalParams } from "./api/index.js";
-import { createSql } from "./api/index.js";
+import type { SqlManagementContext, SqlManagementClientOptionalParams } from "./api/index.js";
+import { createSqlManagement } from "./api/index.js";
 import type { BackupShortTermRetentionPoliciesOperations } from "./classic/backupShortTermRetentionPolicies/index.js";
 import { _getBackupShortTermRetentionPoliciesOperations } from "./classic/backupShortTermRetentionPolicies/index.js";
 import type { CapabilitiesOperations } from "./classic/capabilities/index.js";
@@ -302,24 +302,24 @@ import { _getWorkloadGroupsOperations } from "./classic/workloadGroups/index.js"
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { SqlClientOptionalParams } from "./api/sqlContext.js";
+export type { SqlManagementClientOptionalParams } from "./api/sqlManagementContext.js";
 
-export class SqlClient {
-  private _client: SqlContext;
+export class SqlManagementClient {
+  private _client: SqlManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  constructor(credential: TokenCredential, options?: SqlClientOptionalParams);
+  constructor(credential: TokenCredential, options?: SqlManagementClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options?: SqlClientOptionalParams,
+    options?: SqlManagementClientOptionalParams,
   );
   /** The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities. */
   constructor(
     credential: TokenCredential,
-    subscriptionIdOrOptions?: string | SqlClientOptionalParams,
-    options?: SqlClientOptionalParams,
+    subscriptionIdOrOptions?: string | SqlManagementClientOptionalParams,
+    options?: SqlManagementClientOptionalParams,
   ) {
     let subscriptionId: string | undefined;
 
@@ -334,7 +334,7 @@ export class SqlClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createSql(credential, subscriptionId ?? "", {
+    this._client = createSqlManagement(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

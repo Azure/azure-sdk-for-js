@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, blobAuditingPolicyName: BlobAuditingPolicyName, parameters: DatabaseBlobAuditingPolicy, options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<DatabaseBlobAuditingPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseBlobAuditingPolicy, options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams): Promise<DatabaseBlobAuditingPolicy>;
 
 // @public
 export interface DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -23,10 +23,10 @@ export interface DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams extend
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, blobAuditingPolicyName: BlobAuditingPolicyName, options?: DatabaseBlobAuditingPoliciesGetOptionalParams): Promise<DatabaseBlobAuditingPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseBlobAuditingPoliciesGetOptionalParams): Promise<DatabaseBlobAuditingPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

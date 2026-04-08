@@ -8,28 +8,28 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: CurrentSensitivityLabelSource, options?: SensitivityLabelsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: SensitivityLabelsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: CurrentSensitivityLabelSource, parameters: SensitivityLabel, options?: SensitivityLabelsCreateOrUpdateOptionalParams): Promise<SensitivityLabel>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, parameters: SensitivityLabel, options?: SensitivityLabelsCreateOrUpdateOptionalParams): Promise<SensitivityLabel>;
 
 // @public
-export function disableRecommendation(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: RecommendedSensitivityLabelSource, options?: SensitivityLabelsDisableRecommendationOptionalParams): Promise<void>;
+export function disableRecommendation(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: SensitivityLabelsDisableRecommendationOptionalParams): Promise<void>;
 
 // @public
-export function enableRecommendation(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: RecommendedSensitivityLabelSource, options?: SensitivityLabelsEnableRecommendationOptionalParams): Promise<void>;
+export function enableRecommendation(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: SensitivityLabelsEnableRecommendationOptionalParams): Promise<void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: SensitivityLabelSource, options?: SensitivityLabelsGetOptionalParams): Promise<SensitivityLabel>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: SensitivityLabelSource, options?: SensitivityLabelsGetOptionalParams): Promise<SensitivityLabel>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
 
 // @public
-export function listCurrentByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListCurrentByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
+export function listCurrentByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListCurrentByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
 
 // @public
-export function listRecommendedByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListRecommendedByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
+export function listRecommendedByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: SensitivityLabelsListRecommendedByDatabaseOptionalParams): PagedAsyncIterableIterator<SensitivityLabel>;
 
 // @public
 export interface SensitivityLabelsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -78,7 +78,7 @@ export interface SensitivityLabelsUpdateOptionalParams extends OperationOptions 
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: SensitivityLabelUpdateList, options?: SensitivityLabelsUpdateOptionalParams): Promise<void>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: SensitivityLabelUpdateList, options?: SensitivityLabelsUpdateOptionalParams): Promise<void>;
 
 // (No @packageDocumentation comment for this package)
 

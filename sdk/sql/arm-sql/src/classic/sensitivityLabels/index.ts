@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   enableRecommendation,
   disableRecommendation,
@@ -28,8 +28,6 @@ import type {
   SensitivityLabel,
   SensitivityLabelUpdateList,
   SensitivityLabelSource,
-  CurrentSensitivityLabelSource,
-  RecommendedSensitivityLabelSource,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -43,7 +41,6 @@ export interface SensitivityLabelsOperations {
     schemaName: string,
     tableName: string,
     columnName: string,
-    sensitivityLabelSource: RecommendedSensitivityLabelSource,
     options?: SensitivityLabelsEnableRecommendationOptionalParams,
   ) => Promise<void>;
   /** Disables sensitivity recommendations on a given column */
@@ -54,7 +51,6 @@ export interface SensitivityLabelsOperations {
     schemaName: string,
     tableName: string,
     columnName: string,
-    sensitivityLabelSource: RecommendedSensitivityLabelSource,
     options?: SensitivityLabelsDisableRecommendationOptionalParams,
   ) => Promise<void>;
   /** Deletes the sensitivity label of a given column */
@@ -70,7 +66,6 @@ export interface SensitivityLabelsOperations {
     schemaName: string,
     tableName: string,
     columnName: string,
-    sensitivityLabelSource: CurrentSensitivityLabelSource,
     options?: SensitivityLabelsDeleteOptionalParams,
   ) => Promise<void>;
   /** Creates or updates the sensitivity label of a given column */
@@ -81,7 +76,6 @@ export interface SensitivityLabelsOperations {
     schemaName: string,
     tableName: string,
     columnName: string,
-    sensitivityLabelSource: CurrentSensitivityLabelSource,
     parameters: SensitivityLabel,
     options?: SensitivityLabelsCreateOrUpdateOptionalParams,
   ) => Promise<SensitivityLabel>;
@@ -127,7 +121,7 @@ export interface SensitivityLabelsOperations {
   ) => PagedAsyncIterableIterator<SensitivityLabel>;
 }
 
-function _getSensitivityLabels(context: SqlContext) {
+function _getSensitivityLabels(context: SqlManagementContext) {
   return {
     enableRecommendation: (
       resourceGroupName: string,
@@ -136,7 +130,6 @@ function _getSensitivityLabels(context: SqlContext) {
       schemaName: string,
       tableName: string,
       columnName: string,
-      sensitivityLabelSource: RecommendedSensitivityLabelSource,
       options?: SensitivityLabelsEnableRecommendationOptionalParams,
     ) =>
       enableRecommendation(
@@ -147,7 +140,6 @@ function _getSensitivityLabels(context: SqlContext) {
         schemaName,
         tableName,
         columnName,
-        sensitivityLabelSource,
         options,
       ),
     disableRecommendation: (
@@ -157,7 +149,6 @@ function _getSensitivityLabels(context: SqlContext) {
       schemaName: string,
       tableName: string,
       columnName: string,
-      sensitivityLabelSource: RecommendedSensitivityLabelSource,
       options?: SensitivityLabelsDisableRecommendationOptionalParams,
     ) =>
       disableRecommendation(
@@ -168,7 +159,6 @@ function _getSensitivityLabels(context: SqlContext) {
         schemaName,
         tableName,
         columnName,
-        sensitivityLabelSource,
         options,
       ),
     delete: (
@@ -178,7 +168,6 @@ function _getSensitivityLabels(context: SqlContext) {
       schemaName: string,
       tableName: string,
       columnName: string,
-      sensitivityLabelSource: CurrentSensitivityLabelSource,
       options?: SensitivityLabelsDeleteOptionalParams,
     ) =>
       $delete(
@@ -189,7 +178,6 @@ function _getSensitivityLabels(context: SqlContext) {
         schemaName,
         tableName,
         columnName,
-        sensitivityLabelSource,
         options,
       ),
     createOrUpdate: (
@@ -199,7 +187,6 @@ function _getSensitivityLabels(context: SqlContext) {
       schemaName: string,
       tableName: string,
       columnName: string,
-      sensitivityLabelSource: CurrentSensitivityLabelSource,
       parameters: SensitivityLabel,
       options?: SensitivityLabelsCreateOrUpdateOptionalParams,
     ) =>
@@ -211,7 +198,6 @@ function _getSensitivityLabels(context: SqlContext) {
         schemaName,
         tableName,
         columnName,
-        sensitivityLabelSource,
         parameters,
         options,
       ),
@@ -264,7 +250,9 @@ function _getSensitivityLabels(context: SqlContext) {
   };
 }
 
-export function _getSensitivityLabelsOperations(context: SqlContext): SensitivityLabelsOperations {
+export function _getSensitivityLabelsOperations(
+  context: SqlManagementContext,
+): SensitivityLabelsOperations {
   return {
     ..._getSensitivityLabels(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsAnEndpointCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "38e0dc56-907f-45ba-a97c-74233baad471";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.endpointCertificates.get("testrg", "testcl", "DATABASE_MIRRORING");
   console.log(result);
 }

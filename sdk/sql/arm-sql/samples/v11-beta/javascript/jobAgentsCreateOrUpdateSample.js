@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createOrUpdateAJobAgent() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
     location: "southeastasia",
     databaseId:
@@ -31,7 +31,7 @@ async function createOrUpdateAJobAgent() {
 async function createOrUpdateAJobAgentWithIdentity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
     identity: {
       type: "UserAssigned",
@@ -56,7 +56,7 @@ async function createOrUpdateAJobAgentWithIdentity() {
 async function createOrUpdateAJobAgentWithSku() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobAgents.createOrUpdate("group1", "server1", "agent1", {
     location: "southeastasia",
     databaseId:

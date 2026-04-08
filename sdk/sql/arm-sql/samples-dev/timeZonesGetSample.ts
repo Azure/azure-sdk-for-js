@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getManagedInstanceTimeZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "37d5e605-6142-4d79-b564-28b6dbfeec0f";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.timeZones.get("canadaeast", "Haiti Standard Time");
   console.log(result);
 }

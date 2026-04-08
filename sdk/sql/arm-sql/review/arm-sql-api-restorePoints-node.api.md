@@ -10,16 +10,16 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function create(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: CreateDatabaseRestorePointDefinition, options?: RestorePointsCreateOptionalParams): PollerLike<OperationState<RestorePoint>, RestorePoint>;
+export function create(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: CreateDatabaseRestorePointDefinition, options?: RestorePointsCreateOptionalParams): PollerLike<OperationState<RestorePoint>, RestorePoint>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: RestorePointsGetOptionalParams): Promise<RestorePoint>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: RestorePointsGetOptionalParams): Promise<RestorePoint>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: RestorePointsListByDatabaseOptionalParams): PagedAsyncIterableIterator<RestorePoint>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: RestorePointsListByDatabaseOptionalParams): PagedAsyncIterableIterator<RestorePoint>;
 
 // @public
 export interface RestorePointsCreateOptionalParams extends OperationOptions {

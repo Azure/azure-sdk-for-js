@@ -10,31 +10,31 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstance, options?: ManagedInstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstance, options?: ManagedInstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): PollerLike<OperationState<void>, void>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesGetOptionalParams): Promise<ManagedInstance>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesGetOptionalParams): Promise<ManagedInstance>;
 
 // @public
-export function list(context: SqlContext, options?: ManagedInstancesListOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
+export function list(context: SqlManagementContext, options?: ManagedInstancesListOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
 
 // @public
-export function listByInstancePool(context: SqlContext, resourceGroupName: string, instancePoolName: string, options?: ManagedInstancesListByInstancePoolOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
+export function listByInstancePool(context: SqlManagementContext, resourceGroupName: string, instancePoolName: string, options?: ManagedInstancesListByInstancePoolOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<TopQueries>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<TopQueries>;
 
 // @public
-export function listByResourceGroup(context: SqlContext, resourceGroupName: string, options?: ManagedInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
+export function listByResourceGroup(context: SqlManagementContext, resourceGroupName: string, options?: ManagedInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
 
 // @public
-export function listOutboundNetworkDependenciesByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+export function listOutboundNetworkDependenciesByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 
 // @public
 export interface ManagedInstancesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -118,22 +118,22 @@ export interface ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParam
 }
 
 // @public
-export function reevaluateInaccessibleDatabaseState(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesReevaluateInaccessibleDatabaseStateOptionalParams): PollerLike<OperationState<void>, void>;
+export function reevaluateInaccessibleDatabaseState(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesReevaluateInaccessibleDatabaseStateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function refreshStatus(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): PollerLike<OperationState<RefreshExternalGovernanceStatusOperationResultMI>, RefreshExternalGovernanceStatusOperationResultMI>;
+export function refreshStatus(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): PollerLike<OperationState<RefreshExternalGovernanceStatusOperationResultMI>, RefreshExternalGovernanceStatusOperationResultMI>;
 
 // @public
-export function start(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
+export function start(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 
 // @public
-export function stop(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
+export function stop(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
+export function update(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): PollerLike<OperationState<ManagedInstance>, ManagedInstance>;
 
 // @public
-export function validateAzureKeyVaultEncryptionKey(context: SqlContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceValidateAzureKeyVaultEncryptionKeyRequest, options?: ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams): PollerLike<OperationState<void>, void>;
+export function validateAzureKeyVaultEncryptionKey(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceValidateAzureKeyVaultEncryptionKeyRequest, options?: ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

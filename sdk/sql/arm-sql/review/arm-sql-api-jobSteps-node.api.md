@@ -8,16 +8,16 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, options?: JobStepsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, options?: JobStepsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, parameters: JobStep, options?: JobStepsCreateOrUpdateOptionalParams): Promise<JobStep>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, parameters: JobStep, options?: JobStepsCreateOrUpdateOptionalParams): Promise<JobStep>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, options?: JobStepsGetOptionalParams): Promise<JobStep>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, stepName: string, options?: JobStepsGetOptionalParams): Promise<JobStep>;
 
 // @public
-export function getByVersion(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, stepName: string, options?: JobStepsGetByVersionOptionalParams): Promise<JobStep>;
+export function getByVersion(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, stepName: string, options?: JobStepsGetByVersionOptionalParams): Promise<JobStep>;
 
 // @public
 export interface JobStepsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -44,10 +44,10 @@ export interface JobStepsListByVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByJob(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobStepsListByJobOptionalParams): PagedAsyncIterableIterator<JobStep>;
+export function listByJob(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: JobStepsListByJobOptionalParams): PagedAsyncIterableIterator<JobStep>;
 
 // @public
-export function listByVersion(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, options?: JobStepsListByVersionOptionalParams): PagedAsyncIterableIterator<JobStep>;
+export function listByVersion(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, options?: JobStepsListByVersionOptionalParams): PagedAsyncIterableIterator<JobStep>;
 
 // (No @packageDocumentation comment for this package)
 

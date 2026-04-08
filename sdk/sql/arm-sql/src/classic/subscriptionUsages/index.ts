@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/subscriptionUsages/operations.js";
 import type {
   SubscriptionUsagesListByLocationOptionalParams,
@@ -25,7 +25,7 @@ export interface SubscriptionUsagesOperations {
   ) => Promise<SubscriptionUsage>;
 }
 
-function _getSubscriptionUsages(context: SqlContext) {
+function _getSubscriptionUsages(context: SqlManagementContext) {
   return {
     listByLocation: (
       locationName: string,
@@ -37,7 +37,7 @@ function _getSubscriptionUsages(context: SqlContext) {
 }
 
 export function _getSubscriptionUsagesOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): SubscriptionUsagesOperations {
   return {
     ..._getSubscriptionUsages(context),

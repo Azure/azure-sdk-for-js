@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: LongTermRetentionPolicyName, parameters: LongTermRetentionPolicy, options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<LongTermRetentionPolicy>, LongTermRetentionPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: LongTermRetentionPolicyName, parameters: LongTermRetentionPolicy, options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<LongTermRetentionPolicy>, LongTermRetentionPolicy>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: LongTermRetentionPolicyName, options?: LongTermRetentionPoliciesGetOptionalParams): Promise<LongTermRetentionPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, policyName: LongTermRetentionPolicyName, options?: LongTermRetentionPoliciesGetOptionalParams): Promise<LongTermRetentionPolicy>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: LongTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionPolicy>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: LongTermRetentionPoliciesListByDatabaseOptionalParams): PagedAsyncIterableIterator<LongTermRetentionPolicy>;
 
 // @public
 export interface LongTermRetentionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {

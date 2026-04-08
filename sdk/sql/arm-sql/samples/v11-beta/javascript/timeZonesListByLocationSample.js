@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function listManagedInstanceTimeZonesByLocation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "37d5e605-6142-4d79-b564-28b6dbfeec0f";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.timeZones.listByLocation("canadaeast")) {
     resArray.push(item);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   create,
   listByAgent,
@@ -112,7 +112,7 @@ export interface JobExecutionsOperations {
   ) => Promise<JobExecution>;
 }
 
-function _getJobExecutions(context: SqlContext) {
+function _getJobExecutions(context: SqlManagementContext) {
   return {
     create: (
       resourceGroupName: string,
@@ -238,7 +238,9 @@ function _getJobExecutions(context: SqlContext) {
   };
 }
 
-export function _getJobExecutionsOperations(context: SqlContext): JobExecutionsOperations {
+export function _getJobExecutionsOperations(
+  context: SqlManagementContext,
+): JobExecutionsOperations {
   return {
     ..._getJobExecutions(context),
   };

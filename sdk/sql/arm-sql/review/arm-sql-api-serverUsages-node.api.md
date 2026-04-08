@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerUsagesListByServerOptionalParams): PagedAsyncIterableIterator<ServerUsage>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerUsagesListByServerOptionalParams): PagedAsyncIterableIterator<ServerUsage>;
 
 // @public
 export interface ServerUsagesListByServerOptionalParams extends OperationOptions {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation } from "../../api/capabilities/operations.js";
 import type { CapabilitiesListByLocationOptionalParams } from "../../api/capabilities/options.js";
 import type { LocationCapabilities } from "../../models/models.js";
@@ -15,14 +15,14 @@ export interface CapabilitiesOperations {
   ) => Promise<LocationCapabilities>;
 }
 
-function _getCapabilities(context: SqlContext) {
+function _getCapabilities(context: SqlManagementContext) {
   return {
     listByLocation: (locationName: string, options?: CapabilitiesListByLocationOptionalParams) =>
       listByLocation(context, locationName, options),
   };
 }
 
-export function _getCapabilitiesOperations(context: SqlContext): CapabilitiesOperations {
+export function _getCapabilitiesOperations(context: SqlManagementContext): CapabilitiesOperations {
   return {
     ..._getCapabilities(context),
   };

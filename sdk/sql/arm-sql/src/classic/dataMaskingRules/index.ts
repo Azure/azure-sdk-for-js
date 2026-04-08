@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { createOrUpdate, listByDatabase } from "../../api/dataMaskingRules/operations.js";
 import type {
   DataMaskingRulesCreateOrUpdateOptionalParams,
@@ -32,7 +32,7 @@ export interface DataMaskingRulesOperations {
   ) => PagedAsyncIterableIterator<DataMaskingRule>;
 }
 
-function _getDataMaskingRules(context: SqlContext) {
+function _getDataMaskingRules(context: SqlManagementContext) {
   return {
     createOrUpdate: (
       resourceGroupName: string,
@@ -71,7 +71,9 @@ function _getDataMaskingRules(context: SqlContext) {
   };
 }
 
-export function _getDataMaskingRulesOperations(context: SqlContext): DataMaskingRulesOperations {
+export function _getDataMaskingRulesOperations(
+  context: SqlManagementContext,
+): DataMaskingRulesOperations {
   return {
     ..._getDataMaskingRules(context),
   };

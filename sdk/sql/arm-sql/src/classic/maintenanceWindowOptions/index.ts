@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { get } from "../../api/maintenanceWindowOptions/operations.js";
 import type { MaintenanceWindowOptionsGetOptionalParams } from "../../api/maintenanceWindowOptions/options.js";
 import type { MaintenanceWindowOptions } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface MaintenanceWindowOptionsOperations {
   ) => Promise<MaintenanceWindowOptions>;
 }
 
-function _getMaintenanceWindowOptions(context: SqlContext) {
+function _getMaintenanceWindowOptions(context: SqlManagementContext) {
   return {
     get: (
       resourceGroupName: string,
@@ -39,7 +39,7 @@ function _getMaintenanceWindowOptions(context: SqlContext) {
 }
 
 export function _getMaintenanceWindowOptionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): MaintenanceWindowOptionsOperations {
   return {
     ..._getMaintenanceWindowOptions(context),

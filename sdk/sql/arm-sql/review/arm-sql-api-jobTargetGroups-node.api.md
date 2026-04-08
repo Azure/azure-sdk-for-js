@@ -8,13 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, options?: JobTargetGroupsDeleteOptionalParams): Promise<void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, options?: JobTargetGroupsDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, parameters: JobTargetGroup, options?: JobTargetGroupsCreateOrUpdateOptionalParams): Promise<JobTargetGroup>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, parameters: JobTargetGroup, options?: JobTargetGroupsCreateOrUpdateOptionalParams): Promise<JobTargetGroup>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, options?: JobTargetGroupsGetOptionalParams): Promise<JobTargetGroup>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, targetGroupName: string, options?: JobTargetGroupsGetOptionalParams): Promise<JobTargetGroup>;
 
 // @public
 export interface JobTargetGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -33,7 +33,7 @@ export interface JobTargetGroupsListByAgentOptionalParams extends OperationOptio
 }
 
 // @public
-export function listByAgent(context: SqlContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobTargetGroupsListByAgentOptionalParams): PagedAsyncIterableIterator<JobTargetGroup>;
+export function listByAgent(context: SqlManagementContext, resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobTargetGroupsListByAgentOptionalParams): PagedAsyncIterableIterator<JobTargetGroup>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, createOrUpdate, get } from "../../api/databaseExtensions/operations.js";
 import type {
   DatabaseExtensionsListByDatabaseOptionalParams,
@@ -71,7 +71,7 @@ export interface DatabaseExtensionsOperations {
   ) => Promise<void>;
 }
 
-function _getDatabaseExtensions(context: SqlContext) {
+function _getDatabaseExtensions(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -145,7 +145,7 @@ function _getDatabaseExtensions(context: SqlContext) {
 }
 
 export function _getDatabaseExtensionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): DatabaseExtensionsOperations {
   return {
     ..._getDatabaseExtensions(context),

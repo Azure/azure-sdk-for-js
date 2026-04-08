@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: RestorableDroppedManagedDatabasesGetOptionalParams): Promise<RestorableDroppedManagedDatabase>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: RestorableDroppedManagedDatabasesGetOptionalParams): Promise<RestorableDroppedManagedDatabase>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: RestorableDroppedManagedDatabasesListByInstanceOptionalParams): PagedAsyncIterableIterator<RestorableDroppedManagedDatabase>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: RestorableDroppedManagedDatabasesListByInstanceOptionalParams): PagedAsyncIterableIterator<RestorableDroppedManagedDatabase>;
 
 // @public
 export interface RestorableDroppedManagedDatabasesGetOptionalParams extends OperationOptions {

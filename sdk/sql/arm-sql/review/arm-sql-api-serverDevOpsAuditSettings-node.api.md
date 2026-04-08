@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, devOpsAuditingSettingsName: DevOpsAuditingSettingsName, parameters: ServerDevOpsAuditingSettings, options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerDevOpsAuditingSettings>, ServerDevOpsAuditingSettings>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, devOpsAuditingSettingsName: DevOpsAuditingSettingsName, parameters: ServerDevOpsAuditingSettings, options?: ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerDevOpsAuditingSettings>, ServerDevOpsAuditingSettings>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, devOpsAuditingSettingsName: DevOpsAuditingSettingsName, options?: ServerDevOpsAuditSettingsGetOptionalParams): Promise<ServerDevOpsAuditingSettings>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, devOpsAuditingSettingsName: DevOpsAuditingSettingsName, options?: ServerDevOpsAuditSettingsGetOptionalParams): Promise<ServerDevOpsAuditingSettings>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerDevOpsAuditSettingsListByServerOptionalParams): PagedAsyncIterableIterator<ServerDevOpsAuditingSettings>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerDevOpsAuditSettingsListByServerOptionalParams): PagedAsyncIterableIterator<ServerDevOpsAuditingSettings>;
 
 // @public
 export interface ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams extends OperationOptions {

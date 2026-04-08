@@ -10,25 +10,25 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLink, options?: ReplicationLinksCreateOrUpdateOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLink, options?: ReplicationLinksCreateOrUpdateOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 
 // @public
-export function failover(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
+export function failover(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 
 // @public
-export function failoverAllowDataLoss(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverAllowDataLossOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
+export function failoverAllowDataLoss(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverAllowDataLossOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksGetOptionalParams): Promise<ReplicationLink>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksGetOptionalParams): Promise<ReplicationLink>;
 
 // @public
-export function listByDatabase(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: ReplicationLinksListByDatabaseOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
+export function listByDatabase(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: ReplicationLinksListByDatabaseOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ReplicationLinksListByServerOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ReplicationLinksListByServerOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
 
 // @public
 export interface ReplicationLinksCreateOrUpdateOptionalParams extends OperationOptions {
@@ -68,7 +68,7 @@ export interface ReplicationLinksUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLinkUpdate, options?: ReplicationLinksUpdateOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLinkUpdate, options?: ReplicationLinksUpdateOptionalParams): PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 
 // (No @packageDocumentation comment for this package)
 

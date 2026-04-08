@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: ServerAdvancedThreatProtection, options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerAdvancedThreatProtection>, ServerAdvancedThreatProtection>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, parameters: ServerAdvancedThreatProtection, options?: ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<ServerAdvancedThreatProtection>, ServerAdvancedThreatProtection>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams): Promise<ServerAdvancedThreatProtection>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, advancedThreatProtectionName: AdvancedThreatProtectionName, options?: ServerAdvancedThreatProtectionSettingsGetOptionalParams): Promise<ServerAdvancedThreatProtection>;
 
 // @public
-export function listByServer(context: SqlContext, resourceGroupName: string, serverName: string, options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams): PagedAsyncIterableIterator<ServerAdvancedThreatProtection>;
+export function listByServer(context: SqlManagementContext, resourceGroupName: string, serverName: string, options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams): PagedAsyncIterableIterator<ServerAdvancedThreatProtection>;
 
 // @public
 export interface ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams extends OperationOptions {

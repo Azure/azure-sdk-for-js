@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { SqlClient } = require("@azure/arm-sql");
+const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function deleteServerTrustCertificate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "38e0dc56-907f-45ba-a97c-74233baad471";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   await client.serverTrustCertificates.delete("testrg", "testcl", "customerCertificateName");
 }
 

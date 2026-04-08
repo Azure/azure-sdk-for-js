@@ -17,10 +17,10 @@ export interface DatabaseTablesListBySchemaOptionalParams extends OperationOptio
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, options?: DatabaseTablesGetOptionalParams): Promise<DatabaseTable>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, options?: DatabaseTablesGetOptionalParams): Promise<DatabaseTable>;
 
 // @public
-export function listBySchema(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, options?: DatabaseTablesListBySchemaOptionalParams): PagedAsyncIterableIterator<DatabaseTable>;
+export function listBySchema(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, options?: DatabaseTablesListBySchemaOptionalParams): PagedAsyncIterableIterator<DatabaseTable>;
 
 // (No @packageDocumentation comment for this package)
 

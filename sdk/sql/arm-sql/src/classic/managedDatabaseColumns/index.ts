@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, listByTable, get } from "../../api/managedDatabaseColumns/operations.js";
 import type {
   ManagedDatabaseColumnsListByDatabaseOptionalParams,
@@ -41,7 +41,7 @@ export interface ManagedDatabaseColumnsOperations {
   ) => Promise<DatabaseColumn>;
 }
 
-function _getManagedDatabaseColumns(context: SqlContext) {
+function _getManagedDatabaseColumns(context: SqlManagementContext) {
   return {
     listByDatabase: (
       resourceGroupName: string,
@@ -89,7 +89,7 @@ function _getManagedDatabaseColumns(context: SqlContext) {
 }
 
 export function _getManagedDatabaseColumnsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedDatabaseColumnsOperations {
   return {
     ..._getManagedDatabaseColumns(context),

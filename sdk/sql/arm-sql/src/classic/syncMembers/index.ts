@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listMemberSchemas,
   refreshMemberSchema,
@@ -175,7 +175,7 @@ export interface SyncMembersOperations {
   ) => Promise<SyncMember>;
 }
 
-function _getSyncMembers(context: SqlContext) {
+function _getSyncMembers(context: SqlManagementContext) {
   return {
     listMemberSchemas: (
       resourceGroupName: string,
@@ -454,7 +454,7 @@ function _getSyncMembers(context: SqlContext) {
   };
 }
 
-export function _getSyncMembersOperations(context: SqlContext): SyncMembersOperations {
+export function _getSyncMembersOperations(context: SqlManagementContext): SyncMembersOperations {
   return {
     ..._getSyncMembers(context),
   };

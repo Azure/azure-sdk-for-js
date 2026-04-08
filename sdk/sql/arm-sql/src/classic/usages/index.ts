@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstancePool } from "../../api/usages/operations.js";
 import type { UsagesListByInstancePoolOptionalParams } from "../../api/usages/options.js";
 import type { Usage } from "../../models/models.js";
@@ -17,7 +17,7 @@ export interface UsagesOperations {
   ) => PagedAsyncIterableIterator<Usage>;
 }
 
-function _getUsages(context: SqlContext) {
+function _getUsages(context: SqlManagementContext) {
   return {
     listByInstancePool: (
       resourceGroupName: string,
@@ -27,7 +27,7 @@ function _getUsages(context: SqlContext) {
   };
 }
 
-export function _getUsagesOperations(context: SqlContext): UsagesOperations {
+export function _getUsagesOperations(context: SqlManagementContext): UsagesOperations {
   return {
     ..._getUsages(context),
   };

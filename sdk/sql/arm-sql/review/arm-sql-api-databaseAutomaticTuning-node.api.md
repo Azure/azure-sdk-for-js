@@ -16,10 +16,10 @@ export interface DatabaseAutomaticTuningUpdateOptionalParams extends OperationOp
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAutomaticTuningGetOptionalParams): Promise<DatabaseAutomaticTuning>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, options?: DatabaseAutomaticTuningGetOptionalParams): Promise<DatabaseAutomaticTuning>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseAutomaticTuning, options?: DatabaseAutomaticTuningUpdateOptionalParams): Promise<DatabaseAutomaticTuning>;
+export function update(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, parameters: DatabaseAutomaticTuning, options?: DatabaseAutomaticTuningUpdateOptionalParams): Promise<DatabaseAutomaticTuning>;
 
 // (No @packageDocumentation comment for this package)
 

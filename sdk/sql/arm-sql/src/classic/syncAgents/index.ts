@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listLinkedDatabases,
   generateKey,
@@ -109,7 +109,7 @@ export interface SyncAgentsOperations {
   ) => Promise<SyncAgent>;
 }
 
-function _getSyncAgents(context: SqlContext) {
+function _getSyncAgents(context: SqlManagementContext) {
   return {
     listLinkedDatabases: (
       resourceGroupName: string,
@@ -202,7 +202,7 @@ function _getSyncAgents(context: SqlContext) {
   };
 }
 
-export function _getSyncAgentsOperations(context: SqlContext): SyncAgentsOperations {
+export function _getSyncAgentsOperations(context: SqlManagementContext): SyncAgentsOperations {
   return {
     ..._getSyncAgents(context),
   };

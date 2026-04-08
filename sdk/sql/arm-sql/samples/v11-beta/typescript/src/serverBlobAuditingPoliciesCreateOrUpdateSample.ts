@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,11 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateAServerBlobAuditingPolicyWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.serverBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
-    "default",
     {
       auditActionsAndGroups: [
         "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
@@ -47,11 +46,10 @@ async function updateAServerBlobAuditingPolicyWithAllParameters(): Promise<void>
 async function updateAServerBlobAuditingPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.serverBlobAuditingPolicies.createOrUpdate(
     "blobauditingtest-4799",
     "blobauditingtest-6440",
-    "default",
     {
       state: "Enabled",
       storageAccountAccessKey:

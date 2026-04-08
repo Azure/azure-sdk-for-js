@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, parameters: ManagedInstanceEncryptionProtector, options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceEncryptionProtector>, ManagedInstanceEncryptionProtector>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, parameters: ManagedInstanceEncryptionProtector, options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceEncryptionProtector>, ManagedInstanceEncryptionProtector>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, options?: ManagedInstanceEncryptionProtectorsGetOptionalParams): Promise<ManagedInstanceEncryptionProtector>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, options?: ManagedInstanceEncryptionProtectorsGetOptionalParams): Promise<ManagedInstanceEncryptionProtector>;
 
 // @public
-export function listByInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceEncryptionProtector>;
+export function listByInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceEncryptionProtector>;
 
 // @public
 export interface ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface ManagedInstanceEncryptionProtectorsRevalidateOptionalParams ext
 }
 
 // @public
-export function revalidate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
+export function revalidate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, encryptionProtectorName: EncryptionProtectorName, options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, parameters: DataMaskingPolicy, options?: DataMaskingPoliciesCreateOrUpdateOptionalParams): Promise<DataMaskingPolicy>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, parameters: DataMaskingPolicy, options?: DataMaskingPoliciesCreateOrUpdateOptionalParams): Promise<DataMaskingPolicy>;
 
 // @public
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface DataMaskingPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, options?: DataMaskingPoliciesGetOptionalParams): Promise<DataMaskingPolicy>;
+export function get(context: SqlManagementContext, resourceGroupName: string, serverName: string, databaseName: string, dataMaskingPolicyName: DataMaskingPolicyName, options?: DataMaskingPoliciesGetOptionalParams): Promise<DataMaskingPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

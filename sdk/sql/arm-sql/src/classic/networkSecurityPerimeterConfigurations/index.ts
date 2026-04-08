@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   reconcile,
   listByServer,
@@ -64,7 +64,7 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
 
-function _getNetworkSecurityPerimeterConfigurations(context: SqlContext) {
+function _getNetworkSecurityPerimeterConfigurations(context: SqlManagementContext) {
   return {
     reconcile: (
       resourceGroupName: string,
@@ -105,7 +105,7 @@ function _getNetworkSecurityPerimeterConfigurations(context: SqlContext) {
 }
 
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {
   return {
     ..._getNetworkSecurityPerimeterConfigurations(context),

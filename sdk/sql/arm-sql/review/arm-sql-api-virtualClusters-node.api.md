@@ -10,25 +10,25 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: SqlContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: SqlManagementContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, virtualClusterName: string, parameters: VirtualCluster, options?: VirtualClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, virtualClusterName: string, parameters: VirtualCluster, options?: VirtualClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersGetOptionalParams): Promise<VirtualCluster>;
+export function get(context: SqlManagementContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersGetOptionalParams): Promise<VirtualCluster>;
 
 // @public
-export function list(context: SqlContext, options?: VirtualClustersListOptionalParams): PagedAsyncIterableIterator<VirtualCluster>;
+export function list(context: SqlManagementContext, options?: VirtualClustersListOptionalParams): PagedAsyncIterableIterator<VirtualCluster>;
 
 // @public
-export function listByResourceGroup(context: SqlContext, resourceGroupName: string, options?: VirtualClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualCluster>;
+export function listByResourceGroup(context: SqlManagementContext, resourceGroupName: string, options?: VirtualClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualCluster>;
 
 // @public
-export function update(context: SqlContext, resourceGroupName: string, virtualClusterName: string, parameters: VirtualClusterUpdate, options?: VirtualClustersUpdateOptionalParams): PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
+export function update(context: SqlManagementContext, resourceGroupName: string, virtualClusterName: string, parameters: VirtualClusterUpdate, options?: VirtualClustersUpdateOptionalParams): PollerLike<OperationState<VirtualCluster>, VirtualCluster>;
 
 // @public
-export function updateDnsServers(context: SqlContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersUpdateDnsServersOptionalParams): PollerLike<OperationState<UpdateVirtualClusterDnsServersOperation>, UpdateVirtualClusterDnsServersOperation>;
+export function updateDnsServers(context: SqlManagementContext, resourceGroupName: string, virtualClusterName: string, options?: VirtualClustersUpdateDnsServersOptionalParams): PollerLike<OperationState<UpdateVirtualClusterDnsServersOperation>, UpdateVirtualClusterDnsServersOperation>;
 
 // @public
 export interface VirtualClustersCreateOrUpdateOptionalParams extends OperationOptions {

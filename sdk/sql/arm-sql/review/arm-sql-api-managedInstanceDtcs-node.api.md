@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createOrUpdate(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dtcName: DtcName, parameters: ManagedInstanceDtc, options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceDtc>, ManagedInstanceDtc>;
+export function createOrUpdate(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dtcName: DtcName, parameters: ManagedInstanceDtc, options?: ManagedInstanceDtcsCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedInstanceDtc>, ManagedInstanceDtc>;
 
 // @public
-export function get(context: SqlContext, resourceGroupName: string, managedInstanceName: string, dtcName: DtcName, options?: ManagedInstanceDtcsGetOptionalParams): Promise<ManagedInstanceDtc>;
+export function get(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, dtcName: DtcName, options?: ManagedInstanceDtcsGetOptionalParams): Promise<ManagedInstanceDtc>;
 
 // @public
-export function listByManagedInstance(context: SqlContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceDtc>;
+export function listByManagedInstance(context: SqlManagementContext, resourceGroupName: string, managedInstanceName: string, options?: ManagedInstanceDtcsListByManagedInstanceOptionalParams): PagedAsyncIterableIterator<ManagedInstanceDtc>;
 
 // @public
 export interface ManagedInstanceDtcsCreateOrUpdateOptionalParams extends OperationOptions {

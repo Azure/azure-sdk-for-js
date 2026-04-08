@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   $delete,
@@ -89,7 +89,7 @@ export interface PrivateEndpointConnectionsOperations {
   ) => Promise<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(context: SqlContext) {
+function _getPrivateEndpointConnections(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -191,7 +191,7 @@ function _getPrivateEndpointConnections(context: SqlContext) {
 }
 
 export function _getPrivateEndpointConnectionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): PrivateEndpointConnectionsOperations {
   return {
     ..._getPrivateEndpointConnections(context),

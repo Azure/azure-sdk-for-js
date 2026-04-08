@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   revalidate,
   listByInstance,
@@ -93,7 +93,7 @@ export interface ManagedInstanceEncryptionProtectorsOperations {
   ) => Promise<ManagedInstanceEncryptionProtector>;
 }
 
-function _getManagedInstanceEncryptionProtectors(context: SqlContext) {
+function _getManagedInstanceEncryptionProtectors(context: SqlManagementContext) {
   return {
     revalidate: (
       resourceGroupName: string,
@@ -196,7 +196,7 @@ function _getManagedInstanceEncryptionProtectors(context: SqlContext) {
 }
 
 export function _getManagedInstanceEncryptionProtectorsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ManagedInstanceEncryptionProtectorsOperations {
   return {
     ..._getManagedInstanceEncryptionProtectors(context),

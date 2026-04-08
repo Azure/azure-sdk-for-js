@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   createOrUpdate,
@@ -64,7 +64,7 @@ export interface ServerDevOpsAuditSettingsOperations {
   ) => Promise<ServerDevOpsAuditingSettings>;
 }
 
-function _getServerDevOpsAuditSettings(context: SqlContext) {
+function _getServerDevOpsAuditSettings(context: SqlManagementContext) {
   return {
     listByServer: (
       resourceGroupName: string,
@@ -130,7 +130,7 @@ function _getServerDevOpsAuditSettings(context: SqlContext) {
 }
 
 export function _getServerDevOpsAuditSettingsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerDevOpsAuditSettingsOperations {
   return {
     ..._getServerDevOpsAuditSettings(context),

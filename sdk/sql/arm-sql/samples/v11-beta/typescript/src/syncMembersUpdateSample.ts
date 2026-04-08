@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateAnExistingSyncMember(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncMembers.update(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",
@@ -43,7 +43,7 @@ async function updateAnExistingSyncMember(): Promise<void> {
 async function updateAnExistingSyncMemberWithNewUserAssignedIdentityAndRemovingOlderUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncMembers.update(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",
@@ -79,7 +79,7 @@ async function updateAnExistingSyncMemberWithNewUserAssignedIdentityAndRemovingO
 async function updateAnExistingSyncMemberWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const client = new SqlClient(credential, subscriptionId);
+  const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.syncMembers.update(
     "syncgroupcrud-65440",
     "syncgroupcrud-8475",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlContext } from "../../api/sqlContext.js";
+import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   createOrUpdate,
@@ -64,7 +64,7 @@ export interface ServerConfigurationOptionsOperations {
   ) => Promise<ServerConfigurationOption>;
 }
 
-function _getServerConfigurationOptions(context: SqlContext) {
+function _getServerConfigurationOptions(context: SqlManagementContext) {
   return {
     listByManagedInstance: (
       resourceGroupName: string,
@@ -131,7 +131,7 @@ function _getServerConfigurationOptions(context: SqlContext) {
 }
 
 export function _getServerConfigurationOptionsOperations(
-  context: SqlContext,
+  context: SqlManagementContext,
 ): ServerConfigurationOptionsOperations {
   return {
     ..._getServerConfigurationOptions(context),
