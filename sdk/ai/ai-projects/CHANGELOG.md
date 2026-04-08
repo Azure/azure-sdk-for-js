@@ -4,9 +4,7 @@
 
 ### Features Added
 
-- Add `project.beta.agentInvocations` route for accessing agent invocations
-- Add `project.beta.agentSessionFiles` route for accessing agent session files
-- Add `project.beta.managedAgentIdentityBlueprints` route for accessing agent identity blueprints
+- Add `project.beta.agents` route for accessing beta agent operations such as managed agent identity blueprints, session files, and sessions
 - Add `project.beta.skills` route for accessing skills
 - Add `project.beta.toolboxes` route for accessing toolbox features
 
