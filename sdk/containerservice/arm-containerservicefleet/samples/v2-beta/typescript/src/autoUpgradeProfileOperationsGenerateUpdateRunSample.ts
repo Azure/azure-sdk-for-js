@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generates an update run for a given auto upgrade profile.
  *
  * @summary generates an update run for a given auto upgrade profile.
- * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun.json
+ * x-ms-original-file: 2025-08-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun_MaximumSet_Gen.json
  */
-async function autoUpgradeProfileOperationsGenerateUpdateRun(): Promise<void> {
+async function autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function autoUpgradeProfileOperationsGenerateUpdateRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await autoUpgradeProfileOperationsGenerateUpdateRun();
+  await autoUpgradeProfileOperationsGenerateUpdateRunMaximumSet();
 }
 
 main().catch(console.error);

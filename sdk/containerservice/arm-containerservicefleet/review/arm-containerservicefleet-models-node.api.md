@@ -533,8 +533,7 @@ export enum KnownVersions {
     V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
     V20250401Preview = "2025-04-01-preview",
-    V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview"
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -755,7 +754,6 @@ export interface TrackedResource extends Resource {
 export interface UpdateGroup {
     afterGates?: GateConfiguration[];
     beforeGates?: GateConfiguration[];
-    maxConcurrency?: string;
     name: string;
 }
 
@@ -763,7 +761,6 @@ export interface UpdateGroup {
 export interface UpdateGroupStatus {
     readonly afterGates?: UpdateRunGateStatus[];
     readonly beforeGates?: UpdateRunGateStatus[];
-    readonly maxConcurrency?: number;
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
@@ -821,7 +818,6 @@ export interface UpdateStage {
     afterStageWaitInSeconds?: number;
     beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
-    maxConcurrency?: string;
     name: string;
 }
 
@@ -831,7 +827,6 @@ export interface UpdateStageStatus {
     readonly afterStageWaitStatus?: WaitStatus;
     readonly beforeGates?: UpdateRunGateStatus[];
     readonly groups?: UpdateGroupStatus[];
-    readonly maxConcurrency?: number;
     readonly name?: string;
     readonly status?: UpdateStatus;
 }

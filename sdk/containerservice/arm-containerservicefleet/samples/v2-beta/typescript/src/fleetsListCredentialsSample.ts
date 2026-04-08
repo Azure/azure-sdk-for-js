@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the user credentials of a Fleet.
  *
  * @summary lists the user credentials of a Fleet.
- * x-ms-original-file: 2026-02-01-preview/Fleets_ListCredentialsResult.json
+ * x-ms-original-file: 2025-08-01-preview/Fleets_ListCredentialsResult.json
  */
 async function listsTheUserCredentialsOfAFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,23 @@ async function listsTheUserCredentialsOfAFleet(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to lists the user credentials of a Fleet.
+ *
+ * @summary lists the user credentials of a Fleet.
+ * x-ms-original-file: 2025-08-01-preview/Fleets_ListCredentials_MaximumSet_Gen.json
+ */
+async function listsTheUserCredentialsOfAFleetGeneratedByMaximumSetRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceFleetClient(credential, subscriptionId);
+  const result = await client.fleets.listCredentials("rgfleets", "fleet1");
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await listsTheUserCredentialsOfAFleet();
+  await listsTheUserCredentialsOfAFleetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

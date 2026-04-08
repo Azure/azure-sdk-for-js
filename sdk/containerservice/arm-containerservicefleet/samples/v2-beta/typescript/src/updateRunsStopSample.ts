@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops an UpdateRun.
  *
  * @summary stops an UpdateRun.
- * x-ms-original-file: 2026-02-01-preview/UpdateRuns_Stop.json
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Stop.json
  */
 async function stopsAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,23 @@ async function stopsAnUpdateRun(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to stops an UpdateRun.
+ *
+ * @summary stops an UpdateRun.
+ * x-ms-original-file: 2025-08-01-preview/UpdateRuns_Stop_MaximumSet_Gen.json
+ */
+async function stopsAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceFleetClient(credential, subscriptionId);
+  const result = await client.updateRuns.stop("rgfleets", "fleet1", "fleet1", { ifMatch: "jb" });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await stopsAnUpdateRun();
+  await stopsAnUpdateRunGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
