@@ -406,7 +406,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Returns the maximum batch size allowed by the service, reading the
    * vendor-specific batch size property from the AMQP link if available.
    * Falls back to `Math.min(maxMessageSize, defaultMaxBatchSize)` when
-   * the property is absent.
+   * the property is absent or invalid.
    */
   private getMaxBatchSizeFromLink(): number {
     if (this.link) {
