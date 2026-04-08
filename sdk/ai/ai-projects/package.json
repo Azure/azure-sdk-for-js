@@ -34,10 +34,6 @@
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "C:\\Users\\glharper\\repos\\azure-sdk-for-js\\sdk\\ai\\ai-projects\\generated/api/aiProjectContext.ts",
-        "prefix": "userAgentInfo"
       }
     ]
   },
