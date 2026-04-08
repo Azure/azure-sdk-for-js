@@ -573,7 +573,6 @@ export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Insights=V1Preview";
     repeatabilityFirstSent?: Date;
     repeatabilityRequestId?: string;
 }
@@ -581,7 +580,6 @@ export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
 }
 
@@ -590,7 +588,6 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
     agentName?: string;
     clientRequestId?: string;
     evalId?: string;
-    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
     insightType?: InsightType;
     runId?: string;
