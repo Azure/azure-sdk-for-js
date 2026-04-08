@@ -395,22 +395,45 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     return retry(config);
   }
 
+  /**
+   * Returns the maximum batch size allowed by the service. This reads the
+   * `com.microsoft:max-message-batch-size` vendor property from the AMQP link
+   * attach frame, which correctly reports the batch size limit (e.g. 1 MB on
+   * Premium) independent of the per-entity `max-message-size` (which can be up
+   * to 100 MB on Premium large-message entities). Falls back to
+   * `max-message-size` for older service versions that don't advertise the
+   * vendor property.
+   */
+  private getMaxBatchSizeFromLink(): number {
+    if (this.link) {
+      const vendorBatchSize =
+        this.link.properties?.["com.microsoft:max-message-batch-size"];
+      if (typeof vendorBatchSize === "number" && vendorBatchSize > 0) {
+        return vendorBatchSize;
+      }
+    }
+    // Fallback: use max-message-size (standard AMQP property).
+    return this.link?.maxMessageSize ?? 0;
+  }
+
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context);
-    let maxMessageSize = await this.getMaxMessageSize({
+    // Ensure the link is open so we can read link properties.
+    await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     });
+    let maxBatchSize = this.getMaxBatchSizeFromLink();
     if (options?.maxSizeInBytes) {
-      if (options.maxSizeInBytes > maxMessageSize!) {
+      if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`,
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxBatchSize} bytes) on the AMQP sender link.`,
         );
         throw error;
       }
-      maxMessageSize = options.maxSizeInBytes;
+      maxBatchSize = options.maxSizeInBytes;
     }
-    return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
+    return new ServiceBusMessageBatchImpl(this._context, maxBatchSize);
   }
 
   async sendBatch(
