@@ -35,7 +35,6 @@ safe-outputs:
   push-to-pull-request-branch:
     max: 3
     protected-files: allowed
-    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
