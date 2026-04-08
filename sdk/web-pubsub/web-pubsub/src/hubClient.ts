@@ -760,22 +760,14 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.addConnectionsToGroups",
       options,
       async (updatedOptions) => {
-        try {
-          await generatedAddConnectionsToGroups(
-            this._context,
-            {
-              groups: groups,
-              filter: filter,
-            } as AddToGroupsRequest,
-            updatedOptions as any,
-          );
-        } catch (error: any) {
-          // Remove after correcting swagger
-          if (error?.statusCode === 200 || error?.statusCode === 204) {
-            return;
-          }
-          throw error;
-        }
+        await generatedAddConnectionsToGroups(
+          this._context,
+          {
+            groups: groups,
+            filter: filter,
+          } as AddToGroupsRequest,
+          updatedOptions as any,
+        );
       },
     );
   }
@@ -795,22 +787,14 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient.removeConnectionsFromGroups",
       options,
       async (updatedOptions) => {
-        try {
-          await generatedRemoveConnectionsFromGroups(
-            this._context,
-            {
-              groups: groups,
-              filter: filter,
-            } as RemoveFromGroupsRequest,
-            updatedOptions as any,
-          );
-        } catch (error: any) {
-          // Remove after correcting swagger
-          if (error?.statusCode === 200 || error?.statusCode === 204) {
-            return;
-          }
-          throw error;
-        }
+        await generatedRemoveConnectionsFromGroups(
+          this._context,
+          {
+            groups: groups,
+            filter: filter,
+          } as RemoveFromGroupsRequest,
+          updatedOptions as any,
+        );
       },
     );
   }
