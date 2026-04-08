@@ -3,32 +3,18 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a job step in a job's current version.
+ * This sample demonstrates how to gets a job step in a job's current version.
  *
- * @summary Gets a job step in a job's current version.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobStepByJob.json
+ * @summary gets a job step in a job's current version.
+ * x-ms-original-file: 2025-02-01-preview/GetJobStepByJob.json
  */
 async function getTheLatestVersionOfAJobStep(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const jobName = "job1";
-  const stepName = "step1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.jobSteps.get(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    jobName,
-    stepName,
-  );
+  const result = await client.jobSteps.get("group1", "server1", "agent1", "job1", "step1");
   console.log(result);
 }
 

@@ -3,33 +3,27 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List managed database tables
+ * This sample demonstrates how to list managed database tables
  *
- * @summary List managed database tables
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseTableListBySchema.json
+ * @summary list managed database tables
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseTableListBySchema.json
  */
 async function listManagedDatabaseTables(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const managedInstanceName = "myManagedInstanceName";
-  const databaseName = "myDatabase";
-  const schemaName = "dbo";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseTables.listBySchema(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    schemaName,
+    "myRG",
+    "myManagedInstanceName",
+    "myDatabase",
+    "dbo",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

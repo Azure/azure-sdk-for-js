@@ -3,27 +3,18 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates an instance pool.
+ * This sample demonstrates how to updates an instance pool.
  *
- * @summary Updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/PatchInstancePool.json
+ * @summary updates an instance pool.
+ * x-ms-original-file: 2025-02-01-preview/PatchInstancePool.json
  */
 async function patchAnInstancePool() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const instancePoolName = "testIP";
-  const parameters = { tags: { x: "y" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.instancePools.beginUpdateAndWait(
-    resourceGroupName,
-    instancePoolName,
-    parameters,
-  );
+  const result = await client.instancePools.update("group1", "testIP", { tags: { x: "y" } });
   console.log(result);
 }
 

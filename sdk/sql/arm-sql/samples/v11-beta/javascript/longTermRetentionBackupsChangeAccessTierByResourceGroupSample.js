@@ -3,35 +3,24 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Change a long term retention backup access tier.
+ * This sample demonstrates how to change a long term retention backup access tier.
  *
- * @summary Change a long term retention backup access tier.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ResourceGroupBasedChangeLongTermRetentionBackupAccessTier.json
+ * @summary change a long term retention backup access tier.
+ * x-ms-original-file: 2025-02-01-preview/ResourceGroupBasedChangeLongTermRetentionBackupAccessTier.json
  */
 async function changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "resourceGroupName";
-  const locationName = "japaneast";
-  const longTermRetentionServerName = "serverName";
-  const longTermRetentionDatabaseName = "databaseName";
-  const backupName = "55555555-6666-7777-8888-999999999999;131637960820000000;Archive";
-  const parameters = {
-    backupStorageAccessTier: "Hot",
-    operationMode: "Copy",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.longTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait(
-    resourceGroupName,
-    locationName,
-    longTermRetentionServerName,
-    longTermRetentionDatabaseName,
-    backupName,
-    parameters,
+  const result = await client.longTermRetentionBackups.changeAccessTierByResourceGroup(
+    "resourceGroupName",
+    "japaneast",
+    "serverName",
+    "databaseName",
+    "55555555-6666-7777-8888-999999999999;131637960820000000;Archive",
+    { backupStorageAccessTier: "Hot", operationMode: "Copy" },
   );
   console.log(result);
 }

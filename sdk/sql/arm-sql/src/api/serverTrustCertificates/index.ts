@@ -1,0 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export { listByInstance, $delete, createOrUpdate, get } from "./operations.js";
+export type {
+  ServerTrustCertificatesListByInstanceOptionalParams,
+  ServerTrustCertificatesDeleteOptionalParams,
+  ServerTrustCertificatesCreateOrUpdateOptionalParams,
+  ServerTrustCertificatesGetOptionalParams,
+} from "./options.js";

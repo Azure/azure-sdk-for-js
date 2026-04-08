@@ -3,29 +3,18 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Failovers a managed instance.
+ * This sample demonstrates how to failovers a managed instance.
  *
- * @summary Failovers a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverManagedInstance.json
+ * @summary failovers a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/FailoverManagedInstance.json
  */
 async function failoverAManagedInstance() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const managedInstanceName = "instanceName";
-  const replicaType = "Primary";
-  const options = { replicaType };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginFailoverAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    options,
-  );
-  console.log(result);
+  await client.managedInstances.failover("group1", "instanceName", { replicaType: "Primary" });
 }
 
 async function main() {

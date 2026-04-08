@@ -3,33 +3,23 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a private link resource for SQL server.
+ * This sample demonstrates how to gets a private link resource for SQL server.
  *
- * @summary Gets a private link resource for SQL server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstancePrivateLinkResourcesGet.json
+ * @summary gets a private link resource for SQL server.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstancePrivateLinkResourcesGet.json
  */
-async function getsAPrivateLinkResourceForSql(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const managedInstanceName = "test-cl";
-  const groupName = "plr";
+async function getsAPrivateLinkResourceForSQL(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstancePrivateLinkResources.get(
-    resourceGroupName,
-    managedInstanceName,
-    groupName,
-  );
+  const result = await client.managedInstancePrivateLinkResources.get("Default", "test-cl", "plr");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsAPrivateLinkResourceForSql();
+  await getsAPrivateLinkResourceForSQL();
 }
 
 main().catch(console.error);

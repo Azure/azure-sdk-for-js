@@ -3,34 +3,27 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of server DNS aliases for a server.
+ * This sample demonstrates how to gets a list of server DNS aliases for a server.
  *
- * @summary Gets a list of server DNS aliases for a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerDnsAliasList.json
+ * @summary gets a list of server DNS aliases for a server.
+ * x-ms-original-file: 2025-02-01-preview/ServerDnsAliasList.json
  */
-async function listServerDnsAliases(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "dns-alias-server";
+async function listServerDNSAliases(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.serverDnsAliases.listByServer(
-    resourceGroupName,
-    serverName,
-  )) {
+  for await (const item of client.serverDnsAliases.listByServer("Default", "dns-alias-server")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listServerDnsAliases();
+  await listServerDNSAliases();
 }
 
 main().catch(console.error);

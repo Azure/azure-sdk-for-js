@@ -3,30 +3,22 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates managed instance server configuration option.
+ * This sample demonstrates how to updates managed instance server configuration option.
  *
- * @summary Updates managed instance server configuration option.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerConfigurationOptionUpdate.json
+ * @summary updates managed instance server configuration option.
+ * x-ms-original-file: 2025-02-01-preview/ServerConfigurationOptionUpdate.json
  */
 async function updatesManagedInstanceServerConfigurationOption() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const serverConfigurationOptionName = "allowPolybaseExport";
-  const parameters = {
-    serverConfigurationOptionValue: 1,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverConfigurationOptions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    serverConfigurationOptionName,
-    parameters,
+  const result = await client.serverConfigurationOptions.createOrUpdate(
+    "testrg",
+    "testinstance",
+    "allowPolybaseExport",
+    { serverConfigurationOptionValue: 1 },
   );
   console.log(result);
 }

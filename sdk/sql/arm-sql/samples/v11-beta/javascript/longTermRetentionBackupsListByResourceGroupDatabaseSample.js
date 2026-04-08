@@ -3,32 +3,27 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists all long term retention backups for a database based on a particular resource group.
+ * This sample demonstrates how to lists all long term retention backups for a database based on a particular resource group.
  *
- * @summary Lists all long term retention backups for a database based on a particular resource group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
+ * @summary lists all long term retention backups for a database based on a particular resource group.
+ * x-ms-original-file: 2025-02-01-preview/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
  */
 async function getAllLongTermRetentionBackupsUnderTheDatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testResourceGroup";
-  const locationName = "japaneast";
-  const longTermRetentionServerName = "testserver";
-  const longTermRetentionDatabaseName = "testDatabase";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.longTermRetentionBackups.listByResourceGroupDatabase(
-    resourceGroupName,
-    locationName,
-    longTermRetentionServerName,
-    longTermRetentionDatabaseName,
+    "testResourceGroup",
+    "japaneast",
+    "testserver",
+    "testDatabase",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

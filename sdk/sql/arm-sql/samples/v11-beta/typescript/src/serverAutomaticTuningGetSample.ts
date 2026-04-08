@@ -3,27 +3,18 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves server automatic tuning options.
+ * This sample demonstrates how to retrieves server automatic tuning options.
  *
- * @summary Retrieves server automatic tuning options.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerAutomaticTuningGet.json
+ * @summary retrieves server automatic tuning options.
+ * x-ms-original-file: 2025-02-01-preview/ServerAutomaticTuningGet.json
  */
 async function getAServerAutomaticTuningSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "c3aa9078-0000-0000-0000-e36f151182d7";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "default-sql-onebox";
-  const serverName = "testsvr11";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "c3aa9078-0000-0000-0000-e36f151182d7";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverAutomaticTuningOperations.get(
-    resourceGroupName,
-    serverName,
-  );
+  const result = await client.serverAutomaticTuning.get("default-sql-onebox", "testsvr11");
   console.log(result);
 }
 
