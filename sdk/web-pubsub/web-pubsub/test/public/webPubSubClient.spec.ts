@@ -4,18 +4,18 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { WebPubSubClient } from "../../src/webPubSubClient.js";
+import { WebPubSubServiceClient } from "../../src/webPubSubServiceClient.js";
 import recorderOptions from "../testEnv.js";
 import { getEndpoint, isLiveMode } from "../utils/injectables.js";
 
 describe("WebPubSubClient", () => {
   let recorder: Recorder;
-  let client: WebPubSubClient;
+  let client: WebPubSubServiceClient;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    client = new WebPubSubClient(
+    client = new WebPubSubServiceClient(
       getEndpoint(),
       createTestCredential(),
       "simplechat",

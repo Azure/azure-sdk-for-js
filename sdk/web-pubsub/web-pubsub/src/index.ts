@@ -1,50 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import {
+export { AzureKeyCredential } from "@azure/core-auth";
+export {
+  WebPubSubServiceClient,
+  type HubSendToAllOptions,
+  type ClientTokenResponse,
+  type HubCloseConnectionOptions,
+  type HubCloseAllConnectionsOptions,
+  type HubCloseUserConnectionsOptions,
+  type GenerateClientTokenOptions,
+  type HasConnectionOptions,
+  type HubHasGroupOptions,
+  type HubHasUserOptions,
+  type WebPubSubServiceClientOptions,
+  type WebPubSubServiceClientLogOptions,
+  type HubRemoveUserFromAllGroupsOptions,
+  type HubSendToConnectionOptions,
+  type HubSendToUserOptions,
+  type HubGrantPermissionOptions,
+  type HubRevokePermissionOptions,
+  type HubHasPermissionOptions,
+  type HubSendTextToAllOptions,
+  type HubSendTextToConnectionOptions,
+  type HubSendTextToUserOptions,
+  type JSONTypes,
+  type Permission,
+  type WebPubSubClientProtocol,
+} from "./hubClient.js";
+export type {
+  WebPubSubGroup,
+  GroupAddConnectionOptions,
+  GroupCloseAllConnectionsOptions,
+  GroupAddUserOptions,
+  GroupAdminClientOptions,
+  GroupHasUserOptions,
+  GroupRemoveConnectionOptions,
+  GroupRemoveUserOptions,
+  GroupSendTextToAllOptions,
+  GroupSendToAllOptions,
+  WebPubSubGroupMember,
+  GroupListConnectionsOptions,
+} from "./groupClient.js";
+export { odata } from "./utils.js";
+export type {
+  PagedAsyncIterableIterator,
   PageSettings,
   ContinuablePage,
-  PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
-
-export { WebPubSubServiceClient } from "./webPubSubServiceClient.js";
-export type {
-  AddToGroupsRequest,
-  ClientTokenResponse,
-  RemoveFromGroupsRequest,
-  GroupMember,
-  WebPubSubClientType,
-  ResponseContentType,
-  MessageContentType,
-  WebPubSubPermission,
-} from "./models/index.js";
-export { KnownVersions } from "./models/index.js";
-export type {
-  AddUserToGroupOptionalParams,
-  RemoveUserFromGroupOptionalParams,
-  RemoveUserFromAllGroupsOptionalParams,
-  SendToUserOptionalParams,
-  CloseUserConnectionsOptionalParams,
-  UserExistsOptionalParams,
-  GrantPermissionOptionalParams,
-  CheckPermissionOptionalParams,
-  RevokePermissionOptionalParams,
-  AddConnectionToGroupOptionalParams,
-  RemoveConnectionFromGroupOptionalParams,
-  ListConnectionsInGroupOptionalParams,
-  SendToGroupOptionalParams,
-  CloseGroupConnectionsOptionalParams,
-  GroupExistsOptionalParams,
-  RemoveConnectionFromAllGroupsOptionalParams,
-  SendToConnectionOptionalParams,
-  ConnectionExistsOptionalParams,
-  CloseConnectionOptionalParams,
-  SendToAllOptionalParams,
-  RemoveConnectionsFromGroupsOptionalParams,
-  GenerateClientTokenOptionalParams,
-  CloseAllConnectionsOptionalParams,
-  AddConnectionsToGroupsOptionalParams,
-  GetServiceStatusOptionalParams,
-  WebPubSubServiceClientOptionalParams,
-} from "./api/index.js";
-export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

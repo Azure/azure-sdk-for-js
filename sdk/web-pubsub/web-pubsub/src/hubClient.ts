@@ -23,8 +23,8 @@ import type {
   RemoveFromGroupsRequest,
   MessageContentType,
 } from "./models/models.js";
-import type { WebPubSubContext } from "./api/webPubSubContext.js";
-import { createWebPubSub } from "./api/webPubSubContext.js";
+import type { WebPubSubServiceContext } from "./api/webPubSubServiceContext.js";
+import { createWebPubSubService } from "./api/webPubSubServiceContext.js";
 import {
   sendToAll as generatedSendToAll,
   sendToUser as generatedSendToUser,
@@ -329,7 +329,7 @@ export interface ClientTokenResponse {
  * Client for connecting to a Web PubSub hub
  */
 export class WebPubSubServiceClient {
-  private readonly _context: WebPubSubContext;
+  private readonly _context: WebPubSubServiceContext;
   private credential!: AzureKeyCredential | TokenCredential;
   private readonly clientOptions?: WebPubSubServiceClientOptions;
 
@@ -417,7 +417,7 @@ export class WebPubSubServiceClient {
     };
 
     if (isTokenCredential(this.credential)) {
-      this._context = createWebPubSub(this.endpoint, this.credential, this.hubName, {
+      this._context = createWebPubSubService(this.endpoint, this.credential, this.hubName, {
         ...pipelineOptions,
         apiVersion: this.apiVersion,
       });
@@ -434,7 +434,7 @@ export class WebPubSubServiceClient {
       this._context = Object.assign(clientContext, {
         hub: this.hubName,
         apiVersion: this.apiVersion,
-      }) as WebPubSubContext;
+      }) as WebPubSubServiceContext;
       this._context.pipeline.addPolicy(webPubSubKeyCredentialPolicy(this.credential));
     }
 
@@ -976,10 +976,16 @@ export class WebPubSubServiceClient {
 
         let token: string;
         if (isTokenCredential(this.credential)) {
+          const clientTypeMap: Record<string, string> = {
+            default: "Default",
+            mqtt: "MQTT",
+          };
           const response = await generatedGenerateClientToken(this._context, {
             ...updatedOptions,
-            clientProtocol: clientProtocol as any,
+            clientType: clientProtocol ? clientTypeMap[clientProtocol] : undefined,
             minutesToExpire: updatedOptions?.expirationTimeInMinutes,
+            role: updatedOptions?.roles,
+            group: updatedOptions?.groups,
           } as any);
           token = response.token!;
         } else {

@@ -5,7 +5,7 @@ import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import type { WebPubSubContext } from "./api/webPubSubContext.js";
+import type { WebPubSubServiceContext } from "./api/webPubSubServiceContext.js";
 import { tracingClient } from "./tracing.js";
 import { getPayloadForMessage } from "./utils.js";
 import type { JSONTypes } from "./hubClient.js";
@@ -216,7 +216,7 @@ export interface WebPubSubGroup {
  * @hidden
  */
 export class WebPubSubGroupImpl implements WebPubSubGroup {
-  private client!: WebPubSubContext;
+  private client!: WebPubSubServiceContext;
 
   /**
    * The name of this group
@@ -241,7 +241,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * @internal
    */
-  constructor(client: WebPubSubContext, hubName: string, groupName: string) {
+  constructor(client: WebPubSubServiceContext, hubName: string, groupName: string) {
     this.client = client;
     this.groupName = groupName;
     this.hubName = hubName;

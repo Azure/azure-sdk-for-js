@@ -10,28 +10,28 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function addConnectionsToGroups(context: WebPubSubContext, groupsToAdd: AddToGroupsRequest, options?: AddConnectionsToGroupsOptionalParams): Promise<void>;
+export function addConnectionsToGroups(context: WebPubSubServiceContext, groupsToAdd: AddToGroupsRequest, options?: AddConnectionsToGroupsOptionalParams): Promise<void>;
 
 // @public
 export interface AddConnectionsToGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function addConnectionToGroup(context: WebPubSubContext, group: string, connectionId: string, options?: AddConnectionToGroupOptionalParams): Promise<void>;
+export function addConnectionToGroup(context: WebPubSubServiceContext, group: string, connectionId: string, options?: AddConnectionToGroupOptionalParams): Promise<void>;
 
 // @public
 export interface AddConnectionToGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function addUserToGroup(context: WebPubSubContext, group: string, userId: string, options?: AddUserToGroupOptionalParams): Promise<void>;
+export function addUserToGroup(context: WebPubSubServiceContext, group: string, userId: string, options?: AddUserToGroupOptionalParams): Promise<void>;
 
 // @public
 export interface AddUserToGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function checkPermission(context: WebPubSubContext, permission: WebPubSubPermission, connectionId: string, options?: CheckPermissionOptionalParams): Promise<void>;
+export function checkPermission(context: WebPubSubServiceContext, permission: WebPubSubPermission, connectionId: string, options?: CheckPermissionOptionalParams): Promise<void>;
 
 // @public
 export interface CheckPermissionOptionalParams extends OperationOptions {
@@ -39,7 +39,7 @@ export interface CheckPermissionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function closeAllConnections(context: WebPubSubContext, options?: CloseAllConnectionsOptionalParams): Promise<void>;
+export function closeAllConnections(context: WebPubSubServiceContext, options?: CloseAllConnectionsOptionalParams): Promise<void>;
 
 // @public
 export interface CloseAllConnectionsOptionalParams extends OperationOptions {
@@ -48,7 +48,7 @@ export interface CloseAllConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function closeConnection(context: WebPubSubContext, connectionId: string, options?: CloseConnectionOptionalParams): Promise<void>;
+export function closeConnection(context: WebPubSubServiceContext, connectionId: string, options?: CloseConnectionOptionalParams): Promise<void>;
 
 // @public
 export interface CloseConnectionOptionalParams extends OperationOptions {
@@ -56,7 +56,7 @@ export interface CloseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function closeGroupConnections(context: WebPubSubContext, group: string, options?: CloseGroupConnectionsOptionalParams): Promise<void>;
+export function closeGroupConnections(context: WebPubSubServiceContext, group: string, options?: CloseGroupConnectionsOptionalParams): Promise<void>;
 
 // @public
 export interface CloseGroupConnectionsOptionalParams extends OperationOptions {
@@ -65,7 +65,7 @@ export interface CloseGroupConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function closeUserConnections(context: WebPubSubContext, userId: string, options?: CloseUserConnectionsOptionalParams): Promise<void>;
+export function closeUserConnections(context: WebPubSubServiceContext, userId: string, options?: CloseUserConnectionsOptionalParams): Promise<void>;
 
 // @public
 export interface CloseUserConnectionsOptionalParams extends OperationOptions {
@@ -74,36 +74,36 @@ export interface CloseUserConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function connectionExists(context: WebPubSubContext, connectionId: string, options?: ConnectionExistsOptionalParams): Promise<void>;
+export function connectionExists(context: WebPubSubServiceContext, connectionId: string, options?: ConnectionExistsOptionalParams): Promise<void>;
 
 // @public
 export interface ConnectionExistsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createWebPubSub(endpointParam: string, credential: TokenCredential, hub: string, options?: WebPubSubClientOptionalParams): WebPubSubContext;
+export function createWebPubSubService(endpointParam: string, credential: TokenCredential, hub: string, options?: WebPubSubServiceClientOptionalParams): WebPubSubServiceContext;
 
 // @public
-export function generateClientToken(context: WebPubSubContext, options?: GenerateClientTokenOptionalParams): Promise<ClientTokenResponse>;
+export function generateClientToken(context: WebPubSubServiceContext, options?: GenerateClientTokenOptionalParams): Promise<ClientTokenResponse>;
 
 // @public
 export interface GenerateClientTokenOptionalParams extends OperationOptions {
-    clientProtocol?: WebPubSubClientType;
-    groups?: string[];
+    clientType?: WebPubSubClientType;
+    group?: string[];
     minutesToExpire?: number;
-    roles?: string[];
+    role?: string[];
     userId?: string;
 }
 
 // @public
-export function getServiceStatus(context: WebPubSubContext, options?: GetServiceStatusOptionalParams): Promise<void>;
+export function getServiceStatus(context: WebPubSubServiceContext, options?: GetServiceStatusOptionalParams): Promise<void>;
 
 // @public
 export interface GetServiceStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export function grantPermission(context: WebPubSubContext, permission: WebPubSubPermission, connectionId: string, options?: GrantPermissionOptionalParams): Promise<void>;
+export function grantPermission(context: WebPubSubServiceContext, permission: WebPubSubPermission, connectionId: string, options?: GrantPermissionOptionalParams): Promise<void>;
 
 // @public
 export interface GrantPermissionOptionalParams extends OperationOptions {
@@ -111,14 +111,14 @@ export interface GrantPermissionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function groupExists(context: WebPubSubContext, group: string, options?: GroupExistsOptionalParams): Promise<void>;
+export function groupExists(context: WebPubSubServiceContext, group: string, options?: GroupExistsOptionalParams): Promise<void>;
 
 // @public
 export interface GroupExistsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listConnectionsInGroup(context: WebPubSubContext, group: string, options?: ListConnectionsInGroupOptionalParams): PagedAsyncIterableIterator<GroupMember>;
+export function listConnectionsInGroup(context: WebPubSubServiceContext, group: string, options?: ListConnectionsInGroupOptionalParams): PagedAsyncIterableIterator<GroupMember>;
 
 // @public
 export interface ListConnectionsInGroupOptionalParams extends OperationOptions {
@@ -128,42 +128,42 @@ export interface ListConnectionsInGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeConnectionFromAllGroups(context: WebPubSubContext, connectionId: string, options?: RemoveConnectionFromAllGroupsOptionalParams): Promise<void>;
+export function removeConnectionFromAllGroups(context: WebPubSubServiceContext, connectionId: string, options?: RemoveConnectionFromAllGroupsOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveConnectionFromAllGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeConnectionFromGroup(context: WebPubSubContext, group: string, connectionId: string, options?: RemoveConnectionFromGroupOptionalParams): Promise<void>;
+export function removeConnectionFromGroup(context: WebPubSubServiceContext, group: string, connectionId: string, options?: RemoveConnectionFromGroupOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveConnectionFromGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeConnectionsFromGroups(context: WebPubSubContext, groupsToRemove: RemoveFromGroupsRequest, options?: RemoveConnectionsFromGroupsOptionalParams): Promise<void>;
+export function removeConnectionsFromGroups(context: WebPubSubServiceContext, groupsToRemove: RemoveFromGroupsRequest, options?: RemoveConnectionsFromGroupsOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveConnectionsFromGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeUserFromAllGroups(context: WebPubSubContext, userId: string, options?: RemoveUserFromAllGroupsOptionalParams): Promise<void>;
+export function removeUserFromAllGroups(context: WebPubSubServiceContext, userId: string, options?: RemoveUserFromAllGroupsOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveUserFromAllGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function removeUserFromGroup(context: WebPubSubContext, group: string, userId: string, options?: RemoveUserFromGroupOptionalParams): Promise<void>;
+export function removeUserFromGroup(context: WebPubSubServiceContext, group: string, userId: string, options?: RemoveUserFromGroupOptionalParams): Promise<void>;
 
 // @public
 export interface RemoveUserFromGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function revokePermission(context: WebPubSubContext, permission: WebPubSubPermission, connectionId: string, options?: RevokePermissionOptionalParams): Promise<void>;
+export function revokePermission(context: WebPubSubServiceContext, permission: WebPubSubPermission, connectionId: string, options?: RevokePermissionOptionalParams): Promise<void>;
 
 // @public
 export interface RevokePermissionOptionalParams extends OperationOptions {
@@ -171,7 +171,7 @@ export interface RevokePermissionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function sendToAll(context: WebPubSubContext, contentType: MessageContentType, message: Uint8Array, options?: SendToAllOptionalParams): Promise<void>;
+export function sendToAll(context: WebPubSubServiceContext, contentType: MessageContentType, message: Uint8Array, options?: SendToAllOptionalParams): Promise<void>;
 
 // @public
 export interface SendToAllOptionalParams extends OperationOptions {
@@ -181,7 +181,7 @@ export interface SendToAllOptionalParams extends OperationOptions {
 }
 
 // @public
-export function sendToConnection(context: WebPubSubContext, connectionId: string, contentType: MessageContentType, message: Uint8Array, options?: SendToConnectionOptionalParams): Promise<void>;
+export function sendToConnection(context: WebPubSubServiceContext, connectionId: string, contentType: MessageContentType, message: Uint8Array, options?: SendToConnectionOptionalParams): Promise<void>;
 
 // @public
 export interface SendToConnectionOptionalParams extends OperationOptions {
@@ -189,7 +189,7 @@ export interface SendToConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function sendToGroup(context: WebPubSubContext, group: string, contentType: MessageContentType, message: Uint8Array, options?: SendToGroupOptionalParams): Promise<void>;
+export function sendToGroup(context: WebPubSubServiceContext, group: string, contentType: MessageContentType, message: Uint8Array, options?: SendToGroupOptionalParams): Promise<void>;
 
 // @public
 export interface SendToGroupOptionalParams extends OperationOptions {
@@ -199,7 +199,7 @@ export interface SendToGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function sendToUser(context: WebPubSubContext, userId: string, contentType: MessageContentType, message: Uint8Array, options?: SendToUserOptionalParams): Promise<void>;
+export function sendToUser(context: WebPubSubServiceContext, userId: string, contentType: MessageContentType, message: Uint8Array, options?: SendToUserOptionalParams): Promise<void>;
 
 // @public
 export interface SendToUserOptionalParams extends OperationOptions {
@@ -208,19 +208,19 @@ export interface SendToUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export function userExists(context: WebPubSubContext, userId: string, options?: UserExistsOptionalParams): Promise<void>;
+export function userExists(context: WebPubSubServiceContext, userId: string, options?: UserExistsOptionalParams): Promise<void>;
 
 // @public
 export interface UserExistsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebPubSubClientOptionalParams extends ClientOptions {
+export interface WebPubSubServiceClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-export interface WebPubSubContext extends Client {
+export interface WebPubSubServiceContext extends Client {
     apiVersion?: string;
     hub: string;
 }
