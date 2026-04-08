@@ -1,0 +1,22 @@
+{
+  "name": "voicelive-telemetry-sample",
+  "version": "1.0.0",
+  "description": "Demonstrates OpenTelemetry tracing with the Azure Voice Live SDK",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npx tsx index.ts"
+  },
+  "dependencies": {
+    "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.0.0-beta.1.tgz",
+    "@azure/identity": "^4.0.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-node": "^1.25.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.52.0",
+    "@opentelemetry/sdk-trace-base": "^1.25.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "~5.9.3"
+  }
+}

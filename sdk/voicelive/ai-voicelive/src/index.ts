@@ -258,4 +258,7 @@ export {
 
 // Client types for session creation
 export type { AgentSessionConfig, SessionTarget } from "./client/types.js";
+
+// Telemetry exports
+export { VoiceLiveInstrumentor } from "./telemetry/index.js";
 export { isAgentSessionTarget, isModelSessionTarget } from "./client/types.js";

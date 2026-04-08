@@ -47,6 +47,14 @@
     "tslib": "^2.8.1",
     "ws": "^8.18.3"
   },
+  "peerDependencies": {
+    "@opentelemetry/api": ">=1.4.0"
+  },
+  "peerDependenciesMeta": {
+    "@opentelemetry/api": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
@@ -55,6 +63,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
+    "@opentelemetry/api": "^1.9.0",
     "@types/node": "catalog:",
     "@types/ws": "^8.18.1",
     "@vitest/browser-playwright": "catalog:testing",
@@ -140,7 +149,6 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js"
 }

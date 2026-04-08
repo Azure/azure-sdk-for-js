@@ -2,6 +2,16 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Features Added
+
+- Added opt-in OpenTelemetry tracing via `VoiceLiveInstrumentor` for observability of WebSocket sessions.
+  - Emits spans for `connect`, `send`, `recv`, and `close` operations following GenAI Semantic Conventions v1.34.0.
+  - Tracks session-level counters: turn count, interruption count, audio bytes sent/received, MCP call/list-tools counts.
+  - Records first-token latency, token usage, finish reasons, and conversation/response IDs.
+  - Supports content recording gated by `enableContentRecording` option or `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` environment variable.
+  - Gated behind `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true` environment variable.
+  - `@opentelemetry/api` is an optional peer dependency.
+
 ### Bugs Fixed
 
 - Fixed `voiceSerializer` to properly convert Azure voice properties (e.g., `endpointId`, `customLexiconUrl`) to snake_case wire format (`endpoint_id`, `custom_lexicon_url`). Previously, Azure voice objects passed through `requestSessionSerializer` were sent with camelCase keys, which the service rejected.

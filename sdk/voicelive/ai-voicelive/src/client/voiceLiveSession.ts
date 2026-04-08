@@ -34,6 +34,13 @@ import type {
 } from "../handlers/sessionHandlers.js";
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
+import type { TelemetryState } from "../telemetry/index.js";
+import {
+  createTelemetryState,
+  traceSend,
+  traceRecv,
+  traceClose,
+} from "../telemetry/index.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
@@ -93,6 +100,9 @@ export class VoiceLiveSession {
   private _disposed = false;
   // Handler-based subscription management
   private readonly _subscriptionManager: SubscriptionManager;
+  // Telemetry state for OpenTelemetry tracing
+  private _telemetryState?: TelemetryState;
+  private _telemetryActive = false;
 
   /**
    * Creates an instance of VoiceLiveSession for model-centric sessions.
@@ -211,6 +221,20 @@ export class VoiceLiveSession {
       // Connect with proper error handling
       await this._connectionManager.connect(options.abortSignal);
 
+      // Initialize telemetry state for this connection
+      try {
+        const { state, active } = createTelemetryState(
+          this._endpoint,
+          this._model,
+          this._agentConfig,
+        );
+        this._telemetryState = state;
+        this._telemetryActive = active;
+      } catch {
+        // Telemetry initialization should never block connection
+        this._telemetryActive = false;
+      }
+
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
       logger.error("Failed to connect to Voice Live service", { error });
@@ -234,14 +258,26 @@ export class VoiceLiveSession {
 
     logger.info("Disconnecting from Voice Live service");
 
+    let disconnectError: unknown;
     try {
       await this._connectionManager.disconnect();
     } catch (error) {
       logger.error("Error during disconnect", { error });
+      disconnectError = error;
     } finally {
+      // Trace close exactly once, with error if disconnect failed
+      if (this._telemetryActive && this._telemetryState) {
+        try {
+          traceClose(this._telemetryState, disconnectError);
+        } catch {
+          // Telemetry should never block disconnect
+        }
+      }
       this._connectionManager = undefined;
       this._sessionId = undefined;
       this._activeTurnId = undefined;
+      this._telemetryState = undefined;
+      this._telemetryActive = false;
       logger.info("Disconnected from Voice Live service");
     }
   }
@@ -496,6 +532,15 @@ export class VoiceLiveSession {
 
     logger.error("Session marked as permanently dead", { reason });
 
+    // Trace close with error before cleanup
+    if (this._telemetryActive && this._telemetryState) {
+      try {
+        traceClose(this._telemetryState, new Error(reason));
+      } catch {
+        // Telemetry should never block session cleanup
+      }
+    }
+
     // Mark as disposed to prevent further use
     this._disposed = true;
 
@@ -503,6 +548,8 @@ export class VoiceLiveSession {
     this._connectionManager = undefined;
     this._sessionId = undefined;
     this._activeTurnId = undefined;
+    this._telemetryState = undefined;
+    this._telemetryActive = false;
   }
 
   private _handleIncomingMessage(data: string | ArrayBuffer): void {
@@ -524,6 +571,15 @@ export class VoiceLiveSession {
   }
 
   private _handleServerEvent(event: any): void {
+    // Trace received event
+    if (this._telemetryActive && this._telemetryState) {
+      try {
+        traceRecv(this._telemetryState, event);
+      } catch {
+        // Telemetry should never block event handling
+      }
+    }
+
     // Extract session information from events
     if (event.type === KnownServerEventType.SessionCreated && event.session?.id) {
       this._sessionId = event.session.id;
@@ -579,6 +635,15 @@ export class VoiceLiveSession {
     }
 
     try {
+      // Trace send event
+      if (this._telemetryActive && this._telemetryState) {
+        try {
+          traceSend(this._telemetryState, event);
+        } catch {
+          // Telemetry should never block sends
+        }
+      }
+
       const serialized = this._messageParser.serializeOutgoingMessage(event);
       await this._connectionManager.send(serialized, options.abortSignal);
 

@@ -1,4 +1,4 @@
-import { VoiceLiveClient } from "../src/index.js";
+import { VoiceLiveClient, VoiceLiveInstrumentor } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { setLogLevel } from "@azure/logger";
@@ -259,6 +259,76 @@ describe("snippets", () => {
     function sendAudioChunk(audioBuffer: ArrayBuffer) {
       session.sendAudio(audioBuffer);
     }
+  });
+
+  it("ReadmeSampleEnableTelemetry", async () => {
+    // Enable OpenTelemetry tracing for VoiceLive
+    // Requires: npm install @opentelemetry/api @opentelemetry/sdk-trace-node
+    // @ts-preserve-whitespace
+    // Set environment variable to opt in to tracing
+    // AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true
+    // @ts-preserve-whitespace
+    const instrumentor = new VoiceLiveInstrumentor();
+    instrumentor.instrument();
+    // @ts-preserve-whitespace
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // All sessions created after instrument() will emit OpenTelemetry spans
+    const session = await client.startSession("gpt-4o-realtime-preview");
+    // @ts-preserve-whitespace
+    await session.updateSession({
+      modalities: ["audio", "text"],
+      instructions: "You are a helpful assistant.",
+    });
+    // @ts-preserve-whitespace
+    // ... use the session normally — spans are emitted automatically
+    // @ts-preserve-whitespace
+    // When done, disconnect and uninstrument
+    await session.disconnect();
+    instrumentor.uninstrument();
+  });
+
+  it("ReadmeSampleTelemetryWithContentRecording", async () => {
+    // Enable content recording to capture message payloads in traces
+    // @ts-preserve-whitespace
+    const instrumentor = new VoiceLiveInstrumentor();
+    instrumentor.instrument({ enableContentRecording: true });
+    // @ts-preserve-whitespace
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    const session = await client.startSession("gpt-4o-realtime-preview");
+    // @ts-preserve-whitespace
+    // Traces will now include event payloads (system instructions, tool calls, etc.)
+    await session.updateSession({
+      modalities: ["audio", "text"],
+      instructions: "You are a customer support assistant.",
+      tools: [
+        {
+          type: "function",
+          name: "lookup_order",
+          description: "Look up an order by ID",
+          parameters: {
+            type: "object",
+            properties: { orderId: { type: "string" } },
+            required: ["orderId"],
+          },
+        },
+      ],
+    });
+    // @ts-preserve-whitespace
+    await session.disconnect();
+    instrumentor.uninstrument();
+  });
+
+  it("ReadmeSampleTelemetryWithContentRecordingEnvVar", async () => {
+    // Content recording can also be enabled via environment variable:
+    // OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true
+    // @ts-preserve-whitespace
+    const instrumentor = new VoiceLiveInstrumentor();
+    instrumentor.instrument(); // reads the env var automatically
   });
 });
 

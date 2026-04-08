@@ -184,6 +184,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Configuring session options](#configuring-session-options)
 - [Handling real-time events](#handling-real-time-events)
 - [Implementing function calling](#implementing-function-calling)
+- [Enabling telemetry with OpenTelemetry](#enabling-telemetry-with-opentelemetry)
 
 ### Creating a basic voice assistant
 
@@ -395,6 +396,56 @@ const subscription = session.subscribe({
   },
 });
 ```
+
+### Enabling telemetry with OpenTelemetry
+
+The SDK supports opt-in OpenTelemetry tracing that automatically instruments every WebSocket operation with GenAI-semantic-convention spans.
+
+```ts snippet:ReadmeSampleEnableTelemetry
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient, VoiceLiveInstrumentor } from "@azure/ai-voicelive";
+
+// Enable OpenTelemetry tracing for VoiceLive
+// Requires: npm install @opentelemetry/api @opentelemetry/sdk-trace-node
+
+// Set environment variable to opt in to tracing
+// AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true
+
+const instrumentor = new VoiceLiveInstrumentor();
+instrumentor.instrument();
+
+const credential = new DefaultAzureCredential();
+const endpoint = "YourEndpoint";
+const client = new VoiceLiveClient(endpoint, credential);
+
+// All sessions created after instrument() will emit OpenTelemetry spans
+const session = await client.startSession("gpt-4o-realtime-preview");
+
+await session.updateSession({
+  modalities: ["audio", "text"],
+  instructions: "You are a helpful assistant.",
+});
+
+// ... use the session normally — spans are emitted automatically
+
+// When done, disconnect and uninstrument
+await session.disconnect();
+instrumentor.uninstrument();
+```
+
+To also capture message content (system instructions, tool definitions, function call arguments) in span events, enable content recording:
+
+```ts snippet:ReadmeSampleTelemetryWithContentRecordingEnvVar
+import { VoiceLiveInstrumentor } from "@azure/ai-voicelive";
+
+// Content recording can also be enabled via environment variable:
+// OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true
+
+const instrumentor = new VoiceLiveInstrumentor();
+instrumentor.instrument(); // reads the env var automatically
+```
+
+> **Note:** Content recording may capture sensitive data. Enable it only in development or controlled environments.
 
 ## Troubleshooting
 
