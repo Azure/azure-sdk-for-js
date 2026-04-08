@@ -12,70 +12,6 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AgentsListSessionsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include after=obj_foo in order to fetch the next page of the list.
-   */
-  after?: string;
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place in the list.
-   * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
-   * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
-   */
-  before?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsGetSessionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-/** Optional parameters. */
-export interface AgentsCreateSessionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-  /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
-  agentSessionId?: string;
-}
-
-/** Optional parameters. */
-export interface AgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: AgentDefinitionOptInKeys;
-}
-
-/** Optional parameters. */
-export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-  /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpoint;
-  /** Optional agent card for the agent */
-  agentCard?: AgentCard;
-}
-
-/** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
@@ -203,12 +139,6 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface AgentsUpdateFromCodeOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: AgentDefinitionOptInKeys;
-}
-
-/** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
@@ -225,12 +155,6 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
-}
-
-/** Optional parameters. */
-export interface AgentsCreateFromCodeOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 /** Optional parameters. */

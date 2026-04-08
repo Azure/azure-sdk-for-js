@@ -2,24 +2,13 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  BetaAgentInvocationsOperations,
-  _getBetaAgentInvocationsOperations,
-} from "./agentInvocations/index.js";
-import {
-  BetaAgentSessionFilesOperations,
-  _getBetaAgentSessionFilesOperations,
-} from "./agentSessionFiles/index.js";
+import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
 } from "./evaluationTaxonomies/index.js";
 import { BetaEvaluatorsOperations, _getBetaEvaluatorsOperations } from "./evaluators/index.js";
 import { BetaInsightsOperations, _getBetaInsightsOperations } from "./insights/index.js";
-import {
-  BetaManagedAgentIdentityBlueprintsOperations,
-  _getBetaManagedAgentIdentityBlueprintsOperations,
-} from "./managedAgentIdentityBlueprints/index.js";
 import {
   BetaMemoryStoresOperations,
   _getBetaMemoryStoresOperations,
@@ -31,9 +20,6 @@ import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxe
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  managedAgentIdentityBlueprints: BetaManagedAgentIdentityBlueprintsOperations;
-  agentSessionFiles: BetaAgentSessionFilesOperations;
-  agentInvocations: BetaAgentInvocationsOperations;
   skills: BetaSkillsOperations;
   toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
@@ -42,13 +28,11 @@ export interface BetaOperations {
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+  agents: BetaAgentsOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    managedAgentIdentityBlueprints: _getBetaManagedAgentIdentityBlueprintsOperations(context),
-    agentSessionFiles: _getBetaAgentSessionFilesOperations(context),
-    agentInvocations: _getBetaAgentInvocationsOperations(context),
     skills: _getBetaSkillsOperations(context),
     toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),
@@ -57,5 +41,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
+    agents: _getBetaAgentsOperations(context),
   };
 }

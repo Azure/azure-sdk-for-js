@@ -2,12 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  listSessions,
-  deleteSession,
-  getSession,
-  createSession,
-  createAgentVersionFromCode,
-  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -17,19 +11,11 @@ export {
   $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
-  updateFromCode,
   update,
-  createFromCode,
   create,
   get,
 } from "./operations.js";
 export type {
-  AgentsListSessionsOptionalParams,
-  AgentsDeleteSessionOptionalParams,
-  AgentsGetSessionOptionalParams,
-  AgentsCreateSessionOptionalParams,
-  AgentsCreateAgentVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -39,9 +25,7 @@ export type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateFromCodeOptionalParams,
   AgentsUpdateOptionalParams,
-  AgentsCreateFromCodeOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";

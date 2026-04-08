@@ -18,19 +18,9 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 // @public
-export interface AgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
-}
-
-// @public
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsCreateFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -41,12 +31,6 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsCreateSessionOptionalParams extends OperationOptions {
-    agentSessionId?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -62,21 +46,11 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface AgentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsGetSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -93,15 +67,6 @@ export interface AgentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsListSessionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
@@ -110,21 +75,9 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
-    agentCard?: AgentCard;
-    agentEndpoint?: AgentEndpoint;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsUpdateFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -141,23 +94,11 @@ export function create(context: AIProjectContext, name: string, definition: Agen
 // @public
 export function createAgentFromManifest(context: AIProjectContext, name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
 
-// @public (undocumented)
-export function createAgentVersionFromCode(context: AIProjectContext, agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: AgentsCreateAgentVersionFromCodeOptionalParams): Promise<AgentVersion>;
-
 // @public
 export function createAgentVersionFromManifest(context: AIProjectContext, agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
 
 // @public
-export function createFromCode(context: AIProjectContext, agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: AgentsCreateFromCodeOptionalParams): Promise<Agent>;
-
-// @public
-export function createSession(context: AIProjectContext, agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams): Promise<AgentSessionResource>;
-
-// @public
 export function createVersion(context: AIProjectContext, agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateVersionOptionalParams): Promise<AgentVersion>;
-
-// @public
-export function deleteSession(context: AIProjectContext, agentName: string, sessionId: string, isolationKey: string, options?: AgentsDeleteSessionOptionalParams): Promise<void>;
 
 // @public
 export function deleteVersion(context: AIProjectContext, agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams): Promise<DeleteAgentVersionResponse>;
@@ -166,31 +107,19 @@ export function deleteVersion(context: AIProjectContext, agentName: string, agen
 export function get(context: AIProjectContext, agentName: string, options?: AgentsGetOptionalParams): Promise<Agent>;
 
 // @public
-export function getSession(context: AIProjectContext, agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams): Promise<AgentSessionResource>;
-
-// @public
 export function getVersion(context: AIProjectContext, agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams): Promise<AgentVersion>;
 
 // @public
 export function list(context: AIProjectContext, options?: AgentsListOptionalParams): PagedAsyncIterableIterator<Agent>;
 
 // @public
-export function listSessions(context: AIProjectContext, agentName: string, options?: AgentsListSessionsOptionalParams): PagedAsyncIterableIterator<AgentSessionResource>;
-
-// @public
 export function listVersions(context: AIProjectContext, agentName: string, options?: AgentsListVersionsOptionalParams): PagedAsyncIterableIterator<AgentVersion>;
-
-// @public
-export function patchAgentObject(context: AIProjectContext, agentName: string, options?: AgentsPatchAgentObjectOptionalParams): Promise<Agent>;
 
 // @public
 export function update(context: AIProjectContext, agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
 
 // @public
 export function updateAgentFromManifest(context: AIProjectContext, agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
-
-// @public
-export function updateFromCode(context: AIProjectContext, agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: AgentsUpdateFromCodeOptionalParams): Promise<Agent>;
 
 // (No @packageDocumentation comment for this package)
 

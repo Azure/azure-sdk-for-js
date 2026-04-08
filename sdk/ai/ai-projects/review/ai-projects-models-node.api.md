@@ -76,7 +76,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview" | "CodeAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | AgentDefinition;
@@ -286,7 +286,7 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public (undocumented)
-export type BetaAgentSessionFilesDownloadResponse = {
+export type BetaAgentsDownloadSessionFileResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
 };
@@ -549,33 +549,6 @@ export interface CosmosDBIndex extends Index {
     embeddingConfiguration: EmbeddingConfiguration;
     fieldMapping: FieldMapping;
     type: "CosmosDBNoSqlVectorStore";
-}
-
-// @public
-export interface CreateAgentFromCodeContent {
-    code: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-    metadata: CreateAgentVersionFromCodeRequest;
-}
-
-// @public
-export interface CreateAgentVersionFromCodeContent {
-    code: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-    metadata: CreateAgentVersionFromCodeRequest;
-}
-
-// @public
-export interface CreateAgentVersionFromCodeRequest {
-    definition: HostedAgentDefinition;
-    description?: string;
-    metadata?: Record<string, string>;
 }
 
 // @public
@@ -899,6 +872,7 @@ export interface EvaluatorMetric {
     is_primary?: boolean;
     max_value?: number;
     min_value?: number;
+    threshold?: number;
     type?: EvaluatorMetricType;
 }
 

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileContents } from "./static-helpers/multipartHelpers.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 
@@ -176,17 +175,8 @@ export type {
   AgentCardSkill,
   ApiErrorResponse,
   ErrorModel,
-  CreateAgentFromCodeContent,
-  CreateAgentVersionFromCodeRequest,
-  CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
-  VersionIndicator,
-  VersionIndicatorUnion,
-  VersionIndicatorType,
-  VersionRefIndicator,
-  AgentSessionResource,
-  AgentSessionStatus,
   EvaluationRule,
   EvaluationRuleAction,
   EvaluationRuleActionUnion,
@@ -229,6 +219,17 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
+  VersionIndicator,
+  VersionIndicatorUnion,
+  VersionIndicatorType,
+  VersionRefIndicator,
+  AgentSessionResource,
+  AgentSessionStatus,
+  SessionFileWriteResponse,
+  SessionDirectoryListResponse,
+  SessionDirectoryEntry,
+  ManagedAgentIdentityBlueprint,
+  PagedManagedAgentIdentityBlueprint,
   EvaluationTaxonomy,
   EvaluationTaxonomyInput,
   EvaluationTaxonomyInputUnion,
@@ -338,11 +339,6 @@ export type {
   ToolboxObject,
   SkillObject,
   DeleteSkillResponse,
-  SessionFileWriteResponse,
-  SessionDirectoryListResponse,
-  SessionDirectoryEntry,
-  ManagedAgentIdentityBlueprint,
-  PagedManagedAgentIdentityBlueprint,
   UpdateToolboxRequest,
   AgentType,
   AgentDefinitionOptInKeys,
@@ -351,17 +347,11 @@ export type {
   PendingUploadType,
   MemoryStoreType,
   KnownApiVersions,
-  BetaAgentSessionFilesDownloadResponse,
   BetaSkillsDownloadResponse,
+  BetaAgentsDownloadSessionFileResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export type {
-  AgentsListSessionsOptionalParams,
-  AgentsDeleteSessionOptionalParams,
-  AgentsGetSessionOptionalParams,
-  AgentsCreateSessionOptionalParams,
-  AgentsCreateAgentVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -371,9 +361,7 @@ export type {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateFromCodeOptionalParams,
   AgentsUpdateOptionalParams,
-  AgentsCreateFromCodeOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./api/agents/index.js";
@@ -410,11 +398,20 @@ export type {
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
 export type {
-  BetaAgentSessionFilesDeleteOptionalParams,
-  BetaAgentSessionFilesListOptionalParams,
-  BetaAgentSessionFilesDownloadOptionalParams,
-  BetaAgentSessionFilesUploadOptionalParams,
-} from "./api/beta/agentSessionFiles/index.js";
+  ListManagedIdentityBlueprintsOptionalParams,
+  DeleteManagedIdentityBlueprintOptionalParams,
+  GetManagedIdentityBlueprintOptionalParams,
+  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
+  BetaAgentsDeleteSessionFileOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsDownloadSessionFileOptionalParams,
+  BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsListSessionsOptionalParams,
+  BetaAgentsDeleteSessionOptionalParams,
+  BetaAgentsGetSessionOptionalParams,
+  BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsPatchAgentObjectOptionalParams,
+} from "./api/beta/agents/index.js";
 export type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
@@ -437,12 +434,6 @@ export type {
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
 } from "./api/beta/insights/index.js";
-export type {
-  BetaManagedAgentIdentityBlueprintsListOptionalParams,
-  BetaManagedAgentIdentityBlueprintsDeleteOptionalParams,
-  BetaManagedAgentIdentityBlueprintsGetOptionalParams,
-  CreateOrUpdateOptionalParams,
-} from "./api/beta/managedAgentIdentityBlueprints/index.js";
 export type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
@@ -494,12 +485,11 @@ export type {
   DeploymentsOperations,
   EvaluationRulesOperations,
   IndexesOperations,
-  BetaAgentSessionFilesOperations,
+  BetaAgentsOperations,
   TelemetryOperations,
   BetaEvaluationTaxonomiesOperations,
   BetaEvaluatorsOperations,
   BetaInsightsOperations,
-  BetaManagedAgentIdentityBlueprintsOperations,
   BetaMemoryStoresOperations,
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
@@ -507,4 +497,3 @@ export type {
   BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export type { FileContents };

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
@@ -4904,70 +4903,6 @@ export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
   });
 }
 
-/** Multipart request body for creating a new code-based agent (POST /agents). Inherits from CreateAgentVersionFromCodeContent for future extensibility. */
-export interface CreateAgentFromCodeContent {
-  /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeRequest;
-  /** The code zip file (max 250 MB). */
-  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-}
-
-export function createAgentFromCodeContentSerializer(item: CreateAgentFromCodeContent): any {
-  return [
-    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
-    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
-  ];
-}
-
-/**
- * JSON metadata for code-based agent operations (create, update, create version).
- * The agent name comes from the URL path parameter or the `x-ms-agent-name` header,
- * so it is not included in this model.
- * The content hash (SHA-256 of the zip) is carried in the `x-ms-code-zip-sha256` header.
- */
-export interface CreateAgentVersionFromCodeRequest {
-  /** A human-readable description of the agent. */
-  description?: string;
-  /**
-   * Set of 16 key-value pairs that can be attached to an object. This can be
-   * useful for storing additional information about the object in a structured
-   * format, and querying for objects via API or the dashboard.
-   *
-   * Keys are strings with a maximum length of 64 characters. Values are strings
-   * with a maximum length of 512 characters.
-   */
-  metadata?: Record<string, string>;
-  /** The hosted agent definition including code_configuration (runtime, entry_point), cpu, memory, and protocol_versions. */
-  definition: HostedAgentDefinition;
-}
-
-export function createAgentVersionFromCodeRequestSerializer(
-  item: CreateAgentVersionFromCodeRequest,
-): any {
-  return {
-    description: item["description"],
-    metadata: item["metadata"],
-    definition: hostedAgentDefinitionSerializer(item["definition"]),
-  };
-}
-
-/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
-export interface CreateAgentVersionFromCodeContent {
-  /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeRequest;
-  /** The code zip file (max 250 MB). */
-  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-}
-
-export function createAgentVersionFromCodeContentSerializer(
-  item: CreateAgentVersionFromCodeContent,
-): any {
-  return [
-    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
-    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
-  ];
-}
-
 /** A deleted agent Object */
 export interface DeleteAgentResponse {
   /** The object type. Always 'agent.deleted'. */
@@ -5062,135 +4997,6 @@ export function _agentsPagedResultAgentVersionObjectDeserializer(
 export function agentVersionArrayDeserializer(result: Array<AgentVersion>): any[] {
   return result.map((item) => {
     return agentVersionDeserializer(item);
-  });
-}
-
-/** Version indicator determining which agent version backs the session. */
-export interface VersionIndicator {
-  /** The type of version indicator. */
-  /** The discriminator possible values: version_ref */
-  type: VersionIndicatorType;
-}
-
-export function versionIndicatorSerializer(item: VersionIndicator): any {
-  return { type: item["type"] };
-}
-
-export function versionIndicatorDeserializer(item: any): VersionIndicator {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for VersionIndicatorUnion */
-export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
-
-export function versionIndicatorUnionSerializer(item: VersionIndicatorUnion): any {
-  switch (item.type) {
-    case "version_ref":
-      return versionRefIndicatorSerializer(item as VersionRefIndicator);
-
-    default:
-      return versionIndicatorSerializer(item);
-  }
-}
-
-export function versionIndicatorUnionDeserializer(item: any): VersionIndicatorUnion {
-  switch (item["type"]) {
-    case "version_ref":
-      return versionRefIndicatorDeserializer(item as VersionRefIndicator);
-
-    default:
-      return versionIndicatorDeserializer(item);
-  }
-}
-
-/** The type of version indicator used to determine the agent version backing a session. */
-export type VersionIndicatorType = "version_ref";
-
-/** Version indicator that references a specific agent version by name. */
-export interface VersionRefIndicator extends VersionIndicator {
-  /** Discriminator value for version_ref. */
-  type: "version_ref";
-  /** The agent version identifier returned by the agent version APIs. */
-  agent_version: string;
-}
-
-export function versionRefIndicatorSerializer(item: VersionRefIndicator): any {
-  return { type: item["type"], agent_version: item["agent_version"] };
-}
-
-export function versionRefIndicatorDeserializer(item: any): VersionRefIndicator {
-  return {
-    type: item["type"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** An agent session providing a long-lived compute sandbox for hosted agent invocations. */
-export interface AgentSessionResource {
-  /** The session identifier. */
-  agent_session_id: string;
-  /** The version indicator determining which agent version backs this session. */
-  version_indicator: VersionIndicatorUnion;
-  /** The current status of the session. */
-  status: AgentSessionStatus;
-  /** The Unix timestamp (in seconds) when the session was created. */
-  readonly created_at: Date;
-  /** The Unix timestamp (in seconds) when the session was last accessed. */
-  readonly last_accessed_at: Date;
-  /** The Unix timestamp (in seconds) when the session expires (rolling, 30 days from last activity). */
-  readonly expires_at: Date;
-}
-
-export function agentSessionResourceDeserializer(item: any): AgentSessionResource {
-  return {
-    agent_session_id: item["agent_session_id"],
-    version_indicator: versionIndicatorUnionDeserializer(item["version_indicator"]),
-    status: item["status"],
-    created_at: new Date(item["created_at"] * 1000),
-    last_accessed_at: new Date(item["last_accessed_at"] * 1000),
-    expires_at: new Date(item["expires_at"] * 1000),
-  };
-}
-
-/** The status of an agent session. */
-export type AgentSessionStatus =
-  | "creating"
-  | "active"
-  | "idle"
-  | "updating"
-  | "failed"
-  | "deleting"
-  | "deleted"
-  | "expired";
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultAgentSessionResource {
-  /** The requested list of items. */
-  data: AgentSessionResource[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultAgentSessionResourceDeserializer(
-  item: any,
-): _AgentsPagedResultAgentSessionResource {
-  return {
-    data: agentSessionResourceArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function agentSessionResourceArrayDeserializer(result: Array<AgentSessionResource>): any[] {
-  return result.map((item) => {
-    return agentSessionResourceDeserializer(item);
   });
 }
 
@@ -6259,6 +6065,232 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
+/** Version indicator determining which agent version backs the session. */
+export interface VersionIndicator {
+  /** The type of version indicator. */
+  /** The discriminator possible values: version_ref */
+  type: VersionIndicatorType;
+}
+
+export function versionIndicatorSerializer(item: VersionIndicator): any {
+  return { type: item["type"] };
+}
+
+export function versionIndicatorDeserializer(item: any): VersionIndicator {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for VersionIndicatorUnion */
+export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
+
+export function versionIndicatorUnionSerializer(item: VersionIndicatorUnion): any {
+  switch (item.type) {
+    case "version_ref":
+      return versionRefIndicatorSerializer(item as VersionRefIndicator);
+
+    default:
+      return versionIndicatorSerializer(item);
+  }
+}
+
+export function versionIndicatorUnionDeserializer(item: any): VersionIndicatorUnion {
+  switch (item["type"]) {
+    case "version_ref":
+      return versionRefIndicatorDeserializer(item as VersionRefIndicator);
+
+    default:
+      return versionIndicatorDeserializer(item);
+  }
+}
+
+/** The type of version indicator used to determine the agent version backing a session. */
+export type VersionIndicatorType = "version_ref";
+
+/** Version indicator that references a specific agent version by name. */
+export interface VersionRefIndicator extends VersionIndicator {
+  /** Discriminator value for version_ref. */
+  type: "version_ref";
+  /** The agent version identifier returned by the agent version APIs. */
+  agent_version: string;
+}
+
+export function versionRefIndicatorSerializer(item: VersionRefIndicator): any {
+  return { type: item["type"], agent_version: item["agent_version"] };
+}
+
+export function versionRefIndicatorDeserializer(item: any): VersionRefIndicator {
+  return {
+    type: item["type"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** An agent session providing a long-lived compute sandbox for hosted agent invocations. */
+export interface AgentSessionResource {
+  /** The session identifier. */
+  agent_session_id: string;
+  /** The version indicator determining which agent version backs this session. */
+  version_indicator: VersionIndicatorUnion;
+  /** The current status of the session. */
+  status: AgentSessionStatus;
+  /** The Unix timestamp (in seconds) when the session was created. */
+  readonly created_at: Date;
+  /** The Unix timestamp (in seconds) when the session was last accessed. */
+  readonly last_accessed_at: Date;
+  /** The Unix timestamp (in seconds) when the session expires (rolling, 30 days from last activity). */
+  readonly expires_at: Date;
+}
+
+export function agentSessionResourceDeserializer(item: any): AgentSessionResource {
+  return {
+    agent_session_id: item["agent_session_id"],
+    version_indicator: versionIndicatorUnionDeserializer(item["version_indicator"]),
+    status: item["status"],
+    created_at: new Date(item["created_at"] * 1000),
+    last_accessed_at: new Date(item["last_accessed_at"] * 1000),
+    expires_at: new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** The status of an agent session. */
+export type AgentSessionStatus =
+  | "creating"
+  | "active"
+  | "idle"
+  | "updating"
+  | "failed"
+  | "deleting"
+  | "deleted"
+  | "expired";
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentSessionResource {
+  /** The requested list of items. */
+  data: AgentSessionResource[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultAgentSessionResourceDeserializer(
+  item: any,
+): _AgentsPagedResultAgentSessionResource {
+  return {
+    data: agentSessionResourceArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function agentSessionResourceArrayDeserializer(result: Array<AgentSessionResource>): any[] {
+  return result.map((item) => {
+    return agentSessionResourceDeserializer(item);
+  });
+}
+
+/** Response from uploading a file to a session sandbox. */
+export interface SessionFileWriteResponse {
+  /** The path where the file was written, relative to the session home directory. */
+  path: string;
+  /** Number of bytes written. */
+  bytes_written: number;
+}
+
+export function sessionFileWriteResponseDeserializer(item: any): SessionFileWriteResponse {
+  return {
+    path: item["path"],
+    bytes_written: item["bytes_written"],
+  };
+}
+
+/** Response from listing a directory in a session sandbox. */
+export interface SessionDirectoryListResponse {
+  /** The path that was listed, relative to the session home directory. */
+  path: string;
+  /** The directory entries. */
+  entries: SessionDirectoryEntry[];
+}
+
+export function sessionDirectoryListResponseDeserializer(item: any): SessionDirectoryListResponse {
+  return {
+    path: item["path"],
+    entries: sessionDirectoryEntryArrayDeserializer(item["entries"]),
+  };
+}
+
+export function sessionDirectoryEntryArrayDeserializer(
+  result: Array<SessionDirectoryEntry>,
+): any[] {
+  return result.map((item) => {
+    return sessionDirectoryEntryDeserializer(item);
+  });
+}
+
+/** A single entry in a directory listing. */
+export interface SessionDirectoryEntry {
+  /** The name of the file or directory. */
+  name: string;
+  /** The size in bytes (0 for directories). */
+  size: number;
+  /** Whether this entry is a directory. */
+  is_directory: boolean;
+  /** The last modification time in UTC (ISO 8601). */
+  modified_time: Date;
+}
+
+export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEntry {
+  return {
+    name: item["name"],
+    size: item["size"],
+    is_directory: item["is_directory"],
+    modified_time: new Date(item["modified_time"]),
+  };
+}
+
+/** model interface ManagedAgentIdentityBlueprint */
+export interface ManagedAgentIdentityBlueprint {
+  readonly name: string;
+}
+
+export function managedAgentIdentityBlueprintDeserializer(
+  item: any,
+): ManagedAgentIdentityBlueprint {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Paged collection of ManagedAgentIdentityBlueprint items */
+export interface PagedManagedAgentIdentityBlueprint {
+  /** The ManagedAgentIdentityBlueprint items on this page */
+  value: ManagedAgentIdentityBlueprint[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function pagedManagedAgentIdentityBlueprintDeserializer(
+  item: any,
+): PagedManagedAgentIdentityBlueprint {
+  return {
+    value: managedAgentIdentityBlueprintArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function managedAgentIdentityBlueprintArrayDeserializer(
+  result: Array<ManagedAgentIdentityBlueprint>,
+): any[] {
+  return result.map((item) => {
+    return managedAgentIdentityBlueprintDeserializer(item);
+  });
+}
+
 /** Evaluation Taxonomy Definition */
 export interface EvaluationTaxonomy {
   /** Asset ID, a unique identifier for the asset */
@@ -6911,6 +6943,8 @@ export interface EvaluatorMetric {
   min_value?: number;
   /** Maximum value for the metric. If not specified, it is assumed to be unbounded. */
   max_value?: number;
+  /** Default pass/fail threshold for this metric. */
+  threshold?: number;
   /** Indicates if this metric is primary when there are multiple metrics. */
   is_primary?: boolean;
 }
@@ -6921,6 +6955,7 @@ export function evaluatorMetricSerializer(item: EvaluatorMetric): any {
     desirable_direction: item["desirable_direction"],
     min_value: item["min_value"],
     max_value: item["max_value"],
+    threshold: item["threshold"],
     is_primary: item["is_primary"],
   };
 }
@@ -6931,6 +6966,7 @@ export function evaluatorMetricDeserializer(item: any): EvaluatorMetric {
     desirable_direction: item["desirable_direction"],
     min_value: item["min_value"],
     max_value: item["max_value"],
+    threshold: item["threshold"],
     is_primary: item["is_primary"],
   };
 }
@@ -9193,103 +9229,6 @@ export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse 
   };
 }
 
-/** Response from uploading a file to a session sandbox. */
-export interface SessionFileWriteResponse {
-  /** The path where the file was written, relative to the session home directory. */
-  path: string;
-  /** Number of bytes written. */
-  bytes_written: number;
-}
-
-export function sessionFileWriteResponseDeserializer(item: any): SessionFileWriteResponse {
-  return {
-    path: item["path"],
-    bytes_written: item["bytes_written"],
-  };
-}
-
-/** Response from listing a directory in a session sandbox. */
-export interface SessionDirectoryListResponse {
-  /** The path that was listed, relative to the session home directory. */
-  path: string;
-  /** The directory entries. */
-  entries: SessionDirectoryEntry[];
-}
-
-export function sessionDirectoryListResponseDeserializer(item: any): SessionDirectoryListResponse {
-  return {
-    path: item["path"],
-    entries: sessionDirectoryEntryArrayDeserializer(item["entries"]),
-  };
-}
-
-export function sessionDirectoryEntryArrayDeserializer(
-  result: Array<SessionDirectoryEntry>,
-): any[] {
-  return result.map((item) => {
-    return sessionDirectoryEntryDeserializer(item);
-  });
-}
-
-/** A single entry in a directory listing. */
-export interface SessionDirectoryEntry {
-  /** The name of the file or directory. */
-  name: string;
-  /** The size in bytes (0 for directories). */
-  size: number;
-  /** Whether this entry is a directory. */
-  is_directory: boolean;
-  /** The last modification time in UTC (ISO 8601). */
-  modified_time: Date;
-}
-
-export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEntry {
-  return {
-    name: item["name"],
-    size: item["size"],
-    is_directory: item["is_directory"],
-    modified_time: new Date(item["modified_time"]),
-  };
-}
-
-/** model interface ManagedAgentIdentityBlueprint */
-export interface ManagedAgentIdentityBlueprint {
-  readonly name: string;
-}
-
-export function managedAgentIdentityBlueprintDeserializer(
-  item: any,
-): ManagedAgentIdentityBlueprint {
-  return {
-    name: item["name"],
-  };
-}
-
-/** Paged collection of ManagedAgentIdentityBlueprint items */
-export interface PagedManagedAgentIdentityBlueprint {
-  /** The ManagedAgentIdentityBlueprint items on this page */
-  value: ManagedAgentIdentityBlueprint[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function pagedManagedAgentIdentityBlueprintDeserializer(
-  item: any,
-): PagedManagedAgentIdentityBlueprint {
-  return {
-    value: managedAgentIdentityBlueprintArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function managedAgentIdentityBlueprintArrayDeserializer(
-  result: Array<ManagedAgentIdentityBlueprint>,
-): any[] {
-  return result.map((item) => {
-    return managedAgentIdentityBlueprintDeserializer(item);
-  });
-}
-
 /** model interface UpdateToolboxRequest */
 export interface UpdateToolboxRequest {
   /** The name of the toolbox to update. */
@@ -9321,8 +9260,7 @@ export type AgentDefinitionOptInKeys =
   | "HostedAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
   | "ContainerAgents=V1Preview"
-  | "AgentEndpoints=V1Preview"
-  | "CodeAgents=V1Preview";
+  | "AgentEndpoints=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
@@ -9348,7 +9286,7 @@ export enum KnownVersions {
   v1 = "v1",
 }
 
-export type BetaAgentSessionFilesDownloadResponse = {
+export type BetaSkillsDownloadResponse = {
   /**
    * BROWSER ONLY
    *
@@ -9365,13 +9303,7 @@ export type BetaAgentSessionFilesDownloadResponse = {
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
-export type BetaAgentInvocationsCancelResponse = { body: any };
-
-export type BetaAgentInvocationsGetResponse = { body: any };
-
-export type BetaAgentInvocationsCreateResponse = { body: any };
-
-export type BetaSkillsDownloadResponse = {
+export type BetaAgentsDownloadSessionFileResponse = {
   /**
    * BROWSER ONLY
    *

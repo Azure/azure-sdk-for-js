@@ -3,12 +3,6 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  listSessions,
-  deleteSession,
-  getSession,
-  createSession,
-  createAgentVersionFromCode,
-  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -18,19 +12,11 @@ import {
   $delete,
   updateAgentFromManifest,
   createAgentFromManifest,
-  updateAgentFromCode,
   updateAgent,
-  createAgentFromCode,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
 import {
-  AgentsListSessionsOptionalParams,
-  AgentsDeleteSessionOptionalParams,
-  AgentsGetSessionOptionalParams,
-  AgentsCreateSessionOptionalParams,
-  AgentsCreateAgentVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -40,9 +26,7 @@ import {
   AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateAgentFromCodeOptionalParams,
   AgentsUpdateAgentOptionalParams,
-  AgentsCreateAgentFromCodeOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -50,60 +34,13 @@ import {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
-  CreateAgentFromCodeContent,
-  CreateAgentVersionFromCodeContent,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
-  VersionIndicatorUnion,
-  AgentSessionResource,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
-  /** Returns a list of sessions for the specified agent. */
-  listSessions: (
-    agentName: string,
-    options?: AgentsListSessionsOptionalParams,
-  ) => PagedAsyncIterableIterator<AgentSessionResource>;
-  /**
-   * Deletes a session synchronously.
-   * Returns 204 No Content when the session is deleted or does not exist.
-   */
-  deleteSession: (
-    agentName: string,
-    sessionId: string,
-    isolationKey: string,
-    options?: AgentsDeleteSessionOptionalParams,
-  ) => Promise<void>;
-  /** Retrieves a session by ID. */
-  getSession: (
-    agentName: string,
-    sessionId: string,
-    options?: AgentsGetSessionOptionalParams,
-  ) => Promise<AgentSessionResource>;
-  /**
-   * Creates a new session for an agent endpoint.
-   * The endpoint resolves the backing agent version from `version_indicator` and
-   * enforces session ownership using the provided isolation key for session-mutating operations.
-   */
-  createSession: (
-    agentName: string,
-    isolationKey: string,
-    versionIndicator: VersionIndicatorUnion,
-    options?: AgentsCreateSessionOptionalParams,
-  ) => Promise<AgentSessionResource>;
-  createAgentVersionFromCode: (
-    agentName: string,
-    codeZipSha256: string,
-    body: CreateAgentVersionFromCodeContent,
-    options?: AgentsCreateAgentVersionFromCodeOptionalParams,
-  ) => Promise<AgentVersion>;
-  /** Updates an agent endpoint. */
-  patchAgentObject: (
-    agentName: string,
-    options?: AgentsPatchAgentObjectOptionalParams,
-  ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -161,18 +98,6 @@ export interface AgentsOperations {
     options?: AgentsCreateAgentFromManifestOptionalParams,
   ) => Promise<Agent>;
   /**
-   * Updates a code-based agent by uploading new code and creating a new version.
-   * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
-   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
-   * Maximum upload size is 250 MB.
-   */
-  updateAgentFromCode: (
-    agentName: string,
-    codeZipSha256: string,
-    body: CreateAgentVersionFromCodeContent,
-    options?: AgentsUpdateAgentFromCodeOptionalParams,
-  ) => Promise<Agent>;
-  /**
    * Updates the agent by adding a new version if there are any changes to the agent definition.
    * If no changes, returns the existing agent version.
    */
@@ -180,19 +105,6 @@ export interface AgentsOperations {
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
-  ) => Promise<Agent>;
-  /**
-   * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
-   * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
-   * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
-   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
-   * Maximum upload size is 250 MB.
-   */
-  createAgentFromCode: (
-    agentName: string,
-    codeZipSha256: string,
-    body: CreateAgentFromCodeContent,
-    options?: AgentsCreateAgentFromCodeOptionalParams,
   ) => Promise<Agent>;
   /** Creates the agent. */
   createAgent: (
@@ -206,30 +118,6 @@ export interface AgentsOperations {
 
 function _getAgents(context: AIProjectContext) {
   return {
-    listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) =>
-      listSessions(context, agentName, options),
-    deleteSession: (
-      agentName: string,
-      sessionId: string,
-      isolationKey: string,
-      options?: AgentsDeleteSessionOptionalParams,
-    ) => deleteSession(context, agentName, sessionId, isolationKey, options),
-    getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) =>
-      getSession(context, agentName, sessionId, options),
-    createSession: (
-      agentName: string,
-      isolationKey: string,
-      versionIndicator: VersionIndicatorUnion,
-      options?: AgentsCreateSessionOptionalParams,
-    ) => createSession(context, agentName, isolationKey, versionIndicator, options),
-    createAgentVersionFromCode: (
-      agentName: string,
-      codeZipSha256: string,
-      body: CreateAgentVersionFromCodeContent,
-      options?: AgentsCreateAgentVersionFromCodeOptionalParams,
-    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, body, options),
-    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
-      patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),
     deleteVersion: (
@@ -268,23 +156,11 @@ function _getAgents(context: AIProjectContext) {
       parameterValues: Record<string, any>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ) => createAgentFromManifest(context, name, manifestId, parameterValues, options),
-    updateAgentFromCode: (
-      agentName: string,
-      codeZipSha256: string,
-      body: CreateAgentVersionFromCodeContent,
-      options?: AgentsUpdateAgentFromCodeOptionalParams,
-    ) => updateAgentFromCode(context, agentName, codeZipSha256, body, options),
     updateAgent: (
       agentName: string,
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
-    createAgentFromCode: (
-      agentName: string,
-      codeZipSha256: string,
-      body: CreateAgentFromCodeContent,
-      options?: AgentsCreateAgentFromCodeOptionalParams,
-    ) => createAgentFromCode(context, agentName, codeZipSha256, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,

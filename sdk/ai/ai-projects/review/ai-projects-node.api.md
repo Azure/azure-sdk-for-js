@@ -87,7 +87,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview" | "CodeAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | AgentDefinition;
@@ -138,19 +138,9 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 // @public
-export interface AgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
-}
-
-// @public
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsCreateFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -164,12 +154,6 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsCreateSessionOptionalParams extends OperationOptions {
-    agentSessionId?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
@@ -179,11 +163,6 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -208,11 +187,6 @@ export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsGetSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-// @public
 export interface AgentsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -221,15 +195,6 @@ export interface AgentsListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     kind?: AgentKind;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface AgentsListSessionsOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -246,43 +211,22 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
 export interface AgentsOperations {
     create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
     create(name: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
-    // (undocumented)
-    createAgentVersionFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: AgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
-    createFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: AgentsCreateFromCodeOptionalParams) => Promise<Agent>;
-    createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: AgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<AgentVersion>;
     createVersion(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
-    deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
-    getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
-    listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
-    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
-    updateFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: AgentsUpdateFromCodeOptionalParams) => Promise<Agent>;
-}
-
-// @public
-export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
-    agentCard?: AgentCard;
-    agentEndpoint?: AgentEndpoint;
-    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentsUpdateFromCodeOptionalParams extends OperationOptions {
-    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -466,37 +410,80 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
-export interface BetaAgentSessionFilesDeleteOptionalParams extends OperationOptions {
+export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
     recursive?: boolean;
 }
 
 // @public
-export interface BetaAgentSessionFilesDownloadOptionalParams extends OperationOptions {
+export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
 // @public (undocumented)
-export type BetaAgentSessionFilesDownloadResponse = {
+export type BetaAgentsDownloadSessionFileResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
 };
 
 // @public
-export interface BetaAgentSessionFilesListOptionalParams extends OperationOptions {
+export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
 // @public
-export interface BetaAgentSessionFilesOperations {
-    delete: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesDeleteOptionalParams) => Promise<void>;
-    download: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesDownloadOptionalParams) => Promise<BetaAgentSessionFilesDownloadResponse>;
-    list: (agentName: string, sessionId: string, path: string, options?: BetaAgentSessionFilesListOptionalParams) => Promise<SessionDirectoryListResponse>;
-    upload: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentSessionFilesUploadOptionalParams) => Promise<SessionFileWriteResponse>;
+export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+    limit?: number;
+    order?: PageOrder;
 }
 
 // @public
-export interface BetaAgentSessionFilesUploadOptionalParams extends OperationOptions {
+export interface BetaAgentsOperations {
+    // (undocumented)
+    createOrUpdateManagedIdentityBlueprint: (blueprintName: string, name: string, options?: CreateOrUpdateManagedIdentityBlueprintOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
+    deleteManagedIdentityBlueprint: (blueprintName: string, options?: DeleteManagedIdentityBlueprintOptionalParams) => Promise<void>;
+    deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
+    deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
+    getManagedIdentityBlueprint: (blueprintName: string, options?: GetManagedIdentityBlueprintOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
+    getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
+    // (undocumented)
+    listManagedIdentityBlueprints: (options?: ListManagedIdentityBlueprintsOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
+    listSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
+    patchAgentObject: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
+}
+
+// @public
+export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptions {
+    agentCard?: AgentCard;
+    agentEndpoint?: AgentEndpoint;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
@@ -618,30 +605,6 @@ export interface BetaInsightsOperations {
 }
 
 // @public
-export interface BetaManagedAgentIdentityBlueprintsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaManagedAgentIdentityBlueprintsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaManagedAgentIdentityBlueprintsListOptionalParams extends OperationOptions {
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaManagedAgentIdentityBlueprintsOperations {
-    // (undocumented)
-    createOrUpdate: (blueprintName: string, name: string, options?: CreateOrUpdateOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
-    delete: (blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsDeleteOptionalParams) => Promise<void>;
-    get: (blueprintName: string, options?: BetaManagedAgentIdentityBlueprintsGetOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
-    // (undocumented)
-    list: (options?: BetaManagedAgentIdentityBlueprintsListOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
-}
-
-// @public
 export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
@@ -708,12 +671,10 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 // @public
 export interface BetaOperations {
     // (undocumented)
-    agentSessionFiles: BetaAgentSessionFilesOperations;
+    agents: BetaAgentsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
     insights: BetaInsightsOperations;
-    // (undocumented)
-    managedAgentIdentityBlueprints: BetaManagedAgentIdentityBlueprintsOperations;
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
     // (undocumented)
@@ -1162,38 +1123,11 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
-export interface CreateAgentFromCodeContent {
-    code: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-    metadata: CreateAgentVersionFromCodeRequest;
-}
-
-// @public
-export interface CreateAgentVersionFromCodeContent {
-    code: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-    metadata: CreateAgentVersionFromCodeRequest;
-}
-
-// @public
-export interface CreateAgentVersionFromCodeRequest {
-    definition: HostedAgentDefinition;
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
 export interface CreateFromPackageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreateOrUpdateOptionalParams extends OperationOptions {
+export interface CreateOrUpdateManagedIdentityBlueprintOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1346,6 +1280,10 @@ export interface DeleteAgentVersionResponse {
     name: string;
     object: "agent.version.deleted";
     version: string;
+}
+
+// @public
+export interface DeleteManagedIdentityBlueprintOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1620,6 +1558,7 @@ export interface EvaluatorMetric {
     is_primary?: boolean;
     max_value?: number;
     min_value?: number;
+    threshold?: number;
     type?: EvaluatorMetricType;
 }
 
@@ -1663,9 +1602,6 @@ export interface FieldMapping {
     urlField?: string;
     vectorFields?: string[];
 }
-
-// @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
 
 // @public
 export interface FileDatasetVersion extends DatasetVersion {
@@ -1755,6 +1691,10 @@ export interface FunctionToolParam {
     strict?: boolean;
     // (undocumented)
     type: "function";
+}
+
+// @public
+export interface GetManagedIdentityBlueprintOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1987,6 +1927,12 @@ export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationK
 // @public
 export enum KnownApiVersions {
     v1 = "v1"
+}
+
+// @public
+export interface ListManagedIdentityBlueprintsOptionalParams extends OperationOptions {
+    limit?: number;
+    order?: PageOrder;
 }
 
 // @public
