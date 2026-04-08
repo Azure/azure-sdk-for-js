@@ -2138,7 +2138,7 @@ export interface RequestOptions extends SharedOptions {
 
 // @public
 export interface RerankScore {
-    document: Record<string, unknown> | null;
+    document: string | null;
     index: number;
     score: number;
 }
