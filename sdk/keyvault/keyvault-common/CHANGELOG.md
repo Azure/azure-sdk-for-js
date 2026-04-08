@@ -2,13 +2,10 @@
 
 ## 2.0.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- Added `ExtendedCommonClientOptions`, `CommonClientOptions`, `KeepAliveOptions`, and `RedirectOptions` type exports for use by Key Vault client packages.
+- Updated to use `import type` for type-only imports (internal change).
 
 ## 2.0.0 (2024-10-16)
 
