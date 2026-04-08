@@ -207,7 +207,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch();
-      assert.equal(batch.maxSizeInBytes, 1048576, "Batch size should use vendor property (1 MB), not maxMessageSize (100 MB)");
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should use vendor property (1 MB), not maxMessageSize (100 MB)",
+      );
     });
 
     it("falls back to maxMessageSize when vendor property is absent", async () => {
@@ -221,7 +225,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch();
-      assert.equal(batch.maxSizeInBytes, 262144, "Batch size should fall back to maxMessageSize when vendor property is absent");
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back to maxMessageSize when vendor property is absent",
+      );
     });
 
     it("falls back to maxMessageSize when properties dict is undefined", async () => {
@@ -234,7 +242,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch();
-      assert.equal(batch.maxSizeInBytes, 262144, "Batch size should fall back when properties is undefined");
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back when properties is undefined",
+      );
     });
 
     it("falls back to maxMessageSize when vendor property has wrong type", async () => {
@@ -250,7 +262,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch();
-      assert.equal(batch.maxSizeInBytes, 262144, "Batch size should fall back when vendor property is not a number");
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back when vendor property is not a number",
+      );
     });
 
     it("falls back to maxMessageSize when vendor property is zero", async () => {
@@ -266,7 +282,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch();
-      assert.equal(batch.maxSizeInBytes, 262144, "Batch size should fall back when vendor property is zero");
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back when vendor property is zero",
+      );
     });
 
     it("user-specified maxSizeInBytes still takes precedence over vendor property", async () => {
@@ -282,7 +302,11 @@ describe("MessageSender unit tests", () => {
       };
 
       const batch = await sender.createBatch({ maxSizeInBytes: 512 });
-      assert.equal(batch.maxSizeInBytes, 512, "User-specified maxSizeInBytes should override vendor property");
+      assert.equal(
+        batch.maxSizeInBytes,
+        512,
+        "User-specified maxSizeInBytes should override vendor property",
+      );
     });
 
     it("rejects user-specified maxSizeInBytes above vendor batch limit", async () => {

@@ -33,14 +33,8 @@ import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer.js";
 
 /**
- * Default maximum batch size (1 MB).  Applied when the service does not
- * advertise `com.microsoft:max-message-batch-size` in the AMQP link attach
- * frame.  The batch size limit can differ from the per-entity `max-message-size`
- * (which may be up to 100 MB on Premium large-message entities).  Without this
- * cap the SDK would accept batches up to `max-message-size`, only for the
- * service to reject them.
- *
- * @see https://github.com/Azure/azure-sdk-for-net/issues/44914
+ * Default maximum batch size (1 MB). Used when the service does not
+ * advertise a batch size limit on the AMQP link.
  * @internal
  */
 const DefaultMaxBatchSize = 1048576;
@@ -409,19 +403,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   /**
-   * Returns the maximum batch size allowed by the service. This reads the
-   * `com.microsoft:max-message-batch-size` vendor property from the AMQP link
-   * attach frame, which correctly reports the batch size limit (e.g. 1 MB on
-   * Premium) independent of the per-entity `max-message-size` (which can be up
-   * to 100 MB on Premium large-message entities). When the vendor property is
-   * absent (older service versions), falls back to
-   * `Math.min(maxMessageSize, DefaultMaxBatchSize)` to prevent using the raw
-   * `max-message-size` (potentially 100 MB) as the batch limit.
+   * Returns the maximum batch size allowed by the service, reading the
+   * vendor-specific batch size property from the AMQP link if available.
+   * Falls back to `Math.min(maxMessageSize, DefaultMaxBatchSize)` when
+   * the property is absent.
    */
   private getMaxBatchSizeFromLink(): number {
     if (this.link) {
-      const vendorBatchSize =
-        this.link.properties?.["com.microsoft:max-message-batch-size"];
+      const vendorBatchSize = this.link.properties?.["com.microsoft:max-message-batch-size"];
       if (typeof vendorBatchSize === "number" && vendorBatchSize > 0) {
         return vendorBatchSize;
       }
@@ -443,7 +432,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     // Use the vendor batch size if available; fall back to
     // min(maxMessageSize, DefaultMaxBatchSize) to prevent using the raw
     // max-message-size as the batch limit on large-message entities.
-    let maxBatchSize = this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, DefaultMaxBatchSize);
+    let maxBatchSize =
+      this.getMaxBatchSizeFromLink() || Math.min(maxMessageSize, DefaultMaxBatchSize);
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxBatchSize) {
         const error = new Error(
