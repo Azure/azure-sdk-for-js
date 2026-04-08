@@ -45,14 +45,6 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
  * @property {BetaOperations} beta - The operation groups for beta include beta features:
- * - Memory Stores
- * - Evaluators
- * - Evaluation Rules
- * - Evaluation Taxonomies
- * - Insights
- * - Schedules
- * - Red Teams
- * - Toolboxes
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options

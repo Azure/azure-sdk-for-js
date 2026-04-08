@@ -3,23 +3,6 @@
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
-  "./api": "./src/api/index.ts"
-  "./api/indexes": "src/api/indexes/index.ts"
-  "./api/deployments": "src/api/deployments/index.ts"
-  "./api/datasets": "src/api/datasets/index.ts"
-  "./api/connections": "src/api/connections/index.ts"
-  "./api/evaluationRules": "src/api/evaluationRules/index.ts"
-  "./api/agents": "src/api/agents/index.ts"
-  "./api/beta/skills": "src/api/beta/skills/index.ts"
-  "./api/beta/toolboxes": "src/api/beta/toolboxes/index.ts"
-  "./api/beta/schedules": "src/api/beta/schedules/index.ts"
-  "./api/beta/redTeams": "src/api/beta/redTeams/index.ts"
-  "./api/beta/memoryStores": "src/api/beta/memoryStores/index.ts"
-  "./api/beta/insights": "src/api/beta/insights/index.ts"
-  "./api/beta/evaluators": "src/api/beta/evaluators/index.ts"
-  "./api/beta/evaluationTaxonomies": "src/api/beta/evaluationTaxonomies/index.ts"
-  "./api/beta/agents": "src/api/beta/agents/index.ts"
-  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

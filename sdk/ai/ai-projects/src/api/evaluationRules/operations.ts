@@ -28,7 +28,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/evaluationrules{?api-version,actionType,agentName,enabled}",
     {
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
       actionType: options?.actionType,
       agentName: options?.agentName,
       enabled: options?.enabled,
@@ -73,7 +73,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? KnownApiVersions.v1,
+      apiVersion: context.apiVersion,
       nextPageRequestOptions: {
         headers: {
           ...(options?.foundryFeatures !== undefined
@@ -95,7 +95,7 @@ export function _createOrUpdateSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,7 +146,7 @@ export function _$deleteSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +191,7 @@ export function _getSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? KnownApiVersions.v1,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

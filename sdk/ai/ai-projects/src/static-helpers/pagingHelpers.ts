@@ -194,7 +194,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
     return undefined;
   }
 
-  return nextLink as string | undefined;
+  return nextLink;
 }
 
 /**
