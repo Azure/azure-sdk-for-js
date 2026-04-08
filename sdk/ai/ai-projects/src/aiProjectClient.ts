@@ -23,7 +23,7 @@ import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
 import { _getTelemetryOperations } from "./classic/telemetry/index.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
@@ -61,12 +61,12 @@ export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
   private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
-  private _credential: KeyCredential | TokenCredential;
+  private _credential: TokenCredential;
   private _options: AIProjectClientOptionalParams;
 
   constructor(
     endpoint: string,
-    credential: KeyCredential | TokenCredential,
+    credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
     this._endpoint = endpoint;
@@ -146,10 +146,7 @@ export class AIProjectClient {
     const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       ...restOpts,
-      apiKey:
-        "key" in this._credential
-          ? this._credential.key
-          : getBearerTokenProvider(this._credential, scope),
+      apiKey: getBearerTokenProvider(this._credential, scope),
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,

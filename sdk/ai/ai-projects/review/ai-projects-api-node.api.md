@@ -6,7 +6,6 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -21,7 +20,7 @@ export interface AIProjectContext extends Client {
 }
 
 // @public (undocumented)
-export function createAIProject(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams): AIProjectContext;
+export function createAIProject(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectContext;
 
 // Warning: (ae-internal-missing-underscore) The name "DatasetUploadInternalOptions" should be prefixed with an underscore because the declaration is marked as @internal
 //
