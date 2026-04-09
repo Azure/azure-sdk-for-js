@@ -145,7 +145,7 @@ export class WebPubSubServiceClient {
   userExists(
     userId: string,
     options: UserExistsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return userExists(this._client, userId, options);
   }
 
@@ -163,7 +163,7 @@ export class WebPubSubServiceClient {
     permission: WebPubSubPermission,
     connectionId: string,
     options: CheckPermissionOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return checkPermission(this._client, permission, connectionId, options);
   }
 
@@ -224,7 +224,7 @@ export class WebPubSubServiceClient {
   groupExists(
     group: string,
     options: GroupExistsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return groupExists(this._client, group, options);
   }
 
@@ -250,7 +250,7 @@ export class WebPubSubServiceClient {
   connectionExists(
     connectionId: string,
     options: ConnectionExistsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<boolean> {
     return connectionExists(this._client, connectionId, options);
   }
 

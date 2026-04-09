@@ -291,13 +291,13 @@ export function _userExistsSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _userExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _userExistsDeserialize(result: PathUncheckedResponse): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Check if there are any client connections connected for the given user. */
@@ -305,7 +305,7 @@ export async function userExists(
   context: Client,
   userId: string,
   options: UserExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _userExistsSend(context, userId, options);
   return _userExistsDeserialize(result);
 }
@@ -374,13 +374,13 @@ export function _checkPermissionSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _checkPermissionDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _checkPermissionDeserialize(result: PathUncheckedResponse): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Check if a connection has permission to the specified action. */
@@ -389,7 +389,7 @@ export async function checkPermission(
   permission: WebPubSubPermission,
   connectionId: string,
   options: CheckPermissionOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _checkPermissionSend(context, permission, connectionId, options);
   return _checkPermissionDeserialize(result);
 }
@@ -691,13 +691,13 @@ export function _groupExistsSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _groupExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _groupExistsDeserialize(result: PathUncheckedResponse): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Check if there are any client connections inside the given group */
@@ -705,7 +705,7 @@ export async function groupExists(
   context: Client,
   group: string,
   options: GroupExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _groupExistsSend(context, group, options);
   return _groupExistsDeserialize(result);
 }
@@ -816,13 +816,13 @@ export function _connectionExistsSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _connectionExistsDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _connectionExistsDeserialize(result: PathUncheckedResponse): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return result.status === "200";
 }
 
 /** Check if the connection with the given connectionId exists. */
@@ -830,7 +830,7 @@ export async function connectionExists(
   context: Client,
   connectionId: string,
   options: ConnectionExistsOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<boolean> {
   const result = await _connectionExistsSend(context, connectionId, options);
   return _connectionExistsDeserialize(result);
 }

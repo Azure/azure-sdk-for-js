@@ -31,6 +31,14 @@ export interface BinaryPayload {
 
 export type Payload = TextPlainPayload | JsonPayload | BinaryPayload;
 
+export function toByteArrayPayload(payload: string | RequestBodyType): RequestBodyType {
+  if (typeof payload === "string") {
+    return new TextEncoder().encode(payload);
+  }
+
+  return payload;
+}
+
 export function getPayloadForMessage(message: unknown, options: Record<string, any>): Payload {
   if (options?.contentType === "text/plain") {
     if (typeof message !== "string") {

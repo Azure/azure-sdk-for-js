@@ -17,11 +17,12 @@ import { tracingClient } from "./tracing.js";
 import { logger } from "./logger.js";
 import { parseConnectionString } from "./parseConnectionString.js";
 import jwt from "jsonwebtoken";
-import { getPayloadForMessage } from "./utils.js";
+import { getPayloadForMessage, toByteArrayPayload } from "./utils.js";
 import type {
   AddToGroupsRequest,
   RemoveFromGroupsRequest,
   MessageContentType,
+  WebPubSubClientType,
 } from "./models/models.js";
 import type { WebPubSubServiceContext } from "./api/webPubSubServiceContext.js";
 import { createWebPubSubService } from "./api/webPubSubServiceContext.js";
@@ -485,11 +486,10 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToAll(
           this._context,
           contentType as MessageContentType,
-          body as any,
+          toByteArrayPayload(payload) as any,
           {
             ...updatedOptions,
             excluded: updatedOptions.excludedConnections,
@@ -548,12 +548,11 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToUser(
           this._context,
           username,
           contentType as MessageContentType,
-          body as any,
+          toByteArrayPayload(payload) as any,
           updatedOptions as any,
         );
       },
@@ -609,12 +608,11 @@ export class WebPubSubServiceClient {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToConnection(
           this._context,
           connectionId,
           contentType as MessageContentType,
-          body as any,
+          toByteArrayPayload(payload) as any,
           updatedOptions as any,
         );
       },
@@ -948,6 +946,18 @@ export class WebPubSubServiceClient {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
         const clientProtocol = updatedOptions.clientProtocol;
+
+        if (
+          clientProtocol !== undefined &&
+          clientProtocol !== "default" &&
+          clientProtocol !== "mqtt" &&
+          clientProtocol !== "socketio"
+        ) {
+          throw new TypeError(
+            `Unsupported clientProtocol '${clientProtocol}'. Expected one of: 'default', 'mqtt', 'socketio'.`,
+          );
+        }
+
         let clientPath = `client/hubs/${this.hubName}`;
         switch (clientProtocol) {
           case "mqtt":
@@ -960,9 +970,11 @@ export class WebPubSubServiceClient {
 
         let token: string;
         if (isTokenCredential(this.credential)) {
-          const clientTypeMap: Record<string, string> = {
+          const clientTypeMap: Record<WebPubSubClientProtocol, WebPubSubClientType> = {
             default: "Default",
             mqtt: "MQTT",
+            // For Socket.IO endpoints, service accepts only the default client type.
+            socketio: "Default",
           };
           const response = await generatedGenerateClientToken(this._context, {
             ...updatedOptions,

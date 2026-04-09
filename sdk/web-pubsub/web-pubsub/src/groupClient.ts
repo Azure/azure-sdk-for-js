@@ -7,7 +7,7 @@ import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { WebPubSubServiceContext } from "./api/webPubSubServiceContext.js";
 import { tracingClient } from "./tracing.js";
-import { getPayloadForMessage } from "./utils.js";
+import { getPayloadForMessage, toByteArrayPayload } from "./utils.js";
 import type { JSONTypes } from "./hubClient.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { MessageContentType } from "./models/models.js";
@@ -378,12 +378,11 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       options,
       async (updatedOptions) => {
         const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
-        const body = typeof payload === "string" ? Buffer.from(payload) : payload;
         await generatedSendToGroup(
           this.client,
           this.groupName,
           contentType as MessageContentType,
-          body as any,
+          toByteArrayPayload(payload) as any,
           {
             ...updatedOptions,
             excluded: (updatedOptions as any).excludedConnections,
