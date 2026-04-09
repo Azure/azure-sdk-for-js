@@ -13,6 +13,11 @@ export default mergeConfig(
       },
       fileParallelism: false,
       exclude: ["test/internal/unit/**/*.spec.ts"],
+      // Override shared config's fakeTimers — integration tests need real timers
+      // for network I/O, SDK timeouts, and delays.
+      fakeTimers: {
+        toFake: [],
+      },
     },
   }),
 );
