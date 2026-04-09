@@ -16440,7 +16440,7 @@ importers:
         specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/keyvault-common':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: link:../keyvault-common
       '@azure/logger':
         specifier: ^1.2.0
@@ -16641,7 +16641,7 @@ importers:
         specifier: ^1.11.0
         version: link:../../core/core-util
       '@azure/keyvault-common':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: link:../keyvault-common
       '@azure/logger':
         specifier: ^1.1.4
@@ -16772,7 +16772,7 @@ importers:
         specifier: ^1.11.0
         version: link:../../core/core-util
       '@azure/keyvault-common':
-        specifier: ^2.0.0
+        specifier: ^2.1.0
         version: link:../keyvault-common
       '@azure/logger':
         specifier: ^1.1.4
