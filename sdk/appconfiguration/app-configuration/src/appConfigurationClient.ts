@@ -62,7 +62,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
-import type { TokenCredential } from "@azure/core-auth";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
   SendConfigurationSettingsOptions,
@@ -87,14 +87,14 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
 } from "./internal/helpers.js";
-import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import { AzureAppConfigurationClient } from "./generated/azureAppConfigurationClient.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
-import type { OperationState, SimplePollerLike } from "@azure/core-lro";
+import type { OperationState, PollerLike } from "@azure/core-lro";
 import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -128,7 +128,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
-  private client: AppConfiguration;
+  private client: AzureAppConfigurationClient;
   private _syncTokens: SyncTokens;
 
   /**
@@ -154,7 +154,7 @@ export class AppConfigurationClient {
     options?: AppConfigurationClientOptions,
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
-    let appConfigCredential: TokenCredential;
+    let appConfigCredential: TokenCredential | KeyCredential;
     let appConfigEndpoint: string;
     let authPolicy: PipelinePolicy;
     let scope: string;
@@ -175,6 +175,7 @@ export class AppConfigurationClient {
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
+        appConfigCredential = { key: regexMatch[2] };
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
@@ -195,10 +196,10 @@ export class AppConfigurationClient {
     };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AppConfiguration(
+    this.client = new AzureAppConfigurationClient(
       appConfigEndpoint,
-      options?.apiVersion ?? appConfigurationApiVersion,
-      internalClientPipelineOptions,
+      appConfigCredential,
+      { ...internalClientPipelineOptions, apiVersion: options?.apiVersion ?? appConfigurationApiVersion },
     );
     this.client.pipeline.addPolicy(
       audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
@@ -844,7 +845,7 @@ export class AppConfigurationClient {
     snapshot: SnapshotInfo,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
-  ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
+  ): Promise<PollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
