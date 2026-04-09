@@ -64,3 +64,26 @@ Running the VoiceLive SDK with OpenTelemetry in the browser requires a few polyf
 1. **`globalThis.require` polyfill** — The SDK loads `@opentelemetry/api` via `require()`. In the browser, this sample provides a shim that returns the bundled OTel API module.
 2. **`process.env` polyfill** — The SDK gates tracing on the `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` environment variable. This sample sets it on `globalThis.process.env` before enabling instrumentation.
 3. **`@opentelemetry/api` deduplication** — The Vite config aliases `@opentelemetry/api` to a single copy to ensure the provider and SDK share the same global tracer registry.
+
+## Troubleshooting
+
+### Spans show 0 / no spans appearing
+
+- **OTel API not found** — If you see `OpenTelemetry is not installed`, the `globalThis.require` polyfill must run before `new VoiceLiveInstrumentor()`. Check that the polyfill is at the top of your entry file.
+- **Provider not registered** — `WebTracerProvider.register()` must be called before creating the instrumentor. The OTel API only allows one global registration.
+- **Duplicate `@opentelemetry/api`** — If the SDK and your app use different copies, spans are no-ops. Add a Vite resolve alias (see `vite.config.ts` in this sample).
+- **`trace.setSpan is not a function`** — The SDK fell back to the OTel global symbol which lacks the full API. Ensure the `globalThis.require` polyfill returns the real `@opentelemetry/api` module.
+
+### Content recording not working
+
+- Content data appears in **span events** (not attributes). Look for `gen_ai.event.content` entries under each span in the Traced Spans panel.
+- Ensure the Content Recording dropdown is set to **Enabled** before clicking Connect.
+
+### `ERR_CONNECTION_REFUSED` on OTLP endpoint
+
+- This means no local collector is running. Leave the OTLP Endpoint field **empty** to suppress these errors — spans will still render in the page.
+
+### Microphone not working
+
+- Check that the browser has microphone permission (click the lock icon in the address bar).
+- Ensure you're on `localhost` or HTTPS — browsers block mic access on insecure origins.

@@ -469,6 +469,12 @@ instrumentor.instrument(); // reads the env var automatically
 - **Browser:** [`samples/telemetry-browser/`](./samples/telemetry-browser/) — In-page span viewer with Vite, including microphone input
 - **Agent mode:** [`samples/telemetry/agentTelemetry.ts`](./samples/telemetry/agentTelemetry.ts) — Function calling and MCP tool tracing with agent attributes
 
+**Important setup notes:**
+
+1. **Register your `TracerProvider` before creating `VoiceLiveInstrumentor`** — the instrumentor looks up the globally registered provider at construction time.
+2. **`@opentelemetry/api` must be a single instance** — if the SDK and your app load different copies, spans will be no-ops. In ESM/Node.js, use a preload script to polyfill `globalThis.require` (see [`samples/telemetry/preload.mts`](./samples/telemetry/preload.mts)). In bundlers like Vite, add a resolve alias to deduplicate (see [`samples/telemetry-browser/vite.config.ts`](./samples/telemetry-browser/vite.config.ts)).
+3. **Browser requires polyfills** — the SDK reads `process.env` and uses `require()`, which don't exist in browsers. See the [browser sample README](./samples/telemetry-browser/README.md#browser-specific-notes) for the required setup.
+
 ## Troubleshooting
 
 ### Common errors and exceptions

@@ -1,4 +1,16 @@
 import { defineConfig } from 'vite';
+import path from 'path';
+
+// Azure SDK packages use nested conditional exports that Vite's esbuild
+// dep scanner cannot resolve. Alias each to its browser entry point.
+const azurePkgs = [
+  "@azure/ai-voicelive",
+  "@azure/logger",
+  "@azure/core-util",
+  "@azure/core-auth",
+  "@azure/abort-controller",
+  "@azure/core-rest-pipeline",
+];
 
 export default defineConfig({
   root: '.',
@@ -12,6 +24,12 @@ export default defineConfig({
       }
     }
   },
+  resolve: {
+    alias: azurePkgs.map((pkg) => ({
+      find: pkg,
+      replacement: path.resolve(__dirname, "node_modules", pkg, "dist/browser/index.js"),
+    })),
+  },
   server: {
     port: 3000,
     host: true,
@@ -21,8 +39,8 @@ export default defineConfig({
       interval: 300
     }
   },
-  // Configure to watch node_modules changes
   optimizeDeps: {
-    force: true // Force dependency re-optimization on restart
+    exclude: azurePkgs,
+    force: true
   }
 });
