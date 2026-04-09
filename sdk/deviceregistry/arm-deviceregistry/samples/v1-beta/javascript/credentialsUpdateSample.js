@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function updateCredentials() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "17C6B0DE-82CA-4A56-946C-5DD9701D30D3";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const result = await client.credentials.update("rgdeviceregistry", "mynamespace", {
     tags: { key9580: "tpbwnljiiwtlyuiayalpkxyfwnrz" },
