@@ -465,7 +465,7 @@
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
