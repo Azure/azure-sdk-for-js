@@ -31,7 +31,7 @@ export interface AddUserToGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export function checkPermission(context: WebPubSubServiceContext, permission: WebPubSubPermission, connectionId: string, options?: CheckPermissionOptionalParams): Promise<void>;
+export function checkPermission(context: WebPubSubServiceContext, permission: WebPubSubPermission, connectionId: string, options?: CheckPermissionOptionalParams): Promise<boolean>;
 
 // @public
 export interface CheckPermissionOptionalParams extends OperationOptions {
@@ -74,7 +74,7 @@ export interface CloseUserConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function connectionExists(context: WebPubSubServiceContext, connectionId: string, options?: ConnectionExistsOptionalParams): Promise<void>;
+export function connectionExists(context: WebPubSubServiceContext, connectionId: string, options?: ConnectionExistsOptionalParams): Promise<boolean>;
 
 // @public
 export interface ConnectionExistsOptionalParams extends OperationOptions {
@@ -111,7 +111,7 @@ export interface GrantPermissionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function groupExists(context: WebPubSubServiceContext, group: string, options?: GroupExistsOptionalParams): Promise<void>;
+export function groupExists(context: WebPubSubServiceContext, group: string, options?: GroupExistsOptionalParams): Promise<boolean>;
 
 // @public
 export interface GroupExistsOptionalParams extends OperationOptions {
@@ -208,7 +208,7 @@ export interface SendToUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export function userExists(context: WebPubSubServiceContext, userId: string, options?: UserExistsOptionalParams): Promise<void>;
+export function userExists(context: WebPubSubServiceContext, userId: string, options?: UserExistsOptionalParams): Promise<boolean>;
 
 // @public
 export interface UserExistsOptionalParams extends OperationOptions {

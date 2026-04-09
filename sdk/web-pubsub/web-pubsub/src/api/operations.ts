@@ -816,7 +816,9 @@ export function _connectionExistsSend(
   return context.path(path).head({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _connectionExistsDeserialize(result: PathUncheckedResponse): Promise<boolean> {
+export async function _connectionExistsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<boolean> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
