@@ -538,7 +538,7 @@ export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions
 }
 
 // @public
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
     evaluatorType?: EvaluatorType | "all";
     limit?: number;
 }
@@ -553,10 +553,9 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 export interface BetaEvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "EvaluatorCredentialRequest" needs to be exported by the entry point index.d.ts
     getCredentials: (name: string, credentialRequest: EvaluatorCredentialRequest, version: string, options?: BetaEvaluatorsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    list: (options?: BetaEvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     startPendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: BetaEvaluatorsStartPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
@@ -666,7 +665,6 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
-    // (undocumented)
     agents: BetaAgentsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
@@ -1458,17 +1456,14 @@ export interface EvaluationRuleFilter {
 
 // @public
 export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1476,7 +1471,6 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
     actionType?: EvaluationRuleActionType;
     agentName?: string;
     enabled?: boolean;
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1533,6 +1527,11 @@ export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxono
 
 // @public
 export type EvaluatorCategory = "quality" | "safety" | "agents";
+
+// @public
+export interface EvaluatorCredentialRequest {
+    blob_uri: string;
+}
 
 // @public
 export interface EvaluatorDefinition {
@@ -1750,7 +1749,7 @@ export interface ImageGenTool extends Tool {
     description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    model?: "gpt-image-1" | "gpt-image-1-mini";
+    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
     moderation?: "auto" | "low";
     name?: string;
     output_compression?: number;
@@ -1833,7 +1832,7 @@ export type InputFidelity = "high" | "low";
 // @public
 export interface Insight {
     displayName: string;
-    readonly id?: string;
+    readonly insight_id?: string;
     readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
@@ -2409,9 +2408,9 @@ export interface Schedule {
     description?: string;
     displayName?: string;
     enabled: boolean;
-    readonly id?: string;
     properties?: Record<string, string>;
     readonly provisioningStatus?: ScheduleProvisioningStatus;
+    readonly schedule_id?: string;
     readonly systemData?: Record<string, string>;
     tags?: Record<string, string>;
     task: ScheduleTaskUnion;
@@ -2572,21 +2571,26 @@ export interface TextResponseFormat {
 export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
 
 // @public
+export interface TextResponseFormatJsonObject extends TextResponseFormat {
+    type: "json_object";
+}
+
+// @public
 export interface TextResponseFormatJsonSchema extends TextResponseFormat {
     description?: string;
-    // (undocumented)
     name: string;
     // (undocumented)
     schema: Record<string, any>;
     // (undocumented)
     strict?: boolean;
-    tools: Record<string, unknown>[];
     type: "json_schema";
 }
 
-// Warning: (ae-forgotten-export) The symbol "TextResponseFormatText" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "TextResponseFormatJsonObject" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface TextResponseFormatText extends TextResponseFormat {
+    type: "text";
+}
+
 // @public
 export type TextResponseFormatUnion = TextResponseFormatJsonSchema | TextResponseFormatText | TextResponseFormatJsonObject | TextResponseFormat;
 
@@ -2733,8 +2737,6 @@ export interface ToolSearchToolParam extends Tool {
 // @public
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
-// Warning: (ae-forgotten-export) The symbol "WorkIQPreviewTool" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
@@ -2850,6 +2852,19 @@ export interface WorkflowAgentDefinition extends AgentDefinition {
     // (undocumented)
     kind: "workflow";
     workflow?: string;
+}
+
+// @public
+export interface WorkIQPreviewTool extends Tool {
+    description?: string;
+    name?: string;
+    type: "work_iq_preview";
+    work_iq_preview: WorkIQPreviewToolParameters;
+}
+
+// @public
+export interface WorkIQPreviewToolParameters {
+    project_connection_id: string;
 }
 
 // (No @packageDocumentation comment for this package)
