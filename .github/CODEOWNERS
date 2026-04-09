@@ -1712,6 +1712,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 # Eng Sys and CODEOWNERS
 #########################
 /eng/                                    @mikeharder @weshaggard @benbp
+/eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
+/eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
