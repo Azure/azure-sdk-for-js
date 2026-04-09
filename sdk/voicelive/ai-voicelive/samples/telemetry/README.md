@@ -14,7 +14,7 @@ All spans follow [GenAI Semantic Conventions v1.34.0](https://opentelemetry.io/d
 ## Prerequisites
 
 1. An Azure AI Foundry resource with a deployed realtime model (`gpt-4o-realtime-preview`).
-2. Node.js 18+.
+2. Node.js 20+.
 3. Install dependencies:
 
    ```bash
