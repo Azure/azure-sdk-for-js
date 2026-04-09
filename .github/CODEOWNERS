@@ -378,7 +378,7 @@
 # PRLabel: %Mgmt
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/authorization/arm-authorization/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
