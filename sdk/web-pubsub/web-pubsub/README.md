@@ -55,7 +55,7 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new WebPubSubServiceClient("<endpoint>", new DefaultAzureCredential());
+const client = new WebPubSubServiceClient("<endpoint>", new DefaultAzureCredential(), "<hubName>");
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -66,11 +66,38 @@ import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
-const client = new WebPubSubServiceClient("<endpoint>", credential);
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new WebPubSubServiceClient("<endpoint>", credential, "<hubName>");
 ```
 
+You can also use a connection string:
+
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+```
+
+Or use an `AzureKeyCredential`:
+
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential, WebPubSubServiceClient } from "@azure/web-pubsub";
+
+const key = new AzureKeyCredential("<Key>");
+const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
+```
+
+Use the `odata` helper to escape filter expressions:
+
+```ts snippet:ReadmeSampleOdata
+import { odata } from "@azure/web-pubsub";
+
+const userId = "vic's";
+const anonymous = null;
+const length = 3;
+const filter = odata`userId eq ${anonymous} or userId eq ${userId} or length(userId) > ${length}`;
+```
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
