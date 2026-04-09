@@ -1,5 +1,11 @@
 # Release History
 
+## 4.11.1 (2026-04-09)
+
+### Bugs Fixed
+
+- Fix dependency issue.
+
 ## 4.11.0 (2026-04-01)
 
 ### Features Added
