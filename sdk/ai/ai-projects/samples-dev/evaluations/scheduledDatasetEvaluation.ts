@@ -149,22 +149,22 @@ export async function main(): Promise<void> {
       },
     });
 
-    console.log(`\nSchedule created for dataset evaluation: ${schedule.id}`);
+    console.log(`\nSchedule created for dataset evaluation: ${schedule.schedule_id}`);
     console.log(JSON.stringify(schedule, null, 2));
 
     // Wait for schedule to be fully created
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // List schedule runs
-    console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = project.beta.schedules.listRuns(schedule.id ?? "");
+    console.log(`\nListing schedule runs for schedule id: ${schedule.schedule_id}`);
+    const scheduleRuns = project.beta.schedules.listRuns(schedule.schedule_id ?? "");
     for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.beta.schedules.delete(schedule.id ?? "");
+    await project.beta.schedules.delete(schedule.schedule_id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");
