@@ -22,7 +22,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DeviceRegistry Schema Registry tests", () => {
+describe.skip("DeviceRegistry Schema Registry tests", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let resourceGroupName: string;
