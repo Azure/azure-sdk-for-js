@@ -36,4 +36,5 @@ targets:
 
   - name: commonjs
     condition: require
+    moduleType: commonjs
     tsconfig: "../../../tsconfig.src.cjs.json"

@@ -5,9 +5,9 @@ import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Policy resources by Credential
+ * This sample demonstrates how to list Policy resources by resource group
  *
- * @summary list Policy resources by Credential
+ * @summary list Policy resources by resource group
  * x-ms-original-file: 2026-03-01-preview/List_Policies_ByResourceGroup.json
  */
 async function listPoliciesByResourceGroup(): Promise<void> {
