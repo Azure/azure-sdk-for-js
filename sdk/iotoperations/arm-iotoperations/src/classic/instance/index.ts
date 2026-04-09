@@ -1,34 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
-  instanceGet,
-  instanceCreateOrUpdate,
-  instanceUpdate,
-  instanceDelete,
-  instanceListByResourceGroup,
-  instanceListBySubscription,
-} from "../../api/instance/index.js";
-import { InstanceResource, InstancePatchModel } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  InstanceGetOptionalParams,
-  InstanceCreateOrUpdateOptionalParams,
-  InstanceUpdateOptionalParams,
-  InstanceDeleteOptionalParams,
-  InstanceListByResourceGroupOptionalParams,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/instance/operations.js";
+import type {
   InstanceListBySubscriptionOptionalParams,
-} from "../../api/options.js";
+  InstanceListByResourceGroupOptionalParams,
+  InstanceDeleteOptionalParams,
+  InstanceUpdateOptionalParams,
+  InstanceCreateOrUpdateOptionalParams,
+  InstanceGetOptionalParams,
+} from "../../api/instance/options.js";
+import type { InstanceResource, InstancePatchModel } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Instance operations. */
 export interface InstanceOperations {
-  /** Get a InstanceResource */
-  get: (
+  /** List InstanceResource resources by subscription ID */
+  listBySubscription: (
+    options?: InstanceListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** List InstanceResource resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: InstanceListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** Delete a InstanceResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     instanceName: string,
-    options?: InstanceGetOptionalParams,
+    options?: InstanceDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Update a InstanceResource */
+  update: (
+    resourceGroupName: string,
+    instanceName: string,
+    properties: InstancePatchModel,
+    options?: InstanceUpdateOptionalParams,
   ) => Promise<InstanceResource>;
   /** Create a InstanceResource */
   createOrUpdate: (
@@ -37,74 +58,46 @@ export interface InstanceOperations {
     resource: InstanceResource,
     options?: InstanceCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
-  /** Update a InstanceResource */
-  update: (
+  /** Get a InstanceResource */
+  get: (
     resourceGroupName: string,
     instanceName: string,
-    properties: InstancePatchModel,
-    options?: InstanceUpdateOptionalParams,
+    options?: InstanceGetOptionalParams,
   ) => Promise<InstanceResource>;
-  /** Delete a InstanceResource */
-  delete: (
-    resourceGroupName: string,
-    instanceName: string,
-    options?: InstanceDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List InstanceResource resources by resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: InstanceListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<InstanceResource>;
-  /** List InstanceResource resources by subscription ID */
-  listBySubscription: (
-    options?: InstanceListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<InstanceResource>;
 }
 
-export function getInstance(context: IoTOperationsContext, subscriptionId: string) {
+function _getInstance(context: IoTOperationsContext) {
   return {
-    get: (resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) =>
-      instanceGet(context, subscriptionId, resourceGroupName, instanceName, options),
-    createOrUpdate: (
+    listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: InstanceListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    delete: (
       resourceGroupName: string,
       instanceName: string,
-      resource: InstanceResource,
-      options?: InstanceCreateOrUpdateOptionalParams,
-    ) =>
-      instanceCreateOrUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        resource,
-        options,
-      ),
+      options?: InstanceDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, instanceName, options),
     update: (
       resourceGroupName: string,
       instanceName: string,
       properties: InstancePatchModel,
       options?: InstanceUpdateOptionalParams,
-    ) =>
-      instanceUpdate(context, subscriptionId, resourceGroupName, instanceName, properties, options),
-    delete: (
+    ) => update(context, resourceGroupName, instanceName, properties, options),
+    createOrUpdate: (
       resourceGroupName: string,
       instanceName: string,
-      options?: InstanceDeleteOptionalParams,
-    ) => instanceDelete(context, subscriptionId, resourceGroupName, instanceName, options),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: InstanceListByResourceGroupOptionalParams,
-    ) => instanceListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
-      instanceListBySubscription(context, subscriptionId, options),
+      resource: InstanceResource,
+      options?: InstanceCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, resourceGroupName, instanceName, resource, options),
+    get: (resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) =>
+      get(context, resourceGroupName, instanceName, options),
   };
 }
 
-export function getInstanceOperations(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-): InstanceOperations {
+export function _getInstanceOperations(context: IoTOperationsContext): InstanceOperations {
   return {
-    ...getInstance(context, subscriptionId),
+    ..._getInstance(context),
   };
 }

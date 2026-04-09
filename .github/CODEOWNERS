@@ -651,7 +651,7 @@
 # PRLabel: %Mgmt
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
