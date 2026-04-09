@@ -135,7 +135,7 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
   /** Updates an agent endpoint. */
-  patchAgentObject: (
+  patchAgent: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,
   ) => Promise<Agent>;
@@ -202,7 +202,7 @@ function _getBetaAgents(context: AIProjectContext) {
       versionIndicator: VersionIndicatorUnion,
       options?: BetaAgentsCreateSessionOptionalParams,
     ) => createSession(context, agentName, isolationKey, versionIndicator, options),
-    patchAgentObject: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
+    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
       patchAgentObject(context, agentName, options),
   };
 }

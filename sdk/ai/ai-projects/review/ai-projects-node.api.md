@@ -470,7 +470,7 @@ export interface BetaAgentsOperations {
     listManagedIdentityBlueprints: (options?: ListManagedIdentityBlueprintsOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
     listSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
-    patchAgentObject: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
