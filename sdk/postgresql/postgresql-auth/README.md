@@ -44,6 +44,8 @@ This library provides two functions for integrating Entra ID authentication with
 
 - **`entraTokenProvider`** — Returns a password provider function that acquires an Entra ID access token suitable for use as a PostgreSQL password. Use this with `pg.Pool` or `pg.Client`.
 - **`configureEntraAuthentication`** — Registers a `beforeConnect` hook on a Sequelize instance that automatically acquires a fresh token and sets the username/password before each new connection.
+- **`GetEntraTokenPasswordOptions`** — Optionally override the default OAuth scope (scope property) passed to entraTokenProvider.
+- **`SequelizeBeforeConnectHook`** — Structural interface accepted by configureEntraAuthentication; lets you use any Sequelize-compatible object without adding a hard sequelize dependency.
 
 Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and handle token acquisition against the Azure Database for PostgreSQL scope.
 
@@ -54,8 +56,8 @@ Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and ha
 ```ts snippet:entraTokenProvider
 import { DefaultAzureCredential } from "@azure/identity";
 
-const { entraTokenProvider } = await import("@azure/postgresql-auth");
-const pg = await import("pg");
+import { entraTokenProvider } from "@azure/postgresql-auth";
+import pg from "pg";
 const credential = new DefaultAzureCredential();
 const pool = new pg.Pool({
   host: process.env.PGHOST,
@@ -72,8 +74,8 @@ const pool = new pg.Pool({
 ```ts snippet:configureEntraAuthentication
 import { DefaultAzureCredential } from "@azure/identity";
 
-const { configureEntraAuthentication } = await import("@azure/postgresql-auth");
-const { Sequelize } = await import("sequelize");
+import { configureEntraAuthentication } from "@azure/postgresql-auth";
+import { Sequelize } from "sequelize";
 const sequelize = new Sequelize({
   dialect: "postgres",
   host: process.env.PGHOST,

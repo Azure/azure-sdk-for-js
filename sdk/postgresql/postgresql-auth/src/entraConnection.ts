@@ -193,8 +193,7 @@ export function entraTokenProvider(
       }
       return t.token;
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      logger.error(`Token acquisition failed: ${message}`);
+      logger.error(`Token acquisition failed. See thrown error for details.`);
       throw error;
     }
   };
