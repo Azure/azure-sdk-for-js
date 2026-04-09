@@ -9,11 +9,11 @@ export {
   createOrReplace,
   get,
 } from "./operations.js";
-export {
-  type SchemaRegistriesListBySubscriptionOptionalParams,
-  type SchemaRegistriesListByResourceGroupOptionalParams,
-  type SchemaRegistriesDeleteOptionalParams,
-  type SchemaRegistriesUpdateOptionalParams,
-  type SchemaRegistriesCreateOrReplaceOptionalParams,
-  type SchemaRegistriesGetOptionalParams,
+export type {
+  SchemaRegistriesListBySubscriptionOptionalParams,
+  SchemaRegistriesListByResourceGroupOptionalParams,
+  SchemaRegistriesDeleteOptionalParams,
+  SchemaRegistriesUpdateOptionalParams,
+  SchemaRegistriesCreateOrReplaceOptionalParams,
+  SchemaRegistriesGetOptionalParams,
 } from "./options.js";
