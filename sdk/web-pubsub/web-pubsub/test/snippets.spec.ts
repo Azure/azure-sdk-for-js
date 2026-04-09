@@ -8,7 +8,11 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new WebPubSubServiceClient("<endpoint>", new DefaultAzureCredential(), "<hubName>");
+    const client = new WebPubSubServiceClient(
+      "<endpoint>",
+      new DefaultAzureCredential(),
+      "<hubName>",
+    );
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
