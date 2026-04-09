@@ -2,21 +2,24 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to check if a group exists (has active connections).
+ * This sample demonstrates how to check if there are any client connections inside the given group
  *
- * @summary Check if a group exists.
+ * @summary check if there are any client connections inside the given group
+ * x-ms-original-file: 2024-12-01/WebPubSub_GroupExists.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function groupExists(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.groupExists("group1");
+}
 
-  const exists = await serviceClient.groupExists("myGroup");
-  console.log(`Group exists: ${exists}`);
+async function main(): Promise<void> {
+  await groupExists();
 }
 
 main().catch(console.error);

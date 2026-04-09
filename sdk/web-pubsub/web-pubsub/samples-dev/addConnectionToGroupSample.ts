@@ -2,21 +2,25 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to add a connection to a group.
+ * This sample demonstrates how to add a connection to the target group.
  *
- * @summary Add a connection to a group.
+ * @summary add a connection to the target group.
+ * x-ms-original-file: 2024-12-01/WebPubSub_AddConnectionToGroup.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function addConnectionToGroup(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  const group = client.group("group1");
+  await group.addConnection("connection1");
+}
 
-  const group = serviceClient.group("myGroup");
-  await group.addConnection("connectionId");
+async function main(): Promise<void> {
+  await addConnectionToGroup();
 }
 
 main().catch(console.error);

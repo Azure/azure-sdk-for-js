@@ -2,21 +2,24 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to check if a connection exists.
+ * This sample demonstrates how to check if the connection with the given connectionId exists.
  *
- * @summary Check if a connection exists.
+ * @summary check if the connection with the given connectionId exists.
+ * x-ms-original-file: 2024-12-01/WebPubSub_ConnectionExists.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function connectionExists(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.connectionExists("connection1");
+}
 
-  const exists = await serviceClient.connectionExists("connectionId");
-  console.log(`Connection exists: ${exists}`);
+async function main(): Promise<void> {
+  await connectionExists();
 }
 
 main().catch(console.error);

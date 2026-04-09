@@ -2,20 +2,24 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to close all connections on a hub.
+ * This sample demonstrates how to close the connections in the hub.
  *
- * @summary Close all connections on a hub.
+ * @summary close the connections in the hub.
+ * x-ms-original-file: 2024-12-01/WebPubSub_CloseAllConnections.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function closeAllConnections(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.closeAllConnections({ reason: "Close reason" });
+}
 
-  await serviceClient.closeAllConnections({ reason: "closing all connections" });
+async function main(): Promise<void> {
+  await closeAllConnections();
 }
 
 main().catch(console.error);

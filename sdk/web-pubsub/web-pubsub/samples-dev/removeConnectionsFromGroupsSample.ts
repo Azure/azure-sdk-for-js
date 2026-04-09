@@ -2,48 +2,6 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
-
-/**
- * This sample demonstrates how to remove filtered connections from multiple groups.
- *
- * @summary Remove filtered connections from multiple groups.
- */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
-
-  await serviceClient.removeConnectionsFromGroups(["group1", "group2"], "userId ne 'user1'");
-}
-
-main().catch(console.error);
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { WebPubSubServiceClient } from "@azure/web-pubsub";
-
-/**
- * This sample demonstrates how to remove filtered connections from multiple groups.
- *
- * @summary Remove filtered connections from multiple groups.
- */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
-
-  await serviceClient.removeConnectionsFromGroups(["group1", "group2"], "userId ne 'user1'");
-}
-
-main().catch(console.error);
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -57,10 +15,7 @@ async function removeConnectionsFromGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const hub = "hub1";
   const client = new WebPubSubServiceClient(endpoint, credential, hub);
-  await client.removeConnectionsFromGroups({
-    filter: "startswith(userId, 'listener-')",
-    groups: ["group1", "group2"],
-  });
+  await client.removeConnectionsFromGroups(["group1", "group2"], "startswith(userId, 'listener-')");
 }
 
 async function main(): Promise<void> {

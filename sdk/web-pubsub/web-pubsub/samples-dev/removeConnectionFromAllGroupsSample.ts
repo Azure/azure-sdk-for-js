@@ -2,20 +2,24 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to remove a connection from all groups.
  *
- * @summary Remove a connection from all groups.
+ * @summary remove a connection from all groups.
+ * x-ms-original-file: 2024-12-01/WebPubSub_RemoveConnectionFromAllGroups.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function removeConnectionFromAllGroups(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.removeConnectionFromAllGroups("connection1");
+}
 
-  await serviceClient.removeConnectionFromAllGroups("connectionId");
+async function main(): Promise<void> {
+  await removeConnectionFromAllGroups();
 }
 
 main().catch(console.error);

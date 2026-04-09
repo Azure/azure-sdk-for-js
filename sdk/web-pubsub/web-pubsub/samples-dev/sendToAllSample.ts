@@ -2,24 +2,27 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to broadcast a message to all connections on a hub.
+ * This sample demonstrates how to broadcast content inside request body to all the connected client connections.
  *
- * @summary Broadcast a message to all connections on a hub.
+ * @summary broadcast content inside request body to all the connected client connections.
+ * x-ms-original-file: 2024-12-01/WebPubSub_SendToAll.json
  */
+async function sendToAll(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.sendToAll(Buffer.from("TWVzc2FnZSB0byBzZW5k", "base64"), {
+    filter: "startswith(userId, 'listener-')",
+    messageTtlSeconds: 15,
+  });
+}
+
 async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
-
-  // Send a JSON message
-  await serviceClient.sendToAll({ greeting: "hello world" });
-
-  // Send a text message
-  await serviceClient.sendToAll("hello world", { contentType: "text/plain" });
+  await sendToAll();
 }
 
 main().catch(console.error);

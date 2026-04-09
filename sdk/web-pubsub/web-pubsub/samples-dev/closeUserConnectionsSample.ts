@@ -2,20 +2,24 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to close all connections for a specific user.
+ * This sample demonstrates how to close connections for the specific user.
  *
- * @summary Close all connections for a specific user.
+ * @summary close connections for the specific user.
+ * x-ms-original-file: 2024-12-01/WebPubSub_CloseUserConnections.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function closeUserConnections(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.closeUserConnections("user1", { reason: "Close reason" });
+}
 
-  await serviceClient.closeUserConnections("user1", { reason: "closing user connections" });
+async function main(): Promise<void> {
+  await closeUserConnections();
 }
 
 main().catch(console.error);

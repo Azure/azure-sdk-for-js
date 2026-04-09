@@ -2,21 +2,25 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to close all connections in a group.
+ * This sample demonstrates how to close connections in the specific group.
  *
- * @summary Close all connections in a group.
+ * @summary close connections in the specific group.
+ * x-ms-original-file: 2024-12-01/WebPubSub_CloseGroupConnections.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function closeGroupConnections(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  const group = client.group("group1");
+  await group.closeAllConnections({ reason: "Close reason" });
+}
 
-  const group = serviceClient.group("myGroup");
-  await group.closeAllConnections({ reason: "closing group connections" });
+async function main(): Promise<void> {
+  await closeGroupConnections();
 }
 
 main().catch(console.error);

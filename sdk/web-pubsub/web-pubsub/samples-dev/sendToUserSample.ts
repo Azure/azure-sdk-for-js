@@ -2,20 +2,27 @@
 // Licensed under the MIT License.
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to send a message to a specific user.
+ * This sample demonstrates how to send content inside request body to the specific user.
  *
- * @summary Send a message to a specific user.
+ * @summary send content inside request body to the specific user.
+ * x-ms-original-file: 2024-12-01/WebPubSub_SendToUser.json
  */
-async function main(): Promise<void> {
-  const hubName = "myHub";
-  const serviceClient = new WebPubSubServiceClient(
-    process.env.WPS_CONNECTION_STRING || "<ConnectionString>",
-    hubName,
-  );
+async function sendToUser(): Promise<void> {
+  const endpoint = process.env.WEB_PUB_SUB_SERVICE_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = "hub1";
+  const client = new WebPubSubServiceClient(endpoint, credential, hub);
+  await client.sendToUser("user1", Buffer.from("TWVzc2FnZSB0byBzZW5k", "base64"), {
+    filter: "startswith(userId, 'listener-')",
+    messageTtlSeconds: 15,
+  });
+}
 
-  await serviceClient.sendToUser("user1", { greeting: "hello user1" });
+async function main(): Promise<void> {
+  await sendToUser();
 }
 
 main().catch(console.error);
