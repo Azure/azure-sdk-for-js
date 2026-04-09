@@ -37,7 +37,7 @@ function toPipelineResponse(errorResponse: PathUncheckedResponse): PipelineRespo
     headers: createHttpHeaders(errorResponse.headers),
     request: errorResponse.request,
     status: statusCodeToNumber(errorResponse.status) ?? -1,
-    bodyAsText: errorResponse.body,
+    ...(typeof errorResponse.body === "string" ? { bodyAsText: errorResponse.body } : {}),
   };
 }
 
