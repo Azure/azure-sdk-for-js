@@ -129,10 +129,37 @@ function tryLoadOtel(): OtelHandle | undefined {
       const api = reqFn("@opentelemetry/api") as OtelHandle | undefined;
       if (api?.trace) {
         _otel = api;
+        return _otel;
       }
     }
   } catch {
-    // Not installed — instrumentation is a no-op
+    // Not installed via require — fall through to global registration check
+  }
+
+  try {
+    // Fallback: check OTel's global registration (browser / ESM).
+    // @opentelemetry/api registers providers on
+    //   globalThis[Symbol.for('opentelemetry.js.api.<major>')]
+    // which contains { version, trace?, context?, metrics?, diag?, propagation? }.
+    const otelGlobal = (globalThis as Record<symbol, unknown>)[
+      Symbol.for("opentelemetry.js.api.1")
+    ] as Record<string, unknown> | undefined;
+
+    if (otelGlobal?.trace && otelGlobal?.context) {
+      _otel = {
+        trace: otelGlobal.trace as OtelHandle["trace"],
+        context: otelGlobal.context as OtelHandle["context"],
+        // SpanKind / SpanStatusCode are module-level constants not stored on
+        // the global registration object — use the well-known numeric values.
+        SpanKind: { CLIENT: 2 },
+        SpanStatusCode: { ERROR: 2 },
+        ...(otelGlobal.metrics
+          ? { metrics: otelGlobal.metrics as OtelHandle["metrics"] }
+          : {}),
+      };
+    }
+  } catch {
+    // No global registration — instrumentation is a no-op
   }
   return _otel;
 }
@@ -701,7 +728,21 @@ function getEnv(name: string): string | undefined {
  *
  * Instrumentation is opt-in and controlled via the
  * `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` environment variable,
- * which must be set to `"true"` for `.instrument()` to take effect.
+ * which must be set to `"true"` for {@link instrument} to take effect.
+ *
+ * @remarks
+ * The constructor throws if `@opentelemetry/api` is not installed or cannot be
+ * loaded. In Node.js it is loaded via `require()`; in browsers the SDK falls
+ * back to the OTel global symbol (`Symbol.for('opentelemetry.js.api.1')`).
+ *
+ * **Environment variables:**
+ * - `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` — must be `"true"` to enable tracing.
+ * - `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` — set to `"true"` to
+ *   include event payloads in span events. Can also be set via
+ *   `instrument({ enableContentRecording: true })`.
+ * - `AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED` — legacy alias for content
+ *   recording. If both this and the variable above are set to different values,
+ *   content recording is disabled.
  */
 export class VoiceLiveInstrumentor {
   constructor() {
@@ -716,7 +757,16 @@ export class VoiceLiveInstrumentor {
   /**
    * Enable trace instrumentation for VoiceLive.
    *
-   * @param options - Optional configuration for instrumentation
+   * If `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` is not `"true"`, this method
+   * returns without enabling tracing.
+   *
+   * Safe to call multiple times. On subsequent calls only the content recording
+   * setting is updated; the tracing pipeline is not re-initialized.
+   *
+   * @param options - Optional configuration for instrumentation.
+   * @param options.enableContentRecording - Whether to capture full event
+   *   payloads in span events. If omitted, falls back to the
+   *   `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` environment variable.
    */
   instrument(options?: { enableContentRecording?: boolean }): void {
     const envGate = getEnv("AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING") ?? "";
@@ -754,7 +804,13 @@ export class VoiceLiveInstrumentor {
     }
   }
 
-  /** Remove trace instrumentation for VoiceLive. */
+  /**
+   * Remove trace instrumentation for VoiceLive.
+   *
+   * After calling this, new sessions will not emit spans. Already-active
+   * sessions will stop tracing on their next event. Content recording
+   * is also disabled.
+   */
   uninstrument(): void {
     _voiceLiveTracesEnabled = false;
     _traceVoiceLiveContent = false;

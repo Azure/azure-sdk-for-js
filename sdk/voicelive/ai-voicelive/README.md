@@ -399,7 +399,16 @@ const subscription = session.subscribe({
 
 ### Enabling telemetry with OpenTelemetry
 
-The SDK supports opt-in OpenTelemetry tracing that automatically instruments every WebSocket operation with GenAI-semantic-convention spans.
+The SDK supports opt-in OpenTelemetry tracing that automatically instruments every WebSocket operation with [GenAI Semantic Conventions v1.34.0](https://opentelemetry.io/docs/specs/semconv/gen-ai/) spans.
+
+**Traced spans:**
+
+| Span | Description |
+|------|-------------|
+| `connect` | Root span covering the entire session lifetime |
+| `send <event_type>` | One span per outgoing client event |
+| `recv <event_type>` | One span per incoming server event (text/transcript deltas are skipped) |
+| `close` | Final span that flushes session-level counters (turn count, audio bytes, interruptions) |
 
 ```ts snippet:ReadmeSampleEnableTelemetry
 import { DefaultAzureCredential } from "@azure/identity";
@@ -446,6 +455,19 @@ instrumentor.instrument(); // reads the env var automatically
 ```
 
 > **Note:** Content recording may capture sensitive data. Enable it only in development or controlled environments.
+
+**Environment variables:**
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` | Yes | Set to `"true"` to enable tracing. Without this, `instrument()` is a no-op. |
+| `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` | No | Set to `"true"` to include event payloads in span events. Can also be set via `instrument({ enableContentRecording: true })`. |
+| `AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED` | No | Legacy alias for content recording. Prefer the variable above. |
+
+**Samples:**
+- **Node.js:** [`samples/telemetry/`](./samples/telemetry/) — Console, file, and OTLP export with detailed span attribute documentation
+- **Browser:** [`samples/telemetry-browser/`](./samples/telemetry-browser/) — In-page span viewer with Vite, including microphone input
+- **Agent mode:** [`samples/telemetry/agentTelemetry.ts`](./samples/telemetry/agentTelemetry.ts) — Function calling and MCP tool tracing with agent attributes
 
 ## Troubleshooting
 

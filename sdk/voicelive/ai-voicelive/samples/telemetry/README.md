@@ -96,3 +96,26 @@ When `enableContentRecording: true` or `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSA
 - Function call arguments and results are included in done-event content
 
 > **Note:** Content recording may capture sensitive data. Enable it only in development or controlled environments.
+
+## Troubleshooting
+
+### Traces not appearing
+
+1. **Env var not set** — `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` must be exactly `"true"` (case-insensitive). Without it, `instrument()` silently returns without enabling tracing.
+2. **OTel not installed** — `new VoiceLiveInstrumentor()` throws if `@opentelemetry/api` is not installed. Install it with `npm install @opentelemetry/api`.
+3. **Provider not registered** — Call `provider.register()` before `new VoiceLiveInstrumentor()` so the SDK can find the active tracer.
+4. **Using ESM** — In ESM mode, the SDK may not find `@opentelemetry/api` via `require()`. Use the `preload.mts` script (included in this sample) to polyfill `globalThis.require`.
+
+### Content recording not working
+
+- Ensure `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true` is set, **or** pass `{ enableContentRecording: true }` to `instrument()`.
+- Content appears in **span events** (not span attributes). Look for `gen_ai.event.content` inside event entries when viewing spans.
+
+### OTLP export errors
+
+- `ECONNREFUSED` on `localhost:4318` means no OTLP collector is running. Start Jaeger or Aspire Dashboard (see above), or remove the OTLP exporter.
+
+## Other samples
+
+- **Browser:** [`../telemetry-browser/`](../telemetry-browser/) — In-page span viewer with Vite, microphone input, no Node.js required
+- **Agent mode:** [`agentTelemetry.ts`](./agentTelemetry.ts) — Function calling and MCP tool tracing with agent-specific attributes

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoiceLive Browser Telemetry Sample</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 2rem; }
+    h1 { margin-bottom: 0.5rem; color: #00d2ff; }
+    p.subtitle { color: #888; margin-bottom: 1.5rem; }
+    .panel { background: #16213e; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.3rem; font-size: 0.85rem; color: #aaa; }
+    input, select { width: 100%; padding: 0.5rem; border: 1px solid #333; border-radius: 4px; background: #0f3460; color: #e0e0e0; margin-bottom: 0.8rem; font-size: 0.9rem; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .row > * { flex: 1; min-width: 200px; }
+    button { padding: 0.6rem 1.2rem; border: none; border-radius: 4px; font-size: 0.9rem; cursor: pointer; transition: background 0.2s; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-primary { background: #00d2ff; color: #000; font-weight: 600; }
+    .btn-primary:hover:not(:disabled) { background: #00b8e6; }
+    .btn-danger { background: #e94560; color: #fff; }
+    .btn-danger:hover:not(:disabled) { background: #c73e54; }
+    .btn-secondary { background: #533483; color: #fff; }
+    .btn-secondary:hover:not(:disabled) { background: #6b44a0; }
+    .actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    #status { font-weight: 600; margin-top: 0.8rem; }
+    .status-disconnected { color: #e94560; }
+    .status-connected { color: #4ecca3; }
+    #transcript { background: #0f3460; border-radius: 6px; padding: 1rem; min-height: 120px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; font-size: 0.9rem; margin-bottom: 1rem; }
+    #spanLog { background: #0a0a23; border-radius: 6px; padding: 1rem; min-height: 200px; max-height: 400px; overflow-y: auto; font-family: "Cascadia Code", "Fira Code", monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-all; }
+    .span-entry { border-bottom: 1px solid #1a1a3e; padding: 0.4rem 0; }
+    .span-name { color: #00d2ff; font-weight: 600; }
+    .span-attr { color: #4ecca3; }
+    .span-time { color: #666; font-size: 0.75rem; }
+    .counter { display: inline-block; background: #533483; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; margin-left: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>🔭 VoiceLive Browser Telemetry</h1>
+  <p class="subtitle">OpenTelemetry tracing for Azure VoiceLive sessions — running in the browser</p>
+
+  <div class="panel">
+    <h3>Configuration</h3>
+    <div class="row">
+      <div>
+        <label for="endpoint">Endpoint</label>
+        <input type="text" id="endpoint" placeholder="https://your-resource.cognitiveservices.azure.com" />
+      </div>
+      <div>
+        <label for="apiKey">API Key</label>
+        <input type="password" id="apiKey" placeholder="Your API key" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="otlpEndpoint">OTLP Endpoint (optional)</label>
+        <input type="text" id="otlpEndpoint" placeholder="http://localhost:4318 (leave empty to skip)" value="" />
+      </div>
+      <div>
+        <label for="contentRecording">Content Recording</label>
+        <select id="contentRecording">
+          <option value="true" selected>Enabled — capture event payloads</option>
+          <option value="false">Disabled — metadata only</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="connectBtn" class="btn-primary">Connect</button>
+      <button id="sendBtn" class="btn-secondary" disabled>Send Text</button>
+      <button id="micBtn" class="btn-secondary" disabled>🎤 Start Mic</button>
+      <button id="disconnectBtn" class="btn-danger" disabled>Disconnect</button>
+    </div>
+    <div id="status" class="status-disconnected">Disconnected</div>
+  </div>
+
+  <div class="panel">
+    <h3>Conversation</h3>
+    <div id="transcript">Waiting for connection…</div>
+  </div>
+
+  <div class="panel">
+    <h3>Traced Spans <span id="spanCount" class="counter">0</span></h3>
+    <button id="clearSpans" class="btn-secondary" style="margin-bottom:0.5rem; font-size:0.8rem;">Clear</button>
+    <div id="spanLog">No spans yet.</div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, afterAll, vi } from "vitest";
 import {
   VoiceLiveInstrumentor,
   createTelemetryState,
@@ -24,7 +24,7 @@ const mockSpan = {
   updateName: vi.fn(),
 };
 
-vi.mock("@opentelemetry/api", () => ({
+const mockOtelApi = {
   trace: {
     getTracer: vi.fn().mockReturnValue({
       startSpan: vi.fn().mockReturnValue(mockSpan),
@@ -43,9 +43,30 @@ vi.mock("@opentelemetry/api", () => ({
       }),
     }),
   },
-}));
+};
+
+vi.mock("@opentelemetry/api", () => mockOtelApi);
+
+// Ensure tryLoadOtel() can find the mock via globalThis.require (used at runtime)
+const _origRequire = (globalThis as Record<string, unknown>)["require"] as
+  | ((...args: unknown[]) => unknown)
+  | undefined;
+(globalThis as Record<string, unknown>)["require"] = (id: string) => {
+  if (id === "@opentelemetry/api") return mockOtelApi;
+  if (typeof _origRequire === "function") return _origRequire(id);
+  throw new Error(`Cannot find module '${id}'`);
+};
 
 describe("VoiceLive Telemetry", () => {
+  afterAll(() => {
+    // Restore original globalThis.require
+    if (_origRequire) {
+      (globalThis as Record<string, unknown>)["require"] = _origRequire;
+    } else {
+      delete (globalThis as Record<string, unknown>)["require"];
+    }
+  });
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockSpan.setAttribute.mockClear();
@@ -61,11 +82,11 @@ describe("VoiceLive Telemetry", () => {
 
     beforeEach(() => {
       instrumentor = new VoiceLiveInstrumentor();
-      instrumentor.uninstrument(); // Reset state
+      instrumentor?.uninstrument(); // Reset state
     });
 
     afterEach(() => {
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
       delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
       delete process.env.AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED;
@@ -86,7 +107,7 @@ describe("VoiceLive Telemetry", () => {
       process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING = "true";
       instrumentor.instrument();
       expect(instrumentor.isInstrumented()).toBe(true);
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       expect(instrumentor.isInstrumented()).toBe(false);
     });
 
@@ -135,7 +156,7 @@ describe("VoiceLive Telemetry", () => {
     });
 
     afterEach(() => {
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 
@@ -180,7 +201,7 @@ describe("VoiceLive Telemetry", () => {
     });
 
     it("should return inactive state when tracing is disabled", () => {
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       const { active } = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
       expect(active).toBe(false);
     });
@@ -219,7 +240,7 @@ describe("VoiceLive Telemetry", () => {
 
     afterEach(() => {
       state?.connectSpan?.end();
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 
@@ -307,7 +328,7 @@ describe("VoiceLive Telemetry", () => {
 
     afterEach(() => {
       state?.connectSpan?.end();
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 
@@ -606,7 +627,7 @@ describe("VoiceLive Telemetry", () => {
     });
 
     afterEach(() => {
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 
@@ -662,7 +683,7 @@ describe("VoiceLive Telemetry", () => {
     });
 
     afterEach(() => {
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 
@@ -806,7 +827,7 @@ describe("VoiceLive Telemetry", () => {
 
     afterEach(() => {
       state?.connectSpan?.end();
-      instrumentor.uninstrument();
+      instrumentor?.uninstrument();
       delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     });
 

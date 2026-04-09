@@ -1841,17 +1841,6 @@ export class VoiceLiveClient {
     startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
 
-// @public
-export class VoiceLiveInstrumentor {
-    constructor();
-    instrument(options?: {
-        enableContentRecording?: boolean;
-    }): void;
-    isContentRecordingEnabled(): boolean;
-    isInstrumented(): boolean;
-    uninstrument(): void;
-}
-
 // @public (undocumented)
 export interface VoiceLiveClientOptions {
     apiVersion?: string;
@@ -1916,6 +1905,17 @@ export interface VoiceLiveErrorDetails {
     message: string;
     param?: string;
     type?: string;
+}
+
+// @public
+export class VoiceLiveInstrumentor {
+    constructor();
+    instrument(options?: {
+        enableContentRecording?: boolean;
+    }): void;
+    isContentRecordingEnabled(): boolean;
+    isInstrumented(): boolean;
+    uninstrument(): void;
 }
 
 // @public

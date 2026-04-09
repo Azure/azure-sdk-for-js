@@ -2,7 +2,35 @@ import { VoiceLiveClient, VoiceLiveInstrumentor } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { setLogLevel } from "@azure/logger";
-import { describe, it } from "vitest";
+import { describe, it, vi } from "vitest";
+
+// Mock @opentelemetry/api so VoiceLiveInstrumentor can be constructed in CI (ESM)
+const mockOtelApi = {
+  trace: {
+    getTracer: vi.fn().mockReturnValue({
+      startSpan: vi.fn().mockReturnValue({
+        setAttribute: vi.fn(), addEvent: vi.fn(), setStatus: vi.fn(),
+        end: vi.fn(), isRecording: vi.fn().mockReturnValue(true),
+      }),
+    }),
+    setSpan: vi.fn().mockReturnValue({}),
+  },
+  context: { active: vi.fn().mockReturnValue({}) },
+  SpanKind: { CLIENT: 2 },
+  SpanStatusCode: { ERROR: 2 },
+  metrics: { getMeter: vi.fn().mockReturnValue({ createHistogram: vi.fn().mockReturnValue({ record: vi.fn() }) }) },
+};
+vi.mock("@opentelemetry/api", () => mockOtelApi);
+
+// Ensure tryLoadOtel() can find the mock via globalThis.require (ESM environments)
+const _snippetsOrigRequire = (globalThis as Record<string, unknown>)["require"] as
+  | ((...args: unknown[]) => unknown)
+  | undefined;
+(globalThis as Record<string, unknown>)["require"] = (id: string) => {
+  if (id === "@opentelemetry/api") return mockOtelApi;
+  if (typeof _snippetsOrigRequire === "function") return _snippetsOrigRequire(id);
+  throw new Error(`Cannot find module '${id}'`);
+};
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
