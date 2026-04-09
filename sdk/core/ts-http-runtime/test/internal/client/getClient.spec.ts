@@ -13,7 +13,7 @@ import {
   type PipelinePolicy,
   createHttpHeaders,
 } from "../../../src/index.js";
-import { isNodeLike } from "../../../src/util/checkEnvironment.js";
+import { isNodeLike } from "../../../src/util/internal.js";
 
 describe("getClient", () => {
   afterEach(() => {

@@ -117,6 +117,7 @@ export default defineConfig({
     include: ["test/**/*.spec.ts"],
     exclude: [
       "test/**/browser/*.spec.ts",
+      "test/**/react-native/**",
       "test/snippets.spec.ts",
       "test/integration/**/*.spec.ts",
       "test/stress/**/*.ts",

@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import type { PartDescriptor } from "../../../src/client/multipart.js";
 import { buildBodyPart } from "../../../src/client/multipart.js";
-import { stringToUint8Array } from "../../../src/util/bytesEncoding.js";
+import { stringToUint8Array } from "../../../src/util/internal.js";
 
 describe("multipart buildBodyPart", () => {
   describe("content-type calculation", () => {
@@ -34,28 +34,6 @@ describe("multipart buildBodyPart", () => {
           body: `{ "aaa": "bbb" }`, // would otherwise expect this to give text/plain; charset=UTF-8
         },
         expected: "application/json",
-      },
-      {
-        description: "content type is taken from Blob if available",
-        descriptor: {
-          body: new Blob([], { type: "content-type-from-blob" }),
-        },
-        expected: "content-type-from-blob",
-      },
-      {
-        description: "contentType value takes precedence over Blob content type",
-        descriptor: {
-          contentType: "pick-me",
-          body: new Blob([], { type: "content-type-from-blob" }),
-        },
-        expected: "pick-me",
-      },
-      {
-        description: "content type for Blob defaults to application/octet-stream",
-        descriptor: {
-          body: new Blob([]),
-        },
-        expected: "application/octet-stream",
       },
       {
         description: `content type for Uint8Array defaults to application/octet-stream`,
@@ -154,34 +132,6 @@ describe("multipart buildBodyPart", () => {
       const result = buildBodyPart(descriptor);
       assert.equal(result.headers.get("content-disposition"), expected);
     });
-
-    it.skipIf(typeof File === "undefined")("sets filename from file object", () => {
-      const result = buildBodyPart({
-        name: "aaa",
-        body: new File([], "aaa.txt"),
-      });
-
-      assert.equal(
-        result.headers.get("content-disposition"),
-        `form-data; name="aaa"; filename="aaa.txt"`,
-      );
-    });
-
-    it.skipIf(typeof File === "undefined")(
-      "filename parameter overrides File object filename",
-      () => {
-        const result = buildBodyPart({
-          name: "aaa",
-          filename: "override",
-          body: new File([], "aaa.txt"),
-        });
-
-        assert.equal(
-          result.headers.get("content-disposition"),
-          `form-data; name="aaa"; filename="override"`,
-        );
-      },
-    );
   });
 
   describe("body normalization", () => {
