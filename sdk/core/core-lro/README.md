@@ -24,28 +24,27 @@ This package is primarily used in generated code and not meant to be consumed di
 
 ## Key concepts
 
-### `SimplePollerLike`
+### `PollerLike`
 
-A poller is an object that can poll the long running operation on the server for its state until it reaches a terminal state. It provides the following methods:
+A poller is an object that can poll the long running operation on the server for its state until it reaches a terminal state. It also extends `Promise<TResult>`, so you can `await` it directly to get the final result. It provides the following:
 
-- `getOperationState`: returns the state of the operation, typed as a type that extends `OperationState`
-- `getResult`: returns the result of the operation when it completes and `undefined` otherwise
-- `isDone`: returns whether the operation is in a terminal state
-- `isStopped`: returns whether the polling stopped
+- `operationState`: a property that returns the current state of the operation, typed as a type that extends `OperationState`. It is `undefined` if the poller has not been submitted yet.
+- `result`: a property that returns the result of the operation when it completes and `undefined` otherwise
+- `isDone`: a property that returns whether the operation is in a terminal state
 - `onProgress`: registers callback functions to be called every time a polling response is received
 - `poll`: sends a single polling request
 - `pollUntilDone`: returns a promise that will resolve with the result of the operation
-- `stopPolling`: stops polling;
-- `toString`: serializes the state of the poller
+- `serialize`: returns a promise that resolves to a serialized representation of the poller's state
+- `submitted`: returns a promise that resolves when the poller has been submitted successfully
 
 ### `OperationState`
 
 A type for the operation state. It contains a `status` field with the following possible values: `notStarted`, `running`, `succeeded`, `failed`, and `canceled`. It can be accessed as follows:
 
 ```typescript snippet:OperationStateExample
-switch (poller.operationState.status) {
-  case "succeeded": // return poller.getResult();
-  case "failed": // throw poller.getOperationState().error;
+switch (poller.operationState?.status) {
+  case "succeeded": // return poller.result;
+  case "failed": // throw poller.operationState?.error;
   case "canceled": // throw new Error("Operation was canceled");
   case "running": // ...
   case "notStarted": // ...
@@ -54,10 +53,10 @@ switch (poller.operationState.status) {
 
 ### `createHttpPoller`
 
-A function that returns an object of type `SimplePollerLike`. This poller behaves as follows in the presence of errors:
+A function that returns an object of type `PollerLike`. This poller behaves as follows in the presence of errors:
 
 - calls to `poll` and `pollUntilDone` will throw an error in case the operation has failed or canceled unless the `resolveOnUnsuccessful` option was set to true.
-- `poller.getOperationState().status` will be set to true when either the operation fails or it returns an error response.
+- `poller.operationState?.status` will be set to `"failed"` or `"canceled"` when either the operation fails or it returns an error response.
 
 ## Examples
 
@@ -82,7 +81,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 ### Testing
 
 To run our tests, first install the dependencies (with `pnpm install`),
-then run the unit tests with: `npm run unit-test`.
+then run the unit tests with: `pnpm run unit-test`.
 
 ### Code of Conduct
 
