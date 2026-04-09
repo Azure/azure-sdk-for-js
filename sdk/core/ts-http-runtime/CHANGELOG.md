@@ -1,6 +1,6 @@
 # Release History
 
-## 0.3.5 (Unreleased)
+## 0.3.6 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,15 @@
 
 ### Bugs Fixed
 
-- Request headers are no longer included in proxy agent's additional headers.
-
 ### Other Changes
+
+- Set `RestError.response.bodyAsText` when the error response body has `string` type [PR #38059](https://github.com/Azure/azure-sdk-for-js/pull/38059)
+
+## 0.3.5 (2026-04-07)
+
+### Bugs Fixed
+
+- Request headers are no longer forwarded to the proxy server as additional headers when establishing HTTPS CONNECT tunnels; headers on proxied HTTP(S) requests sent through an established tunnel are unchanged. [PR #37808](https://github.com/Azure/azure-sdk-for-js/pull/37808)
 
 ## 0.3.4 (2026-03-05)
 

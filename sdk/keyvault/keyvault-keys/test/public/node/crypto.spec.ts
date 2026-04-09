@@ -149,7 +149,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
         const unwrappedText = uint8ArrayToString(unwrappedResult.result);
         assert.equal(text, unwrappedText);
-        assert.equal("RSA1_5", unwrappedResult.algorithm);
+        assert.equal(unwrappedResult.algorithm, "RSA1_5");
       });
 
       it("wrap and unwrap with RSA-OAEP", async (ctx) => {
@@ -164,7 +164,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
         const unwrappedText = uint8ArrayToString(unwrappedResult.result);
         assert.equal(text, unwrappedText);
-        assert.equal("RSA-OAEP", unwrappedResult.algorithm);
+        assert.equal(unwrappedResult.algorithm, "RSA-OAEP");
       });
     }
 

@@ -1,9 +1,9 @@
 ---
 on:
-  pull_request_target:
+  pull_request:
     types: [labeled]
 labels: [security-review-needed]
-if: github.event.label.name == 'security-review-needed'
+if: github.event.label.name == 'security-review-needed' && github.event.pull_request.head.repo.fork == false
 description: "Sentinel: Review a pull request for security vulnerabilities"
 permissions:
   contents: read
@@ -19,7 +19,7 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions, code_security]
     min-integrity: unapproved
-  bash: true
+  bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
   web-fetch:

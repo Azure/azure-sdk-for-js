@@ -448,6 +448,9 @@
 /sdk/compute/arm-compute-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+/sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1652,7 +1655,12 @@ sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
 sdk/marketplace/arm-marketplace/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/tenantactivitylogalerts/arm-tenantactivitylogalerts/ @qiaozha @MaryGao @JialinHuang803
+sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
 sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
@@ -1676,6 +1684,9 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
+
+# PRLabel: %warp
+/common/tools/warp/ @Azure/azure-sdk-for-js-core
 
 /tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /sdk/*/*/tsconfig*.json @Azure/azure-sdk-for-js-core
@@ -1701,6 +1712,8 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 # Eng Sys and CODEOWNERS
 #########################
 /eng/                                    @mikeharder @weshaggard @benbp
+/eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
+/eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @weshaggard
@@ -1738,7 +1751,7 @@ sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 /eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
-/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
+/eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 
