@@ -1,14 +1,11 @@
 # Release History
 
-## 1.1.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.4 (2026-04-10)
 
 ### Bugs Fixed
 
-### Other Changes
+- Provided a direct Azure Portal URL to the specific Playwright test run.
+
 
 ## 1.1.3 (2026-03-18)
 
