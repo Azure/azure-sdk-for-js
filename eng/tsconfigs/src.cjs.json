@@ -1,0 +1,6 @@
+{
+  "extends": "./src.esm.json",
+  "compilerOptions": {
+    "outDir": "${configDir}/../dist/commonjs"
+  }
+}

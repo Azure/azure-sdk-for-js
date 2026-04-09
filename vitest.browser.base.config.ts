@@ -29,6 +29,7 @@ export default defineConfig({
     include: ["dist-test/**/*.spec.js"],
     exclude: [
       "dist-test/**/node/*.spec.js",
+      "dist-test/**/react-native/**",
       "dist-test/snippets.spec.js",
       "dist-test/integration/**/*.spec.js",
       "dist-test/stress/**/*.js",

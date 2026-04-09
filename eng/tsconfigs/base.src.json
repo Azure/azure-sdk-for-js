@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "rootDir": "${configDir}/../src"
+  },
+  "include": ["${configDir}/../src/index.ts"]
+}
