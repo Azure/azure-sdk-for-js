@@ -5,8 +5,8 @@ import { createServer, type Server as HttpServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { WebPubSubClient } from "../src/webPubSubClient.js";
-import { createDeferred, withTimeout } from "./testUtils.js";
+import { WebPubSubClient } from "../../src/webPubSubClient.js";
+import { createDeferred, withTimeout } from "../testUtils.js";
 
 async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket> {
   return withTimeout(
