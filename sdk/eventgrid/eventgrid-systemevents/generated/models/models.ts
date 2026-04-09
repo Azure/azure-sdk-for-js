@@ -970,8 +970,10 @@ export interface AcsIncomingCallEventData {
   customContext: AcsIncomingCallCustomContext;
   /** Signed incoming call context. */
   incomingCallContext?: string;
-  /** The communication identifier of the user on behalf of whom the call is made. */
+  /** The communication identifier of the callee for the "on behalf of" call. */
   onBehalfOfCallee?: CommunicationIdentifierModel;
+  /** The communication identifier on behalf of whom the call is made. */
+  onBehalfOf?: CommunicationIdentifierModel;
   /** CorrelationId (CallId). */
   correlationId?: string;
 }
@@ -987,6 +989,9 @@ export function acsIncomingCallEventDataDeserializer(item: any): AcsIncomingCall
     onBehalfOfCallee: !item["onBehalfOfCallee"]
       ? item["onBehalfOfCallee"]
       : communicationIdentifierModelDeserializer(item["onBehalfOfCallee"]),
+    onBehalfOf: !item["onBehalfOf"]
+      ? item["onBehalfOf"]
+      : communicationIdentifierModelDeserializer(item["onBehalfOf"]),
     correlationId: item["correlationId"],
   };
 }
@@ -3566,6 +3571,8 @@ export function acsMessageChannelEventErrorDeserializer(item: any): AcsMessageCh
 export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
   /** The message id */
   messageId?: string;
+  /** Optional. The BSUID of the recipient. */
+  toBSUId?: string;
   /** The updated message status */
   status: AcsMessageDeliveryStatus;
   /** The updated message channel type */
@@ -3581,6 +3588,7 @@ export function acsMessageDeliveryStatusUpdatedEventDataDeserializer(
     receivedTimeStamp: new Date(item["receivedTimeStamp"]),
     error: !item["error"] ? item["error"] : acsMessageChannelEventErrorDeserializer(item["error"]),
     messageId: item["messageId"],
+    toBSUId: item["toBSUID"],
     status: item["status"],
     channelKind: item["channelType"],
   };
@@ -3637,6 +3645,8 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
   content?: string;
   /** Optional. Message ID. Format is Guid as string. */
   messageId?: string;
+  /** Optional. The BSUID of the sender. */
+  fromBSUId?: string;
   /** Required. The message channel type */
   channelKind: AcsMessageChannelKind;
   /** Required. Whatsapp message type */
@@ -3661,6 +3671,7 @@ export function acsMessageReceivedEventDataDeserializer(item: any): AcsMessageRe
     error: !item["error"] ? item["error"] : acsMessageChannelEventErrorDeserializer(item["error"]),
     content: item["content"],
     messageId: item["messageId"],
+    fromBSUId: item["fromBSUID"],
     channelKind: item["channelType"],
     messageType: item["messageType"],
     mediaContent: !item["media"]
