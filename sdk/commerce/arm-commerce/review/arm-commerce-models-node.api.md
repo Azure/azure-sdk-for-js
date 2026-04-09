@@ -4,28 +4,8 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type AggregationGranularity = "Daily" | "Hourly";
-
-// @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export interface ErrorObjectResponse {
@@ -84,27 +64,6 @@ export type OfferTermInfoName = "Recurring Charge" | "Monetary Commitment" | "Mo
 export type OfferTermInfoUnion = MonetaryCredit | MonetaryCommitment | RecurringCharge | OfferTermInfo;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
-export interface RateCardGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RateCardOperations {
-    get: (filter: string, options?: RateCardGetOptionalParams) => Promise<ResourceRateCardInfo>;
-}
-
-// @public
 export interface RecurringCharge extends OfferTermInfo {
     name: "Recurring Charge";
     recurringCharge?: number;
@@ -117,18 +76,6 @@ export interface ResourceRateCardInfo {
     locale?: string;
     meters?: MeterInfo[];
     offerTerms?: OfferTermInfoUnion[];
-}
-
-// @public
-export interface UsageAggregatesListOptionalParams extends OperationOptions {
-    aggregationGranularity?: AggregationGranularity;
-    continuationToken?: string;
-    showDetails?: boolean;
-}
-
-// @public
-export interface UsageAggregatesOperations {
-    list: (reportedStartTime: Date, reportedEndTime: Date, options?: UsageAggregatesListOptionalParams) => PagedAsyncIterableIterator<UsageAggregation>;
 }
 
 // @public
@@ -148,20 +95,6 @@ export interface UsageAggregation {
     unit?: string;
     usageEndTime?: Date;
     usageStartTime?: Date;
-}
-
-// @public (undocumented)
-export class UsageManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: UsageManagementClientOptionalParams);
-    readonly pipeline: Pipeline;
-    readonly rateCard: RateCardOperations;
-    readonly usageAggregates: UsageAggregatesOperations;
-}
-
-// @public
-export interface UsageManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
