@@ -33,19 +33,18 @@ export class StorageClientContext {
   file: FileOperations;
 
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
-    const cr = {} as TokenCredential;
-    this.client = new FileClient(url, cr, options);
+    const placeholderCredential: TokenCredential = {
+      async getToken() {
+        throw new Error(
+          "Placeholder TokenCredential was used. Authentication must be configured via the HTTP pipeline.",
+        );
+      },
+    };
+    this.client = new FileClient(url, placeholderCredential, options);
     this.service = this.client.service;
     this.share = this.client.share;
     this.directory = this.client.directory;
     this.file = this.client.file;
-
-    const { pipeline: corePipeline } = options;
-    if (!corePipeline) {
-      throw new Error("Pipeline is required in options");
-    }
-    (this.client as any).pipeline = corePipeline;
-    this.client["_client"].pipeline = corePipeline;
   }
 }
 
