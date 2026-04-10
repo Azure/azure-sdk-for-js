@@ -6,10 +6,8 @@ import { getEnvironmentVariable } from "#platform/env";
 
 describe("getEnvironmentVariable", function () {
   it("should read environment variables that exist", function () {
-    // In Node: process.env.PATH exists natively.
-    // In browser tests: vitest.browser.base.config.ts injects process.env
-    // via `define: { "process.env": process.env }`, which includes PATH.
-    const path = getEnvironmentVariable("PATH");
+    // Windows uses "Path" while Linux/macOS use "PATH". Check both.
+    const path = getEnvironmentVariable("PATH") ?? getEnvironmentVariable("Path");
     expect(path).toBeDefined();
     expect(typeof path).toBe("string");
     expect(path!.length).toBeGreaterThan(0);
