@@ -392,7 +392,17 @@ Compared with version 1.0.0
   - Interface NetworkDevice has a new optional parameter rwDeviceConfig
   - Interface NetworkDeviceProperties has a new optional parameter lastOperation
   - Interface NetworkDeviceProperties has a new optional parameter rwDeviceConfig
+  - Interface NetworkFabric has a new optional parameter activeCommitBatches
+  - Interface NetworkFabric has a new optional parameter controlPlaneAcls
+  - Interface NetworkFabric has a new optional parameter fabricLocks
+  - Interface NetworkFabric has a new optional parameter featureFlags
+  - Interface NetworkFabric has a new optional parameter hardwareAlertThreshold
   - Interface NetworkFabric has a new optional parameter identity
+  - Interface NetworkFabric has a new optional parameter lastOperation
+  - Interface NetworkFabric has a new optional parameter storageAccountConfiguration
+  - Interface NetworkFabric has a new optional parameter storageArrayCount
+  - Interface NetworkFabric has a new optional parameter trustedIpPrefixes
+  - Interface NetworkFabric has a new optional parameter uniqueRdConfiguration
   - Interface NetworkFabricController has a new optional parameter lastOperation
   - Interface NetworkFabricControllerProperties has a new optional parameter lastOperation
   - Interface NetworkFabricPatch has a new optional parameter controlPlaneAcls
@@ -555,11 +565,7 @@ Compared with version 1.0.0
   - Operation IpExtendedCommunities.beginDeleteAndWait has a new signature
   - Operation IpPrefixes.beginDeleteAndWait has a new signature
   - Operation NetworkFabricControllers.beginDeleteAndWait has a new signature
-  - Operation NetworkFabrics.beginCreate has a new signature
-  - Operation NetworkFabrics.beginCreateAndWait has a new signature
   - Operation NetworkFabrics.beginDeleteAndWait has a new signature
-  - Operation NetworkFabrics.beginUpdateAndWait has a new signature
-  - Operation NetworkFabrics.get has a new signature
   - Operation NetworkTapRules.beginDeleteAndWait has a new signature
   - Operation NetworkTapRules.beginUpdate has a new signature
   - Operation NetworkTapRules.beginUpdateAndWait has a new signature
@@ -604,7 +610,6 @@ Compared with version 1.0.0
   - Removed Interface TerminalServerPatchableProperties
   - Removed Interface VpnConfigurationPatchablePropertiesOptionAProperties
   - Removed Interface VpnConfigurationPropertiesOptionAProperties
-  - Interface NetworkFabric has a new required parameter properties
   - Type of parameter matchConfigurations of interface AccessControlListPatch is changed from AccessControlListMatchConfiguration[] to AccessControlListMatchConfigurationPatch[]
   - Type of parameter matchConfigurations of interface AccessControlListPatchProperties is changed from AccessControlListMatchConfiguration[] to AccessControlListMatchConfigurationPatch[]
   - Type of parameter matchConfigurations of interface NetworkTapRulePatch is changed from NetworkTapRuleMatchConfiguration[] to NetworkTapRuleMatchConfigurationPatch[]
@@ -626,24 +631,6 @@ Compared with version 1.0.0
   - Interface InternalNetworkPatchProperties no longer has parameter importRoutePolicyId
   - Interface InternalNetworkProperties no longer has parameter exportRoutePolicyId
   - Interface InternalNetworkProperties no longer has parameter importRoutePolicyId
-  - Interface NetworkFabric no longer has parameter administrativeState
-  - Interface NetworkFabric no longer has parameter annotation
-  - Interface NetworkFabric no longer has parameter configurationState
-  - Interface NetworkFabric no longer has parameter fabricASN
-  - Interface NetworkFabric no longer has parameter fabricVersion
-  - Interface NetworkFabric no longer has parameter ipv4Prefix
-  - Interface NetworkFabric no longer has parameter ipv6Prefix
-  - Interface NetworkFabric no longer has parameter l2IsolationDomains
-  - Interface NetworkFabric no longer has parameter l3IsolationDomains
-  - Interface NetworkFabric no longer has parameter managementNetworkConfiguration
-  - Interface NetworkFabric no longer has parameter networkFabricControllerId
-  - Interface NetworkFabric no longer has parameter networkFabricSku
-  - Interface NetworkFabric no longer has parameter provisioningState
-  - Interface NetworkFabric no longer has parameter rackCount
-  - Interface NetworkFabric no longer has parameter racks
-  - Interface NetworkFabric no longer has parameter routerIds
-  - Interface NetworkFabric no longer has parameter serverCountPerRack
-  - Interface NetworkFabric no longer has parameter terminalServerConfiguration
   - Interface NetworkFabricController no longer has parameter workloadManagementNetwork
   - Interface NetworkFabricControllerProperties no longer has parameter workloadManagementNetwork
   - Interface NetworkToNetworkInterconnectPatch no longer has parameter name

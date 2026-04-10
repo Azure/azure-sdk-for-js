@@ -7615,17 +7615,71 @@ export function networkFabricSkuArrayDeserializer(result: Array<NetworkFabricSku
 
 /** The Network Fabric resource definition. */
 export interface NetworkFabric extends TrackedResource {
-  /** The NetworkFabric Properties */
-  properties: NetworkFabricProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /** Switch configuration description. */
+  annotation?: string;
+  /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
+  networkFabricSku: string;
+  /** The version of Network Fabric. */
+  fabricVersion?: string;
+  /** Array of router IDs. */
+  readonly routerIds?: string[];
+  /** Bring your own storage account configurations for Network Fabric. */
+  storageAccountConfiguration?: StorageAccountConfiguration;
+  /** Network Fabric Lock details */
+  readonly fabricLocks?: FabricLockProperties[];
+  /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
+  networkFabricControllerId: string;
+  /** Number of compute racks associated to Network Fabric. */
+  rackCount?: number;
+  /** Number of servers.Possible values are from 1-16. */
+  serverCountPerRack: number;
+  /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
+  ipv4Prefix: string;
+  /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59 */
+  ipv6Prefix?: string;
+  /** ASN of CE devices for CE/PE connectivity. */
+  fabricASN: number;
+  /** Network and credentials configuration currently applied to terminal server. */
+  terminalServerConfiguration: TerminalServerConfiguration;
+  /** Configuration to be used to setup the management network. */
+  managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
+  /** List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU. */
+  readonly racks?: string[];
+  /** List of L2 Isolation Domain resource IDs under the Network Fabric. */
+  readonly l2IsolationDomains?: string[];
+  /** List of L3 Isolation Domain resource IDs under the Network Fabric. */
+  readonly l3IsolationDomains?: string[];
+  /** Hardware alert threshold percentage. Possible values are from 20 to 100. */
+  hardwareAlertThreshold?: number;
+  /** Control Plane Access Control List ARM resource IDs. */
+  controlPlaneAcls?: string[];
+  /** Feature flag status information */
+  readonly featureFlags?: FeatureFlagProperties[];
+  /** Trusted IP Prefixes ARM resource IDs. */
+  trustedIpPrefixes?: string[];
+  /** Unique Route Distinguisher configuration */
+  uniqueRdConfiguration?: UniqueRouteDistinguisherProperties;
+  /** Number of Storage arrays associated with the Network Fabric. */
+  storageArrayCount?: number;
+  /** Active commit batch identifiers */
+  readonly activeCommitBatches?: string[];
+  /** Details of the last operation performed on the resource */
+  readonly lastOperation?: LastOperationProperties;
+  /** Configuration state of the resource. */
+  readonly configurationState?: ConfigurationState;
+  /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
+  readonly provisioningState?: ProvisioningState;
+  /** Administrative state of the resource. */
+  readonly administrativeState?: AdministrativeState;
 }
 
 export function networkFabricSerializer(item: NetworkFabric): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: networkFabricPropertiesSerializer(item["properties"]),
+    properties: _networkFabricPropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -7644,7 +7698,7 @@ export function networkFabricDeserializer(item: any): NetworkFabric {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: networkFabricPropertiesDeserializer(item["properties"]),
+    ..._networkFabricPropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -12761,6 +12815,119 @@ export function _networkFabricSkuPropertiesDeserializer(item: any) {
         }),
     details: item["details"],
     provisioningState: item["provisioningState"],
+  };
+}
+
+export function _networkFabricPropertiesSerializer(item: NetworkFabric): any {
+  return {
+    annotation: item["annotation"],
+    networkFabricSku: item["networkFabricSku"],
+    fabricVersion: item["fabricVersion"],
+    storageAccountConfiguration: !item["storageAccountConfiguration"]
+      ? item["storageAccountConfiguration"]
+      : storageAccountConfigurationSerializer(item["storageAccountConfiguration"]),
+    networkFabricControllerId: item["networkFabricControllerId"],
+    rackCount: item["rackCount"],
+    serverCountPerRack: item["serverCountPerRack"],
+    ipv4Prefix: item["ipv4Prefix"],
+    ipv6Prefix: item["ipv6Prefix"],
+    fabricASN: item["fabricASN"],
+    terminalServerConfiguration: terminalServerConfigurationSerializer(
+      item["terminalServerConfiguration"],
+    ),
+    managementNetworkConfiguration: managementNetworkConfigurationPropertiesSerializer(
+      item["managementNetworkConfiguration"],
+    ),
+    hardwareAlertThreshold: item["hardwareAlertThreshold"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
+    trustedIpPrefixes: !item["trustedIpPrefixes"]
+      ? item["trustedIpPrefixes"]
+      : item["trustedIpPrefixes"].map((p: any) => {
+          return p;
+        }),
+    uniqueRdConfiguration: !item["uniqueRdConfiguration"]
+      ? item["uniqueRdConfiguration"]
+      : uniqueRouteDistinguisherPropertiesSerializer(item["uniqueRdConfiguration"]),
+    storageArrayCount: item["storageArrayCount"],
+  };
+}
+
+export function _networkFabricPropertiesDeserializer(item: any) {
+  return {
+    annotation: item["annotation"],
+    networkFabricSku: item["networkFabricSku"],
+    fabricVersion: item["fabricVersion"],
+    routerIds: !item["routerIds"]
+      ? item["routerIds"]
+      : item["routerIds"].map((p: any) => {
+          return p;
+        }),
+    storageAccountConfiguration: !item["storageAccountConfiguration"]
+      ? item["storageAccountConfiguration"]
+      : storageAccountConfigurationDeserializer(item["storageAccountConfiguration"]),
+    fabricLocks: !item["fabricLocks"]
+      ? item["fabricLocks"]
+      : fabricLockPropertiesArrayDeserializer(item["fabricLocks"]),
+    networkFabricControllerId: item["networkFabricControllerId"],
+    rackCount: item["rackCount"],
+    serverCountPerRack: item["serverCountPerRack"],
+    ipv4Prefix: item["ipv4Prefix"],
+    ipv6Prefix: item["ipv6Prefix"],
+    fabricASN: item["fabricASN"],
+    terminalServerConfiguration: terminalServerConfigurationDeserializer(
+      item["terminalServerConfiguration"],
+    ),
+    managementNetworkConfiguration: managementNetworkConfigurationPropertiesDeserializer(
+      item["managementNetworkConfiguration"],
+    ),
+    racks: !item["racks"]
+      ? item["racks"]
+      : item["racks"].map((p: any) => {
+          return p;
+        }),
+    l2IsolationDomains: !item["l2IsolationDomains"]
+      ? item["l2IsolationDomains"]
+      : item["l2IsolationDomains"].map((p: any) => {
+          return p;
+        }),
+    l3IsolationDomains: !item["l3IsolationDomains"]
+      ? item["l3IsolationDomains"]
+      : item["l3IsolationDomains"].map((p: any) => {
+          return p;
+        }),
+    hardwareAlertThreshold: item["hardwareAlertThreshold"],
+    controlPlaneAcls: !item["controlPlaneAcls"]
+      ? item["controlPlaneAcls"]
+      : item["controlPlaneAcls"].map((p: any) => {
+          return p;
+        }),
+    featureFlags: !item["featureFlags"]
+      ? item["featureFlags"]
+      : featureFlagPropertiesArrayDeserializer(item["featureFlags"]),
+    trustedIpPrefixes: !item["trustedIpPrefixes"]
+      ? item["trustedIpPrefixes"]
+      : item["trustedIpPrefixes"].map((p: any) => {
+          return p;
+        }),
+    uniqueRdConfiguration: !item["uniqueRdConfiguration"]
+      ? item["uniqueRdConfiguration"]
+      : uniqueRouteDistinguisherPropertiesDeserializer(item["uniqueRdConfiguration"]),
+    storageArrayCount: item["storageArrayCount"],
+    activeCommitBatches: !item["activeCommitBatches"]
+      ? item["activeCommitBatches"]
+      : item["activeCommitBatches"].map((p: any) => {
+          return p;
+        }),
+    lastOperation: !item["lastOperation"]
+      ? item["lastOperation"]
+      : lastOperationPropertiesDeserializer(item["lastOperation"]),
+    configurationState: item["configurationState"],
+    provisioningState: item["provisioningState"],
+    administrativeState: item["administrativeState"],
   };
 }
 

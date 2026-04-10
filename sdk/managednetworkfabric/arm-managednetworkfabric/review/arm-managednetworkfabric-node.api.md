@@ -2942,8 +2942,35 @@ export interface NetworkDevicesUpgradeOptionalParams extends OperationOptions {
 
 // @public
 export interface NetworkFabric extends TrackedResource {
+    readonly activeCommitBatches?: string[];
+    readonly administrativeState?: AdministrativeState;
+    annotation?: string;
+    readonly configurationState?: ConfigurationState;
+    controlPlaneAcls?: string[];
+    fabricASN: number;
+    readonly fabricLocks?: FabricLockProperties[];
+    fabricVersion?: string;
+    readonly featureFlags?: FeatureFlagProperties[];
+    hardwareAlertThreshold?: number;
     identity?: ManagedServiceIdentity;
-    properties: NetworkFabricProperties;
+    ipv4Prefix: string;
+    ipv6Prefix?: string;
+    readonly l2IsolationDomains?: string[];
+    readonly l3IsolationDomains?: string[];
+    readonly lastOperation?: LastOperationProperties;
+    managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
+    networkFabricControllerId: string;
+    networkFabricSku: string;
+    readonly provisioningState?: ProvisioningState;
+    rackCount?: number;
+    readonly racks?: string[];
+    readonly routerIds?: string[];
+    serverCountPerRack: number;
+    storageAccountConfiguration?: StorageAccountConfiguration;
+    storageArrayCount?: number;
+    terminalServerConfiguration: TerminalServerConfiguration;
+    trustedIpPrefixes?: string[];
+    uniqueRdConfiguration?: UniqueRouteDistinguisherProperties;
 }
 
 // @public
