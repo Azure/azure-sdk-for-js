@@ -56,8 +56,8 @@ Both functions accept an Azure `TokenCredential` (from `@azure/identity`) and ha
 ```ts snippet:entraTokenProvider
 import { DefaultAzureCredential } from "@azure/identity";
 
-import { entraTokenProvider } from "@azure/postgresql-auth";
-import pg from "pg";
+const { entraTokenProvider } = await import("@azure/postgresql-auth");
+const pg = await import("pg");
 const credential = new DefaultAzureCredential();
 const pool = new pg.Pool({
   host: process.env.PGHOST,
@@ -74,8 +74,8 @@ const pool = new pg.Pool({
 ```ts snippet:configureEntraAuthentication
 import { DefaultAzureCredential } from "@azure/identity";
 
-import { configureEntraAuthentication } from "@azure/postgresql-auth";
-import { Sequelize } from "sequelize";
+const { configureEntraAuthentication } = await import("@azure/postgresql-auth");
+const { Sequelize } = await import("sequelize");
 const sequelize = new Sequelize({
   dialect: "postgres",
   host: process.env.PGHOST,
