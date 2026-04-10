@@ -4,6 +4,9 @@ on:
     types: [labeled]
 labels: [dependency-review-needed]
 if: github.event.label.name == 'dependency-review-needed' && github.event.pull_request.head.repo.fork == false
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Dexter: Audit dependency changes in a pull request"
 permissions:
   contents: read
