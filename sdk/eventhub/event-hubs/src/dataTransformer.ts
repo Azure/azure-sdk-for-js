@@ -54,7 +54,9 @@ export const defaultDataTransformer = {
         let bodyStr: string;
 
         if (typeof normalizedBody === "number") {
-          bodyStr = Number.isFinite(normalizedBody) ? String(normalizedBody) : JSON.stringify(normalizedBody);
+          bodyStr = Number.isFinite(normalizedBody)
+            ? String(normalizedBody)
+            : JSON.stringify(normalizedBody);
         } else if (typeof normalizedBody === "boolean") {
           bodyStr = String(normalizedBody);
         } else {

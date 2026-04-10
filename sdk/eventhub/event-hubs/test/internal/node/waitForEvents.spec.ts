@@ -158,7 +158,11 @@ describe("waitForEvents", function () {
     assert.strictEqual(resolved, false, "waitForEvents should still honor the prefetch delay.");
 
     await vi.advanceTimersByTimeAsync(39);
-    assert.strictEqual(resolved, false, "waitForEvents should not resolve before the prefetch delay.");
+    assert.strictEqual(
+      resolved,
+      false,
+      "waitForEvents should not resolve before the prefetch delay.",
+    );
 
     await vi.advanceTimersByTimeAsync(1);
     await wait;
