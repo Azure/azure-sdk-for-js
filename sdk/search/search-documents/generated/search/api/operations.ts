@@ -19,9 +19,17 @@ import {
   AutocompleteResult,
   autocompleteResultDeserializer,
 } from "../../models/azure/search/documents/models.js";
+import {
+  ExplainRequest,
+  explainRequestSerializer,
+  ExplainDocumentsResult,
+  explainDocumentsResultDeserializer,
+  GetDocumentCountResponse,
+} from "../../models/models.js";
 import { buildCsvCollection } from "../../static-helpers/serialization/build-csv-collection.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  ExplainPostOptionalParams,
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
@@ -39,6 +47,59 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
+export function _explainPostSend(
+  context: Client,
+  body: ExplainRequest,
+  options: ExplainPostOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/indexes('{indexName}')/docs/search.post.explain{?api%2Dversion}",
+    {
+      indexName: context.indexName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+    body: explainRequestSerializer(body),
+  });
+}
+
+export async function _explainPostDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExplainDocumentsResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return explainDocumentsResultDeserializer(result.body);
+}
+
+/** Explains how a specific document is scored for a given search query. Returns a detailed breakdown of the scoring components that contribute to the document's relevance score. */
+export async function explainPost(
+  context: Client,
+  body: ExplainRequest,
+  options: ExplainPostOptionalParams = { requestOptions: {} },
+): Promise<ExplainDocumentsResult> {
+  const result = await _explainPostSend(context, body, options);
+  return _explainPostDeserialize(result);
+}
+
 export function _autocompletePostSend(
   context: Client,
   searchText: string,
@@ -49,7 +110,7 @@ export function _autocompletePostSend(
     "/indexes('{indexName}')/docs/search.post.autocomplete{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +182,7 @@ export function _autocompleteGetSend(
     "/indexes('{indexName}')/docs/search.autocomplete{?api%2Dversion,search,suggesterName,autocompleteMode,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,searchFields,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: searchText,
       suggesterName: suggesterName,
       autocompleteMode: options?.autocompleteMode,
@@ -187,7 +248,7 @@ export function _indexSend(
     "/indexes('{indexName}')/docs/search.index{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +302,7 @@ export function _suggestPostSend(
     "/indexes('{indexName}')/docs/search.post.suggest{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +369,7 @@ export function _suggestGetSend(
     "/indexes('{indexName}')/docs/search.suggest{?api%2Dversion,search,suggesterName,%24filter,fuzzy,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,searchFields,%24select,%24top}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: searchText,
       suggesterName: suggesterName,
       "%24filter": options?.filter,
@@ -372,7 +433,7 @@ export function _getDocumentSend(
     {
       key: key,
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.selectedFields,
     },
     {
@@ -429,7 +490,7 @@ export function _searchPostSend(
     "/indexes('{indexName}')/docs/search.post.search{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,6 +570,7 @@ export function _searchPostSend(
       hybridSearch: !options?.hybridSearch
         ? options?.hybridSearch
         : hybridSearchSerializer(options?.hybridSearch),
+      explainResults: options?.explainResults,
     },
   });
 }
@@ -541,10 +603,10 @@ export function _searchGetSend(
   options: SearchGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes('{indexName}')/docs{?api%2Dversion,search,%24count,facet*,%24filter,highlight,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,queryType,scoringParameter*,scoringProfile,searchFields,searchMode,scoringStatistics,sessionId,%24select,%24skip,%24top,semanticConfiguration,semanticErrorHandling,semanticMaxWaitInMilliseconds,answers,captions,semanticQuery,queryRewrites,debug,queryLanguage,speller,semanticFields}",
+    "/indexes('{indexName}')/docs{?api%2Dversion,search,%24count,facet*,%24filter,highlight,highlightPostTag,highlightPreTag,minimumCoverage,%24orderby,queryType,scoringParameter*,scoringProfile,searchFields,searchMode,scoringStatistics,sessionId,%24select,%24skip,%24top,semanticConfiguration,semanticErrorHandling,semanticMaxWaitInMilliseconds,answers,captions,semanticQuery,queryRewrites,debug,queryLanguage,speller,semanticFields,explainResults}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       search: options?.searchText,
       "%24count": options?.includeTotalResultCount,
       facet: !options?.facets
@@ -591,6 +653,7 @@ export function _searchGetSend(
         : options?.semanticFields.map((p: any) => {
             return p;
           }),
+      explainResults: options?.explainResults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -645,7 +708,7 @@ export function _getDocumentCountSend(
     "/indexes('{indexName}')/docs/$count{?api%2Dversion}",
     {
       indexName: context.indexName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -663,7 +726,9 @@ export function _getDocumentCountSend(
   });
 }
 
-export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
+export async function _getDocumentCountDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDocumentCountResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -672,14 +737,14 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
     throw error;
   }
 
-  return result.body;
+  return { body: result.body };
 }
 
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,
   options: GetDocumentCountOptionalParams = { requestOptions: {} },
-): Promise<number> {
+): Promise<GetDocumentCountResponse> {
   const result = await _getDocumentCountSend(context, options);
   return _getDocumentCountDeserialize(result);
 }

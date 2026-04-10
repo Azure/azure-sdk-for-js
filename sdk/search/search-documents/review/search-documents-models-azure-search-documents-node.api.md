@@ -380,6 +380,7 @@ export interface SearchRequest {
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     debug?: QueryDebugMode;
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
@@ -417,6 +418,7 @@ export interface SearchResult {
     additionalProperties?: Record<string, any>;
     readonly captions?: QueryCaptionResult[];
     readonly documentDebugInfo?: DocumentDebugInfo;
+    readonly explanation?: ScoreExplanation;
     readonly highlights?: Record<string, string[]>;
     readonly rerankerBoostedScore?: number;
     readonly rerankerScore?: number;

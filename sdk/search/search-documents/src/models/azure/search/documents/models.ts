@@ -3,6 +3,7 @@
 
 import { parseCsvCollection } from "../../../../static-helpers/serialization/parse-csv-collection.js";
 import { serializeRecord } from "../../../../static-helpers/serialization/serialize-record.js";
+import { ScoreExplanation, scoreExplanationDeserializer } from "../../../models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -380,6 +381,8 @@ export interface SearchRequest {
   vectorFilterMode?: VectorFilterMode;
   /** The query parameters to configure hybrid search behaviors. */
   hybridSearch?: HybridSearch;
+  /** A value indicating whether to return scoring explanations for each search result. When set to true, the response includes a detailed breakdown of how each document's relevance score was computed. Default is false. */
+  explainResults?: boolean;
 }
 
 export function searchRequestDeserializer(item: any): SearchRequest {
@@ -435,6 +438,7 @@ export function searchRequestDeserializer(item: any): SearchRequest {
     hybridSearch: !item["hybridSearch"]
       ? item["hybridSearch"]
       : hybridSearchDeserializer(item["hybridSearch"]),
+    explainResults: item["explainResults"],
   };
 }
 
@@ -1316,6 +1320,8 @@ export interface SearchResult {
   readonly captions?: QueryCaptionResult[];
   /** Contains debugging information that can be used to further explore your search results. */
   readonly documentDebugInfo?: DocumentDebugInfo;
+  /** A detailed breakdown of how the document's relevance score was computed. Only returned when explainResults is set to true in the request. */
+  readonly explanation?: ScoreExplanation;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -1333,6 +1339,7 @@ export function searchResultDeserializer(item: any): SearchResult {
       "highlights",
       "captions",
       "documentDebugInfo",
+      "explanation",
     ]),
     score: item["@search.score"],
     rerankerScore: item["@search.rerankerScore"],
@@ -1353,6 +1360,9 @@ export function searchResultDeserializer(item: any): SearchResult {
     documentDebugInfo: !item["@search.documentDebugInfo"]
       ? item["@search.documentDebugInfo"]
       : documentDebugInfoDeserializer(item["@search.documentDebugInfo"]),
+    explanation: !item["@search.explanation"]
+      ? item["@search.explanation"]
+      : scoreExplanationDeserializer(item["@search.explanation"]),
   };
 }
 

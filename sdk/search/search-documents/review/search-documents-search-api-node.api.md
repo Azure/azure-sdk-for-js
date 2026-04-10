@@ -46,10 +46,19 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 export function createSearch(endpointParam: string, credential: KeyCredential | TokenCredential, indexName: string, options?: SearchClientOptionalParams): SearchContext;
 
 // @public
+export function explainPost(context: SearchContext, body: ExplainRequest, options?: ExplainPostOptionalParams): Promise<ExplainDocumentsResult>;
+
+// @public
+export interface ExplainPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
+    clientRequestId?: string;
+}
+
+// @public
 export function getDocument(context: SearchContext, key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
 
 // @public
-export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<number>;
+export function getDocumentCount(context: SearchContext, options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
@@ -93,6 +102,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
     debug?: QueryDebugMode;
     enableElevatedRead?: boolean;
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
@@ -133,6 +143,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
     clientRequestId?: string;
     debug?: QueryDebugMode;
     enableElevatedRead?: boolean;
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];

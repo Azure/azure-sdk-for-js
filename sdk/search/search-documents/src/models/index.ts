@@ -1,4 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { KnownVersions } from "./models.js";
+export type {
+  ScoreExplanation,
+  ScoreComponentKind,
+  ExplainRequest,
+  ExplainVerbosity,
+  ExplainDocumentsResult,
+  GetDocumentCountResponse,
+} from "./models.js";
+export { KnownScoreComponentKind, KnownExplainVerbosity, KnownVersions } from "./models.js";

@@ -25,6 +25,7 @@ import type {
   SemanticQueryRewritesResultType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
+import type { ScoreExplanation, ExplainVerbosity } from "./models/models.js";
 import type { FacetResult, QueryAnswerResult, QueryCaptionResult } from "./serviceModels.js";
 import type GeographyPoint from "./geographyPoint.js";
 
@@ -439,6 +440,12 @@ export interface BaseSearchRequestOptions<
    */
   hybridSearch?: HybridSearch;
   /**
+   * A value indicating whether to return scoring explanations for each search result.
+   * When set to true, the response includes a detailed breakdown of how each document's
+   * relevance score was computed. Default is false.
+   */
+  explainResults?: boolean;
+  /**
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
   xMsQuerySourceAuthorization?: string;
@@ -506,6 +513,12 @@ export type SearchResult<
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly documentDebugInfo?: DocumentDebugInfo;
+  /**
+   * A detailed breakdown of how the document's relevance score was computed.
+   * Only returned when explainResults is set to true in the request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly explanation?: ScoreExplanation;
 };
 
 /**
@@ -1209,3 +1222,35 @@ export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 export type VectorFilterMode = `${KnownVectorFilterMode}`;
 export type VectorQueryKind = `${KnownVectorQueryKind}`;
+
+/**
+ * Options for the explain operation.
+ */
+export interface ExplainOptions extends OperationOptions {
+  /**
+   * The level of detail to include in the scoring explanation. Default is 'simple'.
+   */
+  verbosity?: ExplainVerbosity;
+  /**
+   * An OData expression that filters the documents considered during explanation.
+   */
+  filter?: string;
+  /**
+   * The name of a scoring profile to evaluate for the document.
+   */
+  scoringProfile?: string;
+  /**
+   * The list of parameter values to be used in scoring functions (for example,
+   * referencePointParameter) using the format name-values.
+   */
+  scoringParameters?: string[];
+  /**
+   * A value that specifies the syntax of the search query. The default is 'simple'.
+   * Use 'full' if your query uses the Lucene query syntax.
+   */
+  queryType?: QueryType;
+  /**
+   * The comma-separated list of field names to which to scope the full-text search.
+   */
+  searchFields?: string[];
+}

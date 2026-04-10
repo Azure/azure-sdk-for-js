@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  explainPost,
   autocompletePost,
   autocompleteGet,
   index,
@@ -13,6 +14,7 @@ export {
   getDocumentCount,
 } from "./operations.js";
 export type {
+  ExplainPostOptionalParams,
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,

@@ -8,7 +8,15 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export { KnownVersions } from "./models/index.js";
+export type {
+  ScoreExplanation,
+  ScoreComponentKind,
+  ExplainRequest,
+  ExplainVerbosity,
+  ExplainDocumentsResult,
+  GetDocumentCountResponse,
+} from "./models/index.js";
+export { KnownScoreComponentKind, KnownExplainVerbosity, KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
   ErrorDetail,
@@ -529,6 +537,7 @@ export {
   KnownKnowledgeBaseReferenceType,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export type {
+  ExplainPostOptionalParams,
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,

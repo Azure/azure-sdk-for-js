@@ -20,6 +20,7 @@ import type {
   SearchRequest as GeneratedSearchRequest,
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./models/azure/search/documents/index.js";
+import type { ExplainDocumentsResult } from "./models/models.js";
 import type { SearchClientOptionalParams } from "./search/searchClient.js";
 import { SearchClient as GeneratedClient } from "./search/searchClient.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
@@ -27,6 +28,7 @@ import type {
   AutocompleteOptions,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
+  ExplainOptions,
   GetDocumentOptions,
   IndexDocumentsAction,
   IndexDocumentsOptions,
@@ -241,9 +243,49 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       options,
       async (updatedOptions) => {
         const response = await this.client.getDocumentCount(updatedOptions);
-        return Number(response); // Service responds with `text/plain` content-type, which core will not deserialize as number
+        return Number(response.body); // Service responds with `text/plain` content-type, which core will not deserialize as number
       },
     );
+  }
+
+  /**
+   * Explains how a specific document is scored for a given search query.
+   * Returns a detailed breakdown of the scoring components that contribute to the
+   * document's relevance score.
+   * @param documentKey - The key of the document to explain scoring for.
+   * @param searchText - The search query text to explain scoring for. Use "*" to explain the base score without a text query.
+   * @param options - Options to the explain operation.
+   */
+  public async explain(
+    documentKey: string,
+    searchText: string,
+    options: ExplainOptions = {},
+  ): Promise<ExplainDocumentsResult> {
+    const {
+      verbosity,
+      filter,
+      scoringProfile,
+      scoringParameters,
+      queryType,
+      searchFields,
+      ...restOptions
+    } = options;
+
+    return tracingClient.withSpan("SearchClient-explain", restOptions, async (updatedOptions) => {
+      return this.client.explainPost(
+        {
+          search: searchText,
+          documentKey,
+          verbosity,
+          filter,
+          scoringProfile,
+          scoringParameters,
+          queryType,
+          searchFields,
+        },
+        updatedOptions,
+      );
+    });
   }
 
   /**

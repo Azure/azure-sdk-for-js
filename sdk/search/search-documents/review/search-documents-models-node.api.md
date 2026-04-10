@@ -5,8 +5,66 @@
 ```ts
 
 // @public
+export interface ExplainDocumentsResult {
+    readonly documentKey: string;
+    readonly explanation: ScoreExplanation;
+    readonly matchedFields?: string[];
+    readonly score: number;
+}
+
+// @public
+export interface ExplainRequest {
+    documentKey: string;
+    filter?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    search: string;
+    searchFields?: string[];
+    verbosity?: ExplainVerbosity;
+}
+
+// @public
+export type ExplainVerbosity = string;
+
+// @public (undocumented)
+export type GetDocumentCountResponse = {
+    body: number;
+};
+
+// @public
+export enum KnownExplainVerbosity {
+    Detailed = "detailed",
+    Full = "full",
+    Simple = "simple"
+}
+
+// @public
+export enum KnownScoreComponentKind {
+    Boost = "boost",
+    Coordination = "coordination",
+    Custom = "custom",
+    FieldNorm = "fieldNorm",
+    InverseDocumentFrequency = "idf",
+    Similarity = "similarity",
+    TermFrequency = "tf"
+}
+
+// @public
 export enum KnownVersions {
-    V20251101Preview = "2025-11-01-preview"
+    V20251101Preview = "2025-11-01-preview",
+    V20260501Preview = "2026-05-01-preview"
+}
+
+// @public
+export type ScoreComponentKind = string;
+
+// @public
+export interface ScoreExplanation {
+    description: string;
+    details?: ScoreExplanation[];
+    kind?: ScoreComponentKind;
+    value: number;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -38,6 +38,12 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ExplainPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
+    clientRequestId?: string;
+}
+
+// @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
@@ -60,8 +66,9 @@ export class SearchClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, indexName: string, options?: SearchClientOptionalParams);
     autocompleteGet(searchText: string, suggesterName: string, options?: AutocompleteGetOptionalParams): Promise<AutocompleteResult>;
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
+    explainPost(body: ExplainRequest, options?: ExplainPostOptionalParams): Promise<ExplainDocumentsResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
-    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
+    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
     searchGet(options?: SearchGetOptionalParams): Promise<SearchDocumentsResult>;
@@ -88,6 +95,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
     debug?: QueryDebugMode;
     enableElevatedRead?: boolean;
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
@@ -125,6 +133,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
     clientRequestId?: string;
     debug?: QueryDebugMode;
     enableElevatedRead?: boolean;
+    explainResults?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];

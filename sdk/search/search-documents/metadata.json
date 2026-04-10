@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Search": "2025-11-01-preview"
+    "Search": "2026-05-01-preview"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.51.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Search",
     "CrossLanguageDefinitionId": {
@@ -36,6 +36,7 @@
       "@azure/search-documents!TextResult:interface": "Search.TextResult",
       "@azure/search-documents!SingleVectorFieldResult:interface": "Search.SingleVectorFieldResult",
       "@azure/search-documents!QueryResultDocumentInnerHit:interface": "Search.QueryResultDocumentInnerHit",
+      "@azure/search-documents!ScoreExplanation:interface": "Search.ScoreExplanation",
       "@azure/search-documents!SearchPostRequest:interface": "Customizations.SearchClient.searchPost.Request.anonymous",
       "@azure/search-documents!LookupDocument:interface": "Search.LookupDocument",
       "@azure/search-documents!SuggestDocumentsResult:interface": "Search.SuggestDocumentsResult",
@@ -48,6 +49,8 @@
       "@azure/search-documents!AutocompleteResult:interface": "Search.AutocompleteResult",
       "@azure/search-documents!AutocompleteItem:interface": "Search.AutocompleteItem",
       "@azure/search-documents!AutocompletePostRequest:interface": "Customizations.SearchClient.autocompletePost.Request.anonymous",
+      "@azure/search-documents!ExplainRequest:interface": "Search.ExplainRequest",
+      "@azure/search-documents!ExplainDocumentsResult:interface": "Search.ExplainDocumentsResult",
       "@azure/search-documents!SynonymMap:interface": "Search.SynonymMap",
       "@azure/search-documents!SearchResourceEncryptionKey:interface": "Search.SearchResourceEncryptionKey",
       "@azure/search-documents!AzureActiveDirectoryApplicationCredentials:interface": "Search.AzureActiveDirectoryApplicationCredentials",
@@ -324,11 +327,13 @@
       "@azure/search-documents!KnownVectorFilterMode:enum": "Search.VectorFilterMode",
       "@azure/search-documents!KnownHybridCountAndFacetMode:enum": "Search.HybridCountAndFacetMode",
       "@azure/search-documents!KnownSemanticFieldState:enum": "Search.SemanticFieldState",
+      "@azure/search-documents!KnownScoreComponentKind:enum": "Search.ScoreComponentKind",
       "@azure/search-documents!KnownSemanticErrorReason:enum": "Search.SemanticErrorReason",
       "@azure/search-documents!KnownSemanticSearchResultsType:enum": "Search.SemanticSearchResultsType",
       "@azure/search-documents!KnownSemanticQueryRewritesResultType:enum": "Search.SemanticQueryRewritesResultType",
       "@azure/search-documents!KnownIndexActionType:enum": "Search.IndexActionType",
       "@azure/search-documents!KnownAutocompleteMode:enum": "Search.AutocompleteMode",
+      "@azure/search-documents!KnownExplainVerbosity:enum": "Search.ExplainVerbosity",
       "@azure/search-documents!KnownVersions:enum": "Search.Versions",
       "@azure/search-documents!KnownSearchFieldDataType:enum": "Search.SearchFieldDataType",
       "@azure/search-documents!KnownPermissionFilter:enum": "Search.PermissionFilter",
@@ -599,6 +604,7 @@
       "@azure/search-documents!AIServicesAccountIdentityIdentity:type": "Search.AIServicesAccountIdentity.identity.anonymous",
       "@azure/search-documents!SearchIndexerKnowledgeStoreIdentity:type": "Search.SearchIndexerKnowledgeStore.identity.anonymous",
       "@azure/search-documents!SearchIndexerSkillsetEncryptionKey:type": "Search.SearchIndexerSkillset.encryptionKey.anonymous",
+      "@azure/search-documents!SearchClient#explainPost:member(1)": "Customizations.SearchClient.Documents.explainPost",
       "@azure/search-documents!SearchClient#autocompletePost:member(1)": "Customizations.SearchClient.Documents.autocompletePost",
       "@azure/search-documents!SearchClient#autocompleteGet:member(1)": "Customizations.SearchClient.Documents.autocompleteGet",
       "@azure/search-documents!SearchClient#index:member(1)": "Customizations.SearchClient.Documents.index",
