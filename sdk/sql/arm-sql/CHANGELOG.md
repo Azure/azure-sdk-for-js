@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0-beta.5 (2026-04-08)
+## 11.0.0-beta.5 (2026-04-10)
 Compared with version 10.0.0
 
 ### Features Added
@@ -234,8 +234,6 @@ Compared with version 10.0.0
   - Added Interface BackupShortTermRetentionPolicyProperties
   - Added Interface CertificateInfo
   - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
-  - Added Interface CommonProxyResource
-  - Added Interface CommonResource
   - Added Interface CopyLongTermRetentionBackupParametersProperties
   - Added Interface DatabaseAutomaticTuningProperties
   - Added Interface DatabaseBlobAuditingPolicyProperties
@@ -448,8 +446,10 @@ Compared with version 10.0.0
   - Interface DatabaseExtensions has a new optional parameter maxSizeBytes
   - Interface DatabaseExtensions has a new optional parameter networkIsolation
   - Interface DatabaseExtensions has a new optional parameter serviceObjectiveName
+  - Interface DatabaseExtensions has a new optional parameter systemData
   - Interface DatabaseKey has a new optional parameter keyVersion
   - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
+  - Interface DatabaseOperation has a new optional parameter systemData
   - Interface DatabaseSchema has a new optional parameter systemData
   - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
   - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
@@ -460,9 +460,12 @@ Compared with version 10.0.0
   - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
   - Interface DatabaseUpdate has a new optional parameter provisioningState
   - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface DatabaseUsage has a new optional parameter systemData
   - Interface DatabaseVulnerabilityAssessment has a new optional parameter systemData
   - Interface DatabaseVulnerabilityAssessmentRuleBaseline has a new optional parameter systemData
+  - Interface DatabaseVulnerabilityAssessmentScansExport has a new optional parameter systemData
   - Interface DataMaskingPolicy has a new optional parameter systemData
+  - Interface DataMaskingRule has a new optional parameter systemData
   - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
   - Interface DataWarehouseUserActivities has a new optional parameter systemData
   - Interface DeletedServer has a new optional parameter systemData
@@ -484,6 +487,7 @@ Compared with version 10.0.0
   - Interface ElasticPool has a new optional parameter preferredEnclaveType
   - Interface ElasticPool has a new optional parameter systemData
   - Interface ElasticPoolEditionCapability has a new optional parameter zonePinning
+  - Interface ElasticPoolOperation has a new optional parameter systemData
   - Interface ElasticPoolPerDatabaseSettings has a new optional parameter autoPauseDelay
   - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedAutoPauseDelay
   - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedMinCapacities
@@ -509,6 +513,7 @@ Compared with version 10.0.0
   - Interface ImportExportExtensionsOperationResult has a new optional parameter privateEndpointConnections
   - Interface ImportExportExtensionsOperationResult has a new optional parameter queuedTime
   - Interface ImportExportExtensionsOperationResult has a new optional parameter systemData
+  - Interface ImportExportOperationResult has a new optional parameter systemData
   - Interface InstanceFailoverGroup has a new optional parameter systemData
   - Interface InstancePool has a new optional parameter dnsZone
   - Interface InstancePool has a new optional parameter maintenanceConfigurationId
@@ -540,6 +545,7 @@ Compared with version 10.0.0
   - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutability
   - Interface LongTermRetentionBackup has a new optional parameter timeBasedImmutabilityMode
   - Interface LongTermRetentionBackup has a new optional parameter systemData
+  - Interface LongTermRetentionBackupOperationResult has a new optional parameter systemData
   - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter filter
   - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter skip
   - Interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams has a new optional parameter top
@@ -622,16 +628,23 @@ Compared with version 10.0.0
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
   - Interface PrivateEndpointConnection has a new optional parameter systemData
   - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface QueryStatistics has a new optional parameter systemData
   - Interface RecommendedAction has a new optional parameter systemData
+  - Interface RecommendedSensitivityLabelUpdate has a new optional parameter systemData
   - Interface RecoverableDatabase has a new optional parameter systemData
   - Interface RecoverableManagedDatabase has a new optional parameter systemData
+  - Interface RefreshExternalGovernanceStatusOperationResult has a new optional parameter systemData
   - Interface ReplicationLink has a new optional parameter partnerDatabaseId
   - Interface ReplicationLink has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
   - Interface RestorableDroppedDatabase has a new optional parameter systemData
   - Interface RestorableDroppedManagedDatabase has a new optional parameter systemData
   - Interface RestorePoint has a new optional parameter systemData
+  - Interface SecurityEvent has a new optional parameter systemData
   - Interface SensitivityLabel has a new optional parameter clientClassificationSource
   - Interface SensitivityLabel has a new optional parameter systemData
+  - Interface SensitivityLabelUpdate has a new optional parameter systemData
   - Interface Server has a new optional parameter createMode
   - Interface Server has a new optional parameter isIPv6Enabled
   - Interface Server has a new optional parameter retentionDays
@@ -645,12 +658,14 @@ Compared with version 10.0.0
   - Interface ServerDnsAlias has a new optional parameter systemData
   - Interface ServerKey has a new optional parameter keyVersion
   - Interface ServerKey has a new optional parameter systemData
+  - Interface ServerOperation has a new optional parameter systemData
   - Interface ServerTrustCertificate has a new optional parameter systemData
   - Interface ServerTrustGroup has a new optional parameter systemData
   - Interface ServerUpdate has a new optional parameter createMode
   - Interface ServerUpdate has a new optional parameter isIPv6Enabled
   - Interface ServerUpdate has a new optional parameter retentionDays
   - Interface ServerUsage has a new optional parameter id
+  - Interface ServerUsage has a new optional parameter systemData
   - Interface ServerUsage has a new optional parameter type
   - Interface ServerVulnerabilityAssessment has a new optional parameter systemData
   - Interface ServiceObjectiveCapability has a new optional parameter supportedFreeLimitExhaustionBehaviors
@@ -659,13 +674,17 @@ Compared with version 10.0.0
   - Interface SqlAgentConfiguration has a new optional parameter systemData
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
   - Interface SubscriptionUsage has a new optional parameter systemData
+  - Interface SynapseLinkWorkspace has a new optional parameter systemData
   - Interface SyncAgent has a new optional parameter systemData
+  - Interface SyncAgentLinkedDatabase has a new optional parameter systemData
   - Interface SyncGroup has a new optional parameter identity
   - Interface SyncGroup has a new optional parameter systemData
   - Interface SyncMember has a new optional parameter identity
   - Interface SyncMember has a new optional parameter systemData
+  - Interface TdeCertificate has a new optional parameter systemData
   - Interface TimeZone has a new optional parameter systemData
   - Interface TrackedResource has a new optional parameter systemData
+  - Interface UpdateVirtualClusterDnsServersOperation has a new optional parameter systemData
   - Interface VirtualCluster has a new optional parameter systemData
   - Interface VirtualNetworkRule has a new optional parameter systemData
   - Interface VulnerabilityAssessmentScanRecord has a new optional parameter systemData

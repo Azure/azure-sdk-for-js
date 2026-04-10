@@ -160,7 +160,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** A short term retention policy. */
-export interface BackupShortTermRetentionPolicy extends CommonProxyResource {
+export interface BackupShortTermRetentionPolicy extends ProxyResource {
   /** The backup retention period in days. This is how many days Point-in-Time Restore will be supported. */
   retentionDays?: number;
   /** The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases. */
@@ -247,13 +247,13 @@ export enum KnownShortTermRetentionPolicyName {
 export type ShortTermRetentionPolicyName = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface CommonProxyResource extends CommonResource {}
+export interface ProxyResource extends Resource {}
 
-export function commonProxyResourceSerializer(_item: CommonProxyResource): any {
+export function proxyResourceSerializer(_item: ProxyResource): any {
   return {};
 }
 
-export function commonProxyResourceDeserializer(item: any): CommonProxyResource {
+export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -265,7 +265,7 @@ export function commonProxyResourceDeserializer(item: any): CommonProxyResource 
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface CommonResource {
+export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   readonly id?: string;
   /** The name of the resource */
@@ -276,11 +276,11 @@ export interface CommonResource {
   readonly systemData?: Systemdata;
 }
 
-export function commonResourceSerializer(_item: CommonResource): any {
+export function resourceSerializer(_item: Resource): any {
   return {};
 }
 
-export function commonResourceDeserializer(item: any): CommonResource {
+export function resourceDeserializer(item: any): Resource {
   return {
     id: item["id"],
     name: item["name"],
@@ -378,7 +378,7 @@ export function backupShortTermRetentionPolicyArrayDeserializer(
 }
 
 /** A database column resource. */
-export interface DatabaseColumn extends CommonProxyResource {
+export interface DatabaseColumn extends ProxyResource {
   /** The column data type. */
   columnType?: ColumnDataType;
   /** The table temporal type. */
@@ -581,7 +581,7 @@ export function databaseColumnArrayDeserializer(result: Array<DatabaseColumn>): 
 }
 
 /** Database restore points. */
-export interface RestorePoint extends CommonProxyResource {
+export interface RestorePoint extends ProxyResource {
   /** Resource location. */
   readonly location?: string;
   /** The type of restore point */
@@ -698,7 +698,7 @@ export function sensitivityLabelArrayDeserializer(result: Array<SensitivityLabel
 }
 
 /** A sensitivity label. */
-export interface SensitivityLabel extends CommonProxyResource {
+export interface SensitivityLabel extends ProxyResource {
   /** Resource that manages the sensitivity label. */
   readonly managedBy?: string;
   /** The schema name. */
@@ -888,43 +888,6 @@ export function sensitivityLabelUpdatePropertiesSerializer(
 
 /** Type of SensitivityLabelUpdateKind */
 export type SensitivityLabelUpdateKind = "set" | "remove";
-
-/** ARM proxy resource. */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-  };
-}
-
-/** ARM resource. */
-export interface Resource {
-  /** Resource ID. */
-  readonly id?: string;
-  /** Resource name. */
-  readonly name?: string;
-  /** Resource type. */
-  readonly type?: string;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-  };
-}
 
 /** A database resource. */
 export interface Database extends TrackedResource {
@@ -1964,7 +1927,7 @@ export function databaseUserIdentityDeserializer(item: any): DatabaseUserIdentit
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends CommonResource {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
@@ -2481,6 +2444,9 @@ export function importExportOperationResultDeserializer(item: any): ImportExport
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _importExportOperationResultPropertiesDeserializer(item["properties"])),
@@ -2725,7 +2691,7 @@ export function firewallRuleListSerializer(item: FirewallRuleList): any {
 }
 
 /** A replication link. */
-export interface ReplicationLink extends CommonProxyResource {
+export interface ReplicationLink extends ProxyResource {
   /** Resource partner server. */
   readonly partnerServer?: string;
   /** Resource partner database. */
@@ -3734,6 +3700,9 @@ export function refreshExternalGovernanceStatusOperationResultDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _refreshExternalGovernanceStatusOperationResultPropertiesDeserializer(item["properties"])),
@@ -3809,7 +3778,7 @@ export function checkNameAvailabilityResponseDeserializer(
 export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /** A server blob auditing policy. */
-export interface ServerBlobAuditingPolicy extends CommonProxyResource {
+export interface ServerBlobAuditingPolicy extends ProxyResource {
   /**
    * Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor.
    * In order to send the events to Azure Monitor, specify 'State' as 'Enabled', 'IsAzureMonitorTargetEnabled' as true and 'IsDevopsAuditEnabled' as true
@@ -4165,7 +4134,7 @@ export function serverBlobAuditingPolicyArrayDeserializer(
 }
 
 /** A database blob auditing policy. */
-export interface DatabaseBlobAuditingPolicy extends CommonProxyResource {
+export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   /** Resource kind. */
   readonly kind?: string;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
@@ -4492,7 +4461,7 @@ export function databaseBlobAuditingPolicyArrayDeserializer(
 }
 
 /** An extended database blob auditing policy. */
-export interface ExtendedDatabaseBlobAuditingPolicy extends CommonProxyResource {
+export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   /** Specifies condition of where clause when creating an audit. */
   predicateExpression?: string;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
@@ -4827,7 +4796,7 @@ export function extendedDatabaseBlobAuditingPolicyArrayDeserializer(
 }
 
 /** An extended server blob auditing policy. */
-export interface ExtendedServerBlobAuditingPolicy extends CommonProxyResource {
+export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   /**
    * Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor.
    * In order to send the events to Azure Monitor, specify 'State' as 'Enabled', 'IsAzureMonitorTargetEnabled' as true and 'IsDevopsAuditEnabled' as true
@@ -5191,7 +5160,7 @@ export function extendedServerBlobAuditingPolicyArrayDeserializer(
 }
 
 /** Database, Server or Elastic Pool Advisor. */
-export interface Advisor extends CommonProxyResource {
+export interface Advisor extends ProxyResource {
   /** Resource kind. */
   readonly kind?: string;
   /** Resource location. */
@@ -5292,7 +5261,7 @@ export function recommendedActionArrayDeserializer(result: Array<RecommendedActi
 }
 
 /** Database, Server or Elastic Pool Recommended Action. */
-export interface RecommendedAction extends CommonProxyResource {
+export interface RecommendedAction extends ProxyResource {
   /** Resource kind. */
   readonly kind?: string;
   /** Resource location. */
@@ -5658,7 +5627,7 @@ export function recommendedActionMetricInfoDeserializer(item: any): RecommendedA
 }
 
 /** A database table resource. */
-export interface DatabaseTable extends CommonProxyResource {
+export interface DatabaseTable extends ProxyResource {
   /** The table temporal type. */
   temporalType?: TableTemporalType;
   /** Whether or not the table is memory optimized. */
@@ -5716,7 +5685,7 @@ export function databaseTableArrayDeserializer(result: Array<DatabaseTable>): an
 }
 
 /** A database schema resource. */
-export interface DatabaseSchema extends CommonProxyResource {}
+export interface DatabaseSchema extends ProxyResource {}
 
 export function databaseSchemaDeserializer(item: any): DatabaseSchema {
   return {
@@ -5751,7 +5720,7 @@ export function databaseSchemaArrayDeserializer(result: Array<DatabaseSchema>): 
 }
 
 /** A database security alert policy. */
-export interface DatabaseSecurityAlertPolicy extends CommonProxyResource {
+export interface DatabaseSecurityAlertPolicy extends ProxyResource {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. */
   state?: SecurityAlertsPolicyState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force */
@@ -5913,7 +5882,7 @@ export function databaseSecurityAlertPolicyArrayDeserializer(
 }
 
 /** A database sql vulnerability assessment baseline set. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselineSet extends CommonProxyResource {
+export interface DatabaseSqlVulnerabilityAssessmentBaselineSet extends ProxyResource {
   /** The baseline set result */
   results?: Record<string, string[][]>;
 }
@@ -5992,7 +5961,7 @@ export function databaseSqlVulnerabilityAssessmentBaselineSetArrayDeserializer(
 }
 
 /** A SQL Vulnerability Assessment. */
-export interface SqlVulnerabilityAssessment extends CommonProxyResource {
+export interface SqlVulnerabilityAssessment extends ProxyResource {
   /** Specifies the state of the SQL Vulnerability Assessment, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: SqlVulnerabilityAssessmentState;
 }
@@ -6085,7 +6054,7 @@ export function sqlVulnerabilityAssessmentArrayDeserializer(
 }
 
 /** A database sql vulnerability assessment rule baseline. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline extends CommonProxyResource {
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline extends ProxyResource {
   /** The rule baseline result */
   results?: string[][];
 }
@@ -6126,8 +6095,6 @@ export function databaseSqlVulnerabilityAssessmentRuleBaselinePropertiesDeserial
 
 /** A database sql vulnerability assessment rule baseline input. */
 export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInput extends ProxyResource {
-  /** SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineInputResource. */
-  readonly systemData?: Systemdata;
   /** The latest scan flag */
   latestScan?: boolean;
   /** The rule baseline result */
@@ -6191,7 +6158,7 @@ export function databaseSqlVulnerabilityAssessmentRuleBaselineArrayDeserializer(
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface SqlVulnerabilityAssessmentScanResults extends CommonProxyResource {
+export interface SqlVulnerabilityAssessmentScanResults extends ProxyResource {
   /** SQL Vulnerability Assessment rule Id. */
   readonly ruleId?: string;
   /** SQL Vulnerability Assessment rule result status. */
@@ -6541,7 +6508,7 @@ export function sqlVulnerabilityAssessmentScanResultsArrayDeserializer(
 }
 
 /** A vulnerability assessment scan record. */
-export interface SqlVulnerabilityAssessmentScanRecord extends CommonProxyResource {
+export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
   /** The scan ID. */
   readonly scanId?: string;
   /** The scan trigger type. */
@@ -6751,7 +6718,7 @@ export function sqlVulnerabilityAssessmentScanRecordArrayDeserializer(
 }
 
 /** A database vulnerability assessment rule baseline. */
-export interface DatabaseVulnerabilityAssessmentRuleBaseline extends CommonProxyResource {
+export interface DatabaseVulnerabilityAssessmentRuleBaseline extends ProxyResource {
   /** The rule baseline result */
   baselineResults?: DatabaseVulnerabilityAssessmentRuleBaselineItem[];
 }
@@ -6851,7 +6818,7 @@ export function databaseVulnerabilityAssessmentRuleBaselineItemDeserializer(
 }
 
 /** A database vulnerability assessment. */
-export interface DatabaseVulnerabilityAssessment extends CommonProxyResource {
+export interface DatabaseVulnerabilityAssessment extends ProxyResource {
   /** A blob storage container path to hold the scan results (e.g. https://myStorage.blob.core.windows.net/VaScans/).  It is required if server level vulnerability assessment policy doesn't set */
   storageContainerPath?: string;
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
@@ -7012,7 +6979,7 @@ export function databaseVulnerabilityAssessmentArrayDeserializer(
 }
 
 /** A vulnerability assessment scan record. */
-export interface VulnerabilityAssessmentScanRecord extends CommonProxyResource {
+export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
   /** The scan ID. */
   readonly scanId?: string;
   /** The scan trigger type. */
@@ -7147,6 +7114,9 @@ export function databaseVulnerabilityAssessmentScansExportDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseVulnerabilityAssessmentScansExportPropertiesDeserializer(item["properties"])),
@@ -7168,7 +7138,7 @@ export function databaseVulnerabilityAssessmentScanExportPropertiesDeserializer(
 }
 
 /** A database data masking policy. */
-export interface DataMaskingPolicy extends CommonProxyResource {
+export interface DataMaskingPolicy extends ProxyResource {
   /** The location of the data masking policy. */
   readonly location?: string;
   /** The kind of Data Masking Policy. Metadata, used for Azure portal. */
@@ -7245,7 +7215,7 @@ export enum KnownDataMaskingPolicyName {
 export type DataMaskingPolicyName = string;
 
 /** A deleted server. */
-export interface DeletedServer extends CommonProxyResource {
+export interface DeletedServer extends ProxyResource {
   /** The version of the deleted server. */
   readonly version?: string;
   /** The deletion time of the deleted server. */
@@ -7313,7 +7283,7 @@ export function deletedServerArrayDeserializer(result: Array<DeletedServer>): an
 }
 
 /** Distributed availability group between box and Sql Managed Instance. */
-export interface DistributedAvailabilityGroup extends CommonProxyResource {
+export interface DistributedAvailabilityGroup extends ProxyResource {
   /** Name of the distributed availability group */
   readonly distributedAvailabilityGroupName?: string;
   /** ID of the distributed availability group */
@@ -8268,7 +8238,7 @@ export enum KnownMoveOperationMode {
 export type MoveOperationMode = string;
 
 /** A server trust group. */
-export interface ServerTrustGroup extends CommonProxyResource {
+export interface ServerTrustGroup extends ProxyResource {
   /** Group members information for the server trust group. */
   groupMembers?: ServerInfo[];
   /** Trust scope of the server trust group. */
@@ -9429,6 +9399,9 @@ export function refreshExternalGovernanceStatusOperationResultMIDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _refreshExternalGovernanceStatusOperationResultMIPropertiesDeserializer(
@@ -10022,7 +9995,7 @@ export function elasticPoolArrayDeserializer(result: Array<ElasticPool>): any[] 
 }
 
 /** The server encryption protector. */
-export interface EncryptionProtector extends CommonProxyResource {
+export interface EncryptionProtector extends ProxyResource {
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
   readonly kind?: string;
   /** Resource location. */
@@ -10168,7 +10141,7 @@ export function encryptionProtectorArrayDeserializer(result: Array<EncryptionPro
 }
 
 /** Certificate used on an endpoint on the Managed Instance. */
-export interface EndpointCertificate extends CommonProxyResource {
+export interface EndpointCertificate extends ProxyResource {
   /** The certificate public blob */
   publicBlob?: string;
 }
@@ -10225,7 +10198,7 @@ export function endpointCertificateArrayDeserializer(result: Array<EndpointCerti
 }
 
 /** A failover group. */
-export interface FailoverGroup extends CommonProxyResource {
+export interface FailoverGroup extends ProxyResource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** Resource location. */
@@ -10577,7 +10550,7 @@ export function failoverGroupArrayDeserializer(result: Array<FailoverGroup>): an
 }
 
 /** A Geo backup policy. */
-export interface GeoBackupPolicy extends CommonProxyResource {
+export interface GeoBackupPolicy extends ProxyResource {
   /** Backup policy location. */
   readonly location?: string;
   /** Kind of geo backup policy.  This is metadata used for the Azure portal experience. */
@@ -10671,7 +10644,7 @@ export function geoBackupPolicyArrayDeserializer(result: Array<GeoBackupPolicy>)
 }
 
 /** An instance failover group. */
-export interface InstanceFailoverGroup extends CommonProxyResource {
+export interface InstanceFailoverGroup extends ProxyResource {
   /** Type of the geo-secondary instance. Set 'Standby' if the instance is used as a DR option only. */
   secondaryType?: SecondaryInstanceType;
   /** Read-write endpoint of the failover group instance. */
@@ -10949,7 +10922,7 @@ export function instanceFailoverGroupArrayDeserializer(
 }
 
 /** A instance pool operation. */
-export interface InstancePoolOperation extends CommonProxyResource {
+export interface InstancePoolOperation extends ProxyResource {
   /** The name of the instance pool the operation is being performed on. */
   readonly instancePoolName?: string;
   /** The name of operation. */
@@ -11358,7 +11331,7 @@ export function iPv6FirewallRuleArrayDeserializer(result: Array<IPv6FirewallRule
 }
 
 /** An execution of a job */
-export interface JobExecution extends CommonProxyResource {
+export interface JobExecution extends ProxyResource {
   /** The job version number. */
   readonly jobVersion?: number;
   /** The job step name. */
@@ -11788,7 +11761,7 @@ export function jobAgentArrayDeserializer(result: Array<JobAgent>): any[] {
 }
 
 /** A stored credential that can be used by a job to connect to target databases. */
-export interface JobCredential extends CommonProxyResource {
+export interface JobCredential extends ProxyResource {
   /** The credential user name. */
   username?: string;
   /** The credential password. */
@@ -11864,7 +11837,7 @@ export function jobCredentialArrayDeserializer(result: Array<JobCredential>): an
 }
 
 /** A job. */
-export interface Job extends CommonProxyResource {
+export interface Job extends ProxyResource {
   /** User-defined description of the job. */
   description?: string;
   /** The job version number. */
@@ -11983,7 +11956,7 @@ export function jobArrayDeserializer(result: Array<Job>): any[] {
 }
 
 /** A job agent private endpoint. */
-export interface JobPrivateEndpoint extends CommonProxyResource {
+export interface JobPrivateEndpoint extends ProxyResource {
   /** ARM resource id of the server the private endpoint will target. */
   targetServerAzureResourceId?: string;
   /** Private endpoint id of the private endpoint. */
@@ -12061,7 +12034,7 @@ export function jobPrivateEndpointArrayDeserializer(result: Array<JobPrivateEndp
 }
 
 /** A job step. */
-export interface JobStep extends CommonProxyResource {
+export interface JobStep extends ProxyResource {
   /** The job step's index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified. */
   stepId?: number;
   /** The resource ID of the target group that the job step will be executed on. */
@@ -12322,7 +12295,7 @@ export function jobStepArrayDeserializer(result: Array<JobStep>): any[] {
 }
 
 /** A group of job targets. */
-export interface JobTargetGroup extends CommonProxyResource {
+export interface JobTargetGroup extends ProxyResource {
   /** Members of the target group. */
   members?: JobTarget[];
 }
@@ -12450,7 +12423,7 @@ export function jobTargetGroupArrayDeserializer(result: Array<JobTargetGroup>): 
 }
 
 /** A job version. */
-export interface JobVersion extends CommonProxyResource {}
+export interface JobVersion extends ProxyResource {}
 
 export function jobVersionDeserializer(item: any): JobVersion {
   return {
@@ -12485,7 +12458,7 @@ export function jobVersionArrayDeserializer(result: Array<JobVersion>): any[] {
 }
 
 /** A long term retention backup. */
-export interface LongTermRetentionBackup extends CommonProxyResource {
+export interface LongTermRetentionBackup extends ProxyResource {
   /** The server name that the backup database belong to. */
   readonly serverName?: string;
   /** The create time of the server. */
@@ -12785,6 +12758,9 @@ export function longTermRetentionBackupOperationResultDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _longTermRetentionBackupOperationResultPropertiesDeserializer(item["properties"])),
@@ -12852,7 +12828,7 @@ export function updateLongTermRetentionBackupParametersPropertiesSerializer(
 }
 
 /** A long term retention backup for a managed database. */
-export interface ManagedInstanceLongTermRetentionBackup extends CommonProxyResource {
+export interface ManagedInstanceLongTermRetentionBackup extends ProxyResource {
   /** The managed instance that the backup database belongs to. */
   readonly managedInstanceName?: string;
   /** The create time of the instance. */
@@ -12954,7 +12930,7 @@ export function managedInstanceLongTermRetentionBackupArrayDeserializer(
 }
 
 /** A long term retention policy. */
-export interface LongTermRetentionPolicy extends CommonProxyResource {
+export interface LongTermRetentionPolicy extends ProxyResource {
   /** The setting for whether to enable time-based immutability for future backups. When set, future backups will have TimeBasedImmutability enabled. */
   timeBasedImmutability?: TimeBasedImmutability;
   /** The setting for time-based immutability mode for future backup (Value can be either Locked or UnLocked. Only effective if TimeBasedImmutability is enabled). Caution: Immutability of LTR backup cannot be removed if TimeBasedImmutabilityMode is Locked. */
@@ -13083,7 +13059,7 @@ export function longTermRetentionPolicyArrayDeserializer(
 }
 
 /** A short term retention policy. */
-export interface ManagedBackupShortTermRetentionPolicy extends CommonProxyResource {
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
   /** The backup retention period in days. This is how many days Point-in-Time Restore will be supported. */
   retentionDays?: number;
 }
@@ -13177,7 +13153,7 @@ export function managedBackupShortTermRetentionPolicyArrayDeserializer(
 }
 
 /** A managed database security alert policy. */
-export interface ManagedDatabaseSecurityAlertPolicy extends CommonProxyResource {
+export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. */
   state?: SecurityAlertPolicyState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force */
@@ -13330,7 +13306,7 @@ export function managedDatabaseSecurityAlertPolicyArrayDeserializer(
 }
 
 /** An Azure SQL managed instance administrator. */
-export interface ManagedInstanceAdministrator extends CommonProxyResource {
+export interface ManagedInstanceAdministrator extends ProxyResource {
   /** Type of the managed instance administrator. */
   administratorType?: ManagedInstanceAdministratorType;
   /** Login name of the managed instance administrator. */
@@ -13455,7 +13431,7 @@ export function managedInstanceAdministratorArrayDeserializer(
 }
 
 /** Azure Active Directory only authentication. */
-export interface ManagedInstanceAzureADOnlyAuthentication extends CommonProxyResource {
+export interface ManagedInstanceAzureADOnlyAuthentication extends ProxyResource {
   /** Azure Active Directory only Authentication enabled. */
   azureADOnlyAuthentication?: boolean;
 }
@@ -13551,7 +13527,7 @@ export function managedInstanceAzureADOnlyAuthenticationArrayDeserializer(
 }
 
 /** SQL Managed Instance DTC */
-export interface ManagedInstanceDtc extends CommonProxyResource {
+export interface ManagedInstanceDtc extends ProxyResource {
   /** Active status of managed instance DTC. */
   dtcEnabled?: boolean;
   /** Security settings of managed instance DTC. */
@@ -13756,7 +13732,7 @@ export function managedInstanceDtcArrayDeserializer(result: Array<ManagedInstanc
 }
 
 /** The managed instance encryption protector. */
-export interface ManagedInstanceEncryptionProtector extends CommonProxyResource {
+export interface ManagedInstanceEncryptionProtector extends ProxyResource {
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
   readonly kind?: string;
   /** The name of the managed instance key. */
@@ -13872,7 +13848,7 @@ export function managedInstanceEncryptionProtectorArrayDeserializer(
 }
 
 /** A managed instance key. */
-export interface ManagedInstanceKey extends CommonProxyResource {
+export interface ManagedInstanceKey extends ProxyResource {
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
   readonly kind?: string;
   /** The key type like 'ServiceManaged', 'AzureKeyVault'. */
@@ -13968,7 +13944,7 @@ export function managedInstanceKeyArrayDeserializer(result: Array<ManagedInstanc
 }
 
 /** A long term retention policy. */
-export interface ManagedInstanceLongTermRetentionPolicy extends CommonProxyResource {
+export interface ManagedInstanceLongTermRetentionPolicy extends ProxyResource {
   /** The BackupStorageAccessTier for the LTR backups */
   backupStorageAccessTier?: BackupStorageAccessTier;
   /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
@@ -14094,7 +14070,7 @@ export function managedInstanceLongTermRetentionPolicyArrayDeserializer(
 }
 
 /** A managed instance operation. */
-export interface ManagedInstanceOperation extends CommonProxyResource {
+export interface ManagedInstanceOperation extends ProxyResource {
   /** The name of the managed instance the operation is being performed on. */
   readonly managedInstanceName?: string;
   /** The name of operation. */
@@ -14343,7 +14319,7 @@ export function managedInstanceOperationArrayDeserializer(
 }
 
 /** A private endpoint connection */
-export interface ManagedInstancePrivateEndpointConnection extends CommonProxyResource {
+export interface ManagedInstancePrivateEndpointConnection extends ProxyResource {
   /** Private endpoint which the connection belongs to. */
   privateEndpoint?: ManagedInstancePrivateEndpointProperty;
   /** Connection State of the Private Endpoint Connection. */
@@ -14412,7 +14388,7 @@ export function managedInstancePrivateEndpointConnectionArrayDeserializer(
 }
 
 /** A managed instance vulnerability assessment. */
-export interface ManagedInstanceVulnerabilityAssessment extends CommonProxyResource {
+export interface ManagedInstanceVulnerabilityAssessment extends ProxyResource {
   /** A blob storage container path to hold the scan results (e.g. https://myStorage.blob.core.windows.net/VaScans/). */
   storageContainerPath?: string;
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
@@ -14526,7 +14502,7 @@ export function managedInstanceVulnerabilityAssessmentArrayDeserializer(
 }
 
 /** A managed server DNS alias. */
-export interface ManagedServerDnsAlias extends CommonProxyResource {
+export interface ManagedServerDnsAlias extends ProxyResource {
   /** The fully qualified DNS record for managed server alias */
   readonly azureDnsRecord?: string;
   /** The fully qualified public DNS record for managed server alias */
@@ -14612,7 +14588,7 @@ export function managedServerDnsAliasAcquisitionSerializer(
 }
 
 /** A managed server security alert policy. */
-export interface ManagedServerSecurityAlertPolicy extends CommonProxyResource {
+export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. */
   state?: SecurityAlertsPolicyState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force */
@@ -14699,7 +14675,7 @@ export function managedServerSecurityAlertPolicyArrayDeserializer(
 }
 
 /** NSP Configuration for a server. */
-export interface NetworkSecurityPerimeterConfiguration extends CommonProxyResource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   readonly provisioningState?: string;
   networkSecurityPerimeter?: NSPConfigPerimeter;
   resourceAssociation?: NSPConfigAssociation;
@@ -14958,7 +14934,7 @@ export function networkSecurityPerimeterConfigurationArrayDeserializer(
 }
 
 /** An Azure SQL DB Server Outbound Firewall Rule. */
-export interface OutboundFirewallRule extends CommonProxyResource {
+export interface OutboundFirewallRule extends ProxyResource {
   /** The state of the outbound rule. */
   readonly provisioningState?: string;
 }
@@ -15015,7 +14991,7 @@ export function outboundFirewallRuleArrayDeserializer(result: Array<OutboundFire
 }
 
 /** A private endpoint connection */
-export interface PrivateEndpointConnection extends CommonProxyResource {
+export interface PrivateEndpointConnection extends ProxyResource {
   /** Private endpoint which the connection belongs to. */
   privateEndpoint?: PrivateEndpointProperty;
   /** Group IDs. */
@@ -15082,7 +15058,7 @@ export function privateEndpointConnectionArrayDeserializer(
 }
 
 /** A private link resource */
-export interface PrivateLinkResource extends CommonProxyResource {
+export interface PrivateLinkResource extends ProxyResource {
   /** The private link resource group id. */
   readonly properties?: PrivateLinkResourceProperties;
 }
@@ -15153,7 +15129,7 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 }
 
 /** A recoverable database resource. */
-export interface RecoverableDatabase extends CommonProxyResource {
+export interface RecoverableDatabase extends ProxyResource {
   /** The edition of the database. */
   readonly edition?: string;
   /** The service level objective name of the database. */
@@ -15232,7 +15208,7 @@ export function recoverableDatabaseArrayDeserializer(result: Array<RecoverableDa
 }
 
 /** A recoverable managed database resource. */
-export interface RecoverableManagedDatabase extends CommonProxyResource {
+export interface RecoverableManagedDatabase extends ProxyResource {
   /** The last available backup date. */
   readonly lastAvailableBackupDate?: string;
 }
@@ -15291,7 +15267,7 @@ export function recoverableManagedDatabaseArrayDeserializer(
 }
 
 /** A restorable dropped database resource. */
-export interface RestorableDroppedDatabase extends CommonResource {
+export interface RestorableDroppedDatabase extends Resource {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** Resource location. */
@@ -15475,7 +15451,7 @@ export function restorableDroppedManagedDatabaseArrayDeserializer(
 }
 
 /** Azure Active Directory administrator. */
-export interface ServerAzureADAdministrator extends CommonProxyResource {
+export interface ServerAzureADAdministrator extends ProxyResource {
   /** Type of the sever administrator. */
   administratorType?: AdministratorType;
   /** Login name of the server administrator. */
@@ -15577,7 +15553,7 @@ export function serverAzureADAdministratorArrayDeserializer(
 }
 
 /** Azure Active Directory only authentication. */
-export interface ServerAzureADOnlyAuthentication extends CommonProxyResource {
+export interface ServerAzureADOnlyAuthentication extends ProxyResource {
   /** Azure Active Directory only Authentication enabled. */
   azureADOnlyAuthentication?: boolean;
 }
@@ -15658,7 +15634,7 @@ export function serverAzureADOnlyAuthenticationArrayDeserializer(
 }
 
 /** A server configuration option */
-export interface ServerConfigurationOption extends CommonProxyResource {
+export interface ServerConfigurationOption extends ProxyResource {
   /** Value of the server configuration option. */
   serverConfigurationOptionValue?: number;
   /** Provisioning state of server configuration option. */
@@ -15753,7 +15729,7 @@ export function serverConfigurationOptionArrayDeserializer(
 }
 
 /** A server connection policy */
-export interface ServerConnectionPolicy extends CommonProxyResource {
+export interface ServerConnectionPolicy extends ProxyResource {
   /** Resource location. */
   readonly location?: string;
   /** Metadata used for the Azure portal experience. */
@@ -15870,7 +15846,7 @@ export function serverConnectionPolicyArrayDeserializer(
 }
 
 /** A server DevOps auditing settings. */
-export interface ServerDevOpsAuditingSettings extends CommonProxyResource {
+export interface ServerDevOpsAuditingSettings extends ProxyResource {
   /**
    * Specifies whether DevOps audit events are sent to Azure Monitor.
    * In order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true.
@@ -16037,7 +16013,7 @@ export function serverDevOpsAuditingSettingsArrayDeserializer(
 }
 
 /** A server DNS alias. */
-export interface ServerDnsAlias extends CommonProxyResource {
+export interface ServerDnsAlias extends ProxyResource {
   /** The fully qualified DNS record for alias */
   readonly azureDnsRecord?: string;
 }
@@ -16100,7 +16076,7 @@ export function serverDnsAliasAcquisitionSerializer(item: ServerDnsAliasAcquisit
 }
 
 /** A server key. */
-export interface ServerKey extends CommonProxyResource {
+export interface ServerKey extends ProxyResource {
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
   readonly kind?: string;
   /** Resource location. */
@@ -16207,7 +16183,7 @@ export function serverKeyArrayDeserializer(result: Array<ServerKey>): any[] {
 }
 
 /** A server security alert policy. */
-export interface ServerSecurityAlertPolicy extends CommonProxyResource {
+export interface ServerSecurityAlertPolicy extends ProxyResource {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. */
   state?: SecurityAlertsPolicyState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force */
@@ -16292,7 +16268,7 @@ export function serverSecurityAlertPolicyArrayDeserializer(
 }
 
 /** Server trust certificate imported from box to enable connection between box and Sql Managed Instance. */
-export interface ServerTrustCertificate extends CommonProxyResource {
+export interface ServerTrustCertificate extends ProxyResource {
   /** The certificate public blob */
   publicBlob?: string;
   /** The certificate thumbprint */
@@ -16383,7 +16359,7 @@ export function serverTrustCertificateArrayDeserializer(
 }
 
 /** A server vulnerability assessment. */
-export interface ServerVulnerabilityAssessment extends CommonProxyResource {
+export interface ServerVulnerabilityAssessment extends ProxyResource {
   /** A blob storage container path to hold the scan results (e.g. https://myStorage.blob.core.windows.net/VaScans/). */
   storageContainerPath?: string;
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. Applies only if the storage account is not behind a Vnet or a firewall */
@@ -16495,7 +16471,7 @@ export function serverVulnerabilityAssessmentArrayDeserializer(
 }
 
 /** Managed instance's Start/Stop schedule. */
-export interface StartStopManagedInstanceSchedule extends CommonProxyResource {
+export interface StartStopManagedInstanceSchedule extends ProxyResource {
   /** The description of the schedule. */
   description?: string;
   /** The time zone of the schedule. */
@@ -16688,7 +16664,7 @@ export function startStopManagedInstanceScheduleArrayDeserializer(
 }
 
 /** Usage Metric of a Subscription in a Location. */
-export interface SubscriptionUsage extends CommonProxyResource {
+export interface SubscriptionUsage extends ProxyResource {
   /** User-readable name of the metric. */
   readonly displayName?: string;
   /** Current value of the metric. */
@@ -16756,7 +16732,7 @@ export function subscriptionUsageArrayDeserializer(result: Array<SubscriptionUsa
 }
 
 /** An Azure SQL Database sync agent. */
-export interface SyncAgent extends CommonProxyResource {
+export interface SyncAgent extends ProxyResource {
   /** Name of the sync agent. */
   readonly namePropertiesName?: string;
   /** ARM resource id of the sync database in the sync agent. */
@@ -16935,6 +16911,9 @@ export function syncAgentLinkedDatabaseDeserializer(item: any): SyncAgentLinkedD
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _syncAgentLinkedDatabasePropertiesDeserializer(item["properties"])),
@@ -16989,7 +16968,7 @@ export enum KnownSyncMemberDbType {
 export type SyncMemberDbType = string;
 
 /** An Azure SQL Database sync group. */
-export interface SyncGroup extends CommonProxyResource {
+export interface SyncGroup extends ProxyResource {
   /** The name and capacity of the SKU. */
   sku?: Sku;
   /** Sync group authentication information. */
@@ -17605,7 +17584,7 @@ export function syncDatabaseIdPropertiesDeserializer(item: any): SyncDatabaseIdP
 }
 
 /** An Azure SQL Database sync member. */
-export interface SyncMember extends CommonProxyResource {
+export interface SyncMember extends ProxyResource {
   /** Sync member authentication information. */
   identity?: DataSyncParticipantIdentity;
   /** Database type of the sync member. */
@@ -17848,7 +17827,7 @@ export function syncMemberArrayDeserializer(result: Array<SyncMember>): any[] {
 }
 
 /** Time Zone property. */
-export interface TimeZone extends CommonProxyResource {
+export interface TimeZone extends ProxyResource {
   /** The time zone id */
   readonly timeZoneId?: string;
   /** The time zone display name */
@@ -18030,6 +18009,9 @@ export function updateVirtualClusterDnsServersOperationDeserializer(
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _updateVirtualClusterDnsServersOperationPropertiesDeserializer(item["properties"])),
@@ -18072,7 +18054,7 @@ export enum KnownDNSRefreshOperationStatus {
 export type DNSRefreshOperationStatus = string;
 
 /** A virtual network rule. */
-export interface VirtualNetworkRule extends CommonProxyResource {
+export interface VirtualNetworkRule extends ProxyResource {
   /** The ARM resource id of the virtual network subnet. */
   virtualNetworkSubnetId?: string;
   /** Create firewall rule before the virtual network has vnet service endpoint enabled. */
@@ -18191,7 +18173,7 @@ export function virtualNetworkRuleArrayDeserializer(result: Array<VirtualNetwork
 }
 
 /** Workload classifier operations for a data warehouse */
-export interface WorkloadClassifier extends CommonProxyResource {
+export interface WorkloadClassifier extends ProxyResource {
   /** The workload classifier member name. */
   memberName?: string;
   /** The workload classifier label. */
@@ -18303,7 +18285,7 @@ export function workloadClassifierArrayDeserializer(result: Array<WorkloadClassi
 }
 
 /** Workload group operations for a data warehouse */
-export interface WorkloadGroup extends CommonProxyResource {
+export interface WorkloadGroup extends ProxyResource {
   /** The workload group minimum percentage resource. */
   minResourcePercent?: number;
   /** The workload group cap percentage resource. */
@@ -18472,6 +18454,9 @@ export function databaseOperationDeserializer(item: any): DatabaseOperation {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseOperationPropertiesDeserializer(item["properties"])),
@@ -18623,6 +18608,9 @@ export function databaseUsageDeserializer(item: any): DatabaseUsage {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _databaseUsagePropertiesDeserializer(item["properties"])),
@@ -18748,6 +18736,9 @@ export function synapseLinkWorkspaceDeserializer(item: any): SynapseLinkWorkspac
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _synapseLinkWorkspacePropertiesDeserializer(item["properties"])),
@@ -18851,6 +18842,9 @@ export function serverOperationDeserializer(item: any): ServerOperation {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverOperationPropertiesDeserializer(item["properties"])),
@@ -18945,6 +18939,9 @@ export function serverUsageDeserializer(item: any): ServerUsage {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _serverUsagePropertiesDeserializer(item["properties"])),
@@ -19001,7 +18998,7 @@ export function tdeCertificatePropertiesSerializer(item: TdeCertificatePropertie
 }
 
 /** A database Advanced Threat Protection. */
-export interface DatabaseAdvancedThreatProtection extends CommonProxyResource {
+export interface DatabaseAdvancedThreatProtection extends ProxyResource {
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: AdvancedThreatProtectionState;
   /** Specifies the UTC creation time of the policy. */
@@ -19103,7 +19100,7 @@ export function databaseAdvancedThreatProtectionArrayDeserializer(
 }
 
 /** Database-level Automatic Tuning. */
-export interface DatabaseAutomaticTuning extends CommonProxyResource {
+export interface DatabaseAutomaticTuning extends ProxyResource {
   /** Automatic tuning desired state. */
   desiredState?: AutomaticTuningMode;
   /** Automatic tuning actual state. */
@@ -19341,7 +19338,7 @@ export enum KnownOperationMode {
 export type OperationMode = string;
 
 /** An Extension operation result resource. */
-export interface ImportExportExtensionsOperationResult extends CommonProxyResource {
+export interface ImportExportExtensionsOperationResult extends ProxyResource {
   /** Request Id. */
   readonly requestId?: string;
   /** Request type. */
@@ -19452,8 +19449,6 @@ export function importExportExtensionsOperationResultArrayDeserializer(
 
 /** A database sql vulnerability assessment rule baseline list input. */
 export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput extends ProxyResource {
-  /** SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputResource. */
-  readonly systemData?: Systemdata;
   /** The latest scan flag */
   latestScan?: boolean;
   /** The rule baseline result list */
@@ -19568,6 +19563,9 @@ export function dataMaskingRuleDeserializer(item: any): DataMaskingRule {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     location: item["location"],
     kind: item["kind"],
     ...(!item["properties"]
@@ -19686,7 +19684,7 @@ export enum KnownDataMaskingFunction {
 export type DataMaskingFunction = string;
 
 /** User activities of a data warehouse */
-export interface DataWarehouseUserActivities extends CommonProxyResource {
+export interface DataWarehouseUserActivities extends ProxyResource {
   /** Count of running and suspended queries. */
   readonly activeQueriesCount?: number;
 }
@@ -19801,6 +19799,9 @@ export function securityEventDeserializer(item: any): SecurityEvent {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _securityEventPropertiesDeserializer(item["properties"])),
@@ -19944,6 +19945,9 @@ export function elasticPoolOperationDeserializer(item: any): ElasticPoolOperatio
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _elasticPoolOperationPropertiesDeserializer(item["properties"])),
@@ -20072,7 +20076,7 @@ export function nameDeserializer(item: any): Name {
 }
 
 /** Azure SQL Database ledger digest upload settings. */
-export interface LedgerDigestUploads extends CommonProxyResource {
+export interface LedgerDigestUploads extends ProxyResource {
   /** The digest storage endpoint, which must be either an Azure blob storage endpoint or an URI for Azure Confidential Ledger. */
   digestStorageEndpoint?: string;
   /** Specifies the state of ledger digest upload. */
@@ -20164,7 +20168,7 @@ export function ledgerDigestUploadsArrayDeserializer(result: Array<LedgerDigestU
 }
 
 /** Maintenance window options. */
-export interface MaintenanceWindowOptions extends CommonProxyResource {
+export interface MaintenanceWindowOptions extends ProxyResource {
   /** Whether maintenance windows are enabled for the database. */
   isEnabled?: boolean;
   /** Available maintenance cycles e.g. {Saturday, 0, 48*60}, {Wednesday, 0, 24*60}. */
@@ -20268,7 +20272,7 @@ export function maintenanceWindowTimeRangeDeserializer(item: any): MaintenanceWi
 }
 
 /** Maintenance windows. */
-export interface MaintenanceWindows extends CommonProxyResource {
+export interface MaintenanceWindows extends ProxyResource {
   timeRanges?: MaintenanceWindowTimeRange[];
 }
 
@@ -20316,7 +20320,7 @@ export function maintenanceWindowsPropertiesDeserializer(item: any): Maintenance
 }
 
 /** A managed database Advanced Threat Protection. */
-export interface ManagedDatabaseAdvancedThreatProtection extends CommonProxyResource {
+export interface ManagedDatabaseAdvancedThreatProtection extends ProxyResource {
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: AdvancedThreatProtectionState;
   /** Specifies the UTC creation time of the policy. */
@@ -20383,7 +20387,7 @@ export function managedDatabaseAdvancedThreatProtectionArrayDeserializer(
 }
 
 /** A managed database move operation. */
-export interface ManagedDatabaseMoveOperationResult extends CommonProxyResource {
+export interface ManagedDatabaseMoveOperationResult extends ProxyResource {
   /** The name of operation. */
   readonly operation?: string;
   /** The friendly name of operation. */
@@ -20521,7 +20525,7 @@ export function managedDatabaseMoveOperationResultArrayDeserializer(
 }
 
 /** Database query. */
-export interface ManagedInstanceQuery extends CommonProxyResource {
+export interface ManagedInstanceQuery extends ProxyResource {
   /** Query text. */
   queryText?: string;
 }
@@ -20594,6 +20598,9 @@ export function queryStatisticsDeserializer(item: any): QueryStatistics {
     id: item["id"],
     name: item["name"],
     type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemdataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
       : _queryStatisticsPropertiesDeserializer(item["properties"])),
@@ -20601,7 +20608,7 @@ export function queryStatisticsDeserializer(item: any): QueryStatistics {
 }
 
 /** A managed database restore details. */
-export interface ManagedDatabaseRestoreDetailsResult extends CommonProxyResource {
+export interface ManagedDatabaseRestoreDetailsResult extends ProxyResource {
   /** Restore type. */
   readonly typePropertiesType?: string;
   /** Restore status. */
@@ -20828,7 +20835,7 @@ export enum KnownRestoreDetailsName {
 export type RestoreDetailsName = string;
 
 /** A managed database transparent data encryption state. */
-export interface ManagedTransparentDataEncryption extends CommonProxyResource {
+export interface ManagedTransparentDataEncryption extends ProxyResource {
   /** Specifies the state of the transparent data encryption. */
   state?: TransparentDataEncryptionState;
 }
@@ -20925,7 +20932,7 @@ export function managedTransparentDataEncryptionArrayDeserializer(
 }
 
 /** A managed instance Advanced Threat Protection. */
-export interface ManagedInstanceAdvancedThreatProtection extends CommonProxyResource {
+export interface ManagedInstanceAdvancedThreatProtection extends ProxyResource {
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: AdvancedThreatProtectionState;
   /** Specifies the UTC creation time of the policy. */
@@ -20992,7 +20999,7 @@ export function managedInstanceAdvancedThreatProtectionArrayDeserializer(
 }
 
 /** A private link resource */
-export interface ManagedInstancePrivateLink extends CommonProxyResource {
+export interface ManagedInstancePrivateLink extends ProxyResource {
   /** The private link resource group id. */
   readonly properties?: ManagedInstancePrivateLinkProperties;
 }
@@ -21065,7 +21072,7 @@ export function managedInstancePrivateLinkArrayDeserializer(
 }
 
 /** Azure SQL Database ledger digest upload settings. */
-export interface ManagedLedgerDigestUploads extends CommonProxyResource {
+export interface ManagedLedgerDigestUploads extends ProxyResource {
   /** The digest storage endpoint, which must be either an Azure blob storage endpoint or an URI for Azure Confidential Ledger. */
   digestStorageEndpoint?: string;
   /** Specifies the state of ledger digest upload. */
@@ -21178,7 +21185,7 @@ export function managedLedgerDigestUploadsArrayDeserializer(
 }
 
 /** A server Advanced Threat Protection. */
-export interface ServerAdvancedThreatProtection extends CommonProxyResource {
+export interface ServerAdvancedThreatProtection extends ProxyResource {
   /** Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
   state?: AdvancedThreatProtectionState;
   /** Specifies the UTC creation time of the policy. */
@@ -21247,7 +21254,7 @@ export function serverAdvancedThreatProtectionArrayDeserializer(
 }
 
 /** Server-level Automatic Tuning. */
-export interface ServerAutomaticTuning extends CommonProxyResource {
+export interface ServerAutomaticTuning extends ProxyResource {
   /** Automatic tuning desired state. */
   desiredState?: AutomaticTuningServerMode;
   /** Automatic tuning actual state. */
@@ -21363,7 +21370,7 @@ export function automaticTuningServerOptionsDeserializer(item: any): AutomaticTu
 export type AutomaticTuningServerReason = "Default" | "Disabled" | "AutoConfigured";
 
 /** A recoverable managed database resource. */
-export interface SqlAgentConfiguration extends CommonProxyResource {
+export interface SqlAgentConfiguration extends ProxyResource {
   /** The state of Sql Agent. */
   state?: SqlAgentConfigurationPropertiesState;
 }
@@ -21429,7 +21436,7 @@ export enum KnownSqlAgentConfigurationPropertiesState {
 export type SqlAgentConfigurationPropertiesState = string;
 
 /** A logical database transparent data encryption scan state. */
-export interface LogicalDatabaseTransparentDataEncryption extends CommonProxyResource {
+export interface LogicalDatabaseTransparentDataEncryption extends ProxyResource {
   /** Specifies the state of the transparent data encryption. */
   state?: TransparentDataEncryptionState;
   /** Specifies the encryption scan state of the transparent data encryption. */

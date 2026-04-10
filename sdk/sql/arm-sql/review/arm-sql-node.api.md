@@ -42,7 +42,7 @@ export interface AdvancedThreatProtectionProperties {
 export type AdvancedThreatProtectionState = "New" | "Enabled" | "Disabled";
 
 // @public
-export interface Advisor extends CommonProxyResource {
+export interface Advisor extends ProxyResource {
     readonly advisorStatus?: AdvisorStatus;
     autoExecuteStatus?: AutoExecuteStatus;
     readonly autoExecuteStatusInheritedFrom?: AutoExecuteStatusInheritedFrom;
@@ -188,7 +188,7 @@ export interface BackupShortTermRetentionPoliciesUpdateOptionalParams extends Op
 }
 
 // @public
-export interface BackupShortTermRetentionPolicy extends CommonProxyResource {
+export interface BackupShortTermRetentionPolicy extends ProxyResource {
     diffBackupIntervalInHours?: DiffBackupIntervalInHours;
     retentionDays?: number;
 }
@@ -289,18 +289,6 @@ export type ClientClassificationSource = string;
 
 // @public
 export type ColumnDataType = string;
-
-// @public
-export interface CommonProxyResource extends CommonResource {
-}
-
-// @public
-export interface CommonResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: Systemdata;
-    readonly type?: string;
-}
 
 // @public
 export interface CompleteDatabaseRestoreDefinition {
@@ -404,7 +392,7 @@ export interface Database extends TrackedResource {
 }
 
 // @public
-export interface DatabaseAdvancedThreatProtection extends CommonProxyResource {
+export interface DatabaseAdvancedThreatProtection extends ProxyResource {
     readonly creationTime?: Date;
     state?: AdvancedThreatProtectionState;
 }
@@ -449,7 +437,7 @@ export interface DatabaseAdvisorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DatabaseAutomaticTuning extends CommonProxyResource {
+export interface DatabaseAutomaticTuning extends ProxyResource {
     readonly actualState?: AutomaticTuningMode;
     desiredState?: AutomaticTuningMode;
     options?: Record<string, AutomaticTuningOptions>;
@@ -496,7 +484,7 @@ export interface DatabaseBlobAuditingPoliciesOperations {
 }
 
 // @public
-export interface DatabaseBlobAuditingPolicy extends CommonProxyResource {
+export interface DatabaseBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
     isAzureMonitorTargetEnabled?: boolean;
     isManagedIdentityInUse?: boolean;
@@ -525,7 +513,7 @@ export interface DatabaseBlobAuditingPolicyProperties {
 }
 
 // @public
-export interface DatabaseColumn extends CommonProxyResource {
+export interface DatabaseColumn extends ProxyResource {
     columnType?: ColumnDataType;
     isComputed?: boolean;
     memoryOptimized?: boolean;
@@ -800,7 +788,7 @@ export interface DatabaseRecommendedActionsUpdateOptionalParams extends Operatio
 }
 
 // @public
-export interface DatabaseSchema extends CommonProxyResource {
+export interface DatabaseSchema extends ProxyResource {
 }
 
 // @public
@@ -848,7 +836,7 @@ export interface DatabaseSecurityAlertPoliciesOperations {
 }
 
 // @public
-export interface DatabaseSecurityAlertPolicy extends CommonProxyResource {
+export interface DatabaseSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
     disabledAlerts?: string[];
     emailAccountAdmins?: boolean;
@@ -961,7 +949,7 @@ export interface DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateOption
 }
 
 // @public
-export interface DatabaseSqlVulnerabilityAssessmentBaselineSet extends CommonProxyResource {
+export interface DatabaseSqlVulnerabilityAssessmentBaselineSet extends ProxyResource {
     results?: Record<string, string[][]>;
 }
 
@@ -1000,7 +988,7 @@ export interface DatabaseSqlVulnerabilityAssessmentExecuteScanOperations {
 }
 
 // @public
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline extends CommonProxyResource {
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline extends ProxyResource {
     results?: string[][];
 }
 
@@ -1008,7 +996,6 @@ export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline extends CommonPr
 export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInput extends ProxyResource {
     latestScan?: boolean;
     results?: string[][];
-    readonly systemData?: Systemdata;
 }
 
 // @public
@@ -1021,7 +1008,6 @@ export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInputProperties {
 export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput extends ProxyResource {
     latestScan?: boolean;
     results?: Record<string, string[][]>;
-    readonly systemData?: Systemdata;
 }
 
 // @public
@@ -1127,7 +1113,7 @@ export interface DatabasesUpgradeDataWarehouseOptionalParams extends OperationOp
 }
 
 // @public
-export interface DatabaseTable extends CommonProxyResource {
+export interface DatabaseTable extends ProxyResource {
     memoryOptimized?: boolean;
     temporalType?: TableTemporalType;
 }
@@ -1290,7 +1276,7 @@ export interface DatabaseUserIdentity {
 }
 
 // @public
-export interface DatabaseVulnerabilityAssessment extends CommonProxyResource {
+export interface DatabaseVulnerabilityAssessment extends ProxyResource {
     recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
     storageAccountAccessKey?: string;
     storageContainerPath?: string;
@@ -1306,7 +1292,7 @@ export interface DatabaseVulnerabilityAssessmentProperties {
 }
 
 // @public
-export interface DatabaseVulnerabilityAssessmentRuleBaseline extends CommonProxyResource {
+export interface DatabaseVulnerabilityAssessmentRuleBaseline extends ProxyResource {
     baselineResults?: DatabaseVulnerabilityAssessmentRuleBaselineItem[];
 }
 
@@ -1420,7 +1406,7 @@ export interface DataMaskingPoliciesOperations {
 }
 
 // @public
-export interface DataMaskingPolicy extends CommonProxyResource {
+export interface DataMaskingPolicy extends ProxyResource {
     readonly applicationPrincipals?: string;
     dataMaskingState?: DataMaskingState;
     exemptPrincipals?: string;
@@ -1512,7 +1498,7 @@ export interface DataSyncParticipantUserAssignedIdentity {
 }
 
 // @public
-export interface DataWarehouseUserActivities extends CommonProxyResource {
+export interface DataWarehouseUserActivities extends ProxyResource {
     readonly activeQueriesCount?: number;
 }
 
@@ -1542,7 +1528,7 @@ export type DataWarehouseUserActivityName = string;
 export type DayOfWeek = string;
 
 // @public
-export interface DeletedServer extends CommonProxyResource {
+export interface DeletedServer extends ProxyResource {
     readonly deletionTime?: Date;
     readonly fullyQualifiedDomainName?: string;
     readonly originalId?: string;
@@ -1593,7 +1579,7 @@ export type DevOpsAuditingSettingsName = string;
 export type DiffBackupIntervalInHours = number;
 
 // @public
-export interface DistributedAvailabilityGroup extends CommonProxyResource {
+export interface DistributedAvailabilityGroup extends ProxyResource {
     databases?: DistributedAvailabilityGroupDatabase[];
     readonly distributedAvailabilityGroupId?: string;
     readonly distributedAvailabilityGroupName?: string;
@@ -1974,7 +1960,7 @@ export interface ElasticPoolUpdateProperties {
 }
 
 // @public
-export interface EncryptionProtector extends CommonProxyResource {
+export interface EncryptionProtector extends ProxyResource {
     autoRotationEnabled?: boolean;
     readonly keyVersion?: string;
     readonly kind?: string;
@@ -2035,7 +2021,7 @@ export interface EncryptionProtectorsRevalidateOptionalParams extends OperationO
 }
 
 // @public
-export interface EndpointCertificate extends CommonProxyResource {
+export interface EndpointCertificate extends ProxyResource {
     publicBlob?: string;
 }
 
@@ -2123,7 +2109,7 @@ export interface ExtendedDatabaseBlobAuditingPoliciesOperations {
 }
 
 // @public
-export interface ExtendedDatabaseBlobAuditingPolicy extends CommonProxyResource {
+export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
     isAzureMonitorTargetEnabled?: boolean;
     isManagedIdentityInUse?: boolean;
@@ -2177,7 +2163,7 @@ export interface ExtendedServerBlobAuditingPoliciesOperations {
 }
 
 // @public
-export interface ExtendedServerBlobAuditingPolicy extends CommonProxyResource {
+export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
     isAzureMonitorTargetEnabled?: boolean;
     isDevopsAuditEnabled?: boolean;
@@ -2212,7 +2198,7 @@ export interface ExtendedServerBlobAuditingPolicyProperties {
 export type ExternalGovernanceStatus = string;
 
 // @public
-export interface FailoverGroup extends CommonProxyResource {
+export interface FailoverGroup extends ProxyResource {
     databases?: string[];
     readonly location?: string;
     partnerServers?: PartnerInfo[];
@@ -2422,7 +2408,7 @@ export interface GeoBackupPoliciesOperations {
 }
 
 // @public
-export interface GeoBackupPolicy extends CommonProxyResource {
+export interface GeoBackupPolicy extends ProxyResource {
     readonly kind?: string;
     readonly location?: string;
     state?: GeoBackupPolicyState;
@@ -2465,7 +2451,7 @@ export interface ImportExistingDatabaseDefinition {
 }
 
 // @public
-export interface ImportExportExtensionsOperationResult extends CommonProxyResource {
+export interface ImportExportExtensionsOperationResult extends ProxyResource {
     readonly blobUri?: string;
     readonly databaseName?: string;
     readonly errorMessage?: string;
@@ -2539,7 +2525,7 @@ export interface ImportNewDatabaseDefinition {
 export type InaccessibilityReason = string;
 
 // @public
-export interface InstanceFailoverGroup extends CommonProxyResource {
+export interface InstanceFailoverGroup extends ProxyResource {
     managedInstancePairs?: ManagedInstancePairInfo[];
     partnerRegions?: PartnerRegionInfo[];
     readOnlyEndpoint?: InstanceFailoverGroupReadOnlyEndpoint;
@@ -2659,7 +2645,7 @@ export interface InstancePoolFamilyCapability {
 export type InstancePoolLicenseType = string;
 
 // @public
-export interface InstancePoolOperation extends CommonProxyResource {
+export interface InstancePoolOperation extends ProxyResource {
     readonly description?: string;
     readonly errorCode?: number;
     readonly errorDescription?: string;
@@ -2827,7 +2813,7 @@ export interface IPv6ServerFirewallRuleProperties {
 export type IsRetryable = "Yes" | "No";
 
 // @public
-export interface Job extends CommonProxyResource {
+export interface Job extends ProxyResource {
     description?: string;
     schedule?: JobSchedule;
     readonly version?: number;
@@ -2942,7 +2928,7 @@ export interface JobAgentVersionCapability {
 }
 
 // @public
-export interface JobCredential extends CommonProxyResource {
+export interface JobCredential extends ProxyResource {
     password?: string;
     username?: string;
 }
@@ -2978,7 +2964,7 @@ export interface JobCredentialsOperations {
 }
 
 // @public
-export interface JobExecution extends CommonProxyResource {
+export interface JobExecution extends ProxyResource {
     readonly createTime?: Date;
     currentAttempts?: number;
     readonly currentAttemptStartTime?: Date;
@@ -3080,7 +3066,7 @@ export interface JobExecutionTarget {
 }
 
 // @public
-export interface JobPrivateEndpoint extends CommonProxyResource {
+export interface JobPrivateEndpoint extends ProxyResource {
     readonly privateEndpointId?: string;
     targetServerAzureResourceId?: string;
 }
@@ -3169,7 +3155,7 @@ export interface JobsOperations {
 }
 
 // @public
-export interface JobStep extends CommonProxyResource {
+export interface JobStep extends ProxyResource {
     action?: JobStepAction;
     credential?: string;
     executionOptions?: JobStepExecutionOptions;
@@ -3325,7 +3311,7 @@ export interface JobTargetExecutionsOperations {
 }
 
 // @public
-export interface JobTargetGroup extends CommonProxyResource {
+export interface JobTargetGroup extends ProxyResource {
     members?: JobTarget[];
 }
 
@@ -3365,7 +3351,7 @@ export interface JobTargetGroupsOperations {
 export type JobTargetType = string;
 
 // @public
-export interface JobVersion extends CommonProxyResource {
+export interface JobVersion extends ProxyResource {
 }
 
 // @public
@@ -4455,7 +4441,7 @@ export enum KnownVulnerabilityAssessmentScanTriggerType {
 }
 
 // @public
-export interface LedgerDigestUploads extends CommonProxyResource {
+export interface LedgerDigestUploads extends ProxyResource {
     digestStorageEndpoint?: string;
     readonly state?: LedgerDigestUploadsState;
 }
@@ -4528,7 +4514,7 @@ export interface LocationCapabilities {
 }
 
 // @public
-export interface LogicalDatabaseTransparentDataEncryption extends CommonProxyResource {
+export interface LogicalDatabaseTransparentDataEncryption extends ProxyResource {
     scanState?: TransparentDataEncryptionScanState;
     state?: TransparentDataEncryptionState;
 }
@@ -4543,7 +4529,7 @@ export interface LogSizeCapability {
 export type LogSizeUnit = string;
 
 // @public
-export interface LongTermRetentionBackup extends CommonProxyResource {
+export interface LongTermRetentionBackup extends ProxyResource {
     readonly backupExpirationTime?: Date;
     readonly backupStorageAccessTier?: BackupStorageAccessTier;
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
@@ -4921,7 +4907,7 @@ export interface LongTermRetentionPoliciesOperations {
 }
 
 // @public
-export interface LongTermRetentionPolicy extends CommonProxyResource {
+export interface LongTermRetentionPolicy extends ProxyResource {
     monthlyRetention?: string;
     timeBasedImmutability?: TimeBasedImmutability;
     timeBasedImmutabilityMode?: TimeBasedImmutabilityMode;
@@ -4952,7 +4938,7 @@ export interface MaintenanceConfigurationCapability {
 }
 
 // @public
-export interface MaintenanceWindowOptions extends CommonProxyResource {
+export interface MaintenanceWindowOptions extends ProxyResource {
     allowMultipleMaintenanceWindowsPerCycle?: boolean;
     defaultDurationInMinutes?: number;
     isEnabled?: boolean;
@@ -4983,7 +4969,7 @@ export interface MaintenanceWindowOptionsProperties {
 }
 
 // @public
-export interface MaintenanceWindows extends CommonProxyResource {
+export interface MaintenanceWindows extends ProxyResource {
     // (undocumented)
     timeRanges?: MaintenanceWindowTimeRange[];
 }
@@ -5050,7 +5036,7 @@ export interface ManagedBackupShortTermRetentionPoliciesUpdateOptionalParams ext
 }
 
 // @public
-export interface ManagedBackupShortTermRetentionPolicy extends CommonProxyResource {
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
     retentionDays?: number;
 }
 
@@ -5087,7 +5073,7 @@ export interface ManagedDatabase extends TrackedResource {
 }
 
 // @public
-export interface ManagedDatabaseAdvancedThreatProtection extends CommonProxyResource {
+export interface ManagedDatabaseAdvancedThreatProtection extends ProxyResource {
     readonly creationTime?: Date;
     state?: AdvancedThreatProtectionState;
 }
@@ -5157,7 +5143,7 @@ export interface ManagedDatabaseMoveDefinition {
 }
 
 // @public
-export interface ManagedDatabaseMoveOperationResult extends CommonProxyResource {
+export interface ManagedDatabaseMoveOperationResult extends ProxyResource {
     readonly errorCode?: number;
     readonly errorDescription?: string;
     readonly errorSeverity?: number;
@@ -5311,7 +5297,7 @@ export interface ManagedDatabaseRestoreDetailsProperties {
 }
 
 // @public
-export interface ManagedDatabaseRestoreDetailsResult extends CommonProxyResource {
+export interface ManagedDatabaseRestoreDetailsResult extends ProxyResource {
     readonly blockReason?: string;
     readonly currentBackupType?: string;
     readonly currentRestoredSizeMB?: number;
@@ -5401,7 +5387,7 @@ export interface ManagedDatabaseSecurityAlertPoliciesOperations {
 }
 
 // @public
-export interface ManagedDatabaseSecurityAlertPolicy extends CommonProxyResource {
+export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
     disabledAlerts?: string[];
     emailAccountAdmins?: boolean;
@@ -5750,7 +5736,7 @@ export interface ManagedInstance extends TrackedResource {
 }
 
 // @public
-export interface ManagedInstanceAdministrator extends CommonProxyResource {
+export interface ManagedInstanceAdministrator extends ProxyResource {
     administratorType?: ManagedInstanceAdministratorType;
     login?: string;
     sid?: string;
@@ -5803,7 +5789,7 @@ export interface ManagedInstanceAdministratorsOperations {
 export type ManagedInstanceAdministratorType = string;
 
 // @public
-export interface ManagedInstanceAdvancedThreatProtection extends CommonProxyResource {
+export interface ManagedInstanceAdvancedThreatProtection extends ProxyResource {
     readonly creationTime?: Date;
     state?: AdvancedThreatProtectionState;
 }
@@ -5833,7 +5819,7 @@ export interface ManagedInstanceAdvancedThreatProtectionSettingsOperations {
 }
 
 // @public
-export interface ManagedInstanceAzureADOnlyAuthentication extends CommonProxyResource {
+export interface ManagedInstanceAzureADOnlyAuthentication extends ProxyResource {
     azureADOnlyAuthentication?: boolean;
 }
 
@@ -5880,7 +5866,7 @@ export interface ManagedInstanceAzureADOnlyAuthProperties {
 export type ManagedInstanceDatabaseFormat = string;
 
 // @public
-export interface ManagedInstanceDtc extends CommonProxyResource {
+export interface ManagedInstanceDtc extends ProxyResource {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
@@ -5950,7 +5936,7 @@ export interface ManagedInstanceEditionCapability {
 }
 
 // @public
-export interface ManagedInstanceEncryptionProtector extends CommonProxyResource {
+export interface ManagedInstanceEncryptionProtector extends ProxyResource {
     autoRotationEnabled?: boolean;
     readonly kind?: string;
     serverKeyName?: string;
@@ -6024,7 +6010,7 @@ export interface ManagedInstanceFamilyCapability {
 }
 
 // @public
-export interface ManagedInstanceKey extends CommonProxyResource {
+export interface ManagedInstanceKey extends ProxyResource {
     readonly autoRotationEnabled?: boolean;
     readonly creationDate?: Date;
     readonly kind?: string;
@@ -6081,7 +6067,7 @@ export interface ManagedInstanceKeysOperations {
 export type ManagedInstanceLicenseType = string;
 
 // @public
-export interface ManagedInstanceLongTermRetentionBackup extends CommonProxyResource {
+export interface ManagedInstanceLongTermRetentionBackup extends ProxyResource {
     readonly backupExpirationTime?: Date;
     readonly backupStorageAccessTier?: BackupStorageAccessTier;
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
@@ -6139,7 +6125,7 @@ export interface ManagedInstanceLongTermRetentionPoliciesOperations {
 }
 
 // @public
-export interface ManagedInstanceLongTermRetentionPolicy extends CommonProxyResource {
+export interface ManagedInstanceLongTermRetentionPolicy extends ProxyResource {
     backupStorageAccessTier?: BackupStorageAccessTier;
     monthlyRetention?: string;
     weeklyRetention?: string;
@@ -6167,7 +6153,7 @@ export interface ManagedInstanceMaintenanceConfigurationCapability {
 }
 
 // @public
-export interface ManagedInstanceOperation extends CommonProxyResource {
+export interface ManagedInstanceOperation extends ProxyResource {
     readonly description?: string;
     readonly errorCode?: number;
     readonly errorDescription?: string;
@@ -6249,7 +6235,7 @@ export interface ManagedInstancePecProperty {
 }
 
 // @public
-export interface ManagedInstancePrivateEndpointConnection extends CommonProxyResource {
+export interface ManagedInstancePrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: ManagedInstancePrivateEndpointProperty;
     privateLinkServiceConnectionState?: ManagedInstancePrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: string;
@@ -6302,7 +6288,7 @@ export interface ManagedInstancePrivateEndpointProperty {
 }
 
 // @public
-export interface ManagedInstancePrivateLink extends CommonProxyResource {
+export interface ManagedInstancePrivateLink extends ProxyResource {
     readonly properties?: ManagedInstancePrivateLinkProperties;
 }
 
@@ -6384,7 +6370,7 @@ export interface ManagedInstanceProperties {
 export type ManagedInstanceProxyOverride = string;
 
 // @public
-export interface ManagedInstanceQuery extends CommonProxyResource {
+export interface ManagedInstanceQuery extends ProxyResource {
     queryText?: string;
 }
 
@@ -6625,7 +6611,7 @@ export interface ManagedInstanceVersionCapability {
 }
 
 // @public
-export interface ManagedInstanceVulnerabilityAssessment extends CommonProxyResource {
+export interface ManagedInstanceVulnerabilityAssessment extends ProxyResource {
     recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
     storageAccountAccessKey?: string;
     storageContainerPath?: string;
@@ -6665,7 +6651,7 @@ export interface ManagedInstanceVulnerabilityAssessmentsOperations {
 }
 
 // @public
-export interface ManagedLedgerDigestUploads extends CommonProxyResource {
+export interface ManagedLedgerDigestUploads extends ProxyResource {
     digestStorageEndpoint?: string;
     readonly state?: ManagedLedgerDigestUploadsState;
 }
@@ -6754,7 +6740,7 @@ export interface ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicie
 export type ManagedServerCreateMode = string;
 
 // @public
-export interface ManagedServerDnsAlias extends CommonProxyResource {
+export interface ManagedServerDnsAlias extends ProxyResource {
     readonly azureDnsRecord?: string;
     readonly publicAzureDnsRecord?: string;
 }
@@ -6844,7 +6830,7 @@ export interface ManagedServerSecurityAlertPoliciesOperations {
 }
 
 // @public
-export interface ManagedServerSecurityAlertPolicy extends CommonProxyResource {
+export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
     disabledAlerts?: string[];
     emailAccountAdmins?: boolean;
@@ -6859,7 +6845,7 @@ export interface ManagedServerSecurityAlertPolicy extends CommonProxyResource {
 export type ManagedShortTermRetentionPolicyName = string;
 
 // @public
-export interface ManagedTransparentDataEncryption extends CommonProxyResource {
+export interface ManagedTransparentDataEncryption extends ProxyResource {
     state?: TransparentDataEncryptionState;
 }
 
@@ -6928,7 +6914,7 @@ export interface NetworkIsolationSettings {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfiguration extends CommonProxyResource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
     // (undocumented)
     networkSecurityPerimeter?: NSPConfigPerimeter;
     // (undocumented)
@@ -7101,7 +7087,7 @@ export interface OutboundEnvironmentEndpoint {
 }
 
 // @public
-export interface OutboundFirewallRule extends CommonProxyResource {
+export interface OutboundFirewallRule extends ProxyResource {
     readonly provisioningState?: string;
 }
 
@@ -7207,7 +7193,7 @@ export type PricingModel = string;
 export type PrincipalType = string;
 
 // @public
-export interface PrivateEndpointConnection extends CommonProxyResource {
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
@@ -7272,7 +7258,7 @@ export interface PrivateEndpointProperty {
 export type PrivateEndpointProvisioningState = string;
 
 // @public
-export interface PrivateLinkResource extends CommonProxyResource {
+export interface PrivateLinkResource extends ProxyResource {
     readonly properties?: PrivateLinkResourceProperties;
 }
 
@@ -7392,7 +7378,7 @@ export interface ReadScaleCapability {
 export type ReadWriteEndpointFailoverPolicy = string;
 
 // @public
-export interface RecommendedAction extends CommonProxyResource {
+export interface RecommendedAction extends ProxyResource {
     readonly details?: Record<string, string>;
     readonly errorDetails?: RecommendedActionErrorInfo;
     readonly estimatedImpact?: RecommendedActionImpactRecord[];
@@ -7527,7 +7513,7 @@ export interface RecommendedSensitivityLabelUpdateProperties {
 }
 
 // @public
-export interface RecoverableDatabase extends CommonProxyResource {
+export interface RecoverableDatabase extends ProxyResource {
     readonly edition?: string;
     readonly elasticPoolName?: string;
     keys?: Record<string, DatabaseKey>;
@@ -7561,7 +7547,7 @@ export interface RecoverableDatabasesOperations {
 }
 
 // @public
-export interface RecoverableManagedDatabase extends CommonProxyResource {
+export interface RecoverableManagedDatabase extends ProxyResource {
     readonly lastAvailableBackupDate?: string;
 }
 
@@ -7639,7 +7625,7 @@ export type ReplicaConnectedState = string;
 export type ReplicaSynchronizationHealth = string;
 
 // @public
-export interface ReplicationLink extends CommonProxyResource {
+export interface ReplicationLink extends ProxyResource {
     readonly isTerminationAllowed?: boolean;
     linkType?: ReplicationLinkType;
     readonly partnerDatabase?: string;
@@ -7768,6 +7754,7 @@ export type ReplicaType = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: Systemdata;
     readonly type?: string;
 }
 
@@ -7792,7 +7779,7 @@ export interface ResourceWithWritableName {
 }
 
 // @public
-export interface RestorableDroppedDatabase extends CommonResource {
+export interface RestorableDroppedDatabase extends Resource {
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
     readonly creationDate?: Date;
     readonly databaseName?: string;
@@ -7866,7 +7853,7 @@ export interface RestorableDroppedManagedDatabasesOperations {
 export type RestoreDetailsName = string;
 
 // @public
-export interface RestorePoint extends CommonProxyResource {
+export interface RestorePoint extends ProxyResource {
     readonly earliestRestoreDate?: Date;
     readonly location?: string;
     readonly restorePointCreationDate?: Date;
@@ -8030,7 +8017,7 @@ export type SecurityEventType = "Undefined" | "SqlInjectionVulnerability" | "Sql
 export type SeedingModeType = string;
 
 // @public
-export interface SensitivityLabel extends CommonProxyResource {
+export interface SensitivityLabel extends ProxyResource {
     // (undocumented)
     clientClassificationSource?: ClientClassificationSource;
     readonly columnName?: string;
@@ -8181,7 +8168,7 @@ export interface Server extends TrackedResource {
 }
 
 // @public
-export interface ServerAdvancedThreatProtection extends CommonProxyResource {
+export interface ServerAdvancedThreatProtection extends ProxyResource {
     readonly creationTime?: Date;
     state?: AdvancedThreatProtectionState;
 }
@@ -8231,7 +8218,7 @@ export interface ServerAdvisorsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerAutomaticTuning extends CommonProxyResource {
+export interface ServerAutomaticTuning extends ProxyResource {
     readonly actualState?: AutomaticTuningServerMode;
     desiredState?: AutomaticTuningServerMode;
     options?: Record<string, AutomaticTuningServerOptions>;
@@ -8252,7 +8239,7 @@ export interface ServerAutomaticTuningUpdateOptionalParams extends OperationOpti
 }
 
 // @public
-export interface ServerAzureADAdministrator extends CommonProxyResource {
+export interface ServerAzureADAdministrator extends ProxyResource {
     administratorType?: AdministratorType;
     readonly azureADOnlyAuthentication?: boolean;
     login?: string;
@@ -8295,7 +8282,7 @@ export interface ServerAzureADAdministratorsOperations {
 }
 
 // @public
-export interface ServerAzureADOnlyAuthentication extends CommonProxyResource {
+export interface ServerAzureADOnlyAuthentication extends ProxyResource {
     azureADOnlyAuthentication?: boolean;
 }
 
@@ -8358,7 +8345,7 @@ export interface ServerBlobAuditingPoliciesOperations {
 }
 
 // @public
-export interface ServerBlobAuditingPolicy extends CommonProxyResource {
+export interface ServerBlobAuditingPolicy extends ProxyResource {
     auditActionsAndGroups?: string[];
     isAzureMonitorTargetEnabled?: boolean;
     isDevopsAuditEnabled?: boolean;
@@ -8388,7 +8375,7 @@ export interface ServerBlobAuditingPolicyProperties {
 }
 
 // @public
-export interface ServerConfigurationOption extends CommonProxyResource {
+export interface ServerConfigurationOption extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     serverConfigurationOptionValue?: number;
 }
@@ -8451,7 +8438,7 @@ export interface ServerConnectionPoliciesOperations {
 }
 
 // @public
-export interface ServerConnectionPolicy extends CommonProxyResource {
+export interface ServerConnectionPolicy extends ProxyResource {
     connectionType?: ServerConnectionType;
     readonly kind?: string;
     readonly location?: string;
@@ -8469,7 +8456,7 @@ export type ServerConnectionType = string;
 export type ServerCreateMode = string;
 
 // @public
-export interface ServerDevOpsAuditingSettings extends CommonProxyResource {
+export interface ServerDevOpsAuditingSettings extends ProxyResource {
     isAzureMonitorTargetEnabled?: boolean;
     isManagedIdentityInUse?: boolean;
     state?: BlobAuditingPolicyState;
@@ -8513,7 +8500,7 @@ export interface ServerDevOpsAuditSettingsProperties {
 }
 
 // @public
-export interface ServerDnsAlias extends CommonProxyResource {
+export interface ServerDnsAlias extends ProxyResource {
     readonly azureDnsRecord?: string;
 }
 
@@ -8593,7 +8580,7 @@ export interface ServerInfo {
 }
 
 // @public
-export interface ServerKey extends CommonProxyResource {
+export interface ServerKey extends ProxyResource {
     readonly autoRotationEnabled?: boolean;
     readonly creationDate?: Date;
     readonly keyVersion?: string;
@@ -8769,7 +8756,7 @@ export interface ServerSecurityAlertPoliciesOperations {
 }
 
 // @public
-export interface ServerSecurityAlertPolicy extends CommonProxyResource {
+export interface ServerSecurityAlertPolicy extends ProxyResource {
     readonly creationTime?: Date;
     disabledAlerts?: string[];
     emailAccountAdmins?: boolean;
@@ -8844,7 +8831,7 @@ export interface ServersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerTrustCertificate extends CommonProxyResource {
+export interface ServerTrustCertificate extends ProxyResource {
     readonly certificateName?: string;
     publicBlob?: string;
     readonly thumbprint?: string;
@@ -8892,7 +8879,7 @@ export interface ServerTrustCertificatesOperations {
 }
 
 // @public
-export interface ServerTrustGroup extends CommonProxyResource {
+export interface ServerTrustGroup extends ProxyResource {
     groupMembers?: ServerInfo[];
     trustScopes?: ServerTrustGroupPropertiesTrustScopesItem[];
 }
@@ -9004,7 +8991,7 @@ export interface ServerVersionCapability {
 }
 
 // @public
-export interface ServerVulnerabilityAssessment extends CommonProxyResource {
+export interface ServerVulnerabilityAssessment extends ProxyResource {
     recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
     storageAccountAccessKey?: string;
     storageContainerPath?: string;
@@ -9116,7 +9103,7 @@ export interface Sku {
 }
 
 // @public
-export interface SqlAgentConfiguration extends CommonProxyResource {
+export interface SqlAgentConfiguration extends ProxyResource {
     state?: SqlAgentConfigurationPropertiesState;
 }
 
@@ -9304,7 +9291,7 @@ export interface SqlManagementClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export interface SqlVulnerabilityAssessment extends CommonProxyResource {
+export interface SqlVulnerabilityAssessment extends ProxyResource {
     state?: SqlVulnerabilityAssessmentState;
 }
 
@@ -9388,7 +9375,7 @@ export interface SqlVulnerabilityAssessmentScanError {
 }
 
 // @public
-export interface SqlVulnerabilityAssessmentScanRecord extends CommonProxyResource {
+export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
     readonly database?: string;
     readonly endTime?: Date;
     readonly errors?: SqlVulnerabilityAssessmentScanError[];
@@ -9456,7 +9443,7 @@ export interface SqlVulnerabilityAssessmentScanResultProperties {
 }
 
 // @public
-export interface SqlVulnerabilityAssessmentScanResults extends CommonProxyResource {
+export interface SqlVulnerabilityAssessmentScanResults extends ProxyResource {
     readonly baselineAdjustedResult?: BaselineAdjustedResult;
     readonly errorMessage?: string;
     readonly isTrimmed?: boolean;
@@ -9513,7 +9500,7 @@ export interface SqlVulnerabilityAssessmentsSettingsOperations {
 export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
 
 // @public
-export interface StartStopManagedInstanceSchedule extends CommonProxyResource {
+export interface StartStopManagedInstanceSchedule extends ProxyResource {
     description?: string;
     readonly nextExecutionTime?: string;
     readonly nextRunAction?: string;
@@ -9571,7 +9558,7 @@ export type StorageCapabilityStorageAccountType = string;
 export type StorageKeyType = string;
 
 // @public
-export interface SubscriptionUsage extends CommonProxyResource {
+export interface SubscriptionUsage extends ProxyResource {
     readonly currentValue?: number;
     readonly displayName?: string;
     readonly limit?: number;
@@ -9626,7 +9613,7 @@ export interface SynapseLinkWorkspacesOperations {
 }
 
 // @public
-export interface SyncAgent extends CommonProxyResource {
+export interface SyncAgent extends ProxyResource {
     readonly expiryTime?: Date;
     readonly isUpToDate?: boolean;
     readonly lastAliveTime?: Date;
@@ -9757,7 +9744,7 @@ export interface SyncFullSchemaTableColumn {
 }
 
 // @public
-export interface SyncGroup extends CommonProxyResource {
+export interface SyncGroup extends ProxyResource {
     conflictLoggingRetentionInDays?: number;
     conflictResolutionPolicy?: SyncConflictResolutionPolicy;
     enableConflictLogging?: boolean;
@@ -9909,7 +9896,7 @@ export interface SyncGroupsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SyncMember extends CommonProxyResource {
+export interface SyncMember extends ProxyResource {
     databaseName?: string;
     databaseType?: SyncMemberDbType;
     identity?: DataSyncParticipantIdentity;
@@ -10052,7 +10039,7 @@ export type TimeBasedImmutability = string;
 export type TimeBasedImmutabilityMode = string;
 
 // @public
-export interface TimeZone extends CommonProxyResource {
+export interface TimeZone extends ProxyResource {
     readonly displayName?: string;
     readonly timeZoneId?: string;
 }
@@ -10089,7 +10076,7 @@ export interface TopQueries {
 }
 
 // @public
-export interface TrackedResource extends CommonResource {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
@@ -10326,7 +10313,7 @@ export interface VirtualClusterUpdate {
 }
 
 // @public
-export interface VirtualNetworkRule extends CommonProxyResource {
+export interface VirtualNetworkRule extends ProxyResource {
     ignoreMissingVnetServiceEndpoint?: boolean;
     readonly state?: VirtualNetworkRuleState;
     virtualNetworkSubnetId?: string;
@@ -10396,7 +10383,7 @@ export interface VulnerabilityAssessmentScanError {
 }
 
 // @public
-export interface VulnerabilityAssessmentScanRecord extends CommonProxyResource {
+export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
     readonly endTime?: Date;
     readonly errors?: VulnerabilityAssessmentScanError[];
     readonly numberOfFailedSecurityChecks?: number;
@@ -10426,7 +10413,7 @@ export type VulnerabilityAssessmentScanState = string;
 export type VulnerabilityAssessmentScanTriggerType = string;
 
 // @public
-export interface WorkloadClassifier extends CommonProxyResource {
+export interface WorkloadClassifier extends ProxyResource {
     context?: string;
     endTime?: string;
     importance?: string;
@@ -10480,7 +10467,7 @@ export interface WorkloadClassifiersOperations {
 }
 
 // @public
-export interface WorkloadGroup extends CommonProxyResource {
+export interface WorkloadGroup extends ProxyResource {
     importance?: string;
     maxResourcePercent?: number;
     maxResourcePercentPerRequest?: number;
