@@ -1,0 +1,39 @@
+{
+  "agent": "tester",
+  "pr": 37993,
+  "package": "@azure/ai-projects",
+  "reviewed_at": "2026-04-10T04:36:06.082Z",
+  "summary": "issues_found",
+  "safeoutputs_available": false,
+  "safeoutputs_error": "MCP server 'safeoutputs' filtered: Could not verify server against configured registry (401 on policy check)",
+  "findings": [
+    {
+      "file": "sdk/ai/ai-projects/src/classic/beta/skills/index.ts",
+      "line": 31,
+      "severity": "critical",
+      "category": "missing_tests",
+      "description": "New BetaSkillsOperations (7 methods: create, createFromPackage, list, get, update, delete, download) introduced with no test file."
+    },
+    {
+      "file": "sdk/ai/ai-projects/src/classic/beta/toolboxes/index.ts",
+      "line": 29,
+      "severity": "critical",
+      "category": "missing_tests",
+      "description": "New BetaToolboxesOperations (8 methods: createVersion, get, list, update, delete, getVersion, listVersions, deleteVersion) introduced with no test file."
+    },
+    {
+      "file": "sdk/ai/ai-projects/src/classic/beta/agents/index.ts",
+      "line": 48,
+      "severity": "critical",
+      "category": "missing_tests",
+      "description": "New BetaAgentsOperations (13 methods across sessions, session file I/O, managed identity blueprints) introduced with no test file."
+    },
+    {
+      "file": "sdk/ai/ai-projects/src/api/beta/evaluators/index.ts",
+      "line": 3,
+      "severity": "medium",
+      "category": "missing_tests",
+      "description": "Two new evaluator methods getCredentials and startPendingUpload added with no test coverage."
+    }
+  ]
+}
