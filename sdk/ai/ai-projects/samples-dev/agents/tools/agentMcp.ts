@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
       input: "Please summarize the Azure REST API specifications Readme",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
@@ -95,7 +95,7 @@ export async function main(): Promise<void> {
       previous_response_id: response.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 

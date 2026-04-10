@@ -59,7 +59,7 @@ export async function main(): Promise<void> {
       input: "What is my username in Github profile?",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
@@ -96,7 +96,7 @@ export async function main(): Promise<void> {
       previous_response_id: response.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
