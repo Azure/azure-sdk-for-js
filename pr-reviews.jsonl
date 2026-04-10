@@ -1,0 +1,1 @@
+{"pr":37993,"package":"@azure/ai-projects","date":"2026-04-10","outcome":"issues_found","findings":["missing tests: project.beta.agents (sessions/blueprints)","missing tests: project.beta.skills","missing tests: project.beta.toolboxes"]}
