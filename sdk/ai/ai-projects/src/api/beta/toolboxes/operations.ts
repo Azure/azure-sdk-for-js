@@ -285,7 +285,11 @@ export function listVersions(
     () => _listVersionsSend(context, toolboxName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
+    },
   );
 }
 
@@ -341,7 +345,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
+    },
   );
 }
 

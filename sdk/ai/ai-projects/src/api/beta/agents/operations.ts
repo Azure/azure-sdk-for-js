@@ -338,7 +338,11 @@ export function listSessions(
     () => _listSessionsSend(context, agentName, options),
     _listSessionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: { headers: { "foundry-features": "AgentEndpoints=V1Preview" } },
+    },
   );
 }
 

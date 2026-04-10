@@ -2,11 +2,20 @@
 
 ## 2.1.0 (Unreleased)
 
+### Breaking Changes
+
+- Change `container_protocol_versions` property from required to optional in output types.
+- Change `code_type` property from required to optional in `getVersion` output type.
+
 ### Features Added
 
 - Add `project.beta.agents` route for accessing beta agent operations such as managed agent identity blueprints, session files, and sessions
 - Add `project.beta.skills` route for accessing skills
 - Add `project.beta.toolboxes` route for accessing toolbox features
+
+### Bugs Fixed
+
+- Fix `createFilePartDescriptor` in multipart upload to use an existence/type guard instead of a truthy check, correctly handling edge cases like empty string contents.
 
 ## 2.0.2 (2026-04-06)
 
