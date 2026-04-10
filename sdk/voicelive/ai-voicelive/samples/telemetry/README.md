@@ -56,7 +56,7 @@ Spans are printed directly to your terminal.
      jaegertracing/jaeger:latest
    ```
 2. Run the sample — spans are sent to `http://localhost:4318` automatically.
-3. Open [http://localhost:16686](http://localhost:16686) and search for the `@azure/ai-voicelive` service.
+3. Open `http://localhost:16686` and search for the `@azure/ai-voicelive` service.
 
 ### .NET Aspire Dashboard
 
@@ -117,5 +117,5 @@ When `enableContentRecording: true` or `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSA
 
 ## Other samples
 
-- **Browser:** [`../telemetry-browser/`](../telemetry-browser/) — In-page span viewer with Vite, microphone input, no Node.js required
-- **Agent mode:** [`agentTelemetry.ts`](./agentTelemetry.ts) — Function calling and MCP tool tracing with agent-specific attributes
+- **Browser:** [`../telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser) — In-page span viewer with Vite, microphone input, no Node.js required
+- **Agent mode:** [`agentTelemetry.ts`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/agentTelemetry.ts) — Function calling and MCP tool tracing with agent-specific attributes

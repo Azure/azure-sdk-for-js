@@ -55,7 +55,7 @@ Each entry in the **Traced Spans** panel shows:
 
 The `connect` span is a long-lived root span that only appears after you click **Disconnect** — it carries session-level counters like turn count, audio bytes, and interruptions.
 
-For the full attribute reference, see the [Node.js telemetry sample README](../telemetry/README.md).
+For the full attribute reference, see the [Node.js telemetry sample README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md).
 
 ## Browser-Specific Notes
 

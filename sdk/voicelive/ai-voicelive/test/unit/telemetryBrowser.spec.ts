@@ -130,12 +130,13 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
     });
 
     it("should create active telemetry state", () => {
-      const { state, active } = createTelemetryState(
+      const result = createTelemetryState(
         TestConstants.ENDPOINT,
         TestConstants.MODEL_NAME,
       );
-      expect(active).toBe(true);
-      expect(state).toBeDefined();
+      expect(result.active).toBe(true);
+      expect(result.state).toBeDefined();
+      const state = result.state as TelemetryState;
       expect(state.model).toBe(TestConstants.MODEL_NAME);
       expect(state.connectSpan).toBeDefined();
       state.connectSpan?.end();
@@ -147,12 +148,13 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
         projectName: "browser-project",
       };
 
-      const { state, active } = createTelemetryState(
+      const result = createTelemetryState(
         TestConstants.ENDPOINT,
         undefined,
         agentConfig,
       );
-      expect(active).toBe(true);
+      expect(result.active).toBe(true);
+      const state = result.state as TelemetryState;
       expect(state.agentName).toBe("browser-agent");
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.agent.name", "browser-agent");
       state.connectSpan?.end();
@@ -168,7 +170,7 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument();
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {

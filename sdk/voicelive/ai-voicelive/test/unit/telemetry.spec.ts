@@ -161,12 +161,13 @@ describe("VoiceLive Telemetry", () => {
     });
 
     it("should create telemetry state with model session", () => {
-      const { state, active } = createTelemetryState(
+      const result = createTelemetryState(
         TestConstants.ENDPOINT,
         TestConstants.MODEL_NAME,
       );
-      expect(active).toBe(true);
-      expect(state).toBeDefined();
+      expect(result.active).toBe(true);
+      expect(result.state).toBeDefined();
+      const state = result.state as TelemetryState;
       expect(state.model).toBe(TestConstants.MODEL_NAME);
       expect(state.connectSpan).toBeDefined();
       // Clean up
@@ -181,13 +182,14 @@ describe("VoiceLive Telemetry", () => {
         conversationId: "conv-123",
       };
 
-      const { state, active } = createTelemetryState(
+      const result = createTelemetryState(
         TestConstants.ENDPOINT,
         undefined,
         agentConfig,
       );
-      expect(active).toBe(true);
-      expect(state).toBeDefined();
+      expect(result.active).toBe(true);
+      expect(result.state).toBeDefined();
+      const state = result.state as TelemetryState;
       expect(state.agentName).toBe("test-agent");
       expect(state.conversationId).toBe("conv-123");
 
@@ -207,20 +209,22 @@ describe("VoiceLive Telemetry", () => {
     });
 
     it("should parse server address and port from endpoint", () => {
-      const { state } = createTelemetryState(
+      const result = createTelemetryState(
         "https://myservice.cognitiveservices.azure.com:8443",
         TestConstants.MODEL_NAME,
       );
+      const state = result.state as TelemetryState;
       expect(state.serverAddress).toBe("myservice.cognitiveservices.azure.com");
       expect(state.port).toBe(8443);
       state.connectSpan?.end();
     });
 
     it("should default to port 443 for https", () => {
-      const { state } = createTelemetryState(
+      const result = createTelemetryState(
         "https://myservice.cognitiveservices.azure.com",
         TestConstants.MODEL_NAME,
       );
+      const state = result.state as TelemetryState;
       expect(state.port).toBe(443);
       state.connectSpan?.end();
     });
@@ -235,7 +239,7 @@ describe("VoiceLive Telemetry", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument();
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {
@@ -323,7 +327,7 @@ describe("VoiceLive Telemetry", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument();
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {
@@ -623,7 +627,7 @@ describe("VoiceLive Telemetry", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument();
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {
@@ -679,7 +683,7 @@ describe("VoiceLive Telemetry", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument();
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {
@@ -822,7 +826,7 @@ describe("VoiceLive Telemetry", () => {
       instrumentor = new VoiceLiveInstrumentor();
       instrumentor.instrument({ enableContentRecording: true });
       const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
-      state = result.state;
+      state = result.state as TelemetryState;
     });
 
     afterEach(() => {
