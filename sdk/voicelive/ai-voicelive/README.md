@@ -411,8 +411,8 @@ The SDK supports opt-in OpenTelemetry tracing that automatically instruments eve
 | `close` | Final span that flushes session-level counters (turn count, audio bytes, interruptions) |
 
 ```ts snippet:ReadmeSampleEnableTelemetry
+import { VoiceLiveInstrumentor, VoiceLiveClient } from "@azure/ai-voicelive";
 import { DefaultAzureCredential } from "@azure/identity";
-import { VoiceLiveClient, VoiceLiveInstrumentor } from "@azure/ai-voicelive";
 
 // Enable OpenTelemetry tracing for VoiceLive
 // Requires: npm install @opentelemetry/api @opentelemetry/sdk-trace-node
@@ -424,7 +424,7 @@ const instrumentor = new VoiceLiveInstrumentor();
 instrumentor.instrument();
 
 const credential = new DefaultAzureCredential();
-const endpoint = "YourEndpoint";
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
 const client = new VoiceLiveClient(endpoint, credential);
 
 // All sessions created after instrument() will emit OpenTelemetry spans
