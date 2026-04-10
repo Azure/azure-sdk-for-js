@@ -122,7 +122,7 @@ describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
    * Prerequisite: database "rerank-test" with container "products" (partitioned by /category)
    * must exist on the Cosmos DB account with sample documents already inserted.
    */
-  it("should query Cosmos DB documents and rerank them", async () => {
+  it.skip("should query Cosmos DB documents and rerank them", async () => {
     const container = client.database("rerank-test").container("products");
 
     // Step 1: Insert sample sporting goods documents
