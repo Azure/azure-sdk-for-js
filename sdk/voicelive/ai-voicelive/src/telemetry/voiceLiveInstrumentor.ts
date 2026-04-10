@@ -124,7 +124,6 @@ function tryLoadOtel(): OtelHandle | undefined {
 
   // Path 1: globalThis.require — works in CJS and when users polyfill it in ESM.
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const g = globalThis as Record<string, unknown>;
     const reqFn = g["require"] as ((id: string) => unknown) | undefined;
     if (typeof reqFn === "function") {
@@ -394,8 +393,9 @@ function extractSessionConfigFromSend(state: TelemetryState, event: unknown): vo
 
   const maxT =
     getField(session, "maxResponseOutputTokens") ?? getField(session, "max_response_output_tokens");
-  if (maxT != null && cs?.isRecording())
+  if (maxT != null && cs?.isRecording()) {
     cs.setAttribute(GEN_AI_REQUEST_MAX_OUTPUT_TOKENS, maxT as number);
+  }
 
   const tools = getField(session, "tools");
   if (tools && cs?.isRecording()) {
@@ -945,9 +945,12 @@ export function createTelemetryState(
       state.conversationId = agentConfig.conversationId;
       span.setAttribute(GEN_AI_CONVERSATION_ID, agentConfig.conversationId);
     }
-    if (agentConfig.agentVersion) span.setAttribute(GEN_AI_AGENT_VERSION, agentConfig.agentVersion);
-    if (agentConfig.projectName)
+    if (agentConfig.agentVersion) {
+      span.setAttribute(GEN_AI_AGENT_VERSION, agentConfig.agentVersion);
+    }
+    if (agentConfig.projectName) {
       span.setAttribute(GEN_AI_AGENT_PROJECT_NAME, agentConfig.projectName);
+    }
   }
 
   return { state, active: true };
@@ -1103,8 +1106,9 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
       extractAgentConfigFromSession(state, result);
     }
 
-    if (eventTypeStr === KnownServerEventType.ResponseAudioDelta)
+    if (eventTypeStr === KnownServerEventType.ResponseAudioDelta) {
       trackAudioBytesReceived(state, result);
+    }
 
     if (eventTypeStr === KnownServerEventType.ResponseDone) {
       state.turnCount += 1;
@@ -1179,16 +1183,24 @@ export function traceClose(state: TelemetryState, error?: unknown): void {
 
   const cs = state.connectSpan;
   if (cs?.isRecording()) {
-    if (state.turnCount > 0) cs.setAttribute(GEN_AI_VOICE_TURN_COUNT, state.turnCount);
-    if (state.interruptionCount > 0)
+    if (state.turnCount > 0) {
+      cs.setAttribute(GEN_AI_VOICE_TURN_COUNT, state.turnCount);
+    }
+    if (state.interruptionCount > 0) {
       cs.setAttribute(GEN_AI_VOICE_INTERRUPTION_COUNT, state.interruptionCount);
-    if (state.audioBytesSent > 0)
+    }
+    if (state.audioBytesSent > 0) {
       cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_SENT, state.audioBytesSent);
-    if (state.audioBytesReceived > 0)
+    }
+    if (state.audioBytesReceived > 0) {
       cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_RECEIVED, state.audioBytesReceived);
-    if (state.mcpCallCount > 0) cs.setAttribute(GEN_AI_VOICE_MCP_CALL_COUNT, state.mcpCallCount);
-    if (state.mcpListToolsCount > 0)
+    }
+    if (state.mcpCallCount > 0) {
+      cs.setAttribute(GEN_AI_VOICE_MCP_CALL_COUNT, state.mcpCallCount);
+    }
+    if (state.mcpListToolsCount > 0) {
       cs.setAttribute(GEN_AI_VOICE_MCP_LIST_TOOLS_COUNT, state.mcpListToolsCount);
+    }
   }
 
   const duration = (performance.now() - state.connectStartTime) / 1000;
