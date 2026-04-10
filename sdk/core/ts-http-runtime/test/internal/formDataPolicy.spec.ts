@@ -10,7 +10,7 @@ import {
   createPipelineRequest,
   createHttpHeaders,
   stringToUint8Array,
-} from "@typespec/ts-http-runtime";
+} from "../../src/index.js";
 import { formDataPolicy } from "../../src/policies/internal.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {

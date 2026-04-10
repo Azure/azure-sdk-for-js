@@ -7,7 +7,7 @@ import {
   type PagedAsyncIterableIterator,
   type PagedResult,
   type PageSettings,
-} from "@azure/core-paging";
+} from "../../src/index.js";
 
 function buildIterator<T>(input: T): PagedAsyncIterableIterator<unknown, T, PageSettings> {
   return getPagedAsyncIterator({

@@ -16,9 +16,6 @@ export function decompressResponsePolicy(): PipelinePolicy;
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
-// @public (undocumented)
-export const DEFAULT_RETRY_POLICY_COUNT = 3;
-
 // @public
 export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
 

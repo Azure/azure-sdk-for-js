@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createSasTokenProvider } from "@azure/core-amqp";
+import { createSasTokenProvider } from "../../src/index.js";
 
 describe("SasTokenProvider", function (): void {
   describe("createSasTokenProvider", () => {

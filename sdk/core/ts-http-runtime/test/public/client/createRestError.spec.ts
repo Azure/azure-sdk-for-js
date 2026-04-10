@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createRestError, type PipelineRequest } from "@typespec/ts-http-runtime";
+import { createRestError, type PipelineRequest } from "../../../src/index.js";
 
 describe("createRestError", () => {
   it("should create a rest error from a PathUnchecked response with standard error", () => {

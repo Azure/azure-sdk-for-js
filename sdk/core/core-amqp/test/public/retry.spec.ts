@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { RetryConfig } from "@azure/core-amqp";
+import type { RetryConfig } from "../../src/index.js";
 import {
   Constants,
   MessagingError,
@@ -11,7 +11,7 @@ import {
   delay,
   retry,
   translate,
-} from "@azure/core-amqp";
+} from "../../src/index.js";
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");

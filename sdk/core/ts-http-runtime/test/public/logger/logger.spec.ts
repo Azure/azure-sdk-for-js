@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createClientLogger, setLogLevel, TypeSpecRuntimeLogger } from "@typespec/ts-http-runtime";
+import { createClientLogger, setLogLevel, TypeSpecRuntimeLogger } from "../../../src/index.js";
 
 const testLogger = createClientLogger("test");
 

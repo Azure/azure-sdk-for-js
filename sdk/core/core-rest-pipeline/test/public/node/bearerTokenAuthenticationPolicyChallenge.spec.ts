@@ -11,7 +11,7 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+} from "../../../src/index.js";
 import { TextDecoder } from "node:util";
 
 export interface TestChallenge {

@@ -6,7 +6,7 @@ import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient, createPipelineRequest } from "../../../src/index.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");

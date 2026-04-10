@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { type EventMessage, createSseStream } from "@azure/core-sse";
+import { type EventMessage, createSseStream } from "../../../src/index.js";
 
 export function createStream(
   cb: (write: (chunk: Uint8Array) => void) => void,

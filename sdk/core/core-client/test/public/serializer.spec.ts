@@ -9,8 +9,8 @@ import type {
   EnumMapper,
   Mapper,
   SequenceMapper,
-} from "@azure/core-client";
-import { createSerializer } from "@azure/core-client";
+} from "../../src/index.js";
+import { createSerializer } from "../../src/index.js";
 import { Mappers } from "../testMappers1.js";
 
 const Serializer = createSerializer(Mappers);

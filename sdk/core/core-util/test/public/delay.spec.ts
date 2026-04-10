@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { afterEach, assert, describe, it, vi } from "vitest";
-import { delay } from "@azure/core-util";
+import { delay } from "../../src/index.js";
 
 describe("delay", function () {
   afterEach(function () {

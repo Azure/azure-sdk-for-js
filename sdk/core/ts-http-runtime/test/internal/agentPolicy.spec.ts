@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { Agent } from "@typespec/ts-http-runtime";
+import type { Agent } from "../../src/index.js";
 import {
   type PipelineResponse,
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "@typespec/ts-http-runtime";
+} from "../../src/index.js";
 import { agentPolicy } from "../../src/policies/internal.js";
 
 describe("agentPolicy", function () {

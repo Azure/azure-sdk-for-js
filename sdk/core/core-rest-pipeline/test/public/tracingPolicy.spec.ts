@@ -10,7 +10,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "@azure/core-rest-pipeline";
+} from "../../src/index.js";
 import {
   type Instrumenter,
   type InstrumenterSpanOptions,

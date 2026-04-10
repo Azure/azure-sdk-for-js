@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import type { PipelineResponse, SendRequest } from "@typespec/ts-http-runtime";
-import { RestError, createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
-import { exponentialRetryPolicy, DEFAULT_RETRY_POLICY_COUNT } from "../../src/policies/internal.js";
+import type { PipelineResponse, SendRequest } from "../../src/index.js";
+import { RestError, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
+import { exponentialRetryPolicy } from "../../src/policies/internal.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../../src/constants.js";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {

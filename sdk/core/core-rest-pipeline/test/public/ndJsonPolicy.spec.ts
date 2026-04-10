@@ -7,7 +7,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   ndJsonPolicy,
-} from "@azure/core-rest-pipeline";
+} from "../../src/index.js";
 import { describe, it, assert, vi } from "vitest";
 
 describe("NdJsonPolicy", function () {

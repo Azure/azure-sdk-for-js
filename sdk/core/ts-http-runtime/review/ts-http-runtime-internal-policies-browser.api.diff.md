@@ -16,9 +16,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
  export const decompressResponsePolicyName = "decompressResponsePolicy";
  
- // @public (undocumented)
- export const DEFAULT_RETRY_POLICY_COUNT = 3;
-@@ -47,10 +47,10 @@
+ // @public
+ export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+@@ -44,10 +44,10 @@
  
  // @public
  export const formDataPolicyName = "formDataPolicy";
@@ -31,7 +31,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
  
-@@ -70,13 +70,13 @@
+@@ -67,13 +67,13 @@
  // @public
  export const multipartPolicyName = "multipartPolicy";
  

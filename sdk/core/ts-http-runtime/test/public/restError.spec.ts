@@ -7,7 +7,7 @@ import {
   type PipelineResponse,
   createHttpHeaders,
   RestError,
-} from "@typespec/ts-http-runtime";
+} from "../../src/index.js";
 
 describe("RestError", function () {
   const request: PipelineRequest = {
