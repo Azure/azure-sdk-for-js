@@ -3,30 +3,18 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes a private endpoint.
+ * This sample demonstrates how to deletes a private endpoint.
  *
- * @summary Deletes a private endpoint.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/DeleteJobPrivateEndpoint.json
+ * @summary deletes a private endpoint.
+ * x-ms-original-file: 2025-02-01-preview/DeleteJobPrivateEndpoint.json
  */
 async function deleteAPrivateEndpoint() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const privateEndpointName = "endpoint1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.jobPrivateEndpoints.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    privateEndpointName,
-  );
-  console.log(result);
+  await client.jobPrivateEndpoints.delete("group1", "server1", "agent1", "endpoint1");
 }
 
 async function main() {

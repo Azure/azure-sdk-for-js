@@ -1,90 +1,108 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncMember, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a sync member.
+ * This sample demonstrates how to creates or updates a sync member.
  *
- * @summary Creates or updates a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberCreate.json
+ * @summary creates or updates a sync member.
+ * x-ms-original-file: 2025-02-01-preview/SyncMemberCreate.json
  */
 async function createANewSyncMember(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const syncMemberName = "syncmembercrud-4879";
-  const parameters: SyncMember = {
-    databaseName: "syncgroupcrud-7421",
-    databaseType: "AzureSqlDatabase",
-    serverName: "syncgroupcrud-3379.database.windows.net",
-    syncDirection: "Bidirectional",
-    syncMemberAzureDatabaseResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
-    usePrivateLinkConnection: true,
-    userName: "myUser",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncMembers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    syncMemberName,
-    parameters,
+  const result = await client.syncMembers.createOrUpdate(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "syncmembercrud-4879",
+    {
+      databaseName: "syncgroupcrud-7421",
+      databaseType: "AzureSqlDatabase",
+      serverName: "syncgroupcrud-3379.database.windows.net",
+      syncDirection: "Bidirectional",
+      syncMemberAzureDatabaseResourceId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+      usePrivateLinkConnection: true,
+      userName: "myUser",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a sync member.
+ * This sample demonstrates how to creates or updates a sync member.
  *
- * @summary Creates or updates a sync member.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberUpdate.json
+ * @summary creates or updates a sync member.
+ * x-ms-original-file: 2025-02-01-preview/SyncMemberCreateWithIdentity.json
+ */
+async function createANewSyncMemberWithUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.syncMembers.createOrUpdate(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "syncmembercrud-4879",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-umi":
+            {},
+        },
+      },
+      databaseType: "AzureSqlDatabase",
+      serverName: "syncgroupcrud-3379.database.windows.net",
+      databaseName: "syncgroupcrud-7421",
+      syncDirection: "Bidirectional",
+      usePrivateLinkConnection: true,
+      syncMemberAzureDatabaseResourceId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a sync member.
+ *
+ * @summary creates or updates a sync member.
+ * x-ms-original-file: 2025-02-01-preview/SyncMemberUpdate.json
  */
 async function updateASyncMember(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const syncMemberName = "syncmembercrud-4879";
-  const parameters: SyncMember = {
-    databaseName: "syncgroupcrud-7421",
-    databaseType: "AzureSqlDatabase",
-    serverName: "syncgroupcrud-3379.database.windows.net",
-    syncDirection: "Bidirectional",
-    syncMemberAzureDatabaseResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
-    usePrivateLinkConnection: true,
-    userName: "myUser",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncMembers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    syncMemberName,
-    parameters,
+  const result = await client.syncMembers.createOrUpdate(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "syncmembercrud-4879",
+    {
+      databaseName: "syncgroupcrud-7421",
+      databaseType: "AzureSqlDatabase",
+      serverName: "syncgroupcrud-3379.database.windows.net",
+      syncDirection: "Bidirectional",
+      syncMemberAzureDatabaseResourceId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+      usePrivateLinkConnection: true,
+      userName: "myUser",
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createANewSyncMember();
+  await createANewSyncMemberWithUserAssignedIdentity();
   await updateASyncMember();
 }
 

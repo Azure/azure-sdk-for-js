@@ -3,32 +3,46 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a server encryption protector.
+ * This sample demonstrates how to gets a server encryption protector.
  *
- * @summary Gets a server encryption protector.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/EncryptionProtectorGet.json
+ * @summary gets a server encryption protector.
+ * x-ms-original-file: 2025-02-01-preview/EncryptionProtectorGet.json
  */
 async function getTheEncryptionProtector() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const serverName = "sqlcrudtest-4645";
-  const encryptionProtectorName = "current";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.encryptionProtectors.get(
-    resourceGroupName,
-    serverName,
-    encryptionProtectorName,
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "current",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a server encryption protector.
+ *
+ * @summary gets a server encryption protector.
+ * x-ms-original-file: 2025-02-01-preview/EncryptionProtectorGetWithVersionlessKey.json
+ */
+async function getTheEncryptionProtectorWithVersionlessKey() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.encryptionProtectors.get(
+    "sqlcrudtest-7398",
+    "sqlcrudtest-4645",
+    "current",
   );
   console.log(result);
 }
 
 async function main() {
   await getTheEncryptionProtector();
+  await getTheEncryptionProtectorWithVersionlessKey();
 }
 
 main().catch(console.error);

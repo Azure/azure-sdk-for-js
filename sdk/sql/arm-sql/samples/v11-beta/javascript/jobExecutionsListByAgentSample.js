@@ -3,74 +3,52 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists all executions in a job agent.
+ * This sample demonstrates how to lists all executions in a job agent.
  *
- * @summary Lists all executions in a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgentWithFilter.json
+ * @summary lists all executions in a job agent.
+ * x-ms-original-file: 2025-02-01-preview/ListJobExecutionsByAgent.json
  */
-async function listAllJobExecutionsInAJobAgentWithFiltering() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const createTimeMin = new Date("2017-03-21T19:00:00Z");
-  const createTimeMax = new Date("2017-03-21T19:05:00Z");
-  const endTimeMin = new Date("2017-03-21T19:20:00Z");
-  const endTimeMax = new Date("2017-03-21T19:25:00Z");
-  const isActive = false;
-  const options = {
-    createTimeMin,
-    createTimeMax,
-    endTimeMin,
-    endTimeMax,
-    isActive,
-  };
+async function listAllJobExecutionsInAJobAgent() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobExecutions.listByAgent(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    options,
-  )) {
+  for await (const item of client.jobExecutions.listByAgent("group1", "server1", "agent1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all executions in a job agent.
+ * This sample demonstrates how to lists all executions in a job agent.
  *
- * @summary Lists all executions in a job agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgent.json
+ * @summary lists all executions in a job agent.
+ * x-ms-original-file: 2025-02-01-preview/ListJobExecutionsByAgentWithFilter.json
  */
-async function listAllJobExecutionsInAJobAgent() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
+async function listAllJobExecutionsInAJobAgentWithFiltering() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobExecutions.listByAgent(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-  )) {
+  for await (const item of client.jobExecutions.listByAgent("group1", "server1", "agent1", {
+    createTimeMin: new Date("2017-03-21T19:00:00Z"),
+    createTimeMax: new Date("2017-03-21T19:05:00Z"),
+    endTimeMin: new Date("2017-03-21T19:20:00Z"),
+    endTimeMax: new Date("2017-03-21T19:25:00Z"),
+    isActive: false,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await listAllJobExecutionsInAJobAgentWithFiltering();
   await listAllJobExecutionsInAJobAgent();
+  await listAllJobExecutionsInAJobAgentWithFiltering();
 }
 
 main().catch(console.error);

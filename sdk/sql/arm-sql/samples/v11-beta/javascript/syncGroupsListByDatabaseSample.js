@@ -3,30 +3,26 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists sync groups under a hub database.
+ * This sample demonstrates how to lists sync groups under a hub database.
  *
- * @summary Lists sync groups under a hub database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupListByDatabase.json
+ * @summary lists sync groups under a hub database.
+ * x-ms-original-file: 2025-02-01-preview/SyncGroupListByDatabase.json
  */
 async function listSyncGroupsUnderAGivenDatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.syncGroups.listByDatabase(
-    resourceGroupName,
-    serverName,
-    databaseName,
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

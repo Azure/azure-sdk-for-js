@@ -3,32 +3,22 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates a TDE certificate for a given server.
+ * This sample demonstrates how to creates a TDE certificate for a given server.
  *
- * @summary Creates a TDE certificate for a given server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SqlTdeCertificateCreate.json
+ * @summary creates a TDE certificate for a given server.
+ * x-ms-original-file: 2025-02-01-preview/SqlTdeCertificateCreate.json
  */
-async function uploadATdeCertificate() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testtdecert";
-  const serverName = "testtdecert";
-  const parameters = { privateBlob: "MIIXXXXXXXX" };
+async function uploadATDECertificate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.tdeCertificates.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
-  console.log(result);
+  await client.tdeCertificates.create("testtdecert", "testtdecert", { privateBlob: "MIIXXXXXXXX" });
 }
 
 async function main() {
-  await uploadATdeCertificate();
+  await uploadATDECertificate();
 }
 
 main().catch(console.error);

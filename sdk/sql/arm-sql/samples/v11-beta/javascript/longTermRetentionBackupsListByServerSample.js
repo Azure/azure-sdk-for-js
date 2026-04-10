@@ -3,28 +3,25 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists the long term retention backups for a given server.
+ * This sample demonstrates how to lists the long term retention backups for a given server.
  *
- * @summary Lists the long term retention backups for a given server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/LongTermRetentionBackupListByServer.json
+ * @summary lists the long term retention backups for a given server.
+ * x-ms-original-file: 2025-02-01-preview/LongTermRetentionBackupListByServer.json
  */
 async function getAllLongTermRetentionBackupsUnderTheServer() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const locationName = "japaneast";
-  const longTermRetentionServerName = "testserver";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.longTermRetentionBackups.listByServer(
-    locationName,
-    longTermRetentionServerName,
+    "japaneast",
+    "testserver",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

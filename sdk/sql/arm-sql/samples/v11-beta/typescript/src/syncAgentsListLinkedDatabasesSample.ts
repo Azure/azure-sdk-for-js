@@ -3,32 +3,26 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists databases linked to a sync agent.
+ * This sample demonstrates how to lists databases linked to a sync agent.
  *
- * @summary Lists databases linked to a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentGetLinkedDatabases.json
+ * @summary lists databases linked to a sync agent.
+ * x-ms-original-file: 2025-02-01-preview/SyncAgentGetLinkedDatabases.json
  */
 async function getSyncAgentLinkedDatabases(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncagentcrud-65440";
-  const serverName = "syncagentcrud-8475";
-  const syncAgentName = "syncagentcrud-3187";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.syncAgents.listLinkedDatabases(
-    resourceGroupName,
-    serverName,
-    syncAgentName,
+    "syncagentcrud-65440",
+    "syncagentcrud-8475",
+    "syncagentcrud-3187",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

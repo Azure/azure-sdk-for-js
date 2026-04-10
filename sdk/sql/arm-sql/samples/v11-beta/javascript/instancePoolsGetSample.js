@@ -3,22 +3,18 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets an instance pool.
+ * This sample demonstrates how to gets an instance pool.
  *
- * @summary Gets an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/GetInstancePool.json
+ * @summary gets an instance pool.
+ * x-ms-original-file: 2025-02-01-preview/GetInstancePool.json
  */
 async function getAnInstancePool() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const instancePoolName = "testIP";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.instancePools.get(resourceGroupName, instancePoolName);
+  const result = await client.instancePools.get("group1", "testIP");
   console.log(result);
 }
 

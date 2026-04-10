@@ -3,26 +3,22 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of jobs.
+ * This sample demonstrates how to gets a list of jobs.
  *
- * @summary Gets a list of jobs.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobsByAgent.json
+ * @summary gets a list of jobs.
+ * x-ms-original-file: 2025-02-01-preview/ListJobsByAgent.json
  */
 async function listJobsInAJobAgent() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobs.listByAgent(resourceGroupName, serverName, jobAgentName)) {
+  for await (const item of client.jobs.listByAgent("group1", "server1", "agent1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

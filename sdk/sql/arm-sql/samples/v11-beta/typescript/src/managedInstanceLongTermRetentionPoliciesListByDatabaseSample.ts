@@ -3,32 +3,26 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a database's long term retention policy.
+ * This sample demonstrates how to gets a database's long term retention policy.
  *
- * @summary Gets a database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceLongTermRetentionPolicyListByDatabase.json
+ * @summary gets a database's long term retention policy.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceLongTermRetentionPolicyListByDatabase.json
  */
 async function getTheLongTermRetentionPoliciesForTheManagedDatabase(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "testResourceGroup";
-  const managedInstanceName = "testInstance";
-  const databaseName = "testDatabase";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedInstanceLongTermRetentionPolicies.listByDatabase(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
+    "testResourceGroup",
+    "testInstance",
+    "testDatabase",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

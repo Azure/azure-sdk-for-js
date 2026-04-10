@@ -3,36 +3,28 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a geo backup policy.
+ * This sample demonstrates how to gets a Geo backup policy for the given database resource.
  *
- * @summary Gets a geo backup policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/GeoBackupPoliciesGet.json
+ * @summary gets a Geo backup policy for the given database resource.
+ * x-ms-original-file: 2025-02-01-preview/GeoBackupPoliciesGet.json
  */
-async function getGeoBackupPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-4799";
-  const serverName = "sqlcrudtest-5961";
-  const databaseName = "testdw";
-  const geoBackupPolicyName = "Default";
+async function getsTheSpecifiedGeoBackupPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.geoBackupPolicies.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    geoBackupPolicyName,
+    "sqlcrudtest-4799",
+    "sqlcrudtest-5961",
+    "testdw",
+    "Default",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getGeoBackupPolicy();
+  await getsTheSpecifiedGeoBackupPolicy();
 }
 
 main().catch(console.error);

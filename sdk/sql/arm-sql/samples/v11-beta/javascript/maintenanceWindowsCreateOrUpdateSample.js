@@ -3,34 +3,24 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Sets maintenance windows settings for a database.
+ * This sample demonstrates how to sets maintenance windows settings for a database.
  *
- * @summary Sets maintenance windows settings for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
+ * @summary sets maintenance windows settings for a database.
+ * x-ms-original-file: 2025-02-01-preview/CreateOrUpdateMaintenanceWindows.json
  */
 async function setsMaintenanceWindowSettingsForASelectedDatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdwdb";
-  const maintenanceWindowName = "current";
-  const parameters = {
-    timeRanges: [{ dayOfWeek: "Saturday", duration: "PT60M", startTime: "00:00:00" }],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.maintenanceWindowsOperations.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    maintenanceWindowName,
-    parameters,
+  await client.maintenanceWindows.createOrUpdate(
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    "testdwdb",
+    "current",
+    { timeRanges: [{ dayOfWeek: "Saturday", duration: "PT60M", startTime: "00:00:00" }] },
   );
-  console.log(result);
 }
 
 async function main() {

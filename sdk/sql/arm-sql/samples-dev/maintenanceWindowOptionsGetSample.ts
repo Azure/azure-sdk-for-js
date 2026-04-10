@@ -3,30 +3,22 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of available maintenance windows.
+ * This sample demonstrates how to gets a list of available maintenance windows.
  *
- * @summary Gets a list of available maintenance windows.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetMaintenanceWindowOptions.json
+ * @summary gets a list of available maintenance windows.
+ * x-ms-original-file: 2025-02-01-preview/GetMaintenanceWindowOptions.json
  */
 async function getsAListOfAvailableMaintenanceWindowsForASelectedDatabase(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const maintenanceWindowOptionsName = "current";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.maintenanceWindowOptionsOperations.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    maintenanceWindowOptionsName,
+  const result = await client.maintenanceWindowOptions.get(
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    "testdb",
+    "current",
   );
   console.log(result);
 }

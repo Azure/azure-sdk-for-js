@@ -1,145 +1,111 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataMaskingRule, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking rule.
+ * This sample demonstrates how to creates or updates a database data masking rule.
  *
- * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateDefaultMax.json
+ * @summary creates or updates a database data masking rule.
+ * x-ms-original-file: 2025-02-01-preview/DataMaskingRuleCreateOrUpdateDefaultMax.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMax(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
-  const serverName = "sqlcrudtest-2080";
-  const databaseName = "sqlcrudtest-331";
-  const dataMaskingRuleName = "rule1";
-  const parameters: DataMaskingRule = {
-    aliasName: "nickname",
-    columnName: "test1",
-    maskingFunction: "Default",
-    ruleState: "Enabled",
-    schemaName: "dbo",
-    tableName: "Table_1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.dataMaskingRules.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    dataMaskingRuleName,
-    parameters,
+    "sqlcrudtest-6852",
+    "sqlcrudtest-2080",
+    "sqlcrudtest-331",
+    "Default",
+    "rule1",
+    {
+      aliasName: "nickname",
+      columnName: "test1",
+      maskingFunction: "Default",
+      ruleState: "Enabled",
+      schemaName: "dbo",
+      tableName: "Table_1",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking rule.
+ * This sample demonstrates how to creates or updates a database data masking rule.
  *
- * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateDefaultMin.json
+ * @summary creates or updates a database data masking rule.
+ * x-ms-original-file: 2025-02-01-preview/DataMaskingRuleCreateOrUpdateDefaultMin.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMin(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
-  const serverName = "sqlcrudtest-2080";
-  const databaseName = "sqlcrudtest-331";
-  const dataMaskingRuleName = "rule1";
-  const parameters: DataMaskingRule = {
-    columnName: "test1",
-    maskingFunction: "Default",
-    schemaName: "dbo",
-    tableName: "Table_1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.dataMaskingRules.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    dataMaskingRuleName,
-    parameters,
+    "sqlcrudtest-6852",
+    "sqlcrudtest-2080",
+    "sqlcrudtest-331",
+    "Default",
+    "rule1",
+    { columnName: "test1", maskingFunction: "Default", schemaName: "dbo", tableName: "Table_1" },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking rule.
+ * This sample demonstrates how to creates or updates a database data masking rule.
  *
- * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateNumber.json
+ * @summary creates or updates a database data masking rule.
+ * x-ms-original-file: 2025-02-01-preview/DataMaskingRuleCreateOrUpdateNumber.json
  */
 async function createOrUpdateDataMaskingRuleForNumbers(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
-  const serverName = "sqlcrudtest-2080";
-  const databaseName = "sqlcrudtest-331";
-  const dataMaskingRuleName = "rule1";
-  const parameters: DataMaskingRule = {
-    columnName: "test1",
-    maskingFunction: "Number",
-    numberFrom: "0",
-    numberTo: "2",
-    schemaName: "dbo",
-    tableName: "Table_1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.dataMaskingRules.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    dataMaskingRuleName,
-    parameters,
+    "sqlcrudtest-6852",
+    "sqlcrudtest-2080",
+    "sqlcrudtest-331",
+    "Default",
+    "rule1",
+    {
+      columnName: "test1",
+      maskingFunction: "Number",
+      numberFrom: "0",
+      numberTo: "2",
+      schemaName: "dbo",
+      tableName: "Table_1",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a database data masking rule.
+ * This sample demonstrates how to creates or updates a database data masking rule.
  *
- * @summary Creates or updates a database data masking rule.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DataMaskingRuleCreateOrUpdateText.json
+ * @summary creates or updates a database data masking rule.
+ * x-ms-original-file: 2025-02-01-preview/DataMaskingRuleCreateOrUpdateText.json
  */
 async function createOrUpdateDataMaskingRuleForText(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-6852";
-  const serverName = "sqlcrudtest-2080";
-  const databaseName = "sqlcrudtest-331";
-  const dataMaskingRuleName = "rule1";
-  const parameters: DataMaskingRule = {
-    columnName: "test1",
-    maskingFunction: "Text",
-    prefixSize: "1",
-    replacementString: "asdf",
-    schemaName: "dbo",
-    suffixSize: "0",
-    tableName: "Table_1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.dataMaskingRules.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    dataMaskingRuleName,
-    parameters,
+    "sqlcrudtest-6852",
+    "sqlcrudtest-2080",
+    "sqlcrudtest-331",
+    "Default",
+    "rule1",
+    {
+      columnName: "test1",
+      maskingFunction: "Text",
+      prefixSize: "1",
+      replacementString: "asdf",
+      schemaName: "dbo",
+      suffixSize: "0",
+      tableName: "Table_1",
+    },
   );
   console.log(result);
 }

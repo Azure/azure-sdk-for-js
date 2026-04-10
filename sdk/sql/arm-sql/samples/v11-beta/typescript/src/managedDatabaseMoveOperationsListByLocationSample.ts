@@ -1,94 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ManagedDatabaseMoveOperationsListByLocationOptionalParams,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists managed database move operations.
+ * This sample demonstrates how to lists managed database move operations.
  *
- * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultList.json
+ * @summary lists managed database move operations.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseMoveOperationResultList.json
  */
 async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "rg1";
-  const locationName = "westeurope";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseMoveOperations.listByLocation(
-    resourceGroupName,
-    locationName,
+    "rg1",
+    "westeurope",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists managed database move operations.
+ * This sample demonstrates how to lists managed database move operations.
  *
- * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultListMax.json
- */
-async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "rg1";
-  const locationName = "westeurope";
-  const filter = "Properties/Operation eq 'StartManagedInstanceDatabaseMove'";
-  const options: ManagedDatabaseMoveOperationsListByLocationOptionalParams = {
-    filter,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
-    resourceGroupName,
-    locationName,
-    options,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
-}
-
-/**
- * This sample demonstrates how to Lists managed database move operations.
- *
- * @summary Lists managed database move operations.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedDatabaseMoveOperationResultListLastOperations.json
+ * @summary lists managed database move operations.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseMoveOperationResultListLastOperations.json
  */
 async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "rg1";
-  const locationName = "westeurope";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.managedDatabaseMoveOperations.listByLocation(
-    resourceGroupName,
-    locationName,
+    "rg1",
+    "westeurope",
   )) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists managed database move operations.
+ *
+ * @summary lists managed database move operations.
+ * x-ms-original-file: 2025-02-01-preview/ManagedDatabaseMoveOperationResultListMax.json
+ */
+async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
+    "rg1",
+    "westeurope",
+    { filter: "Properties/Operation eq 'StartManagedInstanceDatabaseMove'" },
+  )) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation();
-  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
   await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation();
+  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
 }
 
 main().catch(console.error);

@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Advisor, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a database advisor.
+ * This sample demonstrates how to updates a database advisor.
  *
- * @summary Updates a database advisor.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseAdvisorUpdate.json
+ * @summary updates a database advisor.
+ * x-ms-original-file: 2025-02-01-preview/DatabaseAdvisorUpdate.json
  */
 async function updateDatabaseAdvisor(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "workloadinsight-demos";
-  const serverName = "misosisvr";
-  const databaseName = "IndexAdvisor_test_3";
-  const advisorName = "CreateIndex";
-  const parameters: Advisor = { autoExecuteStatus: "Disabled" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseAdvisors.update(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    advisorName,
-    parameters,
+    "workloadinsight-demos",
+    "misosisvr",
+    "IndexAdvisor_test_3",
+    "CreateIndex",
+    { autoExecuteStatus: "Disabled" },
   );
   console.log(result);
 }

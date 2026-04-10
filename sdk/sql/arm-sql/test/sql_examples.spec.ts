@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SqlManagementClient } from "../src/sqlManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -112,7 +113,7 @@ describe("Sql test", () => {
 
   it("servers list test", async () => {
     const resArray = new Array();
-    for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -120,7 +121,7 @@ describe("Sql test", () => {
 
   it("databases list test", async () => {
     const resArray = new Array();
-    for await (let item of client.databases.listByServer(resourceGroup, serverName)) {
+    for await (const item of client.databases.listByServer(resourceGroup, serverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
@@ -166,7 +167,7 @@ describe("Sql test", () => {
       databaseName,
       testPollingOptions,
     );
-    for await (let item of client.databases.listByServer(resourceGroup, serverName)) {
+    for await (const item of client.databases.listByServer(resourceGroup, serverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -175,7 +176,7 @@ describe("Sql test", () => {
   it("servers delete test", async () => {
     const resArray = new Array();
     await client.servers.beginDeleteAndWait(resourceGroup, serverName, testPollingOptions);
-    for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

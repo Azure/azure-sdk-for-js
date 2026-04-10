@@ -3,32 +3,26 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of databases in an elastic pool.
+ * This sample demonstrates how to gets a list of databases in an elastic pool.
  *
- * @summary Gets a list of databases in an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListDatabasesByElasticPool.json
+ * @summary gets a list of databases in an elastic pool.
+ * x-ms-original-file: 2025-02-01-preview/ListDatabasesByElasticPool.json
  */
 async function getsAListOfDatabasesInAnElasticPool(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const elasticPoolName = "pool1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.databases.listByElasticPool(
-    resourceGroupName,
-    serverName,
-    elasticPoolName,
+    "Default-SQL-SouthEastAsia",
+    "testsvr",
+    "pool1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

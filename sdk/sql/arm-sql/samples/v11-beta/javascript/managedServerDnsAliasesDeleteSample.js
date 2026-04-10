@@ -3,32 +3,22 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes the managed server DNS alias with the given name.
+ * This sample demonstrates how to deletes the managed server DNS alias with the given name.
  *
- * @summary Deletes the managed server DNS alias with the given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasDelete.json
+ * @summary deletes the managed server DNS alias with the given name.
+ * x-ms-original-file: 2025-02-01-preview/ManagedServerDnsAliasDelete.json
  */
-async function deleteManagedServerDnsAlias() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const managedInstanceName = "dns-mi";
-  const dnsAliasName = "dns-alias-mi";
+async function deleteManagedServerDNSAlias() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedServerDnsAliases.beginDeleteAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    dnsAliasName,
-  );
-  console.log(result);
+  await client.managedServerDnsAliases.delete("Default", "dns-mi", "dns-alias-mi");
 }
 
 async function main() {
-  await deleteManagedServerDnsAlias();
+  await deleteManagedServerDNSAlias();
 }
 
 main().catch(console.error);

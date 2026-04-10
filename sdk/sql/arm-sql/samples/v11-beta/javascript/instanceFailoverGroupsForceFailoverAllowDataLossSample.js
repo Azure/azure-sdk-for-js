@@ -3,26 +3,21 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Fails over from the current primary managed instance to this managed instance. This operation might result in data loss.
+ * This sample demonstrates how to fails over from the current primary managed instance to this managed instance. This operation might result in data loss.
  *
- * @summary Fails over from the current primary managed instance to this managed instance. This operation might result in data loss.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/InstanceFailoverGroupForceFailoverAllowDataLoss.json
+ * @summary fails over from the current primary managed instance to this managed instance. This operation might result in data loss.
+ * x-ms-original-file: 2025-02-01-preview/InstanceFailoverGroupForceFailoverAllowDataLoss.json
  */
 async function forcedFailoverOfAFailoverGroupAllowingDataLoss() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const locationName = "Japan West";
-  const failoverGroupName = "failover-group-test-3";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.instanceFailoverGroups.beginForceFailoverAllowDataLossAndWait(
-    resourceGroupName,
-    locationName,
-    failoverGroupName,
+  const result = await client.instanceFailoverGroups.forceFailoverAllowDataLoss(
+    "Default",
+    "Japan West",
+    "failover-group-test-3",
   );
   console.log(result);
 }

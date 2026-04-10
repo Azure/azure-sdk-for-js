@@ -3,27 +3,21 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Fails over from the current primary server to this server.
+ * This sample demonstrates how to fails over from the current primary server to this server.
  *
- * @summary Fails over from the current primary server to this server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupFailover.json
+ * @summary fails over from the current primary server to this server.
+ * x-ms-original-file: 2025-02-01-preview/FailoverGroupFailover.json
  */
 async function plannedFailoverOfAFailoverGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "failover-group-secondary-server";
-  const failoverGroupName = "failover-group-test-3";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.failoverGroups.beginFailoverAndWait(
-    resourceGroupName,
-    serverName,
-    failoverGroupName,
+  const result = await client.failoverGroups.failover(
+    "Default",
+    "failover-group-secondary-server",
+    "failover-group-test-3",
   );
   console.log(result);
 }

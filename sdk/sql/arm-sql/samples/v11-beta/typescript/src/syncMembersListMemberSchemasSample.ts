@@ -3,36 +3,28 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a sync member database schema.
+ * This sample demonstrates how to gets a sync member database schema.
  *
- * @summary Gets a sync member database schema.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberGetSchema.json
+ * @summary gets a sync member database schema.
+ * x-ms-original-file: 2025-02-01-preview/SyncMemberGetSchema.json
  */
 async function getASyncMemberSchema(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const syncMemberName = "syncgroupcrud-4879";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.syncMembers.listMemberSchemas(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    syncMemberName,
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "syncgroupcrud-4879",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -3,24 +3,22 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of managed instance time zones by location.
+ * This sample demonstrates how to gets a list of managed instance time zones by location.
  *
- * @summary Gets a list of managed instance time zones by location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTimeZoneListByLocation.json
+ * @summary gets a list of managed instance time zones by location.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceTimeZoneListByLocation.json
  */
 async function listManagedInstanceTimeZonesByLocation() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "37d5e605-6142-4d79-b564-28b6dbfeec0f";
-  const locationName = "canadaeast";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "37d5e605-6142-4d79-b564-28b6dbfeec0f";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.timeZones.listByLocation(locationName)) {
+  for await (const item of client.timeZones.listByLocation("canadaeast")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
