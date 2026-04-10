@@ -34,32 +34,31 @@ export const defaultDataTransformer = {
    */
   encode(body: unknown, bodyType: BodyTypes): any {
     let result: any;
+    const normalizedBody = body === undefined ? null : body;
     // string, undefined, null, boolean, array, object, number should end up here
     // coercing undefined to null as that will ensure that null value will be given to the
     // customer on receive.
-    if (body === undefined) body = null;
-
     if (bodyType === "value") {
       // TODO: Expose value_section from `rhea` similar to the data_section and sequence_section.
       // Right now there isn't a way to create a value section officially.
-      result = message.data_section(body);
+      result = message.data_section(normalizedBody);
       result.typecode = valueSectionTypeCode;
     } else if (bodyType === "sequence") {
-      result = message.sequence_section(body);
-    } else if (isBuffer(body) || body instanceof Uint8Array) {
-      result = message.data_section(body);
-    } else if (body === null && bodyType === "data") {
+      result = message.sequence_section(normalizedBody);
+    } else if (isBuffer(normalizedBody) || normalizedBody instanceof Uint8Array) {
+      result = message.data_section(normalizedBody);
+    } else if (normalizedBody === null && bodyType === "data") {
       result = message.data_section(null);
     } else {
       try {
         let bodyStr: string;
 
-        if (typeof body === "number") {
-          bodyStr = Number.isFinite(body) ? String(body) : JSON.stringify(body);
-        } else if (typeof body === "boolean") {
-          bodyStr = String(body);
+        if (typeof normalizedBody === "number") {
+          bodyStr = Number.isFinite(normalizedBody) ? String(normalizedBody) : JSON.stringify(normalizedBody);
+        } else if (typeof normalizedBody === "boolean") {
+          bodyStr = String(normalizedBody);
         } else {
-          bodyStr = JSON.stringify(body);
+          bodyStr = JSON.stringify(normalizedBody);
         }
 
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
@@ -136,6 +135,9 @@ function tryToJsonDecode(body: unknown): unknown {
     // Trying to stringify and JSON.parse() anything else will fail flat and we shall return
     // the original type back
     const bodyStr: string = processedBody.toString("utf8");
+    if (!looksLikeJson(bodyStr)) {
+      return processedBody;
+    }
     processedBody = JSON.parse(bodyStr);
   } catch (err: any) {
     logger.verbose(
@@ -144,6 +146,30 @@ function tryToJsonDecode(body: unknown): unknown {
     );
   }
   return processedBody;
+}
+
+function looksLikeJson(body: string): boolean {
+  const trimmed = body.trimStart();
+  if (trimmed.length === 0) {
+    return false;
+  }
+
+  switch (trimmed[0]) {
+    case "{":
+    case "[":
+    case '"':
+      return true;
+    case "t":
+      return trimmed === "true";
+    case "f":
+      return trimmed === "false";
+    case "n":
+      return trimmed === "null";
+    case "-":
+      return trimmed.length > 1 && /\d/.test(trimmed[1]);
+    default:
+      return /\d/.test(trimmed[0]);
+  }
 }
 
 /**

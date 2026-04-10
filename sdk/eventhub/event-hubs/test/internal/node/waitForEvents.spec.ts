@@ -37,6 +37,7 @@ function assertWaitForEvents(inputs: {
   }).catch((err) => {
     if (expectedErrorMsg !== undefined) {
       assert.deepEqual(err.message, expectedErrorMsg);
+      return undefined;
     } else {
       assert.fail(`Unexpected error: ${err.message}`);
     }
@@ -54,7 +55,7 @@ function assertWaitForEvents(inputs: {
     if (expectedErrorMsg === undefined) {
       assert.deepEqual(resolvedEvents, expectedEvents);
     }
-    return;
+    return undefined;
   });
 }
 
