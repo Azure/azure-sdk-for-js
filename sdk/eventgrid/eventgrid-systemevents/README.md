@@ -1,53 +1,46 @@
-# Azure Event Grid System Events client library for JavaScript
+# Azure SystemEvents client library for JavaScript
 
-Azure Event Grid system events are published by Azure services to system topics. The models in this package map to events sent by various Azure services.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure SystemEvents client.
+
+Azure Messaging EventGrid SystemEvents
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-systemevents/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-systemevents)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-systemevents)
-<!-- - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-systemevents/) -->
-- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-systemevents?view=azure-node-preview)
 
 ## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing [Event Grid][event_grid] Topic or Domain. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
-
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
-
-#### Create an Event Grid Topic
-
-```bash
-az eventgrid topic create --location <location> --resource-group <your-resource-group-name> --name <your-resource-name>
-```
-
-#### Create an Event Grid Domain
-
-```bash
-az eventgrid domain create --location <location> --resource-group <your-resource-group-name> --name <your-resource-name>
-```
 
 ### Install the `@azure/eventgrid-systemevents` package
 
-Install the Azure Event Grid System Events client library for JavaScript with `npm`:
+Install the Azure SystemEvents client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/eventgrid-systemevents
 ```
 
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
-This package provides a list of System Events that could be used to publish events to EventGrid.
+### SystemEventsClient
+
+`SystemEventsClient` is the primary interface for developers using the Azure SystemEvents client library. Explore the methods on this client object to understand the different features of the Azure SystemEvents service that you can access.
 
 ## Troubleshooting
 
@@ -55,13 +48,14 @@ This package provides a list of System Events that could be used to publish even
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:SetLogLevel
+```ts 
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable the logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
 
 ## Contributing
 
@@ -69,14 +63,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-
-[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
-[azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
-[cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
