@@ -16,7 +16,7 @@ import { describe, it, assert, beforeAll, afterAll, vi } from "vitest";
  * Environment variables:
  * - SEMANTIC_RERANK_ACCOUNT_ENDPOINT: Cosmos DB account endpoint
  * - AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT: Inference service endpoint
- *     (e.g. "https://{account}.{region}.dbinference.azure.com")
+ *     (e.g. "https://\{account\}.\{region\}.dbinference.azure.com")
  * - AZURE_TENANT_ID: Azure AD tenant ID (optional, for DefaultAzureCredential)
  *
  * For the full-text-search + rerank test, additionally:
