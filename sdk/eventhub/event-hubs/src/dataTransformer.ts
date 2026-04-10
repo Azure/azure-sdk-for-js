@@ -137,9 +137,6 @@ function tryToJsonDecode(body: unknown): unknown {
     // Trying to stringify and JSON.parse() anything else will fail flat and we shall return
     // the original type back
     const bodyStr: string = processedBody.toString("utf8");
-    if (!looksLikeJson(bodyStr)) {
-      return processedBody;
-    }
     processedBody = JSON.parse(bodyStr);
   } catch (err: any) {
     logger.verbose(
@@ -148,30 +145,6 @@ function tryToJsonDecode(body: unknown): unknown {
     );
   }
   return processedBody;
-}
-
-function looksLikeJson(body: string): boolean {
-  const trimmed = body.trimStart();
-  if (trimmed.length === 0) {
-    return false;
-  }
-
-  switch (trimmed[0]) {
-    case "{":
-    case "[":
-    case '"':
-      return true;
-    case "t":
-      return trimmed === "true";
-    case "f":
-      return trimmed === "false";
-    case "n":
-      return trimmed === "null";
-    case "-":
-      return trimmed.length > 1 && /\d/.test(trimmed[1]);
-    default:
-      return /\d/.test(trimmed[0]);
-  }
 }
 
 /**
