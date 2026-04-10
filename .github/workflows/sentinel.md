@@ -4,6 +4,9 @@ on:
     types: [labeled]
 labels: [security-review-needed]
 if: github.event.label.name == 'security-review-needed' && github.event.pull_request.head.repo.fork == false
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Sentinel: Review a pull request for security vulnerabilities"
 permissions:
   contents: read
