@@ -1,21 +1,293 @@
 # Release History
 
-## 10.0.0-beta.3 (Unreleased)
+## 10.0.0-beta.3 (2026-04-09)
+Compared with version 9.0.0
 
 ### Features Added
+  - Added operation group AccessReviewDefaultSettingsOperations
+  - Added operation group AccessReviewHistoryDefinitionInstanceOperations
+  - Added operation group AccessReviewHistoryDefinitionInstancesOperations
+  - Added operation group AccessReviewHistoryDefinitionOperations
+  - Added operation group AccessReviewHistoryDefinitionsOperations
+  - Added operation group AccessReviewInstanceContactedReviewersOperations
+  - Added operation group AccessReviewInstanceDecisionsOperations
+  - Added operation group AccessReviewInstanceMyDecisionsOperations
+  - Added operation group AccessReviewInstanceOperations
+  - Added operation group AccessReviewInstancesAssignedForMyApprovalOperations
+  - Added operation group AccessReviewInstancesOperations
+  - Added operation group AccessReviewScheduleDefinitionsAssignedForMyApprovalOperations
+  - Added operation group AccessReviewScheduleDefinitionsOperations
+  - Added operation group AlertConfigurationsOperations
+  - Added operation group AlertDefinitionsOperations
+  - Added operation group AlertIncidentsOperations
+  - Added operation group AlertOperationOperations
+  - Added operation group AlertsOperations
+  - Added operation group AttributeNamespacesOperations
+  - Added operation group OperationsOperations
+  - Added operation group PermissionsOperations
+  - Added operation group ScopeAccessReviewDefaultSettingsOperations
+  - Added operation group ScopeAccessReviewHistoryDefinitionInstanceOperations
+  - Added operation group ScopeAccessReviewHistoryDefinitionInstancesOperations
+  - Added operation group ScopeAccessReviewHistoryDefinitionOperations
+  - Added operation group ScopeAccessReviewHistoryDefinitionsOperations
+  - Added operation group ScopeAccessReviewInstanceContactedReviewersOperations
+  - Added operation group ScopeAccessReviewInstanceDecisionsOperations
+  - Added operation group ScopeAccessReviewInstanceOperations
+  - Added operation group ScopeAccessReviewInstancesOperations
+  - Added operation group ScopeAccessReviewScheduleDefinitionsOperations
+  - Added operation group TenantLevelAccessReviewInstanceContactedReviewersOperations
+  - Added operation DenyAssignmentsOperations.createOrUpdate
+  - Added operation DenyAssignmentsOperations.delete
+  - Added Interface AccessReviewActorIdentity
+  - Added Interface AccessReviewContactedReviewer
+  - Added Interface AccessReviewContactedReviewerProperties
+  - Added Interface AccessReviewDecision
+  - Added Interface AccessReviewDecisionIdentity
+  - Added Interface AccessReviewDecisionInsight
+  - Added Interface AccessReviewDecisionInsightProperties
+  - Added Interface AccessReviewDecisionPrincipalResourceMembership
+  - Added Interface AccessReviewDecisionProperties
+  - Added Interface AccessReviewDecisionResource
+  - Added Interface AccessReviewDecisionServicePrincipalIdentity
+  - Added Interface AccessReviewDecisionUserIdentity
+  - Added Interface AccessReviewDecisionUserSignInInsightProperties
+  - Added Interface AccessReviewDefaultSettings
+  - Added Interface AccessReviewDefaultSettingsGetOptionalParams
+  - Added Interface AccessReviewDefaultSettingsPutOptionalParams
+  - Added Interface AccessReviewHistoryDefinition
+  - Added Interface AccessReviewHistoryDefinitionCreateOptionalParams
+  - Added Interface AccessReviewHistoryDefinitionDeleteByIdOptionalParams
+  - Added Interface AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
+  - Added Interface AccessReviewHistoryDefinitionInstancesListOptionalParams
+  - Added Interface AccessReviewHistoryDefinitionProperties
+  - Added Interface AccessReviewHistoryDefinitionsGetByIdOptionalParams
+  - Added Interface AccessReviewHistoryDefinitionsListOptionalParams
+  - Added Interface AccessReviewHistoryInstance
+  - Added Interface AccessReviewHistoryInstanceProperties
+  - Added Interface AccessReviewHistoryScheduleSettings
+  - Added Interface AccessReviewInstance
+  - Added Interface AccessReviewInstanceAcceptRecommendationsOptionalParams
+  - Added Interface AccessReviewInstanceApplyDecisionsOptionalParams
+  - Added Interface AccessReviewInstanceContactedReviewersListOptionalParams
+  - Added Interface AccessReviewInstanceDecisionsListOptionalParams
+  - Added Interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams
+  - Added Interface AccessReviewInstanceMyDecisionsListOptionalParams
+  - Added Interface AccessReviewInstanceMyDecisionsPatchOptionalParams
+  - Added Interface AccessReviewInstanceProperties
+  - Added Interface AccessReviewInstanceResetDecisionsOptionalParams
+  - Added Interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams
+  - Added Interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams
+  - Added Interface AccessReviewInstancesCreateOptionalParams
+  - Added Interface AccessReviewInstanceSendRemindersOptionalParams
+  - Added Interface AccessReviewInstancesGetByIdOptionalParams
+  - Added Interface AccessReviewInstancesListOptionalParams
+  - Added Interface AccessReviewInstanceStopOptionalParams
+  - Added Interface AccessReviewRecurrencePattern
+  - Added Interface AccessReviewRecurrenceRange
+  - Added Interface AccessReviewRecurrenceSettings
+  - Added Interface AccessReviewReviewer
+  - Added Interface AccessReviewScheduleDefinition
+  - Added Interface AccessReviewScheduleDefinitionProperties
+  - Added Interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
+  - Added Interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
+  - Added Interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams
+  - Added Interface AccessReviewScheduleDefinitionsGetByIdOptionalParams
+  - Added Interface AccessReviewScheduleDefinitionsListOptionalParams
+  - Added Interface AccessReviewScheduleDefinitionsStopOptionalParams
+  - Added Interface AccessReviewScheduleSettings
+  - Added Interface AccessReviewScope
+  - Added Interface Alert
+  - Added Interface AlertConfiguration
+  - Added Interface AlertConfigurationProperties
+  - Added Interface AlertConfigurationsGetOptionalParams
+  - Added Interface AlertConfigurationsListForScopeOptionalParams
+  - Added Interface AlertConfigurationsUpdateOptionalParams
+  - Added Interface AlertDefinition
+  - Added Interface AlertDefinitionProperties
+  - Added Interface AlertDefinitionsGetOptionalParams
+  - Added Interface AlertDefinitionsListForScopeOptionalParams
+  - Added Interface AlertIncident
+  - Added Interface AlertIncidentProperties
+  - Added Interface AlertIncidentsGetOptionalParams
+  - Added Interface AlertIncidentsListForScopeOptionalParams
+  - Added Interface AlertIncidentsRemediateOptionalParams
+  - Added Interface AlertOperationGetOptionalParams
+  - Added Interface AlertOperationResult
+  - Added Interface AlertProperties
+  - Added Interface AlertsGetOptionalParams
+  - Added Interface AlertsListForScopeOptionalParams
+  - Added Interface AlertsRefreshAllOptionalParams
+  - Added Interface AlertsRefreshOptionalParams
+  - Added Interface AlertsUpdateOptionalParams
+  - Added Interface AttributeNamespace
+  - Added Interface AttributeNamespaceCreateRequest
+  - Added Interface AttributeNamespacesCreateOptionalParams
+  - Added Interface AttributeNamespacesDeleteOptionalParams
+  - Added Interface AttributeNamespacesGetOptionalParams
+  - Added Interface AzureRolesAssignedOutsidePimAlertConfigurationProperties
+  - Added Interface AzureRolesAssignedOutsidePimAlertIncidentProperties
+  - Added Interface ClassicAdministratorProperties
+  - Added Interface DenyAssignmentPrincipal
+  - Added Interface DenyAssignmentProperties
+  - Added Interface DenyAssignmentsCreateOrUpdateOptionalParams
+  - Added Interface DenyAssignmentsDeleteOptionalParams
+  - Added Interface DuplicateRoleCreatedAlertConfigurationProperties
+  - Added Interface DuplicateRoleCreatedAlertIncidentProperties
+  - Added Interface EligibleChildResourcesListOptionalParams
+  - Added Interface ErrorDefinition
+  - Added Interface ErrorDefinitionProperties
+  - Added Interface ExtensionResource
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PIMOnlyModeSettings
+  - Added Interface ProxyResource
+  - Added Interface RecordAllDecisionsProperties
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface RoleAssignmentProperties
+  - Added Interface RoleAssignmentScheduleInstanceProperties
+  - Added Interface RoleAssignmentScheduleProperties
+  - Added Interface RoleAssignmentScheduleRequestProperties
+  - Added Interface RoleDefinitionProperties
+  - Added Interface RoleEligibilityScheduleInstanceProperties
+  - Added Interface RoleEligibilityScheduleProperties
+  - Added Interface RoleEligibilityScheduleRequestProperties
+  - Added Interface RoleManagementPolicyAssignmentProperties
+  - Added Interface RoleManagementPolicyPimOnlyModeRule
+  - Added Interface RoleManagementPolicyProperties
+  - Added Interface ScopeAccessReviewDefaultSettingsGetOptionalParams
+  - Added Interface ScopeAccessReviewDefaultSettingsPutOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionCreateOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams
+  - Added Interface ScopeAccessReviewHistoryDefinitionsListOptionalParams
+  - Added Interface ScopeAccessReviewInstanceApplyDecisionsOptionalParams
+  - Added Interface ScopeAccessReviewInstanceContactedReviewersListOptionalParams
+  - Added Interface ScopeAccessReviewInstanceDecisionsListOptionalParams
+  - Added Interface ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams
+  - Added Interface ScopeAccessReviewInstanceResetDecisionsOptionalParams
+  - Added Interface ScopeAccessReviewInstancesCreateOptionalParams
+  - Added Interface ScopeAccessReviewInstanceSendRemindersOptionalParams
+  - Added Interface ScopeAccessReviewInstancesGetByIdOptionalParams
+  - Added Interface ScopeAccessReviewInstancesListOptionalParams
+  - Added Interface ScopeAccessReviewInstanceStopOptionalParams
+  - Added Interface ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
+  - Added Interface ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams
+  - Added Interface ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams
+  - Added Interface ScopeAccessReviewScheduleDefinitionsListOptionalParams
+  - Added Interface ScopeAccessReviewScheduleDefinitionsStopOptionalParams
+  - Added Interface SettableResource
+  - Added Interface SimplePollerLike
+  - Added Interface SystemData
+  - Added Interface TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+  - Added Interface TooManyOwnersAssignedToResourceAlertConfigurationProperties
+  - Added Interface TooManyOwnersAssignedToResourceAlertIncidentProperties
+  - Added Interface TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties
+  - Added Interface TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties
+  - Added Interface UsersOrServicePrincipalSet
+  - Interface DenyAssignment has a new optional parameter denyAssignmentEffect
+  - Interface DenyAssignment has a new optional parameter systemData
+  - Interface Permission has a new optional parameter condition
+  - Interface Permission has a new optional parameter conditionVersion
+  - Interface RoleAssignment has a new optional parameter systemData
+  - Interface RoleAssignmentSchedule has a new optional parameter systemData
+  - Interface RoleAssignmentScheduleInstance has a new optional parameter systemData
+  - Interface RoleAssignmentScheduleRequest has a new optional parameter systemData
+  - Interface RoleDefinition has a new optional parameter systemData
+  - Interface RoleEligibilitySchedule has a new optional parameter systemData
+  - Interface RoleEligibilityScheduleInstance has a new optional parameter systemData
+  - Interface RoleEligibilityScheduleRequest has a new optional parameter systemData
+  - Interface RoleManagementPolicy has a new optional parameter systemData
+  - Interface RoleManagementPolicyAssignment has a new optional parameter systemData
+  - Interface RoleManagementPolicyExpirationRule has a new optional parameter exceptionMembers
+  - Added Type Alias AccessRecommendationType
+  - Added Type Alias AccessReviewActorIdentityType
+  - Added Type Alias AccessReviewApplyResult
+  - Added Type Alias AccessReviewDecisionIdentityUnion
+  - Added Type Alias AccessReviewDecisionInsightPropertiesUnion
+  - Added Type Alias AccessReviewDecisionInsightType
+  - Added Type Alias AccessReviewDecisionPrincipalResourceMembershipType
+  - Added Type Alias AccessReviewHistoryDefinitionStatus
+  - Added Type Alias AccessReviewInstanceReviewersType
+  - Added Type Alias AccessReviewInstanceStatus
+  - Added Type Alias AccessReviewRecurrencePatternType
+  - Added Type Alias AccessReviewRecurrenceRangeType
+  - Added Type Alias AccessReviewResult
+  - Added Type Alias AccessReviewReviewerType
+  - Added Type Alias AccessReviewScheduleDefinitionReviewersType
+  - Added Type Alias AccessReviewScheduleDefinitionStatus
+  - Added Type Alias AccessReviewScopeAssignmentState
+  - Added Type Alias AccessReviewScopePrincipalType
+  - Added Type Alias AlertConfigurationPropertiesUnion
+  - Added Type Alias AlertIncidentPropertiesUnion
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias DecisionResourceType
+  - Added Type Alias DecisionTargetType
+  - Added Type Alias DefaultDecisionType
+  - Added Type Alias DenyAssignmentEffect
+  - Added Type Alias DenyAssignmentPrincipalType
+  - Added Type Alias ExcludedPrincipalTypes
+  - Added Type Alias PIMOnlyMode
+  - Added Type Alias RecordAllDecisionsResult
+  - Added Type Alias SeverityLevel
+  - Added Type Alias UsersOrServicePrincipalSetUserType
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessRecommendationType
+  - Added Enum KnownAccessReviewActorIdentityType
+  - Added Enum KnownAccessReviewApplyResult
+  - Added Enum KnownAccessReviewDecisionInsightType
+  - Added Enum KnownAccessReviewDecisionPrincipalResourceMembershipType
+  - Added Enum KnownAccessReviewHistoryDefinitionStatus
+  - Added Enum KnownAccessReviewInstanceReviewersType
+  - Added Enum KnownAccessReviewInstanceStatus
+  - Added Enum KnownAccessReviewRecurrencePatternType
+  - Added Enum KnownAccessReviewRecurrenceRangeType
+  - Added Enum KnownAccessReviewResult
+  - Added Enum KnownAccessReviewReviewerType
+  - Added Enum KnownAccessReviewScheduleDefinitionReviewersType
+  - Added Enum KnownAccessReviewScheduleDefinitionStatus
+  - Added Enum KnownAccessReviewScopeAssignmentState
+  - Added Enum KnownAccessReviewScopePrincipalType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDecisionResourceType
+  - Added Enum KnownDecisionTargetType
+  - Added Enum KnownDefaultDecisionType
+  - Added Enum KnownDenyAssignmentEffect
+  - Added Enum KnownExcludedPrincipalTypes
+  - Added Enum KnownPIMOnlyMode
+  - Added Enum KnownRecordAllDecisionsResult
+  - Added Enum KnownSeverityLevel
+  - Added Enum KnownUsersOrServicePrincipalSetUserType
+  - Enum KnownRoleManagementPolicyRuleType has a new value RoleManagementPolicyPimOnlyModeRule
 
 ### Breaking Changes
+  - Operation RoleManagementPolicies.get has a new signature
+  - Operation RoleManagementPolicies.update has a new signature
+  - Operation RoleManagementPolicyAssignments.create has a new signature
+  - Operation RoleManagementPolicyAssignments.get has a new signature
+  - Removed Interface DenyAssignmentFilter
+  - Removed Interface EligibleChildResourcesGetOptionalParams
+  - Removed Interface Permissions_2
+  - Removed Interface RoleAssignmentFilter
+  - Removed Interface RoleAssignmentScheduleFilter
+  - Removed Interface RoleAssignmentScheduleInstanceFilter
+  - Removed Interface RoleAssignmentScheduleRequestFilter
+  - Removed Interface RoleDefinitionFilter
+  - Removed Interface RoleEligibilityScheduleFilter
+  - Removed Interface RoleEligibilityScheduleInstanceFilter
+  - Removed Interface RoleEligibilityScheduleRequestFilter
+  - Removed Interface ValidationResponse
+  - Removed Interface ValidationResponseErrorInfo
+  - Type of parameter ruleType of interface RoleManagementPolicyRule is changed from "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" to RoleManagementPolicyRuleType
+  - Type alias "RoleManagementPolicyRuleUnion" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
-## 10.0.0-beta.2 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 10.0.0-beta.1 (2023-07-04)
     
 ### Features Added
@@ -325,4 +597,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
