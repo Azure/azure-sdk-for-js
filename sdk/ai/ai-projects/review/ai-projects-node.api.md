@@ -457,17 +457,11 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaAgentsOperations {
-    // (undocumented)
-    createOrUpdateManagedIdentityBlueprint: (blueprintName: string, name: string, options?: CreateOrUpdateManagedIdentityBlueprintOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
     createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    deleteManagedIdentityBlueprint: (blueprintName: string, options?: DeleteManagedIdentityBlueprintOptionalParams) => Promise<void>;
     deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
-    getManagedIdentityBlueprint: (blueprintName: string, options?: GetManagedIdentityBlueprintOptionalParams) => Promise<ManagedAgentIdentityBlueprint>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
-    // (undocumented)
-    listManagedIdentityBlueprints: (options?: ListManagedIdentityBlueprintsOptionalParams) => Promise<PagedManagedAgentIdentityBlueprint>;
     listSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
@@ -529,11 +523,6 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 }
 
 // @public
-export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
-}
-
-// @public
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
 }
 
@@ -553,17 +542,10 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 export interface BetaEvaluatorsOperations {
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getCredentials: (name: string, credentialRequest: EvaluatorCredentialRequest, version: string, options?: BetaEvaluatorsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
     list: (options?: BetaEvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    startPendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: BetaEvaluatorsStartPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
-}
-
-// @public
-export interface BetaEvaluatorsStartPendingUploadOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1121,10 +1103,6 @@ export interface CreateFromPackageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreateOrUpdateManagedIdentityBlueprintOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface CreateVersionOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
@@ -1274,10 +1252,6 @@ export interface DeleteAgentVersionResponse {
     name: string;
     object: "agent.version.deleted";
     version: string;
-}
-
-// @public
-export interface DeleteManagedIdentityBlueprintOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1529,11 +1503,6 @@ export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxono
 export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
-export interface EvaluatorCredentialRequest {
-    blob_uri: string;
-}
-
-// @public
 export interface EvaluatorDefinition {
     data_schema?: Record<string, unknown>;
     init_parameters?: Record<string, unknown>;
@@ -1686,10 +1655,6 @@ export interface FunctionToolParam {
     strict?: boolean;
     // (undocumented)
     type: "function";
-}
-
-// @public
-export interface GetManagedIdentityBlueprintOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1925,12 +1890,6 @@ export enum KnownApiVersions {
 }
 
 // @public
-export interface ListManagedIdentityBlueprintsOptionalParams extends OperationOptions {
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
 export interface ListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
@@ -1950,12 +1909,6 @@ export interface LocalSkillParam {
     description: string;
     name: string;
     path: string;
-}
-
-// @public
-export interface ManagedAgentIdentityBlueprint {
-    // (undocumented)
-    readonly name: string;
 }
 
 // @public
@@ -2247,12 +2200,6 @@ export interface OpenApiTool extends Tool {
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 export { PagedAsyncIterableIterator }
-
-// @public
-export interface PagedManagedAgentIdentityBlueprint {
-    nextLink?: string;
-    value: ManagedAgentIdentityBlueprint[];
-}
 
 // @public
 export type PageOrder = "asc" | "desc";
