@@ -7,7 +7,7 @@ import { logger } from "./logger.js";
 /**
  * Options for {@link entraTokenProvider}.
  */
-export interface EntraTokenProviderOptions  {
+export interface EntraTokenProviderOptions {
   /**
    * The OAuth scope to request. Defaults to the Azure Database for
    * PostgreSQL scope (`https://ossrdbms-aad.database.windows.net/.default`).

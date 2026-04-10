@@ -42,7 +42,9 @@ describe("configureEntraAuthentication", () => {
       const mock = createMockSequelizeInstance();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(() => configureEntraAuthentication(mock, null as any)).toThrow("credential is required");
+      expect(() => configureEntraAuthentication(mock, null as any)).toThrow(
+        "credential is required",
+      );
     });
   });
 
