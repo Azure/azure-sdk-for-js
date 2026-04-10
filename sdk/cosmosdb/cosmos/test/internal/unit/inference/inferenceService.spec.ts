@@ -67,7 +67,9 @@ describe("InferenceService", { timeout: 10000 }, () => {
           endpoint: "https://test.documents.azure.com",
           aadCredentials: new MockTokenCredential(),
         });
-        assert.isDefined(service);
+        // Verify the resolved endpoint actually uses the env var value
+        const resolvedUrl = (service as any).inferenceEndpointUrl as string;
+        assert.include(resolvedUrl, "env-inference");
       } finally {
         if (originalEnv !== undefined) {
           process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
@@ -82,13 +84,15 @@ describe("InferenceService", { timeout: 10000 }, () => {
       process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
         "https://env-inference.dbinference.azure.com";
       try {
-        // Should not throw - uses client option
         const service = new InferenceService(
           createMockOptions({
             inferenceEndpoint: "https://client-option-inference.dbinference.azure.com",
           }),
         );
-        assert.isDefined(service);
+        // Verify the resolved endpoint uses the client option, not the env var
+        const resolvedUrl = (service as any).inferenceEndpointUrl as string;
+        assert.include(resolvedUrl, "client-option-inference");
+        assert.notInclude(resolvedUrl, "env-inference");
       } finally {
         if (originalEnv !== undefined) {
           process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;

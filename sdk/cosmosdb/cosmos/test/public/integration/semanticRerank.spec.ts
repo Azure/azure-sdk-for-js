@@ -4,7 +4,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { CosmosClient } from "../../../src/index.js";
 import type { SemanticRerankResult } from "../../../src/index.js";
-import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { describe, it, assert, beforeAll, afterAll, vi } from "vitest";
 
 /**
  * Integration tests for the Semantic Rerank feature.
@@ -33,6 +33,10 @@ describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
   let client: CosmosClient;
 
   beforeAll(() => {
+    // The shared vitest config uses fake timers (setTimeout, Date). Integration tests
+    // require real timers for network I/O, SDK timeouts, and delays.
+    vi.useRealTimers();
+
     const aadCredentials = new DefaultAzureCredential();
     client = new CosmosClient({
       endpoint: accountEndpoint,
@@ -114,10 +118,6 @@ describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
   /**
    * End-to-end test: queries documents from a pre-existing Cosmos DB container,
    * then reranks the results using the inference service.
-   *
-   * Uses a regular query (not full-text search) to fetch documents, as FTS queries
-   * have a known incompatibility with vitest's module transform pipeline. The semantic
-   * reranking itself is fully exercised with real Cosmos DB data.
    *
    * Prerequisite: database "rerank-test" with container "products" (partitioned by /category)
    * must exist on the Cosmos DB account with sample documents already inserted.
