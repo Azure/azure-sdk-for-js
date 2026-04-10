@@ -121,6 +121,8 @@ let _traceVoiceLiveContent = false;
 
 function tryLoadOtel(): OtelHandle | undefined {
   if (_otel) return _otel;
+
+  // Path 1: globalThis.require — works in CJS and when users polyfill it in ESM.
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const g = globalThis as Record<string, unknown>;
@@ -136,19 +138,41 @@ function tryLoadOtel(): OtelHandle | undefined {
     // Not installed via require — fall through to global registration check
   }
 
+  // Path 2: OTel global registration (browser / ESM without require polyfill).
+  // @opentelemetry/api registers providers on
+  //   globalThis[Symbol.for('opentelemetry.js.api.<major>')]
+  // which contains { version, trace?, context?, metrics?, diag?, propagation? }.
+  //
+  // The global object exposes the TracerProvider (with getTracer) but NOT the
+  // static utility functions like trace.setSpan / trace.getSpan. We implement
+  // setSpan inline using the OTel context key convention.
   try {
-    // Fallback: check OTel's global registration (browser / ESM).
-    // @opentelemetry/api registers providers on
-    //   globalThis[Symbol.for('opentelemetry.js.api.<major>')]
-    // which contains { version, trace?, context?, metrics?, diag?, propagation? }.
     const otelGlobal = (globalThis as Record<symbol, unknown>)[
       Symbol.for("opentelemetry.js.api.1")
     ] as Record<string, unknown> | undefined;
 
     if (otelGlobal?.trace && otelGlobal?.context) {
+      const traceApi = otelGlobal.trace as OtelHandle["trace"];
+      const contextApi = otelGlobal.context as OtelHandle["context"];
+
+      // The OTel API stores spans in context using a well-known symbol key.
+      // We replicate the same convention so that parent-child span linking works.
+      const SPAN_KEY = Symbol.for("OpenTelemetry Context Key SPAN");
+
       _otel = {
-        trace: otelGlobal.trace as OtelHandle["trace"],
-        context: otelGlobal.context as OtelHandle["context"],
+        trace: {
+          getTracer: traceApi.getTracer.bind(traceApi),
+          setSpan(ctx: unknown, span: TracingSpan): unknown {
+            // Context is a Map-like object with setValue/deleteValue
+            const context = ctx as { setValue?(key: symbol, value: unknown): unknown };
+            if (typeof context?.setValue === "function") {
+              return context.setValue(SPAN_KEY, span);
+            }
+            // Fallback: return context unchanged (span won't be parented, but won't crash)
+            return ctx;
+          },
+        },
+        context: contextApi,
         // SpanKind / SpanStatusCode are module-level constants not stored on
         // the global registration object — use the well-known numeric values.
         SpanKind: { CLIENT: 2 },
@@ -236,8 +260,32 @@ function serializeContentAndSize(payload: unknown): {
   }
   return {
     content: _traceVoiceLiveContent ? json : undefined,
-    messageSize: json?.length,
+    messageSize: json != null ? utf8ByteLength(json) : undefined,
   };
+}
+
+/** Compute UTF-8 byte length without allocating a full encoded buffer. */
+function utf8ByteLength(str: string): number {
+  // Prefer native APIs when available (zero-copy)
+  if (typeof Buffer !== "undefined") {
+    return Buffer.byteLength(str, "utf8");
+  }
+  if (typeof TextEncoder !== "undefined") {
+    return new TextEncoder().encode(str).length;
+  }
+  // Manual fallback: count UTF-8 bytes from UTF-16 code units
+  let bytes = 0;
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    if (code <= 0x7f) bytes += 1;
+    else if (code <= 0x7ff) bytes += 2;
+    else if (code >= 0xd800 && code <= 0xdbff) {
+      // Surrogate pair → 4 UTF-8 bytes, skip the low surrogate
+      bytes += 4;
+      i++;
+    } else bytes += 3;
+  }
+  return bytes;
 }
 
 function base64ByteLength(base64: string): number {
@@ -343,7 +391,10 @@ function extractSessionConfigFromSend(state: TelemetryState, event: unknown): vo
     }
   }
   const temp = getField(session, "temperature");
-  if (temp != null && cs?.isRecording()) cs.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(temp));
+  if (temp != null && cs?.isRecording()) {
+    const numTemp = typeof temp === "number" ? temp : Number(temp);
+    if (!isNaN(numTemp)) cs.setAttribute(GEN_AI_REQUEST_TEMPERATURE, numTemp);
+  }
 
   const maxT =
     getField(session, "maxResponseOutputTokens") ??
@@ -673,7 +724,7 @@ function recordOperationDuration(
     [GEN_AI_PROVIDER_NAME]: GEN_AI_PROVIDER_VALUE,
   };
   if (serverAddr) a[SERVER_ADDRESS] = serverAddr;
-  if (port != null) a[SERVER_PORT] = String(port);
+  if (port != null) a[SERVER_PORT] = port;
   if (model) a[GEN_AI_REQUEST_MODEL] = model;
   if (errType) a[ERROR_TYPE] = errType;
   try {
@@ -688,6 +739,7 @@ function recordTokenUsage(
   tokenType: string,
   opName: string,
   serverAddr?: string,
+  port?: number,
   model?: string,
 ): void {
   if (!_tokenHist) return;
@@ -697,6 +749,7 @@ function recordTokenUsage(
     "gen_ai.token.type": tokenType,
   };
   if (serverAddr) a[SERVER_ADDRESS] = serverAddr;
+  if (port != null) a[SERVER_PORT] = port;
   if (model) a[GEN_AI_REQUEST_MODEL] = model;
   try {
     _tokenHist.record(count, a);
@@ -839,9 +892,9 @@ export function createTelemetryState(
   endpoint: string,
   model?: string,
   agentConfig?: AgentSessionConfig,
-): { state: TelemetryState; active: boolean } {
+): { state: TelemetryState | undefined; active: boolean } {
   if (!_voiceLiveTracesEnabled || !tryLoadOtel()) {
-    return { state: undefined as unknown as TelemetryState, active: false };
+    return { state: undefined, active: false };
   }
 
   let serverAddress: string | undefined;
@@ -909,22 +962,22 @@ export function traceSend(state: TelemetryState, event: ClientEventUnion): void 
   const { content: contentStr, messageSize } = serializeContentAndSize(event);
 
   // Track audio bytes
-  if (eventTypeStr.includes(KnownClientEventType.InputAudioBufferAppend)) {
+  if (eventTypeStr === KnownClientEventType.InputAudioBufferAppend) {
     const audio = getField(event, "audio") as string;
     if (audio && typeof audio === "string") state.audioBytesSent += base64ByteLength(audio);
   }
 
   // Track interruptions
-  if (eventTypeStr.includes(KnownClientEventType.ResponseCancel)) state.interruptionCount += 1;
+  if (eventTypeStr === KnownClientEventType.ResponseCancel) state.interruptionCount += 1;
 
   // Track response.create for latency
-  if (eventTypeStr.includes(KnownClientEventType.ResponseCreate)) {
+  if (eventTypeStr === KnownClientEventType.ResponseCreate) {
     state.responseCreateTime = performance.now();
     state.firstTokenLatencyRecorded = false;
   }
 
   // Extract audio format from session.update
-  if (eventTypeStr.includes(KnownClientEventType.SessionUpdate)) {
+  if (eventTypeStr === KnownClientEventType.SessionUpdate) {
     const session = getField(event, "session");
     if (session) extractSessionAudioAttributes(state, session);
     extractSessionConfigFromSend(state, event);
@@ -978,8 +1031,10 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
       }
       state.firstTokenLatencyRecorded = true;
 
+      // Text deltas never get spans
       if (_DELTA_SKIP_EVENT_TYPES.has(eventTypeStr)) return;
 
+      // First audio delta: create a span with the latency attribute
       const span = startSpan(OperationName.RECV, {
         serverAddress: state.serverAddress,
         port: state.port,
@@ -1004,6 +1059,14 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
       }
       return;
     }
+
+    // Subsequent audio/text deltas after first-token latency: track bytes but skip span creation.
+    // Only the first delta produces a span (above); the rest just increment counters
+    // to avoid span explosion on high-frequency audio streams.
+    if (eventTypeStr === KnownServerEventType.ResponseAudioDelta) {
+      trackAudioBytesReceived(state, result);
+    }
+    return;
   }
 
   if (_DELTA_SKIP_EVENT_TYPES.has(eventTypeStr)) return;
@@ -1055,11 +1118,11 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
       const ot = (getField(usage, "outputTokens") as number) ?? (getField(usage, "output_tokens") as number);
       if (it != null) {
         span.setAttribute(GEN_AI_USAGE_INPUT_TOKENS, it);
-        recordTokenUsage(it, "input", OperationName.RECV, state.serverAddress, state.model);
+        recordTokenUsage(it, "input", OperationName.RECV, state.serverAddress, state.port, state.model);
       }
       if (ot != null) {
         span.setAttribute(GEN_AI_USAGE_OUTPUT_TOKENS, ot);
-        recordTokenUsage(ot, "output", OperationName.RECV, state.serverAddress, state.model);
+        recordTokenUsage(ot, "output", OperationName.RECV, state.serverAddress, state.port, state.model);
       }
     }
   } catch (err) {

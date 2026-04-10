@@ -218,10 +218,8 @@ export class VoiceLiveSession {
       // Setup connection event handlers
       this._setupConnectionEventHandlers();
 
-      // Connect with proper error handling
-      await this._connectionManager.connect(options.abortSignal);
-
-      // Initialize telemetry state for this connection
+      // Initialize telemetry state before connecting so the connect span
+      // covers the full connection lifecycle including establishment time.
       try {
         const { state, active } = createTelemetryState(
           this._endpoint,
@@ -235,9 +233,23 @@ export class VoiceLiveSession {
         this._telemetryActive = false;
       }
 
+      // Connect with proper error handling
+      await this._connectionManager.connect(options.abortSignal);
+
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
       logger.error("Failed to connect to Voice Live service", { error });
+
+      // Record connection failure on the telemetry connect span
+      if (this._telemetryActive && this._telemetryState) {
+        try {
+          traceClose(this._telemetryState, error);
+        } catch {
+          // Telemetry should never block error handling
+        }
+        this._telemetryState = undefined;
+        this._telemetryActive = false;
+      }
 
       // Use error classification
       if (error instanceof VoiceLiveConnectionError) {
