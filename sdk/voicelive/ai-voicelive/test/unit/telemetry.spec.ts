@@ -161,10 +161,7 @@ describe("VoiceLive Telemetry", () => {
     });
 
     it("should create telemetry state with model session", () => {
-      const result = createTelemetryState(
-        TestConstants.ENDPOINT,
-        TestConstants.MODEL_NAME,
-      );
+      const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
       expect(result.active).toBe(true);
       expect(result.state).toBeDefined();
       const state = result.state as TelemetryState;
@@ -182,11 +179,7 @@ describe("VoiceLive Telemetry", () => {
         conversationId: "conv-123",
       };
 
-      const result = createTelemetryState(
-        TestConstants.ENDPOINT,
-        undefined,
-        agentConfig,
-      );
+      const result = createTelemetryState(TestConstants.ENDPOINT, undefined, agentConfig);
       expect(result.active).toBe(true);
       expect(result.state).toBeDefined();
       const state = result.state as TelemetryState;
@@ -197,7 +190,10 @@ describe("VoiceLive Telemetry", () => {
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.agent.name", "test-agent");
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.conversation.id", "conv-123");
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.agent.version", "1.0");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.agent.project_name", "test-project");
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.agent.project_name",
+        "test-project",
+      );
 
       state.connectSpan?.end();
     });
@@ -387,7 +383,10 @@ describe("VoiceLive Telemetry", () => {
 
       expect(state.conversationId).toBe("test-conversation-b");
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.response.id", "test-response-002");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.conversation.id", "test-conversation-b");
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.conversation.id",
+        "test-conversation-b",
+      );
     });
 
     it("should extract IDs from function_call_arguments events", () => {
@@ -404,8 +403,14 @@ describe("VoiceLive Telemetry", () => {
       traceRecv(state, event as any);
 
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.response.id", "test-response-fn");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.item_id", "test-item-fn-001");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.call_id", "test-call-fn-001");
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.item_id",
+        "test-item-fn-001",
+      );
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.call_id",
+        "test-call-fn-001",
+      );
     });
 
     it("should extract nested item fields from item-bearing events", () => {
@@ -424,9 +429,18 @@ describe("VoiceLive Telemetry", () => {
 
       traceRecv(state, event as any);
 
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.item_id", "test-item-mcp-002");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.mcp.tool_name", "get_weather");
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.mcp.server_label", "weather-server");
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.item_id",
+        "test-item-mcp-002",
+      );
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.mcp.tool_name",
+        "get_weather",
+      );
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.mcp.server_label",
+        "weather-server",
+      );
     });
 
     it("should not extract tool_name for message-type items", () => {
@@ -649,7 +663,10 @@ describe("VoiceLive Telemetry", () => {
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.turn_count", 5);
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.interruption_count", 2);
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.audio_bytes_sent", 10000);
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.audio_bytes_received", 20000);
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
+        "gen_ai.voice.audio_bytes_received",
+        20000,
+      );
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.mcp.call_count", 3);
       expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.voice.mcp.list_tools_count", 1);
       expect(mockSpan.end).toHaveBeenCalled();
@@ -715,14 +732,23 @@ describe("VoiceLive Telemetry", () => {
       // 4. Recv response.created
       traceRecv(state, {
         type: KnownServerEventType.ResponseCreated,
-        response: { id: "test-response-flow-1", conversationId: "test-conversation-flow", conversation_id: "test-conversation-flow" },
+        response: {
+          id: "test-response-flow-1",
+          conversationId: "test-conversation-flow",
+          conversation_id: "test-conversation-flow",
+        },
       } as any);
       expect(state.conversationId).toBe("test-conversation-flow");
 
       // 5. Recv response.done
       traceRecv(state, {
         type: KnownServerEventType.ResponseDone,
-        response: { id: "test-response-flow-1", status: "completed", conversationId: "test-conversation-flow", conversation_id: "test-conversation-flow" },
+        response: {
+          id: "test-response-flow-1",
+          status: "completed",
+          conversationId: "test-conversation-flow",
+          conversation_id: "test-conversation-flow",
+        },
       } as any);
       expect(state.turnCount).toBe(1);
 

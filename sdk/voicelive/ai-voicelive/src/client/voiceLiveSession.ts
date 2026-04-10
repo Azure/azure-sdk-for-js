@@ -35,12 +35,7 @@ import type {
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
 import type { TelemetryState } from "../telemetry/index.js";
-import {
-  createTelemetryState,
-  traceSend,
-  traceRecv,
-  traceClose,
-} from "../telemetry/index.js";
+import { createTelemetryState, traceSend, traceRecv, traceClose } from "../telemetry/index.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */

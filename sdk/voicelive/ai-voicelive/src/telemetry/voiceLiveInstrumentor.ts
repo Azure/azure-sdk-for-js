@@ -177,9 +177,7 @@ function tryLoadOtel(): OtelHandle | undefined {
         // the global registration object — use the well-known numeric values.
         SpanKind: { CLIENT: 2 },
         SpanStatusCode: { ERROR: 2 },
-        ...(otelGlobal.metrics
-          ? { metrics: otelGlobal.metrics as OtelHandle["metrics"] }
-          : {}),
+        ...(otelGlobal.metrics ? { metrics: otelGlobal.metrics as OtelHandle["metrics"] } : {}),
       };
     }
   } catch {
@@ -357,14 +355,12 @@ function trackAudioBytesReceived(state: TelemetryState, result: unknown): void {
 // ------------------------------------------------------------------ //
 
 function extractSessionAudioAttributes(state: TelemetryState, session: unknown): void {
-  const inputFmt =
-    getField(session, "inputAudioFormat") ?? getField(session, "input_audio_format");
+  const inputFmt = getField(session, "inputAudioFormat") ?? getField(session, "input_audio_format");
   if (inputFmt && state.connectSpan?.isRecording()) {
     state.connectSpan.setAttribute(GEN_AI_VOICE_INPUT_AUDIO_FORMAT, String(inputFmt));
   }
   const inputRate =
-    getField(session, "inputAudioSamplingRate") ??
-    getField(session, "input_audio_sampling_rate");
+    getField(session, "inputAudioSamplingRate") ?? getField(session, "input_audio_sampling_rate");
   if (inputRate != null && state.connectSpan?.isRecording()) {
     state.connectSpan.setAttribute(GEN_AI_VOICE_INPUT_SAMPLE_RATE, inputRate as number);
   }
@@ -397,14 +393,17 @@ function extractSessionConfigFromSend(state: TelemetryState, event: unknown): vo
   }
 
   const maxT =
-    getField(session, "maxResponseOutputTokens") ??
-    getField(session, "max_response_output_tokens");
-  if (maxT != null && cs?.isRecording()) cs.setAttribute(GEN_AI_REQUEST_MAX_OUTPUT_TOKENS, maxT as number);
+    getField(session, "maxResponseOutputTokens") ?? getField(session, "max_response_output_tokens");
+  if (maxT != null && cs?.isRecording())
+    cs.setAttribute(GEN_AI_REQUEST_MAX_OUTPUT_TOKENS, maxT as number);
 
   const tools = getField(session, "tools");
   if (tools && cs?.isRecording()) {
     try {
-      cs.setAttribute(GEN_AI_REQUEST_TOOLS, Array.isArray(tools) ? JSON.stringify(tools) : String(tools));
+      cs.setAttribute(
+        GEN_AI_REQUEST_TOOLS,
+        Array.isArray(tools) ? JSON.stringify(tools) : String(tools),
+      );
     } catch {
       /* empty */
     }
@@ -420,12 +419,10 @@ function extractEventIds(state: TelemetryState, result: unknown, span: TracingSp
     (getField(result, "responseId") as string) ?? (getField(result, "response_id") as string);
   if (responseId) span.setAttribute(GEN_AI_RESPONSE_ID, responseId);
 
-  const callId =
-    (getField(result, "callId") as string) ?? (getField(result, "call_id") as string);
+  const callId = (getField(result, "callId") as string) ?? (getField(result, "call_id") as string);
   if (callId) span.setAttribute(GEN_AI_VOICE_CALL_ID, callId);
 
-  const itemId =
-    (getField(result, "itemId") as string) ?? (getField(result, "item_id") as string);
+  const itemId = (getField(result, "itemId") as string) ?? (getField(result, "item_id") as string);
   if (itemId) span.setAttribute(GEN_AI_VOICE_ITEM_ID, itemId);
 
   const prevItemId =
@@ -483,7 +480,8 @@ function extractEventIds(state: TelemetryState, result: unknown, span: TracingSp
 }
 
 function extractSendEventIds(_state: TelemetryState, event: unknown, span: TracingSpan): void {
-  const rid = (getField(event, "responseId") as string) ?? (getField(event, "response_id") as string);
+  const rid =
+    (getField(event, "responseId") as string) ?? (getField(event, "response_id") as string);
   if (rid) span.setAttribute(GEN_AI_RESPONSE_ID, rid);
 
   const item = getField(event, "item");
@@ -641,7 +639,11 @@ function extractDoneEventContent(result: unknown, eventType: string): string | u
 //  Span events                                                        //
 // ------------------------------------------------------------------ //
 
-function addSendEvent(span: TracingSpan, eventType: string | undefined, content: string | undefined): void {
+function addSendEvent(
+  span: TracingSpan,
+  eventType: string | undefined,
+  content: string | undefined,
+): void {
   const attrs: Record<string, string> = { [GEN_AI_SYSTEM]: AZ_AI_VOICELIVE_SYSTEM };
   if (eventType) attrs["gen_ai.voice.event_type"] = eventType;
   if (_traceVoiceLiveContent && content) attrs[GEN_AI_EVENT_CONTENT] = content;
@@ -944,7 +946,8 @@ export function createTelemetryState(
       span.setAttribute(GEN_AI_CONVERSATION_ID, agentConfig.conversationId);
     }
     if (agentConfig.agentVersion) span.setAttribute(GEN_AI_AGENT_VERSION, agentConfig.agentVersion);
-    if (agentConfig.projectName) span.setAttribute(GEN_AI_AGENT_PROJECT_NAME, agentConfig.projectName);
+    if (agentConfig.projectName)
+      span.setAttribute(GEN_AI_AGENT_PROJECT_NAME, agentConfig.projectName);
   }
 
   return { state, active: true };
@@ -1049,7 +1052,9 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
         span.setAttribute(GEN_AI_VOICE_FIRST_TOKEN_LATENCY_MS, rounded);
         if (messageSize != null) span.setAttribute(GEN_AI_VOICE_MESSAGE_SIZE, messageSize);
         extractEventIds(state, result, span);
-        const dc = _traceVoiceLiveContent ? extractDoneEventContent(result, eventTypeStr) : undefined;
+        const dc = _traceVoiceLiveContent
+          ? extractDoneEventContent(result, eventTypeStr)
+          : undefined;
         addRecvEvent(span, eventTypeStr, dc);
         trackAudioBytesReceived(state, result);
       } catch (err) {
@@ -1098,7 +1103,8 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
       extractAgentConfigFromSession(state, result);
     }
 
-    if (eventTypeStr === KnownServerEventType.ResponseAudioDelta) trackAudioBytesReceived(state, result);
+    if (eventTypeStr === KnownServerEventType.ResponseAudioDelta)
+      trackAudioBytesReceived(state, result);
 
     if (eventTypeStr === KnownServerEventType.ResponseDone) {
       state.turnCount += 1;
@@ -1114,15 +1120,31 @@ export function traceRecv(state: TelemetryState, result: ServerEventUnion): void
 
     const usage = getField(result, "usage");
     if (usage) {
-      const it = (getField(usage, "inputTokens") as number) ?? (getField(usage, "input_tokens") as number);
-      const ot = (getField(usage, "outputTokens") as number) ?? (getField(usage, "output_tokens") as number);
+      const it =
+        (getField(usage, "inputTokens") as number) ?? (getField(usage, "input_tokens") as number);
+      const ot =
+        (getField(usage, "outputTokens") as number) ?? (getField(usage, "output_tokens") as number);
       if (it != null) {
         span.setAttribute(GEN_AI_USAGE_INPUT_TOKENS, it);
-        recordTokenUsage(it, "input", OperationName.RECV, state.serverAddress, state.port, state.model);
+        recordTokenUsage(
+          it,
+          "input",
+          OperationName.RECV,
+          state.serverAddress,
+          state.port,
+          state.model,
+        );
       }
       if (ot != null) {
         span.setAttribute(GEN_AI_USAGE_OUTPUT_TOKENS, ot);
-        recordTokenUsage(ot, "output", OperationName.RECV, state.serverAddress, state.port, state.model);
+        recordTokenUsage(
+          ot,
+          "output",
+          OperationName.RECV,
+          state.serverAddress,
+          state.port,
+          state.model,
+        );
       }
     }
   } catch (err) {
@@ -1158,11 +1180,15 @@ export function traceClose(state: TelemetryState, error?: unknown): void {
   const cs = state.connectSpan;
   if (cs?.isRecording()) {
     if (state.turnCount > 0) cs.setAttribute(GEN_AI_VOICE_TURN_COUNT, state.turnCount);
-    if (state.interruptionCount > 0) cs.setAttribute(GEN_AI_VOICE_INTERRUPTION_COUNT, state.interruptionCount);
-    if (state.audioBytesSent > 0) cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_SENT, state.audioBytesSent);
-    if (state.audioBytesReceived > 0) cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_RECEIVED, state.audioBytesReceived);
+    if (state.interruptionCount > 0)
+      cs.setAttribute(GEN_AI_VOICE_INTERRUPTION_COUNT, state.interruptionCount);
+    if (state.audioBytesSent > 0)
+      cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_SENT, state.audioBytesSent);
+    if (state.audioBytesReceived > 0)
+      cs.setAttribute(GEN_AI_VOICE_AUDIO_BYTES_RECEIVED, state.audioBytesReceived);
     if (state.mcpCallCount > 0) cs.setAttribute(GEN_AI_VOICE_MCP_CALL_COUNT, state.mcpCallCount);
-    if (state.mcpListToolsCount > 0) cs.setAttribute(GEN_AI_VOICE_MCP_LIST_TOOLS_COUNT, state.mcpListToolsCount);
+    if (state.mcpListToolsCount > 0)
+      cs.setAttribute(GEN_AI_VOICE_MCP_LIST_TOOLS_COUNT, state.mcpListToolsCount);
   }
 
   const duration = (performance.now() - state.connectStartTime) / 1000;

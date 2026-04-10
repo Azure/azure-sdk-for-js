@@ -9,8 +9,11 @@ const mockOtelApi = {
   trace: {
     getTracer: vi.fn().mockReturnValue({
       startSpan: vi.fn().mockReturnValue({
-        setAttribute: vi.fn(), addEvent: vi.fn(), setStatus: vi.fn(),
-        end: vi.fn(), isRecording: vi.fn().mockReturnValue(true),
+        setAttribute: vi.fn(),
+        addEvent: vi.fn(),
+        setStatus: vi.fn(),
+        end: vi.fn(),
+        isRecording: vi.fn().mockReturnValue(true),
       }),
     }),
     setSpan: vi.fn().mockReturnValue({}),
@@ -18,7 +21,11 @@ const mockOtelApi = {
   context: { active: vi.fn().mockReturnValue({}) },
   SpanKind: { CLIENT: 2 },
   SpanStatusCode: { ERROR: 2 },
-  metrics: { getMeter: vi.fn().mockReturnValue({ createHistogram: vi.fn().mockReturnValue({ record: vi.fn() }) }) },
+  metrics: {
+    getMeter: vi
+      .fn()
+      .mockReturnValue({ createHistogram: vi.fn().mockReturnValue({ record: vi.fn() }) }),
+  },
 };
 vi.mock("@opentelemetry/api", () => mockOtelApi);
 

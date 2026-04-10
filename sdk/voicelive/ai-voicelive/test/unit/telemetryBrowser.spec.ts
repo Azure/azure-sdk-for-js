@@ -130,10 +130,7 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
     });
 
     it("should create active telemetry state", () => {
-      const result = createTelemetryState(
-        TestConstants.ENDPOINT,
-        TestConstants.MODEL_NAME,
-      );
+      const result = createTelemetryState(TestConstants.ENDPOINT, TestConstants.MODEL_NAME);
       expect(result.active).toBe(true);
       expect(result.state).toBeDefined();
       const state = result.state as TelemetryState;
@@ -148,11 +145,7 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
         projectName: "browser-project",
       };
 
-      const result = createTelemetryState(
-        TestConstants.ENDPOINT,
-        undefined,
-        agentConfig,
-      );
+      const result = createTelemetryState(TestConstants.ENDPOINT, undefined, agentConfig);
       expect(result.active).toBe(true);
       const state = result.state as TelemetryState;
       expect(state.agentName).toBe("browser-agent");
@@ -233,10 +226,7 @@ describe("Browser/ESM Telemetry (Symbol-based OTel global)", () => {
 
       traceRecv(state, responseDone as any);
 
-      expect(mockSpan.setAttribute).toHaveBeenCalledWith(
-        "gen_ai.response.id",
-        "resp-browser-001",
-      );
+      expect(mockSpan.setAttribute).toHaveBeenCalledWith("gen_ai.response.id", "resp-browser-001");
     });
 
     it("should trace close with SpanKind.CLIENT = 2 (hardcoded for browser)", () => {
