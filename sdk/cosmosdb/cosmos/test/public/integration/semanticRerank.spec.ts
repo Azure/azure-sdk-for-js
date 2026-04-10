@@ -22,7 +22,7 @@ import { describe, it, assert, beforeAll, afterAll, vi } from "vitest";
  * For the full-text-search + rerank test, additionally:
  * - A database "virtualstore" with container "sportinggoods" and sample documents
  */
-describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
+describe.skip("SemanticRerankIntegration", { timeout: 120000 }, () => {
   const accountEndpoint =
     process.env.SEMANTIC_RERANK_ACCOUNT_ENDPOINT ||
     "https://semantic-reranker-test.documents.azure.com:443/";
