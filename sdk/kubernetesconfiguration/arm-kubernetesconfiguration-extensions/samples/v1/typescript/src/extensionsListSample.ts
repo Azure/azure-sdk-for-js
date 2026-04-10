@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Extensions in the cluster.
  *
  * @summary list all Extensions in the cluster.
- * x-ms-original-file: 2024-11-01/ListExtensions.json
+ * x-ms-original-file: 2025-03-01/ListExtensions.json
  */
 async function listExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();

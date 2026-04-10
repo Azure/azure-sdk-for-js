@@ -5,30 +5,28 @@ const { ExtensionsClient } = require("@azure/arm-kubernetesconfiguration-extensi
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list all Extensions in the cluster.
+ * This sample demonstrates how to get Async Operation status
  *
- * @summary list all Extensions in the cluster.
- * x-ms-original-file: 2024-11-01/ListExtensions.json
+ * @summary get Async Operation status
+ * x-ms-original-file: 2025-03-01/GetExtensionAsyncOperationStatus.json
  */
-async function listExtensions() {
+async function extensionAsyncOperationStatusGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
   const client = new ExtensionsClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.extensions.list(
+  const result = await client.operationStatus.get(
     "rg1",
     "Microsoft.Kubernetes",
     "connectedClusters",
     "clusterName1",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+    "ClusterMonitor",
+    "99999999-9999-9999-9999-999999999999",
+  );
+  console.log(result);
 }
 
 async function main() {
-  await listExtensions();
+  await extensionAsyncOperationStatusGet();
 }
 
 main().catch(console.error);

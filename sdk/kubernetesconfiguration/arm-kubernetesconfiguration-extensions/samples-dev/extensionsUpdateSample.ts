@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch an existing Kubernetes Cluster Extension.
  *
  * @summary patch an existing Kubernetes Cluster Extension.
- * x-ms-original-file: 2024-11-01/PatchExtension.json
+ * x-ms-original-file: 2025-03-01/PatchExtension.json
  */
 async function updateExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,13 +21,14 @@ async function updateExtension(): Promise<void> {
     "clusterName1",
     "ClusterMonitor",
     {
+      autoUpgradeMode: "compatible",
       autoUpgradeMinorVersion: true,
-      configurationProtectedSettings: { "omsagent.secret.key": "secretKeyValue01" },
-      configurationSettings: {
-        "omsagent.env.clusterName": "clusterName1",
-        "omsagent.secret.wsid": "fakeTokenPlaceholder",
-      },
       releaseTrain: "Preview",
+      configurationSettings: {
+        "omsagent.secret.wsid": "fakeTokenPlaceholder",
+        "omsagent.env.clusterName": "clusterName1",
+      },
+      configurationProtectedSettings: { "omsagent.secret.key": "secretKeyValue01" },
     },
   );
   console.log(result);
