@@ -5,7 +5,7 @@ import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type {
   TableGetAccessPolicyHeaders,
   TableInsertEntityHeaders,
-} from "./generated/models/index.js";
+} from "./generatedModels.js";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request

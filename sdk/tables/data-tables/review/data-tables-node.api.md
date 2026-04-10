@@ -7,7 +7,6 @@
 import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
-import * as coreClient from '@azure/core-client';
 import { NamedKeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -124,11 +123,8 @@ export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
 
 // @public
 export enum KnownGeoReplicationStatusType {
-    // (undocumented)
     Bootstrap = "bootstrap",
-    // (undocumented)
     Live = "live",
-    // (undocumented)
     Unavailable = "unavailable"
 }
 
@@ -216,7 +212,7 @@ export interface ServiceSetPropertiesHeaders {
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 // @public
-export interface SetPropertiesOptions extends coreClient.OperationOptions {
+export interface SetPropertiesOptions extends OperationOptions {
     requestId?: string;
     timeout?: number;
 }

@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, OperationRequest } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import type { AzureLogger } from "@azure/logger";
-import type { TableServiceError } from "../generated/index.js";
+
+// The raw OData error shape from the Azure Tables service
+interface TableServiceErrorOdataError {
+  code?: string;
+  message?: { value?: string };
+}
 
 export type TableServiceErrorResponse = PipelineResponse & {
   /**
@@ -14,53 +19,67 @@ export type TableServiceErrorResponse = PipelineResponse & {
   /**
    * The response body as parsed JSON or XML.
    */
-  parsedBody: TableServiceError;
+  parsedBody: { "odata.error"?: TableServiceErrorOdataError; odataError?: TableServiceErrorOdataError };
   /**
    * The request that generated the response.
    */
-  request: OperationRequest;
+  request: any;
 };
 
 export function handleTableAlreadyExists(
   error: unknown,
   options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {},
 ): void {
-  const responseError = getErrorResponse(error);
-  if (
-    responseError &&
-    responseError.status === 409 &&
-    responseError.parsedBody.odataError?.code === "TableAlreadyExists"
-  ) {
-    options.logger?.info(`Table ${options.tableName} already Exists`);
+  if (isRestError(error) && error.statusCode === 409) {
+    const responseError = getErrorResponse(error);
+    const odataCode =
+      responseError?.parsedBody?.["odata.error"]?.code ??
+      responseError?.parsedBody?.odataError?.code ??
+      error.code;
+    if (odataCode === "TableAlreadyExists") {
+      options.logger?.info(`Table ${options.tableName} already Exists`);
 
-    if (options.onResponse) {
-      options.onResponse(responseError, {});
+      if (options.onResponse) {
+        const response = responseError ?? (error.response as TableServiceErrorResponse);
+        if (response) {
+          options.onResponse(response, {});
+        }
+      }
+      return;
     }
-  } else {
-    throw error;
   }
+  throw error;
 }
 
-function getErrorResponse(error: unknown): TableServiceErrorResponse | undefined {
-  if (!isRestError(error)) {
-    return undefined;
-  }
-
+function getErrorResponse(error: RestError): TableServiceErrorResponse | undefined {
+  // Try the old @azure/core-client style (parsedBody on response)
   const errorResponse: TableServiceErrorResponse = error.response as TableServiceErrorResponse;
-
-  if (!errorResponse || !isTableServiceErrorResponse(errorResponse.parsedBody)) {
-    return undefined;
+  if (errorResponse?.parsedBody && isTableServiceErrorResponse(errorResponse.parsedBody)) {
+    return errorResponse;
   }
 
-  return errorResponse;
+  // Try the new @azure-rest/core-client style (bodyAsText on response)
+  if (errorResponse?.bodyAsText) {
+    try {
+      const body = JSON.parse(errorResponse.bodyAsText);
+      if (isTableServiceErrorResponse(body)) {
+        return {
+          ...errorResponse,
+          parsedBody: body,
+        } as TableServiceErrorResponse;
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }
+
+  return undefined;
 }
 
 function isRestError(error: unknown): error is RestError {
   return (error as RestError).name === "RestError";
 }
 
-function isTableServiceErrorResponse(
-  errorResponseBody: any,
-): errorResponseBody is TableServiceError {
-  return Boolean(errorResponseBody?.odataError);
+function isTableServiceErrorResponse(errorResponseBody: any): boolean {
+  return Boolean(errorResponseBody?.["odata.error"] || errorResponseBody?.odataError);
 }
