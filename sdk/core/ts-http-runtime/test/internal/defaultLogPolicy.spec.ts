@@ -5,7 +5,7 @@ import { describe, it, assert, vi } from "vitest";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../../src/constants.js";
 import { type PipelinePolicy, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
-import { isBrowser, isNodeLike } from "../../src/util/checkEnvironment.js";
+import { isNodeLike } from "../../src/util/internal.js";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -64,10 +64,10 @@ describe("defaultLogPolicy", function () {
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);
 
-    // redirectPolicy is not added in browser
-    const repeatedPolicies = isBrowser
-      ? ["testSignPolicy", "logPolicy"]
-      : ["redirectPolicy", "testSignPolicy", "logPolicy"];
+    // redirectPolicy is not added in browser or react-native
+    const repeatedPolicies = isNodeLike
+      ? ["redirectPolicy", "testSignPolicy", "logPolicy"]
+      : ["testSignPolicy", "logPolicy"];
     for (let i = 0; i < DEFAULT_RETRY_POLICY_COUNT; i++) {
       expectedOrder.push(...repeatedPolicies);
     }

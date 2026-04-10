@@ -11,3 +11,4 @@ targets:
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
     moduleType: commonjs
+    polyfillSuffix: "-cjs"

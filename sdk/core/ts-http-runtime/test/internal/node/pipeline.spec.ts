@@ -2,8 +2,17 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
-import { proxyPolicy, proxyPolicyName } from "../../../src/policies/proxyPolicy.js";
-import { tlsPolicy, tlsPolicyName } from "../../../src/policies/tlsPolicy.js";
+import {
+  agentPolicyName,
+  decompressResponsePolicyName,
+  formDataPolicyName,
+  proxyPolicy,
+  proxyPolicyName,
+  redirectPolicyName,
+  tlsPolicy,
+  tlsPolicyName,
+  userAgentPolicyName,
+} from "../../../src/policies/internal.js";
 import { type HttpClient, createEmptyPipeline, createHttpHeaders } from "../../../src/index.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { createNodeHttpClient } from "../../../src/nodeHttpClient.js";
@@ -295,6 +304,56 @@ describe("HttpsPipeline", function () {
         agent: new https.Agent({ maxSockets: 99 }),
         proxySettings: { host: "https://localhost", port: 12345 },
       });
+    });
+  });
+
+  describe("Platform policies", function () {
+    it("createPipelineFromOptions includes all expected node-only policies", function () {
+      const pipeline = createPipelineFromOptions({
+        proxyOptions: { host: "https://proxy", port: 8080 },
+        tlsOptions: { pfx: "cert" },
+        redirectOptions: { maxRetries: 5 },
+        agent: new https.Agent(),
+      });
+      const policyNames = pipeline.getOrderedPolicies().map((p) => p.name);
+
+      assert.include(policyNames, agentPolicyName);
+      assert.include(policyNames, tlsPolicyName);
+      assert.include(policyNames, proxyPolicyName);
+      assert.include(policyNames, decompressResponsePolicyName);
+      assert.include(policyNames, redirectPolicyName);
+    });
+
+    it("node-only policies are ordered before cross-platform policies", function () {
+      const pipeline = createPipelineFromOptions({
+        proxyOptions: { host: "https://proxy", port: 8080 },
+      });
+      const policyNames = pipeline.getOrderedPolicies().map((p) => p.name);
+
+      const proxyIdx = policyNames.indexOf(proxyPolicyName);
+      const decompressIdx = policyNames.indexOf(decompressResponsePolicyName);
+      const formDataIdx = policyNames.indexOf(formDataPolicyName);
+      const userAgentIdx = policyNames.indexOf(userAgentPolicyName);
+
+      assert.isAbove(proxyIdx, -1, "proxyPolicy should be present");
+      assert.isAbove(decompressIdx, -1, "decompressResponsePolicy should be present");
+      assert.isBelow(proxyIdx, formDataIdx, "proxyPolicy should come before formDataPolicy");
+      assert.isBelow(
+        decompressIdx,
+        userAgentIdx,
+        "decompressResponsePolicy should come before userAgentPolicy",
+      );
+    });
+
+    it("optional policies are omitted when options are not provided", function () {
+      const pipeline = createPipelineFromOptions({});
+      const policyNames = pipeline.getOrderedPolicies().map((p) => p.name);
+
+      assert.notInclude(policyNames, agentPolicyName);
+      assert.notInclude(policyNames, tlsPolicyName);
+      // proxyPolicy and decompressResponsePolicy are always added on Node
+      assert.include(policyNames, proxyPolicyName);
+      assert.include(policyNames, decompressResponsePolicyName);
     });
   });
 });

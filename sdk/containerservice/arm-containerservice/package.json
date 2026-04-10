@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.0.0",
+  "version": "25.1.0-beta.1",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -49,6 +49,42 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/vmSkus": {
+      "browser": {
+        "types": "./dist/browser/api/vmSkus/index.d.ts",
+        "default": "./dist/browser/api/vmSkus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/vmSkus/index.d.ts",
+        "default": "./dist/react-native/api/vmSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vmSkus/index.d.ts",
+        "default": "./dist/esm/api/vmSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vmSkus/index.d.ts",
+        "default": "./dist/commonjs/api/vmSkus/index.js"
+      }
+    },
+    "./api/containerService": {
+      "browser": {
+        "types": "./dist/browser/api/containerService/index.d.ts",
+        "default": "./dist/browser/api/containerService/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/containerService/index.d.ts",
+        "default": "./dist/react-native/api/containerService/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/containerService/index.d.ts",
+        "default": "./dist/esm/api/containerService/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/containerService/index.d.ts",
+        "default": "./dist/commonjs/api/containerService/index.js"
       }
     },
     "./api/trustedAccessRoles": {
@@ -105,6 +141,24 @@
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
+    "./api/operationStatusResult": {
+      "browser": {
+        "types": "./dist/browser/api/operationStatusResult/index.d.ts",
+        "default": "./dist/browser/api/operationStatusResult/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operationStatusResult/index.d.ts",
+        "default": "./dist/react-native/api/operationStatusResult/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationStatusResult/index.d.ts",
+        "default": "./dist/esm/api/operationStatusResult/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationStatusResult/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatusResult/index.js"
+      }
+    },
     "./api/operations": {
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
@@ -123,6 +177,78 @@
         "default": "./dist/commonjs/api/operations/index.js"
       }
     },
+    "./api/meshMemberships": {
+      "browser": {
+        "types": "./dist/browser/api/meshMemberships/index.d.ts",
+        "default": "./dist/browser/api/meshMemberships/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/meshMemberships/index.d.ts",
+        "default": "./dist/react-native/api/meshMemberships/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/meshMemberships/index.d.ts",
+        "default": "./dist/esm/api/meshMemberships/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/meshMemberships/index.d.ts",
+        "default": "./dist/commonjs/api/meshMemberships/index.js"
+      }
+    },
+    "./api/jwtAuthenticators": {
+      "browser": {
+        "types": "./dist/browser/api/jwtAuthenticators/index.d.ts",
+        "default": "./dist/browser/api/jwtAuthenticators/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/jwtAuthenticators/index.d.ts",
+        "default": "./dist/react-native/api/jwtAuthenticators/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jwtAuthenticators/index.d.ts",
+        "default": "./dist/esm/api/jwtAuthenticators/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jwtAuthenticators/index.d.ts",
+        "default": "./dist/commonjs/api/jwtAuthenticators/index.js"
+      }
+    },
+    "./api/identityBindings": {
+      "browser": {
+        "types": "./dist/browser/api/identityBindings/index.d.ts",
+        "default": "./dist/browser/api/identityBindings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/identityBindings/index.d.ts",
+        "default": "./dist/react-native/api/identityBindings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/identityBindings/index.d.ts",
+        "default": "./dist/esm/api/identityBindings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/identityBindings/index.d.ts",
+        "default": "./dist/commonjs/api/identityBindings/index.js"
+      }
+    },
+    "./api/loadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancers/index.d.ts",
+        "default": "./dist/browser/api/loadBalancers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/loadBalancers/index.d.ts",
+        "default": "./dist/react-native/api/loadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancers/index.d.ts",
+        "default": "./dist/esm/api/loadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancers/index.js"
+      }
+    },
     "./api/trustedAccessRoleBindings": {
       "browser": {
         "types": "./dist/browser/api/trustedAccessRoleBindings/index.d.ts",
@@ -139,6 +265,24 @@
       "require": {
         "types": "./dist/commonjs/api/trustedAccessRoleBindings/index.d.ts",
         "default": "./dist/commonjs/api/trustedAccessRoleBindings/index.js"
+      }
+    },
+    "./api/managedClusterSnapshots": {
+      "browser": {
+        "types": "./dist/browser/api/managedClusterSnapshots/index.d.ts",
+        "default": "./dist/browser/api/managedClusterSnapshots/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedClusterSnapshots/index.d.ts",
+        "default": "./dist/react-native/api/managedClusterSnapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedClusterSnapshots/index.d.ts",
+        "default": "./dist/esm/api/managedClusterSnapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedClusterSnapshots/index.d.ts",
+        "default": "./dist/commonjs/api/managedClusterSnapshots/index.js"
       }
     },
     "./api/snapshots": {
