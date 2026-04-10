@@ -4,6 +4,9 @@ on:
     types: [labeled]
 labels: [performance-review-needed]
 if: github.event.label.name == 'performance-review-needed' && github.event.pull_request.head.repo.fork == false
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Dash: Review a pull request for performance regressions"
 permissions:
   contents: read
