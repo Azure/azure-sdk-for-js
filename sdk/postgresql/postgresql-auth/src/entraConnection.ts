@@ -181,11 +181,11 @@ export function entraTokenProvider(
   credential: TokenCredential,
   options: EntraTokenProviderOptions = {},
 ): () => Promise<string> {
+  if (!credential) {
+    throw new Error("credential is required");
+  }
   const { scope = DEFAULT_SCOPE } = options;
   return async () => {
-    if (!credential) {
-      throw new Error("credential is required");
-    }
     try {
       const t = await credential.getToken(scope);
       if (!t?.token) {
