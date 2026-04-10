@@ -151,6 +151,7 @@ describe("waitForEvents", function () {
 
     const wait = waitForEvents(10, 10000, 40, queue, { queueSignal }).then(() => {
       resolved = true;
+      return undefined;
     });
 
     await Promise.resolve();
