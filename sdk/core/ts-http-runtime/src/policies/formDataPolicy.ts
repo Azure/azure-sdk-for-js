@@ -88,8 +88,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
-        const fileName =
-          (typeof File !== "undefined" && value instanceof File && value.name) || "blob";
+        const fileName = (value as File).name || "blob";
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",
