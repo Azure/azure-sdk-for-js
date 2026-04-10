@@ -11,7 +11,7 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "../../../src/index.js";
-import { stringToUint8Array } from "../../../src/util/bytesEncoding.js";
+import { stringToUint8Array } from "../../../src/util/internal.js";
 import type { PartDescriptor } from "../../../src/client/multipart.js";
 
 describe("sendRequest", () => {
@@ -553,7 +553,7 @@ describe("sendRequest", () => {
     assert.equal(response.body, "test");
   });
 
-  it.skipIf(typeof FormData === "undefined")("should send FormData body", async () => {
+  it("should send FormData body", async () => {
     const formData = new FormData();
     formData.append("foo", "test");
 
