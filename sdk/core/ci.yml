@@ -43,6 +43,7 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: core
+    EnableDependencyVersionTesting: true
     Artifacts:
       - name: azure-abort-controller
         safeName: azureabortcontroller

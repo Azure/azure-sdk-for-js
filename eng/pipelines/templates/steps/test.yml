@@ -43,7 +43,87 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(),eq(variables['TestType'], 'node'))
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),eq(variables['DependencyVersion'],''))
+
+  # Min/max dependency version testing steps (only run when DependencyVersion is set)
+  - script: |
+      npm install
+    displayName: "Install dependency-testing tool dependencies"
+    workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),ne(variables['DependencyVersion'],''))
+
+  - pwsh: |
+      $packageInfoFiles = Get-ChildItem -Recurse "$(Build.ArtifactStagingDirectory)/PackageInfo" *.json
+      $packageSet = "$(ArtifactPackageNames)" -split ","
+      foreach ($file in $packageInfoFiles) {
+        $pkg = Get-Content $file.FullName | ConvertFrom-Json
+        if ($packageSet -contains $pkg.ArtifactName) {
+          Write-Host "Converting $($pkg.Name) tests to run against $(DependencyVersion) version of dependencies"
+          node index.js `
+            --artifact-name "$($pkg.Name)" `
+            --version-type "$(DependencyVersion)" `
+            --source-dir "$(Build.SourcesDirectory)" `
+            --test-folder "test/public"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to convert tests for $($pkg.Name)"
+            exit 1
+          }
+        }
+      }
+    displayName: "Convert tests to run against $(DependencyVersion) version of dependencies"
+    workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),ne(variables['DependencyVersion'],''))
+
+  - script: |
+      pnpm install --no-frozen-lockfile
+    displayName: "Re-run pnpm install with $(DependencyVersion) dependency versions"
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),ne(variables['DependencyVersion'],''))
+
+  - pwsh: |
+      $packageInfoFiles = Get-ChildItem -Recurse "$(Build.ArtifactStagingDirectory)/PackageInfo" *.json
+      $packageSet = "$(ArtifactPackageNames)" -split ","
+      $failed = $false
+      foreach ($file in $packageInfoFiles) {
+        $pkg = Get-Content $file.FullName | ConvertFrom-Json
+        if ($packageSet -contains $pkg.ArtifactName) {
+          $testPublicPath = Join-Path "$(Build.SourcesDirectory)" $pkg.DirectoryPath "test/public"
+          if (Test-Path (Join-Path $testPublicPath "package.json")) {
+            Write-Host "Building test package for $($pkg.Name)"
+            Set-Location $testPublicPath
+            pnpm run build
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "Build failed for $($pkg.Name)"
+              $failed = $true
+            }
+          }
+        }
+      }
+      if ($failed) { exit 1 }
+    displayName: "Build test packages for $(DependencyVersion) dependency testing"
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),ne(variables['DependencyVersion'],''))
+
+  - pwsh: |
+      $packageInfoFiles = Get-ChildItem -Recurse "$(Build.ArtifactStagingDirectory)/PackageInfo" *.json
+      $packageSet = "$(ArtifactPackageNames)" -split ","
+      $failed = $false
+      foreach ($file in $packageInfoFiles) {
+        $pkg = Get-Content $file.FullName | ConvertFrom-Json
+        if ($packageSet -contains $pkg.ArtifactName) {
+          $testPublicPath = Join-Path "$(Build.SourcesDirectory)" $pkg.DirectoryPath "test/public"
+          if (Test-Path (Join-Path $testPublicPath "vitest.dependency-test.config.ts")) {
+            Write-Host "Testing $($pkg.Name) with $(DependencyVersion) dependencies"
+            Set-Location $testPublicPath
+            pnpm run test:node
+            if ($LASTEXITCODE -ne 0) {
+              Write-Warning "Tests failed for $($pkg.Name)"
+              $failed = $true
+            }
+          }
+        }
+      }
+      if ($failed) { exit 1 }
+    displayName: "Test libraries node NodeJS $(NodeTestVersion) - $(DependencyVersion) dependencies"
+    condition: and(succeeded(),eq(variables['TestType'], 'node'),ne(variables['DependencyVersion'],''))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index.js";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/core-util";
 import { describe, it, assert } from "vitest";
 
 describe("Type guards", function () {

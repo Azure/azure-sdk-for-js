@@ -8,7 +8,7 @@ import {
   type MultipartRequestBody,
   createPipelineRequest,
   createHttpHeaders,
-} from "../../../src/index.js";
+} from "@typespec/ts-http-runtime";
 import { formDataPolicy } from "../../../src/policies/internal.js";
 
 describe("formDataPolicy (node)", () => {

@@ -9,7 +9,7 @@ import {
   createPipelineRequest,
   type PipelineRequestOptions,
   stringToUint8Array,
-} from "../../../src/index.js";
+} from "@typespec/ts-http-runtime";
 import { multipartPolicy } from "../../../src/policies/internal.js";
 import { assertBodyMatches } from "../../internal/node/multipartTestHelper.js";
 

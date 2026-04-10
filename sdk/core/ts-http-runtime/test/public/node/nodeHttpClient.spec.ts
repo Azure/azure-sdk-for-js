@@ -4,7 +4,7 @@
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createPipelineRequest, createDefaultHttpClient } from "../../../src/index.js";
+import { createPipelineRequest, createDefaultHttpClient } from "@typespec/ts-http-runtime";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");

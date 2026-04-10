@@ -39,3 +39,4 @@ export {
   userAgentPolicyName,
   type UserAgentPolicyOptions,
 } from "./userAgentPolicy.js";
+export { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";

@@ -23,6 +23,9 @@ parameters:
   - name: RunUnitTests
     type: boolean
     default: true
+  - name: EnableDependencyVersionTesting
+    type: boolean
+    default: false
   - name: MatrixConfigs
     type: object
     default:
@@ -65,7 +68,8 @@ extends:
                     - ${{ config }}
               MatrixFilters:
                 - TestType=node|browser
-                - DependencyVersion=^$
+                - ${{ if not(parameters.EnableDependencyVersionTesting) }}:
+                  - DependencyVersion=^$
                 - PublishCodeCoverage=^$
                 - ${{ each filter in parameters.MatrixFilters }}:
                     - ${{ filter}}

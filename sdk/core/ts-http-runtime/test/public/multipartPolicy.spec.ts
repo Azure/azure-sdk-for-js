@@ -8,7 +8,7 @@ import {
   type SendRequest,
   createPipelineRequest,
   type PipelineRequestOptions,
-} from "../../src/index.js";
+} from "@typespec/ts-http-runtime";
 import { multipartPolicy } from "../../src/policies/internal.js";
 
 async function performRequest(
