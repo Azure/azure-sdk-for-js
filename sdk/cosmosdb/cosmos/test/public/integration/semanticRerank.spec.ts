@@ -22,14 +22,11 @@ import { describe, it, assert, beforeAll, afterAll, vi } from "vitest";
  * For the full-text-search + rerank test, additionally:
  * - A database "virtualstore" with container "sportinggoods" and sample documents
  */
-describe.skip("SemanticRerankIntegration", { timeout: 120000 }, () => {
-  const accountEndpoint =
-    process.env.SEMANTIC_RERANK_ACCOUNT_ENDPOINT ||
-    "https://semantic-reranker-test.documents.azure.com:443/";
-  const inferenceEndpoint =
-    process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT ||
-    "https://semantic-reranker-test.eastus2.dbinference.azure.com";
+const accountEndpoint = process.env.SEMANTIC_RERANK_ACCOUNT_ENDPOINT;
+const inferenceEndpoint = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+const hasRequiredEnv = Boolean(accountEndpoint && inferenceEndpoint);
 
+describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 }, () => {
   let client: CosmosClient;
 
   beforeAll(() => {
@@ -39,7 +36,7 @@ describe.skip("SemanticRerankIntegration", { timeout: 120000 }, () => {
 
     const aadCredentials = new DefaultAzureCredential();
     client = new CosmosClient({
-      endpoint: accountEndpoint,
+      endpoint: accountEndpoint!,
       aadCredentials,
       inferenceEndpoint,
     });
@@ -47,6 +44,8 @@ describe.skip("SemanticRerankIntegration", { timeout: 120000 }, () => {
 
   afterAll(() => {
     client?.dispose();
+    // Restore the shared Vitest default so this suite does not leak global timer state.
+    vi.useFakeTimers();
   });
 
   it("should rerank documents with scores, latency, and token usage", async () => {

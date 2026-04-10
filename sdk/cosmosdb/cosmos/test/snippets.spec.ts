@@ -1860,9 +1860,14 @@ describe("snippets", () => {
       { returnDocuments: true, topK: 10, sort: true },
     );
     // Access the top-ranked document
-    // @ts-ignore
-    const topDocument = result.rerankScores[0].document;
-    // @ts-ignore
-    const topScore = result.rerankScores[0].score;
+    if (result.rerankScores.length > 0) {
+      const topResult = result.rerankScores[0];
+      const topScore = topResult.score;
+      const topDocument = topResult.document;
+      if (topDocument !== null) {
+        console.log("Top-ranked document:", topDocument);
+      }
+      console.log("Top score:", topScore);
+    }
   });
 });

@@ -49,7 +49,7 @@ export class InferenceService {
     this.inferenceEndpointUrl = `${endpoint}${INFERENCE_BASE_PATH}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
-    this.httpClient = createDefaultHttpClient();
+    this.httpClient = cosmosClientOptions.httpClient ?? createDefaultHttpClient();
 
     logger.info(`InferenceService initialized with endpoint: ${endpoint}`);
   }
@@ -72,7 +72,6 @@ export class InferenceService {
       url: this.inferenceEndpointUrl,
       method: "POST",
       body: JSON.stringify(payload),
-      headers: createPipelineRequest({ url: "" }).headers,
       abortSignal: options?.abortSignal,
       timeout: INFERENCE_DEFAULT_TIMEOUT_MS,
     });
@@ -129,10 +128,7 @@ export class InferenceService {
     documents: string[],
     options?: SemanticRerankOptions,
   ): Record<string, unknown> {
-    const payload: Record<string, unknown> = {
-      query: rerankContext,
-      documents,
-    };
+    const payload: Record<string, unknown> = {};
 
     if (options) {
       if (options.returnDocuments !== undefined) {
@@ -153,6 +149,10 @@ export class InferenceService {
         }
       }
     }
+
+    // Required fields are set last to prevent additionalOptions from overriding them
+    payload["query"] = rerankContext;
+    payload["documents"] = documents;
 
     return payload;
   }

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach } from "vitest";
+import { describe, it, assert } from "vitest";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import type { HttpClient, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { InferenceService } from "../../../../src/inference/InferenceService.js";
 import type { CosmosClientOptions } from "../../../../src/CosmosClientOptions.js";
 
@@ -128,7 +128,6 @@ describe("InferenceService", { timeout: 10000 }, () => {
 
       // Access private pipeline to mock sendRequest
       const pipeline = (service as any).pipeline;
-      const originalSendRequest = pipeline.sendRequest.bind(pipeline);
       pipeline.sendRequest = async (client: HttpClient, request: any) => {
         capturedBody = request.body;
         return mockResponse;
