@@ -119,7 +119,7 @@ Enabling logging may help uncover useful information about failures. In order to
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code. Here's an example of building and running tests
 
 1. `pnpm install`
-2. `pnpm build --filter=@azure-tools/@azure/turborepo-remote-cache...`
+2. `pnpm build --filter=@azure-tools/@azure/turborepo-remote-cache... --token 1`
 3. Create a .env file with these contents in the `eng/containers/turborepo-remote-cache` folder with the contents from the `example.env` file with local values
 4. `cd eng/containers/turborepo-remote-cache`
 5. `pnpm test`

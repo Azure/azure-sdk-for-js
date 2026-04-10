@@ -10,15 +10,15 @@
 - Use Azure SDK MCP tools where available
 - `pnpm install` — install workspace deps (Node current LTS, pnpm v10).
 - **Building packages**: Due to workspace linking, `npm run clean && npm run build` under a package directory will NOT work if dependencies aren't built. Always use: `pnpm turbo build --filter=<package name>... --token 1` (the trailing `...` builds the package and all its dependencies; `--token 1` enables remote cache read).
-- Full build: `pnpm build` — builds all packages via Turborepo (avoid).
+- Full build: `pnpm build --token 1` — builds all packages via Turborepo (avoid).
 - Tests: use the Azure SDK MCP tool `azsdk_package_run_tests`.
 - Lint/format: use the Azure SDK MCP tool `azsdk_package_run_check`, specifying lint or format.
-- Filter examples: `pnpm turbo build --filter sdk/web-pubsub/web-pubsub...`.
+- Filter examples: `pnpm turbo build --filter sdk/web-pubsub/web-pubsub... --token 1`.
 
 ## Coding Style & Naming Conventions
 - TypeScript; 2-space indent; semicolons; printWidth 100; double quotes (see `.prettierrc.json`).
 - Run `pnpm format` before PRs.
-- ESLint via `@azure/eslint-plugin-azure-sdk` (do not disable rules). If the plugin isn’t built: `pnpm build --filter @azure/eslint-plugin-azure-sdk...`.
+- ESLint via `@azure/eslint-plugin-azure-sdk` (do not disable rules). If the plugin isn’t built: `pnpm build --filter @azure/eslint-plugin-azure-sdk... --token 1`.
 - Naming: PascalCase classes; camelCase functions/vars; UPPER_SNAKE_CASE constants.
 
 ## Testing Guidelines

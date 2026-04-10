@@ -73,7 +73,7 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure/core-xml`: `sdk/core/core-xml`
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
-If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>...` commands.
+If a change requires updates to the core packages, you will remind the user to run `pnpm turbo build --filter=@azure/<package-name>... --token 1` commands.
 
 ### Pre-requisites
 

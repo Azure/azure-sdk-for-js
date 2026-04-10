@@ -20,9 +20,9 @@ To enable `@azure/eslint-plugin-azure-sdk`, you'll need to add it to the list of
 }
 ```
 
-The ESLint plugin must be built from source as part of your package's depdendencies. The fastest way to build a single package and its dependencies is to run the command `pnpm build --filter=<package name>...`. For example, to rebuild the Form Recognizer package and all of its dependencies, we run `pnpm build --filter @azure/ai-form-recognizer...`. This will rebuild `eslint-plugin-azure-sdk` if necessary and make it available for use by the package's NPM scripts.
+The ESLint plugin must be built from source as part of your package's depdendencies. The fastest way to build a single package and its dependencies is to run the command `pnpm build --filter=<package name>... --token 1`. For example, to rebuild the Form Recognizer package and all of its dependencies, we run `pnpm build --filter @azure/ai-form-recognizer... --token 1`. This will rebuild `eslint-plugin-azure-sdk` if necessary and make it available for use by the package's NPM scripts.
 
-**You must rebuild `eslint-plugin-azure-sdk` after making changes to its own source files,** either using `pnpm build` as described above, or by entering the `common/tools/eslint-plugin-azure-sdk` directory (this directory) and running `pnpm build`. Since the plugin is linked internally as part of our monorepo, the package does not need to be installed again after it is rebuilt.
+**You must rebuild `eslint-plugin-azure-sdk` after making changes to its own source files,** either using `pnpm build --token 1` as described above, or by entering the `common/tools/eslint-plugin-azure-sdk` directory (this directory) and running `pnpm build`. Since the plugin is linked internally as part of our monorepo, the package does not need to be installed again after it is rebuilt.
 
 See [the contribution guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) for more details about contributing to the azure-sdk-for-js repository.
 
