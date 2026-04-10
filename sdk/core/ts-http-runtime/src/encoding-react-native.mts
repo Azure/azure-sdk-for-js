@@ -15,10 +15,8 @@ declare global {
  * @internal
  */
 export function decodeUtf8(bytes: Uint8Array): string {
-  if (!TextDecoder) {
-    throw new Error(
-      "TextDecoder is not available in this environment. " + "Please provide a polyfill.",
-    );
+  if (typeof TextDecoder === "undefined") {
+    throw new Error("TextDecoder is not available in this environment. Please provide a polyfill.");
   }
   return new TextDecoder().decode(bytes);
 }
@@ -29,10 +27,8 @@ export function decodeUtf8(bytes: Uint8Array): string {
  * @internal
  */
 export function encodeUtf8(value: string): Uint8Array<ArrayBuffer> {
-  if (!TextEncoder) {
-    throw new Error(
-      "TextEncoder is not available in this environment. " + "Please provide a polyfill.",
-    );
+  if (typeof TextEncoder === "undefined") {
+    throw new Error("TextEncoder is not available in this environment. Please provide a polyfill.");
   }
   return new TextEncoder().encode(value);
 }

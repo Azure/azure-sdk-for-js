@@ -1,22 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Environment variables are not available in React Native.
- *
- * @internal
- */
-export function getEnvironmentVariable(_name: string): string | undefined {
-  return undefined;
+// Bundlers like Metro may inject a `process.env` object into React Native bundles.
+// Declare the minimal shape on globalThis so we can access it type-safely without
+// pulling in @types/node.
+// Using `globalThis.process` (property access) instead of bare `process` avoids
+// ReferenceError when the binding doesn't exist at all.
+declare global {
+  // eslint-disable-next-line no-var
+  var process:
+    | { env?: Record<string, string | undefined>; emitWarning?: (warning: string) => void }
+    | undefined;
 }
 
 /**
- * `process.emitWarning` is not available in React Native.
+ * Returns the value of the specified environment variable.
+ * In React Native environments, this checks for a globally-defined `process.env`
+ * which may be injected by bundlers like Metro.
  *
  * @internal
  */
-export function emitNodeWarning(_warning: string): void {
-  // No-op in React Native environments
+export function getEnvironmentVariable(name: string): string | undefined {
+  return globalThis.process?.env?.[name];
+}
+
+/**
+ * Emits a warning via `process.emitWarning` if available.
+ *
+ * @internal
+ */
+export function emitNodeWarning(warning: string): void {
+  globalThis.process?.emitWarning?.(warning);
 }
 
 /**
