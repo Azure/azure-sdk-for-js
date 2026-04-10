@@ -62,15 +62,11 @@ describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
 
     const rerankContext = "What is the capital of France?";
 
-    const result: SemanticRerankResult = await container.semanticRerank(
-      rerankContext,
-      documents,
-      {
-        returnDocuments: true,
-        topK: 10,
-        batchSize: 32,
-      },
-    );
+    const result: SemanticRerankResult = await container.semanticRerank(rerankContext, documents, {
+      returnDocuments: true,
+      topK: 10,
+      batchSize: 32,
+    });
 
     // Verify scores are returned and correctly ordered
     assert.isAbove(result.rerankScores.length, 0, "Should have rerank scores");
@@ -98,10 +94,7 @@ describe("SemanticRerankIntegration", { timeout: 120000 }, () => {
   it("should rerank without returning documents when returnDocuments is not set", async () => {
     const container = client.database("testdb").container("testcol");
 
-    const documents = [
-      "Berlin is the capital of Germany.",
-      "Paris is the capital of France.",
-    ];
+    const documents = ["Berlin is the capital of Germany.", "Paris is the capital of France."];
 
     const result: SemanticRerankResult = await container.semanticRerank(
       "What is the capital of France?",
