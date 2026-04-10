@@ -54,6 +54,13 @@ export interface AgentUpdateProperties {
 }
 
 // @public
+export interface AzureKeyVaultS3WithHmacCredentials extends Credentials {
+    accessKeyUri?: string;
+    secretKeyUri?: string;
+    type: "AzureKeyVaultS3WithHMAC";
+}
+
+// @public
 export interface AzureKeyVaultSmbCredentials extends Credentials {
     passwordUri?: string;
     type: "AzureKeyVaultSmb";
@@ -109,6 +116,25 @@ export interface AzureStorageSmbFileShareEndpointUpdateProperties extends Endpoi
 }
 
 // @public
+export interface Connection extends ProxyResource {
+    properties: ConnectionProperties;
+}
+
+// @public
+export interface ConnectionProperties {
+    readonly connectionStatus?: ConnectionStatus;
+    description?: string;
+    jobList?: string[];
+    readonly privateEndpointName?: string;
+    readonly privateEndpointResourceId?: string;
+    privateLinkServiceId: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export type ConnectionStatus = string;
+
+// @public
 export type CopyMode = string;
 
 // @public
@@ -120,10 +146,13 @@ export interface Credentials {
 }
 
 // @public
-export type CredentialsUnion = AzureKeyVaultSmbCredentials | Credentials;
+export type CredentialsUnion = AzureKeyVaultS3WithHmacCredentials | AzureKeyVaultSmbCredentials | Credentials;
 
 // @public
 export type CredentialType = string;
+
+// @public
+export type DataIntegrityValidation = string;
 
 // @public
 export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
@@ -137,12 +166,13 @@ export interface Endpoint extends ProxyResource {
 // @public
 export interface EndpointBaseProperties {
     description?: string;
+    endpointKind?: EndpointKind;
     endpointType: EndpointType;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export type EndpointBasePropertiesUnion = AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties | AzureStorageSmbFileShareEndpointProperties | SmbMountEndpointProperties | AzureStorageNfsFileShareEndpointProperties | AzureMultiCloudConnectorEndpointProperties | EndpointBaseProperties;
+export type EndpointBasePropertiesUnion = AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties | S3WithHmacEndpointProperties | AzureStorageSmbFileShareEndpointProperties | SmbMountEndpointProperties | AzureStorageNfsFileShareEndpointProperties | AzureMultiCloudConnectorEndpointProperties | EndpointBaseProperties;
 
 // @public
 export interface EndpointBaseUpdateParameters {
@@ -157,7 +187,10 @@ export interface EndpointBaseUpdateProperties {
 }
 
 // @public
-export type EndpointBaseUpdatePropertiesUnion = AzureStorageBlobContainerEndpointUpdateProperties | NfsMountEndpointUpdateProperties | AzureStorageSmbFileShareEndpointUpdateProperties | AzureStorageNfsFileShareEndpointUpdateProperties | AzureMultiCloudConnectorEndpointUpdateProperties | SmbMountEndpointUpdateProperties | EndpointBaseUpdateProperties;
+export type EndpointBaseUpdatePropertiesUnion = AzureStorageBlobContainerEndpointUpdateProperties | S3WithHmacEndpointUpdateProperties | NfsMountEndpointUpdateProperties | AzureStorageSmbFileShareEndpointUpdateProperties | AzureStorageNfsFileShareEndpointUpdateProperties | AzureMultiCloudConnectorEndpointUpdateProperties | SmbMountEndpointUpdateProperties | EndpointBaseUpdateProperties;
+
+// @public
+export type EndpointKind = string;
 
 // @public
 export type EndpointType = string;
@@ -183,6 +216,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export type Frequency = string;
+
+// @public
 export interface JobDefinition extends ProxyResource {
     properties: JobDefinitionProperties;
 }
@@ -191,13 +227,17 @@ export interface JobDefinition extends ProxyResource {
 export interface JobDefinitionProperties {
     agentName?: string;
     readonly agentResourceId?: string;
+    connections?: string[];
     copyMode: CopyMode;
+    dataIntegrityValidation?: DataIntegrityValidation;
     description?: string;
     jobType?: JobType;
     readonly latestJobRunName?: string;
     readonly latestJobRunResourceId?: string;
     readonly latestJobRunStatus?: JobRunStatus;
+    preservePermissions?: boolean;
     readonly provisioningState?: ProvisioningState;
+    schedule?: ScheduleInfo;
     sourceName: string;
     readonly sourceResourceId?: string;
     sourceSubpath?: string;
@@ -217,7 +257,9 @@ export interface JobDefinitionUpdateParameters {
 // @public
 export interface JobDefinitionUpdateProperties {
     agentName?: string;
+    connections?: string[];
     copyMode?: CopyMode;
+    dataIntegrityValidation?: DataIntegrityValidation;
     description?: string;
 }
 
@@ -256,6 +298,7 @@ export interface JobRunProperties {
     readonly lastStatusUpdate?: Date;
     readonly provisioningState?: ProvisioningState;
     readonly scanStatus?: JobRunScanStatus;
+    readonly scheduledExecutionTime?: Date;
     readonly sourceName?: string;
     readonly sourceProperties?: any;
     readonly sourceResourceId?: string;
@@ -263,6 +306,8 @@ export interface JobRunProperties {
     readonly targetName?: string;
     readonly targetProperties?: any;
     readonly targetResourceId?: string;
+    readonly triggerType?: TriggerType;
+    readonly warnings?: JobRunWarning[];
 }
 
 // @public
@@ -277,6 +322,13 @@ export type JobRunScanStatus = string;
 export type JobRunStatus = string;
 
 // @public
+export interface JobRunWarning {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
 export type JobType = string;
 
 // @public
@@ -286,25 +338,26 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAgentStatus {
-    // (undocumented)
     Executing = "Executing",
-    // (undocumented)
     Offline = "Offline",
-    // (undocumented)
     Online = "Online",
-    // (undocumented)
     Registering = "Registering",
-    // (undocumented)
     RequiresAttention = "RequiresAttention",
-    // (undocumented)
     Unregistering = "Unregistering"
 }
 
 // @public
+export enum KnownConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected",
+    Stale = "Stale"
+}
+
+// @public
 export enum KnownCopyMode {
-    // (undocumented)
     Additive = "Additive",
-    // (undocumented)
     Mirror = "Mirror"
 }
 
@@ -318,63 +371,65 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownCredentialType {
-    // (undocumented)
+    AzureKeyVaultS3WithHmac = "AzureKeyVaultS3WithHMAC",
     AzureKeyVaultSmb = "AzureKeyVaultSmb"
 }
 
 // @public
+export enum KnownDataIntegrityValidation {
+    None = "None",
+    SaveFileMD5 = "SaveFileMD5",
+    SaveVerifyFileMD5 = "SaveVerifyFileMD5"
+}
+
+// @public
+export enum KnownEndpointKind {
+    Source = "Source",
+    Target = "Target"
+}
+
+// @public
 export enum KnownEndpointType {
-    // (undocumented)
     AzureMultiCloudConnector = "AzureMultiCloudConnector",
-    // (undocumented)
     AzureStorageBlobContainer = "AzureStorageBlobContainer",
-    // (undocumented)
     AzureStorageNfsFileShare = "AzureStorageNfsFileShare",
-    // (undocumented)
     AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
-    // (undocumented)
     NfsMount = "NfsMount",
-    // (undocumented)
+    S3WithHmac = "S3WithHMAC",
     SmbMount = "SmbMount"
 }
 
 // @public
+export enum KnownFrequency {
+    Daily = "Daily",
+    Monthly = "Monthly",
+    Onetime = "Onetime",
+    Weekly = "Weekly"
+}
+
+// @public
 export enum KnownJobRunScanStatus {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     NotStarted = "NotStarted",
-    // (undocumented)
     Scanning = "Scanning"
 }
 
 // @public
 export enum KnownJobRunStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Canceling = "Canceling",
-    // (undocumented)
     CancelRequested = "CancelRequested",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     PausedByBandwidthManagement = "PausedByBandwidthManagement",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Started = "Started",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     CloudToCloud = "CloudToCloud",
-    // (undocumented)
     OnPremToCloud = "OnPremToCloud"
 }
 
@@ -388,7 +443,6 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMinute {
-    // (undocumented)
     Thirty = 30,
     // (undocumented)
     Zero = 0
@@ -396,11 +450,8 @@ export enum KnownMinute {
 
 // @public
 export enum KnownNfsVersion {
-    // (undocumented)
     NFSauto = "NFSauto",
-    // (undocumented)
     NFSv3 = "NFSv3",
-    // (undocumented)
     NFSv4 = "NFSv4"
 }
 
@@ -413,20 +464,33 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownS3WithHmacSourceType {
+    Backblaze = "BACKBLAZE",
+    Cloudflare = "CLOUDFLARE",
+    GCS = "GCS",
+    IBM = "IBM",
+    Minio = "MINIO"
+}
+
+// @public
+export enum KnownTriggerType {
+    Manual = "Manual",
+    Scheduled = "Scheduled"
 }
 
 // @public
 export enum KnownVersions {
     V20240701 = "2024-07-01",
-    V20250701 = "2025-07-01"
+    V20250701 = "2025-07-01",
+    V20250801 = "2025-08-01",
+    V20251201 = "2025-12-01"
 }
 
 // @public
@@ -522,6 +586,36 @@ export interface Resource {
 }
 
 // @public
+export interface S3WithHmacEndpointProperties extends EndpointBaseProperties {
+    credentials?: AzureKeyVaultS3WithHmacCredentials;
+    endpointType: "S3WithHMAC";
+    otherSourceTypeDescription?: string;
+    sourceType?: S3WithHmacSourceType;
+    sourceUri?: string;
+}
+
+// @public
+export interface S3WithHmacEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    credentials?: AzureKeyVaultS3WithHmacCredentials;
+    endpointType: "S3WithHMAC";
+}
+
+// @public
+export type S3WithHmacSourceType = string;
+
+// @public
+export interface ScheduleInfo {
+    cronExpression?: string;
+    daysOfMonth?: number[];
+    daysOfWeek?: string[];
+    endDate?: Date;
+    executionTime?: Time;
+    frequency: Frequency;
+    isActive: boolean;
+    startDate?: Date;
+}
+
+// @public
 export interface SmbMountEndpointProperties extends EndpointBaseProperties {
     credentials?: AzureKeyVaultSmbCredentials;
     endpointType: "SmbMount";
@@ -611,6 +705,9 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export type TriggerType = string;
 
 // @public
 export interface UploadLimitSchedule {

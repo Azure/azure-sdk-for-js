@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -186,7 +192,9 @@ export function storageMoverSerializer(item: StorageMover): any {
 
 export function storageMoverDeserializer(item: any): StorageMover {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -221,9 +229,13 @@ export function storageMoverPropertiesDeserializer(item: any): StorageMoverPrope
 
 /** The provisioning state of a resource. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Deleting */
   Deleting = "Deleting",
 }
 
@@ -259,7 +271,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -334,7 +348,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -488,11 +502,17 @@ export function agentPropertiesDeserializer(item: any): AgentProperties {
 
 /** The Agent status. */
 export enum KnownAgentStatus {
+  /** Registering */
   Registering = "Registering",
+  /** Offline */
   Offline = "Offline",
+  /** Online */
   Online = "Online",
+  /** Executing */
   Executing = "Executing",
+  /** RequiresAttention */
   RequiresAttention = "RequiresAttention",
+  /** Unregistering */
   Unregistering = "Unregistering",
 }
 
@@ -636,10 +656,7 @@ export interface Recurrence {
 }
 
 export function recurrenceSerializer(item: Recurrence): any {
-  return {
-    startTime: timeSerializer(item["startTime"]),
-    endTime: timeSerializer(item["endTime"]),
-  };
+  return { startTime: timeSerializer(item["startTime"]), endTime: timeSerializer(item["endTime"]) };
 }
 
 export function recurrenceDeserializer(item: any): Recurrence {
@@ -670,7 +687,9 @@ export function timeDeserializer(item: any): Time {
 
 /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
 export enum KnownMinute {
+  /** 0 */
   Zero = 0,
+  /** 30 */
   Thirty = 30,
 }
 
@@ -794,10 +813,12 @@ export function endpointDeserializer(item: any): Endpoint {
 /** The resource specific properties for the Storage Mover resource. */
 export interface EndpointBaseProperties {
   /** The Endpoint resource type. */
-  /** The discriminator possible values: AzureStorageBlobContainer, NfsMount, AzureStorageSmbFileShare, SmbMount, AzureStorageNfsFileShare, AzureMultiCloudConnector */
+  /** The discriminator possible values: AzureStorageBlobContainer, NfsMount, S3WithHMAC, AzureStorageSmbFileShare, SmbMount, AzureStorageNfsFileShare, AzureMultiCloudConnector */
   endpointType: EndpointType;
   /** A description for the Endpoint. */
   description?: string;
+  /** The Endpoint resource kind source or target. */
+  endpointKind?: EndpointKind;
   /** The provisioning state of this resource. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -806,6 +827,7 @@ export function endpointBasePropertiesSerializer(item: EndpointBaseProperties): 
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
   };
 }
 
@@ -813,6 +835,7 @@ export function endpointBasePropertiesDeserializer(item: any): EndpointBasePrope
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
   };
 }
@@ -821,6 +844,7 @@ export function endpointBasePropertiesDeserializer(item: any): EndpointBasePrope
 export type EndpointBasePropertiesUnion =
   | AzureStorageBlobContainerEndpointProperties
   | NfsMountEndpointProperties
+  | S3WithHmacEndpointProperties
   | AzureStorageSmbFileShareEndpointProperties
   | SmbMountEndpointProperties
   | AzureStorageNfsFileShareEndpointProperties
@@ -836,6 +860,9 @@ export function endpointBasePropertiesUnionSerializer(item: EndpointBaseProperti
 
     case "NfsMount":
       return nfsMountEndpointPropertiesSerializer(item as NfsMountEndpointProperties);
+
+    case "S3WithHMAC":
+      return s3WithHmacEndpointPropertiesSerializer(item as S3WithHmacEndpointProperties);
 
     case "AzureStorageSmbFileShare":
       return azureStorageSmbFileShareEndpointPropertiesSerializer(
@@ -861,7 +888,7 @@ export function endpointBasePropertiesUnionSerializer(item: EndpointBaseProperti
 }
 
 export function endpointBasePropertiesUnionDeserializer(item: any): EndpointBasePropertiesUnion {
-  switch (item.endpointType) {
+  switch (item["endpointType"]) {
     case "AzureStorageBlobContainer":
       return azureStorageBlobContainerEndpointPropertiesDeserializer(
         item as AzureStorageBlobContainerEndpointProperties,
@@ -869,6 +896,9 @@ export function endpointBasePropertiesUnionDeserializer(item: any): EndpointBase
 
     case "NfsMount":
       return nfsMountEndpointPropertiesDeserializer(item as NfsMountEndpointProperties);
+
+    case "S3WithHMAC":
+      return s3WithHmacEndpointPropertiesDeserializer(item as S3WithHmacEndpointProperties);
 
     case "AzureStorageSmbFileShare":
       return azureStorageSmbFileShareEndpointPropertiesDeserializer(
@@ -895,12 +925,20 @@ export function endpointBasePropertiesUnionDeserializer(item: any): EndpointBase
 
 /** The Endpoint resource type. */
 export enum KnownEndpointType {
+  /** AzureStorageBlobContainer */
   AzureStorageBlobContainer = "AzureStorageBlobContainer",
+  /** NfsMount */
   NfsMount = "NfsMount",
+  /** AzureStorageSmbFileShare */
   AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
+  /** SmbMount */
   SmbMount = "SmbMount",
+  /** AzureMultiCloudConnector */
   AzureMultiCloudConnector = "AzureMultiCloudConnector",
+  /** AzureStorageNfsFileShare */
   AzureStorageNfsFileShare = "AzureStorageNfsFileShare",
+  /** S3WithHMAC */
+  S3WithHmac = "S3WithHMAC",
 }
 
 /**
@@ -913,9 +951,28 @@ export enum KnownEndpointType {
  * **AzureStorageSmbFileShare** \
  * **SmbMount** \
  * **AzureMultiCloudConnector** \
- * **AzureStorageNfsFileShare**
+ * **AzureStorageNfsFileShare** \
+ * **S3WithHMAC**
  */
 export type EndpointType = string;
+
+/** The type of the endpoint source/target. */
+export enum KnownEndpointKind {
+  /** Source */
+  Source = "Source",
+  /** Target */
+  Target = "Target",
+}
+
+/**
+ * The type of the endpoint source/target. \
+ * {@link KnownEndpointKind} can be used interchangeably with EndpointKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Source** \
+ * **Target**
+ */
+export type EndpointKind = string;
 
 /** The properties of Azure Storage blob container endpoint. */
 export interface AzureStorageBlobContainerEndpointProperties extends EndpointBaseProperties {
@@ -933,6 +990,7 @@ export function azureStorageBlobContainerEndpointPropertiesSerializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     storageAccountResourceId: item["storageAccountResourceId"],
     blobContainerName: item["blobContainerName"],
   };
@@ -944,6 +1002,7 @@ export function azureStorageBlobContainerEndpointPropertiesDeserializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     storageAccountResourceId: item["storageAccountResourceId"],
     blobContainerName: item["blobContainerName"],
@@ -966,6 +1025,7 @@ export function nfsMountEndpointPropertiesSerializer(item: NfsMountEndpointPrope
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     host: item["host"],
     nfsVersion: item["nfsVersion"],
     export: item["export"],
@@ -976,6 +1036,7 @@ export function nfsMountEndpointPropertiesDeserializer(item: any): NfsMountEndpo
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     host: item["host"],
     nfsVersion: item["nfsVersion"],
@@ -985,8 +1046,11 @@ export function nfsMountEndpointPropertiesDeserializer(item: any): NfsMountEndpo
 
 /** The NFS protocol version. */
 export enum KnownNfsVersion {
+  /** NFSauto */
   NFSauto = "NFSauto",
+  /** NFSv3 */
   NFSv3 = "NFSv3",
+  /** NFSv4 */
   NFSv4 = "NFSv4",
 }
 
@@ -1000,6 +1064,106 @@ export enum KnownNfsVersion {
  * **NFSv4**
  */
 export type NfsVersion = string;
+
+/** The properties of S3WithHmac share endpoint. */
+export interface S3WithHmacEndpointProperties extends EndpointBaseProperties {
+  /** The Azure Key Vault credentials which stores the access key and secret key. Use empty string to clean-up existing value. */
+  credentials?: AzureKeyVaultS3WithHmacCredentials;
+  /** The  URI which points to the source. */
+  sourceUri?: string;
+  /** The source type of S3WithHmac endpoint. */
+  sourceType?: S3WithHmacSourceType;
+  /** The description for other source type of S3WithHmac endpoint. */
+  otherSourceTypeDescription?: string;
+  /** The Endpoint resource type. */
+  endpointType: "S3WithHMAC";
+}
+
+export function s3WithHmacEndpointPropertiesSerializer(item: S3WithHmacEndpointProperties): any {
+  return {
+    endpointType: item["endpointType"],
+    description: item["description"],
+    endpointKind: item["endpointKind"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : azureKeyVaultS3WithHmacCredentialsSerializer(item["credentials"]),
+    sourceUri: item["sourceUri"],
+    sourceType: item["sourceType"],
+    otherSourceTypeDescription: item["otherSourceTypeDescription"],
+  };
+}
+
+export function s3WithHmacEndpointPropertiesDeserializer(item: any): S3WithHmacEndpointProperties {
+  return {
+    endpointType: item["endpointType"],
+    description: item["description"],
+    endpointKind: item["endpointKind"],
+    provisioningState: item["provisioningState"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : azureKeyVaultS3WithHmacCredentialsDeserializer(item["credentials"]),
+    sourceUri: item["sourceUri"],
+    sourceType: item["sourceType"],
+    otherSourceTypeDescription: item["otherSourceTypeDescription"],
+  };
+}
+
+/** The Azure Key Vault secret URIs which store the credentials. */
+export interface AzureKeyVaultS3WithHmacCredentials extends Credentials {
+  /** The Azure Key Vault secret URI which stores the username. Use empty string to clean-up existing value. */
+  accessKeyUri?: string;
+  /** The Azure Key Vault secret URI which stores the password. Use empty string to clean-up existing value. */
+  secretKeyUri?: string;
+  /** The Credentials type. */
+  type: "AzureKeyVaultS3WithHMAC";
+}
+
+export function azureKeyVaultS3WithHmacCredentialsSerializer(
+  item: AzureKeyVaultS3WithHmacCredentials,
+): any {
+  return {
+    type: item["type"],
+    accessKeyUri: item["accessKeyUri"],
+    secretKeyUri: item["secretKeyUri"],
+  };
+}
+
+export function azureKeyVaultS3WithHmacCredentialsDeserializer(
+  item: any,
+): AzureKeyVaultS3WithHmacCredentials {
+  return {
+    type: item["type"],
+    accessKeyUri: item["accessKeyUri"],
+    secretKeyUri: item["secretKeyUri"],
+  };
+}
+
+/** The source type of S3WithHmac endpoint. */
+export enum KnownS3WithHmacSourceType {
+  /** MINIO */
+  Minio = "MINIO",
+  /** BACKBLAZE */
+  Backblaze = "BACKBLAZE",
+  /** IBM */
+  IBM = "IBM",
+  /** CLOUDFLARE */
+  Cloudflare = "CLOUDFLARE",
+  /** GCS */
+  GCS = "GCS",
+}
+
+/**
+ * The source type of S3WithHmac endpoint. \
+ * {@link KnownS3WithHmacSourceType} can be used interchangeably with S3WithHmacSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MINIO** \
+ * **BACKBLAZE** \
+ * **IBM** \
+ * **CLOUDFLARE** \
+ * **GCS**
+ */
+export type S3WithHmacSourceType = string;
 
 /** The properties of Azure Storage SMB file share endpoint. */
 export interface AzureStorageSmbFileShareEndpointProperties extends EndpointBaseProperties {
@@ -1017,6 +1181,7 @@ export function azureStorageSmbFileShareEndpointPropertiesSerializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
   };
@@ -1028,6 +1193,7 @@ export function azureStorageSmbFileShareEndpointPropertiesDeserializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
@@ -1050,6 +1216,7 @@ export function smbMountEndpointPropertiesSerializer(item: SmbMountEndpointPrope
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     host: item["host"],
     shareName: item["shareName"],
     credentials: !item["credentials"]
@@ -1062,6 +1229,7 @@ export function smbMountEndpointPropertiesDeserializer(item: any): SmbMountEndpo
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     host: item["host"],
     shareName: item["shareName"],
@@ -1082,11 +1250,7 @@ export interface AzureKeyVaultSmbCredentials extends Credentials {
 }
 
 export function azureKeyVaultSmbCredentialsSerializer(item: AzureKeyVaultSmbCredentials): any {
-  return {
-    type: item["type"],
-    usernameUri: item["usernameUri"],
-    passwordUri: item["passwordUri"],
-  };
+  return { type: item["type"], usernameUri: item["usernameUri"], passwordUri: item["passwordUri"] };
 }
 
 export function azureKeyVaultSmbCredentialsDeserializer(item: any): AzureKeyVaultSmbCredentials {
@@ -1113,6 +1277,7 @@ export function azureStorageNfsFileShareEndpointPropertiesSerializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
   };
@@ -1124,6 +1289,7 @@ export function azureStorageNfsFileShareEndpointPropertiesDeserializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     storageAccountResourceId: item["storageAccountResourceId"],
     fileShareName: item["fileShareName"],
@@ -1146,6 +1312,7 @@ export function azureMultiCloudConnectorEndpointPropertiesSerializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     multiCloudConnectorId: item["multiCloudConnectorId"],
     awsS3BucketId: item["awsS3BucketId"],
   };
@@ -1157,6 +1324,7 @@ export function azureMultiCloudConnectorEndpointPropertiesDeserializer(
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    endpointKind: item["endpointKind"],
     provisioningState: item["provisioningState"],
     multiCloudConnectorId: item["multiCloudConnectorId"],
     awsS3BucketId: item["awsS3BucketId"],
@@ -1261,7 +1429,7 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The Credentials. */
 export interface Credentials {
   /** The Credentials type. */
-  /** The discriminator possible values: AzureKeyVaultSmb */
+  /** The discriminator possible values: AzureKeyVaultS3WithHMAC, AzureKeyVaultSmb */
   type: CredentialType;
 }
 
@@ -1276,10 +1444,18 @@ export function credentialsDeserializer(item: any): Credentials {
 }
 
 /** Alias for CredentialsUnion */
-export type CredentialsUnion = AzureKeyVaultSmbCredentials | Credentials;
+export type CredentialsUnion =
+  | AzureKeyVaultS3WithHmacCredentials
+  | AzureKeyVaultSmbCredentials
+  | Credentials;
 
 export function credentialsUnionSerializer(item: CredentialsUnion): any {
   switch (item.type) {
+    case "AzureKeyVaultS3WithHMAC":
+      return azureKeyVaultS3WithHmacCredentialsSerializer(
+        item as AzureKeyVaultS3WithHmacCredentials,
+      );
+
     case "AzureKeyVaultSmb":
       return azureKeyVaultSmbCredentialsSerializer(item as AzureKeyVaultSmbCredentials);
 
@@ -1289,7 +1465,12 @@ export function credentialsUnionSerializer(item: CredentialsUnion): any {
 }
 
 export function credentialsUnionDeserializer(item: any): CredentialsUnion {
-  switch (item.type) {
+  switch (item["type"]) {
+    case "AzureKeyVaultS3WithHMAC":
+      return azureKeyVaultS3WithHmacCredentialsDeserializer(
+        item as AzureKeyVaultS3WithHmacCredentials,
+      );
+
     case "AzureKeyVaultSmb":
       return azureKeyVaultSmbCredentialsDeserializer(item as AzureKeyVaultSmbCredentials);
 
@@ -1300,7 +1481,10 @@ export function credentialsUnionDeserializer(item: any): CredentialsUnion {
 
 /** The Credentials type. */
 export enum KnownCredentialType {
+  /** AzureKeyVaultSmb */
   AzureKeyVaultSmb = "AzureKeyVaultSmb",
+  /** AzureKeyVaultS3WithHMAC */
+  AzureKeyVaultS3WithHmac = "AzureKeyVaultS3WithHMAC",
 }
 
 /**
@@ -1308,7 +1492,8 @@ export enum KnownCredentialType {
  * {@link KnownCredentialType} can be used interchangeably with CredentialType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AzureKeyVaultSmb**
+ * **AzureKeyVaultSmb** \
+ * **AzureKeyVaultS3WithHMAC**
  */
 export type CredentialType = string;
 
@@ -1334,22 +1519,20 @@ export function endpointBaseUpdateParametersSerializer(item: EndpointBaseUpdateP
 /** The Endpoint resource, which contains information about file sources and targets. */
 export interface EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
-  /** The discriminator possible values: AzureStorageBlobContainer, NfsMount, AzureStorageSmbFileShare, AzureStorageNfsFileShare, AzureMultiCloudConnector, SmbMount */
+  /** The discriminator possible values: AzureStorageBlobContainer, S3WithHMAC, NfsMount, AzureStorageSmbFileShare, AzureStorageNfsFileShare, AzureMultiCloudConnector, SmbMount */
   endpointType: EndpointType;
   /** A description for the Endpoint. */
   description?: string;
 }
 
 export function endpointBaseUpdatePropertiesSerializer(item: EndpointBaseUpdateProperties): any {
-  return {
-    endpointType: item["endpointType"],
-    description: item["description"],
-  };
+  return { endpointType: item["endpointType"], description: item["description"] };
 }
 
 /** Alias for EndpointBaseUpdatePropertiesUnion */
 export type EndpointBaseUpdatePropertiesUnion =
   | AzureStorageBlobContainerEndpointUpdateProperties
+  | S3WithHmacEndpointUpdateProperties
   | NfsMountEndpointUpdateProperties
   | AzureStorageSmbFileShareEndpointUpdateProperties
   | AzureStorageNfsFileShareEndpointUpdateProperties
@@ -1364,6 +1547,11 @@ export function endpointBaseUpdatePropertiesUnionSerializer(
     case "AzureStorageBlobContainer":
       return azureStorageBlobContainerEndpointUpdatePropertiesSerializer(
         item as AzureStorageBlobContainerEndpointUpdateProperties,
+      );
+
+    case "S3WithHMAC":
+      return s3WithHmacEndpointUpdatePropertiesSerializer(
+        item as S3WithHmacEndpointUpdateProperties,
       );
 
     case "NfsMount":
@@ -1401,9 +1589,26 @@ export interface AzureStorageBlobContainerEndpointUpdateProperties extends Endpo
 export function azureStorageBlobContainerEndpointUpdatePropertiesSerializer(
   item: AzureStorageBlobContainerEndpointUpdateProperties,
 ): any {
+  return { endpointType: item["endpointType"], description: item["description"] };
+}
+
+/** model interface S3WithHmacEndpointUpdateProperties */
+export interface S3WithHmacEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+  /** The Azure Key Vault secret URIs which store the required credentials to access the S3. */
+  credentials?: AzureKeyVaultS3WithHmacCredentials;
+  /** The Endpoint resource type. */
+  endpointType: "S3WithHMAC";
+}
+
+export function s3WithHmacEndpointUpdatePropertiesSerializer(
+  item: S3WithHmacEndpointUpdateProperties,
+): any {
   return {
     endpointType: item["endpointType"],
     description: item["description"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : azureKeyVaultS3WithHmacCredentialsSerializer(item["credentials"]),
   };
 }
 
@@ -1416,10 +1621,7 @@ export interface NfsMountEndpointUpdateProperties extends EndpointBaseUpdateProp
 export function nfsMountEndpointUpdatePropertiesSerializer(
   item: NfsMountEndpointUpdateProperties,
 ): any {
-  return {
-    endpointType: item["endpointType"],
-    description: item["description"],
-  };
+  return { endpointType: item["endpointType"], description: item["description"] };
 }
 
 /** The properties of Azure Storage SMB file share endpoint to update. */
@@ -1431,10 +1633,7 @@ export interface AzureStorageSmbFileShareEndpointUpdateProperties extends Endpoi
 export function azureStorageSmbFileShareEndpointUpdatePropertiesSerializer(
   item: AzureStorageSmbFileShareEndpointUpdateProperties,
 ): any {
-  return {
-    endpointType: item["endpointType"],
-    description: item["description"],
-  };
+  return { endpointType: item["endpointType"], description: item["description"] };
 }
 
 /** The properties of Azure Storage NFS file share endpoint to update. */
@@ -1446,10 +1645,7 @@ export interface AzureStorageNfsFileShareEndpointUpdateProperties extends Endpoi
 export function azureStorageNfsFileShareEndpointUpdatePropertiesSerializer(
   item: AzureStorageNfsFileShareEndpointUpdateProperties,
 ): any {
-  return {
-    endpointType: item["endpointType"],
-    description: item["description"],
-  };
+  return { endpointType: item["endpointType"], description: item["description"] };
 }
 
 /** The properties of Azure Storage NFS file share endpoint to update. */
@@ -1461,10 +1657,7 @@ export interface AzureMultiCloudConnectorEndpointUpdateProperties extends Endpoi
 export function azureMultiCloudConnectorEndpointUpdatePropertiesSerializer(
   item: AzureMultiCloudConnectorEndpointUpdateProperties,
 ): any {
-  return {
-    endpointType: item["endpointType"],
-    description: item["description"],
-  };
+  return { endpointType: item["endpointType"], description: item["description"] };
 }
 
 /** The properties of SMB share endpoint to update. */
@@ -1670,6 +1863,14 @@ export interface JobDefinitionProperties {
   };
   /** The provisioning state of this resource. */
   readonly provisioningState?: ProvisioningState;
+  /** List of connections associated to this job */
+  connections?: string[];
+  /** Schedule information for the Job Definition. */
+  schedule?: ScheduleInfo;
+  /** The checksum validation mode for the job definition. */
+  dataIntegrityValidation?: DataIntegrityValidation;
+  /** Boolean to preserve permissions or not. */
+  preservePermissions?: boolean;
 }
 
 export function jobDefinitionPropertiesSerializer(item: JobDefinitionProperties): any {
@@ -1685,6 +1886,14 @@ export function jobDefinitionPropertiesSerializer(item: JobDefinitionProperties)
     sourceTargetMap: !item["sourceTargetMap"]
       ? item["sourceTargetMap"]
       : _jobDefinitionPropertiesSourceTargetMapSerializer(item["sourceTargetMap"]),
+    connections: !item["connections"]
+      ? item["connections"]
+      : item["connections"].map((p: any) => {
+          return p;
+        }),
+    schedule: !item["schedule"] ? item["schedule"] : scheduleInfoSerializer(item["schedule"]),
+    dataIntegrityValidation: item["dataIntegrityValidation"],
+    preservePermissions: item["preservePermissions"],
   };
 }
 
@@ -1708,12 +1917,22 @@ export function jobDefinitionPropertiesDeserializer(item: any): JobDefinitionPro
       ? item["sourceTargetMap"]
       : _jobDefinitionPropertiesSourceTargetMapDeserializer(item["sourceTargetMap"]),
     provisioningState: item["provisioningState"],
+    connections: !item["connections"]
+      ? item["connections"]
+      : item["connections"].map((p: any) => {
+          return p;
+        }),
+    schedule: !item["schedule"] ? item["schedule"] : scheduleInfoDeserializer(item["schedule"]),
+    dataIntegrityValidation: item["dataIntegrityValidation"],
+    preservePermissions: item["preservePermissions"],
   };
 }
 
 /** The type of the Job. */
 export enum KnownJobType {
+  /** OnPremToCloud */
   OnPremToCloud = "OnPremToCloud",
+  /** CloudToCloud */
   CloudToCloud = "CloudToCloud",
 }
 
@@ -1729,7 +1948,9 @@ export type JobType = string;
 
 /** Strategy to use for copy. */
 export enum KnownCopyMode {
+  /** Additive */
   Additive = "Additive",
+  /** Mirror */
   Mirror = "Mirror",
 }
 
@@ -1745,14 +1966,23 @@ export type CopyMode = string;
 
 /** The current status of the Job Run in a non-terminal state, if exists. */
 export enum KnownJobRunStatus {
+  /** Queued */
   Queued = "Queued",
+  /** Started */
   Started = "Started",
+  /** Running */
   Running = "Running",
+  /** CancelRequested */
   CancelRequested = "CancelRequested",
+  /** Canceling */
   Canceling = "Canceling",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** PausedByBandwidthManagement */
   PausedByBandwidthManagement = "PausedByBandwidthManagement",
 }
 
@@ -1878,6 +2108,117 @@ export function targetEndpointPropertiesDeserializer(item: any): TargetEndpointP
   };
 }
 
+/** Schedule information for the Job Definition. */
+export interface ScheduleInfo {
+  /** Type of schedule — Monthly, Weekly, or Daily */
+  frequency: Frequency;
+  /** Whether the schedule is currently active */
+  isActive: boolean;
+  /** Time of day to execute (hours and minutes) */
+  executionTime?: Time;
+  /** Specific one-time execution date and time */
+  startDate?: Date;
+  /** Days of the week for weekly schedules */
+  daysOfWeek?: string[];
+  /** Days of the month for monthly schedules */
+  daysOfMonth?: number[];
+  /** Optional CRON expression for advanced scheduling */
+  cronExpression?: string;
+  /** End time of the schedule (in UTC) */
+  endDate?: Date;
+}
+
+export function scheduleInfoSerializer(item: ScheduleInfo): any {
+  return {
+    frequency: item["frequency"],
+    isActive: item["isActive"],
+    executionTime: !item["executionTime"]
+      ? item["executionTime"]
+      : timeSerializer(item["executionTime"]),
+    startDate: !item["startDate"] ? item["startDate"] : item["startDate"].toISOString(),
+    daysOfWeek: !item["daysOfWeek"]
+      ? item["daysOfWeek"]
+      : item["daysOfWeek"].map((p: any) => {
+          return p;
+        }),
+    daysOfMonth: !item["daysOfMonth"]
+      ? item["daysOfMonth"]
+      : item["daysOfMonth"].map((p: any) => {
+          return p;
+        }),
+    cronExpression: item["cronExpression"],
+    endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+  };
+}
+
+export function scheduleInfoDeserializer(item: any): ScheduleInfo {
+  return {
+    frequency: item["frequency"],
+    isActive: item["isActive"],
+    executionTime: !item["executionTime"]
+      ? item["executionTime"]
+      : timeDeserializer(item["executionTime"]),
+    startDate: !item["startDate"] ? item["startDate"] : new Date(item["startDate"]),
+    daysOfWeek: !item["daysOfWeek"]
+      ? item["daysOfWeek"]
+      : item["daysOfWeek"].map((p: any) => {
+          return p;
+        }),
+    daysOfMonth: !item["daysOfMonth"]
+      ? item["daysOfMonth"]
+      : item["daysOfMonth"].map((p: any) => {
+          return p;
+        }),
+    cronExpression: item["cronExpression"],
+    endDate: !item["endDate"] ? item["endDate"] : new Date(item["endDate"]),
+  };
+}
+
+/** Type of schedule — Monthly, Weekly, or Daily */
+export enum KnownFrequency {
+  /** Monthly */
+  Monthly = "Monthly",
+  /** Weekly */
+  Weekly = "Weekly",
+  /** Daily */
+  Daily = "Daily",
+  /** Onetime */
+  Onetime = "Onetime",
+}
+
+/**
+ * Type of schedule — Monthly, Weekly, or Daily \
+ * {@link KnownFrequency} can be used interchangeably with Frequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monthly** \
+ * **Weekly** \
+ * **Daily** \
+ * **Onetime**
+ */
+export type Frequency = string;
+
+/** The Data integrity validation mode. */
+export enum KnownDataIntegrityValidation {
+  /** SaveVerifyFileMD5 */
+  SaveVerifyFileMD5 = "SaveVerifyFileMD5",
+  /** SaveFileMD5 */
+  SaveFileMD5 = "SaveFileMD5",
+  /** None */
+  None = "None",
+}
+
+/**
+ * The Data integrity validation mode. \
+ * {@link KnownDataIntegrityValidation} can be used interchangeably with DataIntegrityValidation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SaveVerifyFileMD5** \
+ * **SaveFileMD5** \
+ * **None**
+ */
+export type DataIntegrityValidation = string;
+
 /** The Job Definition resource. */
 export interface JobDefinitionUpdateParameters {
   /** Job definition properties. */
@@ -1900,6 +2241,10 @@ export interface JobDefinitionUpdateProperties {
   copyMode?: CopyMode;
   /** Name of the Agent to assign for new Job Runs of this Job Definition. */
   agentName?: string;
+  /** List of connections associated to this job */
+  connections?: string[];
+  /** Data Integrity Validation mode. */
+  dataIntegrityValidation?: DataIntegrityValidation;
 }
 
 export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdateProperties): any {
@@ -1907,6 +2252,12 @@ export function jobDefinitionUpdatePropertiesSerializer(item: JobDefinitionUpdat
     description: item["description"],
     copyMode: item["copyMode"],
     agentName: item["agentName"],
+    connections: !item["connections"]
+      ? item["connections"]
+      : item["connections"].map((p: any) => {
+          return p;
+        }),
+    dataIntegrityValidation: item["dataIntegrityValidation"],
   };
 }
 
@@ -1949,6 +2300,128 @@ export function jobRunResourceIdDeserializer(item: any): JobRunResourceId {
   };
 }
 
+/** The Connection resource. */
+export interface Connection extends ProxyResource {
+  /** Connection properties. */
+  properties: ConnectionProperties;
+}
+
+export function connectionSerializer(item: Connection): any {
+  return { properties: connectionPropertiesSerializer(item["properties"]) };
+}
+
+export function connectionDeserializer(item: any): Connection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: connectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the Connection resource. */
+export interface ConnectionProperties {
+  /** A description for the Connection. */
+  description?: string;
+  /** The connection status. */
+  readonly connectionStatus?: ConnectionStatus;
+  /** The PrivateLinkServiceId for the connection. */
+  privateLinkServiceId: string;
+  /** The PrivateEndpointName associated with the connection. */
+  readonly privateEndpointName?: string;
+  /** The privateEndpoint resource Id */
+  readonly privateEndpointResourceId?: string;
+  /** List of job definitions associated with this connection. */
+  jobList?: string[];
+  /** The provisioning state of this resource. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function connectionPropertiesSerializer(item: ConnectionProperties): any {
+  return {
+    description: item["description"],
+    privateLinkServiceId: item["privateLinkServiceId"],
+    jobList: !item["jobList"]
+      ? item["jobList"]
+      : item["jobList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function connectionPropertiesDeserializer(item: any): ConnectionProperties {
+  return {
+    description: item["description"],
+    connectionStatus: item["connectionStatus"],
+    privateLinkServiceId: item["privateLinkServiceId"],
+    privateEndpointName: item["privateEndpointName"],
+    privateEndpointResourceId: item["privateEndpointResourceId"],
+    jobList: !item["jobList"]
+      ? item["jobList"]
+      : item["jobList"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The connection status. */
+export enum KnownConnectionStatus {
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Disconnected */
+  Disconnected = "Disconnected",
+  /** Pending */
+  Pending = "Pending",
+  /** Stale */
+  Stale = "Stale",
+}
+
+/**
+ * The connection status. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected** \
+ * **Pending** \
+ * **Stale**
+ */
+export type ConnectionStatus = string;
+
+/** List of Connections. */
+export interface _ConnectionList {
+  /** The Connection items on this page */
+  readonly value: Connection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _connectionListDeserializer(item: any): _ConnectionList {
+  return {
+    value: connectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function connectionArraySerializer(result: Array<Connection>): any[] {
+  return result.map((item) => {
+    return connectionSerializer(item);
+  });
+}
+
+export function connectionArrayDeserializer(result: Array<Connection>): any[] {
+  return result.map((item) => {
+    return connectionDeserializer(item);
+  });
+}
+
 /** The Job Run resource. */
 export interface JobRun extends ProxyResource {
   /** Job run properties. */
@@ -1983,6 +2456,10 @@ export interface JobRunProperties {
   readonly executionStartTime?: Date;
   /** End time of the run. Null if Agent has not reported that the job has ended. */
   readonly executionEndTime?: Date;
+  /** Trigger type for the job run. Default is manual. */
+  readonly triggerType?: TriggerType;
+  /** Scheduled execution time. Null if Trigger type is manual. */
+  readonly scheduledExecutionTime?: Date;
   /** The last updated time of the Job Run. */
   readonly lastStatusUpdate?: Date;
   /** Number of items scanned so far in source. */
@@ -2025,6 +2502,8 @@ export interface JobRunProperties {
   readonly jobDefinitionProperties?: any;
   /** Error details. */
   readonly error?: JobRunError;
+  /** Warning details. */
+  readonly warnings?: JobRunWarning[];
   /** The provisioning state of this resource. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -2041,6 +2520,10 @@ export function jobRunPropertiesDeserializer(item: any): JobRunProperties {
     executionEndTime: !item["executionEndTime"]
       ? item["executionEndTime"]
       : new Date(item["executionEndTime"]),
+    triggerType: item["triggerType"],
+    scheduledExecutionTime: !item["scheduledExecutionTime"]
+      ? item["scheduledExecutionTime"]
+      : new Date(item["scheduledExecutionTime"]),
     lastStatusUpdate: !item["lastStatusUpdate"]
       ? item["lastStatusUpdate"]
       : new Date(item["lastStatusUpdate"]),
@@ -2064,14 +2547,20 @@ export function jobRunPropertiesDeserializer(item: any): JobRunProperties {
     targetProperties: item["targetProperties"],
     jobDefinitionProperties: item["jobDefinitionProperties"],
     error: !item["error"] ? item["error"] : jobRunErrorDeserializer(item["error"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : jobRunWarningArrayDeserializer(item["warnings"]),
     provisioningState: item["provisioningState"],
   };
 }
 
 /** The status of Agent's scanning of source. */
 export enum KnownJobRunScanStatus {
+  /** NotStarted */
   NotStarted = "NotStarted",
+  /** Scanning */
   Scanning = "Scanning",
+  /** Completed */
   Completed = "Completed",
 }
 
@@ -2086,6 +2575,24 @@ export enum KnownJobRunScanStatus {
  */
 export type JobRunScanStatus = string;
 
+/** The type of Job run trigger Manual or Scheduled. */
+export enum KnownTriggerType {
+  /** Manual */
+  Manual = "Manual",
+  /** Scheduled */
+  Scheduled = "Scheduled",
+}
+
+/**
+ * The type of Job run trigger Manual or Scheduled. \
+ * {@link KnownTriggerType} can be used interchangeably with TriggerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual** \
+ * **Scheduled**
+ */
+export type TriggerType = string;
+
 /** Error type */
 export interface JobRunError {
   /** Error code of the given entry. */
@@ -2097,6 +2604,30 @@ export interface JobRunError {
 }
 
 export function jobRunErrorDeserializer(item: any): JobRunError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+  };
+}
+
+export function jobRunWarningArrayDeserializer(result: Array<JobRunWarning>): any[] {
+  return result.map((item) => {
+    return jobRunWarningDeserializer(item);
+  });
+}
+
+/** Warning type */
+export interface JobRunWarning {
+  /** Error code of the given entry. */
+  code?: string;
+  /** Warning message of the given entry. */
+  message?: string;
+  /** Target of the given error entry. */
+  target?: string;
+}
+
+export function jobRunWarningDeserializer(item: any): JobRunWarning {
   return {
     code: item["code"],
     message: item["message"],
@@ -2131,4 +2662,8 @@ export enum KnownVersions {
   V20240701 = "2024-07-01",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2025-08-01 API version. */
+  V20250801 = "2025-08-01",
+  /** The 2025-12-01 API version. */
+  V20251201 = "2025-12-01",
 }

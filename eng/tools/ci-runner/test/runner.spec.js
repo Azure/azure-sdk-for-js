@@ -76,7 +76,7 @@ describe("runAllWithDirection two-pass resolution", () => {
     );
 
     // No ...P or !P patterns in final command
-    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "-F");
+    const finalFilters = testCall.filter((_, i) => i > 0 && testCall[i - 1] === "-F");
     for (const f of finalFilters) {
       assert.ok(!f.startsWith("..."), `should not have ...prefix: ${f}`);
       assert.ok(!f.startsWith("!"), `should not have !exclusion: ${f}`);
@@ -156,11 +156,7 @@ describe("runAllWithDirection two-pass resolution", () => {
   });
 
   it("at scale: 400 exclusions produce a short final command", () => {
-    const filters = [
-      "...@azure/app-configuration",
-      "@azure/identity",
-      "@azure/template",
-    ];
+    const filters = ["...@azure/app-configuration", "@azure/identity", "@azure/template"];
 
     for (let i = 0; i < 400; i++) {
       filters.push(`!@azure/other-batch-pkg-${i}`);
@@ -220,7 +216,7 @@ describe("runAllWithDirection two-pass resolution", () => {
     runAllWithDirection("test:node", filters, [], false);
 
     const testCall = vi.mocked(spawnPnpm).mock.calls[0];
-    const finalFilters = testCall.filter((a, i) => i > 0 && testCall[i - 1] === "-F");
+    const finalFilters = testCall.filter((_, i) => i > 0 && testCall[i - 1] === "-F");
     assert.deepStrictEqual(finalFilters, ["@azure/app-configuration"]);
   });
 

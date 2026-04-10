@@ -616,6 +616,20 @@ describe("Serializer", function () {
       assert.equal(result.birthdate, "2017-12-13T02:29:51.000Z");
     });
 
+    it("should set __proto__ as an own data property when serializing additional properties", function () {
+      const bodyParameter = JSON.parse(
+        `{"id":5,"name":"Funny","odatalocation":"westus","color":"red","__proto__":{"isAdmin": true}}`,
+      );
+
+      const serializer = createSerializer(Mappers);
+      const result = serializer.serialize(Mappers.MonitorDomain, bodyParameter, "bodyParameter");
+
+      // "__proto__" must be an own data property on result, not a prototype-setter side-effect.
+      assert.isUndefined(result.isAdmin);
+      assert.isTrue(Object.prototype.hasOwnProperty.call(result, "__proto__"));
+      assert.deepEqual(result.__proto__, { isAdmin: true });
+    });
+
     it("should allow null when required: true and nullable: true", function () {
       const mapper: Mapper = {
         required: false,
@@ -1293,6 +1307,30 @@ describe("Serializer", function () {
       assert.equal(result.name, "Funny");
     });
 
+    it("should not include polluted Object.prototype properties when deserializing", function () {
+      const pollutedKey = "__copilot_test_polluted__";
+      (Object.prototype as any)[pollutedKey] = "injected";
+      try {
+        const responseBody = {
+          id: 5,
+          name: "Funny",
+          status: true,
+          "@odata.location": "westus",
+          color: "red",
+        };
+        const serializer = createSerializer(Mappers);
+        const result = serializer.deserialize(Mappers.PetAP, responseBody, "responseBody");
+
+        // The polluted prototype property must NOT appear as an own property on the result.
+        assert.isFalse(
+          Object.prototype.hasOwnProperty.call(result, pollutedKey),
+          "Deserialized result must not include properties inherited from a polluted Object.prototype",
+        );
+      } finally {
+        delete (Object.prototype as any)[pollutedKey];
+      }
+    });
+
     it("should deserialize headerCollectionPrefix", function () {
       const mapper: CompositeMapper = {
         serializedName: "something",
@@ -1401,8 +1439,8 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
       });
 
       it("should be deserialized properly when polymorphicDiscriminator specified in nested property", function () {
@@ -1479,10 +1517,10 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
-        assert.strictEqual("shark", result.sibling.fishtype);
-        assert.strictEqual(15, result.sibling.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
+        assert.strictEqual(result.sibling.fishtype, "shark");
+        assert.strictEqual(result.sibling.age, 15);
       });
 
       it("should be deserialized properly when polymorphicDiscriminator specified in the parent", function () {
@@ -1555,10 +1593,10 @@ describe("Serializer", function () {
           "",
         );
 
-        assert.strictEqual("shark", result.fishtype);
-        assert.strictEqual(10, result.age);
-        assert.strictEqual("shark", result.sibling.fishtype);
-        assert.strictEqual(15, result.sibling.age);
+        assert.strictEqual(result.fishtype, "shark");
+        assert.strictEqual(result.age, 10);
+        assert.strictEqual(result.sibling.fishtype, "shark");
+        assert.strictEqual(result.sibling.age, 15);
       });
 
       it("should be deserialized properly when responseBody is an empty string", function () {

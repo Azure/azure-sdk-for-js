@@ -4,7 +4,7 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
-import { VerboseReporter } from "vitest/reporters";
+import { VerboseReporter } from "vitest/node";
 
 /**
  * vitest reporter that does not output "serialized error" to console which may contain secrets
