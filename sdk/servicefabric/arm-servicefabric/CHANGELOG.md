@@ -48,7 +48,6 @@ Compared with version 3.0.0
   - Removed Interface ApplicationResourceList
   - Removed Interface ApplicationTypeResourceList
   - Removed Interface ApplicationTypeVersionResourceList
-  - Removed Interface Notification_2
   - Removed Interface ServiceResourceList
   - Type of parameter partitionScheme of interface PartitionSchemeDescription is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
   - Type of parameter type of interface ServicePlacementPolicyDescription is changed from "ServicePlacementPolicyDescription" to ServicePlacementPolicyType
