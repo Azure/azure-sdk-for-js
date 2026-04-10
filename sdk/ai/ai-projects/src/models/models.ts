@@ -6214,44 +6214,6 @@ export function sessionDirectoryEntryDeserializer(item: any): SessionDirectoryEn
   };
 }
 
-/** model interface ManagedAgentIdentityBlueprint */
-export interface ManagedAgentIdentityBlueprint {
-  readonly name: string;
-}
-
-export function managedAgentIdentityBlueprintDeserializer(
-  item: any,
-): ManagedAgentIdentityBlueprint {
-  return {
-    name: item["name"],
-  };
-}
-
-/** Paged collection of ManagedAgentIdentityBlueprint items */
-export interface PagedManagedAgentIdentityBlueprint {
-  /** The ManagedAgentIdentityBlueprint items on this page */
-  value: ManagedAgentIdentityBlueprint[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function pagedManagedAgentIdentityBlueprintDeserializer(
-  item: any,
-): PagedManagedAgentIdentityBlueprint {
-  return {
-    value: managedAgentIdentityBlueprintArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function managedAgentIdentityBlueprintArrayDeserializer(
-  result: Array<ManagedAgentIdentityBlueprint>,
-): any[] {
-  return result.map((item) => {
-    return managedAgentIdentityBlueprintDeserializer(item);
-  });
-}
-
 /** Evaluation Taxonomy Definition */
 export interface EvaluationTaxonomy {
   /** Asset ID, a unique identifier for the asset */
@@ -6977,16 +6939,6 @@ export function promptBasedEvaluatorDefinitionDeserializer(
       : evaluatorMetricRecordDeserializer(item["metrics"]),
     prompt_text: item["prompt_text"],
   };
-}
-
-/** Request body for getting evaluator credentials */
-export interface EvaluatorCredentialRequest {
-  /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
-  blob_uri: string;
-}
-
-export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
-  return { blob_uri: item["blob_uri"] };
 }
 
 /** The response body for cluster insights. */

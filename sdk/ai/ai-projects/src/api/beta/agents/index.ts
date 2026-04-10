@@ -2,10 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  listManagedIdentityBlueprints,
-  deleteManagedIdentityBlueprint,
-  getManagedIdentityBlueprint,
-  createOrUpdateManagedIdentityBlueprint,
   deleteSessionFile,
   listSessionFiles,
   downloadSessionFile,
@@ -17,10 +13,6 @@ export {
   patchAgentObject,
 } from "./operations.js";
 export type {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
   BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,

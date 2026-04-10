@@ -9,8 +9,6 @@ import type {
   _AgentsPagedResultAgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
-  ManagedAgentIdentityBlueprint,
-  PagedManagedAgentIdentityBlueprint,
   BetaAgentsDownloadSessionFileResponse,
 } from "../../../models/models.js";
 import {
@@ -23,17 +21,11 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
-  managedAgentIdentityBlueprintDeserializer,
-  pagedManagedAgentIdentityBlueprintDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
   BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
@@ -46,208 +38,6 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-
-export function _listManagedIdentityBlueprintsSend(
-  context: Client,
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints{?order,limit,api-version}",
-    {
-      order: options?.order,
-      limit: options?.limit,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listManagedIdentityBlueprintsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PagedManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return pagedManagedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-export async function listManagedIdentityBlueprints(
-  context: Client,
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
-): Promise<PagedManagedAgentIdentityBlueprint> {
-  const result = await _listManagedIdentityBlueprintsSend(context, options);
-  return _listManagedIdentityBlueprintsDeserialize(result);
-}
-
-export function _deleteManagedIdentityBlueprintSend(
-  context: Client,
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
-    {
-      blueprint_name: blueprintName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
-  });
-}
-
-export async function _deleteManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Deletes a managed agent identity blueprint by name. */
-export async function deleteManagedIdentityBlueprint(
-  context: Client,
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteManagedIdentityBlueprintSend(context, blueprintName, options);
-  return _deleteManagedIdentityBlueprintDeserialize(result);
-}
-
-export function _getManagedIdentityBlueprintSend(
-  context: Client,
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
-    {
-      blueprint_name: blueprintName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _getManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return managedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-/** Retrieves a managed agent identity blueprint by name. */
-export async function getManagedIdentityBlueprint(
-  context: Client,
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _getManagedIdentityBlueprintSend(context, blueprintName, options);
-  return _getManagedIdentityBlueprintDeserialize(result);
-}
-
-export function _createOrUpdateManagedIdentityBlueprintSend(
-  context: Client,
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api-version}",
-    {
-      blueprint_name: blueprintName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { name: name },
-  });
-}
-
-export async function _createOrUpdateManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return managedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-export async function createOrUpdateManagedIdentityBlueprint(
-  context: Client,
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _createOrUpdateManagedIdentityBlueprintSend(
-    context,
-    blueprintName,
-    name,
-    options,
-  );
-  return _createOrUpdateManagedIdentityBlueprintDeserialize(result);
-}
 
 export function _deleteSessionFileSend(
   context: Client,

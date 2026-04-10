@@ -3,10 +3,6 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  listManagedIdentityBlueprints,
-  deleteManagedIdentityBlueprint,
-  getManagedIdentityBlueprint,
-  createOrUpdateManagedIdentityBlueprint,
   deleteSessionFile,
   listSessionFiles,
   downloadSessionFile,
@@ -18,10 +14,6 @@ import {
   patchAgentObject,
 } from "../../../api/beta/agents/operations.js";
 import type {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
   BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
@@ -38,32 +30,12 @@ import type {
   AgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
-  ManagedAgentIdentityBlueprint,
-  PagedManagedAgentIdentityBlueprint,
   BetaAgentsDownloadSessionFileResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
-  listManagedIdentityBlueprints: (
-    options?: ListManagedIdentityBlueprintsOptionalParams,
-  ) => Promise<PagedManagedAgentIdentityBlueprint>;
-  /** Deletes a managed agent identity blueprint by name. */
-  deleteManagedIdentityBlueprint: (
-    blueprintName: string,
-    options?: DeleteManagedIdentityBlueprintOptionalParams,
-  ) => Promise<void>;
-  /** Retrieves a managed agent identity blueprint by name. */
-  getManagedIdentityBlueprint: (
-    blueprintName: string,
-    options?: GetManagedIdentityBlueprintOptionalParams,
-  ) => Promise<ManagedAgentIdentityBlueprint>;
-  createOrUpdateManagedIdentityBlueprint: (
-    blueprintName: string,
-    name: string,
-    options?: CreateOrUpdateManagedIdentityBlueprintOptionalParams,
-  ) => Promise<ManagedAgentIdentityBlueprint>;
   /**
    * Delete a file or directory from the session sandbox.
    * If `recursive` is false (default) and the target is a non-empty directory, the API returns 409 Conflict.
@@ -143,21 +115,6 @@ export interface BetaAgentsOperations {
 
 function _getBetaAgents(context: AIProjectContext) {
   return {
-    listManagedIdentityBlueprints: (options?: ListManagedIdentityBlueprintsOptionalParams) =>
-      listManagedIdentityBlueprints(context, options),
-    deleteManagedIdentityBlueprint: (
-      blueprintName: string,
-      options?: DeleteManagedIdentityBlueprintOptionalParams,
-    ) => deleteManagedIdentityBlueprint(context, blueprintName, options),
-    getManagedIdentityBlueprint: (
-      blueprintName: string,
-      options?: GetManagedIdentityBlueprintOptionalParams,
-    ) => getManagedIdentityBlueprint(context, blueprintName, options),
-    createOrUpdateManagedIdentityBlueprint: (
-      blueprintName: string,
-      name: string,
-      options?: CreateOrUpdateManagedIdentityBlueprintOptionalParams,
-    ) => createOrUpdateManagedIdentityBlueprint(context, blueprintName, name, options),
     deleteSessionFile: (
       agentName: string,
       sessionId: string,

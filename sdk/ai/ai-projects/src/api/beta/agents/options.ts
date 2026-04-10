@@ -5,29 +5,6 @@ import type { AgentEndpoint, AgentCard, PageOrder } from "../../../models/models
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ListManagedIdentityBlueprintsOptionalParams extends OperationOptions {
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-}
-
-/** Optional parameters. */
-export interface DeleteManagedIdentityBlueprintOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface GetManagedIdentityBlueprintOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CreateOrUpdateManagedIdentityBlueprintOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";

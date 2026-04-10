@@ -232,8 +232,6 @@ export type {
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   SessionDirectoryEntry,
-  ManagedAgentIdentityBlueprint,
-  PagedManagedAgentIdentityBlueprint,
   EvaluationTaxonomy,
   EvaluationTaxonomyInput,
   EvaluationTaxonomyInputUnion,
@@ -259,7 +257,6 @@ export type {
   EvaluatorMetricDirection,
   CodeBasedEvaluatorDefinition,
   PromptBasedEvaluatorDefinition,
-  EvaluatorCredentialRequest,
   Insight,
   InsightsMetadata,
   OperationState,
@@ -403,10 +400,6 @@ export type {
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
 export type {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
   BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
@@ -425,8 +418,6 @@ export type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./api/beta/evaluationTaxonomies/index.js";
 export type {
-  BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsStartPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
