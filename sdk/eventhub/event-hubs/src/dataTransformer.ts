@@ -51,18 +51,7 @@ export const defaultDataTransformer = {
       result = message.data_section(null);
     } else {
       try {
-        let bodyStr: string;
-
-        if (typeof normalizedBody === "number") {
-          bodyStr = Number.isFinite(normalizedBody)
-            ? String(normalizedBody)
-            : JSON.stringify(normalizedBody);
-        } else if (typeof normalizedBody === "boolean") {
-          bodyStr = String(normalizedBody);
-        } else {
-          bodyStr = JSON.stringify(normalizedBody);
-        }
-
+        const bodyStr = JSON.stringify(normalizedBody);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
       } catch (err: any) {
         const msg =
