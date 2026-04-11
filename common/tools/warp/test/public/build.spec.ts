@@ -661,13 +661,13 @@ describe("build (integration)", () => {
     // Default (ESM/CJS) implementation
     await fs.writeFile(
       path.join(tmpDir, "src/util.ts"),
-      'export function encode(s: string): string { return `node:${s}`; }\n',
+      "export function encode(s: string): string { return `node:${s}`; }\n",
     );
 
     // Browser implementation
     await fs.writeFile(
       path.join(tmpDir, "src/util-browser.mts"),
-      'export function encode(s: string): string { return `browser:${s}`; }\n',
+      "export function encode(s: string): string { return `browser:${s}`; }\n",
     );
 
     const baseTsconfig = {
