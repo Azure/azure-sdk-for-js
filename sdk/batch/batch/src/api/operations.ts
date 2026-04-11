@@ -104,14 +104,13 @@ import {
   _batchNodeListResultDeserializer,
   batchNodeVMExtensionDeserializer,
   _batchNodeVMExtensionListResultDeserializer,
-  GetNodeFileResponse,
-  GetTaskFileResponse,
 } from "../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
-import { getBinaryResponseBody } from "../static-helpers/serialization/get-binary-response-body.js";
+import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type {
   ListNodeFilesOptionalParams,
@@ -411,10 +410,16 @@ export function _getNodeFileSend(
   });
 }
 
-export async function _getNodeFileDeserialize(
-  result: StreamableMethod,
-): Promise<GetNodeFileResponse> {
-  return getBinaryResponseBody(result, ["200"], batchErrorDeserializer);
+export async function _getNodeFileDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = batchErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return result.body;
 }
 
 /** Returns the content of the specified Compute Node file. */
@@ -424,9 +429,10 @@ export async function getNodeFile(
   nodeId: string,
   filePath: string,
   options: GetNodeFileOptionalParams = { requestOptions: {} },
-): Promise<GetNodeFileResponse> {
+): Promise<Uint8Array> {
   const streamableMethod = _getNodeFileSend(context, poolId, nodeId, filePath, options);
-  return _getNodeFileDeserialize(streamableMethod);
+  const result = await getBinaryResponse(streamableMethod);
+  return _getNodeFileDeserialize(result);
 }
 
 export function _deleteNodeFileSend(
@@ -1730,10 +1736,16 @@ export function _getTaskFileSend(
   });
 }
 
-export async function _getTaskFileDeserialize(
-  result: StreamableMethod,
-): Promise<GetTaskFileResponse> {
-  return getBinaryResponseBody(result, ["200"], batchErrorDeserializer);
+export async function _getTaskFileDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = batchErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return result.body;
 }
 
 /** Returns the content of the specified Task file. */
@@ -1743,9 +1755,10 @@ export async function getTaskFile(
   taskId: string,
   filePath: string,
   options: GetTaskFileOptionalParams = { requestOptions: {} },
-): Promise<GetTaskFileResponse> {
+): Promise<Uint8Array> {
   const streamableMethod = _getTaskFileSend(context, jobId, taskId, filePath, options);
-  return _getTaskFileDeserialize(streamableMethod);
+  const result = await getBinaryResponse(streamableMethod);
+  return _getTaskFileDeserialize(result);
 }
 
 export function _deleteTaskFileSend(
@@ -5390,8 +5403,8 @@ export function _listPoolUsageMetricsSend(
       "api%2Dversion": context.apiVersion ?? "2025-06-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
-      startTime: !options?.starttime ? options?.starttime : options?.starttime.toISOString(),
-      endtime: !options?.endtime ? options?.endtime : options?.endtime.toISOString(),
+      startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
+      endtime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
       "%24filter": options?.filter,
     },
     {

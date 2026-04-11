@@ -143,12 +143,12 @@ export class BatchClient {
     getJobTaskCounts(jobId: string, options?: GetJobTaskCountsOptionalParams): Promise<BatchTaskCountsResult>;
     getNode(poolId: string, nodeId: string, options?: GetNodeOptionalParams): Promise<BatchNode>;
     getNodeExtension(poolId: string, nodeId: string, extensionName: string, options?: GetNodeExtensionOptionalParams): Promise<BatchNodeVMExtension>;
-    getNodeFile(poolId: string, nodeId: string, filePath: string, options?: GetNodeFileOptionalParams): Promise<GetNodeFileResponse>;
+    getNodeFile(poolId: string, nodeId: string, filePath: string, options?: GetNodeFileOptionalParams): Promise<Uint8Array>;
     getNodeFileProperties(poolId: string, nodeId: string, filePath: string, options?: GetNodeFilePropertiesOptionalParams): Promise<BatchNodeFile>;
     getNodeRemoteLoginSettings(poolId: string, nodeId: string, options?: GetNodeRemoteLoginSettingsOptionalParams): Promise<BatchNodeRemoteLoginSettings>;
     getPool(poolId: string, options?: GetPoolOptionalParams): Promise<BatchPool>;
     getTask(jobId: string, taskId: string, options?: GetTaskOptionalParams): Promise<BatchTask>;
-    getTaskFile(jobId: string, taskId: string, filePath: string, options?: GetTaskFileOptionalParams): Promise<GetTaskFileResponse>;
+    getTaskFile(jobId: string, taskId: string, filePath: string, options?: GetTaskFileOptionalParams): Promise<Uint8Array>;
     getTaskFileProperties(jobId: string, taskId: string, filePath: string, options?: GetTaskFilePropertiesOptionalParams): Promise<BatchNodeFile>;
     jobScheduleExists(jobScheduleId: string, options?: JobScheduleExistsOptionalParams): Promise<boolean>;
     listApplications(options?: ListApplicationsOptionalParams): PagedAsyncIterableIterator<BatchApplication>;
@@ -1654,12 +1654,6 @@ export interface GetNodeFilePropertiesOptionalParams extends OperationOptions {
     timeoutInSeconds?: number;
 }
 
-// @public (undocumented)
-export type GetNodeFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
 // @public
 export interface GetNodeOptionalParams extends OperationOptions {
     clientRequestId?: string;
@@ -1711,12 +1705,6 @@ export interface GetTaskFilePropertiesOptionalParams extends OperationOptions {
     returnClientRequestId?: boolean;
     timeoutInSeconds?: number;
 }
-
-// @public (undocumented)
-export type GetTaskFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 // @public
 export interface GetTaskOptionalParams extends OperationOptions {
@@ -1915,12 +1903,12 @@ export interface ListPoolsOptionalParams extends OperationOptions {
 // @public
 export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    endtime?: Date;
+    endTime?: Date;
     filter?: string;
     maxResults?: number;
     ocpDate?: Date;
     returnClientRequestId?: boolean;
-    starttime?: Date;
+    startTime?: Date;
     timeoutInSeconds?: number;
 }
 

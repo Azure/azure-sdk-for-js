@@ -398,7 +398,7 @@ export interface GetNodeExtensionOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getNodeFile(context: BatchContext, poolId: string, nodeId: string, filePath: string, options?: GetNodeFileOptionalParams): Promise<GetNodeFileResponse>;
+export function getNodeFile(context: BatchContext, poolId: string, nodeId: string, filePath: string, options?: GetNodeFileOptionalParams): Promise<Uint8Array>;
 
 // @public
 export interface GetNodeFileOptionalParams extends OperationOptions {
@@ -465,7 +465,7 @@ export interface GetPoolOptionalParams extends OperationOptions {
 export function getTask(context: BatchContext, jobId: string, taskId: string, options?: GetTaskOptionalParams): Promise<BatchTask>;
 
 // @public
-export function getTaskFile(context: BatchContext, jobId: string, taskId: string, filePath: string, options?: GetTaskFileOptionalParams): Promise<GetTaskFileResponse>;
+export function getTaskFile(context: BatchContext, jobId: string, taskId: string, filePath: string, options?: GetTaskFileOptionalParams): Promise<Uint8Array>;
 
 // @public
 export interface GetTaskFileOptionalParams extends OperationOptions {
@@ -666,12 +666,12 @@ export function listPoolUsageMetrics(context: BatchContext, options?: ListPoolUs
 // @public
 export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    endtime?: Date;
+    endTime?: Date;
     filter?: string;
     maxResults?: number;
     ocpDate?: Date;
     returnClientRequestId?: boolean;
-    starttime?: Date;
+    startTime?: Date;
     timeoutInSeconds?: number;
 }
 

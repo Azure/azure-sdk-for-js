@@ -1254,18 +1254,6 @@ export interface FileProperties {
     lastModified: Date;
 }
 
-// @public (undocumented)
-export type GetNodeFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public (undocumented)
-export type GetTaskFileResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
 // @public
 export interface HostEndpointSettings {
     inVmAccessControlProfileReferenceId?: string;

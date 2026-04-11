@@ -2280,13 +2280,13 @@ export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
    * a half hours before the current time. If not specified this defaults to the
    * start time of the last aggregation interval currently available.
    */
-  starttime?: Date;
+  startTime?: Date;
   /**
    * The latest time from which to include metrics. This must be at least two hours
    * before the current time. If not specified this defaults to the end time of the
    * last aggregation interval currently available.
    */
-  endtime?: Date;
+  endTime?: Date;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
    * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.

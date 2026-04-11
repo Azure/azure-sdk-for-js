@@ -2,7 +2,7 @@
   "apiVersions": {
     "Azure.Batch": "2025-06-01"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.52.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Azure.Batch",
     "CrossLanguageDefinitionId": {

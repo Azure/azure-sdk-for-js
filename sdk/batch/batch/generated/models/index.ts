@@ -207,7 +207,5 @@ export type {
   VMExtensionInstanceView,
   InstanceViewStatus,
   StatusLevelTypes,
-  GetNodeFileResponse,
-  GetTaskFileResponse,
 } from "./models.js";
 export { KnownVersions } from "./models.js";

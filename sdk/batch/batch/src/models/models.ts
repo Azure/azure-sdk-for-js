@@ -165,7 +165,7 @@ export interface BatchPoolCreateOptions {
   vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
-  /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   resizeTimeout?: string;
   /** The desired number of dedicated Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both. */
   targetDedicatedNodes?: number;
@@ -175,7 +175,7 @@ export interface BatchPoolCreateOptions {
   enableAutoScale?: boolean;
   /** A formula for the desired number of Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true. The formula is checked for validity before the Pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see 'Automatically scale Compute Nodes in an Azure Batch Pool' (https://learn.microsoft.com/azure/batch/batch-automatic-scaling). */
   autoScaleFormula?: string;
-  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   autoScaleEvaluationInterval?: string;
   /** Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node communication limits the maximum size of the Pool due to deployment restrictions on the Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The default value is false. */
   enableInterNodeCommunication?: boolean;
@@ -2081,7 +2081,7 @@ export interface RollingUpgradePolicy {
   maxUnhealthyInstancePercent?: number;
   /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100, inclusive. */
   maxUnhealthyUpgradedInstancePercent?: number;
-  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format.. */
+  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration is specified in ISO 8601 format. */
   pauseTimeBetweenBatches?: string;
   /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
   prioritizeUnhealthyInstances?: boolean;
@@ -2160,7 +2160,7 @@ export interface BatchPool {
   readonly vmSize: string;
   /** The virtual machine configuration for the Pool. This property must be specified. */
   readonly virtualMachineConfiguration?: VirtualMachineConfiguration;
-  /** The timeout for allocation of Compute Nodes to the Pool. This is the timeout for the most recent resize operation. (The initial sizing when the Pool is created counts as a resize.) The default value is 15 minutes. */
+  /** The timeout for allocation of Compute Nodes to the Pool. This is the timeout for the most recent resize operation. (The initial sizing when the Pool is created counts as a resize.) The default value is 15 minutes. The time duration is specified in ISO 8601 format. */
   readonly resizeTimeout?: string;
   /** A list of errors encountered while performing the last resize on the Pool. This property is set only if one or more errors occurred during the last Pool resize, and only when the Pool allocationState is Steady. */
   readonly resizeErrors?: ResizeError[];
@@ -2176,7 +2176,7 @@ export interface BatchPool {
   readonly enableAutoScale?: boolean;
   /** A formula for the desired number of Compute Nodes in the Pool. This property is set only if the Pool automatically scales, i.e. enableAutoScale is true. */
   readonly autoScaleFormula?: string;
-  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. This property is set only if the Pool automatically scales, i.e. enableAutoScale is true. */
+  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. This property is set only if the Pool automatically scales, i.e. enableAutoScale is true. The time duration is specified in ISO 8601 format. */
   readonly autoScaleEvaluationInterval?: string;
   /** The results and errors from the last execution of the autoscale formula. This property is set only if the Pool automatically scales, i.e. enableAutoScale is true. */
   readonly autoScaleRun?: AutoScaleRun;
@@ -2391,7 +2391,7 @@ export interface BatchPoolUsageStatistics {
   startTime: Date;
   /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
   lastUpdateTime: Date;
-  /** The aggregated wall-clock time of the dedicated Compute Node cores being part of the Pool. */
+  /** The aggregated wall-clock time of the dedicated Compute Node cores being part of the Pool. The time duration is specified in ISO 8601 format. */
   dedicatedCoreTime: string;
 }
 
@@ -2565,7 +2565,7 @@ export function batchPoolUpdateOptionsSerializer(item: BatchPoolUpdateOptions): 
 export interface BatchPoolEnableAutoScaleOptions {
   /** The formula for the desired number of Compute Nodes in the Pool. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued. */
   autoScaleFormula?: string;
-  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued. */
+  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). If you specify a new interval, then the existing autoscale evaluation schedule will be stopped and a new autoscale evaluation schedule will be started, with its starting time being the time when this request was issued. The time duration is specified in ISO 8601 format. */
   autoScaleEvaluationInterval?: string;
 }
 
@@ -2596,7 +2596,7 @@ export interface BatchPoolResizeOptions {
   targetDedicatedNodes?: number;
   /** The desired number of Spot/Low-priority Compute Nodes in the Pool. */
   targetLowPriorityNodes?: number;
-  /** The timeout for allocation of Nodes to the Pool or removal of Compute Nodes from the Pool. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The timeout for allocation of Nodes to the Pool or removal of Compute Nodes from the Pool. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   resizeTimeout?: string;
   /** Determines what to do with a Compute Node and its running task(s) if the Pool size is decreasing. The default value is requeue. */
   nodeDeallocationOption?: BatchNodeDeallocationOption;
@@ -2642,7 +2642,7 @@ export function batchPoolReplaceOptionsSerializer(item: BatchPoolReplaceOptions)
 export interface BatchNodeRemoveOptions {
   /** A list containing the IDs of the Compute Nodes to be removed from the specified Pool. A maximum of 100 nodes may be removed per request. */
   nodeIds: string[];
-  /** The timeout for removal of Compute Nodes to the Pool. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The timeout for removal of Compute Nodes to the Pool. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   resizeTimeout?: string;
   /** Determines what to do with a Compute Node and its running task(s) after it has been selected for deallocation. The default value is requeue. */
   nodeDeallocationOption?: BatchNodeDeallocationOption;
@@ -2960,7 +2960,7 @@ export type BatchJobState =
 
 /** The execution constraints for a Job. */
 export interface BatchJobConstraints {
-  /** The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. */
+  /** The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. The time duration is specified in ISO 8601 format. */
   maxWallClockTime?: string;
   /** The maximum number of times each Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try each Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the maximum retry count is -1, the Batch service retries Tasks without limit. The default value is 0 (no retries). */
   maxTaskRetryCount?: number;
@@ -3280,9 +3280,9 @@ export type OutputFileUploadCondition = "tasksuccess" | "taskfailure" | "taskcom
 
 /** Execution constraints to apply to a Task. */
 export interface BatchTaskConstraints {
-  /** The maximum elapsed time that the Task may run, measured from the time the Task starts. If the Task does not complete within the time limit, the Batch service terminates it. If this is not specified, there is no time limit on how long the Task may run. */
+  /** The maximum elapsed time that the Task may run, measured from the time the Task starts. If the Task does not complete within the time limit, the Batch service terminates it. If this is not specified, there is no time limit on how long the Task may run. The time duration is specified in ISO 8601 format. */
   maxWallClockTime?: string;
-  /** The minimum time to retain the Task directory on the Compute Node where it ran, from the time it completes execution. After this time, the Batch service may delete the Task directory and all its contents. The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted. */
+  /** The minimum time to retain the Task directory on the Compute Node where it ran, from the time it completes execution. After this time, the Batch service may delete the Task directory and all its contents. The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted. The time duration is specified in ISO 8601 format. */
   retentionTime?: string;
   /** The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries). */
   maxTaskRetryCount?: number;
@@ -3462,9 +3462,9 @@ export interface BatchJobReleaseTask {
   resourceFiles?: ResourceFile[];
   /** A list of environment variable settings for the Job Release Task. */
   environmentSettings?: EnvironmentSetting[];
-  /** The maximum elapsed time that the Job Release Task may run on a given Compute Node, measured from the time the Task starts. If the Task does not complete within the time limit, the Batch service terminates it. The default value is 15 minutes. You may not specify a timeout longer than 15 minutes. If you do, the Batch service rejects it with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The maximum elapsed time that the Job Release Task may run on a given Compute Node, measured from the time the Task starts. If the Task does not complete within the time limit, the Batch service terminates it. The default value is 15 minutes. You may not specify a timeout longer than 15 minutes. If you do, the Batch service rejects it with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   maxWallClockTime?: string;
-  /** The minimum time to retain the Task directory for the Job Release Task on the Compute Node. After this time, the Batch service may delete the Task directory and all its contents. The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted. */
+  /** The minimum time to retain the Task directory for the Job Release Task on the Compute Node. After this time, the Batch service may delete the Task directory and all its contents. The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted. The time duration is specified in ISO 8601 format. */
   retentionTime?: string;
   /** The user identity under which the Job Release Task runs. If omitted, the Task runs as a non-administrative user unique to the Task. */
   userIdentity?: UserIdentity;
@@ -3586,7 +3586,7 @@ export interface BatchPoolSpecification {
   taskSlotsPerNode?: number;
   /** How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is spread. */
   taskSchedulingPolicy?: BatchTaskSchedulingPolicy;
-  /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   resizeTimeout?: string;
   /** The desired number of dedicated Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both. */
   targetDedicatedNodes?: number;
@@ -3596,7 +3596,7 @@ export interface BatchPoolSpecification {
   enableAutoScale?: boolean;
   /** The formula for the desired number of Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true. The formula is checked for validity before the Pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. */
   autoScaleFormula?: string;
-  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The time interval at which to automatically adjust the Pool size according to the autoscale formula. The default value is 15 minutes. The minimum and maximum value are 5 minutes and 168 hours respectively. If you specify a value less than 5 minutes or greater than 168 hours, the Batch service rejects the request with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   autoScaleEvaluationInterval?: string;
   /** Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node communication limits the maximum size of the Pool due to deployment restrictions on the Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The default value is false. */
   enableInterNodeCommunication?: boolean;
@@ -3780,11 +3780,11 @@ export interface BatchJobStatistics {
   startTime: Date;
   /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
   lastUpdateTime: Date;
-  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job. */
+  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job. The time duration is specified in ISO 8601 format. */
   userCpuTime: string;
-  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job. */
+  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in the Job. The time duration is specified in ISO 8601 format. */
   kernelCpuTime: string;
-  /** The total wall clock time of all Tasks in the Job.  The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
+  /** The total wall clock time of all Tasks in the Job.  The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. The time duration is specified in ISO 8601 format. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in the Job. */
   readIops: string;
@@ -3800,7 +3800,7 @@ export interface BatchJobStatistics {
   failedTasksCount: string;
   /** The total number of retries on all the Tasks in the Job during the given time range. */
   taskRetriesCount: string;
-  /** The total wait time of all Tasks in the Job. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.) This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
+  /** The total wait time of all Tasks in the Job. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.) This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. The time duration is specified in ISO 8601 format. */
   waitTime: string;
 }
 
@@ -4346,9 +4346,9 @@ export interface BatchJobScheduleConfiguration {
   doNotRunUntil?: Date;
   /** A time after which no Job will be created under this Job Schedule. The schedule will move to the completed state as soon as this deadline is past and there is no active Job under this Job Schedule. If you do not specify a doNotRunAfter time, and you are creating a recurring Job Schedule, the Job Schedule will remain active until you explicitly terminate it. */
   doNotRunAfter?: Date;
-  /** The time interval, starting from the time at which the schedule indicates a Job should be created, within which a Job must be created. If a Job is not created within the startWindow interval, then the 'opportunity' is lost; no Job will be created until the next recurrence of the schedule. If the schedule is recurring, and the startWindow is longer than the recurrence interval, then this is equivalent to an infinite startWindow, because the Job that is 'due' in one recurrenceInterval is not carried forward into the next recurrence interval. The default is infinite. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The time interval, starting from the time at which the schedule indicates a Job should be created, within which a Job must be created. If a Job is not created within the startWindow interval, then the 'opportunity' is lost; no Job will be created until the next recurrence of the schedule. If the schedule is recurring, and the startWindow is longer than the recurrence interval, then this is equivalent to an infinite startWindow, because the Job that is 'due' in one recurrenceInterval is not carried forward into the next recurrence interval. The default is infinite. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   startWindow?: string;
-  /** The time interval between the start times of two successive Jobs under the Job Schedule. A Job Schedule can have at most one active Job under it at any given time. Because a Job Schedule can have at most one active Job under it at any given time, if it is time to create a new Job under a Job Schedule, but the previous Job is still running, the Batch service will not create the new Job until the previous Job finishes. If the previous Job does not finish within the startWindow period of the new recurrenceInterval, then no new Job will be scheduled for that interval. For recurring Jobs, you should normally specify a jobManagerTask in the jobSpecification. If you do not use jobManagerTask, you will need an external process to monitor when Jobs are created, add Tasks to the Jobs and terminate the Jobs ready for the next recurrence. The default is that the schedule does not recur: one Job is created, within the startWindow after the doNotRunUntil time, and the schedule is complete as soon as that Job finishes. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The time interval between the start times of two successive Jobs under the Job Schedule. A Job Schedule can have at most one active Job under it at any given time. Because a Job Schedule can have at most one active Job under it at any given time, if it is time to create a new Job under a Job Schedule, but the previous Job is still running, the Batch service will not create the new Job until the previous Job finishes. If the previous Job does not finish within the startWindow period of the new recurrenceInterval, then no new Job will be scheduled for that interval. For recurring Jobs, you should normally specify a jobManagerTask in the jobSpecification. If you do not use jobManagerTask, you will need an external process to monitor when Jobs are created, add Tasks to the Jobs and terminate the Jobs ready for the next recurrence. The default is that the schedule does not recur: one Job is created, within the startWindow after the doNotRunUntil time, and the schedule is complete as soon as that Job finishes. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). The time duration is specified in ISO 8601 format. */
   recurrenceInterval?: string;
 }
 
@@ -4526,11 +4526,11 @@ export interface BatchJobScheduleStatistics {
   startTime: Date;
   /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
   lastUpdateTime: Date;
-  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in all Jobs created under the schedule. */
+  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in all Jobs created under the schedule. The time duration is specified in ISO 8601 format. */
   userCpuTime: string;
-  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in all Jobs created under the schedule. */
+  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by all Tasks in all Jobs created under the schedule. The time duration is specified in ISO 8601 format. */
   kernelCpuTime: string;
-  /** The total wall clock time of all the Tasks in all the Jobs created under the schedule. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. */
+  /** The total wall clock time of all the Tasks in all the Jobs created under the schedule. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If a Task was retried, this includes the wall clock time of all the Task retries. The time duration is specified in ISO 8601 format. */
   wallClockTime: string;
   /** The total number of disk read operations made by all Tasks in all Jobs created under the schedule. */
   readIops: string;
@@ -4546,7 +4546,7 @@ export interface BatchJobScheduleStatistics {
   failedTasksCount: string;
   /** The total number of retries during the given time range on all Tasks in all Jobs created under the schedule. */
   taskRetriesCount: string;
-  /** The total wait time of all Tasks in all Jobs created under the schedule. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. */
+  /** The total wait time of all Tasks in all Jobs created under the schedule. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). This value is only reported in the Account lifetime statistics; it is not included in the Job statistics. The time duration is specified in ISO 8601 format. */
   waitTime: string;
 }
 
@@ -5250,11 +5250,11 @@ export interface BatchTaskStatistics {
   startTime: Date;
   /** The time at which the statistics were last updated. All statistics are limited to the range between startTime and lastUpdateTime. */
   lastUpdateTime: Date;
-  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by the Task. */
+  /** The total user mode CPU time (summed across all cores and all Compute Nodes) consumed by the Task. The time duration is specified in ISO 8601 format. */
   userCpuTime: string;
-  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by the Task. */
+  /** The total kernel mode CPU time (summed across all cores and all Compute Nodes) consumed by the Task. The time duration is specified in ISO 8601 format. */
   kernelCpuTime: string;
-  /** The total wall clock time of the Task. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If the Task was retried, this includes the wall clock time of all the Task retries. */
+  /** The total wall clock time of the Task. The wall clock time is the elapsed time from when the Task started running on a Compute Node to when it finished (or to the last time the statistics were updated, if the Task had not finished by then). If the Task was retried, this includes the wall clock time of all the Task retries. The time duration is specified in ISO 8601 format. */
   wallClockTime: string;
   /** The total number of disk read operations made by the Task. */
   readIops: string;
@@ -5264,7 +5264,7 @@ export interface BatchTaskStatistics {
   readIoGiB: number;
   /** The total gibibytes written to disk by the Task. */
   writeIoGiB: number;
-  /** The total wait time of the Task. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). */
+  /** The total wait time of the Task. The wait time for a Task is defined as the elapsed time between the creation of the Task and the start of Task execution. (If the Task is retried due to failures, the wait time is the time to the most recent Task execution.). The time duration is specified in ISO 8601 format. */
   waitTime: string;
 }
 
@@ -6078,37 +6078,3 @@ export enum KnownVersions {
   /** API Version 2025-06-01 */
   V20250601 = "2025-06-01",
 }
-
-export type GetNodeFileResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
-
-export type GetTaskFileResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
