@@ -4,7 +4,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { CosmosClient } from "../../../src/index.js";
 import type { SemanticRerankResult } from "../../../src/index.js";
-import { describe, it, assert, beforeAll, afterAll, vi } from "vitest";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 /**
  * Integration tests for the Semantic Rerank feature.
@@ -30,10 +30,6 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
   let client: CosmosClient;
 
   beforeAll(() => {
-    // The shared vitest config uses fake timers (setTimeout, Date). Integration tests
-    // require real timers for network I/O, SDK timeouts, and delays.
-    vi.useRealTimers();
-
     const aadCredentials = new DefaultAzureCredential();
     client = new CosmosClient({
       endpoint: accountEndpoint!,
@@ -44,8 +40,6 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
 
   afterAll(() => {
     client?.dispose();
-    // Restore the shared Vitest default so this suite does not leak global timer state.
-    vi.useFakeTimers();
   });
 
   it("should rerank documents with scores, latency, and token usage", async () => {

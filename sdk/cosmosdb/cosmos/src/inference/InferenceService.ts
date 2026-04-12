@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createPipelineRequest,
-  createDefaultHttpClient,
 } from "@azure/core-rest-pipeline";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
@@ -15,6 +14,8 @@ import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
+import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 
 const logger: AzureLogger = createClientLogger("InferenceService");
 
@@ -49,7 +50,7 @@ export class InferenceService {
     this.inferenceEndpointUrl = `${endpoint}${INFERENCE_BASE_PATH}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
-    this.httpClient = cosmosClientOptions.httpClient ?? createDefaultHttpClient();
+    this.httpClient = cosmosClientOptions.httpClient ?? getCachedDefaultHttpClient();
 
     logger.info(`InferenceService initialized with endpoint: ${endpoint}`);
   }
@@ -159,12 +160,21 @@ export class InferenceService {
 
   /**
    * Parses the HTTP response into a SemanticRerankResult.
+   *
+   * Note: The inference API response uses mixed casing conventions:
+   * - PascalCase: `Scores` (array of rerank results)
+   * - camelCase: `latency` (timing info), `document`, `score`, `index`
+   * - snake_case: `token_usage` (token consumption)
+   * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
     if (response.status < 200 || response.status >= 300) {
-      throw new Error(
+      const errorResponse = new ErrorResponse(
         `Semantic rerank request failed with status ${response.status}: ${response.bodyAsText}`,
       );
+      errorResponse.code = response.status;
+      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+      throw errorResponse;
     }
 
     const body = JSON.parse(response.bodyAsText || "{}");
