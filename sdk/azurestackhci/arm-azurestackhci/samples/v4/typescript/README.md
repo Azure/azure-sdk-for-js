@@ -187,7 +187,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updatesputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4/typescript/src/updatesPutSample.ts
 [validatedsolutionrecipesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4/typescript/src/validatedSolutionRecipesGetSample.ts
 [validatedsolutionrecipeslistbysubscriptionlocationresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4/typescript/src/validatedSolutionRecipesListBySubscriptionLocationResourceSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhci/arm-azurestackhci/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

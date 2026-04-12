@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.AzureStackHCI": "2026-02-01"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.52.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AzureStackHCI",
     "CrossLanguageDefinitionId": {

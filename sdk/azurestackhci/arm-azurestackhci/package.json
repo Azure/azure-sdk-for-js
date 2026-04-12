@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-azurestackhci",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A generated SDK for AzureStackHCIClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -406,6 +406,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci"
   }
 }

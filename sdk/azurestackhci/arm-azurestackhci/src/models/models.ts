@@ -610,8 +610,8 @@ export function defaultExtensionDetailsDeserializer(item: any): DefaultExtension
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -637,8 +637,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1346,8 +1346,8 @@ export interface LogCollectionProperties {
   readonly logCollectionSessionDetails?: LogCollectionSession[];
 }
 
-export function logCollectionPropertiesSerializer(item: LogCollectionProperties): any {
-  return item;
+export function logCollectionPropertiesSerializer(_item: LogCollectionProperties): any {
+  return {};
 }
 
 export function logCollectionPropertiesDeserializer(item: any): LogCollectionProperties {
@@ -1478,8 +1478,8 @@ export interface RemoteSupportProperties {
   readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
 }
 
-export function remoteSupportPropertiesSerializer(item: RemoteSupportProperties): any {
-  return item;
+export function remoteSupportPropertiesSerializer(_item: RemoteSupportProperties): any {
+  return {};
 }
 
 export function remoteSupportPropertiesDeserializer(item: any): RemoteSupportProperties {
@@ -2076,8 +2076,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -3446,8 +3446,8 @@ export interface AssemblyInfo {
   readonly payload?: AssemblyInfoPayload[];
 }
 
-export function assemblyInfoSerializer(item: AssemblyInfo): any {
-  return item;
+export function assemblyInfoSerializer(_item: AssemblyInfo): any {
+  return {};
 }
 
 export function assemblyInfoDeserializer(item: any): AssemblyInfo {
@@ -4255,8 +4255,8 @@ export function remoteSupportSessionDeserializer(item: any): RemoteSupportSessio
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
