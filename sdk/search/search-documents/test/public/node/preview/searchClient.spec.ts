@@ -6,8 +6,9 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { SearchIndex, SearchIndexClient } from "../../../../src/index.js";
+import type { BetaSearchIndex, SearchIndexClientWithBeta } from "../../../../src/beta/index.js";
 import { KnownQueryLanguage, KnownQuerySpeller, SearchClient } from "../../../../src/index.js";
-import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
+import { previewServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../../utils/setup.js";
@@ -26,8 +27,8 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
       searchClient,
       indexClient,
       indexName: TEST_INDEX_NAME,
-    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-    indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+    } = await createClients<Hotel>(previewServiceVersion, recorder, TEST_INDEX_NAME));
+    indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, previewServiceVersion);
     await delay(WAIT_TIME);
     await populateIndex(searchClient);
   });
@@ -105,12 +106,13 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
 
 describe("content security (preview)", { timeout: 20_000 }, () => {
   let recorder: Recorder;
-  let indexClient: SearchIndexClient;
-  let index: SearchIndex;
+  let indexClient: SearchIndexClientWithBeta;
+  let index: BetaSearchIndex;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, ""));
+    const clients = await createClients<Hotel>(previewServiceVersion, recorder, "");
+    indexClient = clients.indexClient.enableBeta();
     index = {
       name: "content-security-test",
       purviewEnabled: true,

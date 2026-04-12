@@ -3,6 +3,7 @@
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./beta": "./src/beta/index.ts"
   "./search": "./src/search/index.ts"
   "./search/api": "./src/search/api/index.ts"
   "./searchIndex": "./src/searchIndex/index.ts"

@@ -4,8 +4,9 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { KnowledgeBase, KnowledgeSource, SearchIndexClient } from "../../../../src/index.js";
-import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
+import type { KnowledgeBase, KnowledgeSource } from "../../../../src/index.js";
+import type { SearchIndexClientWithBeta } from "../../../../src/beta/index.js";
+import { previewServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
 import { createRandomIndexName, createIndex, WAIT_TIME } from "../../utils/setup.js";
@@ -13,7 +14,7 @@ import { createRandomIndexName, createIndex, WAIT_TIME } from "../../utils/setup
 describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
   describe("Knowledge features", () => {
     let recorder: Recorder;
-    let indexClient: SearchIndexClient;
+    let indexClient: SearchIndexClientWithBeta;
     let TEST_INDEX_NAME: string;
     let knowledgeBase: KnowledgeBase;
     let knowledgeSource: KnowledgeSource;
@@ -21,11 +22,10 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        defaultServiceVersion,
-        recorder,
-        TEST_INDEX_NAME,
-      ));
+      const clients = await createClients<Hotel>(previewServiceVersion, recorder, TEST_INDEX_NAME);
+      TEST_INDEX_NAME = clients.indexName;
+      await createIndex(clients.indexClient, TEST_INDEX_NAME, previewServiceVersion);
+      indexClient = clients.indexClient.enableBeta();
       knowledgeSource = {
         kind: "searchIndex",
         name: `search-ks-${TEST_INDEX_NAME}`,
@@ -40,7 +40,6 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
         knowledgeSources: [{ name: knowledgeSource.name }],
       } as any;
 
-      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
     });
 

@@ -382,6 +382,12 @@ describe("snippets", () => {
     );
   });
 
+  it("SearchIndexClient_enableBeta", async () => {
+    const endpoint = "<endpoint>";
+    const credential = new AzureKeyCredential("<apiKey>");
+    const client = new SearchIndexClient(endpoint, credential).enableBeta();
+  });
+
   it("SetLogLevel", () => {
     setLogLevel("info");
   });

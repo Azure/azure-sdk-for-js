@@ -11,7 +11,7 @@ import type {
   VectorSearchProfile,
 } from "../../../src/index.js";
 import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
-import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import { defaultServiceVersion, previewServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
@@ -70,13 +70,13 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        defaultServiceVersion,
+        previewServiceVersion,
         recorder,
         TEST_INDEX_NAME,
       ));
 
       await createSynonymMaps(indexClient);
-      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      await createIndex(indexClient, TEST_INDEX_NAME, previewServiceVersion);
       await delay(WAIT_TIME);
     });
 

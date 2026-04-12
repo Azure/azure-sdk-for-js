@@ -1361,16 +1361,30 @@ export interface SearchIndex {
    */
   vectorSearch?: VectorSearch;
   /**
-   * A value indicating whether permission filtering is enabled for the index.
-   */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /**
    * The ETag of the index.
    */
   etag?: string;
+}
+
+/**
+ * Extends {@link SearchIndex} with preview-only properties that are only populated
+ * when using a preview API version. Visible after calling
+ * {@link SearchIndexClient.enableBeta}.
+ */
+export interface BetaSearchIndex extends SearchIndex {
+  /**
+   * A value indicating whether permission filtering is enabled for the index.
+   */
+  permissionFilterOption?: SearchIndexPermissionFilterOption;
   /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
   purviewEnabled?: boolean;
 }
+
+/**
+ * An iterator for listing the indexes that exist in the Search service,
+ * returning {@link BetaSearchIndex} items that include preview-only properties.
+ */
+export type BetaIndexIterator = PagedAsyncIterableIterator<BetaSearchIndex>;
 
 export interface SearchIndexerCache {
   /**

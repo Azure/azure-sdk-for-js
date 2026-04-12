@@ -6,15 +6,15 @@ import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-reco
 import { delay } from "@azure/core-util";
 import type {
   SearchClient,
-  SearchIndexClient,
   WebKnowledgeSource,
   RemoteSharePointKnowledgeSource,
 } from "@azure/search-documents";
+import type { SearchIndexClientWithBeta } from "../../../../src/beta/index.js";
 import {
   KnowledgeRetrievalClient,
   KnownKnowledgeRetrievalOutputMode,
 } from "@azure/search-documents";
-import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
+import { previewServiceVersion } from "../../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
@@ -47,7 +47,7 @@ function createPreviewClients(recorder: Recorder, baseName: string): PreviewClie
 describe("Knowledge", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
-  let indexClient: SearchIndexClient;
+  let indexClient: SearchIndexClientWithBeta;
   let TEST_INDEX_NAME: string;
   let TEST_BASE_NAME: string;
   let TEST_KS_NAME: string;
@@ -57,17 +57,17 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
     TEST_BASE_NAME = createRandomIndexName();
-    ({
-      searchClient,
-      indexClient,
-      indexName: TEST_INDEX_NAME,
-    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+    const clients = await createClients<Hotel>(previewServiceVersion, recorder, TEST_INDEX_NAME);
+    searchClient = clients.searchClient;
+    TEST_INDEX_NAME = clients.indexName;
     ({ knowledgeRetrievalClient, baseName: TEST_BASE_NAME } = createPreviewClients(
       recorder,
       TEST_BASE_NAME,
     ));
     TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;
-    await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+    await createIndex(clients.indexClient, TEST_INDEX_NAME, previewServiceVersion);
+
+    indexClient = clients.indexClient.enableBeta();
 
     await indexClient.createKnowledgeSource({
       kind: "searchIndex",
