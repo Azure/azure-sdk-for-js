@@ -393,7 +393,7 @@
 # PRLabel: %Mgmt
 /sdk/azurestack/arm-azurestack/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/azurestackhci/arm-azurestackhci/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
