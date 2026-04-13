@@ -423,7 +423,7 @@
 # PRLabel: %Mgmt
 /sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
