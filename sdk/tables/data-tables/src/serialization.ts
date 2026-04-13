@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models.js";
-import type { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models/index.js";
+import type {
+  AccessPolicy as GeneratedAccessPolicy,
+  SignedIdentifier as GeneratedSignedIdentifier,
+} from "./generated/models/index.js";
 import { base64Decode, base64Encode } from "./utils/bufferSerializer.js";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date.js";
 
@@ -233,8 +236,14 @@ export function serializeSignedIdentifiers(
   });
 }
 
+// Input type for deserializeSignedIdentifier — the service may omit optional fields
+type SignedIdentifierInput = {
+  id: string;
+  accessPolicy?: Partial<GeneratedAccessPolicy>;
+};
+
 export function deserializeSignedIdentifier(
-  signedIdentifiers: GeneratedSignedIdentifier[],
+  signedIdentifiers: SignedIdentifierInput[],
 ): SignedIdentifier[] {
   return signedIdentifiers.map((si) => {
     const { id, accessPolicy } = si;

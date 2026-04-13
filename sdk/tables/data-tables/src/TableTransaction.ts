@@ -159,7 +159,6 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     client: RequestSender,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,

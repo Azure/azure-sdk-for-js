@@ -250,17 +250,13 @@ export class TableClient {
 
     this.allowInsecureConnection = this.clientOptions.allowInsecureConnection ?? false;
 
-    const context = getClient(
-      this.clientOptions.endpoint || this.url,
-      undefined,
-      {
-        ...this.clientOptions,
-        loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
-        },
+    const context = getClient(this.clientOptions.endpoint || this.url, undefined, {
+      ...this.clientOptions,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
       },
-    ) as TablesContext;
+    }) as TablesContext;
 
     if (isNamedKeyCredential(credential)) {
       context.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
@@ -417,10 +413,7 @@ export class TableClient {
           ...serializedQuery,
         } as any,
       );
-      const tableEntity = deserialize<TableEntityResult<T>>(
-        entity,
-        disableTypeConversion ?? false,
-      );
+      const tableEntity = deserialize<TableEntityResult<T>>(entity, disableTypeConversion ?? false);
 
       return tableEntity;
     });
@@ -719,20 +712,32 @@ export class TableClient {
 
         const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
         if (mode === "Merge") {
-          const result = await _mergeEntitySend(this.context, this.tableName, partitionKey, rowKey, {
-            tableEntityProperties: serialize(entity),
-            ifMatch: etag,
-            ...updateEntityOptions,
-          } as any);
+          const result = await _mergeEntitySend(
+            this.context,
+            this.tableName,
+            partitionKey,
+            rowKey,
+            {
+              tableEntityProperties: serialize(entity),
+              ifMatch: etag,
+              ...updateEntityOptions,
+            } as any,
+          );
           await _mergeEntityDeserialize(result);
           return extractResponseHeaders(result) as UpdateEntityResponse;
         }
         if (mode === "Replace") {
-          const result = await _updateEntitySend(this.context, this.tableName, partitionKey, rowKey, {
-            tableEntityProperties: serialize(entity),
-            ifMatch: etag,
-            ...updateEntityOptions,
-          } as any);
+          const result = await _updateEntitySend(
+            this.context,
+            this.tableName,
+            partitionKey,
+            rowKey,
+            {
+              tableEntityProperties: serialize(entity),
+              ifMatch: etag,
+              ...updateEntityOptions,
+            } as any,
+          );
           await _updateEntityDeserialize(result);
           return extractResponseHeaders(result) as UpdateEntityResponse;
         }
@@ -800,19 +805,31 @@ export class TableClient {
         const rowKey = encodePercent(escapeQuotes(entity.rowKey));
 
         if (mode === "Merge") {
-          const result = await _mergeEntitySend(this.context, this.tableName, partitionKey, rowKey, {
-            tableEntityProperties: serialize(entity),
-            ...updatedOptions,
-          } as any);
+          const result = await _mergeEntitySend(
+            this.context,
+            this.tableName,
+            partitionKey,
+            rowKey,
+            {
+              tableEntityProperties: serialize(entity),
+              ...updatedOptions,
+            } as any,
+          );
           await _mergeEntityDeserialize(result);
           return extractResponseHeaders(result) as UpsertEntityResponse;
         }
 
         if (mode === "Replace") {
-          const result = await _updateEntitySend(this.context, this.tableName, partitionKey, rowKey, {
-            tableEntityProperties: serialize(entity),
-            ...updatedOptions,
-          } as any);
+          const result = await _updateEntitySend(
+            this.context,
+            this.tableName,
+            partitionKey,
+            rowKey,
+            {
+              tableEntityProperties: serialize(entity),
+              ...updatedOptions,
+            } as any,
+          );
           await _updateEntityDeserialize(result);
           return extractResponseHeaders(result) as UpsertEntityResponse;
         }
@@ -851,15 +868,19 @@ export class TableClient {
     tableAcl: SignedIdentifier[],
     options: OperationOptions = {},
   ): Promise<SetAccessPolicyResponse> {
-    return tracingClient.withSpan("TableClient.setAccessPolicy", options, async (updatedOptions) => {
-      const serlializedAcl = serializeSignedIdentifiers(tableAcl);
-      await this.table.setAccessPolicy(
-        this.tableName,
-        { identifiers: serlializedAcl } as any,
-        updatedOptions as any,
-      );
-      return {} as SetAccessPolicyResponse;
-    });
+    return tracingClient.withSpan(
+      "TableClient.setAccessPolicy",
+      options,
+      async (updatedOptions) => {
+        const serlializedAcl = serializeSignedIdentifiers(tableAcl);
+        await this.table.setAccessPolicy(
+          this.tableName,
+          { identifiers: serlializedAcl } as any,
+          updatedOptions as any,
+        );
+        return {} as SetAccessPolicyResponse;
+      },
+    );
   }
 
   /**

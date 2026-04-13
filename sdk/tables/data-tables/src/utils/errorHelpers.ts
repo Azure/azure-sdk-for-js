@@ -19,7 +19,10 @@ export type TableServiceErrorResponse = PipelineResponse & {
   /**
    * The response body as parsed JSON or XML.
    */
-  parsedBody: { "odata.error"?: TableServiceErrorOdataError; odataError?: TableServiceErrorOdataError };
+  parsedBody: {
+    "odata.error"?: TableServiceErrorOdataError;
+    odataError?: TableServiceErrorOdataError;
+  };
   /**
    * The request that generated the response.
    */

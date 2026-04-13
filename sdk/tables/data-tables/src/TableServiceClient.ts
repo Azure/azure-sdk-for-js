@@ -169,17 +169,13 @@ export class TableServiceClient {
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    const client = getClient(
-      clientOptions.endpoint || this.url,
-      undefined,
-      {
-        ...clientOptions,
-        loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
-        },
+    const client = getClient(clientOptions.endpoint || this.url, undefined, {
+      ...clientOptions,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
       },
-    ) as TablesContext;
+    }) as TablesContext;
 
     client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
 

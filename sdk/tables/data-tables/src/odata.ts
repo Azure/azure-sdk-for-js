@@ -19,8 +19,8 @@ export function escapeQuotes(input: string): string {
 }
 
 /**
- * Encode percent characters for RFC 6570 reserved expansion ({+var}).
- * The {+} operator uses encodeURI which normalizes existing percent-encoded
+ * Encode percent characters for RFC 6570 reserved expansion (\{+var\}).
+ * The \{+\} operator uses encodeURI which normalizes existing percent-encoded
  * sequences (e.g. %ba → %BA), corrupting values that contain literal '%'.
  * Pre-encoding '%' as '%25' prevents this.
  */
