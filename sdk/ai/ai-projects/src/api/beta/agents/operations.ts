@@ -24,6 +24,7 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
@@ -162,7 +163,7 @@ export function _downloadSessionFileSend(
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "HostedAgents=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
@@ -208,7 +209,8 @@ export async function downloadSessionFile(
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentsDownloadSessionFileResponse> {
-  const result = await _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const streamableMethod = _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadSessionFileDeserialize(result);
 }
 
@@ -220,7 +222,7 @@ export function _uploadSessionFileSend(
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "HostedAgents=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path_1 = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
@@ -249,7 +251,7 @@ export function _uploadSessionFileSend(
 export async function _uploadSessionFileDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionFileWriteResponse> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
@@ -288,7 +290,7 @@ export function _listSessionsSend(
   agentName: string,
   options: BetaAgentsListSessionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions{?limit,order,after,before,api-version}",
     {
@@ -341,7 +343,9 @@ export function listSessions(
     {
       itemName: "data",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: { "foundry-features": "AgentEndpoints=V1Preview" } },
+      nextPageRequestOptions: {
+        headers: { "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview" },
+      },
     },
   );
 }
@@ -353,7 +357,7 @@ export function _deleteSessionSend(
   isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
     {
@@ -408,7 +412,7 @@ export function _getSessionSend(
   sessionId: string,
   options: BetaAgentsGetSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions/{session_id}{?api-version}",
@@ -463,7 +467,7 @@ export function _createSessionSend(
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
 
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/sessions{?api-version}",
@@ -532,7 +536,7 @@ export function _patchAgentObjectSend(
   agentName: string,
   options: BetaAgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "AgentEndpoints=V1Preview";
+  const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
     {

@@ -105,6 +105,8 @@ export interface AgentVersion {
   readonly blueprint?: AgentIdentity;
   /** The blueprint for the agent */
   readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+  /** The current status of the agent version. */
+  status: "creating" | "active" | "failed" | "deleting" | "deleted";
   /** The unique GUID identifier of the agent. */
   readonly agent_guid?: string;
 }
@@ -116,6 +118,7 @@ export function agentVersionDeserializer(item: any): AgentVersion {
     id: item["id"],
     name: item["name"],
     version: item["version"],
+    status: item["status"],
     description: item["description"],
     created_at: new Date(item["created_at"] * 1000),
     definition: agentDefinitionUnionDeserializer(item["definition"]),
@@ -9004,7 +9007,7 @@ export function _agentsPagedResultSkillObjectDeserializer(
   item: any,
 ): _AgentsPagedResultSkillObject {
   return {
-    data: skillObjectArrayDeserializer(item["data"]),
+    data: skillObjectArrayDeserializer(item),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],

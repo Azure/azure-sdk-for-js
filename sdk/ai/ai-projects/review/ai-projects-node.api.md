@@ -259,6 +259,7 @@ export interface AgentVersion {
     metadata: Record<string, string>;
     name: string;
     object: "agent.version";
+    status: "creating" | "active" | "failed" | "deleting" | "deleted";
     version: string;
 }
 
