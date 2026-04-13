@@ -274,6 +274,10 @@
 # PRLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/    @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %PostgreSQL Auth
+# PRLabel: %Postgresql
+- /sdk/postgresql/postgresql-auth/ @alxhghs @carlovi81 @mattboentoro @nasc17 @nehrao1 @rmendiza
+
 # PRLabel: %Purview
 /sdk/purview/    @qiaozha
 
