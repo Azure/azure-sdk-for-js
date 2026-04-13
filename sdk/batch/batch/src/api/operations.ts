@@ -105,11 +105,8 @@ import {
   batchNodeVMExtensionDeserializer,
   _batchNodeVMExtensionListResultDeserializer,
 } from "../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { getBinaryResponse } from "../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type {
